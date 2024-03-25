@@ -8,13 +8,15 @@ const Register = () => {
   const [FirstName, setFirstName] = useState('');
   const [LastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [PhoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [ConfirmPassword, setConfirmPassword] = useState('');
-  const [AccountType, setAccountType] = useState('');
+  const [date, setDate] = useState('');
+  const [gender, setGender] = useState('');
 
-  const accounts = [
-    { value: 'Company', label: 'Company' },
-    { value: 'Indivdual', label: 'Indivdual' },
+  const genders = [
+    { value: 'male', label: 'Male' },
+    { value: 'female', label: 'Female' },
   ];
 
   // Handle form submit
@@ -37,12 +39,13 @@ const Register = () => {
       },
       body: JSON.stringify(
         {
-          "FirstName": FirstName,
-          "LastName": LastName,
+          "fullName": FirstName + " " + LastName,
           "email": email,
+          "phoneNumber": PhoneNumber,
           "password": password,
-          "ConfirmPassword": ConfirmPassword,
-          "AccountType": AccountType
+          "confirmPassword": ConfirmPassword,
+          "birthDate": date,
+          "gender": gender
         })
     })
       .then((response) => {
@@ -56,7 +59,15 @@ const Register = () => {
       .then((data) => {
         // Do somthing with the token return from Server data['token'] 
         console.log(data)
-
+        // Reset the form fields
+        setFirstName('');
+        setLastName('');
+        setEmail('');
+        setPhoneNumber('');
+        setPassword('');
+        setConfirmPassword('');
+        setDate('');
+        setGender('');
         // Redirect to dashboard
         navigate('/')
       })
@@ -65,13 +76,7 @@ const Register = () => {
         console.log(error);
       });
 
-    // Reset the form fields
-    setFirstName('');
-    setLastName('');
-    setEmail('');
-    setPassword('');
-    setConfirmPassword('');
-    setAccountType('');
+
   };
 
   return (
@@ -111,9 +116,12 @@ const Register = () => {
               </div>
               <div className={styles.register__field}>
                 <input
-                  type="date"
+                  type="text"
                   className={styles.register__input}
-                  placeholder="Birth date" />
+                  placeholder="Phone Numer"
+                  value={PhoneNumber}
+                  onChange={(event) => setPhoneNumber(event.target.value)}
+                />
               </div>
             </div>
             <div className={styles.register__row}>
@@ -136,19 +144,29 @@ const Register = () => {
                 />
               </div>
             </div>
-            <div className={styles.register__field}>
-              {accounts.map((type) => (
-                <label key={type.value}>
-                  <input
-                    type="radio"
-                    className={styles.register__input__radio}
-                    value={type.value}
-                    checked={AccountType === type.value}
-                    onChange={(event) => setAccountType(event.target.value)}
-                  />
-                  <span>{type.label}</span>
-                </label>
-              ))}
+            <div className={styles.register__row}>
+              <div className={styles.register__field}>
+                <input
+                  type="date"
+                  className={styles.register__input}
+                  placeholder="Birthdate"
+                  value={date}
+                  onChange={(event) => setDate(event.target.value)}
+                />
+              </div>
+              <div className={styles.register__field__radio}>
+                {genders.map((G) => (
+                  <div className={styles.register__input__radio} key={G.value}>
+                    <input
+                      type="radio"
+                      value={G.value}
+                      checked={gender === G.value}
+                      onChange={(event) => setGender(event.target.value)}
+                    />
+                    <label >{G.label}</label>
+                  </div>
+                ))}
+              </div>
             </div >
             <button type="submit" className={styles.register__submit}>
               <span className={styles.button__text}>Register now</span>

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Logo from '../../assets/JoberaLogo.png'
 import styles from './login.module.css'
 
+
 const Login = () => {
   // Define states
   const initialized = useRef(false);
@@ -77,7 +78,9 @@ const Login = () => {
       .then((data) => {
         // Do somthing with the token return from Server data['token'] 
         console.log(data)
-
+        // Reset the form fields
+        setEmail('');
+        setPassword('');
         // Redirect to dashboard
         navigate('/');
       })
@@ -86,9 +89,7 @@ const Login = () => {
         console.log(error);
       });
 
-    // Reset the form fields
-    setEmail('');
-    setPassword('');
+
   };
 
   return (
