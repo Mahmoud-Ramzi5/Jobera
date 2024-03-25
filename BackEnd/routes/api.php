@@ -1,0 +1,12 @@
+<?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SocialAuthController;
+
+Route::get('/user', function (Request $request) {
+    return $request->user();
+})->middleware('auth:api');
+
+Route::get('/auth/{provider}', [SocialAuthController::class,'redirectToProvider']);
+Route::get('/auth/{provider}/call-back', [SocialAuthController::class,'handleProviderCallback']);
