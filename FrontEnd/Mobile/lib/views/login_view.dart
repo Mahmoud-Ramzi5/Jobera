@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:jobera/Theme_and_Style/custom_text_style.dart';
 import 'package:jobera/controllers/login_controller.dart';
 import 'package:jobera/customWidgets/custom_logo_container.dart';
 import 'package:jobera/customWidgets/custom_text_field_widget.dart';
@@ -50,14 +48,14 @@ class _LoginViewState extends State<LoginView> {
               children: [
                 const CustomLogoContainer(imagePath: 'assets/JoberaLogo.png'),
                 const SizedBox(
-                  height: 15,
+                  height: 10,
                 ),
                 CustomTextFieldWidget(
                   controller: _emailController,
-                  labelText: 'Email',
-                  icon: const Icon(Icons.email),
                   obsecureText: false,
-                  inputType: TextInputType.emailAddress,
+                  textInputType: TextInputType.emailAddress,
+                  icon: const Icon(Icons.email),
+                  labelText: 'Email',
                 ),
                 const SizedBox(
                   height: 10,
@@ -65,16 +63,18 @@ class _LoginViewState extends State<LoginView> {
                 GetBuilder<LoginController>(
                   builder: (controller) => CustomTextFieldWidget(
                     controller: _passwordController,
-                    labelText: 'Password',
-                    icon: const Icon(Icons.lock),
                     obsecureText: _loginController.passwordToggle,
-                    inputType: TextInputType.visiblePassword,
+                    textInputType: TextInputType.visiblePassword,
+                    icon: const Icon(Icons.lock),
+                    labelText: 'Password',
                     inkWell: InkWell(
-                      onTap: () => _loginController
-                          .togglePassword(_loginController.passwordToggle),
+                      onTap: () {
+                        _loginController
+                            .togglePassword(_loginController.passwordToggle);
+                      },
                       child: Icon(_loginController.passwordToggle
-                          ? Icons.visibility
-                          : Icons.visibility_off),
+                          ? Icons.visibility_off
+                          : Icons.visibility),
                     ),
                   ),
                 ),
@@ -85,31 +85,31 @@ class _LoginViewState extends State<LoginView> {
                       onPressed: () => Get.to(() => const ForgotPasswordView()),
                       child: Text(
                         'Forgot Password?',
-                        style: CustomTextStyle().mediumTextStyle,
+                        style: Theme.of(context).textTheme.labelLarge,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ElevatedButton(
                       onPressed: () {},
+                      style: Theme.of(context).textButtonTheme.style,
                       child: Text(
                         'Login',
-                        style: CustomTextStyle().bigTextStyle,
+                        style: Theme.of(context).textTheme.labelLarge,
                       ),
                     ),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           'Remember Me',
-                          style: CustomTextStyle().mediumTextStyle,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         GetBuilder<LoginController>(
                           builder: (controller) => Checkbox(
@@ -123,46 +123,44 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 15,
-                ),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       '_______Or Login with_______',
-                      style: CustomTextStyle().bigTextStyle,
+                      style: Theme.of(context).textTheme.headlineSmall,
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(FontAwesomeIcons.facebook),
-                      iconSize: 50,
-                      color: Colors.blue,
-                    ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(FontAwesomeIcons.google),
-                      iconSize: 50,
-                    ),
-                  ],
-                ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     IconButton(
+                //       onPressed: () {},
+                //       icon: const Icon(FontAwesomeIcons.facebook),
+                //       iconSize: 50,
+                //       color: Colors.blue,
+                //     ),
+                //     IconButton(
+                //       onPressed: () {},
+                //       icon: const Icon(FontAwesomeIcons.google),
+                //       iconSize: 50,
+                //     ),
+                //   ],
+                // ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'New around here?',
-                      style: CustomTextStyle().mediumTextStyle,
+                      style: Theme.of(context).textTheme.labelMedium,
                     ),
                     TextButton(
                       onPressed: () => Get.to(() => const RegisterView()),
                       child: Text(
                         'Register',
-                        style: CustomTextStyle().bigTextStyle,
+                        style: Theme.of(context).textTheme.labelLarge,
                       ),
                     ),
                   ],

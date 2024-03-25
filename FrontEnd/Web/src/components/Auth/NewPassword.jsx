@@ -32,6 +32,7 @@ import styles from './NewPassword.module.css'
         },
         body: JSON.stringify(
             {
+            "email":email,
             "password": password,
             "confirm_password":confirm_password
             })
