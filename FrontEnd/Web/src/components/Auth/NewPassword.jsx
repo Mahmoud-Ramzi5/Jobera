@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from 'react';
-import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Logo from '../../assets/JoberaLogo.png'
 import styles from './NewPassword.module.css'
 
@@ -7,36 +7,11 @@ import styles from './NewPassword.module.css'
     // Define states
     const initialized = useRef(false);
     const navigate = useNavigate();
-    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirm_password, setconfirm_Password] = useState('');
-    const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
-        // Api Call
-        fetch('http://127.0.0.1:8000/api/email', {
-            headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': "application/json",
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Authorization': 'Bearer' + searchParams.get("token")
-            }
-        })
-            .then((response) => {
-            if (response.ok) {
-                return response.json();
-            }
-            throw new Error('Something went wrong!');
-            })
-            .then((data) => {
-                setEmail(data.email)
-            })
-            .catch(error => {
-            // Handle errors
-            console.log(error);
-            });
-            
-        }, []);
+    }, []);
 
     // Handle form submit
     const handleSubmit = (event) => {
@@ -47,7 +22,7 @@ import styles from './NewPassword.module.css'
         event.preventDefault();
 
         // Perform Login logic (Call api)
-        fetch("http://127.0.0.1:8000/api/password/reset", {
+        fetch("http://127.0.0.1:8000/api/NewPassword", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -94,28 +69,21 @@ import styles from './NewPassword.module.css'
             <img src={Logo} className={styles.logo} alt="logo" />
             <form className={styles.login} onSubmit={handleSubmit}>
                 <div className={styles.login__field}>
-                    <i className={`${styles.login__icon} fas fa-user`}></i>
-                    <input type="email" className={styles.login__input} value={email} readOnly={true}/>
-                </div>
-                <div className={styles.login__field}>
-                    <i className={`${styles.login__icon} fas fa-lock`}></i>
-                    <input 
-                        type="password"
-                        className={styles.login__input}
-                        placeholder="Password"
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                    />
-                </div>
-                <div className={styles.login__field}>
-                    <i className={`${styles.login__icon} fas fa-lock`}></i>
-                    <input
-                        type="password"
-                        className={styles.login__input}
-                        placeholder="confirm password"
-                        value={confirm_password}
-                        onChange={(event) => setconfirm_Password(event.target.value)}
-                    />
+                <i className={`${styles.login__icon} fas fa-lock`}></i>
+                <input
+                    type="password"
+                    className={styles.login__input}
+                    placeholder="Password"
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                />
+                <input
+                    type="password"
+                    className={styles.login__input2}
+                    placeholder="confirm password"
+                    value={confirm_password}
+                    onChange={(event) => setconfirm_Password(event.target.value)}
+                />
                 </div>
 
                 <button type="submit" className={styles.login__submit}>

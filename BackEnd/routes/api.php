@@ -17,9 +17,10 @@ Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
 Route::get('/email',function(Request $request){
     return response()->json([
-        "email"=>auth()->user()
+        "email"=>$request->user()->email
         ]
     );
-});
+})->middleware('auth:api');
+Route::get('/verifyEmail',[AuthController::class,'verifyEmail']);
 Route::post('/password/reset-link', [ForgetPasswordController::class, 'forgotPassword']);
 Route::post('/password/reset', [ForgetPasswordController::class, 'reset']);

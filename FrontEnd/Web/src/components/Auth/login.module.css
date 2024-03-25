@@ -41,7 +41,7 @@
 .screen__background__shape1 {
     height: 520px;
     width: 520px;
-    background-color:var(--color-background);   
+    background: #FFF;   
     top: -50px;
     right: 120px;   
     border-radius: 0 72px 0 0;
@@ -104,14 +104,14 @@
 .login__icon {
     position: absolute;
     top: 30px;
-    color: var(--color-foreground);
+    color: #58708F;
 }
 
 .login__input {
     border: none;
     border-bottom: 2px solid #A5A5A8;
     background: none;
-    color: var(--color-foreground);
+    color: #3E6FA9;
     padding: 10px;
     padding-left: 24px;
     font-weight: 700;

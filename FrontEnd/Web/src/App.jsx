@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, createContext } from 'react'
+import { useState, createContext } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ReactSwitch from 'react-switch';
 import Register from './components/Auth/Register.jsx'
@@ -13,42 +13,22 @@ import ForgetPassword from './components/Auth/ForgetPassword.jsx';
 export const ThemeContext = createContext('');
 
 function App() {
-  const initialized = useRef(false);
-  const [theme, setTheme] = useState('theme-light');
+  const [theme, setTheme] = useState('light');
+  document.body.className = theme;
 
   const toggleTheme = () => {
-    setTheme((currentTheme) => (currentTheme === 'theme-light' ? 'theme-dark' : 'theme-light'));
+    setTheme((currentTheme) => (currentTheme === 'light' ? 'dark' : 'light'));
   };
-
-  useEffect(() => {
-    if (!initialized.current) {
-      initialized.current = true;
-      // Get data from local storage
-      const localTheme = localStorage.getItem('Theme');
-      if (localTheme !== null) {
-        setTheme(localTheme);
-      }
-      else {
-        setTheme('theme-light')
-      }
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('Theme', theme);
-    document.body.className = theme;
-  }, [theme]);
-
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <ReactSwitch onChange={toggleTheme} checked={theme === 'theme-dark'} checkedIcon={<>🌙</>} uncheckedIcon={<>🔆</>} onColor="#4F6E95" /> 
+      <ReactSwitch onChange={toggleTheme} checked={theme === 'dark'} checkedIcon={"🌙"} uncheckedIcon={"🔆"} />
       <BrowserRouter>
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/auth/:provider/call-back" element={<CallBack />} />
-          <Route path="/reset-password" element={<NewPassword />} />
+          <Route path="/NewPassword" element={<NewPassword />} />
           <Route path="/ForgetPassword" element={<ForgetPassword />} />
           <Route path="/" element={<></>} />
         </Routes>
