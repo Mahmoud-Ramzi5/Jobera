@@ -11,6 +11,7 @@ const NewPassword = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirm_password, setConfirmPassword] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
     useEffect(() => {
         if (!initialized.current) {
@@ -76,9 +77,7 @@ const NewPassword = () => {
             .then((data) => {
                 // Do somthing with the token return from Server data['token'] 
                 console.log(data)
-
-                // Redirect to dashboard
-                navigate('/');
+                setSuccessMessage('password has been changed succesfully');
             })
             .catch(error => {
                 // Handle errors
@@ -95,6 +94,13 @@ const NewPassword = () => {
             <div className={styles.screen}>
                 <div className={styles.screen__content}>
                     <img src={Logo} className={styles.logo} alt="logo" />
+                    {successMessage? (<>
+            <div className={styles.success}>
+                {successMessage}
+                <button onClick={() => navigate('/login')} className={styles.navigateButton} name="navigate_login">return to log in</button>
+            </div>
+            </>
+        ) : (
                     <form className={styles.login} onSubmit={handleSubmit}>
                         <div className={styles.login__field}>
                             <i className={`${styles.login__icon} fas fa-user`}></i>
@@ -126,6 +132,7 @@ const NewPassword = () => {
                             <i className={`${styles.button__icon} fas fa-chevron-right`}></i>
                         </button>
                     </form>
+                )}
                 </div>
                 <div className={styles.screen__background}>
                     <span className={`${styles.screen__background__shape} ${styles.screen__background__shape4}`}></span>

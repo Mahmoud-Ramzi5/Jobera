@@ -25,5 +25,6 @@ Route::get('/email',function() {
         ]
     );
 })->middleware('auth:api');
+Route::get('/verifyEmail',[AuthController::class,'verifyEmail'])->middleware('auth:api');
 Route::post('/password/reset-link', [ForgetPasswordController::class, 'forgotPassword']);
-Route::post('/password/reset', [ForgetPasswordController::class, 'reset']);
+Route::post('/password/reset', [ForgetPasswordController::class, 'reset'])->middleware('auth:api');
