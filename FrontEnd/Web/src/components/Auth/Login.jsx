@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../assets/JoberaLogo.png'
-import './login.css'
+import styles from './login.module.css'
 
 const Login = () => {
   // Define states
@@ -92,52 +92,52 @@ const Login = () => {
   };
 
   return (
-    <div className='container'>
-      <div className='screen'>
-        <div className='screen__content'>
-          <img src={Logo} className="Logo" alt="logo" />
-          <form className='login' onSubmit={handleSubmit}>
-            <div className='login__field'>
-              <i className="login__icon fas fa-user"></i>
+    <div className={styles.container}>
+      <div className={styles.screen}>
+        <div className={styles.screen__content}>
+          <img src={Logo} className={styles.logo} alt="logo" />
+          <form className={styles.login} onSubmit={handleSubmit}>
+            <div className={styles.login__field}>
+              <i className={`${styles.login__icon} fas fa-user`}></i>
               <input
                 type="text"
-                className='login__input'
+                className={styles.login__input}
                 placeholder="Email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
               />
             </div>
-            <div className='login__field'>
-              <i className="login__icon fas fa-lock"></i>
+            <div className={styles.login__field}>
+              <i className={`${styles.login__icon} fas fa-lock`}></i>
               <input
                 type="password"
-                className='login__input'
+                className={styles.login__input}
                 placeholder="Password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
               />
-              <a href='#' className='button login__password'>Forgot password?</a>
+              <a href='#' className={styles.login__password}>Forgot password?</a>
             </div>
 
-            <button type="submit" className='button login__submit'>
-              <span className='button__text'>Log In Now</span>
-              <i className='button__icon fas fa-chevron-right'></i>
+            <button type="submit" className={styles.login__submit}>
+              <span className={styles.button__text}>Log In Now</span>
+              <i className={`${styles.button__icon} fas fa-chevron-right`}></i>
             </button>
           </form>
-          <div className="social-login">
+          <div className={styles.social__login}>
             <h3>log in via</h3>
-            <div className="social-icons">
-              <a href={GoogleUrl} className='social-login__icon fab fa-google'></a>
-              <a href={FacebookUrl} className='social-login__icon fab fa-facebook'></a>
-              <a href={LinkedinUrl} className='social-login__icon fab fa-linkedin'></a>
+            <div className={styles.social__icons}>
+              <a href={GoogleUrl} className={`${styles.social__login__icon} fab fa-google`}></a>
+              <a href={FacebookUrl} className={`${styles.social__login__icon} fab fa-facebook`}></a>
+              <a href={LinkedinUrl} className={`${styles.social__login__icon} fab fa-linkedin`}></a>
             </div>
           </div>
         </div>
-        <div className='screen__background'>
-          <span className='screen__background__shape screen__background__shape4'></span>
-          <span className='screen__background__shape screen__background__shape3'></span>
-          <span className='screen__background__shape screen__background__shape2'></span>
-          <span className='screen__background__shape screen__background__shape1'></span>
+        <div className={styles.screen__background}>
+          <span className={`${styles.screen__background__shape} ${styles.screen__background__shape4}`}></span>
+          <span className={`${styles.screen__background__shape} ${styles.screen__background__shape3}`}></span>
+          <span className={`${styles.screen__background__shape} ${styles.screen__background__shape2}`}></span>
+          <span className={`${styles.screen__background__shape} ${styles.screen__background__shape1}`}></span>
         </div>
       </div>
     </div>

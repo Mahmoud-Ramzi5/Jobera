@@ -2,6 +2,7 @@
 
 .container {
     display: flex;
+    text-align: center;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
@@ -73,7 +74,7 @@
     border-radius: 60px;
 }
 
-.Logo {
+.logo {
     position: absolute;
     height: 121px;
     will-change: filter;
@@ -81,10 +82,10 @@
     transform: translate(-156px, 14px);
 }
 
-.Logo:hover {
+.logo:hover {
+    cursor: pointer;
     filter: drop-shadow(0 0 32px #00C9FF);
 }
-
 
 .login {    
     box-sizing: border-box;
@@ -110,6 +111,7 @@
     border: none;
     border-bottom: 2px solid #A5A5A8;
     background: none;
+    color: #3E6FA9;
     padding: 10px;
     padding-left: 24px;
     font-weight: 700;
@@ -131,6 +133,7 @@
     padding: 15px 20px;
     border-radius: 25px;
     border: 1px solid #A7A6BC;
+    text-decoration: inherit;
     text-transform: uppercase;
     font-weight: 750;
     display: flex;
@@ -153,13 +156,19 @@
     font-size: 13px;
     margin-top: 13px;
     padding: 10px 15px;
+    text-decoration: inherit;
     text-transform: uppercase;
     font-weight: 500;
     display: flex;
     align-items: center;
     color: #3E6FA9;
     cursor: pointer;
-    transition: .2s;
+    transition: .17s;
+}
+
+.login__password:hover {
+    text-decoration: underline;
+    color: #00C9FF;
 }
 
 .button__icon {
@@ -168,7 +177,7 @@
     color: #58708F;
 }
 
-.social-login {    
+.social__login {    
     position: absolute;
     height: 140px;
     width: 160px;
@@ -178,35 +187,19 @@
     color: #fff;
 }
 
-.social-icons {
+.social__icons {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.social-login__icon {
+.social__login__icon {
     padding: 20px 10px;
     color: #fff;
     text-decoration: none;    
     text-shadow: 0px 0px 8px #58708F;
 }
 
-.social-login__icon:hover {
+.social__login__icon:hover {
     transform: scale(1.65);    
-}
-
-.fa-google:hover {
-    background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-}
-
-.fa-facebook:hover {
-    color:#3B5998;
-}
-
-.fa-linkedin:hover {
-    color:#04669A;
 }

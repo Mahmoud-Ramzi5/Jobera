@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Register from './components/Auth/Register.jsx'
 import Login from './components/Auth/Login.jsx'
 import CallBack from './components/Auth/CallBack.jsx'
-import App from './App.jsx'
+
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -14,7 +14,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/auth/:provider/call-back" element={<CallBack />} />
-        <Route path="/" element={<App />} />
+        <Route path="/" element={<></>} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
