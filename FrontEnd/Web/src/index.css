@@ -15,14 +15,14 @@ html, body {
   padding: 0;
 }
 
-.light {
+.theme-light {
   --color-background: #fafafa;
   --color-foreground: #3E6FA9;
   color: var(--color-foreground);
   background-color: var(--color-background);
 }
 
-.dark {
+.theme-dark {
   --color-background: #1f2023;
   --color-foreground: #efefef;
   color: var(--color-foreground);
