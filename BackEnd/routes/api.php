@@ -13,3 +13,4 @@ Route::get('/user', function (Request $request) {
 Route::get('/auth/providers', [SocialAuthController::class,'redirectToProviders']);
 Route::get('/auth/{provider}/call-back', [SocialAuthController::class,'handleProviderCallback']);
 Route::post('/register',[AuthController::class,'register']);
+Route::post('/login',[AuthController::class,'login']);
