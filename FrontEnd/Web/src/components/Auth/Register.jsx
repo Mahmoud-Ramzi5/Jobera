@@ -15,8 +15,8 @@ const Register = () => {
   const [gender, setGender] = useState('');
 
   const genders = [
-    { value: 'male', label: 'Male' },
-    { value: 'female', label: 'Female' },
+    { value: 'male', label: 'Male', icon: 'fa-person' },
+    { value: 'female', label: 'Female', icon: 'fa-person-dress' },
   ];
 
   // Handle form submit
@@ -86,6 +86,7 @@ const Register = () => {
           <form className={styles.register} onSubmit={handleSubmit}>
             <div className={styles.register__row}>
               <div className={styles.register__field}>
+                <i className={`${styles.login__icon} fas fa-user`}></i>
                 <input
                   type="text"
                   className={styles.register__input}
@@ -95,6 +96,7 @@ const Register = () => {
                 />
               </div>
               <div className={styles.register__field}>
+                <i className={`${styles.login__icon} fas fa-user`}></i>
                 <input
                   type="text"
                   className={styles.register__input}
@@ -106,6 +108,7 @@ const Register = () => {
             </div>
             <div className={styles.register__row}>
               <div className={styles.register__field}>
+                <i className={`${styles.login__icon} fas fa-envelope`}></i>
                 <input
                   type="text"
                   className={styles.register__input}
@@ -115,6 +118,7 @@ const Register = () => {
                 />
               </div>
               <div className={styles.register__field}>
+                <i className={`${styles.login__icon} fas fa-phone`}></i>
                 <input
                   type="text"
                   className={styles.register__input}
@@ -126,6 +130,7 @@ const Register = () => {
             </div>
             <div className={styles.register__row}>
               <div className={styles.register__field}>
+                <i className={`${styles.login__icon} fas fa-lock`}></i>
                 <input
                   type="password"
                   className={styles.register__input}
@@ -135,6 +140,7 @@ const Register = () => {
                 />
               </div>
               <div className={styles.register__field}>
+                <i className={`${styles.login__icon} fas fa-lock`}></i>
                 <input
                   type="password"
                   className={styles.register__input}
@@ -146,6 +152,7 @@ const Register = () => {
             </div>
             <div className={styles.register__row}>
               <div className={styles.register__field}>
+                <i className={`${styles.login__icon} fas fa-calendar-days`}></i>
                 <input
                   type="date"
                   className={styles.register__input}
@@ -163,6 +170,7 @@ const Register = () => {
                       checked={gender === G.value}
                       onChange={(event) => setGender(event.target.value)}
                     />
+                    <i className={`${styles.login__icon} fas ${G.icon}`}></i>
                     <label >{G.label}</label>
                   </div>
                 ))}

@@ -10,18 +10,16 @@
 
 .screen {        
     position: relative;
-    background: #FFF; 
     height: 600px;
-    width: 900px;   
+    width: 720px;   
     box-shadow: 0px 0px 24px #395F87;
 }
 
 .screen__shape {
     background: linear-gradient(90deg, #00C9FF, #E27D48, #3B6D99);
-    position: absolute;
-    right: 0; 
-    height: 100%;
-    width: 40%;  
+    position: absolute; 
+    height: 600px;
+    width: 360px;  
 }
 
 .screen__content {
@@ -49,7 +47,7 @@
 .screen__background__shape1 {
     height: 520px;
     width: 520px;
-    background: #FFF;   
+    background-color: var(--color-background);   
     top: -50px;
     right: 120px;   
     border-radius: 0 72px 0 0;
@@ -118,19 +116,23 @@
 .register__icon {
     position: absolute;
     top: 30px;
-    color: #58708F;
+    color: var(--color-foreground);
 }
 
 .register__input {
     border: none;
     border-bottom: 2px solid #A5A5A8;
     background: none;
-    color: #3E6FA9;
+    color: var(--color-foreground);
     padding: 10px;
     padding-left: 24px;
     font-weight: 700;
     width: 75%;
     transition: .2s;
+}
+
+.register__input::placeholder{
+    color: var(--color-foreground);
 }
 
 .register__input:active,
@@ -151,14 +153,13 @@
     padding: 10px 0px;
     padding-left: 3px;
     font-weight: 500;
-    width: 30%;
-    color: #10396b;
+    width: 35%;
+    color: var(--color-foreground);
     text-decoration: inherit;  
-    accent-color: #3E6FA9;
+    accent-color: #4F6E95;
 }
 
 .register__submit {
-    background: #fff;
     font-size: 15px;
     margin-top: 5px;
     padding: 15px 20px;
@@ -171,6 +172,7 @@
     align-items: center;
     width: 75%;
     color: #3E6FA9;
+    background-color: #ffffff;
     box-shadow: 0px 2px 2px #395F87;
     cursor: pointer;
     transition: .2s;
@@ -181,25 +183,6 @@
 .register__submit:hover {
     border-color: #4F6E95;
     outline: none;
-}
-
-.login__password {
-    font-size: 13px;
-    margin-top: 13px;
-    padding: 10px 15px;
-    text-decoration: inherit;
-    text-transform: uppercase;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    color: #3E6FA9;
-    cursor: pointer;
-    transition: .17s;
-}
-
-.login__password:hover {
-    text-decoration: underline;
-    color: #00C9FF;
 }
 
 .button__icon {

@@ -14,6 +14,7 @@ export const ThemeContext = createContext('');
 
 function App() {
   const [theme, setTheme] = useState('light');
+  document.body.className = theme;
 
   const toggleTheme = () => {
     setTheme((currentTheme) => (currentTheme === 'light' ? 'dark' : 'light'));
@@ -21,7 +22,7 @@ function App() {
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <ReactSwitch onChange={toggleTheme} checked={theme === 'dark'} />
+      <ReactSwitch onChange={toggleTheme} checked={theme === 'dark'} checkedIcon={"🌙"} uncheckedIcon={"🔆"} />
       <BrowserRouter>
         <Routes>
           <Route path="/register" element={<Register />} />
