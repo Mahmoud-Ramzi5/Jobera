@@ -24,16 +24,17 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'fullName'=>['required'],
-            'email'=>['required','unique:users','email'],
-            'password'=>['required'],
-            'confirmPassword'=>['required','same:password'],
-            'phoneNumber'=>['required','unique:users','min:12','max:14'],
-            'avatarPhoto'=>['sometimes'],
-            'gender'=>['required','in:male,female'],
-            'birthDate'=>['required','date'],
+            'fullName' => ['required'],
+            'email' => ['required', 'unique:users', 'email'],
+            'phoneNumber' => ['required', 'unique:users', 'min:12', 'max:14'],
+            'password' => ['required'],
+            'confirmPassword' => ['required', 'same:password'],
+            'birthDate' => ['required', 'date'],
+            'gender' => ['required', 'in:male,female'],
+            'avatarPhoto' => ['sometimes'],
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([

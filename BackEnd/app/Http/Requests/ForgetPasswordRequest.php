@@ -24,10 +24,12 @@ class ForgetPasswordRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "email"=>['required',"email"],
-            "password"=>['required']
+            "email" => ['required', "email"],
+            "password" => ['required'],
+            "confirm_password" => ['required', "same:password"]
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([

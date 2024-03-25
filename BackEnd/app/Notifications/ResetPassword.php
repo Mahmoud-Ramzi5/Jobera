@@ -13,6 +13,9 @@ class ResetPassword extends Notification
 
     public $token;
 
+    /**
+    * Create a new notification instance.
+    */
     public function __construct($token)
     {
         $this->token = $token;
@@ -40,7 +43,6 @@ class ResetPassword extends Notification
             ->line('You are receiving this email because we received a password change request for your account.')
             ->action('Change Password', $resetUrl)
             ->line('If you did not request a password change, no further action is required.');
-
     }
 
     /**

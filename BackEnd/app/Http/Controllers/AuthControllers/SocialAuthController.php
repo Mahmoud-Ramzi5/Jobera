@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AuthControllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Hash;
-use GuzzleHttp\Exception\ClientException;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Laravel\Socialite\Facades\Socialite;
+use GuzzleHttp\Exception\ClientException;
 use App\Models\User;
 
 class SocialAuthController extends Controller
@@ -18,8 +16,7 @@ class SocialAuthController extends Controller
      *
      * @return JsonResponse
      */
-    public function redirectToProviders()
-    {
+    public function RedirectToProviders() {
         return response()->json([
             'googleURL' => Socialite::driver('google')->stateless()->redirect()->getTargetUrl(),
             'facebookURL' => Socialite::driver('facebook')->stateless()->redirect()->getTargetUrl(),
@@ -33,13 +30,15 @@ class SocialAuthController extends Controller
      * @param $provider
      * @return JsonResponse
      */
-    public function handleProviderCallback($provider)
-    {
+    public function HandleProviderCallback($provider) {
+        // Check driver
         if (!in_array($provider, ['google', 'facebook', 'linkedin'])) {
             return response()->json([
                 'error' => 'Please login using Google, Facebook or Linkedin.'
             ], 422);
         }
+
+        // Get user from provider
         try {
             $user = Socialite::driver($provider)->stateless()->user();
         } catch (ClientException $exception) {
@@ -48,16 +47,11 @@ class SocialAuthController extends Controller
             ], 422);
         }
 
-        $userCreated = User::firstOrCreate(
-            [
-                'email' => $user->getEmail()
-            ],
-            [
-                'name' => $user->getName(),
-                'status' => true,
-            ]
-        );
-        $userCreated->providers()->updateOrCreate(
+        // Login user
+        $userDB = User::where('email', $user->getEmail())->first();
+        $token = $userDB->createToken("api_token")->accessToken;
+
+        $userDB->providers()->updateOrCreate(
             [
                 'provider' => $provider,
                 'provider_id' => $user->getId(),
@@ -67,10 +61,11 @@ class SocialAuthController extends Controller
             ]
         );
 
-        $token = $userCreated->createToken($provider.'-token')->accessToken;
-
+        // Response
         return response()->json([
-            'Access-Token' => $token
+            "data" => $user,
+            "access_token" => $token,
+            "token_type" => "bearer"
         ], 200);
     }
 }
