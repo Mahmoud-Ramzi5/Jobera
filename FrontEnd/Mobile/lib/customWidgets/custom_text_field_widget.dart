@@ -47,6 +47,18 @@ class CustomTextFieldWidget extends StatelessWidget {
             width: 3,
           ),
         ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+          borderSide: const BorderSide(
+            color: Colors.red,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(50),
+          borderSide: const BorderSide(
+            color: Colors.red,
+          ),
+        ),
       ),
       keyboardType: textInputType,
       style: Theme.of(context).textTheme.bodyLarge,

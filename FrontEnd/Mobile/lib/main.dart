@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/views/login_view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+SharedPreferences? sharedPreferences;
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  sharedPreferences = await SharedPreferences.getInstance();
   runApp(const MainApp());
 }
 

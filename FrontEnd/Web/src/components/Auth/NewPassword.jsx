@@ -43,51 +43,55 @@ const NewPassword = () => {
 
     // Handle form submit
     const handleSubmit = (event) => {
+        if(password!=confirm_password){
+            alert('the password and confirm password fields should be the same')
+            event.preventDefault();
+            setPassword('');
+            setConfirmPassword('');
+        }
+        else{    
+                event.preventDefault();
+
+            // Perform Login logic (Call api)
+            fetch("http://127.0.0.1:8000/api/password/reset", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'Accept': "application/json",
+                    'connection': 'keep-alive',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Authorization': 'Bearer ' + searchParams.get("token")
+                },
+                body: JSON.stringify(
+                    {
+                        "email": email,
+                        "password": password,
+                        "confirm_password": confirm_password
+                    })
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(response.status);
+                    }
+                    else {
+                        return response.json();
+                    }
+                })
+                .then((data) => {
+                    // Do somthing with the token return from Server data['token'] 
+                    console.log(data)
+                    setSuccessMessage('password has been changed succesfully');
+                })
+                .catch(error => {
+                    // Handle errors
+                    console.log(error);
+                });
+        };}
         /*The preventDefault() method cancels the event if it is cancelable, 
         meaning that the default action that belongs to the event will not occur.
         -> For example, this can be useful when:
         Clicking on a "Submit" button, prevent it from submitting a form*/
-        event.preventDefault();
 
-        // Perform Login logic (Call api)
-        fetch("http://127.0.0.1:8000/api/password/reset", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json; charset=UTF-8',
-                'Accept': "application/json",
-                'connection': 'keep-alive',
-                'Accept-Encoding': 'gzip, deflate, br',
-                'Authorization': 'Bearer ' + searchParams.get("token")
-            },
-            body: JSON.stringify(
-                {
-                    "email": email,
-                    "password": password,
-                    "confirm_password": confirm_password
-                })
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(response.status);
-                }
-                else {
-                    return response.json();
-                }
-            })
-            .then((data) => {
-                // Do somthing with the token return from Server data['token'] 
-                console.log(data)
-                setSuccessMessage('password has been changed succesfully');
-            })
-            .catch(error => {
-                // Handle errors
-                console.log(error);
-            });
-
-        // Reset the form fields
-        setPassword('');
-        setConfirmPassword('');
-    };
 
     return (
         <div className={styles.container}>
