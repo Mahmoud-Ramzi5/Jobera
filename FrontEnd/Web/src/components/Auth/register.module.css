@@ -9,11 +9,17 @@
 }
 
 .screen {        
-    background: linear-gradient(90deg, #00C9FF, #E27D48, #3B6D99);
     position: relative; 
     height: 600px;
-    width: 360px;   
+    width: 720px;   
     box-shadow: 0px 0px 24px #395F87;
+}
+
+.screen__shape {
+    background: linear-gradient(90deg, #00C9FF, #E27D48, #3B6D99);
+    position: absolute; 
+    height: 600px;
+    width: 360px;  
 }
 
 .screen__content {
@@ -87,27 +93,33 @@
     filter: drop-shadow(0 0 32px #00C9FF);
 }
 
-.login {    
+.register {
     box-sizing: border-box;
     margin: 0;
-    width: 300px;
+    width: 600px;
     padding-left: 20px;
     padding-right: 30px;
-    padding-top: 156px;
+    padding-top: 120px;
 }
 
-.login__field {
-    padding: 20px 0px;    
+.register__row {
+    display: flex;
+    position: relative;   
+}
+
+.register__field {
+    padding: 20px 0px;
+    width: 100%;
     position: relative;    
 }
 
-.login__icon {
+.register__icon {
     position: absolute;
     top: 30px;
     color: #58708F;
 }
 
-.login__input {
+.register__input {
     border: none;
     border-bottom: 2px solid #A5A5A8;
     background: none;
@@ -119,14 +131,18 @@
     transition: .2s;
 }
 
-.login__input:active,
-.login__input:focus,
-.login__input:hover {
+.register__input:active,
+.register__input:focus,
+.register__input:hover {
     outline: none;
     border-bottom-color: #4F6E95;
 }
 
-.login__submit {
+.register__input__radio {
+    accent-color: #3E6FA9;
+}
+
+.register__submit {
     background: #fff;
     font-size: 15px;
     margin-top: 5px;
@@ -145,9 +161,9 @@
     transition: .2s;
 }
 
-.login__submit:active,
-.login__submit:focus,
-.login__submit:hover {
+.register__submit:active,
+.register__submit:focus,
+.register__submit:hover {
     border-color: #4F6E95;
     outline: none;
 }
@@ -177,7 +193,7 @@
     color: #58708F;
 }
 
-.social__login {    
+.social__register {    
     position: absolute;
     height: 140px;
     width: 160px;
@@ -193,13 +209,13 @@
     justify-content: center;
 }
 
-.social__login__icon {
+.social__register__icon {
     padding: 20px 10px;
     color: #fff;
     text-decoration: none;    
     text-shadow: 0px 0px 8px #58708F;
 }
 
-.social__login__icon:hover {
+.social__register__icon:hover {
     transform: scale(1.65);    
 }
