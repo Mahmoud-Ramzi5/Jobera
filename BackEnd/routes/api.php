@@ -8,5 +8,6 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
 
-Route::get('/auth/{provider}', [SocialAuthController::class,'redirectToProvider']);
+
+Route::get('/auth/providers', [SocialAuthController::class,'redirectToProviders']);
 Route::get('/auth/{provider}/call-back', [SocialAuthController::class,'handleProviderCallback']);
