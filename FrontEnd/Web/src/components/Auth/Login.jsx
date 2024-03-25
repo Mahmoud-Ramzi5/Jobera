@@ -117,7 +117,7 @@ const Login = () => {
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
               />
-              <a href='#' className={styles.login__password}>Forgot password?</a>
+              <a href='/ForgetPassword' className={styles.login__password}>Forgot password?</a>
             </div>
 
             <button type="submit" className={styles.login__submit}>
