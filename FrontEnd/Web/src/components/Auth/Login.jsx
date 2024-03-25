@@ -133,6 +133,9 @@ const Login = () => {
               <a href={LinkedinUrl} className={`${styles.social__login__icon} fab fa-linkedin`}></a>
             </div>
           </div>
+          <div className={styles.login__register}>
+            Don't have an account? <a href='/register'>Register</a>
+          </div>
         </div>
         <div className={styles.screen__background}>
           <span className={`${styles.screen__background__shape} ${styles.screen__background__shape4}`}></span>

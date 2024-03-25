@@ -161,12 +161,41 @@
     font-weight: 500;
     display: flex;
     align-items: center;
-    color: #3E6FA9;
+    color: var(--color-foreground);
     cursor: pointer;
     transition: .17s;
 }
 
 .login__password:hover {
+    text-decoration: underline;
+    color: #00C9FF;
+}
+
+.login__register {
+    font-size: 13px;
+    margin-top: 10px;
+    margin-left: 5px;
+    padding: 5px 15px;
+    text-decoration: inherit;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    color: var(--color-foreground);
+    cursor: pointer;
+    transition: .15s;
+}
+
+.login__register a {
+    font-size: 15px;
+    padding: 5px 15px;
+    text-decoration: inherit;
+    font-weight: 500;
+    color: var(--color-background);
+    cursor: pointer;
+    transition: .15s;
+}
+
+.login__register a:hover {
     text-decoration: underline;
     color: #00C9FF;
 }

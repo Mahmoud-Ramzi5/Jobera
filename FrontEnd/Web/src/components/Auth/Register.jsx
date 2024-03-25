@@ -189,6 +189,9 @@ const Register = () => {
               <a href='#' className={`${styles.social__register__icon} fab fa-linkedin`}></a>
             </div>
           </div>
+          <div className={styles.register__login}>
+            Already have an account? <a href='/login'>Log in</a>
+          </div>
         </div>
         <div className={styles.screen__background}>
           <span className={styles.screen__shape}></span>
