@@ -8,6 +8,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import NewPassword from './components/Auth/NewPassword.jsx';
 import ForgetPassword from './components/Auth/ForgetPassword.jsx';
+import EmailVerificationMessage from './components/Auth/emailVerifed.jsx';
 
 
 export const ThemeContext = createContext('');
@@ -50,6 +51,7 @@ function App() {
           <Route path="/auth/:provider/call-back" element={<CallBack />} />
           <Route path="/reset-password" element={<NewPassword />} />
           <Route path="/ForgetPassword" element={<ForgetPassword />} />
+          <Route path="/emailVerify" element={<EmailVerificationMessage />} />
           <Route path="/" element={<></>} />
         </Routes>
       </BrowserRouter>

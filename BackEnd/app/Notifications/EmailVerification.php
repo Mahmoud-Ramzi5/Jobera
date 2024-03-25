@@ -35,7 +35,7 @@ class EmailVerification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $resetUrl = url('http://localhost:5173/?token='.$this->token);
+        $resetUrl = url('http://localhost:5173/emailVerify?token='.$this->token);
 
         return (new MailMessage)
             ->subject('Verification Email Request')

@@ -78,11 +78,6 @@ class AuthController extends Controller
     }
 
     public function VerifyEmail(Request $request) {
-        // Validate request
-        $request->validate([
-            'token' => 'required'
-        ]);
-
         // Get user
         $user = auth()->user();
 
