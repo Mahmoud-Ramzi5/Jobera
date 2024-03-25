@@ -17,7 +17,7 @@ Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
 Route::get('/email',function(Request $request){
     return response()->json([
-        "email"=>$request->user()->email
+        "email"=>auth()->user()
         ]
     );
 });

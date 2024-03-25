@@ -22,13 +22,13 @@ function App() {
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <ReactSwitch onChange={toggleTheme} checked={theme === 'dark'} checkedIcon={"🌙"} uncheckedIcon={"🔆"} />
+      <ReactSwitch onChange={toggleTheme} checked={theme === 'dark'} checkedIcon={<>🌙</>} uncheckedIcon={<>🔆</>} onColor="#4F6E95" /> 
       <BrowserRouter>
         <Routes>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/auth/:provider/call-back" element={<CallBack />} />
-          <Route path="/NewPassword" element={<NewPassword />} />
+          <Route path="/reset-password" element={<NewPassword />} />
           <Route path="/ForgetPassword" element={<ForgetPassword />} />
           <Route path="/" element={<></>} />
         </Routes>
