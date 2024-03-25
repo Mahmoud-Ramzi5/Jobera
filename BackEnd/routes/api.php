@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\SocialAuthController;
@@ -11,3 +12,4 @@ Route::get('/user', function (Request $request) {
 
 Route::get('/auth/providers', [SocialAuthController::class,'redirectToProviders']);
 Route::get('/auth/{provider}/call-back', [SocialAuthController::class,'handleProviderCallback']);
+Route::post('/register',[AuthController::class,'register']);
