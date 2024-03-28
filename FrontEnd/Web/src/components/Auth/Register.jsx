@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Logo from '../../assets/JoberaLogo.png'
 import styles from './register.module.css'
 
 const Register = () => {
@@ -83,6 +84,8 @@ const Register = () => {
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen__content}>
+          <img src={Logo} className={styles.logo} alt="logo" />
+          <div className={styles.title}>Register</div>
           <form className={styles.register} onSubmit={handleSubmit}>
             <div className={styles.register__row}>
               <div className={styles.register__field}>
@@ -93,6 +96,7 @@ const Register = () => {
                   placeholder="First Name"
                   value={FirstName}
                   onChange={(event) => setFirstName(event.target.value)}
+                  required
                 />
               </div>
               <div className={styles.register__field}>
@@ -103,6 +107,7 @@ const Register = () => {
                   placeholder="Last Name"
                   value={LastName}
                   onChange={(event) => setLastName(event.target.value)}
+                  required
                 />
               </div>
             </div>
@@ -115,6 +120,7 @@ const Register = () => {
                   placeholder="Email"
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
+                  required
                 />
               </div>
               <div className={styles.register__field}>
@@ -125,6 +131,7 @@ const Register = () => {
                   placeholder="Phone Numer"
                   value={PhoneNumber}
                   onChange={(event) => setPhoneNumber(event.target.value)}
+                  required
                 />
               </div>
             </div>
@@ -137,6 +144,7 @@ const Register = () => {
                   placeholder="Password"
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
+                  required
                 />
               </div>
               <div className={styles.register__field}>
@@ -147,6 +155,7 @@ const Register = () => {
                   placeholder="Confirm Password"
                   value={ConfirmPassword}
                   onChange={(event) => setConfirmPassword(event.target.value)}
+                  required
                 />
               </div>
             </div>
@@ -159,6 +168,7 @@ const Register = () => {
                   placeholder="Birthdate"
                   value={date}
                   onChange={(event) => setDate(event.target.value)}
+                  required
                 />
               </div>
               <div className={styles.register__field__radio}>

@@ -23,13 +23,15 @@ class AuthController extends Controller
 
         // Register user and send verification email
         $user = User::create($validated);
+        $token = $user->createToken("api_token")->accessToken;
         $this->SendEmailVerification($request);
 
         // Response
         return response()->json([
             "message" => "users registered",
             "data" => $user,
-            "token" => $user->createToken("api_token")->accessToken,
+            "access_token" => $token,
+            "token_type" => "bearer"
         ], 201);
     }
 

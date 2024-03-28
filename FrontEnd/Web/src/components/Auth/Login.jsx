@@ -97,6 +97,7 @@ const Login = () => {
       <div className={styles.screen}>
         <div className={styles.screen__content}>
           <img src={Logo} className={styles.logo} alt="logo" />
+          <div className={styles.title}>Login</div>
           <form className={styles.login} onSubmit={handleSubmit}>
             <div className={styles.login__field}>
               <i className={`${styles.login__icon} fas fa-user`}></i>
@@ -106,6 +107,7 @@ const Login = () => {
                 placeholder="Email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
+                required
               />
             </div>
             <div className={styles.login__field}>
@@ -116,7 +118,9 @@ const Login = () => {
                 placeholder="Password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
+                required
               />
+              <i className={`${styles.login__icon} fas fa-lock`}></i>
               <a href='/ForgetPassword' className={styles.login__password}>Forgot password?</a>
             </div>
 

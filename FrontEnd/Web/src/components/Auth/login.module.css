@@ -74,12 +74,19 @@
     border-radius: 60px;
 }
 
+.title {
+    position: absolute;
+    font-size: 32px;
+    font-weight: 480;
+    translate: 96px 48px;
+}
+
 .logo {
     position: absolute;
-    height: 121px;
+    height: 83px;
     will-change: filter;
     transition: filter 290ms;
-    transform: translate(-156px, 14px);
+    translate: -156px 26px;
 }
 
 .logo:hover {

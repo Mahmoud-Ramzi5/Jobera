@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, createContext } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import ReactSwitch from 'react-switch';
+import NavBar from './components/NavBar.jsx';
 import Register from './components/Auth/Register.jsx'
 import Login from './components/Auth/Login.jsx'
 import CallBack from './components/Auth/CallBack.jsx'
@@ -12,10 +12,12 @@ import EmailVerificationMessage from './components/Auth/emailVerifed.jsx';
 import UserInfo from './components/Profile/UserInfo.jsx';
 
 
-export const ThemeContext = createContext('');
+export const ThemeContext = createContext({});
 
 function App() {
   const initialized = useRef(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [logInToken, setlogInToken] = useState('');
   const [theme, setTheme] = useState('theme-light');
 
   const toggleTheme = () => {
@@ -27,11 +29,21 @@ function App() {
       initialized.current = true;
       // Get data from local storage
       const localTheme = localStorage.getItem('Theme');
+      const isLoggedIn = JSON.parse(localStorage.getItem('remember_me'));
+      const accessToken = JSON.parse(localStorage.getItem('access_token'));
+
       if (localTheme !== null) {
         setTheme(localTheme);
       }
       else {
         setTheme('theme-light')
+      }
+
+      if (isLoggedIn !== null) {
+        setLoggedIn(isLoggedIn);
+      }
+      else {
+        setLoggedIn(false);
       }
     }
   }, []);
@@ -44,7 +56,7 @@ function App() {
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <ReactSwitch onChange={toggleTheme} checked={theme === 'theme-dark'} checkedIcon={<>🌙</>} uncheckedIcon={<>🔆</>} onColor="#4F6E95" /> 
+      <NavBar />
       <BrowserRouter>
         <Routes>
           <Route path="/register" element={<Register />} />

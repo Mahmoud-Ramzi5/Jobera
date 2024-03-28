@@ -18,6 +18,7 @@ html, body {
 .theme-light {
   --color-background: #fafafa;
   --color-foreground: #3E6FA9;
+  --color-navbar: linear-gradient(90deg, #00C9FF, #E27D48, #3B6D99);
   --color-button:#000000;
   color: var(--color-foreground);
   background-color: var(--color-background);
@@ -26,6 +27,7 @@ html, body {
 .theme-dark {
   --color-background: #1f2023;
   --color-foreground: #efefef;
+  --color-navbar: linear-gradient(90deg, #0084B9, #A95D32, #1E3D59);
   color: var(--color-foreground);
   background-color: var(--color-background);
 }
