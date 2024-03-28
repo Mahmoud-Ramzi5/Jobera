@@ -11,11 +11,20 @@ class CustomLogoContainer extends StatelessWidget {
       height: 250,
       decoration: ShapeDecoration(
           shape: const StadiumBorder(),
-          gradient: LinearGradient(colors: [
-            Colors.lightBlue.shade900,
-            Colors.orange.shade800,
-            Colors.cyan.shade200
-          ])),
+          gradient: LinearGradient(
+            colors: [
+              Colors.lightBlue.shade900,
+              Colors.orange.shade800,
+              Colors.cyan,
+            ],
+          ),
+          shadows: const [
+            BoxShadow(
+              color: Colors.cyan,
+              blurRadius: 40,
+              blurStyle: BlurStyle.outer,
+            )
+          ]),
       child: Image.asset(imagePath),
     );
   }
