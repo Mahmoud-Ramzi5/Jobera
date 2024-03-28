@@ -1,0 +1,19 @@
+.user-info-card {
+  max-width: 940px;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.specification {
+  color: #333;
+  margin-bottom: 8px;
+  font-size: 20px;
+}
+
+.location,
+.rating,
+.money {
+  margin-bottom: 4px;
+}

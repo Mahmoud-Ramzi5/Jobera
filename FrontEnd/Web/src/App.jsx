@@ -9,6 +9,7 @@ import viteLogo from './assets/vite.svg'
 import NewPassword from './components/Auth/NewPassword.jsx';
 import ForgetPassword from './components/Auth/ForgetPassword.jsx';
 import EmailVerificationMessage from './components/Auth/emailVerifed.jsx';
+import UserInfo from './components/Profile/UserInfo.jsx';
 
 
 export const ThemeContext = createContext('');
@@ -52,6 +53,7 @@ function App() {
           <Route path="/reset-password" element={<NewPassword />} />
           <Route path="/ForgetPassword" element={<ForgetPassword />} />
           <Route path="/emailVerify" element={<EmailVerificationMessage />} />
+          <Route path="/profile" element={<UserInfo />}/>
           <Route path="/" element={<></>} />
         </Routes>
       </BrowserRouter>
