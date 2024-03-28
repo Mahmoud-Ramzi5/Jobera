@@ -6,11 +6,12 @@ import Login from './components/Auth/Login.jsx'
 import CallBack from './components/Auth/CallBack.jsx'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
-import NewPassword from './components/Auth/NewPassword.jsx';
+import ResetPassword from './components/Auth/ResetPassword.jsx';
 import ForgetPassword from './components/Auth/ForgetPassword.jsx';
 import EmailVerificationMessage from './components/Auth/emailVerifed.jsx';
 import UserInfo from './components/Profile/UserInfo.jsx';
-
+import VerifyCard from  './components/Auth/VerifyCard.jsx';
+import ZCard from  './components/Auth/ZCard.jsx';
 
 export const ThemeContext = createContext({});
 
@@ -62,10 +63,12 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/auth/:provider/call-back" element={<CallBack />} />
-          <Route path="/reset-password" element={<NewPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/ForgetPassword" element={<ForgetPassword />} />
           <Route path="/emailVerify" element={<EmailVerificationMessage />} />
           <Route path="/profile" element={<UserInfo />}/>
+          <Route path="/Testcard" element={<VerifyCard/>}/>
+          <Route path="/Testcard2" element={<ZCard/>}/>
           <Route path="/" element={<></>} />
         </Routes>
       </BrowserRouter>

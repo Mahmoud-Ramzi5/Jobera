@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import Logo from '../../assets/JoberaLogo.png'
-import styles from './NewPassword.module.css'
+import styles from './ResetPassword.module.css'
 
-const NewPassword = () => {
+const ResetPassword = () => {
     // Define states
     const initialized = useRef(false);
     const navigate = useNavigate();
@@ -105,33 +105,33 @@ const NewPassword = () => {
             </div>
             </>
         ) : (
-                    <form className={styles.login} onSubmit={handleSubmit}>
-                        <div className={styles.login__field}>
-                            <i className={`${styles.login__icon} fas fa-user`}></i>
-                            <input type="email" className={styles.login__input} value={email} readOnly={true} />
+                    <form className={styles.reset} onSubmit={handleSubmit}>
+                        <div className={styles.reset__field}>
+                            <i className={`${styles.user__icon} fas fa-user`}></i>
+                            <input type="email" className={styles.reset__input} value={email} readOnly={true} />
                         </div>
-                        <div className={styles.login__field}>
-                            <i className={`${styles.login__icon} fas fa-lock`}></i>
+                        <div className={styles.reset__field}>
+                            <i className={`${styles.lock__icon} fas fa-lock`}></i>
                             <input
                                 type="password"
-                                className={styles.login__input}
+                                className={styles.reset__input}
                                 placeholder="Password"
                                 value={password}
                                 onChange={(event) => setPassword(event.target.value)}
                             />
                         </div>
-                        <div className={styles.login__field}>
-                            <i className={`${styles.login__icon} fas fa-lock`}></i>
+                        <div className={styles.reset__field}>
+                            <i className={`${styles.lock__icon} fas fa-lock`}></i>
                             <input
                                 type="password"
-                                className={styles.login__input}
+                                className={styles.reset__input}
                                 placeholder="confirm password"
                                 value={confirm_password}
                                 onChange={(event) => setConfirmPassword(event.target.value)}
                             />
                         </div>
 
-                        <button type="submit" className={styles.login__submit}>
+                        <button type="submit" className={styles.reset__submit}>
                             <span className={styles.button__text}>Change password</span>
                             <i className={`${styles.button__icon} fas fa-chevron-right`}></i>
                         </button>
@@ -149,4 +149,4 @@ const NewPassword = () => {
     );
 };
 
-export default NewPassword;
+export default ResetPassword;

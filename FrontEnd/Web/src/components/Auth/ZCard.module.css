@@ -1,0 +1,66 @@
+.logo{
+    position: relative;
+    height: 121px;
+    will-change: filter;
+    transition: filter 290ms;
+    transform: translate(75px, -15px);
+}
+.card1{
+    padding-right: 5%;
+    border-color:var(--color-button);
+    margin-left: 76%;
+    transform: translate(0px, 40px);
+    color:var(--color-button);
+    background-color:var(--color-background) ;
+}
+.card2{
+    border-color:var(--color-button);
+    margin-left: 76%;
+    transform: translate(0px, 40px);
+    color:var(--color-button);
+    background-color:var(--color-background) ;
+}
+.card3{
+    border-color:var(--color-button);
+    margin-left: 76%;
+    transform: translate(0px, 80px);
+    color:var(--color-button);
+    background-color:var(--color-background) ;
+}
+
+.register_button{
+    color:var(--color-button);
+    background-color:var(--color-background) ;
+    border-color: var(--color-button);
+    border-radius: 20px;
+}
+.register_button:hover{
+    color:var(--color-button);
+    background-color:darkgrey;
+    font-weight: 500;
+}
+
+.certificate_button{
+    margin-left: 24%;
+    color:var(--color-button);
+    background-color:var(--color-background) ;
+    border-color: var(--color-button);
+    border-radius: 10px;
+}
+.certificate_button:hover{
+    color:var(--color-button);
+    background-color:rgb(19, 34, 100);
+    font-weight: 500;
+}
+
+.skills_button{
+    color:var(--color-button);
+    background-color:var(--color-background) ;
+    border-color: var(--color-button);
+    border-radius: 20px;
+}
+.skills_button:hover{
+    color:var(--color-button);
+    background-color:darkgrey;
+    font-weight: 500;
+}
