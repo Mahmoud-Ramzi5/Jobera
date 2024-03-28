@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:get/get.dart' hide Response;
+import 'package:get/get.dart';
 import 'package:jobera/main.dart';
 
 class LoginController extends GetxController {

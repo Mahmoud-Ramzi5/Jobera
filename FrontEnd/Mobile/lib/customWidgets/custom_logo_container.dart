@@ -21,7 +21,7 @@ class CustomLogoContainer extends StatelessWidget {
           shadows: const [
             BoxShadow(
               color: Colors.cyan,
-              blurRadius: 40,
+              blurRadius: 20,
               blurStyle: BlurStyle.outer,
             )
           ]),
