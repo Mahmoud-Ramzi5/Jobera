@@ -40,7 +40,7 @@ class AuthController extends Controller
         // Check user
         if(! Auth::attempt($validated)) {
             return response()->json([
-                "error" => "invalid email or password"
+                "errors" => "invalid email or password"
             ], 401);
         }
 
@@ -84,7 +84,7 @@ class AuthController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'error' => 'Invalid token',
+                'errors' => 'Invalid token',
             ], 404);
         }
 
@@ -103,7 +103,7 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            'error' => 'Email verification failed',
+            'errors' => 'Email verification failed',
         ], 500);
     }
 }
