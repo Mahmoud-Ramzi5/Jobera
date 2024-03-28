@@ -47,8 +47,9 @@ class _LoginViewState extends State<LoginView> {
           key: _formField,
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(18.0),
+              padding: const EdgeInsets.all(20),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const CustomLogoContainer(imagePath: 'assets/JoberaLogo.png'),
                   const SizedBox(
@@ -120,22 +121,27 @@ class _LoginViewState extends State<LoginView> {
                             if (_loginController.isLoggedIn == true) {
                               Get.defaultDialog(
                                 title: 'Login Successful',
-                                middleText: response.toString(),
+                                backgroundColor: Colors.lightBlue.shade800,
                                 content: const Icon(
                                   Icons.check_circle_outline,
                                   color: Colors.green,
                                 ),
                               );
                               Future.delayed(const Duration(seconds: 1), () {
-                                Get.off(() => const HomeView());
+                                Get.offAll(() => const HomeView());
                               });
                             } else {
                               Get.defaultDialog(
                                 title: 'Login Failed',
-                                middleText: response.toString(),
-                                content: const Icon(
-                                  Icons.cancel_outlined,
-                                  color: Colors.red,
+                                backgroundColor: Colors.orange.shade100,
+                                content: Column(
+                                  children: [
+                                    const Icon(
+                                      Icons.cancel_outlined,
+                                      color: Colors.red,
+                                    ),
+                                    Text(response),
+                                  ],
                                 ),
                               );
                             }
@@ -151,6 +157,10 @@ class _LoginViewState extends State<LoginView> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
+                          Text(
+                            'Remember Me',
+                            style: Theme.of(context).textTheme.labelLarge,
+                          ),
                           GetBuilder<LoginController>(
                             builder: (controller) => Checkbox(
                               activeColor: Colors.orange.shade800,
@@ -158,10 +168,6 @@ class _LoginViewState extends State<LoginView> {
                               onChanged: (value) => _loginController
                                   .toggleRemeberMe(_loginController.remeberMe),
                             ),
-                          ),
-                          Text(
-                            'Remember Me',
-                            style: Theme.of(context).textTheme.bodyLarge,
                           ),
                         ],
                       ),
@@ -198,7 +204,7 @@ class _LoginViewState extends State<LoginView> {
                     children: [
                       Text(
                         'New around here?',
-                        style: Theme.of(context).textTheme.labelMedium,
+                        style: Theme.of(context).textTheme.labelLarge,
                       ),
                       TextButton(
                         onPressed: () => Get.to(() => const RegisterView()),
