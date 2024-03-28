@@ -13,6 +13,7 @@ const UserInfo = () => {
     profilePhoto: logo,
     wallet: 230,
     specification: 'software engineer',
+    description:"sdhklfjhfdskjahfksjldhgklwrhoiwrugfowfowigfwoegfwioegfwieohgfwkjdgfsjhkagfeiwgfiewogfiewgfkjhsdgfjhksdgfiewtfigedwikcigsdavckyewafgcmndsahvfukywaemjfvyiyuweakfvykuesdmjvceuwkafjgjskdfewyukafgkyewuaftgyvawkuefgywkaugfkwuagfkawuf"
   };
 
   const handleEditProfile = () => {
@@ -51,8 +52,9 @@ const UserInfo = () => {
             <h3 className="card-title">{profileData.name}</h3>
             <h4 className="specification">{profileData.specification}</h4>
             <h6 className="location">Location: {profileData.location}</h6> 
-            <div className="rating">Rating: {renderStars(profileData.rating)} {profileData.rating} ({profileData.reviews} reviews) </div>
+            <div className="rating"><h6>Rating: {renderStars(profileData.rating)} {profileData.rating} ({profileData.reviews} reviews) </h6></div>
             <h6 className="money">Money: {profileData.wallet}</h6>
+            <p className='description'>{profileData.description}</p>
             <Button variant="primary" onClick={handleEditProfile}>
               Edit Profile
             </Button>{' '}
