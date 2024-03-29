@@ -12,12 +12,9 @@ const NavBar = () => {
                 <div className={styles.logo}><a href="/">Jobera</a></div>
                 <input type="radio" name="slider" id="menu_btn" className={styles.menu_btn} />
                 <input type="radio" name="slider" id="close_btn" className={styles.close_btn} />
-                
+
                 <ul className={styles.nav_links}>
                     <label htmlFor="close_btn" className={`${styles.btn} ${styles.close_btn}`}><i className="fas fa-times"></i></label>
-                    <li><a href="#">Home</a></li>
-
-                    <li><a href="#">About</a></li>
                     <li>
                         <a href="#" className={styles.desktop_item}>Dropdown Menu</a>
                         <input type="checkbox" id="showDrop" className={styles.showDrop} />
@@ -70,14 +67,14 @@ const NavBar = () => {
                     </li>
                     <li><a href="#">Feedback</a></li>
                     <li className={styles.theme_switch}>
-                    <ReactSwitch
-                        checked={theme === 'theme-dark'}
-                        checkedIcon={<>🌙</>}
-                        uncheckedIcon={<>🔆</>}
-                        onChange={toggleTheme}
-                        onColor="#4F6E95"
-                    />
-                </li>
+                        <ReactSwitch
+                            checked={theme === 'theme-dark'}
+                            checkedIcon={<>🌙</>}
+                            uncheckedIcon={<>🔆</>}
+                            onChange={toggleTheme}
+                            onColor="#4F6E95"
+                        />
+                    </li>
                 </ul>
                 <label htmlFor="menu_btn" className={`${styles.btn} ${styles.menu_btn}`}><i className="fas fa-bars"></i></label>
             </div>
