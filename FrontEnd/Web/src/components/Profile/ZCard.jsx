@@ -2,8 +2,8 @@ import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Card, Button } from 'react-bootstrap';
-import Logo from '../../assets/JoberaLogo.png'
-import styles from './ZCard.module.css'
+import Logo from '../../assets/JoberaLogo.png';
+import styles from './css/ZCard.module.css'
 const ZCard = () => {
     const navigate = useNavigate();
 

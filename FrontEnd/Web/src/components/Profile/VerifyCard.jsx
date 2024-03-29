@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../../assets/JoberaLogo.png'
-import styles from './VerifyCard.module.css'
+import logo from '../../assets/JoberaLogo.png';
+import styles from './css/VerifyCard.module.css'
 const VerifyCard = () => {
     const navigate = useNavigate();
 
