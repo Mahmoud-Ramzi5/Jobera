@@ -19,24 +19,30 @@ class MainApp extends StatelessWidget {
       home: const LoginView(),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          colorSchemeSeed: Colors.orange.shade800,
-          appBarTheme: AppBarTheme(
-            color: Colors.lightBlue.shade900,
-            iconTheme: const IconThemeData(color: Colors.white),
-            centerTitle: true,
+        colorSchemeSeed: Colors.orange.shade800,
+        appBarTheme: AppBarTheme(
+          color: Colors.lightBlue.shade900,
+          iconTheme: const IconThemeData(color: Colors.white),
+          centerTitle: true,
+        ),
+        textTheme: TextTheme(
+          titleLarge: const TextStyle(color: Colors.white),
+          headlineSmall: const TextStyle(color: Colors.cyan),
+          labelLarge: TextStyle(color: Colors.orange.shade800),
+          bodyLarge: TextStyle(color: Colors.lightBlue.shade900),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            backgroundColor: MaterialStatePropertyAll(Colors.orange.shade100),
           ),
-          textTheme: TextTheme(
-            titleLarge: const TextStyle(color: Colors.white),
-            headlineSmall: const TextStyle(color: Colors.cyan),
-            labelLarge: TextStyle(color: Colors.orange.shade800),
-            bodyLarge: TextStyle(color: Colors.lightBlue.shade900),
-          ),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ButtonStyle(
-              backgroundColor: MaterialStatePropertyAll(Colors.orange.shade100),
-            ),
-          ),
-          checkboxTheme: const CheckboxThemeData(shape: CircleBorder())),
+        ),
+        checkboxTheme: const CheckboxThemeData(
+          shape: CircleBorder(),
+        ),
+        radioTheme: RadioThemeData(
+          fillColor: MaterialStatePropertyAll(Colors.orange.shade800),
+        ),
+      ),
       darkTheme: ThemeData.dark(),
       themeMode: ThemeMode.light,
     );

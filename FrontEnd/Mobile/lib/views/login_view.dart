@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:get/get.dart' hide Response;
+import 'package:get/get.dart';
 import 'package:jobera/controllers/login_controller.dart';
 import 'package:jobera/customWidgets/custom_logo_container.dart';
+import 'package:jobera/customWidgets/custom_text.dart';
 import 'package:jobera/customWidgets/custom_text_field_widget.dart';
 import 'package:jobera/views/forgot_password_view.dart';
 import 'package:jobera/views/home_view.dart';
@@ -31,7 +32,6 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   void dispose() {
-    Get.delete<LoginController>();
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
@@ -41,9 +41,6 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        // appBar: AppBar(
-        //   title: const Text('Login'),
-        // ),
         body: Form(
           key: _formField,
           child: SingleChildScrollView(
@@ -70,31 +67,31 @@ class _LoginViewState extends State<LoginView> {
                       return null;
                     },
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  GetBuilder<LoginController>(
-                    builder: (controller) => CustomTextFieldWidget(
-                      controller: _passwordController,
-                      obsecureText: _loginController.passwordToggle,
-                      textInputType: TextInputType.visiblePassword,
-                      icon: const Icon(Icons.lock),
-                      labelText: 'Password',
-                      inkWell: InkWell(
-                        onTap: () {
-                          _loginController
-                              .togglePassword(_loginController.passwordToggle);
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                    child: GetBuilder<LoginController>(
+                      builder: (controller) => CustomTextFieldWidget(
+                        controller: _passwordController,
+                        obsecureText: _loginController.passwordToggle,
+                        textInputType: TextInputType.visiblePassword,
+                        icon: const Icon(Icons.key),
+                        labelText: 'Password',
+                        inkWell: InkWell(
+                          onTap: () {
+                            controller
+                                .togglePassword(controller.passwordToggle);
+                          },
+                          child: Icon(controller.passwordToggle
+                              ? Icons.visibility_off
+                              : Icons.visibility),
+                        ),
+                        validator: (p0) {
+                          if (p0!.isEmpty) {
+                            return "Required Field";
+                          }
+                          return null;
                         },
-                        child: Icon(_loginController.passwordToggle
-                            ? Icons.visibility_off
-                            : Icons.visibility),
                       ),
-                      validator: (p0) {
-                        if (p0!.isEmpty) {
-                          return "Required Field";
-                        }
-                        return null;
-                      },
                     ),
                   ),
                   Row(
@@ -103,10 +100,8 @@ class _LoginViewState extends State<LoginView> {
                       TextButton(
                         onPressed: () =>
                             Get.to(() => const ForgotPasswordView()),
-                        child: Text(
-                          'Forgot Password?',
-                          style: Theme.of(context).textTheme.labelLarge,
-                        ),
+                        child:
+                            const CustomHeadlineText(text: "Forgot Password?"),
                       ),
                     ],
                   ),
@@ -121,64 +116,57 @@ class _LoginViewState extends State<LoginView> {
                             padding: const EdgeInsets.all(10),
                             child: Row(
                               children: [
-                                Text(
-                                  'Remember Me',
-                                  style: Theme.of(context).textTheme.labelLarge,
-                                ),
+                                const CustomLabelText(text: "Remember Me ?"),
                                 GetBuilder<LoginController>(
                                   builder: (controller) => Checkbox(
                                     activeColor: Colors.orange.shade800,
-                                    value: _loginController.remeberMe,
-                                    onChanged: (value) =>
-                                        _loginController.toggleRemeberMe(
-                                            _loginController.remeberMe),
+                                    value: controller.remeberMe,
+                                    onChanged: (value) => controller
+                                        .toggleRemeberMe(controller.remeberMe),
                                   ),
                                 ),
                               ],
                             ),
                           ),
                           ElevatedButton(
-                            onPressed: () async {
-                              if (_formField.currentState?.validate() == true) {
-                                var response = await _loginController.login(
-                                    _emailController.text,
-                                    _passwordController.text);
-                                if (_loginController.isLoggedIn == true) {
-                                  Get.defaultDialog(
-                                    title: 'Login Successful',
-                                    backgroundColor: Colors.lightBlue.shade800,
-                                    content: const Icon(
-                                      Icons.check_circle_outline,
-                                      color: Colors.green,
-                                    ),
-                                  );
-                                  Future.delayed(const Duration(seconds: 1),
-                                      () {
-                                    Get.offAll(() => const HomeView());
-                                  });
-                                } else {
-                                  Get.defaultDialog(
-                                    title: 'Login Failed',
-                                    backgroundColor: Colors.orange.shade100,
-                                    content: Column(
-                                      children: [
-                                        const Icon(
-                                          Icons.cancel_outlined,
-                                          color: Colors.red,
-                                        ),
-                                        Text(response),
-                                      ],
-                                    ),
-                                  );
+                              onPressed: () async {
+                                if (_formField.currentState?.validate() ==
+                                    true) {
+                                  var response = await _loginController.login(
+                                      _emailController.text,
+                                      _passwordController.text);
+                                  if (_loginController.isLoggedIn == true) {
+                                    Get.defaultDialog(
+                                      title: 'Login Successful',
+                                      backgroundColor:
+                                          Colors.lightBlue.shade100,
+                                      content: const Icon(
+                                        Icons.check_circle_outline,
+                                        color: Colors.green,
+                                      ),
+                                    );
+                                    Future.delayed(const Duration(seconds: 1),
+                                        () {
+                                      Get.offAll(() => const HomeView());
+                                    });
+                                  } else {
+                                    Get.defaultDialog(
+                                      title: 'Login Failed',
+                                      backgroundColor: Colors.orange.shade100,
+                                      content: Column(
+                                        children: [
+                                          const Icon(
+                                            Icons.cancel_outlined,
+                                            color: Colors.red,
+                                          ),
+                                          CustomBodyText(text: response),
+                                        ],
+                                      ),
+                                    );
+                                  }
                                 }
-                              }
-                            },
-                            style: Theme.of(context).textButtonTheme.style,
-                            child: Text(
-                              'Login',
-                              style: Theme.of(context).textTheme.labelLarge,
-                            ),
-                          ),
+                              },
+                              child: const CustomLabelText(text: "Login")),
                         ],
                       ),
                     ],
@@ -190,10 +178,7 @@ class _LoginViewState extends State<LoginView> {
                         onPressed: () {},
                         child: Row(
                           children: [
-                            Text(
-                              'Login with Google',
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
+                            const CustomBodyText(text: "Login With Google"),
                             Padding(
                               padding: const EdgeInsets.all(10),
                               child: FaIcon(
@@ -210,19 +195,12 @@ class _LoginViewState extends State<LoginView> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        'New around here?',
-                        style: Theme.of(context).textTheme.labelLarge,
-                      ),
+                      const CustomLabelText(text: "New Around Here ?"),
                       TextButton(
-                        onPressed: () => Get.to(() => const RegisterView()),
-                        child: Text(
-                          'Register',
-                          style: Theme.of(context).textTheme.labelLarge,
-                        ),
-                      ),
+                          onPressed: () => Get.to(() => const RegisterView()),
+                          child: const CustomHeadlineText(text: "Register")),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
