@@ -118,7 +118,8 @@ const Login = () => {
           <div className={styles.title}>Login</div>
           <form className={styles.login} onSubmit={handleSubmit}>
             <NormalInput 
-              placeholder="Email"
+              type='text'
+              placeholder='Email'
               icon={<PersonFill />}
               value={email}
               setChange={setEmail}

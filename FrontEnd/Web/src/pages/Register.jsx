@@ -99,12 +99,14 @@ const Register = () => {
           <form className={styles.register} onSubmit={handleSubmit}>
             <div className={styles.register__row}>
               <NormalInput
+                type="text"
                 placeholder="First Name"
                 icon={<PersonFill />}
                 value={FirstName}
                 setChange={setFirstName}
               />
               <NormalInput
+                type="text"
                 placeholder="Last Name"
                 icon={<PersonFill />}
                 value={LastName}
@@ -113,6 +115,7 @@ const Register = () => {
             </div>
             <div className={styles.register__row}>
               <NormalInput
+                type="text"
                 placeholder="Email"
                 icon={<EnvelopeFill />}
                 value={email}
@@ -138,12 +141,14 @@ const Register = () => {
             </div>
             <div className={styles.register__row}>
               <NormalInput
+                type="text"
                 placeholder="Country"
                 icon={<MapFill />}
                 value={country}
                 setChange={setCountry}
               />
               <NormalInput
+                type="text"
                 placeholder="City"
                 icon={<GeoAltFill />}
                 value={city}
@@ -151,17 +156,13 @@ const Register = () => {
               />
             </div>
             <div className={styles.register__row}>
-              <div className={styles.register__field}>
-                <i> <Calendar3 /></i>
-                <input
-                  type="date"
-                  className={styles.register__input}
-                  placeholder="Birthdate"
-                  value={date}
-                  onChange={(event) => setDate(event.target.value)}
-                  required
-                />
-              </div>
+              <NormalInput
+                type='date'
+                placeholder='Birthdate'
+                icon={<Calendar3 />}
+                value={date}
+                setChange={setDate}
+              />
               <div className={styles.register__field__radio}>
                 {genders.map((G) => (
                   <div className={styles.register__input__radio} key={G.value}>
