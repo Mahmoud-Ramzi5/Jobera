@@ -17,6 +17,8 @@
 }
 
 .screen__content {
+    margin: 0;
+    padding: 0;
     z-index: 1;
     position: relative; 
     height: 100%;
@@ -98,45 +100,33 @@
     box-sizing: border-box;
     margin: 0;
     width: 300px;
-    padding-left: 20px;
-    padding-right: 30px;
-    padding-top: 156px;
+    padding-top: 125px;
 }
 
-.login__field {
-    padding: 20px 0px;    
-    position: relative;    
-}
-
-.login__icon {
-    position: absolute;
-    top: 30px;
+.forgot__password {
+    font-size: 13px;
+    margin-left: 15px;
+    padding: 10px 15px;
+    text-decoration: inherit;
+    text-transform: uppercase;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
     color: var(--color-foreground);
+    cursor: pointer;
+    transition: .17s;
 }
 
-.login__input {
-    border: none;
-    border-bottom: 2px solid #A5A5A8;
-    background: none;
-    color: var(--color-foreground);
-    padding: 10px;
-    padding-left: 24px;
-    font-weight: 700;
-    width: 75%;
-    transition: .2s;
-}
-
-.login__input:active,
-.login__input:focus,
-.login__input:hover {
-    outline: none;
-    border-bottom-color: #4F6E95;
+.forgot__password:hover {
+    text-decoration: underline;
+    color: #00C9FF;
 }
 
 .login__submit {
     background: #fff;
     font-size: 15px;
     margin-top: 5px;
+    margin-left: 15px;
     padding: 15px 20px;
     border-radius: 25px;
     border: 1px solid #A7A6BC;
@@ -157,25 +147,6 @@
 .login__submit:hover {
     border-color: #4F6E95;
     outline: none;
-}
-
-.login__password {
-    font-size: 13px;
-    margin-top: 13px;
-    padding: 10px 15px;
-    text-decoration: inherit;
-    text-transform: uppercase;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    color: var(--color-foreground);
-    cursor: pointer;
-    transition: .17s;
-}
-
-.login__password:hover {
-    text-decoration: underline;
-    color: #00C9FF;
 }
 
 .login__register {

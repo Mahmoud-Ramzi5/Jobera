@@ -1,25 +1,31 @@
 import { useEffect, useState, useRef, createContext } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import PrivateRoutes from './utils/PrivateRoutes.jsx';
+import AnonymousRoutes from './utils/AnonymousRoutes.jsx';
 import NavBar from './components/NavBar.jsx';
-import Register from './components/Auth/Register.jsx'
-import Login from './components/Auth/Login.jsx'
-import CallBack from './components/Auth/CallBack.jsx'
+import Register from './pages/Register.jsx'
+import Login from './pages/Login.jsx'
+import CallBack from './components/CallBack.jsx'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
-import ResetPassword from './components/Auth/ResetPassword.jsx';
-import ForgetPassword from './components/Auth/ForgetPassword.jsx';
-import EmailVerificationMessage from './components/Auth/emailVerifed.jsx';
+import ResetPassword from './pages/ResetPassword.jsx';
+import ForgetPassword from './pages/ForgetPassword.jsx';
+import EmailVerificationMessage from './pages/EmailVerification.jsx';
 import UserInfo from './components/Profile/UserInfo.jsx';
-import VerifyCard from  './components/Profile/VerifyCard.jsx';
-import ZCard from  './components/Profile/ZCard.jsx';
-import Profile from './components/Profile/main.jsx';
+import VerifyCard from './components/Profile/VerifyCard.jsx';
+import ZCard from './components/Profile/ZCard.jsx';
+
 
 export const ThemeContext = createContext({});
+export const LoginContext = createContext({});
+
 
 function App() {
   const initialized = useRef(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [logInToken, setlogInToken] = useState('');
+  const [accessToken, setAccessToken] = useState(null);
   const [theme, setTheme] = useState('theme-light');
 
   const toggleTheme = () => {
@@ -31,9 +37,11 @@ function App() {
       initialized.current = true;
       // Get data from local storage
       const localTheme = localStorage.getItem('Theme');
-      const isLoggedIn = JSON.parse(localStorage.getItem('remember_me'));
-      const accessToken = JSON.parse(localStorage.getItem('access_token'));
 
+      // Get user token from cookie (if there is any)
+      const cookieToken = Cookies.get('access_token');
+
+      // Set theme
       if (localTheme !== null) {
         setTheme(localTheme);
       }
@@ -41,12 +49,19 @@ function App() {
         setTheme('theme-light')
       }
 
-      if (isLoggedIn !== null) {
-        setLoggedIn(isLoggedIn);
+      // Check user token
+      if (typeof cookieToken !== 'undefined') {
+        setLoggedIn(true);
+        setAccessToken(cookieToken);
       }
       else {
-        setLoggedIn(false);
+        const sessionToken = sessionStorage.getItem('access_token');
+        if (sessionToken !== null) {
+          setLoggedIn(true);
+          setAccessToken(sessionToken);
+        }
       }
+      setIsLoading(false);
     }
   }, []);
 
@@ -55,24 +70,33 @@ function App() {
     document.body.className = theme;
   }, [theme]);
 
-
+  if (isLoading) {
+    return <></>
+  }
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <NavBar />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/auth/:provider/call-back" element={<CallBack />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="/ForgetPassword" element={<ForgetPassword />} />
-          <Route path="/emailVerify" element={<EmailVerificationMessage />} />
-          <Route path="/profile" element={<Profile />}/>
-          <Route path="/Testcard" element={<VerifyCard/>}/>
-          <Route path="/Testcard2" element={<ZCard/>}/>
-          <Route path="/" element={<></>} />
-        </Routes>
-      </BrowserRouter>
+      <LoginContext.Provider value={{ loggedIn, setLoggedIn, accessToken, setAccessToken }}>
+        <BrowserRouter>
+          <Routes>
+            <Route element={<PrivateRoutes />}>
+              <Route path="/profile" element={<UserInfo />} />
+            </Route>
+
+            <Route element={<AnonymousRoutes />}>
+              <Route path="/register" element={<Register />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/auth/:provider/call-back" element={<CallBack />} />
+              <Route path="/reset-password" element={<ResetPassword />} />
+              <Route path="/ForgetPassword" element={<ForgetPassword />} />
+              <Route path="/emailVerify" element={<EmailVerificationMessage />} />
+            </Route>
+
+            <Route path="/Testcard" element={<VerifyCard />} />
+            <Route path="/Testcard2" element={<ZCard />} />
+            <Route path="/" element={<></>} />
+          </Routes>
+        </BrowserRouter>
+      </LoginContext.Provider>
     </ThemeContext.Provider>
   )
 }

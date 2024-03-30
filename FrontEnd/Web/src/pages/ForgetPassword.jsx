@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../../assets/JoberaLogo.png'
-import styles from './ForgetPassword.module.css'
+import Logo from '../assets/JoberaLogo.png'
+import styles from '../styles/forgetpassword.module.css'
 
 const ForgetPassword = () => {
   // Define states

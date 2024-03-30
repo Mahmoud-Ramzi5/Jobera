@@ -1,0 +1,32 @@
+
+.field {
+    padding-top: 30px;
+    padding-bottom: 10px;
+    width: 100%;    
+    position: relative;   
+}
+
+.icon {
+    position: absolute;
+    color: var(--color-foreground);
+}
+
+.input {
+    border: none;
+    border-bottom: 2px solid #A5A5A8;
+    background: none;
+    color: var(--color-foreground);
+    padding-left: 24px;
+    padding-bottom: 8px;
+    width: 80%;
+    font-size: 15px;
+    font-weight: 700;
+    transition: .2s;
+}
+
+.input:active,
+.input:focus,
+.input:hover {
+    outline: none;
+    border-bottom-color: #4F6E95;
+}

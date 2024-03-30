@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import ReactSwitch from 'react-switch';
-import { ThemeContext } from '../App.jsx'
-import styles from './navbar.module.css'
+import { ThemeContext } from '../App.jsx';
+import styles from '../styles/navbar.module.css';
 
 const NavBar = () => {
     const { theme, toggleTheme } = useContext(ThemeContext);

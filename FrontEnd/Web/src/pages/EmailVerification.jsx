@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import styles from './EmailVerfication.module.css'; // Import CSS styles
-import Logo from '../../assets/JoberaLogo.png'
+import Logo from '../assets/JoberaLogo.png'
+import styles from '../styles/emailverfication.module.css';
 
 const EmailVerificationMessage = () => {
   const [isVerified, setVerified] = useState('');

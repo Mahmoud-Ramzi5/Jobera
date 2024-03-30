@@ -1,0 +1,39 @@
+
+.field{
+    width: 100%;
+    position: relative;    
+}
+
+.PhoneInput {
+    padding-top: 27px;
+    margin-left: 27px;
+    width: 81%;
+    border-bottom: 2px solid #A5A5A8;
+
+    --react-international-phone-flag-width: 25px;
+    --react-international-phone-flag-width: 25px;
+    --react-international-phone-dropdown-item-height: 30px;
+
+    --react-international-phone-background-color: var(--color-background);
+    --react-international-phone-country-selector-background-color: var(--color-background);
+
+    --react-international-phone-border-color: var(--color-background);
+    --react-international-phone-country-selector-border-color: var(--color-background);
+
+    --react-international-phone-text-color: var(--color-foreground);
+    --react-international-phone-country-selector-arrow-color: var(--color-foreground);
+
+    --react-international-phone-dropdown-item-background-color: var(--color-background);
+    --react-international-phone-dropdown-item-text-color: var(--color-foreground);
+
+    --react-international-phone-selected-dropdown-item-background-color: #4F6E95;
+    --react-international-phone-selected-dropdown-item-text-color: var(--color-foreground);
+    
+    --react-international-phone-country-selector-background-color-hover: #4F6E95;
+}
+
+.Input {
+    --react-international-phone-font-size: 15px;
+    width: 75%;
+    font-weight: 700;
+}

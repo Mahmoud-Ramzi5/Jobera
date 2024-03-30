@@ -1,10 +1,16 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../../assets/JoberaLogo.png'
-import styles from './login.module.css'
+import { PersonFill } from 'react-bootstrap-icons';
+import Cookies from 'js-cookie';
+import { LoginContext } from '../App.jsx';
+import NormalInput from '../components/NormalInput.jsx';
+import PasswordInput from '../components/PasswordInput.jsx';
+import Logo from '../assets/JoberaLogo.png'
+import styles from '../styles/login.module.css'
 
 
 const Login = () => {
+  const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
@@ -13,6 +19,7 @@ const Login = () => {
   const [LinkedinUrl, setLinkedinUrl] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
 
   useEffect(() => {
     if (!initialized.current) {
@@ -78,9 +85,20 @@ const Login = () => {
       .then((data) => {
         // Do somthing with the token return from Server data['token'] 
         console.log(data)
+        const token = data.access_token;
+        setLoggedIn(true);
+        setAccessToken(token);
+        if (rememberMe) {
+          Cookies.set('access_token', token, { expires: 30, secure: true });
+        } 
+        else {
+          sessionStorage.setItem('access_token', token);
+        }
+        console.log(token);
         // Reset the form fields
         setEmail('');
         setPassword('');
+        setRememberMe(false);
         // Redirect to dashboard
         navigate('/');
       })
@@ -99,30 +117,18 @@ const Login = () => {
           <img src={Logo} className={styles.logo} alt="logo" />
           <div className={styles.title}>Login</div>
           <form className={styles.login} onSubmit={handleSubmit}>
-            <div className={styles.login__field}>
-              <i className={`${styles.login__icon} fas fa-user`}></i>
-              <input
-                type="text"
-                className={styles.login__input}
-                placeholder="Email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                required
-              />
-            </div>
-            <div className={styles.login__field}>
-              <i className={`${styles.login__icon} fas fa-lock`}></i>
-              <input
-                type="password"
-                className={styles.login__input}
-                placeholder="Password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                required
-              />
-              <i className={`${styles.login__icon} fas fa-lock`}></i>
-              <a href='/ForgetPassword' className={styles.login__password}>Forgot password?</a>
-            </div>
+            <NormalInput 
+              placeholder="Email"
+              icon={<PersonFill />}
+              value={email}
+              setChange={setEmail}
+            />
+            <PasswordInput 
+              placeholder='Password' 
+              value={password} 
+              setChange={setPassword} 
+            />
+            <a href='/ForgetPassword' className={styles.forgot__password}>Forgot password?</a>
 
             <button type="submit" className={styles.login__submit}>
               <span className={styles.button__text}>Log In Now</span>

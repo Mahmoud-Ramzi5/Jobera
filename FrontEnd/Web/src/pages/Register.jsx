@@ -1,7 +1,15 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Logo from '../../assets/JoberaLogo.png'
-import styles from './register.module.css'
+import {
+  PersonFill, EnvelopeFill, TelephoneFill, Calendar3,
+  MapFill, GeoAltFill, PersonStanding, PersonStandingDress
+} from 'react-bootstrap-icons';
+import Cookies from 'js-cookie';
+import NormalInput from '../components/NormalInput.jsx';
+import PasswordInput from '../components/PasswordInput.jsx';
+import CustomPhoneInput from '../components/CustomPhoneInput.jsx';
+import Logo from '../assets/JoberaLogo.png'
+import styles from '../styles/register.module.css'
 
 const Register = () => {
   // Define states
@@ -12,12 +20,14 @@ const Register = () => {
   const [PhoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [ConfirmPassword, setConfirmPassword] = useState('');
+  const [country, setCountry] = useState('');
+  const [city, setCity] = useState('');
   const [date, setDate] = useState('');
   const [gender, setGender] = useState('');
 
   const genders = [
-    { value: 'male', label: 'Male', icon: 'fa-person' },
-    { value: 'female', label: 'Female', icon: 'fa-person-dress' },
+    { value: 'male', label: 'Male', icon: <PersonStanding /> },
+    { value: 'female', label: 'Female', icon: <PersonStandingDress /> },
   ];
 
   // Handle form submit
@@ -88,80 +98,61 @@ const Register = () => {
           <div className={styles.title}>Register</div>
           <form className={styles.register} onSubmit={handleSubmit}>
             <div className={styles.register__row}>
-              <div className={styles.register__field}>
-                <i className={`${styles.login__icon} fas fa-user`}></i>
-                <input
-                  type="text"
-                  className={styles.register__input}
-                  placeholder="First Name"
-                  value={FirstName}
-                  onChange={(event) => setFirstName(event.target.value)}
-                  required
-                />
-              </div>
-              <div className={styles.register__field}>
-                <i className={`${styles.login__icon} fas fa-user`}></i>
-                <input
-                  type="text"
-                  className={styles.register__input}
-                  placeholder="Last Name"
-                  value={LastName}
-                  onChange={(event) => setLastName(event.target.value)}
-                  required
-                />
-              </div>
+              <NormalInput
+                placeholder="First Name"
+                icon={<PersonFill />}
+                value={FirstName}
+                setChange={setFirstName}
+              />
+              <NormalInput
+                placeholder="Last Name"
+                icon={<PersonFill />}
+                value={LastName}
+                setChange={setLastName}
+              />
+            </div>
+            <div className={styles.register__row}>
+              <NormalInput
+                placeholder="Email"
+                icon={<EnvelopeFill />}
+                value={email}
+                setChange={setEmail}
+              />
+              <CustomPhoneInput
+                defaultCountry='us'
+                value={PhoneNumber}
+                setChange={setPhoneNumber}
+              />
+            </div>
+            <div className={styles.register__row}>
+              <PasswordInput
+                placeholder='Password'
+                value={password}
+                setChange={setPassword}
+              />
+              <PasswordInput
+                placeholder='Confirm Password'
+                value={ConfirmPassword}
+                setChange={setConfirmPassword}
+              />
+            </div>
+            <div className={styles.register__row}>
+              <NormalInput
+                placeholder="Country"
+                icon={<MapFill />}
+                value={country}
+                setChange={setCountry}
+              />
+              <NormalInput
+                placeholder="City"
+                icon={<GeoAltFill />}
+                value={city}
+                setChange={setCity}
+              />
             </div>
             <div className={styles.register__row}>
               <div className={styles.register__field}>
-                <i className={`${styles.login__icon} fas fa-envelope`}></i>
-                <input
-                  type="text"
-                  className={styles.register__input}
-                  placeholder="Email"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  required
-                />
-              </div>
-              <div className={styles.register__field}>
-                <i className={`${styles.login__icon} fas fa-phone`}></i>
-                <input
-                  type="text"
-                  className={styles.register__input}
-                  placeholder="Phone Numer"
-                  value={PhoneNumber}
-                  onChange={(event) => setPhoneNumber(event.target.value)}
-                  required
-                />
-              </div>
-            </div>
-            <div className={styles.register__row}>
-              <div className={styles.register__field}>
-                <i className={`${styles.login__icon} fas fa-lock`}></i>
-                <input
-                  type="password"
-                  className={styles.register__input}
-                  placeholder="Password"
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  required
-                />
-              </div>
-              <div className={styles.register__field}>
-                <i className={`${styles.login__icon} fas fa-lock`}></i>
-                <input
-                  type="password"
-                  className={styles.register__input}
-                  placeholder="Confirm Password"
-                  value={ConfirmPassword}
-                  onChange={(event) => setConfirmPassword(event.target.value)}
-                  required
-                />
-              </div>
-            </div>
-            <div className={styles.register__row}>
-              <div className={styles.register__field}>
-                <i className={`${styles.login__icon} fas fa-calendar-days`}></i>
+                <i> <Calendar3 /></i>
                 <input
                   type="date"
                   className={styles.register__input}
@@ -180,8 +171,8 @@ const Register = () => {
                       checked={gender === G.value}
                       onChange={(event) => setGender(event.target.value)}
                     />
-                    <i className={`${styles.login__icon} fas ${G.icon}`}></i>
-                    <label >{G.label}</label>
+                    <i>{G.icon}</i>
+                    <label>{G.label}</label>
                   </div>
                 ))}
               </div>

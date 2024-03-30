@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
-import Logo from '../../assets/JoberaLogo.png'
-import styles from './ResetPassword.module.css'
+import Logo from '../assets/JoberaLogo.png'
+import styles from '../styles/resetpassword.module.css'
 
 const ResetPassword = () => {
     // Define states
@@ -43,14 +43,14 @@ const ResetPassword = () => {
 
     // Handle form submit
     const handleSubmit = (event) => {
-        if(password!=confirm_password){
+        if (password != confirm_password) {
             alert('the password and confirm password fields should be the same')
             event.preventDefault();
             setPassword('');
             setConfirmPassword('');
         }
-        else{    
-                event.preventDefault();
+        else {
+            event.preventDefault();
 
             // Perform Login logic (Call api)
             fetch("http://127.0.0.1:8000/api/password/reset", {
@@ -86,11 +86,12 @@ const ResetPassword = () => {
                     // Handle errors
                     console.log(error);
                 });
-        };}
-        /*The preventDefault() method cancels the event if it is cancelable, 
-        meaning that the default action that belongs to the event will not occur.
-        -> For example, this can be useful when:
-        Clicking on a "Submit" button, prevent it from submitting a form*/
+        };
+    }
+    /*The preventDefault() method cancels the event if it is cancelable, 
+    meaning that the default action that belongs to the event will not occur.
+    -> For example, this can be useful when:
+    Clicking on a "Submit" button, prevent it from submitting a form*/
 
 
     return (
@@ -98,45 +99,45 @@ const ResetPassword = () => {
             <div className={styles.screen}>
                 <div className={styles.screen__content}>
                     <img src={Logo} className={styles.logo} alt="logo" />
-                    {successMessage? (<>
-            <div className={styles.success}>
-                {successMessage}
-                <button onClick={() => navigate('/login')} className={styles.navigateButton} name="navigate_login">return to log in</button>
-            </div>
-            </>
-        ) : (
-                    <form className={styles.reset} onSubmit={handleSubmit}>
-                        <div className={styles.reset__field}>
-                            <i className={`${styles.user__icon} fas fa-user`}></i>
-                            <input type="email" className={styles.reset__input} value={email} readOnly={true} />
+                    {successMessage ? (<>
+                        <div className={styles.success}>
+                            {successMessage}
+                            <button onClick={() => navigate('/login')} className={styles.navigateButton} name="navigate_login">return to log in</button>
                         </div>
-                        <div className={styles.reset__field}>
-                            <i className={`${styles.lock__icon} fas fa-lock`}></i>
-                            <input
-                                type="password"
-                                className={styles.reset__input}
-                                placeholder="Password"
-                                value={password}
-                                onChange={(event) => setPassword(event.target.value)}
-                            />
-                        </div>
-                        <div className={styles.reset__field}>
-                            <i className={`${styles.lock__icon} fas fa-lock`}></i>
-                            <input
-                                type="password"
-                                className={styles.reset__input}
-                                placeholder="confirm password"
-                                value={confirm_password}
-                                onChange={(event) => setConfirmPassword(event.target.value)}
-                            />
-                        </div>
+                    </>
+                    ) : (
+                        <form className={styles.reset} onSubmit={handleSubmit}>
+                            <div className={styles.reset__field}>
+                                <i className={`${styles.user__icon} fas fa-user`}></i>
+                                <input type="email" className={styles.reset__input} value={email} readOnly={true} />
+                            </div>
+                            <div className={styles.reset__field}>
+                                <i className={`${styles.lock__icon} fas fa-lock`}></i>
+                                <input
+                                    type="password"
+                                    className={styles.reset__input}
+                                    placeholder="Password"
+                                    value={password}
+                                    onChange={(event) => setPassword(event.target.value)}
+                                />
+                            </div>
+                            <div className={styles.reset__field}>
+                                <i className={`${styles.lock__icon} fas fa-lock`}></i>
+                                <input
+                                    type="password"
+                                    className={styles.reset__input}
+                                    placeholder="confirm password"
+                                    value={confirm_password}
+                                    onChange={(event) => setConfirmPassword(event.target.value)}
+                                />
+                            </div>
 
-                        <button type="submit" className={styles.reset__submit}>
-                            <span className={styles.button__text}>Change password</span>
-                            <i className={`${styles.button__icon} fas fa-chevron-right`}></i>
-                        </button>
-                    </form>
-                )}
+                            <button type="submit" className={styles.reset__submit}>
+                                <span className={styles.button__text}>Change password</span>
+                                <i className={`${styles.button__icon} fas fa-chevron-right`}></i>
+                            </button>
+                        </form>
+                    )}
                 </div>
                 <div className={styles.screen__background}>
                     <span className={`${styles.screen__background__shape} ${styles.screen__background__shape4}`}></span>
