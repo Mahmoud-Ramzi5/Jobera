@@ -56,7 +56,9 @@ const Register = () => {
           "password": password,
           "confirmPassword": ConfirmPassword,
           "birthDate": date,
-          "gender": gender
+          "gender": gender,
+          "country":country,
+          "city":city
         })
     })
       .then((response) => {

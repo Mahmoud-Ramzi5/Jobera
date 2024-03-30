@@ -22,6 +22,8 @@ return new class extends Migration
             $table->float('rating')->default(0.0)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
+            $table->string('country')->nullable();
+            $table->string('city')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

@@ -32,6 +32,8 @@ class RegisterRequest extends FormRequest
             'birthDate' => ['required', 'date'],
             'gender' => ['required', 'in:male,female'],
             'avatarPhoto' => ['sometimes'],
+            'city'=>['required'],
+            'country'=>['required'],
         ];
     }
 
