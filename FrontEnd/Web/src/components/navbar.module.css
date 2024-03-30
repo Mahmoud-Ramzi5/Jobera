@@ -1,152 +1,170 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
-nav{
+nav {
   position: fixed;
   z-index: 99;
   width: 100%;
   
   background: var(--color-navbar);
 }
-nav .wrapper{
+
+.wrapper {
   position: relative;
   max-width: 90%;
-  padding: 0px 30px;
+  padding: 0px 35px;
   height: 70px;
   line-height: 70px;
   margin: auto;
   display: flex;
-  align-items: center;
+  font-family: sans-serif;
+  text-decoration: inherit;
   justify-content: space-between;
 }
-.wrapper .logo a{
+
+.logo a {
   color: #f2f2f2;
   font-size: 30px;
   font-weight: 600;
-  text-decoration: none;
+  text-decoration: inherit;
 }
-.wrapper .nav_links{
+
+.nav_links {
   display: inline-flex;
 }
-.nav_links li{
+
+.nav_links li {
   list-style: none;
 }
-.nav_links li a{
+
+.nav_links li a {
   color: #f2f2f2;
-  text-decoration: none;
-  font-size: 18px;
+  text-decoration: inherit;
+  font-size: 20px;
   font-weight: 500;
-  padding: 9px 15px;
+  padding: 10px 15px;
   border-radius: 5px;
-  transition: all 0.3s ease;
+  transition: 0.5s;
 }
-.nav_links li a:hover{
+
+.nav_links li a:hover {
   background: #3A3B3C;
 }
-.nav_links .theme_switch {
+
+.theme_switch {
   margin-top: 20px;
   margin-left: 10px;
   line-height: 25px;
   font-size: 15px;
   font-weight: 500;
-  text-decoration: none;
 }
-.nav_links .mobile_item{
+
+.mobile_item {
   display: none;
 }
-.nav_links .drop_menu{
+
+.drop_menu{  
+  padding: 0;
+  width: 180px;
   position: absolute;
   background: #242526;
-  width: 180px;
-  line-height: 45px;
-  top: 85px;
+  line-height: 60px;
   opacity: 0;
   visibility: hidden;
-  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+  box-shadow: 0 6px 10px #00000026;
 }
-.nav_links li:hover .drop_menu,
-.nav_links li:hover .mega_box{
-  transition: all 0.3s ease;
-  top: 70px;
-  opacity: 1;
-  visibility: visible;
-}
-.drop_menu li a{
-  width: 100%;
+
+.drop_menu li a {
   display: block;
+  width: 100%;
   padding: 0 0 0 15px;
   font-weight: 400;
   border-radius: 0px;
 }
-.mega_box{
+
+.mega_box {
+  padding: 0;
+  width: 100%;
   position: absolute;
   left: 0;
-  width: 100%;
-  padding: 0 30px;
-  top: 85px;
   opacity: 0;
   visibility: hidden;
 }
-.mega_box .content{
+
+.mega_box .content {
   background: #242526;
   padding: 25px 20px;
   display: flex;
   width: 100%;
   justify-content: space-between;
-  box-shadow: 0 6px 10px rgba(0,0,0,0.15);
+  box-shadow: 0 5px 10px #00000026;
 }
-.mega_box .content .row{
+
+.mega_box .content .row {
+  padding: 0;
   width: calc(25% - 30px);
   line-height: 45px;
 }
-.content .row img{
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+
+.nav_links li:hover .drop_menu,
+.nav_links li:hover .mega_box {
+  transition: 0.5s;
+  top: 70px;
+  opacity: 1;
+  visibility: visible;
 }
-.content .row header{
+
+.content .row header {
   color: #f2f2f2;
   font-size: 20px;
   font-weight: 500;
 }
-.content .row .mega_links{
-  margin-left: -40px;
-  border-left: 1px solid rgba(255,255,255,0.09);
+
+.mega_links {
+  padding: 0;
+  border-left: 1px solid #ffffff17;
 }
-.row .mega_links li{
-  padding: 0 20px;
+
+.mega_links li {
+  padding: 0 10px;
 }
-.row .mega_links li a{
-  padding: 0px;
-  padding: 0 20px;
+
+.mega_links li a {
+  padding: 0px 21px;
   color: #d9d9d9;
   font-size: 17px;
   display: block;
 }
-.row .mega_links li a:hover{
+
+.mega_links li a:hover {
   color: #f2f2f2;
 }
-.wrapper .btn{
+
+.wrapper .btn {
   color: #fff;
   font-size: 20px;
   cursor: pointer;
   display: none;
 }
+
 .wrapper .btn.close_btn{
   position: absolute;
   right: 30px;
   top: 10px;
 }
 
-@media screen and (max-width: 970px) {
-  .wrapper .btn{
+
+.content .row img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+
+@media screen and (max-width: 700px) {
+  .wrapper .btn {
     display: block;
   }
-  .wrapper .nav_links{
+
+  .nav_links {
     position: fixed;
     height: 100vh;
     width: 100%;
@@ -158,9 +176,100 @@ nav .wrapper{
     padding: 50px 10px;
     line-height: 50px;
     overflow-y: auto;
-    box-shadow: 0px 15px 15px rgba(0,0,0,0.18);
+    box-shadow: 0px 15px 15px #0000002e;
+    transition: 0.5s;
+  }
+
+  .nav_links li {
+    margin: 15px 10px;
+  }
+
+  .nav_links li a {
+    padding: 0 20px;
+    font-size: 20px;
+    display: block;
+  }
+
+  .theme_switch{
+    padding-left: 20px;
+  }
+
+  .mobile_item {
+    display: block;
+    color: #f2f2f2;
+    font-size: 20px;
+    font-weight: 500;
+    padding-left: 20px;
+    cursor: pointer;
+    border-radius: 5px;
     transition: all 0.3s ease;
   }
+
+  .mobile_item:hover{
+    background: #3A3B3C;
+  }
+
+  .drop_menu {
+    position: static;
+    padding-left: 20px;
+    width: 100%;
+    max-height: 0px;    
+    opacity: 1;
+    visibility: visible;
+    overflow: hidden;
+    box-shadow: none;
+    transition: 0.5s;
+  }
+
+  .drop_menu li {
+    margin: 0;
+  }
+  
+  .drop_menu li a {
+    border-radius: 5px;
+    font-size: 20px;
+  }
+
+  .mega_box {
+    position: static;
+    padding: 0 20px;
+    max-height: 0px;
+    opacity: 1;
+    visibility: visible;
+    overflow: hidden;
+    transition: 0.5s;
+  }
+
+  .mega_box .content {
+    box-shadow: none;
+    flex-direction: column;
+    padding: 20px 20px 0 20px;
+  }
+  
+  .mega_box .content .row {
+    width: 100%;
+    margin-bottom: 15px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .mega_box .content .row:nth-child(1),
+  .mega_box .content .row:nth-child(2) {
+    border-top: 0px;
+  }
+
+  .content .row header {
+    font-size: 19px;
+  }
+
+  .mega_links {
+    border-left: 0px;
+    padding-left: 15px;
+  }
+
+  .mega_links li {
+    margin: 0;
+  }
+
   /* custom scroll bar */
   ::-webkit-scrollbar {
     width: 10px;
@@ -171,114 +280,29 @@ nav .wrapper{
   ::-webkit-scrollbar-thumb {
     background: #3A3B3C;
   }
-  .menu_btn:checked ~ .nav_links{
+
+  .menu_btn:checked ~ .nav_links {
     left: 0%;
   }
-  .menu_btn:checked ~ .btn.menu_btn{
+
+  .menu_btn:checked ~ .btn.menu_btn {
     display: none;
   }
-  .close_btn:checked ~ .btn.menu_btn{
+  
+  .close_btn:checked ~ .btn.menu_btn {
     display: block;
   }
-  .nav_links li{
-    margin: 15px 10px;
-  }
-  .nav_links li a{
-    padding: 0 20px;
-    display: block;
-    font-size: 20px;
-  }
-  .nav_links .drop_menu{
-    position: static;
-    opacity: 1;
-    top: 65px;
-    visibility: visible;
-    padding-left: 20px;
-    width: 100%;
-    max-height: 0px;
-    overflow: hidden;
-    box-shadow: none;
-    transition: all 0.3s ease;
-  }
+
   .showDrop:checked ~ .drop_menu,
-  .showMega:checked ~ .mega_box{
+  .showMega:checked ~ .mega_box {
     max-height: 100%;
   }
-  .nav_links .theme_switch{
-    padding-left: 20px;
-  }
+
   .nav_links .desktop_item{
     display: none;
   }
-  .nav_links .mobile_item{
-    display: block;
-    color: #f2f2f2;
-    font-size: 20px;
-    font-weight: 500;
-    padding-left: 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-  }
-  .nav_links .mobile_item:hover{
-    background: #3A3B3C;
-  }
-  .drop_menu li{
-    margin: 0;
-  }
-  .drop_menu li a{
-    border-radius: 5px;
-    font-size: 18px;
-  }
-  .mega_box{
-    position: static;
-    top: 65px;
-    opacity: 1;
-    visibility: visible;
-    padding: 0 20px;
-    max-height: 0px;
-    overflow: hidden;
-    transition: all 0.3s ease;
-  }
-  .mega_box .content{
-    box-shadow: none;
-    flex-direction: column;
-    padding: 20px 20px 0 20px;
-  }
-  .mega_box .content .row{
-    width: 100%;
-    margin-bottom: 15px;
-    border-top: 1px solid rgba(255,255,255,0.08);
-  }
-  .mega_box .content .row:nth-child(1),
-  .mega_box .content .row:nth-child(2){
-    border-top: 0px;
-  }
-  .content .row .mega_links{
-    border-left: 0px;
-    padding-left: 15px;
-  }
-  .row .mega_links li{
-    margin: 0;
-  }
-  .content .row header{
-    font-size: 19px;
-  }
-}
-nav input{
-  display: none;
 }
 
-.body-text{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-  text-align: center;
-  padding: 0 30px;
-}
-.body-text div{
-  font-size: 45px;
-  font-weight: 600;
+nav input {
+  display: none;
 }

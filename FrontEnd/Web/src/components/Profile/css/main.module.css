@@ -1,0 +1,30 @@
+.Profile {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: flex-start; /* Align items at the top */
+  }
+  
+  .leftSide {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 5%; /* Reduce the left margin */
+    margin-top: 13%;
+  }
+  
+  .rightSideContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column; /* Arrange items vertically */
+    justify-content: flex-start; /* Align items from the top */
+    align-items: flex-start; /* Align items from the left side */
+    margin-right: 15%; /* Reduce the right margin */
+    margin-top: 10%;
+  }
+  
+  .rightSide {
+    margin-top: 20px; /* Adjust the top margin as needed */
+  }
+  
+  /* Add more styles as needed */
