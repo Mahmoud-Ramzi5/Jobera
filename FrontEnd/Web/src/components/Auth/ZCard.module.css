@@ -9,14 +9,14 @@
     padding-right: 5%;
     border-color:var(--color-button);
     margin-left: 76%;
-    transform: translate(0px, 40px);
+    transform: translate(0px, 80px);
     color:var(--color-button);
     background-color:var(--color-background) ;
 }
 .card2{
     border-color:var(--color-button);
     margin-left: 76%;
-    transform: translate(0px, 40px);
+    transform: translate(0px, 60px);
     color:var(--color-button);
     background-color:var(--color-background) ;
 }
@@ -41,7 +41,7 @@
 }
 
 .certificate_button{
-    margin-left: 24%;
+    margin-left: 20%;
     color:var(--color-button);
     background-color:var(--color-background) ;
     border-color: var(--color-button);
@@ -54,13 +54,28 @@
 }
 
 .skills_button{
-    color:var(--color-button);
+    margin-left: 25%;
+    color:blue;
     background-color:var(--color-background) ;
-    border-color: var(--color-button);
-    border-radius: 20px;
+    border-style: none;
 }
 .skills_button:hover{
-    color:var(--color-button);
-    background-color:darkgrey;
+    color:rgb(90, 90, 236);
     font-weight: 500;
+}
+.pen_button{
+    margin-left: 90%;
+    margin-top:0 ;
+    transform: translate(0px,-25px);
+    border-style: none;
+    background-color: var(--color-background);
+}
+.pen{
+    color:darkgrey;
+}
+.pen:hover{
+    color:rgb(72, 72, 225);
+}
+.skills::before{
+    content: ".";
 }
