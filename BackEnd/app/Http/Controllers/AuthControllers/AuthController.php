@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\AuthControllers;
 
-use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use App\Models\User;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\RegisterRequest;
 use App\Notifications\EmailVerification;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -38,24 +39,29 @@ class AuthController extends Controller
     public function Login(LoginRequest $request) {
         // Validate request
         $validated = $request->validated();
+        $remember = $validated['remember'];
+        unset($validated['remember']);
 
-        // Check user
-        if(! Auth::attempt($validated)) {
+        if (!Auth::attempt($validated)) {
+            // Invalid email or password
             return response()->json([
-                "errors" => "invalid email or password"
+                "errors" => "Invalid email or password"
             ], 401);
         }
 
         // Login user
         $user = User::where("email", $validated['email'])->first();
-        $token = $user->createToken("api_token")->accessToken;
-
-        // Response
+        $token = $user->createToken("api_token");
+        $expiration = $remember ? Carbon::now()->addYear() : Carbon::now()->addDay();
+        $token->token->expires_at = $expiration;
+        $token->token->save();
+         // Response
         return response()->json([
             "data" => $user,
-            "access_token" => $token,
-            "token_type" => "bearer"
-        ], 200);
+            "access_token" => $token->accessToken,
+            "token_type" => "bearer",
+            "expires_at" => $expiration,
+    ], 200);
     }
 
     public function SendEmailVerification(Request $request) {
