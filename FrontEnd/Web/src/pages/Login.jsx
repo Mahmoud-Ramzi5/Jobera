@@ -100,6 +100,7 @@ const Login = () => {
         setEmail('');
         setPassword('');
         setRememberMe(false);
+
         // Redirect to dashboard
         navigate('/dashboard');
       })

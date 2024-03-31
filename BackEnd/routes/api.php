@@ -24,6 +24,19 @@ Route::controller(AuthController::class)->group(function () {
         );
     })->middleware('auth:api');
     Route::get('/verifyEmail', 'VerifyEmail')->middleware('auth:api');
+
+    Route::get('/countries', function () {
+        return Response()->json([
+            'countries' => Country::all(),
+        ]);
+    });
+
+    Route::post('/states', function (Request $request) {
+        $country_id = $request->input('country_id');
+        return Response()->json([
+            'states' => State::where('country_id', $country_id)->get()->all(),
+        ]);
+    });
 });
 
 Route::controller(SocialAuthController::class)->group(function () {
@@ -56,17 +69,5 @@ Route::get('/GG', function () {
     }
 });
 
-Route::get('/countries', function () {
-    return Response()->json([
-        'C' => Country::all(),
-    ]);
-});
-
-Route::post('/states', function (Request $request) {
-    $country_id = $request->input('country_id');
-    return Response()->json([
-        'C' => State::where('country_id', $country_id)->get()->all(),
-    ]);
-});
 
 

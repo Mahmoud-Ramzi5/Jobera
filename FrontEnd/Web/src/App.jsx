@@ -92,7 +92,7 @@ function App() {
             </Route>
 
             <Route path="/Testcard" element={<VerifyCard />} />
-            <Route path="/Testcard2" element={<ZCard />} />
+            <Route path="/Testcard2" element={<><NavBar /><UserInfo /><ZCard /></>} />
             <Route path="/" element={<></>} />
           </Routes>
         </BrowserRouter>

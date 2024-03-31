@@ -1,6 +1,7 @@
-.user-info-card {
+.user_info_card {
+  top: 200px;
   max-width: 940px;
-  margin: 0 auto;
+  margin-right: auto;
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 16px;

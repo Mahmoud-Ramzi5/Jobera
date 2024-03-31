@@ -30,7 +30,7 @@ class RegisterRequest extends FormRequest
             'password' => ['required'],
             'confirmPassword' => ['required', 'same:password'],
             'country' => ['required'],
-            'city' => ['required'],
+            'state' => ['required'],
             'birthDate' => ['required', 'date'],
             'gender' => ['required', 'in:male,female'],
             'avatarPhoto' => ['sometimes'],
