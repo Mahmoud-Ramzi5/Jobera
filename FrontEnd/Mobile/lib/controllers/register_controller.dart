@@ -11,16 +11,10 @@ class RegisterController extends GetxController {
   TextEditingController passwordController = TextEditingController();
   TextEditingController confirmPasswordController = TextEditingController();
   bool passwordToggle = true;
-  bool confrimPasswordToggle = true;
   bool isRegistered = false;
   DateTime selectedDate = DateTime.now();
   String selectedGender = 'male';
   CountryCode countryCode = CountryCode(dialCode: '+963');
-
-  void togglePassword(bool passwordToggle) {
-    this.passwordToggle = !this.passwordToggle;
-    update();
-  }
 
   Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -42,5 +36,15 @@ class RegisterController extends GetxController {
   void changeCountryCode(CountryCode code) {
     countryCode = code;
     update();
+  }
+
+  InkWell passwordInkwell() {
+    return InkWell(
+      onTap: () {
+        passwordToggle = !passwordToggle;
+        update();
+      },
+      child: Icon(passwordToggle ? Icons.visibility_off : Icons.visibility),
+    );
   }
 }

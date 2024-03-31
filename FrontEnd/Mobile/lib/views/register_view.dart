@@ -5,6 +5,7 @@ import 'package:jobera/controllers/register_controller.dart';
 import 'package:jobera/customWidgets/custom_date_container.dart';
 import 'package:jobera/customWidgets/custom_text.dart';
 import 'package:jobera/customWidgets/custom_text_field_widget.dart';
+import 'package:jobera/customWidgets/custom_validation.dart';
 
 class RegisterView extends StatelessWidget {
   final RegisterController _registerController = Get.put(RegisterController());
@@ -28,12 +29,8 @@ class RegisterView extends StatelessWidget {
                   obsecureText: false,
                   labelText: 'First Name',
                   icon: const Icon(Icons.person),
-                  validator: (p0) {
-                    if (p0!.isEmpty) {
-                      return "Required Field";
-                    }
-                    return null;
-                  },
+                  validator: (p0) =>
+                      CustomValidation().validateRequiredField(p0),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -43,12 +40,8 @@ class RegisterView extends StatelessWidget {
                     obsecureText: false,
                     labelText: 'Last Name',
                     icon: const Icon(Icons.person),
-                    validator: (p0) {
-                      if (p0!.isEmpty) {
-                        return "Required Field";
-                      }
-                      return null;
-                    },
+                    validator: (p0) =>
+                        CustomValidation().validateRequiredField(p0),
                   ),
                 ),
                 Padding(
@@ -59,14 +52,7 @@ class RegisterView extends StatelessWidget {
                     obsecureText: false,
                     labelText: 'Email',
                     icon: const Icon(Icons.email),
-                    validator: (p0) {
-                      if (p0!.isEmpty) {
-                        return "Required Field!";
-                      } else if (!p0.isEmail) {
-                        return "Invalid Email!";
-                      }
-                      return null;
-                    },
+                    validator: (p0) => CustomValidation().validateEmail(p0),
                   ),
                 ),
                 Padding(
@@ -89,12 +75,8 @@ class RegisterView extends StatelessWidget {
                           labelText: 'Phone Number',
                           icon: const Icon(Icons.phone),
                           maxLength: 9,
-                          validator: (p0) {
-                            if (p0!.isEmpty) {
-                              return "Required Field";
-                            }
-                            return null;
-                          },
+                          validator: (p0) =>
+                              CustomValidation().validateRequiredField(p0),
                         ),
                       ),
                     ],
@@ -156,26 +138,14 @@ class RegisterView extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: GetBuilder<RegisterController>(
                     builder: (controller) => CustomTextFieldWidget(
-                      controller: _registerController.passwordController,
+                      controller: controller.passwordController,
                       textInputType: TextInputType.visiblePassword,
-                      obsecureText: _registerController.passwordToggle,
+                      obsecureText: controller.passwordToggle,
                       labelText: 'Password',
                       icon: const Icon(Icons.key),
-                      inkWell: InkWell(
-                        onTap: () {
-                          _registerController.togglePassword(
-                              _registerController.passwordToggle);
-                        },
-                        child: Icon(_registerController.passwordToggle
-                            ? Icons.visibility_off
-                            : Icons.visibility),
-                      ),
-                      validator: (p0) {
-                        if (p0!.isEmpty) {
-                          return "Required Field";
-                        }
-                        return null;
-                      },
+                      inkWell: controller.passwordInkwell(),
+                      validator: (p0) =>
+                          CustomValidation().validateRequiredField(p0),
                     ),
                   ),
                 ),
@@ -183,29 +153,15 @@ class RegisterView extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: GetBuilder<RegisterController>(
                     builder: (controller) => CustomTextFieldWidget(
-                      controller: _registerController.confirmPasswordController,
+                      controller: controller.confirmPasswordController,
                       textInputType: TextInputType.visiblePassword,
-                      obsecureText: _registerController.confrimPasswordToggle,
+                      obsecureText: controller.passwordToggle,
                       labelText: 'Confirm Password',
                       icon: const Icon(Icons.key),
-                      inkWell: InkWell(
-                        onTap: () {
-                          _registerController.togglePassword(
-                              _registerController.confrimPasswordToggle);
-                        },
-                        child: Icon(_registerController.confrimPasswordToggle
-                            ? Icons.visibility_off
-                            : Icons.visibility),
-                      ),
-                      validator: (p0) {
-                        if (p0!.isEmpty) {
-                          return "Required Field";
-                        } else if (p0 !=
-                            _registerController.passwordController.text) {
-                          return "Password does not match Confirm Password";
-                        }
-                        return null;
-                      },
+                      inkWell: controller.passwordInkwell(),
+                      validator: (p0) => CustomValidation()
+                          .validateConfirmPassword(
+                              p0, _registerController.passwordController.text),
                     ),
                   ),
                 ),
