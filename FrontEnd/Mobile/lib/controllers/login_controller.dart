@@ -1,8 +1,14 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:jobera/main.dart';
 
 class LoginController extends GetxController {
+  GlobalKey<FormState> formField = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   bool passwordToggle = true;
   bool remeberMe = false;
   bool isLoggedIn = false;
@@ -21,17 +27,11 @@ class LoginController extends GetxController {
   Future<dynamic> login(
     String email,
     String password,
-    //bool rememberMe,
+    bool rememberMe,
   ) async {
-    // String rememberMeString;
-    // if (rememberMe) {
-    //   rememberMeString = "rememberMe";
-    // } else {
-    //   rememberMeString = "";
-    // }
     try {
       var response = await dio.post('http://10.0.2.2:8000/api/login',
-          data: {"email": email, "password": password},
+          data: {"email": email, "password": password, "remember": remeberMe},
           options: Options(
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',
