@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:jobera/controllers/forgot_password_controller.dart';
 import 'package:jobera/customWidgets/custom_text.dart';
 import 'package:jobera/customWidgets/custom_text_field_widget.dart';
+import 'package:jobera/customWidgets/custom_validation.dart';
 
 class ForgotPasswordView extends StatelessWidget {
   final ForgotPasswordController _forgotPasswordController =
@@ -31,14 +32,7 @@ class ForgotPasswordView extends StatelessWidget {
                     obsecureText: false,
                     labelText: 'Email',
                     icon: const Icon(Icons.email),
-                    validator: (p0) {
-                      if (p0!.isEmpty) {
-                        return "Required Field!";
-                      } else if (!p0.isEmail) {
-                        return "Invalid Email!";
-                      }
-                      return null;
-                    },
+                    validator: (p0) => CustomValidation().validateEmail(p0),
                   ),
                 ),
                 ElevatedButton(

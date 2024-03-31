@@ -5,6 +5,7 @@ import 'package:jobera/controllers/login_controller.dart';
 import 'package:jobera/customWidgets/custom_logo_container.dart';
 import 'package:jobera/customWidgets/custom_text.dart';
 import 'package:jobera/customWidgets/custom_text_field_widget.dart';
+import 'package:jobera/customWidgets/custom_validation.dart';
 import 'package:jobera/views/forgot_password_view.dart';
 import 'package:jobera/views/home_view.dart';
 import 'package:jobera/views/register_view.dart';
@@ -36,14 +37,7 @@ class LoginView extends StatelessWidget {
                     textInputType: TextInputType.emailAddress,
                     icon: const Icon(Icons.email),
                     labelText: 'Email',
-                    validator: (p0) {
-                      if (p0!.isEmpty) {
-                        return "Required Field";
-                      } else if (!p0.isEmail) {
-                        return "Invalid Email";
-                      }
-                      return null;
-                    },
+                    validator: (p0) => CustomValidation().validateEmail(p0),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -54,21 +48,9 @@ class LoginView extends StatelessWidget {
                         textInputType: TextInputType.visiblePassword,
                         icon: const Icon(Icons.key),
                         labelText: 'Password',
-                        inkWell: InkWell(
-                          onTap: () {
-                            controller
-                                .togglePassword(controller.passwordToggle);
-                          },
-                          child: Icon(controller.passwordToggle
-                              ? Icons.visibility_off
-                              : Icons.visibility),
-                        ),
-                        validator: (p0) {
-                          if (p0!.isEmpty) {
-                            return "Required Field";
-                          }
-                          return null;
-                        },
+                        inkWell: controller.passwordInkwell(),
+                        validator: (p0) =>
+                            CustomValidation().validateRequiredField(p0),
                       ),
                     ),
                   ),

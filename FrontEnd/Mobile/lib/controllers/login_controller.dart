@@ -1,7 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:jobera/main.dart';
 
@@ -14,14 +12,19 @@ class LoginController extends GetxController {
   bool isLoggedIn = false;
   var dio = Dio();
 
-  void togglePassword(bool passwordToggle) {
-    this.passwordToggle = !this.passwordToggle;
-    update();
-  }
-
   void toggleRemeberMe(bool rememberMe) {
     remeberMe = !remeberMe;
     update();
+  }
+
+  InkWell passwordInkwell() {
+    return InkWell(
+      onTap: () {
+        passwordToggle = !passwordToggle;
+        update();
+      },
+      child: Icon(passwordToggle ? Icons.visibility_off : Icons.visibility),
+    );
   }
 
   Future<dynamic> login(
@@ -49,6 +52,7 @@ class LoginController extends GetxController {
         return null;
       }
     } on DioException catch (e) {
+      isLoggedIn = false;
       return e.response?.data["errors"].toString();
     }
   }
