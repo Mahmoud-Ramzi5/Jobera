@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PersonFill } from 'react-bootstrap-icons';
+import { PersonFill, ChevronRight } from 'react-bootstrap-icons';
 import Cookies from 'js-cookie';
 import { LoginContext } from '../App.jsx';
 import NormalInput from '../components/NormalInput.jsx';
@@ -71,7 +71,8 @@ const Login = () => {
       body: JSON.stringify(
         {
           "email": email,
-          "password": password
+          "password": password,
+          "remember": rememberMe
         })
     })
       .then((response) => {
@@ -83,31 +84,29 @@ const Login = () => {
         }
       })
       .then((data) => {
-        // Do somthing with the token return from Server data['token'] 
-        console.log(data)
+        // Store token and Log in user 
         const token = data.access_token;
+        const expires = data.expires_at;
         setLoggedIn(true);
         setAccessToken(token);
         if (rememberMe) {
-          Cookies.set('access_token', token, { expires: 30, secure: true });
-        } 
+          Cookies.set('access_token', token, { expires: expires, secure: true });
+        }
         else {
           sessionStorage.setItem('access_token', token);
         }
-        console.log(token);
+
         // Reset the form fields
         setEmail('');
         setPassword('');
         setRememberMe(false);
         // Redirect to dashboard
-        navigate('/');
+        navigate('/dashboard');
       })
       .catch(error => {
         // Handle errors
         console.log(error);
       });
-
-
   };
 
   return (
@@ -117,43 +116,58 @@ const Login = () => {
           <img src={Logo} className={styles.logo} alt="logo" />
           <div className={styles.title}>Login</div>
           <form className={styles.login} onSubmit={handleSubmit}>
-            <NormalInput 
+            <NormalInput
               type='text'
               placeholder='Email'
               icon={<PersonFill />}
               value={email}
               setChange={setEmail}
             />
-            <PasswordInput 
-              placeholder='Password' 
-              value={password} 
-              setChange={setPassword} 
+            <PasswordInput
+              placeholder='Password'
+              value={password}
+              setChange={setPassword}
             />
-            <a href='/ForgetPassword' className={styles.forgot__password}>Forgot password?</a>
+            <div>
+              <div className={styles.checkBox}>
+                <input
+                  type="checkbox"
+                  name="rememberMe"
+                  onChange={(event) => setRememberMe(event.target.checked)}
+                />
+                <label htmlFor="rememberMe"> Remember me</label>
+              </div>
+              <a href='/ForgetPassword' className={styles.forgot__password}>Forgot password?</a>
+            </div>
 
             <button type="submit" className={styles.login__submit}>
               <span className={styles.button__text}>Log In Now</span>
-              <i className={`${styles.button__icon} fas fa-chevron-right`}></i>
+              <i className={styles.button__icon}><ChevronRight /></i>
             </button>
           </form>
+
           <div className={styles.social__login}>
-            <h3>log in via</h3>
+            <h5>log in via</h5>
             <div className={styles.social__icons}>
               <a href={GoogleUrl} className={`${styles.social__login__icon} fab fa-google`}></a>
               <a href={FacebookUrl} className={`${styles.social__login__icon} fab fa-facebook`}></a>
               <a href={LinkedinUrl} className={`${styles.social__login__icon} fab fa-linkedin`}></a>
             </div>
           </div>
+
           <div className={styles.login__register}>
             Don't have an account? <a href='/register'>Register</a>
           </div>
+
         </div>
+
         <div className={styles.screen__background}>
           <span className={`${styles.screen__background__shape} ${styles.screen__background__shape4}`}></span>
           <span className={`${styles.screen__background__shape} ${styles.screen__background__shape3}`}></span>
           <span className={`${styles.screen__background__shape} ${styles.screen__background__shape2}`}></span>
           <span className={`${styles.screen__background__shape} ${styles.screen__background__shape1}`}></span>
         </div>
+
       </div>
     </div>
   );

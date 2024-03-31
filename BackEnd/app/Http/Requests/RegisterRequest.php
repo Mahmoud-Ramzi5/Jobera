@@ -29,11 +29,11 @@ class RegisterRequest extends FormRequest
             'phoneNumber' => ['required', 'unique:users', 'min:12', 'max:14'],
             'password' => ['required'],
             'confirmPassword' => ['required', 'same:password'],
+            'country' => ['required'],
+            'city' => ['required'],
             'birthDate' => ['required', 'date'],
             'gender' => ['required', 'in:male,female'],
             'avatarPhoto' => ['sometimes'],
-            'city'=>['required'],
-            'country'=>['required'],
         ];
     }
 
