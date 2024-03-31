@@ -1,12 +1,21 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RegisterController extends GetxController {
+  GlobalKey<FormState> formField = GlobalKey<FormState>();
+  TextEditingController firstNameController = TextEditingController();
+  TextEditingController lastNameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
   bool passwordToggle = true;
   bool confrimPasswordToggle = true;
   bool isRegistered = false;
   DateTime selectedDate = DateTime.now();
   String selectedGender = 'male';
+  CountryCode countryCode = CountryCode(dialCode: '+963');
 
   void togglePassword(bool passwordToggle) {
     this.passwordToggle = !this.passwordToggle;
@@ -16,7 +25,6 @@ class RegisterController extends GetxController {
   Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: selectedDate,
         firstDate: DateTime(1900),
         lastDate: DateTime(2100),
         currentDate: DateTime.now());
@@ -28,6 +36,11 @@ class RegisterController extends GetxController {
 
   void changeGender(String value) {
     selectedGender = value;
+    update();
+  }
+
+  void changeCountryCode(CountryCode code) {
+    countryCode = code;
     update();
   }
 }

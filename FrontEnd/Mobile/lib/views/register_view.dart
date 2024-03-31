@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/controllers/register_controller.dart';
@@ -5,52 +6,16 @@ import 'package:jobera/customWidgets/custom_date_container.dart';
 import 'package:jobera/customWidgets/custom_text.dart';
 import 'package:jobera/customWidgets/custom_text_field_widget.dart';
 
-class RegisterView extends StatefulWidget {
-  const RegisterView({super.key});
-
-  @override
-  State<RegisterView> createState() => _RegisterViewState();
-}
-
-class _RegisterViewState extends State<RegisterView> {
-  late final _formField = GlobalKey<FormState>();
-  late RegisterController _registerController;
-  late TextEditingController _firstNameController;
-  late TextEditingController _lastNameController;
-  late TextEditingController _emailController;
-  late TextEditingController _phoneNumberController;
-  late TextEditingController _passwordController;
-  late TextEditingController _confirmPasswordController;
-
-  @override
-  void initState() {
-    _registerController = Get.put(RegisterController());
-    _firstNameController = TextEditingController();
-    _lastNameController = TextEditingController();
-    _emailController = TextEditingController();
-    _phoneNumberController = TextEditingController();
-    _passwordController = TextEditingController();
-    _confirmPasswordController = TextEditingController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _firstNameController.dispose();
-    _lastNameController.dispose();
-    _emailController.dispose();
-    _phoneNumberController.dispose();
-    _passwordController.dispose();
-    _confirmPasswordController.dispose();
-    super.dispose();
-  }
+class RegisterView extends StatelessWidget {
+  final RegisterController _registerController = Get.put(RegisterController());
+  RegisterView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const CustomTitleText(text: 'Register')),
       body: Form(
-        key: _formField,
+        key: _registerController.formField,
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20),
@@ -58,7 +23,7 @@ class _RegisterViewState extends State<RegisterView> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CustomTextFieldWidget(
-                  controller: _firstNameController,
+                  controller: _registerController.firstNameController,
                   textInputType: TextInputType.name,
                   obsecureText: false,
                   labelText: 'First Name',
@@ -73,7 +38,7 @@ class _RegisterViewState extends State<RegisterView> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: CustomTextFieldWidget(
-                    controller: _lastNameController,
+                    controller: _registerController.lastNameController,
                     textInputType: TextInputType.name,
                     obsecureText: false,
                     labelText: 'Last Name',
@@ -89,7 +54,7 @@ class _RegisterViewState extends State<RegisterView> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: CustomTextFieldWidget(
-                    controller: _emailController,
+                    controller: _registerController.emailController,
                     textInputType: TextInputType.emailAddress,
                     obsecureText: false,
                     labelText: 'Email',
@@ -106,18 +71,33 @@ class _RegisterViewState extends State<RegisterView> {
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: CustomTextFieldWidget(
-                    controller: _phoneNumberController,
-                    textInputType: TextInputType.phone,
-                    obsecureText: false,
-                    labelText: 'Phone Number',
-                    icon: const Icon(Icons.phone),
-                    validator: (p0) {
-                      if (p0!.isEmpty) {
-                        return "Required Field";
-                      }
-                      return null;
-                    },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CountryCodePicker(
+                        showDropDownButton: true,
+                        initialSelection: '+963',
+                        onChanged: (value) =>
+                            _registerController.changeCountryCode(value),
+                      ),
+                      SizedBox(
+                        width: 200,
+                        child: CustomTextFieldWidget(
+                          controller: _registerController.phoneNumberController,
+                          textInputType: TextInputType.phone,
+                          obsecureText: false,
+                          labelText: 'Phone Number',
+                          icon: const Icon(Icons.phone),
+                          maxLength: 9,
+                          validator: (p0) {
+                            if (p0!.isEmpty) {
+                              return "Required Field";
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 Row(
@@ -176,7 +156,7 @@ class _RegisterViewState extends State<RegisterView> {
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: GetBuilder<RegisterController>(
                     builder: (controller) => CustomTextFieldWidget(
-                      controller: _passwordController,
+                      controller: _registerController.passwordController,
                       textInputType: TextInputType.visiblePassword,
                       obsecureText: _registerController.passwordToggle,
                       labelText: 'Password',
@@ -203,7 +183,7 @@ class _RegisterViewState extends State<RegisterView> {
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: GetBuilder<RegisterController>(
                     builder: (controller) => CustomTextFieldWidget(
-                      controller: _confirmPasswordController,
+                      controller: _registerController.confirmPasswordController,
                       textInputType: TextInputType.visiblePassword,
                       obsecureText: _registerController.confrimPasswordToggle,
                       labelText: 'Confirm Password',
@@ -220,7 +200,8 @@ class _RegisterViewState extends State<RegisterView> {
                       validator: (p0) {
                         if (p0!.isEmpty) {
                           return "Required Field";
-                        } else if (p0 != _passwordController.text) {
+                        } else if (p0 !=
+                            _registerController.passwordController.text) {
                           return "Password does not match Confirm Password";
                         }
                         return null;
@@ -232,7 +213,9 @@ class _RegisterViewState extends State<RegisterView> {
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: ElevatedButton(
                       onPressed: () async {
-                        if (_formField.currentState?.validate() == true) {
+                        if (_registerController.formField.currentState
+                                ?.validate() ==
+                            true) {
                           if (_registerController.isRegistered == true) {
                             Get.defaultDialog(
                               title: 'Register Successful',

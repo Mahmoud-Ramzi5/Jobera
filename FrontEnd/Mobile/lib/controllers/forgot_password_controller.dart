@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ForgotPasswordController extends GetxController {
+  GlobalKey<FormState> formField = GlobalKey<FormState>();
+  TextEditingController emailController = TextEditingController();
   bool isEmailSentSuccessfully = false;
   var dio = Dio();
 

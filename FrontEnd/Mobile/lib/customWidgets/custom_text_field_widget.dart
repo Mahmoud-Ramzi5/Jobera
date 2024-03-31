@@ -8,6 +8,7 @@ class CustomTextFieldWidget extends StatelessWidget {
   final String labelText;
   final Icon icon;
   final InkWell? inkWell;
+  final int? maxLength;
 
   const CustomTextFieldWidget({
     super.key,
@@ -18,6 +19,7 @@ class CustomTextFieldWidget extends StatelessWidget {
     required this.icon,
     this.validator,
     this.inkWell,
+    this.maxLength,
   });
 
   @override
@@ -63,6 +65,7 @@ class CustomTextFieldWidget extends StatelessWidget {
       keyboardType: textInputType,
       style: Theme.of(context).textTheme.bodyLarge,
       validator: validator,
+      maxLength: maxLength,
     );
   }
 }

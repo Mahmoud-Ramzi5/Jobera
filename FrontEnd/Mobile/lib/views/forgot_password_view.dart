@@ -4,37 +4,17 @@ import 'package:jobera/controllers/forgot_password_controller.dart';
 import 'package:jobera/customWidgets/custom_text.dart';
 import 'package:jobera/customWidgets/custom_text_field_widget.dart';
 
-class ForgotPasswordView extends StatefulWidget {
-  const ForgotPasswordView({super.key});
-
-  @override
-  State<ForgotPasswordView> createState() => _ForgotPasswordViewState();
-}
-
-class _ForgotPasswordViewState extends State<ForgotPasswordView> {
-  late final _formField = GlobalKey<FormState>();
-  late ForgotPasswordController _forgotPasswordController;
-  late TextEditingController _emailController;
-
-  @override
-  void initState() {
-    _forgotPasswordController = Get.put(ForgotPasswordController());
-    _emailController = TextEditingController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    super.dispose();
-  }
+class ForgotPasswordView extends StatelessWidget {
+  final ForgotPasswordController _forgotPasswordController =
+      Get.put(ForgotPasswordController());
+  ForgotPasswordView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const CustomTitleText(text: "Forgot Password")),
       body: Form(
-        key: _formField,
+        key: _forgotPasswordController.formField,
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20),
@@ -46,7 +26,7 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: CustomTextFieldWidget(
-                    controller: _emailController,
+                    controller: _forgotPasswordController.emailController,
                     textInputType: TextInputType.emailAddress,
                     obsecureText: false,
                     labelText: 'Email',
@@ -63,9 +43,12 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    if (_formField.currentState?.validate() == true) {
-                      var response = await _forgotPasswordController
-                          .forgotPassword(_emailController.text);
+                    if (_forgotPasswordController.formField.currentState
+                            ?.validate() ==
+                        true) {
+                      var response =
+                          await _forgotPasswordController.forgotPassword(
+                              _forgotPasswordController.emailController.text);
                       if (_forgotPasswordController.isEmailSentSuccessfully ==
                           true) {
                         Get.defaultDialog(
