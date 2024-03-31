@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  PersonFill, EnvelopeFill, TelephoneFill, Calendar3,
+  PersonFill, EnvelopeFill, TelephoneFill, Calendar3, ChevronRight,
   MapFill, GeoAltFill, PersonStanding, PersonStandingDress
 } from 'react-bootstrap-icons';
 import Cookies from 'js-cookie';
@@ -9,11 +9,13 @@ import { LoginContext } from '../App.jsx';
 import NormalInput from '../components/NormalInput.jsx';
 import PasswordInput from '../components/PasswordInput.jsx';
 import CustomPhoneInput from '../components/CustomPhoneInput.jsx';
-import Logo from '../assets/JoberaLogo.png'
+import Logo from '../assets/JoberaLogo.png';
 import styles from '../styles/register.module.css';
 import Inputstyles from '../styles/Input.module.css';
 
+
 const Register = () => {
+  // Context
   const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
   // Define states
   const initialized = useRef(false);
@@ -38,6 +40,8 @@ const Register = () => {
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
+
+      // Api Call
       fetch("http://127.0.0.1:8000/api/countries", {
         method: 'GET',
         headers: {
@@ -68,6 +72,8 @@ const Register = () => {
   const handleCountrySelect = (event) => {
     console.log(event.target.options.selectedIndex);
     setCountry(event.target.value);
+
+    // Api Call
     fetch("http://127.0.0.1:8000/api/states", {
       method: 'POST',
       headers: {
@@ -105,8 +111,7 @@ const Register = () => {
       Clicking on a "Submit" button, prevent it from submitting a form*/
     event.preventDefault();
 
-
-    // Perform Login logic (Call api)
+    // Perform Register logic (Call api)
     fetch("http://127.0.0.1:8000/api/register", {
       method: 'POST',
       headers: {
@@ -138,7 +143,6 @@ const Register = () => {
       .then((data) => {
         // Store token and Log in user 
         const token = data.access_token;
-        const expires = data.expires_at;
         setLoggedIn(true);
         setAccessToken(token);
         sessionStorage.setItem('access_token', token);
@@ -256,7 +260,7 @@ const Register = () => {
             </div >
             <button type="submit" className={styles.register__submit}>
               <span className={styles.button__text}>Register now</span>
-              <i className={`${styles.button__icon} fas fa-chevron-right`}></i>
+              <i className={styles.button__icon}><ChevronRight /></i>
             </button>
           </form>
           <div className={styles.register__login}>

@@ -12,6 +12,7 @@ use App\Http\Controllers\AuthControllers\ForgetPasswordController;
 Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'Register');
     Route::post('/login', 'Login');
+    Route::post('/logout', 'Logout')->middleware('auth:api');
 
     Route::get('/user', function (Request $request) {
         return $request->user();
@@ -23,6 +24,7 @@ Route::controller(AuthController::class)->group(function () {
             ]
         );
     })->middleware('auth:api');
+
     Route::get('/verifyEmail', 'VerifyEmail')->middleware('auth:api');
 
     Route::get('/countries', function () {

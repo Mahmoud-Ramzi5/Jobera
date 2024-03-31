@@ -5,11 +5,12 @@ import Cookies from 'js-cookie';
 import { LoginContext } from '../App.jsx';
 import NormalInput from '../components/NormalInput.jsx';
 import PasswordInput from '../components/PasswordInput.jsx';
-import Logo from '../assets/JoberaLogo.png'
-import styles from '../styles/login.module.css'
+import Logo from '../assets/JoberaLogo.png';
+import styles from '../styles/login.module.css';
 
 
 const Login = () => {
+  // Context
   const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
   // Define states
   const initialized = useRef(false);
@@ -27,6 +28,7 @@ const Login = () => {
 
       // Api Call
       fetch('http://127.0.0.1:8000/api/auth/providers', {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': "application/json",
@@ -68,12 +70,11 @@ const Login = () => {
         'connection': 'keep-alive',
         'Accept-Encoding': 'gzip, deflate, br'
       },
-      body: JSON.stringify(
-        {
-          "email": email,
-          "password": password,
-          "remember": rememberMe
-        })
+      body: JSON.stringify({
+        "email": email,
+        "password": password,
+        "remember": rememberMe
+      })
     })
       .then((response) => {
         if (!response.ok) {
@@ -87,10 +88,12 @@ const Login = () => {
         // Store token and Log in user 
         const token = data.access_token;
         const expires = data.expires_at;
+        console.log(expires);
+
         setLoggedIn(true);
         setAccessToken(token);
         if (rememberMe) {
-          Cookies.set('access_token', token, { expires: expires, secure: true });
+          Cookies.set('access_token', token, { secure: true });
         }
         else {
           sessionStorage.setItem('access_token', token);

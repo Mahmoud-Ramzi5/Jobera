@@ -1,11 +1,16 @@
 import { useEffect, useState, useRef } from 'react';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import { LoginContext } from '../App.jsx';
+
 
 const CallBack = () => {
+  // Context
+  const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
   // Define states
   const initialized = useRef(false);
   const location = useLocation();
-  const {provider} = useParams();
+  const { provider } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState('');
@@ -19,8 +24,10 @@ const CallBack = () => {
       // Api Call
       fetch(`http://127.0.0.1:8000/api/auth/${provider}/call-back${location.search}`, {
         headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': "application/json",
+          'connection': 'keep-alive',
+          'Accept-Encoding': 'gzip, deflate, br'
         }
       })
         .then((response) => {
@@ -32,15 +39,21 @@ const CallBack = () => {
           }
         })
         .then((data) => {
-          console.log(data);
-          setToken(data.Access-Token);
-          navigate('/');
+          // Store token and Log in user 
+          const token = data.access_token;
+          setLoggedIn(true);
+          setAccessToken(token);
+          sessionStorage.setItem('access_token', token);
+
+          // Redirect to dashboard
+          navigate('/dashboard');
         });
     }
   }, []);
 
   return (
-    <h1>loading</h1>
+    // TODO
+    <h1>Loading...</h1>
   );
 
 };

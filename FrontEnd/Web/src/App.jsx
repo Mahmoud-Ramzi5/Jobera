@@ -4,9 +4,11 @@ import Cookies from 'js-cookie';
 import PrivateRoutes from './utils/PrivateRoutes.jsx';
 import AnonymousRoutes from './utils/AnonymousRoutes.jsx';
 import NavBar from './components/NavBar.jsx';
-import Register from './pages/Register.jsx'
-import Login from './pages/Login.jsx'
-import CallBack from './components/CallBack.jsx'
+import Register from './pages/Register.jsx';
+import Login from './pages/Login.jsx';
+import Logout from './pages/Logout.jsx';
+import CallBack from './components/CallBack.jsx';
+
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import ResetPassword from './pages/ResetPassword.jsx';
@@ -80,6 +82,7 @@ function App() {
           <Routes>
             <Route element={<PrivateRoutes />}>
               <Route path="/profile" element={<UserInfo />} />
+              <Route path="/logout" element={<Logout />} />
             </Route>
 
             <Route element={<AnonymousRoutes />}>
