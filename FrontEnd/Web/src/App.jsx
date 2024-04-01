@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import PrivateRoutes from './utils/PrivateRoutes.jsx';
 import AnonymousRoutes from './utils/AnonymousRoutes.jsx';
-import NavBar from './components/NavBar.jsx';
+import Layout from './utils/Layout.jsx';
 import Register from './pages/Register.jsx';
 import Login from './pages/Login.jsx';
 import Logout from './pages/Logout.jsx';
@@ -78,9 +78,13 @@ function App() {
       <LoginContext.Provider value={{ loggedIn, setLoggedIn, accessToken, setAccessToken }}>
         <BrowserRouter>
           <Routes>
-            <Route element={<PrivateRoutes />}>
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/logout" element={<Logout />} />
+            <Route element={<Layout />}>
+              <Route path="/" element={<div></div>} />
+              <Route element={<PrivateRoutes />}>
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/dashboard" element={<></>} />
+                <Route path="/logout" element={<Logout />} />
+              </Route>
             </Route>
 
             <Route element={<AnonymousRoutes />}>
@@ -91,10 +95,6 @@ function App() {
               <Route path="/ForgetPassword" element={<ForgetPassword />} />
               <Route path="/emailVerify" element={<EmailVerificationMessage />} />
             </Route>
-
-            <Route path="/Testcard" element={<VerifyCard />} />
-            <Route path="/Testcard2" element={<><NavBar /><UserInfo /><ZCard /></>} />
-            <Route path="/" element={<></>} />
           </Routes>
         </BrowserRouter>
       </LoginContext.Provider>
