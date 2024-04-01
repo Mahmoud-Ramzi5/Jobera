@@ -8,16 +8,14 @@ import Register from './pages/Register.jsx';
 import Login from './pages/Login.jsx';
 import Logout from './pages/Logout.jsx';
 import CallBack from './components/CallBack.jsx';
+import Profile from './pages/Profile.jsx';
+import ResetPassword from './pages/ResetPassword.jsx';
+import ForgetPassword from './pages/ForgetPassword.jsx';
 
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
-import ResetPassword from './pages/ResetPassword.jsx';
-import ForgetPassword from './pages/ForgetPassword.jsx';
-import EmailVerificationMessage from './pages/EmailVerification.jsx';
-import UserInfo from './components/Profile/UserInfo.jsx';
-import VerifyCard from './components/Profile/VerifyCard.jsx';
-import ZCard from './components/Profile/ZCard.jsx';
 
+import EmailVerificationMessage from './pages/EmailVerification.jsx';
 
 export const ThemeContext = createContext({});
 export const LoginContext = createContext({});
@@ -81,7 +79,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route element={<PrivateRoutes />}>
-              <Route path="/profile" element={<UserInfo />} />
+              <Route path="/profile" element={<Profile />} />
               <Route path="/logout" element={<Logout />} />
             </Route>
 
