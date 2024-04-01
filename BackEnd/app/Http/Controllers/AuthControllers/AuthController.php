@@ -55,13 +55,22 @@ class AuthController extends Controller
         $expiration = $remember ? Carbon::now()->addYear() : Carbon::now()->addDay();
         $token->token->expires_at = $expiration;
         $token->token->save();
+
          // Response
         return response()->json([
             "data" => $user,
             "access_token" => $token->accessToken,
             "token_type" => "bearer",
             "expires_at" => $expiration,
-    ], 200);
+        ], 200);
+    }
+
+    public function Logout(Request $request) {
+        $request->user()->token()->delete();
+        // Response
+        return response()->json([
+            "message" => "Logged Out Successfully",
+        ], 200);
     }
 
     public function SendEmailVerification(Request $request) {
@@ -79,10 +88,10 @@ class AuthController extends Controller
         // Send Token
         $user->notify(new EmailVerification($token));
 
-        //
+        // Response
         return response()->json([
             "message" => "Verification email has been sent"
-        ]);
+        ], 200);
     }
 
     public function VerifyEmail(Request $request) {

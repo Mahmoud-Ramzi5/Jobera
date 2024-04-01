@@ -5,44 +5,21 @@ import 'package:jobera/controllers/login_controller.dart';
 import 'package:jobera/customWidgets/custom_logo_container.dart';
 import 'package:jobera/customWidgets/custom_text.dart';
 import 'package:jobera/customWidgets/custom_text_field_widget.dart';
+import 'package:jobera/customWidgets/custom_validation.dart';
 import 'package:jobera/views/forgot_password_view.dart';
 import 'package:jobera/views/home_view.dart';
 import 'package:jobera/views/register_view.dart';
 
-class LoginView extends StatefulWidget {
-  const LoginView({super.key});
-
-  @override
-  State<LoginView> createState() => _LoginViewState();
-}
-
-class _LoginViewState extends State<LoginView> {
-  late final _formField = GlobalKey<FormState>();
-  late LoginController _loginController;
-  late TextEditingController _emailController;
-  late TextEditingController _passwordController;
-
-  @override
-  void initState() {
-    _loginController = Get.put(LoginController());
-    _emailController = TextEditingController();
-    _passwordController = TextEditingController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
+class LoginView extends StatelessWidget {
+  final LoginController _loginController = Get.put(LoginController());
+  LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: Form(
-          key: _formField,
+          key: _loginController.formField,
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(20),
@@ -55,42 +32,25 @@ class _LoginViewState extends State<LoginView> {
                         CustomLogoContainer(imagePath: 'assets/JoberaLogo.png'),
                   ),
                   CustomTextFieldWidget(
-                    controller: _emailController,
+                    controller: _loginController.emailController,
                     obsecureText: false,
                     textInputType: TextInputType.emailAddress,
                     icon: const Icon(Icons.email),
                     labelText: 'Email',
-                    validator: (p0) {
-                      if (p0!.isEmpty) {
-                        return "Required Field";
-                      }
-                      return null;
-                    },
+                    validator: (p0) => CustomValidation().validateEmail(p0),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: GetBuilder<LoginController>(
                       builder: (controller) => CustomTextFieldWidget(
-                        controller: _passwordController,
+                        controller: _loginController.passwordController,
                         obsecureText: _loginController.passwordToggle,
                         textInputType: TextInputType.visiblePassword,
                         icon: const Icon(Icons.key),
                         labelText: 'Password',
-                        inkWell: InkWell(
-                          onTap: () {
-                            controller
-                                .togglePassword(controller.passwordToggle);
-                          },
-                          child: Icon(controller.passwordToggle
-                              ? Icons.visibility_off
-                              : Icons.visibility),
-                        ),
-                        validator: (p0) {
-                          if (p0!.isEmpty) {
-                            return "Required Field";
-                          }
-                          return null;
-                        },
+                        inkWell: controller.passwordInkwell(),
+                        validator: (p0) =>
+                            CustomValidation().validateRequiredField(p0),
                       ),
                     ),
                   ),
@@ -98,8 +58,7 @@ class _LoginViewState extends State<LoginView> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () =>
-                            Get.to(() => const ForgotPasswordView()),
+                        onPressed: () => Get.to(() => ForgotPasswordView()),
                         child:
                             const CustomHeadlineText(text: "Forgot Password?"),
                       ),
@@ -130,11 +89,14 @@ class _LoginViewState extends State<LoginView> {
                           ),
                           ElevatedButton(
                               onPressed: () async {
-                                if (_formField.currentState?.validate() ==
+                                if (_loginController.formField.currentState
+                                        ?.validate() ==
                                     true) {
                                   var response = await _loginController.login(
-                                      _emailController.text,
-                                      _passwordController.text);
+                                    _loginController.emailController.text,
+                                    _loginController.passwordController.text,
+                                    _loginController.remeberMe,
+                                  );
                                   if (_loginController.isLoggedIn == true) {
                                     Get.defaultDialog(
                                       title: 'Login Successful',
@@ -197,7 +159,7 @@ class _LoginViewState extends State<LoginView> {
                     children: [
                       const CustomLabelText(text: "New Around Here ?"),
                       TextButton(
-                          onPressed: () => Get.to(() => const RegisterView()),
+                          onPressed: () => Get.to(() => RegisterView()),
                           child: const CustomHeadlineText(text: "Register")),
                     ],
                   ),

@@ -20,13 +20,13 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'fullName',
         'email',
-        'password',
         'phoneNumber',
-        'avatarPhoto',
-        'gender',
-        'birthDate',
+        'password',
         'country',
-        'city'
+        'state',
+        'birthDate',
+        'gender',
+        'avatarPhoto',
     ];
 
     /**
@@ -54,6 +54,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function providers()
     {
-        return $this->hasMany(Provider::class,'user_id','id');
+        return $this->hasMany(Provider::class, 'user_id', 'id');
     }
 }

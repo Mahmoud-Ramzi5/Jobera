@@ -30,3 +30,7 @@
     outline: none;
     border-bottom-color: #4F6E95;
 }
+
+.option {
+    background-color: var(--color-background);
+}

@@ -1,18 +1,25 @@
-import { useState } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  PersonFill, EnvelopeFill, TelephoneFill, Calendar3,
+  PersonFill, EnvelopeFill, TelephoneFill, Calendar3, ChevronRight,
   MapFill, GeoAltFill, PersonStanding, PersonStandingDress
 } from 'react-bootstrap-icons';
 import Cookies from 'js-cookie';
+import { LoginContext } from '../App.jsx';
+import { FetchCountries, FetchStates, RegisterAPI } from '../apis/AuthApis.jsx';
 import NormalInput from '../components/NormalInput.jsx';
 import PasswordInput from '../components/PasswordInput.jsx';
 import CustomPhoneInput from '../components/CustomPhoneInput.jsx';
-import Logo from '../assets/JoberaLogo.png'
-import styles from '../styles/register.module.css'
+import Logo from '../assets/JoberaLogo.png';
+import styles from '../styles/register.module.css';
+import Inputstyles from '../styles/Input.module.css';
+
 
 const Register = () => {
+  // Context
+  const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
   // Define states
+  const initialized = useRef(false);
   const navigate = useNavigate();
   const [FirstName, setFirstName] = useState('');
   const [LastName, setLastName] = useState('');
@@ -20,15 +27,47 @@ const Register = () => {
   const [PhoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [ConfirmPassword, setConfirmPassword] = useState('');
+  const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState('');
-  const [city, setCity] = useState('');
+  const [states, setStates] = useState([]);
+  const [state, setState] = useState('');
   const [date, setDate] = useState('');
   const [gender, setGender] = useState('');
-
   const genders = [
     { value: 'male', label: 'Male', icon: <PersonStanding /> },
     { value: 'female', label: 'Female', icon: <PersonStandingDress /> },
   ];
+
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+
+      // Api Call
+      FetchCountries().then((response) => {
+        if (response.status === 200) {
+          setCountries(response.data.countries);
+        }
+        else {
+          console.log(response.statusText);
+        }
+      });
+    }
+  }, []);
+
+  const handleCountrySelect = (event) => {
+    console.log(event.target.options.selectedIndex);
+    setCountry(event.target.value);
+
+    // Api Call
+    FetchStates(event.target.options.selectedIndex).then((response) => {
+      if (response.status === 200) {
+        setStates(response.data.states);
+      }
+      else {
+        console.log(response.statusText);
+      }
+    });
+  }
 
   // Handle form submit
   const handleSubmit = (event) => {
@@ -38,58 +77,45 @@ const Register = () => {
       Clicking on a "Submit" button, prevent it from submitting a form*/
     event.preventDefault();
 
-
-    // Perform Login logic (Call api)
-    fetch("http://127.0.0.1:8000/api/register", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': "application/json",
-        'connection': 'keep-alive',
-        'Accept-Encoding': 'gzip, deflate, br'
-      },
-      body: JSON.stringify(
-        {
-          "fullName": FirstName + " " + LastName,
-          "email": email,
-          "phoneNumber": PhoneNumber,
-          "password": password,
-          "confirmPassword": ConfirmPassword,
-          "birthDate": date,
-          "gender": gender,
-          "country":country,
-          "city":city
-        })
-    })
+    // Perform Register logic (Call api)
+    RegisterAPI(
+      FirstName,
+      LastName,
+      email,
+      PhoneNumber,
+      password,
+      ConfirmPassword,
+      country,
+      state,
+      date,
+      gender)
       .then((response) => {
-        if (!response.ok) {
-          throw new Error(response.status);
+        if (response.status === 200) {
+          // Store token and Log in user 
+          const token = response.data.access_token;
+          setLoggedIn(true);
+          setAccessToken(token);
+          sessionStorage.setItem('access_token', token);
+
+          // Reset the form fields
+          setFirstName('');
+          setLastName('');
+          setEmail('');
+          setPhoneNumber('');
+          setPassword('');
+          setConfirmPassword('');
+          setCountry('');
+          setState('');
+          setDate('');
+          setGender('');
+
+          // Redirect to profile
+          navigate('/profile')
         }
         else {
-          return response.json();
+          console.log(response.statusText);
         }
-      })
-      .then((data) => {
-        // Do somthing with the token return from Server data['token'] 
-        console.log(data)
-        // Reset the form fields
-        setFirstName('');
-        setLastName('');
-        setEmail('');
-        setPhoneNumber('');
-        setPassword('');
-        setConfirmPassword('');
-        setDate('');
-        setGender('');
-        // Redirect to dashboard
-        navigate('/')
-      })
-      .catch(error => {
-        // Handle errors
-        console.log(error);
       });
-
-
   };
 
   return (
@@ -142,20 +168,22 @@ const Register = () => {
               />
             </div>
             <div className={styles.register__row}>
-              <NormalInput
-                type="text"
-                placeholder="Country"
-                icon={<MapFill />}
-                value={country}
-                setChange={setCountry}
-              />
-              <NormalInput
-                type="text"
-                placeholder="City"
-                icon={<GeoAltFill />}
-                value={city}
-                setChange={setCity}
-              />
+              <div className={Inputstyles.field}>
+                <select onChange={handleCountrySelect} value={country} className={Inputstyles.input} required>
+                  <option value='' disabled>Country</option>
+                  {(countries.length === 0) ? <></> : countries.map((country) => {
+                    return <option key={country.country_id} value={country.countryName} className={Inputstyles.option}>{country.countryName}</option>
+                  })}
+                </select>
+              </div>
+              <div className={Inputstyles.field}>
+                <select onChange={(event) => setState(event.target.value)} value={state} className={Inputstyles.input} required>
+                  <option value='' disabled>City</option>
+                  {(states.length === 0) ? <></> : states.map((state) => {
+                    return <option key={state.state_id} value={state.stateName} className={Inputstyles.option}>{state.stateName}</option>
+                  })}
+                </select>
+              </div>
             </div>
             <div className={styles.register__row}>
               <NormalInput
@@ -182,17 +210,9 @@ const Register = () => {
             </div >
             <button type="submit" className={styles.register__submit}>
               <span className={styles.button__text}>Register now</span>
-              <i className={`${styles.button__icon} fas fa-chevron-right`}></i>
+              <i className={styles.button__icon}><ChevronRight /></i>
             </button>
           </form>
-          <div className={styles.social__register}>
-            <h3>register via</h3>
-            <div className={styles.social__icons}>
-              <a href='#' className={`${styles.social__register__icon} fab fa-google`}></a>
-              <a href='#' className={`${styles.social__register__icon} fab fa-facebook`}></a>
-              <a href='#' className={`${styles.social__register__icon} fab fa-linkedin`}></a>
-            </div>
-          </div>
           <div className={styles.register__login}>
             Already have an account? <a href='/login'>Log in</a>
           </div>

@@ -1,5 +1,3 @@
-@import url('https://use.fontawesome.com/releases/v6.5.1/css/all.css');
-
 .container {
     display: flex;
     text-align: center;
@@ -103,6 +101,24 @@
     padding-top: 125px;
 }
 
+.checkBox {
+    font-size: 13px;
+    margin-left: 15px;
+    padding: 5px 20px;
+    text-decoration: inherit;
+    font-weight: 500;
+    display: flex;
+    color: var(--color-foreground);
+}
+
+.checkBox input {
+    accent-color: #3E6FA9;
+}
+
+.checkBox label {
+    padding-left: 15px;
+}
+
 .forgot__password {
     font-size: 13px;
     margin-left: 15px;
@@ -111,9 +127,7 @@
     text-transform: uppercase;
     font-weight: 500;
     display: flex;
-    align-items: center;
     color: var(--color-foreground);
-    cursor: pointer;
     transition: .17s;
 }
 
@@ -127,7 +141,7 @@
     font-size: 15px;
     margin-top: 5px;
     margin-left: 15px;
-    padding: 15px 20px;
+    padding: 10px 20px;
     border-radius: 25px;
     border: 1px solid #A7A6BC;
     text-decoration: inherit;
@@ -139,7 +153,7 @@
     color: #3E6FA9;
     box-shadow: 0px 2px 2px #395F87;
     cursor: pointer;
-    transition: .2s;
+    transition: .25s;
 }
 
 .login__submit:active,
@@ -150,12 +164,11 @@
 }
 
 .login__register {
-    font-size: 13px;
-    margin-top: 10px;
-    margin-left: 5px;
-    padding: 5px 15px;
+    font-size: 14px;
+    margin-left: 9px;
+    padding: 7px 14px;
     text-decoration: inherit;
-    font-weight: 500;
+    font-weight: 623;
     display: flex;
     align-items: center;
     color: var(--color-foreground);
@@ -194,19 +207,12 @@
     color: #fff;
 }
 
-.social__icons {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 .social__login__icon {
     padding: 20px 10px;
     color: #fff;
     text-decoration: none;    
-    text-shadow: 0px 0px 8px #58708F;
 }
 
 .social__login__icon:hover {
-    transform: scale(1.65);    
+    transform: scale(1.7);    
 }

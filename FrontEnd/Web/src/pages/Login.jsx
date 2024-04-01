@@ -1,15 +1,17 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PersonFill } from 'react-bootstrap-icons';
+import { PersonFill, ChevronRight } from 'react-bootstrap-icons';
 import Cookies from 'js-cookie';
 import { LoginContext } from '../App.jsx';
+import { FetchProviders, LoginAPI } from '../apis/AuthApis.jsx';
 import NormalInput from '../components/NormalInput.jsx';
 import PasswordInput from '../components/PasswordInput.jsx';
-import Logo from '../assets/JoberaLogo.png'
-import styles from '../styles/login.module.css'
+import Logo from '../assets/JoberaLogo.png';
+import styles from '../styles/login.module.css';
 
 
 const Login = () => {
+  // Context
   const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
   // Define states
   const initialized = useRef(false);
@@ -26,28 +28,16 @@ const Login = () => {
       initialized.current = true;
 
       // Api Call
-      fetch('http://127.0.0.1:8000/api/auth/providers', {
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': "application/json",
-          'Accept-Encoding': 'gzip, deflate, br'
+      FetchProviders().then((response) => {
+        if (response.status === 200) {
+          setGoogleUrl(response.data.googleURL);
+          setFacebookUrl(response.data.facebookURL);
+          setLinkedinUrl(response.data.linkedinURL);
         }
-      })
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-          throw new Error('Something went wrong!');
-        })
-        .then((data) => {
-          setGoogleUrl(data.googleURL);
-          setFacebookUrl(data.facebookURL);
-          setLinkedinUrl(data.linkedinURL);
-        })
-        .catch(error => {
-          // Handle errors
-          console.log(error);
-        });
+        else {
+          console.log(response.statusText);
+        }
+      });
     }
   }, []);
 
@@ -57,55 +47,38 @@ const Login = () => {
     event.preventDefault();
 
     // Perform Login logic (Call api)
-    fetch("http://127.0.0.1:8000/api/login", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': "application/json",
-        'connection': 'keep-alive',
-        'Accept-Encoding': 'gzip, deflate, br'
-      },
-      body: JSON.stringify(
-        {
-          "email": email,
-          "password": password,
-          "remember":true
-        })
-    })
+    LoginAPI(
+      email,
+      password,
+      rememberMe)
       .then((response) => {
-        if (!response.ok) {
-          throw new Error(response.status);
+        if (response.status === 200) {
+          // Store token and Log in user 
+          const token = response.data.access_token;
+          const expires = response.data.expires_at;
+          console.log(expires);
+
+          setLoggedIn(true);
+          setAccessToken(token);
+          if (rememberMe) {
+            Cookies.set('access_token', token, { secure: true });
+          }
+          else {
+            sessionStorage.setItem('access_token', token);
+          }
+
+          // Reset the form fields
+          setEmail('');
+          setPassword('');
+          setRememberMe(false);
+
+          // Redirect to dashboard
+          navigate('/dashboard');
         }
         else {
-          return response.json();
+          console.log(response.statusText);
         }
-      })
-      .then((data) => {
-        // Do somthing with the token return from Server data['token'] 
-        console.log(data)
-        const token = data.access_token;
-        setLoggedIn(true);
-        setAccessToken(token);
-        if (rememberMe) {
-          Cookies.set('access_token', token, { expires: 30, secure: true });
-        } 
-        else {
-          sessionStorage.setItem('access_token', token);
-        }
-        console.log(token);
-        // Reset the form fields
-        setEmail('');
-        setPassword('');
-        setRememberMe(false);
-        // Redirect to dashboard
-        navigate('/');
-      })
-      .catch(error => {
-        // Handle errors
-        console.log(error);
       });
-
-
   };
 
   return (
@@ -115,43 +88,58 @@ const Login = () => {
           <img src={Logo} className={styles.logo} alt="logo" />
           <div className={styles.title}>Login</div>
           <form className={styles.login} onSubmit={handleSubmit}>
-            <NormalInput 
+            <NormalInput
               type='text'
               placeholder='Email'
               icon={<PersonFill />}
               value={email}
               setChange={setEmail}
             />
-            <PasswordInput 
-              placeholder='Password' 
-              value={password} 
-              setChange={setPassword} 
+            <PasswordInput
+              placeholder='Password'
+              value={password}
+              setChange={setPassword}
             />
-            <a href='/ForgetPassword' className={styles.forgot__password}>Forgot password?</a>
+            <div>
+              <div className={styles.checkBox}>
+                <input
+                  type="checkbox"
+                  name="rememberMe"
+                  onChange={(event) => setRememberMe(event.target.checked)}
+                />
+                <label htmlFor="rememberMe"> Remember me</label>
+              </div>
+              <a href='/ForgetPassword' className={styles.forgot__password}>Forgot password?</a>
+            </div>
 
             <button type="submit" className={styles.login__submit}>
               <span className={styles.button__text}>Log In Now</span>
-              <i className={`${styles.button__icon} fas fa-chevron-right`}></i>
+              <i className={styles.button__icon}><ChevronRight /></i>
             </button>
           </form>
+
           <div className={styles.social__login}>
-            <h3>log in via</h3>
+            <h5>log in via</h5>
             <div className={styles.social__icons}>
               <a href={GoogleUrl} className={`${styles.social__login__icon} fab fa-google`}></a>
               <a href={FacebookUrl} className={`${styles.social__login__icon} fab fa-facebook`}></a>
               <a href={LinkedinUrl} className={`${styles.social__login__icon} fab fa-linkedin`}></a>
             </div>
           </div>
+
           <div className={styles.login__register}>
             Don't have an account? <a href='/register'>Register</a>
           </div>
+
         </div>
+
         <div className={styles.screen__background}>
           <span className={`${styles.screen__background__shape} ${styles.screen__background__shape4}`}></span>
           <span className={`${styles.screen__background__shape} ${styles.screen__background__shape3}`}></span>
           <span className={`${styles.screen__background__shape} ${styles.screen__background__shape2}`}></span>
           <span className={`${styles.screen__background__shape} ${styles.screen__background__shape1}`}></span>
         </div>
+
       </div>
     </div>
   );
