@@ -26,8 +26,8 @@ const NavBar = () => {
                         <li><a href='#'> Home </a></li>
                         <li>
                             <a href="#" className={styles.desktop_item}> Jobs </a>
-                            <input type="checkbox" id="showDrop" className={styles.showDrop} />
-                            <label htmlFor="showDrop" className={styles.mobile_item}> Jobs </label>
+                            <input type="checkbox" id="Jobs" className={styles.showDrop} />
+                            <label htmlFor="Jobs" className={styles.mobile_item}> Jobs </label>
                             <ul className={styles.drop_menu}>
                                 <li><a href="#">FullTime</a></li>
                                 <li><a href="#">PartTime</a></li>
@@ -50,8 +50,8 @@ const NavBar = () => {
                                         <div>GG</div>
                                     </div>
                                 </div>
-                                <input type="checkbox" id="showDrop" className={styles.showDrop} />
-                                <label htmlFor="showDrop" className={styles.mobile_item}> Profile </label>
+                                <input type="checkbox" id="Profile" className={styles.showDrop} />
+                                <label htmlFor="Profile" className={styles.mobile_item}> Profile </label>
                                 <ul className={styles.drop_menu}>
                                     <li><a href="#">GG</a></li>
                                     <li><a href="#">GG</a></li>
