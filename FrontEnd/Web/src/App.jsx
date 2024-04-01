@@ -3,22 +3,20 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import PrivateRoutes from './utils/PrivateRoutes.jsx';
 import AnonymousRoutes from './utils/AnonymousRoutes.jsx';
-import Layout from './utils/Layout.jsx';
-import Register from './pages/Register.jsx';
-import Login from './pages/Login.jsx';
-import Logout from './pages/Logout.jsx';
-import CallBack from './components/CallBack.jsx';
-import Profile from './pages/Profile.jsx';
-import ResetPassword from './pages/ResetPassword.jsx';
-import ForgetPassword from './pages/ForgetPassword.jsx';
-
+import NavBar from './components/NavBar.jsx';
+import Register from './pages/Register.jsx'
+import Login from './pages/Login.jsx'
+import CallBack from './components/CallBack.jsx'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
-
+import ResetPassword from './pages/ResetPassword.jsx';
+import ForgetPassword from './pages/ForgetPassword.jsx';
 import EmailVerificationMessage from './pages/EmailVerification.jsx';
 import UserInfo from './components/Profile/UserInfo.jsx';
 import VerifyCard from './components/Profile/VerifyCard.jsx';
 import ZCard from './components/Profile/ZCard.jsx';
+import PortfolioCardList from './components/Profile/PortifolioCard.jsx';
+import Profile from './components/Profile/main.jsx';
 
 
 export const ThemeContext = createContext({});
@@ -83,7 +81,8 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route element={<PrivateRoutes />}>
-              <Route path="/profile" element={<UserInfo />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/portifolio" element={<PortfolioCardList />} />
             </Route>
 
             <Route element={<AnonymousRoutes />}>
@@ -94,6 +93,10 @@ function App() {
               <Route path="/ForgetPassword" element={<ForgetPassword />} />
               <Route path="/emailVerify" element={<EmailVerificationMessage />} />
             </Route>
+
+            <Route path="/Testcard" element={<VerifyCard />} />
+            <Route path="/Testcard2" element={<ZCard />} />
+            <Route path="/" element={<></>} />
           </Routes>
         </BrowserRouter>
       </LoginContext.Provider>
