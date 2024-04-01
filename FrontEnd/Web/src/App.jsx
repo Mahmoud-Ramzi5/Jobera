@@ -15,6 +15,8 @@ import EmailVerificationMessage from './pages/EmailVerification.jsx';
 import UserInfo from './components/Profile/UserInfo.jsx';
 import VerifyCard from './components/Profile/VerifyCard.jsx';
 import ZCard from './components/Profile/ZCard.jsx';
+import PortfolioCardList from './components/Profile/PortifolioCard.jsx';
+import Profile from './components/Profile/main.jsx';
 
 
 export const ThemeContext = createContext({});
@@ -79,7 +81,8 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route element={<PrivateRoutes />}>
-              <Route path="/profile" element={<UserInfo />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/portifolio" element={<PortfolioCardList />} />
             </Route>
 
             <Route element={<AnonymousRoutes />}>

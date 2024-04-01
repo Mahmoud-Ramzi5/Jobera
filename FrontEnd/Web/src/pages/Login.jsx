@@ -53,10 +53,7 @@ const Login = () => {
 
   // Handle form submit
   const handleSubmit = (event) => {
-    /*The preventDefault() method cancels the event if it is cancelable, 
-    meaning that the default action that belongs to the event will not occur.
-    -> For example, this can be useful when:
-      Clicking on a "Submit" button, prevent it from submitting a form*/
+
     event.preventDefault();
 
     // Perform Login logic (Call api)
@@ -71,7 +68,8 @@ const Login = () => {
       body: JSON.stringify(
         {
           "email": email,
-          "password": password
+          "password": password,
+          "remember":true
         })
     })
       .then((response) => {

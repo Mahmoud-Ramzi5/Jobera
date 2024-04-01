@@ -114,4 +114,9 @@ class AuthController extends Controller
             'errors' => 'Email verification failed',
         ], 500);
     }
+    public function isExpired(Request $request){
+        return response()->json([
+            'message' => 'Token is valid'
+        ], 201);
+    }
 }
