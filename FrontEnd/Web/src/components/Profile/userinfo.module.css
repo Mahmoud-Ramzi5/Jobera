@@ -1,25 +1,38 @@
 .user_info_card {
-  top: 200px;
+  width:90%;
+  top: 120px;
   max-width: 940px;
   margin-right: auto;
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 16px;
+}
+.user_info_inside{
+  background:var(--color-background);
+}
+.user_info_title{
+  color: var(--color-rating);
+}
+.profile_picture{
+  position: relative;
+  height: 300px;
+  will-change: filter;
+  transition: filter 290ms;
 }
 
 .specification {
-  color: #333;
+  color: var(--color-foreground);
   margin-bottom: 8px;
   font-size: 20px;
 }
 
 .location,
-.rating,
-.money {
+.rating
+{
   margin-bottom: 4px;
+  color: var(--color-rating);
 }
 .description {
-  color: #777;
+  color: var(--color-foreground);
   font-size: 16px;
   margin-bottom: 8px;
 }

@@ -116,7 +116,7 @@ const Login = () => {
             </div>
 
             <button type="submit" className={styles.login__submit}>
-              <span className={styles.button__text}>Log In Now</span>
+              <span>Log In Now</span>
               <i className={styles.button__icon}><ChevronRight /></i>
             </button>
           </form>

@@ -209,7 +209,7 @@ const Register = () => {
               </div>
             </div >
             <button type="submit" className={styles.register__submit}>
-              <span className={styles.button__text}>Register now</span>
+              <span>Register now</span>
               <i className={styles.button__icon}><ChevronRight /></i>
             </button>
           </form>

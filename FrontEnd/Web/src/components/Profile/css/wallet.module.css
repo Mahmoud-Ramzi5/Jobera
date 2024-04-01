@@ -1,0 +1,100 @@
+.walletcard {
+    width:90%;
+    max-width: 940px;
+    margin-top:160px;
+    margin-right:auto;
+    border-radius: 8px;
+    display: flex;
+}
+.cardinside{
+    background-color: var(--color-background);
+    display: block;
+}
+.walletimage{
+    display:inline-block;
+    height: 121px;
+    will-change: filter;
+    transition: filter 290ms;
+    transform: translate(30px,-50px);
+}
+.redeemcode{
+    color:var(--color-foreground);
+    display:inline-block;
+    margin-left:10%;
+}
+.redeemcodeinput{
+display: flex;
+border: none;
+border-bottom: 2px solid #A5A5A8;
+background: none;
+color: var(--color-button);
+padding-left: 24px;
+padding-bottom: 8px;
+width: 60%;
+font-size: 15px;
+font-weight: 700;
+transition: .2s;
+}
+
+.redeemcodeinput:active,
+.redeemcodeinput:focus,
+.redeemcodeinput:hover {
+    outline: none;
+    border-bottom-color: #4F6E95;
+}
+
+.wallettitle{
+    color:var(--color-rating);
+    display:inline-block;
+    border:3px;
+    border-style: none;
+    border-radius: 10px;
+    background-color: var(--color-lighter);
+    max-width: 65%;
+}
+.cardinside{
+    text-align: center;
+}
+
+.walletbody {
+    padding-block: 1 px;
+    display:inline-block;
+    color:var(--color-button);
+    transform: translate(-20px,20px);
+    padding-bottom: 0%;
+    font-size: 20px;
+}
+.register__submit {
+    font-size: 15px;
+    margin-top: 30px;
+    border-radius: 25px;
+    border: 1px solid #A7A6BC;
+    text-decoration: inherit;
+    text-transform: uppercase;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    width: 30%;
+    color: var(--color-foreground);
+    background-color: var(--color-background);
+    box-shadow: 0px 2px 2px #395F87;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.register__submit:active,
+.register__submit:focus,
+.register__submit:hover {
+    border-color: #4F6E95;
+    background-color: #396397;
+    color:orange;
+    outline: none;
+}
+
+.button__icon {
+    font-size: 24px;
+    margin-left: auto;
+    color: #5da3ff;
+}
+
+

@@ -18,6 +18,10 @@ html, body {
 }
 
 .theme-light {
+  --color-titlesall:rgb(253, 248, 248);
+  --color-lighter:#dddddd;
+  --color-title:#3E6FA9;
+  --color-rating:#000000;
   --color-background: #fafafa;
   --color-foreground: #3E6FA9;
   --color-navbar: linear-gradient(90deg, #00C9FF, #E27D48, #3B6D99);
@@ -27,8 +31,13 @@ html, body {
 }
 
 .theme-dark {
+  --color-titlesall:#292929;
+  --color-lighter:rgb(33, 29, 22);
+  --color-title:#0e4a94;
+  --color-rating:#0e4a94;
   --color-background: #1f2023;
   --color-foreground: #efefef;
+  --color-button: #fafafa;
   --color-navbar: linear-gradient(90deg, #0084B9, #A95D32, #1E3D59);
   color: var(--color-foreground);
   background-color: var(--color-background);
