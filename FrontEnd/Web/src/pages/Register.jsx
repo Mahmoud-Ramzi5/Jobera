@@ -6,6 +6,7 @@ import {
 } from 'react-bootstrap-icons';
 import Cookies from 'js-cookie';
 import { LoginContext } from '../App.jsx';
+import { FetchCountries, FetchStates, RegisterAPI } from '../apis/AuthApis.jsx';
 import NormalInput from '../components/NormalInput.jsx';
 import PasswordInput from '../components/PasswordInput.jsx';
 import CustomPhoneInput from '../components/CustomPhoneInput.jsx';
@@ -42,30 +43,14 @@ const Register = () => {
       initialized.current = true;
 
       // Api Call
-      fetch("http://127.0.0.1:8000/api/countries", {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': "application/json",
-          'connection': 'keep-alive',
-          'Accept-Encoding': 'gzip, deflate, br'
-        },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(response.status);
-          }
-          else {
-            return response.json();
-          }
-        })
-        .then((data) => {
-          setCountries(data.countries);
-        })
-        .catch(error => {
-          // Handle errors
-          console.log(error);
-        });
+      FetchCountries().then((response) => {
+        if (response.status === 200) {
+          setCountries(response.data.countries);
+        }
+        else {
+          console.log(response.statusText);
+        }
+      });
     }
   }, []);
 
@@ -74,33 +59,14 @@ const Register = () => {
     setCountry(event.target.value);
 
     // Api Call
-    fetch("http://127.0.0.1:8000/api/states", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': "application/json",
-        'connection': 'keep-alive',
-        'Accept-Encoding': 'gzip, deflate, br'
-      },
-      body: JSON.stringify({
-        'country_id': event.target.options.selectedIndex
-      })
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(response.status);
-        }
-        else {
-          return response.json();
-        }
-      })
-      .then((data) => {
-        setStates(data.states);
-      })
-      .catch(error => {
-        // Handle errors
-        console.log(error);
-      });
+    FetchStates(event.target.options.selectedIndex).then((response) => {
+      if (response.status === 200) {
+        setStates(response.data.states);
+      }
+      else {
+        console.log(response.statusText);
+      }
+    });
   }
 
   // Handle form submit
@@ -112,59 +78,43 @@ const Register = () => {
     event.preventDefault();
 
     // Perform Register logic (Call api)
-    fetch("http://127.0.0.1:8000/api/register", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': "application/json",
-        'connection': 'keep-alive',
-        'Accept-Encoding': 'gzip, deflate, br'
-      },
-      body: JSON.stringify({
-        "fullName": FirstName + " " + LastName,
-        "email": email,
-        "phoneNumber": PhoneNumber,
-        "password": password,
-        "confirmPassword": ConfirmPassword,
-        "country": country,
-        "state": state,
-        "birthDate": date,
-        "gender": gender,
-      })
-    })
+    RegisterAPI(
+      FirstName,
+      LastName,
+      email,
+      PhoneNumber,
+      password,
+      ConfirmPassword,
+      country,
+      state,
+      date,
+      gender)
       .then((response) => {
-        if (!response.ok) {
-          throw new Error(response.status);
+        if (response.status === 200) {
+          // Store token and Log in user 
+          const token = response.data.access_token;
+          setLoggedIn(true);
+          setAccessToken(token);
+          sessionStorage.setItem('access_token', token);
+
+          // Reset the form fields
+          setFirstName('');
+          setLastName('');
+          setEmail('');
+          setPhoneNumber('');
+          setPassword('');
+          setConfirmPassword('');
+          setCountry('');
+          setState('');
+          setDate('');
+          setGender('');
+
+          // Redirect to profile
+          navigate('/profile')
         }
         else {
-          return response.json();
+          console.log(response.statusText);
         }
-      })
-      .then((data) => {
-        // Store token and Log in user 
-        const token = data.access_token;
-        setLoggedIn(true);
-        setAccessToken(token);
-        sessionStorage.setItem('access_token', token);
-
-        // Reset the form fields
-        setFirstName('');
-        setLastName('');
-        setEmail('');
-        setPhoneNumber('');
-        setPassword('');
-        setConfirmPassword('');
-        setCountry('');
-        setState('');
-        setDate('');
-        setGender('');
-
-        // Redirect to profile
-        navigate('/profile')
-      })
-      .catch(error => {
-        // Handle errors
-        console.log(error);
       });
   };
 

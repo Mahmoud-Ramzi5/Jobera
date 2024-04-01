@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { PersonFill, ChevronRight } from 'react-bootstrap-icons';
 import Cookies from 'js-cookie';
 import { LoginContext } from '../App.jsx';
+import { FetchProviders, LoginAPI } from '../apis/AuthApis.jsx';
 import NormalInput from '../components/NormalInput.jsx';
 import PasswordInput from '../components/PasswordInput.jsx';
 import Logo from '../assets/JoberaLogo.png';
@@ -27,29 +28,16 @@ const Login = () => {
       initialized.current = true;
 
       // Api Call
-      fetch('http://127.0.0.1:8000/api/auth/providers', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': "application/json",
-          'Accept-Encoding': 'gzip, deflate, br'
+      FetchProviders().then((response) => {
+        if (response.status === 200) {
+          setGoogleUrl(response.data.googleURL);
+          setFacebookUrl(response.data.facebookURL);
+          setLinkedinUrl(response.data.linkedinURL);
         }
-      })
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-          throw new Error('Something went wrong!');
-        })
-        .then((data) => {
-          setGoogleUrl(data.googleURL);
-          setFacebookUrl(data.facebookURL);
-          setLinkedinUrl(data.linkedinURL);
-        })
-        .catch(error => {
-          // Handle errors
-          console.log(error);
-        });
+        else {
+          console.log(response.statusText);
+        }
+      });
     }
   }, []);
 
@@ -62,54 +50,37 @@ const Login = () => {
     event.preventDefault();
 
     // Perform Login logic (Call api)
-    fetch("http://127.0.0.1:8000/api/login", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': "application/json",
-        'connection': 'keep-alive',
-        'Accept-Encoding': 'gzip, deflate, br'
-      },
-      body: JSON.stringify({
-        "email": email,
-        "password": password,
-        "remember": rememberMe
-      })
-    })
+    LoginAPI(
+      email,
+      password,
+      rememberMe)
       .then((response) => {
-        if (!response.ok) {
-          throw new Error(response.status);
+        if (response.status === 200) {
+          // Store token and Log in user 
+          const token = response.data.access_token;
+          const expires = response.data.expires_at;
+          console.log(expires);
+
+          setLoggedIn(true);
+          setAccessToken(token);
+          if (rememberMe) {
+            Cookies.set('access_token', token, { secure: true });
+          }
+          else {
+            sessionStorage.setItem('access_token', token);
+          }
+
+          // Reset the form fields
+          setEmail('');
+          setPassword('');
+          setRememberMe(false);
+
+          // Redirect to dashboard
+          navigate('/dashboard');
         }
         else {
-          return response.json();
+          console.log(response.statusText);
         }
-      })
-      .then((data) => {
-        // Store token and Log in user 
-        const token = data.access_token;
-        const expires = data.expires_at;
-        console.log(expires);
-
-        setLoggedIn(true);
-        setAccessToken(token);
-        if (rememberMe) {
-          Cookies.set('access_token', token, { secure: true });
-        }
-        else {
-          sessionStorage.setItem('access_token', token);
-        }
-
-        // Reset the form fields
-        setEmail('');
-        setPassword('');
-        setRememberMe(false);
-
-        // Redirect to dashboard
-        navigate('/dashboard');
-      })
-      .catch(error => {
-        // Handle errors
-        console.log(error);
       });
   };
 

@@ -2,6 +2,8 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { LoginContext } from '../App.jsx';
+import { LogoutAPI } from '../apis/AuthApis.jsx';
+
 
 const Logout = () => {
   const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
@@ -14,25 +16,8 @@ const Logout = () => {
       initialized.current = true;
 
       // Perform Logout logic (Call api)
-      fetch("http://127.0.0.1:8000/api/logout", {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'Accept': "application/json",
-          'connection': 'keep-alive',
-          'Accept-Encoding': 'gzip, deflate, br',
-          'Authorization': `Bearer ${accessToken}`
-        },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(response.status);
-          }
-          else {
-            return response.json();
-          }
-        })
-        .then((data) => {
+      LogoutAPI(accessToken).then((response) => {
+        if (response.status === 200) {
           // Logout user and delete Token
           setLoggedIn(false);
           setAccessToken(null);
@@ -41,11 +26,11 @@ const Logout = () => {
 
           // Redirect to index
           navigate('/');
-        })
-        .catch(error => {
-          // Handle errors
-          console.log(error);
-        });
+        }
+        else {
+          console.log(response.statusText);
+        }
+      });
     }
   }, []);
 
