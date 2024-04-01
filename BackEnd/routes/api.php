@@ -14,31 +14,32 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'Login');
     Route::post('/logout', 'Logout')->middleware('auth:api');
 
-    Route::get('/user', function (Request $request) {
-        return $request->user();
+    Route::get('/user', function () {
+        return response()->json([
+            "user" => auth()->user()
+        ], 200);
     })->middleware('auth:api');
 
     Route::get('/email',function() {
         return response()->json([
             "email" => auth()->user()->email
-            ]
-        );
+        ], 200);
     })->middleware('auth:api');
 
     Route::get('/verifyEmail', 'VerifyEmail')->middleware('auth:api');
-    Route::get('/isExpired','isExpired')->middleware('auth:api');
+    Route::get('/isExpired', 'isExpired')->middleware('auth:api');
 
     Route::get('/countries', function () {
         return Response()->json([
             'countries' => Country::all(),
-        ]);
+        ], 200);
     });
 
     Route::post('/states', function (Request $request) {
         $country_id = $request->input('country_id');
         return Response()->json([
             'states' => State::where('country_id', $country_id)->get()->all(),
-        ]);
+        ], 200);
     });
 });
 
@@ -71,6 +72,3 @@ Route::get('/GG', function () {
         }
     }
 });
-
-
-

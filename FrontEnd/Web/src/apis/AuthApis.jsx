@@ -46,7 +46,7 @@ export const LoginAPI = async (
         const response = await axios.post('http://127.0.0.1:8000/api/login', {
             "email": email,
             "password": password,
-            "remember": rememberMe
+            "remember": rememberMe,
         }, {
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
@@ -71,6 +71,30 @@ export const LogoutAPI = async (
                     'Authorization': `Bearer ${token}`
                 }
             });
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+};
+
+export const ResetPasswordAPI = async (
+    token,
+    email,
+    password,
+    confirmPassword
+) => {
+    try {
+        const response = await axios.post('http://127.0.0.1:8000/api/password/reset', {
+            "email": email,
+            "password": password,
+            "confirm_password": confirmPassword,
+        }, {
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Accept': "application/json",
+                'Authorization': `Bearer ${token}`
+            }
+        });
         return response;
     } catch (error) {
         return error.response;
@@ -113,6 +137,21 @@ export const FetchProviders = async () => {
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
                 'Accept': "application/json",
+            }
+        });
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+};
+
+export const FetchEmail = async (token) => {
+    try {
+        const response = await axios.get('http://127.0.0.1:8000/api/auth/email', {
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Accept': "application/json",
+                'Authorization': `Bearer ${token}`
             }
         });
         return response;
