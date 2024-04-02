@@ -25,7 +25,7 @@ const ResetPassword = () => {
       // Api Call
       FetchEmail(searchParams.get("token")).then((response) => {
         if (response.status === 200) {
-          setEmail(response.data.email)
+          setEmail(response.data.email);
         }
         else {
           console.log(response.statusText);
@@ -43,7 +43,7 @@ const ResetPassword = () => {
     event.preventDefault();
 
     if (password != confirmPassword) {
-      alert('The password and confirm password fields should be the same')
+      alert('The password and Confirm-Password fields should be the same')
     }
     else {
       // Perform PasswordReset logic (Call api)
@@ -76,7 +76,7 @@ const ResetPassword = () => {
           {successMessage ? (<>
             <div className={styles.success}>
               {successMessage}
-              <button onClick={() => navigate('/login')} className={styles.navigateButton} name="navigate_login">return to log in</button>
+              <button onClick={() => navigate('/login')} className={styles.navigateButton} name="navigate_login">Return to log in</button>
             </div>
           </>) : (
             <form className={styles.reset} onSubmit={handleSubmit}>

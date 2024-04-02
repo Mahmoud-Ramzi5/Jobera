@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PersonFill, ChevronRight } from 'react-bootstrap-icons';
+import { PersonFill, ChevronRight, CheckLg, X } from 'react-bootstrap-icons';
 import { ForgotPasswordAPI } from '../apis/AuthApis.jsx';
 import NormalInput from '../components/NormalInput.jsx';
 import Logo from '../assets/JoberaLogo.png';
@@ -42,32 +42,30 @@ const ForgotPassword = () => {
           <img src={Logo} className={styles.logo} alt="logo" />
           <div className={styles.title}>Forgot Password</div>
           {failedMessage ? (<>
-            <div className={`${styles.xmark} fa-solid fa-xmark`}></div>
             <div className={styles.failed}>
-              {failedMessage}
+              <i className={styles.xmark}><X size={60} /></i>
+              <span>{failedMessage}</span>
             </div>
           </>) : (<>
             {successMessage ? (<>
-              <div className={`${styles.check} fa-solid fa-check`}></div>
               <div className={styles.success}>
-                {successMessage}
+                <i className={styles.check}><CheckLg size={60} /></i>
+                <span>{successMessage}</span>
               </div>
             </>) : (
               <form className={styles.ForgotPassword} onSubmit={handleSubmit}>
                 <label className={styles.label1}>Enter your email address and we'll send you an email with instructions to reset your password. </label>
-                <div className={styles.box1}>
-                  <NormalInput
-                    type='email'
-                    placeholder='Email'
-                    icon={<PersonFill />}
-                    value={email}
-                    setChange={setEmail}
-                  />
-                  <button type="submit" className={styles.ForgotPassword__submit}>
-                    <span>Send reset-link</span>
-                    <i className={styles.button__icon}><ChevronRight /></i>
-                  </button>
-                </div>
+                <NormalInput
+                  type='email'
+                  placeholder='Email'
+                  icon={<PersonFill />}
+                  value={email}
+                  setChange={setEmail}
+                />
+                <button type="submit" className={styles.ForgotPassword__submit}>
+                  <span>Send reset-link</span>
+                  <i className={styles.button__icon}><ChevronRight /></i>
+                </button>
               </form>
             )}
           </>)}

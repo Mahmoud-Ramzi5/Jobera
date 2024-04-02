@@ -14,13 +14,13 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'Login');
     Route::post('/logout', 'Logout')->middleware('auth:api');
 
-    Route::get('/user', function () {
+    Route::get('/auth/user', function () {
         return response()->json([
             "user" => auth()->user()
         ], 200);
     })->middleware('auth:api');
 
-    Route::get('/email',function() {
+    Route::get('/auth/email', function() {
         return response()->json([
             "email" => auth()->user()->email
         ], 200);
