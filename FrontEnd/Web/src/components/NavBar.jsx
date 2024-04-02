@@ -1,15 +1,38 @@
-import { useContext } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import ReactSwitch from 'react-switch';
 import { BriefcaseFill, EnvelopeAtFill, BellFill } from 'react-bootstrap-icons';
 import { ThemeContext } from '../App.jsx';
 import { LoginContext } from '../App.jsx';
+import { FetchUser } from '../apis/AuthApis.jsx';
 import Logo from '../assets/JoberaLogo.png';
 import styles from '../styles/navbar.module.css';
+
 
 const NavBar = () => {
     // Context    
     const { theme, toggleTheme } = useContext(ThemeContext);
     const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
+    // Define states
+    const initialized = useRef(false);
+    const [user, setUser] = useState({});
+
+    useEffect(() => {
+        if (!initialized.current) {
+            initialized.current = true;
+
+            FetchUser(accessToken).then((response) => {
+                if (response.status === 200) {
+                    setUser(response.data.user);
+                    const GG = response.data.user
+                    console.log(GG);
+                    console.log(user);
+                }
+                else {
+                    console.log(response.statusText);
+                }
+            });
+        }
+    }, [loggedIn])
 
     return (
         <nav>
@@ -43,11 +66,11 @@ const NavBar = () => {
                             <li><a href='/register'><BellFill /></a></li>
                             <li>
                                 <div href="#" className={`${styles.desktop_item} ${styles.profile}`}>
-                                    <img src="https://fadzrinmadu.github.io/hosted-assets/responsive-mega-menu-and-dropdown-menu-using-only-html-and-css/img.jpg"
-                                    className={styles.profile_image}></img>
+                                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s"
+                                        className={styles.profile_image}></img>
                                     <div className={styles.profile_details}>
-                                        <div>Profile</div>
-                                        <div>GG</div>
+                                        <div>{user.fullName}</div>
+                                        <div>${user.id}</div>
                                     </div>
                                 </div>
                                 <input type="checkbox" id="Profile" className={styles.showDrop} />

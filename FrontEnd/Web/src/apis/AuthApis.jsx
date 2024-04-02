@@ -151,6 +151,35 @@ export const FetchEmail = async (token) => {
     }
 };
 
+export const FetchUser = async (token) => {
+    try {
+        const response = await axios.get('http://127.0.0.1:8000/api/auth/user', {
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Accept': "application/json",
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+};
+
+export const FetchProviders = async () => {
+    try {
+        const response = await axios.get('http://127.0.0.1:8000/api/auth/providers', {
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Accept': "application/json",
+            }
+        });
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+};
+
 export const FetchCountries = async () => {
     try {
         const response = await axios.get('http://127.0.0.1:8000/api/countries', {
@@ -170,20 +199,6 @@ export const FetchStates = async (country_id) => {
         const response = await axios.post('http://127.0.0.1:8000/api/states', {
             'country_id': country_id
         }, {
-            headers: {
-                'Content-Type': 'application/json; charset=UTF-8',
-                'Accept': "application/json",
-            }
-        });
-        return response;
-    } catch (error) {
-        return error.response;
-    }
-};
-
-export const FetchProviders = async () => {
-    try {
-        const response = await axios.get('http://127.0.0.1:8000/api/auth/providers', {
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
                 'Accept': "application/json",
