@@ -10,7 +10,7 @@ import Logout from './pages/Logout.jsx';
 import CallBack from './components/CallBack.jsx';
 import Profile from './pages/Profile.jsx';
 import ResetPassword from './pages/ResetPassword.jsx';
-import ForgetPassword from './pages/ForgetPassword.jsx';
+import ForgotPassword from './pages/ForgotPassword.jsx';
 
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
@@ -92,7 +92,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/auth/:provider/call-back" element={<CallBack />} />
               <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/ForgetPassword" element={<ForgetPassword />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/emailVerify" element={<EmailVerificationMessage />} />
             </Route>
           </Routes>

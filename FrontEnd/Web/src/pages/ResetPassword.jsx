@@ -25,10 +25,10 @@ const ResetPassword = () => {
       // Api Call
       FetchEmail(searchParams.get("token")).then((response) => {
         if (response.status === 200) {
-            setEmail(response.data.email)
+          setEmail(response.data.email)
         }
         else {
-            console.log(response.statusText);
+          console.log(response.statusText);
         }
       });
     }
@@ -36,30 +36,30 @@ const ResetPassword = () => {
 
   // Handle form submit
   const handleSubmit = (event) => {
-  /*The preventDefault() method cancels the event if it is cancelable, 
-  meaning that the default action that belongs to the event will not occur.
-  -> For example, this can be useful when:
-      Clicking on a "Submit" button, prevent it from submitting a form*/
+    /*The preventDefault() method cancels the event if it is cancelable, 
+    meaning that the default action that belongs to the event will not occur.
+    -> For example, this can be useful when:
+        Clicking on a "Submit" button, prevent it from submitting a form*/
     event.preventDefault();
-    
+
     if (password != confirmPassword) {
       alert('The password and confirm password fields should be the same')
     }
     else {
-    // Perform PasswordReset logic (Call api)
-    ResetPasswordAPI(
-      searchParams.get("token"),
-      email,
-      password,
-      confirmPassword)
-      .then((response) => {
-        if (response.status === 200) {
-          setSuccessMessage('Password has been changed successfully');
-        }
-        else {
-          console.log(response.statusText);
-        }
-      });
+      // Perform PasswordReset logic (Call api)
+      ResetPasswordAPI(
+        searchParams.get("token"),
+        email,
+        password,
+        confirmPassword)
+        .then((response) => {
+          if (response.status === 200) {
+            setSuccessMessage('Password has been changed successfully');
+          }
+          else {
+            console.log(response.statusText);
+          }
+        });
     };
 
     // Reset the form fields
@@ -75,8 +75,8 @@ const ResetPassword = () => {
           <div className={styles.title}>Reset Password</div>
           {successMessage ? (<>
             <div className={styles.success}>
-                {successMessage}
-                <button onClick={() => navigate('/login')} className={styles.navigateButton} name="navigate_login">return to log in</button>
+              {successMessage}
+              <button onClick={() => navigate('/login')} className={styles.navigateButton} name="navigate_login">return to log in</button>
             </div>
           </>) : (
             <form className={styles.reset} onSubmit={handleSubmit}>
@@ -108,7 +108,7 @@ const ResetPassword = () => {
           <span className={`${styles.screen__background__shape} ${styles.screen__background__shape2}`}></span>
           <span className={`${styles.screen__background__shape} ${styles.screen__background__shape1}`}></span>
         </div>
-        
+
       </div>
     </div>
   );

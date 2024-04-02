@@ -77,6 +77,24 @@ export const LogoutAPI = async (
     }
 };
 
+export const ForgotPasswordAPI = async (
+    email,
+) => {
+    try {
+        const response = await axios.post('http://127.0.0.1:8000/api/password/reset-link', {
+            "email": email,
+        }, {
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Accept': "application/json",
+            }
+        });
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+};
+
 export const ResetPasswordAPI = async (
     token,
     email,
