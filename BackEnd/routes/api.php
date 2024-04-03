@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Models\State;
 use App\Models\Country;
 use Illuminate\Http\Request;
@@ -52,23 +53,6 @@ Route::controller(ForgetPasswordController::class)->group(function () {
     Route::post('/password/reset-link', 'ForgotPassword');
     Route::post('/password/reset', 'Reset')->middleware('auth:api');
 });
-
-Route::get('/GG', function () {
-    $fileContent = file_get_contents(storage_path("countries.json"));
-    $jsonContent = json_decode($fileContent, true);
-    foreach($jsonContent as $country)
-    {
-        $C = Country::create([
-            "country_id" => $country["country_id"],
-            "sortName"=> $country["sortname"],
-            "countryName"=> $country["country_name"],
-        ]);
-        foreach($country["states"] as $state) {
-            $S = State::create([
-                "state_id" => $state["state_id"],
-                "stateName"=> $state["state_name"],
-                "country_id"=> $state["country_id"],
-            ]);
-        }
-    }
+Route::controller(ProfileController::class)->group(function(){
+    Route::get('/profile','show')->middleware('auth:api');
 });
