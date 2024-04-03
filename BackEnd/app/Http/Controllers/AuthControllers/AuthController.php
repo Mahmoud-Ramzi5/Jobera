@@ -14,13 +14,21 @@ use App\Notifications\EmailVerification;
 
 class AuthController extends Controller
 {
-    public function Register(RegisterRequest $request) {
+    public function Register(RegisterRequest $request)
+    {
         // Validate request
         $validated = $request->validated();
 
         // Hash password and remove confirm password
         $validated['password'] = bcrypt($validated['password']);
         $validated = Arr::except($validated, 'confirmPassword');
+
+        // Handle profile photo
+        if ($request->hasFile('avatarPhoto')) {
+            $avatarPath = $request->file('avatarPhoto')->store('avatars', 'public');
+            $validated['avatarPhoto'] = $avatarPath;
+            
+        }
 
         // Register user and send verification email
         $user = User::create($validated);
@@ -36,7 +44,8 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function Login(LoginRequest $request) {
+    public function Login(LoginRequest $request)
+    {
         // Validate request
         $validated = $request->validated();
         $remember = $validated['remember'];
@@ -56,7 +65,7 @@ class AuthController extends Controller
         $token->token->expires_at = $expiration;
         $token->token->save();
 
-         // Response
+        // Response
         return response()->json([
             "data" => $user,
             "access_token" => $token->accessToken,
@@ -65,7 +74,8 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function Logout(Request $request) {
+    public function Logout(Request $request)
+    {
         $request->user()->token()->delete();
         // Response
         return response()->json([
@@ -73,7 +83,8 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function SendEmailVerification(Request $request) {
+    public function SendEmailVerification(Request $request)
+    {
         // Validate request
         $request->validate([
             'email' => 'required|email',
@@ -94,7 +105,8 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function VerifyEmail(Request $request) {
+    public function VerifyEmail(Request $request)
+    {
         // Get user
         $user = auth()->user();
 
@@ -124,7 +136,8 @@ class AuthController extends Controller
         ], 500);
     }
 
-    public function isExpired(Request $request) {
+    public function isExpired(Request $request)
+    {
         return response()->json([
             'message' => 'Token is valid'
         ], 201);

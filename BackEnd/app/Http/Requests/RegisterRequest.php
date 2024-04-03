@@ -33,7 +33,7 @@ class RegisterRequest extends FormRequest
             'state' => ['required'],
             'birthDate' => ['required', 'date'],
             'gender' => ['required', 'in:male,female'],
-            'avatarPhoto' => ['sometimes'],
+            'avatarPhoto' => ['sometimes', 'image', 'max:4096'],
         ];
     }
 
