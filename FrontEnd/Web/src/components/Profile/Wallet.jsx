@@ -4,7 +4,7 @@ import { Card, Button } from 'react-bootstrap';
 import logo from '../../assets/JoberaLogo.png';
 import { ChevronRight} from 'react-bootstrap-icons';
 import walletblack from '../../assets/walletblack.png';
-import  styles from './css/wallet.module.css';
+import  styles from './wallet.module.css';
 
 const Wallet = () => {
     const money = 6000;

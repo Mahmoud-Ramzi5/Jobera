@@ -60,7 +60,6 @@ transition: .2s;
     padding-block: 1 px;
     display:inline-block;
     color:var(--color-button);
-    transform: translate(-20px,20px);
     padding-bottom: 0%;
     font-size: 20px;
 }

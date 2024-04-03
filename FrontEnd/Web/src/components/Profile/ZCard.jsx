@@ -4,7 +4,7 @@ import { Card, Button } from 'react-bootstrap';
 import { PenFill } from 'react-bootstrap-icons';
 import { ThemeContext } from '../../App';
 import Logo from '../../assets/JoberaLogo.png'
-import styles from './css/ZCard.module.css'
+import styles from './ZCard.module.css'
 import SlicingAraayInput from './SlicingAraayInput';
 
 

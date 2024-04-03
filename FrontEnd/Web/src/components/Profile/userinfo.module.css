@@ -1,20 +1,25 @@
 .user_info_card {
   width:90%;
   top: 120px;
-  max-width: 940px;
-  margin-right: auto;
+  margin-right: 10px;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 10px;
 }
-.user_info_inside{
+
+.user_info_inside {
   background:var(--color-background);
 }
-.user_info_title{
+
+.user_info_title {
   color: var(--color-rating);
 }
-.profile_picture{
+
+.profile_picture {
   position: relative;
-  height: 300px;
+  height: 200px;
+  width: 200px;
+  padding: 20px;
+  justify-content: center;
   will-change: filter;
   transition: filter 290ms;
 }
@@ -31,6 +36,7 @@
   margin-bottom: 4px;
   color: var(--color-rating);
 }
+
 .description {
   color: var(--color-foreground);
   font-size: 16px;

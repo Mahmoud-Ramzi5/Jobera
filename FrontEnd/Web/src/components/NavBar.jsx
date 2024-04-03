@@ -23,9 +23,6 @@ const NavBar = () => {
             FetchUser(accessToken).then((response) => {
                 if (response.status === 200) {
                     setUser(response.data.user);
-                    const GG = response.data.user
-                    console.log(GG);
-                    console.log(user);
                 }
                 else {
                     console.log(response.statusText);

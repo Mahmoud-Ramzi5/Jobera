@@ -1,0 +1,23 @@
+.Profile {
+    display: flex;
+    padding: 5px 15px;
+}
+  
+.leftSideContainer {
+  display: relative;
+  width: 75%;
+  padding-left: 20px;
+}
+
+.rightSideContainer {
+  display: relative;
+  width: 25%;
+  padding-right: 20px;
+}  
+
+.leftside1{
+  display: relative;
+  left:40px;
+  background-color: red;
+}  
+

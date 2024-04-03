@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './css/ZCard.module.css'
 
 const SlicingAraayInput = ({ dataArray ,first,last}) => {
   // Slice the first five elements from the dataArray
