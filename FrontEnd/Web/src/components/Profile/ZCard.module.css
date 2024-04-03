@@ -83,9 +83,6 @@
 .pen:hover{
     color:rgb(72, 72, 225);
 }
-.skills::before{
-    content: ".";
-}
 .nullmessage{
     height: 50px;
     color: var(--color-foreground);
@@ -93,4 +90,8 @@
     z-index: 1;
     position:relative;
     margin-top: 0px;
+}
+
+.skillsdisplay{
+    display:inline-block ;
 }

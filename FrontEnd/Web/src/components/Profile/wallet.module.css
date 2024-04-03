@@ -15,7 +15,7 @@
     height: 121px;
     will-change: filter;
     transition: filter 290ms;
-    transform: translate(30px,-50px);
+    margin-bottom: 8%;
 }
 .redeemcode{
     color:var(--color-foreground);

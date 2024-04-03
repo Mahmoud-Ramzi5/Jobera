@@ -41,12 +41,12 @@ const UserInfo = () => {
 
   return (
     <Card className={styles.user_info_card}>
-      <div className={`${styles.user_info_inside} row g-0`}>
-        <div className={`${styles.profile_picture} col-md-4`}>
+      <div className={styles.user_info_inside}>
+        <div className={styles.profile_picture}>
           <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet" />
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s" alt="Profile" />
+          <img src={logo} alt="Profile image" width="200px"/>
         </div>
-        <div className="col-md-8">
+        <div className={styles.info_in_profile}>
           <div className={styles.user_info_title} >
             <h3 className="card-title">{profileData.name}</h3>
             <h4 className={styles.specification}>{profileData.specification}</h4>

@@ -8,6 +8,7 @@
 
 .user_info_inside {
   background:var(--color-background);
+  display:block;
 }
 
 .user_info_title {
@@ -15,14 +16,22 @@
 }
 
 .profile_picture {
-  position: relative;
-  height: 200px;
-  width: 200px;
-  padding: 20px;
-  justify-content: center;
+  display:inline-block;
+  height: 250px;
+  width: 250px;
   will-change: filter;
   transition: filter 290ms;
+  padding-left: 1.5%;
+  padding-top: 1.5%;
+  margin:1%;
+  margin-bottom: 8%;
 }
+
+.info_in_profile{
+  margin-bottom: 3%;
+  margin-left: 3%;
+}
+
 
 .specification {
   color: var(--color-foreground);

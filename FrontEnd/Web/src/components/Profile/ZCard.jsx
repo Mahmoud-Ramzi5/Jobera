@@ -56,21 +56,6 @@ const ZCard = () => {
 return(
     <>
         <>
-            <Card style={{ width: '18rem' }} className={styles.card1}>
-                <div className={styles.background}>
-                    <Card.Header className={styles.titlesplace}><div className={styles.title}>Setup Profile</div></Card.Header>
-                    <Card.Body>
-                    <Card.Title>continue your registeration:</Card.Title>
-                    <Card.Text>
-                        please click the following button then follow the instructions to complete your regisetration
-                    </Card.Text>
-                    <button type="button" className={(theme==="theme-light")?"btn btn-outline-dark":"btn btn-outline-light"} onClick={() => navigate('/ContineRegisteration')}>set yourself up</button>
-                    </Card.Body>
-                </div>
-            </Card>
-            <br />
-        </>
-        <>
             <Card style={{ width: '18rem' }} className={styles.card2}>
                 <div className={styles.background}>
                     <div>
