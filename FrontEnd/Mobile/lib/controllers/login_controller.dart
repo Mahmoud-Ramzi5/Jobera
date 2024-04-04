@@ -4,13 +4,32 @@ import 'package:get/get.dart';
 import 'package:jobera/main.dart';
 
 class LoginController extends GetxController {
-  GlobalKey<FormState> formField = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  bool passwordToggle = true;
-  bool remeberMe = false;
-  bool isLoggedIn = false;
-  var dio = Dio();
+  late GlobalKey<FormState> formField;
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
+  late bool passwordToggle;
+  late bool remeberMe;
+  late bool isLoggedIn;
+  late Dio dio;
+
+  @override
+  void onInit() {
+    formField = GlobalKey<FormState>();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+    passwordToggle = true;
+    remeberMe = false;
+    isLoggedIn = false;
+    dio = Dio();
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.onClose();
+  }
 
   void toggleRemeberMe(bool rememberMe) {
     remeberMe = !remeberMe;
@@ -39,8 +58,6 @@ class LoginController extends GetxController {
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',
               'Accept': 'application/json',
-              'connection': 'keep-alive',
-              'Accept-Encoding': 'gzip, deflate, br',
             },
           ));
       if (response.statusCode == 200) {

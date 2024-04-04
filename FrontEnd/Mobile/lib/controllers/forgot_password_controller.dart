@@ -3,10 +3,25 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ForgotPasswordController extends GetxController {
-  GlobalKey<FormState> formField = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  bool isEmailSentSuccessfully = false;
-  var dio = Dio();
+  late GlobalKey<FormState> formField;
+  late TextEditingController emailController;
+  late bool isEmailSentSuccessfully;
+  late Dio dio;
+
+  @override
+  onInit() {
+    formField = GlobalKey<FormState>();
+    emailController = TextEditingController();
+    isEmailSentSuccessfully = false;
+    dio = Dio();
+    super.onInit();
+  }
+
+  @override
+  onClose() {
+    emailController.dispose();
+    super.onClose();
+  }
 
   Future<dynamic> forgotPassword(
     String email,
@@ -19,8 +34,6 @@ class ForgotPasswordController extends GetxController {
                 headers: {
                   'Content-Type': 'application/json; charset=UTF-8',
                   'Accept': 'application/json',
-                  'connection': 'keep-alive',
-                  'Accept-Encoding': 'gzip, deflate, br',
                 },
               ));
       if (response.statusCode == 200) {

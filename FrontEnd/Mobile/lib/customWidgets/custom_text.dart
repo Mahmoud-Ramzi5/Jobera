@@ -41,17 +41,3 @@ class CustomLabelText extends StatelessWidget {
     );
   }
 }
-
-class CustomHeadlineText extends StatelessWidget {
-  final String text;
-
-  const CustomHeadlineText({super.key, required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(
-      text,
-      style: Theme.of(context).textTheme.headlineSmall,
-    );
-  }
-}

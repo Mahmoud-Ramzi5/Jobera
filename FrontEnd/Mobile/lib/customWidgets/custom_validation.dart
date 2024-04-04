@@ -25,4 +25,13 @@ class CustomValidation {
     }
     return null;
   }
+
+  String? validatePhineNumber(String? value) {
+    if (value!.isEmpty) {
+      return "Required Field";
+    } else if (value.length != 9) {
+      return "Invalid Phone Number";
+    }
+    return null;
+  }
 }

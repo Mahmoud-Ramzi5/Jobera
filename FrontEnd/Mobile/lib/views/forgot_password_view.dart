@@ -76,7 +76,7 @@ class ForgotPasswordView extends StatelessWidget {
                     }
                   },
                   style: Theme.of(context).textButtonTheme.style,
-                  child: const CustomLabelText(text: "Submit"),
+                  child: const CustomBodyText(text: "Submit"),
                 ),
               ],
             ),

@@ -59,8 +59,7 @@ class LoginView extends StatelessWidget {
                     children: [
                       TextButton(
                         onPressed: () => Get.to(() => ForgotPasswordView()),
-                        child:
-                            const CustomHeadlineText(text: "Forgot Password?"),
+                        child: const CustomLabelText(text: "Forgot Password?"),
                       ),
                     ],
                   ),
@@ -128,7 +127,7 @@ class LoginView extends StatelessWidget {
                                   }
                                 }
                               },
-                              child: const CustomLabelText(text: "Login")),
+                              child: const CustomBodyText(text: "Login")),
                         ],
                       ),
                     ],
@@ -138,18 +137,13 @@ class LoginView extends StatelessWidget {
                     children: [
                       ElevatedButton(
                         onPressed: () {},
-                        child: Row(
-                          children: [
-                            const CustomBodyText(text: "Login With Google"),
-                            Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: FaIcon(
-                                FontAwesomeIcons.google,
-                                color: Colors.lightBlue.shade900,
-                                size: 20,
-                              ),
-                            ),
-                          ],
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: FaIcon(
+                            FontAwesomeIcons.google,
+                            color: Colors.lightBlue.shade900,
+                            size: 20,
+                          ),
                         ),
                       ),
                     ],
@@ -160,7 +154,7 @@ class LoginView extends StatelessWidget {
                       const CustomLabelText(text: "New Around Here ?"),
                       TextButton(
                           onPressed: () => Get.to(() => RegisterView()),
-                          child: const CustomHeadlineText(text: "Register")),
+                          child: const CustomBodyText(text: "Register")),
                     ],
                   ),
                 ],

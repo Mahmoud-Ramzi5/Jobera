@@ -21,13 +21,13 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         colorSchemeSeed: Colors.orange.shade800,
         appBarTheme: AppBarTheme(
+          titleTextStyle: Theme.of(context).textTheme.titleLarge,
           color: Colors.lightBlue.shade900,
           iconTheme: const IconThemeData(color: Colors.white),
           centerTitle: true,
         ),
         textTheme: TextTheme(
           titleLarge: const TextStyle(color: Colors.white),
-          headlineSmall: const TextStyle(color: Colors.cyan),
           labelLarge: TextStyle(color: Colors.orange.shade800),
           bodyLarge: TextStyle(color: Colors.lightBlue.shade900),
         ),

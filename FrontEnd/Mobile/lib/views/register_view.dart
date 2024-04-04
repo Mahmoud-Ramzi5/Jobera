@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/controllers/register_controller.dart';
 import 'package:jobera/customWidgets/custom_date_container.dart';
+import 'package:jobera/customWidgets/custom_drop_down_button.dart';
 import 'package:jobera/customWidgets/custom_text.dart';
 import 'package:jobera/customWidgets/custom_text_field_widget.dart';
 import 'package:jobera/customWidgets/custom_validation.dart';
+import 'package:jobera/models/countries.dart';
+import 'package:jobera/models/states.dart';
 
 class RegisterView extends StatelessWidget {
   final RegisterController _registerController = Get.put(RegisterController());
+
   RegisterView({super.key});
 
   @override
@@ -24,25 +28,13 @@ class RegisterView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 CustomTextFieldWidget(
-                  controller: _registerController.firstNameController,
+                  controller: _registerController.fullNameController,
                   textInputType: TextInputType.name,
                   obsecureText: false,
-                  labelText: 'First Name',
-                  icon: const Icon(Icons.person),
+                  labelText: 'Full Name',
+                  icon: const Icon(Icons.abc),
                   validator: (p0) =>
                       CustomValidation().validateRequiredField(p0),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: CustomTextFieldWidget(
-                    controller: _registerController.lastNameController,
-                    textInputType: TextInputType.name,
-                    obsecureText: false,
-                    labelText: 'Last Name',
-                    icon: const Icon(Icons.person),
-                    validator: (p0) =>
-                        CustomValidation().validateRequiredField(p0),
-                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -55,16 +47,52 @@ class RegisterView extends StatelessWidget {
                     validator: (p0) => CustomValidation().validateEmail(p0),
                   ),
                 ),
+                GetBuilder<RegisterController>(
+                  builder: (controller) => Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        child: CustomTextFieldWidget(
+                          controller: controller.passwordController,
+                          textInputType: TextInputType.visiblePassword,
+                          obsecureText: controller.passwordToggle,
+                          labelText: 'Password',
+                          icon: const Icon(Icons.key),
+                          inkWell: controller.passwordInkwell(),
+                          validator: (p0) =>
+                              CustomValidation().validateRequiredField(p0),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                        child: CustomTextFieldWidget(
+                          controller: controller.confirmPasswordController,
+                          textInputType: TextInputType.visiblePassword,
+                          obsecureText: controller.passwordToggle,
+                          labelText: 'Confirm Password',
+                          icon: const Icon(Icons.key),
+                          inkWell: controller.passwordInkwell(),
+                          validator: (p0) => CustomValidation()
+                              .validateConfirmPassword(p0,
+                                  _registerController.passwordController.text),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CountryCodePicker(
                         showDropDownButton: true,
+                        dialogBackgroundColor: Colors.orange.shade100,
+                        dialogTextStyle: Theme.of(context).textTheme.bodyLarge,
                         initialSelection: '+963',
                         onChanged: (value) =>
-                            _registerController.changeCountryCode(value),
+                            _registerController.selectCountryCode(value),
                       ),
                       SizedBox(
                         width: 200,
@@ -76,8 +104,45 @@ class RegisterView extends StatelessWidget {
                           icon: const Icon(Icons.phone),
                           maxLength: 9,
                           validator: (p0) =>
-                              CustomValidation().validateRequiredField(p0),
+                              CustomValidation().validatePhineNumber(p0),
                         ),
+                      ),
+                    ],
+                  ),
+                ),
+                GetBuilder<RegisterController>(
+                  builder: (controller) => Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      CustomDropDownButton(
+                        value: controller.selectedCountry,
+                        items: controller.countryOptions
+                            .map<DropdownMenuItem<Countries>>(
+                              (country) => DropdownMenuItem<Countries>(
+                                value: country,
+                                child:
+                                    CustomBodyText(text: country.countryName),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (p0) {
+                          controller.selectCountry(p0!);
+                          controller.getStates(p0.countryId);
+                        },
+                        text: 'Select Country',
+                      ),
+                      CustomDropDownButton(
+                        value: controller.selectedState,
+                        items: controller.stateOptions
+                            .map<DropdownMenuItem<States>>(
+                              (state) => DropdownMenuItem<States>(
+                                value: state,
+                                child: CustomBodyText(text: state.stateName),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (p0) => controller.selectState(p0!),
+                        text: 'Select State',
                       ),
                     ],
                   ),
@@ -97,15 +162,14 @@ class RegisterView extends StatelessWidget {
                         ElevatedButton(
                           onPressed: () =>
                               _registerController.selectDate(context),
-                          child:
-                              const CustomLabelText(text: "Select Birthdate"),
+                          child: const CustomBodyText(text: "Select Birthdate"),
                         ),
                       ],
                     ),
-                    Column(
-                      children: [
-                        GetBuilder<RegisterController>(
-                          builder: (controller) => RadioMenuButton(
+                    GetBuilder<RegisterController>(
+                      builder: (controller) => Column(
+                        children: [
+                          RadioMenuButton(
                             value: 'male',
                             groupValue: controller.selectedGender,
                             onChanged: (value) =>
@@ -116,9 +180,7 @@ class RegisterView extends StatelessWidget {
                             ),
                             child: const CustomBodyText(text: "Male"),
                           ),
-                        ),
-                        GetBuilder<RegisterController>(
-                          builder: (controller) => RadioMenuButton(
+                          RadioMenuButton(
                             value: 'female',
                             groupValue: controller.selectedGender,
                             onChanged: (value) =>
@@ -129,41 +191,10 @@ class RegisterView extends StatelessWidget {
                             ),
                             child: const CustomBodyText(text: "Female"),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: GetBuilder<RegisterController>(
-                    builder: (controller) => CustomTextFieldWidget(
-                      controller: controller.passwordController,
-                      textInputType: TextInputType.visiblePassword,
-                      obsecureText: controller.passwordToggle,
-                      labelText: 'Password',
-                      icon: const Icon(Icons.key),
-                      inkWell: controller.passwordInkwell(),
-                      validator: (p0) =>
-                          CustomValidation().validateRequiredField(p0),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                  child: GetBuilder<RegisterController>(
-                    builder: (controller) => CustomTextFieldWidget(
-                      controller: controller.confirmPasswordController,
-                      textInputType: TextInputType.visiblePassword,
-                      obsecureText: controller.passwordToggle,
-                      labelText: 'Confirm Password',
-                      icon: const Icon(Icons.key),
-                      inkWell: controller.passwordInkwell(),
-                      validator: (p0) => CustomValidation()
-                          .validateConfirmPassword(
-                              p0, _registerController.passwordController.text),
-                    ),
-                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -198,7 +229,7 @@ class RegisterView extends StatelessWidget {
                           }
                         }
                       },
-                      child: const CustomLabelText(text: "Register")),
+                      child: const CustomBodyText(text: "Register")),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -206,7 +237,7 @@ class RegisterView extends StatelessWidget {
                     const CustomLabelText(text: "Already Registered?"),
                     TextButton(
                         onPressed: () => Get.back(),
-                        child: const CustomHeadlineText(text: "Login")),
+                        child: const CustomBodyText(text: "Login")),
                   ],
                 ),
               ],
