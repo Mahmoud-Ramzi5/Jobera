@@ -1,7 +1,7 @@
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/controllers/register_controller.dart';
+import 'package:jobera/customWidgets/custom_code_picker.dart';
 import 'package:jobera/customWidgets/custom_date_container.dart';
 import 'package:jobera/customWidgets/custom_drop_down_button.dart';
 import 'package:jobera/customWidgets/custom_text.dart';
@@ -86,13 +86,9 @@ class RegisterView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CountryCodePicker(
-                        showDropDownButton: true,
-                        dialogBackgroundColor: Colors.orange.shade100,
-                        dialogTextStyle: Theme.of(context).textTheme.bodyLarge,
-                        initialSelection: '+963',
-                        onChanged: (value) =>
-                            _registerController.selectCountryCode(value),
+                      CustomCodePicker(
+                        onChange: (p0) =>
+                            _registerController.selectCountryCode(p0),
                       ),
                       SizedBox(
                         width: 200,
