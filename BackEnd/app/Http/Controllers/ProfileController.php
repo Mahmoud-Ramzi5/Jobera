@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\storeUserSkillRequest;
 use App\Models\User;
 use App\Models\skill;
+use App\Models\userSkills;
 use App\Filters\SkillFilter;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
@@ -30,5 +32,31 @@ class ProfileController extends Controller
         $validatedData = $request->validated();
         $skill = skill::create($validatedData);
         return new skillResource($skill);
+    }
+    public function getUserSkills(){
+        $user=Auth::user();
+        $userSkills=userSkills::where('user_id',$user->id)->get();
+        $skills=[];
+        foreach( $userSkills as $relation){
+             $skills[] = $relation->skill();
+        }
+        return response()->json([
+            'user'=>$user,
+            'skills'=>$skills
+        ]);
+    }
+    public function addUserSkill(storeUserSkillRequest $request){
+        $validatedData = $request->validated();
+        userSkills::create($validatedData);
+        return response()->json([
+            "message"=>"skill is added succesfully"
+        ],202);
+    }
+    public function removeUserSkill(Request $request,$userSkill_id){
+        $skill=userSkills::get($userSkill_id);
+        $skill->delete();
+        return response()->json([
+            "message"=>"skill is deleted succesfully"
+        ],203);
     }
 }
