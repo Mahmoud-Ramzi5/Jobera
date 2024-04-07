@@ -55,4 +55,5 @@ Route::controller(ForgetPasswordController::class)->group(function () {
 });
 Route::controller(ProfileController::class)->group(function(){
     Route::get('/profile','show')->middleware('auth:api');
+    Route::get('/skills','getSkils')->middleware('auth:api');
 });
