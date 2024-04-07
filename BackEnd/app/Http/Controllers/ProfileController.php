@@ -6,7 +6,6 @@ use App\Models\skill;
 use App\Models\userSkills;
 use App\Filters\SkillFilter;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UserResource;
 use App\Http\Resources\skillResource;
