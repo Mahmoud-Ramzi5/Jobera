@@ -36,11 +36,40 @@ class MainApp extends StatelessWidget {
             backgroundColor: MaterialStatePropertyAll(Colors.orange.shade100),
           ),
         ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: ButtonStyle(
+            side: MaterialStatePropertyAll(
+              BorderSide(color: Colors.orange.shade800),
+            ),
+          ),
+        ),
         checkboxTheme: const CheckboxThemeData(
           shape: CircleBorder(),
         ),
         radioTheme: RadioThemeData(
           fillColor: MaterialStatePropertyAll(Colors.orange.shade800),
+        ),
+        tabBarTheme: TabBarTheme(
+          overlayColor: const MaterialStatePropertyAll(Colors.transparent),
+          labelColor: Colors.lightBlue.shade900,
+          unselectedLabelColor: Colors.black,
+          indicatorSize: TabBarIndicatorSize.tab,
+          dividerColor: Colors.transparent,
+          indicator: ShapeDecoration(
+            shape: CircleBorder(
+              side: BorderSide(
+                strokeAlign: 10,
+                color: Colors.orange.shade800,
+              ),
+            ),
+          ),
+        ),
+        datePickerTheme: DatePickerThemeData(
+          backgroundColor: Colors.orange.shade100,
+          dayStyle: Theme.of(context).textTheme.bodyLarge,
+          headerBackgroundColor: Colors.lightBlue.shade900,
+          headerForegroundColor: Colors.orange.shade800,
+          headerHelpStyle: Theme.of(context).textTheme.bodyLarge,
         ),
       ),
       darkTheme: ThemeData.dark(),

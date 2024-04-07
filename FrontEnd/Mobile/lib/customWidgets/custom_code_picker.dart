@@ -12,6 +12,10 @@ class CustomCodePicker extends StatelessWidget {
       showDropDownButton: true,
       dialogBackgroundColor: Colors.orange.shade100,
       dialogTextStyle: Theme.of(context).textTheme.bodyLarge,
+      searchStyle: Theme.of(context).textTheme.bodyLarge,
+      dialogSize: const Size(400, 300),
+      hideSearch: true,
+      textStyle: Theme.of(context).textTheme.labelLarge,
       initialSelection: '+963',
       onChanged: onChange,
     );
