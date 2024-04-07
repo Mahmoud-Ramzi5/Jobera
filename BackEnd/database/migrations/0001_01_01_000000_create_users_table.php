@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('avatarPhoto')->nullable();
             $table->float('rating')->default(0.0)->nullable();
             $table->timestamp('email_verified_at')->nullable();
+            $table->enum('type',['admin','indvidual']);
             $table->rememberToken();
             $table->timestamps();
         });
