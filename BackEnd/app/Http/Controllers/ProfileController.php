@@ -19,8 +19,10 @@ class ProfileController extends Controller
 {
     public function show()
     {
-        $user = Auth::user();
-        return new UserResource($user);
+        // Response
+        return Response()->json([
+            'user' => new UserResource(auth()->user())
+        ], 200);
     }
     public function getSkills(Request $request)
     {
