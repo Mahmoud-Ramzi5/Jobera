@@ -55,107 +55,107 @@ class SkillsSeeder extends Seeder
                 'name' =>'Data Analysis'
             ),
             array(
-                'type' => 'design',
+                'type' => 'Design',
                 'name' =>'Adobe Photoshop, Illustrator'
             ),
             array(
-                'type' => 'design',
+                'type' => 'Design',
                 'name' =>'Video Editing and Production'
             ),
             array(
-                'type' => 'design',
+                'type' => 'Design',
                 'name' =>'Video Animation and Motion Graphics'
             ),
             array(
-                'type' => 'design',
+                'type' => 'Design',
                 'name' =>'UI'
             ),
             array(
-                'type' => 'design',
+                'type' => 'Design',
                 'name' =>'Illustration and Digital Art'
             ),
             array(
-                'type' => 'design',
+                'type' => 'Design',
                 'name' =>'UX'
             ),
             array(
-                'type' => 'business',
+                'type' => 'Business',
                 'name' =>'HR'
             ),
             array(
-                'type' => 'business',
+                'type' => 'Business',
                 'name' =>'Finance'
             ),
             array(
-                'type' => 'business',
+                'type' => 'Business',
                 'name' =>'sales'
             ),
             array(
-                'type' => 'business',
+                'type' => 'Business',
                 'name' =>'Digital Marketing'
             ),
             array(
-                'type' => 'business',
+                'type' => 'Business',
                 'name' =>'Content Writing and Copywriting'
             ),
             array(
-                'type' => 'business',
+                'type' => 'Business',
                 'name' =>'E-commerce'
             ),
             array(
-                'type' => 'languages',
+                'type' => 'Languages',
                 'name' =>'Translation'
             ),
             array(
-                'type' => 'languages',
+                'type' => 'Languages',
                 'name' =>'English'
             ),
             array(
-                'type' => 'languages',
+                'type' => 'Languages',
                 'name' =>'French'
             ),
             array(
-                'type' => 'languages',
+                'type' => 'Languages',
                 'name' =>'Arabic'
             ),
             array(
-                'type' => 'languages',
+                'type' => 'Languages',
                 'name' =>'Spanish'
             ),
             array(
-                'type' => 'languages',
+                'type' => 'Languages',
                 'name' =>'Dutch'
             ),
             array(
-                'type' => 'engineering',
+                'type' => 'Engineering',
                 'name' =>'Electrical engineering'
             ),
             array(
-                'type' => 'engineering',
+                'type' => 'Engineering',
                 'name' =>'Mechanical engineering'
             ),
             array(
-                'type' => 'engineering',
+                'type' => 'Engineering',
                 'name' =>'Civil engineering'
             ),
             array(
-                'type' => 'engineering',
+                'type' => 'Engineering',
                 'name' =>'Architecture engineering'
             ),
             array(
-                'type' => 'engineering',
+                'type' => 'Engineering',
                 'name' =>'Petrol engineering'
             ),
             array(
-                'type' => 'worker',
+                'type' => 'Worker',
                 'name' =>'plumber'
             ),
             array(
-                'type' => 'worker',
+                'type' => 'Worker',
                 'name' =>'electrical'
             ),
             array(
-                'type' => 'worker',
+                'type' => 'Worker',
                 'name' =>'carpenter'
             ),
         ));
