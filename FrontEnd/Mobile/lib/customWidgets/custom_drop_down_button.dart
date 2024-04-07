@@ -24,6 +24,7 @@ class CustomDropDownButton extends StatelessWidget {
       iconEnabledColor: Colors.lightBlue.shade900,
       items: items,
       hint: CustomBodyText(text: text),
+      menuMaxHeight: 300,
     );
   }
 }

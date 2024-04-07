@@ -3,11 +3,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/customWidgets/custom_text.dart';
+import 'package:jobera/main.dart';
 import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
 
 class RegisterController extends GetxController {
   late GlobalKey<FormState> formField;
+  late TabController tabController;
   late TextEditingController fullNameController;
   late TextEditingController emailController;
   late TextEditingController phoneNumberController;
@@ -58,7 +60,8 @@ class RegisterController extends GetxController {
         context: context,
         firstDate: DateTime(1900),
         lastDate: DateTime(2100),
-        currentDate: DateTime.now());
+        currentDate: DateTime.now(),
+        initialEntryMode: DatePickerEntryMode.calendarOnly);
     if (picked != null && picked != selectedDate) {
       selectedDate = picked;
       update();
@@ -159,6 +162,67 @@ class RegisterController extends GetxController {
     } on DioException catch (e) {
       Get.defaultDialog(
         title: 'Error',
+        backgroundColor: Colors.orange.shade100,
+        content: Column(
+          children: [
+            const Icon(
+              Icons.cancel_outlined,
+              color: Colors.red,
+            ),
+            CustomBodyText(text: e.response!.data["errors"].toString()),
+          ],
+        ),
+      );
+    }
+  }
+
+  Future<dynamic> userRegister(
+    String fullName,
+    String email,
+    String password,
+    String confirmPassword,
+    String country,
+    String state,
+    String phoneNumber,
+    String gender,
+    String birthDate,
+  ) async {
+    try {
+      var response = await dio.post('http://10.0.2.2:8000/api/register',
+          data: {
+            "fullName": fullName,
+            "email": email,
+            "password": password,
+            "confirmPassword": confirmPassword,
+            "country": country,
+            "state": state,
+            "phoneNumber": phoneNumber,
+            "gender": gender,
+            "birthDate": birthDate,
+          },
+          options: Options(
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Accept': 'application/json',
+            },
+          ));
+      if (response.statusCode == 201) {
+        sharedPreferences?.setString(
+          "access_token",
+          response.data["access_token"].toString(),
+        );
+        Get.defaultDialog(
+          title: 'Register Successful',
+          backgroundColor: Colors.lightBlue.shade100,
+          content: const Icon(
+            Icons.check_circle_outline,
+            color: Colors.green,
+          ),
+        );
+      }
+    } on DioException catch (e) {
+      Get.defaultDialog(
+        title: 'Register Failed',
         backgroundColor: Colors.orange.shade100,
         content: Column(
           children: [

@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Models\State;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AuthControllers\AuthController;
 use App\Http\Controllers\AuthControllers\SocialAuthController;
 use App\Http\Controllers\AuthControllers\ForgetPasswordController;
@@ -56,4 +56,5 @@ Route::controller(ProfileController::class)->group(function () {
     Route::get('/profile/skills','getUserSkills')->middleware('auth:api');
     Route::post('/profile/skills','addUserSkill')->middleware('auth:api');
     Route::delete('/profile/skills/{userSkill_id}','removeUserSkill')->middleware('auth:api');
+    Route::get('/skills/types','getSkillTypes')->middleware('auth:api');
 });

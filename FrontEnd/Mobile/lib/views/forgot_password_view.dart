@@ -40,39 +40,8 @@ class ForgotPasswordView extends StatelessWidget {
                     if (_forgotPasswordController.formField.currentState
                             ?.validate() ==
                         true) {
-                      var response =
-                          await _forgotPasswordController.forgotPassword(
-                              _forgotPasswordController.emailController.text);
-                      if (_forgotPasswordController.isEmailSentSuccessfully ==
-                          true) {
-                        Get.defaultDialog(
-                          title: 'Success',
-                          backgroundColor: Colors.lightBlue.shade100,
-                          content: Column(
-                            children: [
-                              const Icon(
-                                Icons.check_circle_outline,
-                                color: Colors.green,
-                              ),
-                              CustomBodyText(text: response),
-                            ],
-                          ),
-                        );
-                      } else {
-                        Get.defaultDialog(
-                          title: 'Failed',
-                          backgroundColor: Colors.orange.shade100,
-                          content: Column(
-                            children: [
-                              const Icon(
-                                Icons.cancel_outlined,
-                                color: Colors.red,
-                              ),
-                              CustomBodyText(text: response),
-                            ],
-                          ),
-                        );
-                      }
+                      await _forgotPasswordController.forgotPassword(
+                          _forgotPasswordController.emailController.text);
                     }
                   },
                   style: Theme.of(context).textButtonTheme.style,

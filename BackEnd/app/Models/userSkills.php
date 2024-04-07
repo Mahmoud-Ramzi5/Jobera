@@ -12,9 +12,9 @@ class userSkills extends Model
         'user_id','skill_id'
     ];
     public function user(){
-        return $this->belongsToOne(User::class);
+        return $this->belongsTo(User::class);
     }
     public function skill(){
-        return $this->belongsToOne(Skill::class);
+        return $this->belongsTo(Skill::class);
     }
 }

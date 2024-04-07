@@ -8,7 +8,7 @@ import 'package:jobera/customWidgets/custom_text_field_widget.dart';
 import 'package:jobera/customWidgets/custom_validation.dart';
 import 'package:jobera/views/forgot_password_view.dart';
 import 'package:jobera/views/home_view.dart';
-import 'package:jobera/views/register_view.dart';
+import 'package:jobera/views/registerViews/register_view.dart';
 
 class LoginView extends StatelessWidget {
   final LoginController _loginController = Get.put(LoginController());
@@ -87,47 +87,37 @@ class LoginView extends StatelessWidget {
                             ),
                           ),
                           ElevatedButton(
-                              onPressed: () async {
-                                if (_loginController.formField.currentState
-                                        ?.validate() ==
-                                    true) {
-                                  var response = await _loginController.login(
-                                    _loginController.emailController.text,
-                                    _loginController.passwordController.text,
-                                    _loginController.remeberMe,
-                                  );
-                                  if (_loginController.isLoggedIn == true) {
-                                    Get.defaultDialog(
-                                      title: 'Login Successful',
-                                      backgroundColor:
-                                          Colors.lightBlue.shade100,
-                                      content: const Icon(
-                                        Icons.check_circle_outline,
-                                        color: Colors.green,
-                                      ),
-                                    );
-                                    Future.delayed(const Duration(seconds: 1),
-                                        () {
+                            onPressed: () async {
+                              if (_loginController.formField.currentState
+                                      ?.validate() ==
+                                  true) {
+                                await _loginController.login(
+                                  _loginController.emailController.text,
+                                  _loginController.passwordController.text,
+                                  _loginController.remeberMe,
+                                );
+                                if (_loginController.isLoggedIn == true) {
+                                  Future.delayed(
+                                    const Duration(seconds: 1),
+                                    () {
                                       Get.offAll(() => const HomeView());
-                                    });
-                                  } else {
-                                    Get.defaultDialog(
-                                      title: 'Login Failed',
-                                      backgroundColor: Colors.orange.shade100,
-                                      content: Column(
-                                        children: [
-                                          const Icon(
-                                            Icons.cancel_outlined,
-                                            color: Colors.red,
-                                          ),
-                                          CustomBodyText(text: response),
-                                        ],
-                                      ),
-                                    );
-                                  }
+                                    },
+                                  );
                                 }
-                              },
-                              child: const CustomBodyText(text: "Login")),
+                              }
+                            },
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const CustomBodyText(text: "Login"),
+                                Icon(
+                                  Icons.login,
+                                  color: Colors.lightBlue.shade900,
+                                )
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -135,7 +125,7 @@ class LoginView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ElevatedButton(
+                      OutlinedButton(
                         onPressed: () {},
                         child: Padding(
                           padding: const EdgeInsets.all(10),
@@ -153,7 +143,7 @@ class LoginView extends StatelessWidget {
                     children: [
                       const CustomLabelText(text: "New Around Here ?"),
                       TextButton(
-                          onPressed: () => Get.to(() => RegisterView()),
+                          onPressed: () => Get.to(() => const RegisterView()),
                           child: const CustomBodyText(text: "Register")),
                     ],
                   ),
