@@ -55,9 +55,10 @@ Route::controller(ForgetPasswordController::class)->group(function () {
 });
 Route::controller(ProfileController::class)->group(function(){
     Route::get('/profile','show')->middleware('auth:api');
-    Route::get('/skills','getSkils')->middleware('auth:api');
+    Route::get('/skills','getSkills')->middleware('auth:api');
     Route::post('/skills','addSkill')->middleware('auth:api');
     Route::get('/profile/skills','getUserSkills')->middleware('auth:api');
     Route::post('/profile/skills','addUserSkill')->middleware('auth:api');
     Route::delete('/profile/skills/{userSkill_id}','removeUserSkill')->middleware('auth:api');
+    Route::get('/skills/types','getSkillTypes')->middleware('auth:api');
 });
