@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Controllers\ProfileControllers\SkillsController;
 use App\Models\State;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProfileControllers\ProfileController;
 use App\Http\Controllers\AuthControllers\AuthController;
 use App\Http\Controllers\AuthControllers\SocialAuthController;
 use App\Http\Controllers\AuthControllers\ForgetPasswordController;
@@ -52,6 +53,9 @@ Route::controller(ProfileController::class)->group(function () {
     Route::get('/profile', 'Show')->middleware('auth:api');
 
     Route::get('/skills','getSkils')->middleware('auth:api');
+    
+});
+Route::controller(SkillsController::class)->group(function(){
     Route::post('/skills','addSkill')->middleware('auth:api');
     Route::get('/profile/skills','getUserSkills')->middleware('auth:api');
     Route::post('/profile/skills','addUserSkill')->middleware('auth:api');
