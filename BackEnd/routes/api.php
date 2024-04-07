@@ -15,12 +15,6 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'Login');
     Route::post('/logout', 'Logout')->middleware('auth:api');
 
-    Route::get('/auth/user', function () {
-        return response()->json([
-            "user" => auth()->user()
-        ], 200);
-    })->middleware('auth:api');
-
     Route::get('/auth/email', function() {
         return response()->json([
             "email" => auth()->user()->email
@@ -53,8 +47,10 @@ Route::controller(ForgetPasswordController::class)->group(function () {
     Route::post('/password/reset-link', 'ForgotPassword');
     Route::post('/password/reset', 'Reset')->middleware('auth:api');
 });
-Route::controller(ProfileController::class)->group(function(){
-    Route::get('/profile','show')->middleware('auth:api');
+
+Route::controller(ProfileController::class)->group(function () {
+    Route::get('/profile', 'Show')->middleware('auth:api');
+
     Route::get('/skills','getSkils')->middleware('auth:api');
     Route::post('/skills','addSkill')->middleware('auth:api');
     Route::get('/profile/skills','getUserSkills')->middleware('auth:api');
