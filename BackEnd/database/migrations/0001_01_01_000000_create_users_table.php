@@ -20,11 +20,11 @@ return new class extends Migration
             $table->string('country')->nullable();
             $table->string('state')->nullable();
             $table->dateTime('birthDate');
-            $table->enum('gender',['male','female']);
+            $table->enum('gender', ['male', 'female']);
+            $table->enum('type', ['admin', 'indvidual']);
             $table->string('avatarPhoto')->nullable();
             $table->float('rating')->default(0.0)->nullable();
             $table->timestamp('email_verified_at')->nullable();
-            $table->enum('type',['admin','indvidual']);
             $table->rememberToken();
             $table->timestamps();
         });

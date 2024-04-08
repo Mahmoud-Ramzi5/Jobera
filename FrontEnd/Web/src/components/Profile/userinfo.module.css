@@ -1,5 +1,5 @@
 .user_info_card {
-  width:90%;
+  width: 90%;
   margin-top: 120px;
 }
 
@@ -7,7 +7,7 @@
   width: 100%;
   display: flex;
   padding: 10px 10px;
-  background:var(--color-background);
+  background: var(--color-background);
 }
 
 .user_info_title {
@@ -49,9 +49,10 @@
 @media screen and (max-width: 970px) {
   .user_info_inside {
     display: block;
+    text-align: center;
   }
-
-  .info_in_profile{
-    width: 75%;
+  
+  .info_in_profile {
+    width: 100%;
   }
 }

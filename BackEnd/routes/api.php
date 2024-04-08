@@ -53,8 +53,8 @@ Route::controller(ProfileController::class)->group(function () {
     Route::get('/profile', 'Show')->middleware('auth:api');
 
     Route::get('/skills','getSkils')->middleware('auth:api');
-    
 });
+
 Route::controller(SkillsController::class)->group(function(){
     Route::post('/skills','addSkill')->middleware('auth:api');
     Route::get('/profile/skills','getUserSkills')->middleware('auth:api');

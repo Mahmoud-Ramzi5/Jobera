@@ -1,44 +1,54 @@
-import React from 'react';
-//import 'bootstrap/dist/css/bootstrap.min.css';
+import { useState } from 'react';
 import { Card, Button } from 'react-bootstrap';
-import logo from '../../assets/JoberaLogo.png';
-import { ChevronRight} from 'react-bootstrap-icons';
+import { CreditCard, ChevronRight } from 'react-bootstrap-icons';
+import NormalInput from '../../components/NormalInput';
 import walletblack from '../../assets/walletblack.png';
-import  styles from './wallet.module.css';
-
-const Wallet = () => {
-    const money = 6000;
+import styles from './wallet.module.css';
 
 
+const Wallet = ({ profileData }) => {
+  // Define states
+  const [redeemCode, SetRedeemCode] = useState('');
+  const money = 6000;
 
-    return (
-        <Card className={styles.walletcard}>
-            <div className={styles.cardinside}>
-                <div className={styles.wallettitle}>
-                    <h3>
-                        Personal Wallet
-                    </h3>
-                </div>
-                <div className={styles.big}>
-                    <img src={walletblack} className={styles.walletimage} size="200px" alt="wallet" />
-                    <div className={styles.redeemcode}>
-                        <h5>
-                            Enter redeem code to increase your balance:
-                        </h5>
-                        <input type="text" className={styles.redeemcodeinput} placeholder="Enter redeem code"/>
-                        <button className={styles.register__submit}>
-                            <span>send</span>
-                            <i className={styles.button__icon}><ChevronRight /></i>
-                        </button>
-                    </div>
-                    <div className={styles.walletbody}>
-                        <h3>current balance:{money}</h3>
-                    </div>
-                </div>
+  // Handle form submit
+  const handleSubmit = (event) => {
+    // TODO
+  }
+
+  return (
+    <Card className={styles.wallet_card}>
+      <div className={styles.wallet_inside}>
+        <img src={walletblack} className={styles.wallet_image} alt="wallet" />
+        <div className={styles.wallet_info}>
+          <div className={styles.wallet_title}>
+            <h3>Personal Wallet</h3>
+          </div>
+          <form onSubmit={handleSubmit}>
+            <div className={styles.redeem_title}>
+              <h5>Enter redeem code to increase your balance:</h5>
             </div>
-        </Card>
-
-    );
+            <div className={styles.redeem}>
+              <NormalInput
+                type='text'
+                placeholder='Redeem code'
+                icon={<CreditCard />}
+                value={redeemCode}
+                setChange={SetRedeemCode}
+              />
+              <button type="submit" className={styles.redeem_submit}>
+                <span>Redeem</span>
+                <i className={styles.button__icon}><ChevronRight /></i>
+              </button>
+            </div>
+          </form>
+          <div className={styles.wallet_body}>
+            <h3>Current balance: {money}</h3>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
 };
 
 export default Wallet;

@@ -31,7 +31,7 @@
 
 }
 .titlesplace{
-    background-color: var(--color-titlesall) !important; 
+    background-color: var(--color-titles) !important; 
 }
 
 .register_button{
@@ -75,7 +75,7 @@
     margin-top:0 ;
     transform: translate(0px,-25px);
     border-style: none;
-    background-color: var(--color-titlesall);
+    background-color: var(--color-titles);
 }
 .pen{
     color:darkgrey;
