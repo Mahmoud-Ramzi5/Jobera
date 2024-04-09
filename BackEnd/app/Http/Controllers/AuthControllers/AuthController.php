@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\AuthControllers;
 
-use Carbon\Carbon;
+use App\Http\Controllers\Controller;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\RegisterRequest;
 use App\Notifications\EmailVerification;
 
@@ -27,7 +27,7 @@ class AuthController extends Controller
         if ($request->hasFile('avatarPhoto')) {
             $avatarPath = $request->file('avatarPhoto')->store('avatars', 'public');
             $validated['avatarPhoto'] = $avatarPath;
-            
+
         }
 
         // Register user and send verification email

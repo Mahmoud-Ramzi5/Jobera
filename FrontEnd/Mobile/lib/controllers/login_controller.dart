@@ -1,16 +1,36 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jobera/customWidgets/custom_text.dart';
 import 'package:jobera/main.dart';
 
 class LoginController extends GetxController {
-  GlobalKey<FormState> formField = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  bool passwordToggle = true;
-  bool remeberMe = false;
-  bool isLoggedIn = false;
-  var dio = Dio();
+  late GlobalKey<FormState> formField;
+  late TextEditingController emailController;
+  late TextEditingController passwordController;
+  late bool passwordToggle;
+  late bool remeberMe;
+  late bool isLoggedIn;
+  late Dio dio;
+
+  @override
+  void onInit() {
+    formField = GlobalKey<FormState>();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+    passwordToggle = true;
+    remeberMe = false;
+    isLoggedIn = false;
+    dio = Dio();
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.onClose();
+  }
 
   void toggleRemeberMe(bool rememberMe) {
     remeberMe = !remeberMe;
@@ -39,8 +59,6 @@ class LoginController extends GetxController {
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',
               'Accept': 'application/json',
-              'connection': 'keep-alive',
-              'Accept-Encoding': 'gzip, deflate, br',
             },
           ));
       if (response.statusCode == 200) {
@@ -48,12 +66,32 @@ class LoginController extends GetxController {
           "access_token",
           response.data["access_token"].toString(),
         );
+        Get.defaultDialog(
+          title: 'Login Successful',
+          backgroundColor: Colors.lightBlue.shade100,
+          content: const Icon(
+            Icons.check_circle_outline,
+            color: Colors.green,
+          ),
+        );
         isLoggedIn = true;
         return null;
       }
     } on DioException catch (e) {
       isLoggedIn = false;
-      return e.response?.data["errors"].toString();
+      Get.defaultDialog(
+        title: 'Login Failed',
+        backgroundColor: Colors.orange.shade100,
+        content: Column(
+          children: [
+            const Icon(
+              Icons.cancel_outlined,
+              color: Colors.red,
+            ),
+            CustomBodyText(text: e.response!.data["errors"].toString()),
+          ],
+        ),
+      );
     }
   }
 }

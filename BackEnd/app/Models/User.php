@@ -26,6 +26,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'state',
         'birthDate',
         'gender',
+        'type',
         'avatarPhoto',
     ];
 
@@ -55,5 +56,8 @@ class User extends Authenticatable implements MustVerifyEmail
     public function providers()
     {
         return $this->hasMany(Provider::class, 'user_id', 'id');
+    }
+    public function skills(){
+        return $this->hasMany(userSkills::class);
     }
 }

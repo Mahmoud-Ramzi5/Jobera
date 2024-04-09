@@ -26,11 +26,7 @@
   width:250px;
   height:250px;
   will-change: filter;
-  transition: filter 290ms;
-  padding-left: 1.5%;
-  padding-top: 1.5%;
-  margin:1%;
-  margin-bottom: 8%;
+  transition: filter 300ms;
 }
 @media screen and (max-width: 900px) {
   .profile_picture,.info_in_profile{
@@ -51,14 +47,13 @@
 
 .specification {
   color: var(--color-foreground);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   font-size: 20px;
 }
 
 .location,
-.rating
-{
-  margin-bottom: 4px;
+.rating {
+  margin-bottom: 5px;
   color: var(--color-rating);
 }
 
@@ -66,4 +61,15 @@
   color: var(--color-foreground);
   font-size: 16px;
   margin-bottom: 8px;
+}
+
+@media screen and (max-width: 970px) {
+  .user_info_inside {
+    display: block;
+    text-align: center;
+  }
+  
+  .info_in_profile {
+    width: 100%;
+  }
 }

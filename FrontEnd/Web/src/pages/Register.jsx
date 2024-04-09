@@ -90,7 +90,7 @@ const Register = () => {
       date,
       gender)
       .then((response) => {
-        if (response.status === 200) {
+        if (response.status === 201) {
           // Store token and Log in user 
           const token = response.data.access_token;
           setLoggedIn(true);
@@ -170,7 +170,7 @@ const Register = () => {
             <div className={styles.register__row}>
               <div className={Inputstyles.field}>
                 <select onChange={handleCountrySelect} value={country} className={Inputstyles.input} required>
-                  <option value='' disabled>Country</option>
+                  <option key={0} value='' disabled>Country</option>
                   {(countries.length === 0) ? <></> : countries.map((country) => {
                     return <option key={country.country_id} value={country.countryName} className={Inputstyles.option}>{country.countryName}</option>
                   })}
@@ -178,7 +178,7 @@ const Register = () => {
               </div>
               <div className={Inputstyles.field}>
                 <select onChange={(event) => setState(event.target.value)} value={state} className={Inputstyles.input} required>
-                  <option value='' disabled>City</option>
+                  <option key={0} value='' disabled>City</option>
                   {(states.length === 0) ? <></> : states.map((state) => {
                     return <option key={state.state_id} value={state.stateName} className={Inputstyles.option}>{state.stateName}</option>
                   })}

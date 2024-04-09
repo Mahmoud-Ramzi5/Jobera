@@ -8,11 +8,15 @@ class CustomDateContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        alignment: Alignment.center,
+        width: 150,
         padding: const EdgeInsets.all(5),
         margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
         decoration: ShapeDecoration(
           shape: StadiumBorder(
-            side: BorderSide(color: Colors.orange.shade800),
+            side: BorderSide(
+              color: Colors.orange.shade800,
+            ),
           ),
         ),
         child: widget);

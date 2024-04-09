@@ -21,13 +21,13 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         colorSchemeSeed: Colors.orange.shade800,
         appBarTheme: AppBarTheme(
+          titleTextStyle: Theme.of(context).textTheme.titleLarge,
           color: Colors.lightBlue.shade900,
           iconTheme: const IconThemeData(color: Colors.white),
           centerTitle: true,
         ),
         textTheme: TextTheme(
           titleLarge: const TextStyle(color: Colors.white),
-          headlineSmall: const TextStyle(color: Colors.cyan),
           labelLarge: TextStyle(color: Colors.orange.shade800),
           bodyLarge: TextStyle(color: Colors.lightBlue.shade900),
         ),
@@ -36,11 +36,40 @@ class MainApp extends StatelessWidget {
             backgroundColor: MaterialStatePropertyAll(Colors.orange.shade100),
           ),
         ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: ButtonStyle(
+            side: MaterialStatePropertyAll(
+              BorderSide(color: Colors.orange.shade800),
+            ),
+          ),
+        ),
         checkboxTheme: const CheckboxThemeData(
           shape: CircleBorder(),
         ),
         radioTheme: RadioThemeData(
           fillColor: MaterialStatePropertyAll(Colors.orange.shade800),
+        ),
+        tabBarTheme: TabBarTheme(
+          overlayColor: const MaterialStatePropertyAll(Colors.transparent),
+          labelColor: Colors.lightBlue.shade900,
+          unselectedLabelColor: Colors.black,
+          indicatorSize: TabBarIndicatorSize.tab,
+          dividerColor: Colors.transparent,
+          indicator: ShapeDecoration(
+            shape: CircleBorder(
+              side: BorderSide(
+                strokeAlign: 10,
+                color: Colors.orange.shade800,
+              ),
+            ),
+          ),
+        ),
+        datePickerTheme: DatePickerThemeData(
+          backgroundColor: Colors.orange.shade100,
+          dayStyle: Theme.of(context).textTheme.bodyLarge,
+          headerBackgroundColor: Colors.lightBlue.shade900,
+          headerForegroundColor: Colors.orange.shade800,
+          headerHelpStyle: Theme.of(context).textTheme.bodyLarge,
         ),
       ),
       darkTheme: ThemeData.dark(),

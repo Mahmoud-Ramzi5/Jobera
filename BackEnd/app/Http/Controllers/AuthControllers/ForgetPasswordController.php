@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\AuthControllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Notifications\ResetPassword;
 use App\Http\Requests\ForgetPasswordRequest;
-use App\Models\User;
 
 class ForgetPasswordController extends Controller
 {
