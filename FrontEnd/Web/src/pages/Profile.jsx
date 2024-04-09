@@ -36,16 +36,15 @@ const Profile = () => {
     <div className={styles.Profile}>
       <div className={styles.leftSideContainer}>
         <div className={styles.leftSide}><UserInfo profileData={profile} /></div>
-        <div className={styles.leftSide}><Wallet /></div>
+        <div className={styles.leftSide}><Wallet profileData={profile} /></div>
       </div>
       <div className={styles.rightSideContainer}>
-        {!is_registered ? (<>
-          <div className={styles.rightSidefirst}><Set_upCard /></div>
+        {!isRegistered ? (<>
+          <div className={styles.rightSideFirst}><Set_upCard /></div>
         </>) : (<>
           // TODO
           <h1>Loading...</h1>
-        </>
-        )}
+        </>)}
         <div className={styles.rightSide}><ZCard /></div>
       </div>
     </div>

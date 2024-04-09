@@ -1,6 +1,6 @@
 .Profile {
-    display: flex;
-    padding: 5px 15px;
+  display: flex;
+  padding: 5px 15px;
 }
 
 .leftSideContainer {
@@ -25,10 +25,3 @@
     display: block;
   }
 }
-
-/* .rightSidefirst{
-  position:sticky;
-  top:0;
-  z-index: 98;
-} */
-
