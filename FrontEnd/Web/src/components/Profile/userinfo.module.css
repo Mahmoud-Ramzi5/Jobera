@@ -1,21 +1,13 @@
 .user_info_card {
-  width:90%;
-  max-width: 940px;
-  top: 120px;
-  margin-right: 10px;
-  border: 1px solid #ccc;
-  border-radius: 10px;
+  width: 90%;
+  margin-top: 120px;
 }
 
 .user_info_inside {
-  background:var(--color-background);
-  display:flex;
-  width:100%;
-}
-@media screen and (max-width: 900px) {
-  .user_info_inside {
-    display: block;
-  }
+  width: 100%;
+  display: flex;
+  padding: 10px 10px;
+  background: var(--color-background);
 }
 
 .user_info_title {
@@ -23,27 +15,18 @@
 }
 
 .profile_picture {
-  width:250px;
-  height:250px;
+  width: 300px;
+  height: 300px;
+  border-radius: 30%;
+  padding: 10px 10px;
   will-change: filter;
   transition: filter 300ms;
 }
-@media screen and (max-width: 900px) {
-  .profile_picture,.info_in_profile{
-    display:inline-block;
-    padding:0px;
-    margin:0px;
-  }
-}
 
 .info_in_profile{
-  margin-bottom: 3%;
-  margin-left: 3%;
-  width:60%;
-  padding:5px 15px;
+  width: 50%;
+  padding: 10px 10px;
 }
-
-
 
 .specification {
   color: var(--color-foreground);

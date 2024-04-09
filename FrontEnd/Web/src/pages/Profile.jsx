@@ -1,4 +1,3 @@
-import React from 'react';
 import { useEffect, useState, useContext, useRef } from 'react';
 import { LoginContext } from '../App.jsx';
 import { FetchUserProfile } from '../apis/ProfileApis.jsx';
@@ -11,15 +10,11 @@ import Set_upCard from '../components/Profile/Set_upCard.jsx';
 
 
 const Profile = () => {
-    const [is_registered, setis_registered] = useState(false);
-    {/*here should be some kind of a fetch to check if the user is fully registered
-    setis_registered(is_registered)
-*/}
-
   // Context    
   const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
   // Define states
   const initialized = useRef(false);
+  const [isRegistered, setIsRegistered] = useState(false);
   const [profile, setProfile] = useState({});
 
   useEffect(() => {
@@ -37,26 +32,24 @@ const Profile = () => {
     }
   }, [loggedIn])
 
-
-  
-    return (
-        <div className={styles.Profile}>
-            <div className={styles.leftSideContainer}>
-                <div className={styles.leftSide1}><UserInfo /></div>
-                <div><Wallet /></div>
-            </div>
-            <div className={styles.rightSideContainer}>
-                {!is_registered?(
-                <>
-                    <div className={styles.rightSidefirst}><Set_upCard /></div>
-                </>):(<>
-                            // TODO
-                        <h1>Loading...</h1>
-                      </>
-                    )}
-                <div className={styles.rightSide}><ZCard /></div>
-            </div>
-        </div>
-    );
+  return (
+    <div className={styles.Profile}>
+      <div className={styles.leftSideContainer}>
+        <div className={styles.leftSide}><UserInfo profileData={profile} /></div>
+        <div className={styles.leftSide}><Wallet /></div>
+      </div>
+      <div className={styles.rightSideContainer}>
+        {!is_registered ? (<>
+          <div className={styles.rightSidefirst}><Set_upCard /></div>
+        </>) : (<>
+          // TODO
+          <h1>Loading...</h1>
+        </>
+        )}
+        <div className={styles.rightSide}><ZCard /></div>
+      </div>
+    </div>
+  );
 }
+
 export default Profile;
