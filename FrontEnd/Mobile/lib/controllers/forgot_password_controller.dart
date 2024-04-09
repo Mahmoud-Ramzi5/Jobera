@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/customWidgets/custom_text.dart';
+import 'package:jobera/classes/dialogs.dart';
 
 class ForgotPasswordController extends GetxController {
   late GlobalKey<FormState> formField;
@@ -36,33 +36,17 @@ class ForgotPasswordController extends GetxController {
                 },
               ));
       if (response.statusCode == 200) {
-        Get.defaultDialog(
-          title: 'Success',
-          backgroundColor: Colors.lightBlue.shade100,
-          content: Column(
-            children: [
-              const Icon(
-                Icons.check_circle_outline,
-                color: Colors.green,
-              ),
-              CustomBodyText(text: response.data["message"].toString()),
-            ],
-          ),
+        await Dialogs().showSuccessDialog(
+          'Success',
+          response.data["message"].toString(),
+          Get.context,
         );
       }
     } on DioException catch (e) {
-      Get.defaultDialog(
-        title: 'Failed',
-        backgroundColor: Colors.orange.shade100,
-        content: Column(
-          children: [
-            const Icon(
-              Icons.cancel_outlined,
-              color: Colors.red,
-            ),
-            CustomBodyText(text: e.response!.data["errors"].toString()),
-          ],
-        ),
+      await Dialogs().showErrorDialog(
+        'Failed',
+        e.response!.data["errors"].toString(),
+        Get.context,
       );
     }
   }

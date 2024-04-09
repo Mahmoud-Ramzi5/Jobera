@@ -1,10 +1,10 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 
-class CustomCodePicker extends StatelessWidget {
+class CodePicker extends StatelessWidget {
   final void Function(CountryCode)? onChange;
 
-  const CustomCodePicker({super.key, required this.onChange});
+  const CodePicker({super.key, required this.onChange});
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/customWidgets/custom_text.dart';
+import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/main.dart';
 
 class LoginController extends GetxController {
@@ -66,31 +66,16 @@ class LoginController extends GetxController {
           "access_token",
           response.data["access_token"].toString(),
         );
-        Get.defaultDialog(
-          title: 'Login Successful',
-          backgroundColor: Colors.lightBlue.shade100,
-          content: const Icon(
-            Icons.check_circle_outline,
-            color: Colors.green,
-          ),
-        );
+        await Dialogs().showSuccessDialog('Login Successfull', '', Get.context);
         isLoggedIn = true;
         return null;
       }
     } on DioException catch (e) {
       isLoggedIn = false;
-      Get.defaultDialog(
-        title: 'Login Failed',
-        backgroundColor: Colors.orange.shade100,
-        content: Column(
-          children: [
-            const Icon(
-              Icons.cancel_outlined,
-              color: Colors.red,
-            ),
-            CustomBodyText(text: e.response!.data["errors"].toString()),
-          ],
-        ),
+      await Dialogs().showErrorDialog(
+        'Login Failed',
+        e.response!.data["errors"].toString(),
+        Get.context,
       );
     }
   }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class CustomDateContainer extends StatelessWidget {
+class DateContainer extends StatelessWidget {
   final Widget widget;
 
-  const CustomDateContainer({super.key, required this.widget});
+  const DateContainer({super.key, required this.widget});
 
   @override
   Widget build(BuildContext context) {

@@ -23,11 +23,11 @@ class MainApp extends StatelessWidget {
         appBarTheme: AppBarTheme(
           titleTextStyle: Theme.of(context).textTheme.titleLarge,
           color: Colors.lightBlue.shade900,
-          iconTheme: const IconThemeData(color: Colors.white),
+          iconTheme: IconThemeData(color: Colors.cyan.shade500),
           centerTitle: true,
         ),
         textTheme: TextTheme(
-          titleLarge: const TextStyle(color: Colors.white),
+          titleLarge: TextStyle(color: Colors.cyan.shade500),
           labelLarge: TextStyle(color: Colors.orange.shade800),
           bodyLarge: TextStyle(color: Colors.lightBlue.shade900),
         ),

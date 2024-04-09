@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jobera/customWidgets/custom_text.dart';
+import 'package:jobera/classes/texts.dart';
 
 class CustomDropDownButton extends StatelessWidget {
   final dynamic value;
@@ -23,7 +23,7 @@ class CustomDropDownButton extends StatelessWidget {
       dropdownColor: Colors.orange.shade100,
       iconEnabledColor: Colors.lightBlue.shade900,
       items: items,
-      hint: CustomBodyText(text: text),
+      hint: BodyText(text: text),
       menuMaxHeight: 300,
     );
   }

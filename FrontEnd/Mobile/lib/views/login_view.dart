@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:jobera/controllers/login_controller.dart';
-import 'package:jobera/customWidgets/custom_logo_container.dart';
-import 'package:jobera/customWidgets/custom_text.dart';
-import 'package:jobera/customWidgets/custom_text_field_widget.dart';
-import 'package:jobera/customWidgets/custom_validation.dart';
+import 'package:jobera/customWidgets/logo_container.dart';
+import 'package:jobera/classes/texts.dart';
+import 'package:jobera/customWidgets/custom_text_field.dart';
+import 'package:jobera/classes/validation.dart';
 import 'package:jobera/views/forgot_password_view.dart';
 import 'package:jobera/views/home_view.dart';
 import 'package:jobera/views/registerViews/register_view.dart';
@@ -28,21 +28,20 @@ class LoginView extends StatelessWidget {
                 children: [
                   const Padding(
                     padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                    child:
-                        CustomLogoContainer(imagePath: 'assets/JoberaLogo.png'),
+                    child: LogoContainer(imagePath: 'assets/JoberaLogo.png'),
                   ),
-                  CustomTextFieldWidget(
+                  CustomTextField(
                     controller: _loginController.emailController,
                     obsecureText: false,
                     textInputType: TextInputType.emailAddress,
                     icon: const Icon(Icons.email),
                     labelText: 'Email',
-                    validator: (p0) => CustomValidation().validateEmail(p0),
+                    validator: (p0) => Validation().validateEmail(p0),
                   ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: GetBuilder<LoginController>(
-                      builder: (controller) => CustomTextFieldWidget(
+                      builder: (controller) => CustomTextField(
                         controller: _loginController.passwordController,
                         obsecureText: _loginController.passwordToggle,
                         textInputType: TextInputType.visiblePassword,
@@ -50,7 +49,7 @@ class LoginView extends StatelessWidget {
                         labelText: 'Password',
                         inkWell: controller.passwordInkwell(),
                         validator: (p0) =>
-                            CustomValidation().validateRequiredField(p0),
+                            Validation().validateRequiredField(p0),
                       ),
                     ),
                   ),
@@ -59,7 +58,7 @@ class LoginView extends StatelessWidget {
                     children: [
                       TextButton(
                         onPressed: () => Get.to(() => ForgotPasswordView()),
-                        child: const CustomLabelText(text: "Forgot Password?"),
+                        child: const LabelText(text: "Forgot Password?"),
                       ),
                     ],
                   ),
@@ -74,7 +73,7 @@ class LoginView extends StatelessWidget {
                             padding: const EdgeInsets.all(10),
                             child: Row(
                               children: [
-                                const CustomLabelText(text: "Remember Me ?"),
+                                const LabelText(text: "Remember Me ?"),
                                 GetBuilder<LoginController>(
                                   builder: (controller) => Checkbox(
                                     activeColor: Colors.orange.shade800,
@@ -100,7 +99,7 @@ class LoginView extends StatelessWidget {
                                   Future.delayed(
                                     const Duration(seconds: 1),
                                     () {
-                                      Get.offAll(() => const HomeView());
+                                      Get.offAll(() => HomeView());
                                     },
                                   );
                                 }
@@ -110,7 +109,7 @@ class LoginView extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const CustomBodyText(text: "Login"),
+                                const BodyText(text: "Login"),
                                 Icon(
                                   Icons.login,
                                   color: Colors.lightBlue.shade900,
@@ -141,10 +140,10 @@ class LoginView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const CustomLabelText(text: "New Around Here ?"),
+                      const LabelText(text: "New Around Here ?"),
                       TextButton(
                           onPressed: () => Get.to(() => const RegisterView()),
-                          child: const CustomBodyText(text: "Register")),
+                          child: const BodyText(text: "Register")),
                     ],
                   ),
                 ],

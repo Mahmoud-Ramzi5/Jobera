@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomTextFieldWidget extends StatelessWidget {
+class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType textInputType;
   final bool obsecureText;
@@ -10,7 +10,7 @@ class CustomTextFieldWidget extends StatelessWidget {
   final InkWell? inkWell;
   final int? maxLength;
 
-  const CustomTextFieldWidget({
+  const CustomTextField({
     super.key,
     required this.controller,
     required this.textInputType,

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/controllers/register_controller.dart';
-import 'package:jobera/customWidgets/custom_code_picker.dart';
-import 'package:jobera/customWidgets/custom_date_container.dart';
+import 'package:jobera/customWidgets/code_picker.dart';
+import 'package:jobera/customWidgets/date_container.dart';
 import 'package:jobera/customWidgets/custom_drop_down_button.dart';
-import 'package:jobera/customWidgets/custom_text.dart';
-import 'package:jobera/customWidgets/custom_text_field_widget.dart';
-import 'package:jobera/customWidgets/custom_validation.dart';
+import 'package:jobera/classes/texts.dart';
+import 'package:jobera/customWidgets/custom_text_field.dart';
+import 'package:jobera/classes/validation.dart';
 import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
 
@@ -24,23 +24,23 @@ class UserRegisterView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CustomTextFieldWidget(
+              CustomTextField(
                 controller: _registerController.fullNameController,
                 textInputType: TextInputType.name,
                 obsecureText: false,
                 labelText: 'Full Name',
                 icon: const Icon(Icons.abc),
-                validator: (p0) => CustomValidation().validateRequiredField(p0),
+                validator: (p0) => Validation().validateRequiredField(p0),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                child: CustomTextFieldWidget(
+                child: CustomTextField(
                   controller: _registerController.emailController,
                   textInputType: TextInputType.emailAddress,
                   obsecureText: false,
                   labelText: 'Email',
                   icon: const Icon(Icons.email),
-                  validator: (p0) => CustomValidation().validateEmail(p0),
+                  validator: (p0) => Validation().validateEmail(p0),
                 ),
               ),
               GetBuilder<RegisterController>(
@@ -48,7 +48,7 @@ class UserRegisterView extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      child: CustomTextFieldWidget(
+                      child: CustomTextField(
                         controller: controller.passwordController,
                         textInputType: TextInputType.visiblePassword,
                         obsecureText: controller.passwordToggle,
@@ -56,21 +56,20 @@ class UserRegisterView extends StatelessWidget {
                         icon: const Icon(Icons.key),
                         inkWell: controller.passwordInkwell(),
                         validator: (p0) =>
-                            CustomValidation().validateRequiredField(p0),
+                            Validation().validateRequiredField(p0),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      child: CustomTextFieldWidget(
+                      child: CustomTextField(
                         controller: controller.confirmPasswordController,
                         textInputType: TextInputType.visiblePassword,
                         obsecureText: controller.passwordToggle,
                         labelText: 'Confirm Password',
                         icon: const Icon(Icons.key),
                         inkWell: controller.passwordInkwell(),
-                        validator: (p0) => CustomValidation()
-                            .validateConfirmPassword(p0,
-                                _registerController.passwordController.text),
+                        validator: (p0) => Validation().validateConfirmPassword(
+                            p0, _registerController.passwordController.text),
                       ),
                     ),
                   ],
@@ -82,21 +81,20 @@ class UserRegisterView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomCodePicker(
+                    CodePicker(
                       onChange: (p0) =>
                           _registerController.selectCountryCode(p0),
                     ),
                     SizedBox(
                       width: 200,
-                      child: CustomTextFieldWidget(
+                      child: CustomTextField(
                         controller: _registerController.phoneNumberController,
                         textInputType: TextInputType.phone,
                         obsecureText: false,
                         labelText: 'Phone Number',
                         icon: const Icon(Icons.phone),
                         maxLength: 9,
-                        validator: (p0) =>
-                            CustomValidation().validatePhineNumber(p0),
+                        validator: (p0) => Validation().validatePhineNumber(p0),
                       ),
                     ),
                   ],
@@ -112,7 +110,7 @@ class UserRegisterView extends StatelessWidget {
                           .map<DropdownMenuItem<Countries>>(
                             (country) => DropdownMenuItem<Countries>(
                               value: country,
-                              child: CustomBodyText(text: country.countryName),
+                              child: BodyText(text: country.countryName),
                             ),
                           )
                           .toList(),
@@ -128,7 +126,7 @@ class UserRegisterView extends StatelessWidget {
                           .map<DropdownMenuItem<States>>(
                             (state) => DropdownMenuItem<States>(
                               value: state,
-                              child: CustomBodyText(text: state.stateName),
+                              child: BodyText(text: state.stateName),
                             ),
                           )
                           .toList(),
@@ -143,9 +141,9 @@ class UserRegisterView extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      CustomDateContainer(
+                      DateContainer(
                         widget: GetBuilder<RegisterController>(
-                          builder: (controller) => CustomBodyText(
+                          builder: (controller) => BodyText(
                             text: "${controller.selectedDate}".split(' ')[0],
                           ),
                         ),
@@ -153,7 +151,7 @@ class UserRegisterView extends StatelessWidget {
                       OutlinedButton(
                         onPressed: () =>
                             _registerController.selectDate(context),
-                        child: const CustomBodyText(text: "Select Birthdate"),
+                        child: const BodyText(text: "Select Birthdate"),
                       ),
                     ],
                   ),
@@ -168,7 +166,7 @@ class UserRegisterView extends StatelessWidget {
                             Icons.man,
                             color: Colors.orange.shade800,
                           ),
-                          child: const CustomBodyText(text: "Male"),
+                          child: const BodyText(text: "Male"),
                         ),
                         RadioMenuButton(
                           value: 'female',
@@ -178,7 +176,7 @@ class UserRegisterView extends StatelessWidget {
                             Icons.woman,
                             color: Colors.orange.shade800,
                           ),
-                          child: const CustomBodyText(text: "Female"),
+                          child: const BodyText(text: "Female"),
                         ),
                       ],
                     ),
@@ -201,14 +199,14 @@ class UserRegisterView extends StatelessWidget {
                         _registerController.selectedState!.stateName,
                         '${_registerController.countryCode.dialCode}${_registerController.phoneNumberController.text}',
                         _registerController.selectedGender,
-                        '${_registerController.selectedDate.day}/${_registerController.selectedDate.month}/${_registerController.selectedDate.year}',
+                        '${_registerController.selectedDate.day}-${_registerController.selectedDate.month}-${_registerController.selectedDate.year}',
                       );
                     }
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const CustomBodyText(text: "Register"),
+                      const BodyText(text: "Register"),
                       Icon(
                         Icons.app_registration_rounded,
                         color: Colors.lightBlue.shade900,

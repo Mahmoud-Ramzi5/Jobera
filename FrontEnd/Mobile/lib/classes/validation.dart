@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-class CustomValidation {
+class Validation {
   String? validateRequiredField(String? value) {
     if (value!.isEmpty) {
       return "Required Field";

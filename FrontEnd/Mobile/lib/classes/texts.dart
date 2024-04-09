@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class CustomTitleText extends StatelessWidget {
+class TitleText extends StatelessWidget {
   final String text;
 
-  const CustomTitleText({super.key, required this.text});
+  const TitleText({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +14,10 @@ class CustomTitleText extends StatelessWidget {
   }
 }
 
-class CustomBodyText extends StatelessWidget {
+class BodyText extends StatelessWidget {
   final String text;
 
-  const CustomBodyText({super.key, required this.text});
+  const BodyText({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +28,10 @@ class CustomBodyText extends StatelessWidget {
   }
 }
 
-class CustomLabelText extends StatelessWidget {
+class LabelText extends StatelessWidget {
   final String text;
 
-  const CustomLabelText({super.key, required this.text});
+  const LabelText({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {

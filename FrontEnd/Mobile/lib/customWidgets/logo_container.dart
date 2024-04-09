@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class CustomLogoContainer extends StatelessWidget {
+class LogoContainer extends StatelessWidget {
   final String imagePath;
 
-  const CustomLogoContainer({super.key, required this.imagePath});
+  const LogoContainer({super.key, required this.imagePath});
 
   @override
   Widget build(BuildContext context) {

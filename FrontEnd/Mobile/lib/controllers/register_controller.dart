@@ -2,7 +2,8 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/customWidgets/custom_text.dart';
+import 'package:jobera/classes/dialogs.dart';
+import 'package:jobera/classes/texts.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
@@ -132,7 +133,7 @@ class RegisterController extends GetxController {
               Icons.cancel_outlined,
               color: Colors.red,
             ),
-            CustomBodyText(text: e.response!.data["errors"].toString()),
+            BodyText(text: e.response!.data["errors"].toString()),
           ],
         ),
       );
@@ -169,7 +170,7 @@ class RegisterController extends GetxController {
               Icons.cancel_outlined,
               color: Colors.red,
             ),
-            CustomBodyText(text: e.response!.data["errors"].toString()),
+            BodyText(text: e.response!.data["errors"].toString()),
           ],
         ),
       );
@@ -199,6 +200,7 @@ class RegisterController extends GetxController {
             "phoneNumber": phoneNumber,
             "gender": gender,
             "birthDate": birthDate,
+            "type": "indvidual",
           },
           options: Options(
             headers: {
@@ -211,28 +213,17 @@ class RegisterController extends GetxController {
           "access_token",
           response.data["access_token"].toString(),
         );
-        Get.defaultDialog(
-          title: 'Register Successful',
-          backgroundColor: Colors.lightBlue.shade100,
-          content: const Icon(
-            Icons.check_circle_outline,
-            color: Colors.green,
-          ),
+        await Dialogs().showSuccessDialog(
+          'Register Successful',
+          '',
+          Get.context,
         );
       }
     } on DioException catch (e) {
-      Get.defaultDialog(
-        title: 'Register Failed',
-        backgroundColor: Colors.orange.shade100,
-        content: Column(
-          children: [
-            const Icon(
-              Icons.cancel_outlined,
-              color: Colors.red,
-            ),
-            CustomBodyText(text: e.response!.data["errors"].toString()),
-          ],
-        ),
+      await Dialogs().showErrorDialog(
+        'Register Failed',
+        e.response!.data["errors"].toString(),
+        Get.context,
       );
     }
   }

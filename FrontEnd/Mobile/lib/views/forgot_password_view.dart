@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/controllers/forgot_password_controller.dart';
-import 'package:jobera/customWidgets/custom_text.dart';
-import 'package:jobera/customWidgets/custom_text_field_widget.dart';
-import 'package:jobera/customWidgets/custom_validation.dart';
+import 'package:jobera/classes/texts.dart';
+import 'package:jobera/customWidgets/custom_text_field.dart';
+import 'package:jobera/classes/validation.dart';
 
 class ForgotPasswordView extends StatelessWidget {
   final ForgotPasswordController _forgotPasswordController =
@@ -13,7 +13,7 @@ class ForgotPasswordView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const CustomTitleText(text: "Forgot Password")),
+      appBar: AppBar(title: const TitleText(text: "Forgot Password")),
       body: Form(
         key: _forgotPasswordController.formField,
         child: SingleChildScrollView(
@@ -22,17 +22,17 @@ class ForgotPasswordView extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const CustomBodyText(
+                const BodyText(
                     text: "Enter your email to recieve a rest password email."),
                 Padding(
                   padding: const EdgeInsets.all(10),
-                  child: CustomTextFieldWidget(
+                  child: CustomTextField(
                     controller: _forgotPasswordController.emailController,
                     textInputType: TextInputType.emailAddress,
                     obsecureText: false,
                     labelText: 'Email',
                     icon: const Icon(Icons.email),
-                    validator: (p0) => CustomValidation().validateEmail(p0),
+                    validator: (p0) => Validation().validateEmail(p0),
                   ),
                 ),
                 ElevatedButton(
@@ -45,7 +45,7 @@ class ForgotPasswordView extends StatelessWidget {
                     }
                   },
                   style: Theme.of(context).textButtonTheme.style,
-                  child: const CustomBodyText(text: "Submit"),
+                  child: const BodyText(text: "Submit"),
                 ),
               ],
             ),

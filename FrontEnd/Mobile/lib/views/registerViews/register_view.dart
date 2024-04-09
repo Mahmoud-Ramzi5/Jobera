@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jobera/customWidgets/custom_text.dart';
+import 'package:jobera/classes/texts.dart';
 import 'package:jobera/views/registerViews/company_register_view.dart';
 import 'package:jobera/views/registerViews/user_register_view.dart';
 
@@ -9,7 +9,7 @@ class RegisterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const CustomTitleText(text: 'Register')),
+      appBar: AppBar(title: const TitleText(text: 'Register')),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
         child: DefaultTabController(
