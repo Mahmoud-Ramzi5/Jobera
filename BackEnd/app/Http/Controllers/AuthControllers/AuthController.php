@@ -136,10 +136,21 @@ class AuthController extends Controller
         ], 500);
     }
 
-    public function isExpired(Request $request)
+    public function IsExpired(Request $request)
     {
         return response()->json([
             'message' => 'Token is valid'
         ], 201);
+    }
+    public function IsVerified(){
+        $user = auth()->user();
+        if($user->email_verified_at){
+            return response()->json([
+                'message'=>'Verified'
+            ]);
+        }
+        return response()->json([
+            'message'=>'Not Verified'
+        ]);
     }
 }
