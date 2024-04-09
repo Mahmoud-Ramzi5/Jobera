@@ -43,7 +43,7 @@ const CallBack = () => {
           const token = data.access_token;
           setLoggedIn(true);
           setAccessToken(token);
-          sessionStorage.setItem('access_token', token);
+          Cookies.set('access_token', token, { secure: true, expires: 1/24 });
 
           // Redirect to dashboard
           navigate('/dashboard');

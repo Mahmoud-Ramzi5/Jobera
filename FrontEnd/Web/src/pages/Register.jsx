@@ -95,26 +95,26 @@ const Register = () => {
           const token = response.data.access_token;
           setLoggedIn(true);
           setAccessToken(token);
-          sessionStorage.setItem('access_token', token);
-
-          // Reset the form fields
-          setFirstName('');
-          setLastName('');
-          setEmail('');
-          setPhoneNumber('');
-          setPassword('');
-          setConfirmPassword('');
-          setCountry('');
-          setState('');
-          setDate('');
-          setGender('');
-
-          // Redirect to profile
-          navigate('/profile')
+          Cookies.set('access_token', token, { secure: true, expires: 1 / 24 });
         }
         else {
           console.log(response.statusText);
         }
+      }).then(() => {
+        // Reset the form fields
+        setFirstName('');
+        setLastName('');
+        setEmail('');
+        setPhoneNumber('');
+        setPassword('');
+        setConfirmPassword('');
+        setCountry('');
+        setState('');
+        setDate('');
+        setGender('');
+
+        // Redirect to profile
+        navigate('/profile')
       });
   };
 

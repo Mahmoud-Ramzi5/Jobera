@@ -59,28 +59,29 @@ const Login = () => {
           // Store token and Log in user 
           const token = response.data.access_token;
           const expires = response.data.expires_at;
-          console.log(expires);
 
           setLoggedIn(true);
           setAccessToken(token);
           if (rememberMe) {
-            Cookies.set('access_token', token, { secure: true });
+            // 1 Year
+            Cookies.set('access_token', token, { secure: true, expires: 365 });
           }
           else {
-            sessionStorage.setItem('access_token', token);
+            // 1 Hour
+            Cookies.set('access_token', token, { secure: true, expires: 1 / 24 });
           }
-
-          // Reset the form fields
-          setEmail('');
-          setPassword('');
-          setRememberMe(false);
-
-          // Redirect to dashboard
-          navigate('/dashboard');
         }
         else {
           console.log(response.statusText);
         }
+      }).then(() => {
+        // Reset the form fields
+        setEmail('');
+        setPassword('');
+        setRememberMe(false);
+
+        // Redirect to dashboard
+        navigate('/dashboard');
       });
   };
 

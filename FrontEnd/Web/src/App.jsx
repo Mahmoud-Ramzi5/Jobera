@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, createContext } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { CheckToken } from './apis/AuthApis.jsx';
 import PrivateRoutes from './utils/PrivateRoutes.jsx';
 import AnonymousRoutes from './utils/AnonymousRoutes.jsx';
 import Layout from './utils/Layout.jsx';
@@ -51,17 +52,21 @@ function App() {
 
       // Check user token
       if (typeof cookieToken !== 'undefined') {
-        setLoggedIn(true);
-        setAccessToken(cookieToken);
+        CheckToken(cookieToken).then((response) => {
+          if (response.status === 200) {
+            setLoggedIn(true);
+            setAccessToken(cookieToken);
+          }
+          else {
+            Cookies.remove('access_token');
+            console.log(response.statusText);
+          }
+          setIsLoading(false);
+        });
       }
       else {
-        const sessionToken = sessionStorage.getItem('access_token');
-        if (sessionToken !== null) {
-          setLoggedIn(true);
-          setAccessToken(sessionToken);
-        }
+        setIsLoading(false);
       }
-      setIsLoading(false);
     }
   }, []);
 

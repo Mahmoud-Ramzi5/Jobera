@@ -21,15 +21,14 @@ const Logout = () => {
           // Logout user and delete Token
           setLoggedIn(false);
           setAccessToken(null);
-          sessionStorage.removeItem('access_token');
           Cookies.remove('access_token');
-
-          // Redirect to index
-          navigate('/');
         }
         else {
           console.log(response.statusText);
         }
+      }).then(() => {
+        // Redirect to index
+        navigate('/');
       });
     }
   }, []);

@@ -20,14 +20,16 @@ const NavBar = () => {
     if (!initialized.current) {
       initialized.current = true;
 
-      FetchUserProfile(accessToken).then((response) => {
-        if (response.status === 200) {
-          setUser(response.data.user);
-        }
-        else {
-          console.log(response.statusText);
-        }
-      });
+      if (loggedIn) {
+        FetchUserProfile(accessToken).then((response) => {
+          if (response.status === 200) {
+            setUser(response.data.user);
+          }
+          else {
+            console.log(response.statusText);
+          }
+        });
+      }
     }
   }, [loggedIn])
 
@@ -59,23 +61,21 @@ const NavBar = () => {
           <div className={styles.nav_links_right}>
             <label htmlFor="close_btn" className={`${styles.btn} ${styles.close_btn}`}><i className="fas fa-times"></i></label>
             {(loggedIn) ? <><li><a href='/manage'><BriefcaseFill /> Manage</a></li>
-              <li><a href='/register'><EnvelopeAtFill /></a></li>
-              <li><a href='/register'><BellFill /></a></li>
+              <li><a href='#'><EnvelopeAtFill /></a></li>
+              <li><a href='#'><BellFill /></a></li>
               <li>
                 <div href="#" className={`${styles.desktop_item} ${styles.profile}`}>
                   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s"
                     className={styles.profile_image}></img>
                   <div className={styles.profile_details}>
                     <div>{user.fullName}</div>
-                    <div>${user.id}</div>
+                    <div>$GG</div>
                   </div>
                 </div>
                 <input type="checkbox" id="Profile" className={styles.showDrop} />
                 <label htmlFor="Profile" className={styles.mobile_item}> Profile </label>
                 <ul className={styles.drop_menu}>
-                  <li><a href="#">GG</a></li>
-                  <li><a href="#">GG</a></li>
-                  <li><a href="#">GG</a></li>
+                  <li><a href="/logout">LogOut</a></li>
                 </ul>
               </li></>
               : <><li><a href='/login'> Login </a></li>

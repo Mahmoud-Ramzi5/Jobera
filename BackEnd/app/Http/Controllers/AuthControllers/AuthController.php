@@ -117,7 +117,7 @@ class AuthController extends Controller
             ], 404);
         }
 
-        // check verification
+        // Check verification
         if ($user->email_verified_at || $user->hasVerifiedEmail()) {
             return response()->json([
                 'message' => 'Email already verified',
@@ -140,17 +140,22 @@ class AuthController extends Controller
     {
         return response()->json([
             'message' => 'Token is valid'
-        ], 201);
+        ], 200);
     }
-    public function IsVerified(){
+
+    public function IsVerified(Request $request)
+    {
+        // Get User
         $user = auth()->user();
-        if($user->email_verified_at){
+
+        // Check email verification
+        if ($user->email_verified_at) {
             return response()->json([
                 'message'=>'Verified'
-            ]);
+            ], 200);
         }
         return response()->json([
             'message'=>'Not Verified'
-        ]);
+        ], 200);
     }
 }
