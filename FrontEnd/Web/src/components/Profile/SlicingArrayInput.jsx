@@ -1,7 +1,7 @@
 import React from 'react';
-import styles from './ZCard.module.css'
+import styles from './cards.module.css'
 
-const SlicingAraayInput = ({ dataArray ,first,last}) => {
+const SlicingArrayInput = ({ dataArray, first, last }) => {
   // Slice the first five elements from the dataArray
     const slicedArray = dataArray.slice(first, last);
     return (
@@ -13,4 +13,4 @@ const SlicingAraayInput = ({ dataArray ,first,last}) => {
     );
 };
 
-export default SlicingAraayInput;
+export default SlicingArrayInput;

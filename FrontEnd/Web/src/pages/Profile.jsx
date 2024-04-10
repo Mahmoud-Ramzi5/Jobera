@@ -2,11 +2,11 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { LoginContext } from '../App.jsx';
 import { FetchUserProfile } from '../apis/ProfileApis.jsx';
 import UserInfo from '../components/Profile/UserInfo';
-import ZCard from "../components/Profile/ZCard";
 import Wallet from '../components/Profile/Wallet.jsx';
+import SetUpCard from '../components/Profile/SetUpCard.jsx';
+import CertificationsCard from '../components/Profile/CertificationsCard.jsx';
+import SkillsCard from '../components/Profile/SkillsCard.jsx';
 import styles from '../styles/profile.module.css';
-
-import Set_upCard from '../components/Profile/Set_upCard.jsx';
 
 
 const Profile = () => {
@@ -40,12 +40,10 @@ const Profile = () => {
       </div>
       <div className={styles.rightSideContainer}>
         {!isRegistered ? (<>
-          <div className={styles.rightSideFirst}><Set_upCard /></div>
-        </>) : (<>
-          // TODO
-          <h1>Loading...</h1>
-        </>)}
-        <div className={styles.rightSide}><ZCard /></div>
+          <div className={styles.rightSide}><SetUpCard /></div>
+        </>) : (<></>)}
+        <div className={styles.rightSide}><CertificationsCard /></div>
+        <div className={styles.rightSide}><SkillsCard /></div>
       </div>
     </div>
   );

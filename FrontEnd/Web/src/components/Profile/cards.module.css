@@ -1,0 +1,65 @@
+.cards {
+  width: 90%;
+  margin-bottom: 9px;
+}
+
+.background {
+  background: var(--color-background);
+  color: var(--color-button);
+}
+
+.titles {
+  background-color: var(--color-titles) !important; 
+}
+
+.title {
+  color: var(--color-title) ;
+}
+
+.pen_button {
+  margin-left: 90%;
+  border-style: none;
+  translate: 0px -25px;
+  background-color: var(--color-titles);
+}
+
+.pen {
+  color: darkgrey;
+}
+
+.pen:hover {
+  color: #4845d7;
+}
+
+.skills_button {
+  padding: 0px;
+  text-align: center;
+  border-style: none;
+  color: blue;
+  background-color: var(--color-background);
+}
+
+.skills_button:hover {
+  font-weight: 500;
+  color:#5a5aec;
+}
+
+.no_skills {
+  position: relative;
+  font-size: 120%;
+  color: var(--color-foreground);
+}
+
+.cer_img {
+  text-align: center;
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.cer_img img {
+  width: 100px;
+}
+
+.body {
+  background: var(--color-background);
+}
