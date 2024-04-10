@@ -1,8 +1,7 @@
 import React from 'react';
-//import 'bootstrap/dist/css/bootstrap.min.css';
 import { Card, Button } from 'react-bootstrap';
 import logo from '../../assets/JoberaLogo.png';
-//import './css/UserInfo.css';
+import styles from './cards.module.css';
 
 const PortfolioCardList = () => {
   const portfolios = [
@@ -20,15 +19,15 @@ const PortfolioCardList = () => {
       id: 3,
       title: 'Portfolio 3',
       photo: logo
-    }
+    },
   ];
 
   return (
-    <div className="Portfolios-card">
-      <h4>Portfolios</h4>
-      <div className="row">
+    <div className={styles.cards}>
+      <div className={styles.portfolio_title}>Portfolios</div>
+      <div className={styles.portfolio}>
         {portfolios.map((portfolio) => (
-          <div className="col-md-4" key={portfolio.id}>
+          <div key={portfolio.id} className={styles.portfolio_card}>
             <PortfolioCard title={portfolio.title} photo={portfolio.photo} />
           </div>
         ))}
@@ -36,14 +35,18 @@ const PortfolioCardList = () => {
     </div>
   );
 };
+
 const PortfolioCard = ({ title, photo }) => {
   return (
     <Card>
-      <Card.Img variant="top" src={photo} alt={title} />
-      <Card.Body>
-        <Card.Title>{title}</Card.Title>
-      </Card.Body>
+      <div className={styles.background}>
+        <Card.Img variant="top" src={photo} alt={title} />
+        <Card.Body>
+          <Card.Title>{title}</Card.Title>
+        </Card.Body>
+      </div>
     </Card>
   );
 };
+
 export default PortfolioCardList;

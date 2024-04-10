@@ -95,17 +95,17 @@ nav {
 
 .profile_details {
   font-size: 15px;
-  padding-top: 6px;
+  padding-top: 10px;
   padding-left: 10px;
   font-weight: 500;
-  line-height: 30px;
+  line-height: 20px;
   width: 84%;
   height: 100%;
   text-decoration: inherit;
 }
 
 .profile_details div{
-  height: 50%;
+  height: 49%;
 }
 
 .drop_menu{  
@@ -258,7 +258,20 @@ nav {
     transition: all 0.3s ease;
   }
 
-  .mobile_item:hover{
+  .profile {
+    padding-left: 0px;
+  }
+
+  .profile_image {
+    margin-top: 6px;
+    margin-bottom: 4px;
+  }
+
+  .profile_details {
+    padding-top: 8px;
+  }
+
+  .mobile_item:hover {
     background: #3A3B3C;
   }
 
@@ -321,17 +334,6 @@ nav {
 
   .mega_links li {
     margin: 0;
-  }
-
-  /* custom scroll bar */
-  ::-webkit-scrollbar {
-    width: 10px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #242526;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #3A3B3C;
   }
 
   .menu_btn:checked ~ .nav_links {

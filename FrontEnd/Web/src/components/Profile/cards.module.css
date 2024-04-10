@@ -60,6 +60,33 @@
   width: 100px;
 }
 
+.portfolio {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 33.3% 33.3% 33.3%;
+}
+
+.portfolio_title {
+  font-size: 30px;
+  padding: 10px 20px;
+  margin-top: 15px;
+  border: none;
+  border-radius: 15px;
+  color: var(--color-title);
+  background-color: var(--color-titles);
+}
+
+.portfolio_card {
+  padding: 5px;
+}
+
+@media screen and (max-width: 970px) {
+  .portfolio {
+    display: grid;
+    grid-template-columns: 50% 50%;
+  }
+}
+
 .body {
   background: var(--color-background);
 }

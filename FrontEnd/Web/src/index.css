@@ -24,6 +24,8 @@ html, body {
   --color-button: #000000;
   --color-background: #fafafa;
   --color-foreground: #3E6FA9;
+  --color-scrollbar-track: #eceded;
+  --color-scrollbar-thump: #d5d6d7;
   --color-navbar: linear-gradient(90deg, #00C9FF, #E27D48, #3B6D99);
   color: var(--color-foreground);
   background-color: var(--color-background);
@@ -33,12 +35,25 @@ html, body {
   --color-title:#0e4a94;
   --color-titles:#292929;
   --color-rating:#0e4a94;
+  --color-button: #fafafa;
   --color-background: #1f2023;
   --color-foreground: #efefef;
-  --color-button: #fafafa;
+  --color-scrollbar-track: #242526;
+  --color-scrollbar-thump: #3A3B3C;
   --color-navbar: linear-gradient(90deg, #0084B9, #A95D32, #1E3D59);
   color: var(--color-foreground);
   background-color: var(--color-background);
+}
+
+/* custom scroll bar */
+::-webkit-scrollbar {
+  width: 11px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-scrollbar-track);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-scrollbar-thump);
 }
 
 .fa-google:hover {

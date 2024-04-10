@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import ReactSwitch from 'react-switch';
-import { BriefcaseFill, EnvelopeAtFill, BellFill } from 'react-bootstrap-icons';
+import { BriefcaseFill, EnvelopeAtFill, BellFill, List, X } from 'react-bootstrap-icons';
 import { ThemeContext } from '../App.jsx';
 import { LoginContext } from '../App.jsx';
 import { FetchUserProfile } from '../apis/ProfileApis.jsx';
@@ -59,22 +59,16 @@ const NavBar = () => {
           </div>
 
           <div className={styles.nav_links_right}>
-            <label htmlFor="close_btn" className={`${styles.btn} ${styles.close_btn}`}><i className="fas fa-times"></i></label>
-            {(loggedIn) ? <><li><a href='/manage'><BriefcaseFill /> Manage</a></li>
+            <label htmlFor="close_btn" className={`${styles.btn} ${styles.close_btn}`}><X size={31}/></label>
+            {(loggedIn) ? <><li><a href='/manage'><BriefcaseFill /> Manage </a></li>
               <li><a href='#'><EnvelopeAtFill /></a></li>
               <li><a href='#'><BellFill /></a></li>
               <li>
-                <div href="#" className={`${styles.desktop_item} ${styles.profile}`}>
-                  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s"
-                    className={styles.profile_image}></img>
-                  <div className={styles.profile_details}>
-                    <div>{user.fullName}</div>
-                    <div>$GG</div>
-                  </div>
-                </div>
+                <div className={styles.desktop_item}><NavUser userData={user} /></div>
                 <input type="checkbox" id="Profile" className={styles.showDrop} />
-                <label htmlFor="Profile" className={styles.mobile_item}> Profile </label>
+                <label htmlFor="Profile" className={styles.mobile_item}><NavUser userData={user} /></label>
                 <ul className={styles.drop_menu}>
+                  <li><a href="/profile">My Profile</a></li>
                   <li><a href="/logout">LogOut</a></li>
                 </ul>
               </li></>
@@ -91,9 +85,22 @@ const NavBar = () => {
             </li>
           </div>
         </ul>
-        <label htmlFor="menu_btn" className={`${styles.btn} ${styles.menu_btn}`}><i className="fas fa-bars"></i></label>
+        <label htmlFor="menu_btn" className={`${styles.btn} ${styles.menu_btn}`}><List size={29}/></label>
       </div>
     </nav>
+  );
+};
+
+const NavUser = ({ userData }) => {
+  return (
+    <div className={styles.profile}>
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s"
+        className={styles.profile_image}></img>
+      <div className={styles.profile_details}>
+        <div>{userData.fullName}</div>
+        <div>$GG</div>
+      </div>
+    </div>
   );
 };
 

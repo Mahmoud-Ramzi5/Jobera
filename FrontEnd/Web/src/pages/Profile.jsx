@@ -6,6 +6,7 @@ import Wallet from '../components/Profile/Wallet.jsx';
 import SetUpCard from '../components/Profile/SetUpCard.jsx';
 import CertificationsCard from '../components/Profile/CertificationsCard.jsx';
 import SkillsCard from '../components/Profile/SkillsCard.jsx';
+import PortfolioCardList from '../components/Profile/PortfolioCard.jsx';
 import styles from '../styles/profile.module.css';
 
 
@@ -37,6 +38,7 @@ const Profile = () => {
       <div className={styles.leftSideContainer}>
         <div className={styles.leftSide}><UserInfo profileData={profile} /></div>
         <div className={styles.leftSide}><Wallet profileData={profile} /></div>
+        <div className={styles.leftSide}><PortfolioCardList /></div>
       </div>
       <div className={styles.rightSideContainer}>
         {!isRegistered ? (<>
