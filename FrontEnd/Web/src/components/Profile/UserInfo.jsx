@@ -53,11 +53,16 @@ const UserInfo = ({ profileData }) => {
   return (
     <Card className={styles.user_info_card}>
       <div className={styles.user_info_inside}>
-        <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s"
-          className={styles.profile_picture}
-          alt="Profile Image"
-        />
+        <div className={styles.profile_picture_container}>
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s"
+            className={styles.profile_picture}
+            alt="Profile Image"
+          />
+          <div className={styles.profile_picture_overlay}>
+            <div className={styles.profile_picture_text}>Change Photo</div>
+          </div>
+        </div>
         <div className={styles.info_in_profile}>
           <div className={styles.user_info_title}>
             <h3 className="card-title">{profileData.fullName}</h3>
@@ -90,7 +95,7 @@ const UserInfo = ({ profileData }) => {
             <Button variant="secondary" onClick={handleShareProfile}>
               Share
             </Button>
-            <Button variant="info" onClick={toggleEdit} >
+            <Button variant="info" onClick={toggleEdit}>
               {isEditing ? 'Cancel' : 'Edit Description'}
             </Button>
           </div>
