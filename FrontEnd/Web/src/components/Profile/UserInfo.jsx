@@ -50,6 +50,14 @@ const UserInfo = ({ profileData }) => {
     setIsEditing(!isEditing);
   };
 
+  const stripHtmlTags = (html) => {
+    const tempElement = document.createElement('div');
+    tempElement.innerHTML = html;
+    return tempElement.textContent || tempElement.innerText || '';
+  };
+
+  const formattedDescription = stripHtmlTags(description);
+
   return (
     <Card className={styles.user_info_card}>
       <div className={styles.user_info_inside}>
@@ -87,7 +95,7 @@ const UserInfo = ({ profileData }) => {
                 />
               </div>
             ) : (
-              <p className={styles.description}>{description}</p>
+              <p className={styles.description}>{formattedDescription}</p>
             )}
             <Button variant="primary" onClick={handleEditProfile}>
               Edit Profile
