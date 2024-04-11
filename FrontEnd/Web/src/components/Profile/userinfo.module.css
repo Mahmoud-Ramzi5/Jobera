@@ -1,5 +1,9 @@
 .user_info_card {
   width: 90%;
+  margin-bottom: 9px;
+  margin-top: 9px;
+  padding: 2px;
+  background-color: var(--color-background) !important;
 }
 
 .user_info_inside {
