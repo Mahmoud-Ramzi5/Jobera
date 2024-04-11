@@ -23,6 +23,7 @@ html, body {
   --color-rating:#000000;
   --color-button: #000000;
   --color-background: #fafafa;
+  --color-backgroundV2:#1f2023;
   --color-foreground: #3E6FA9;
   --color-scrollbar-track: #eceded;
   --color-scrollbar-thump: #d5d6d7;
@@ -37,6 +38,7 @@ html, body {
   --color-rating:#0e4a94;
   --color-button: #fafafa;
   --color-background: #1f2023;
+  --color-backgroundV2:#fafafa;
   --color-foreground: #efefef;
   --color-scrollbar-track: #242526;
   --color-scrollbar-thump: #3A3B3C;
