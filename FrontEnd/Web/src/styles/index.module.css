@@ -7,21 +7,6 @@
     position: relative;
 }
 
-/*.carousel :global(.carousel-indicators) :global(button) {
-    background-color: #3A3B3C;
-    border: none;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-}*/
-
-:global(.carousel-control-prev-icon),
-:global(.carousel-control-next-icon) {
-    background-color: #3A3B3C;
-    border: none;
-    border-radius: 50%;
-}
-
 .carousel_item {
     height: 500px;
 }
