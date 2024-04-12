@@ -15,9 +15,6 @@ import ResetPassword from './pages/ResetPassword.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
 import EmailVerificationMessage from './pages/EmailVerification.jsx';
 
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-
 
 export const ThemeContext = createContext({});
 export const LoginContext = createContext({});
