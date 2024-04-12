@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import logo from '../../assets/JoberaLogo.png';
 import styles from './cards.module.css';
 
@@ -23,23 +24,29 @@ const PortfolioCardList = () => {
   ];
 
   return (
-    <div className={styles.cards}>
-      <div className={styles.portfolio_title}>Portfolios</div>
-      <div className={styles.portfolio}>
-        {portfolios.map((portfolio) => (
-          <div key={portfolio.id} className={styles.portfolio_card}>
-            <PortfolioCard title={portfolio.title} photo={portfolio.photo} />
-          </div>
-        ))}
+    <Card className={styles.cards}>
+      <div className={styles.background}>
+        <div className={styles.portfolio_title}>Portfolio         
+        <Button className={styles.view_all} variant="primary" as={Link} to="/portfolio">View All</Button>
+        </div>
+        <div className={styles.portfolio}>
+          {portfolios.map((portfolio) => (
+            <div key={portfolio.id} className={styles.portfolio_card}>
+              <Link to={`/portfolio/${portfolio.id}`}>
+                <PortfolioCard title={portfolio.title} photo={portfolio.photo} />
+              </Link>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </Card>
   );
 };
 
 const PortfolioCard = ({ title, photo }) => {
   return (
-    <Card>
-      <div className={styles.background}>
+    <Card className={styles.portifolio_card}>
+      <div className={styles.portfolio_background}>
         <Card.Img variant="top" src={photo} alt={title} />
         <Card.Body>
           <Card.Title>{title}</Card.Title>
