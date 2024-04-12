@@ -5,6 +5,7 @@ import { CheckToken } from './apis/AuthApis.jsx';
 import PrivateRoutes from './utils/PrivateRoutes.jsx';
 import AnonymousRoutes from './utils/AnonymousRoutes.jsx';
 import Layout from './utils/Layout.jsx';
+import Index from './pages/Index.jsx';
 import Register from './pages/Register.jsx';
 import Login from './pages/Login.jsx';
 import Logout from './pages/Logout.jsx';
@@ -84,7 +85,7 @@ function App() {
         <BrowserRouter>
           <Routes>
             <Route element={<Layout />}>
-              <Route path="/" element={<div></div>} />
+              <Route path="/" element={<Index />} />
               <Route element={<PrivateRoutes />}>
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/dashboard" element={<></>} />

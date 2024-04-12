@@ -1,0 +1,72 @@
+.carousel {
+    top: 70px;
+    width: 100%;
+    height: 70vh;
+    background-color: #3A3B3C;
+    overflow: hidden;
+    position: relative;
+}
+
+/*.carousel :global(.carousel-indicators) :global(button) {
+    background-color: #3A3B3C;
+    border: none;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+}*/
+
+:global(.carousel-control-prev-icon),
+:global(.carousel-control-next-icon) {
+    background-color: #3A3B3C;
+    border: none;
+    border-radius: 50%;
+}
+
+.carousel_item {
+    height: 500px;
+}
+
+.carousel_item,
+.carousel_item::before {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+}
+
+.carousel_item::before {
+    content: "";
+    background-color: rgba(58, 59, 60, 0.8);
+}
+
+.carousel_caption {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 50px;
+    right: 50px;
+}
+
+.carousel_container {
+    text-align: center;
+}
+
+.carousel_container span {
+    color: #fff;
+    margin-bottom: 20px;
+    font-size: 48px;
+    font-weight: 700;
+}
+
+.carousel_container p {
+    animation-delay: 0.4s;
+    margin: 0 auto 30px auto;
+    color: #fff;
+}
