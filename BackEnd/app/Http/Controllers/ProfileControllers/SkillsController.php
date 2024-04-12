@@ -2,71 +2,60 @@
 
 namespace App\Http\Controllers\ProfileControllers;
 
-use App\Models\skill;
-use App\Models\userSkills;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Skill;
+use App\Filters\SkillFilter;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Resources\skillResource;
-use App\Http\Requests\storeSkillsRequest;
-use App\Http\Requests\storeUserSkillRequest;
+use App\Http\Resources\SkillResource;
+use App\Http\Resources\SkillsCollection;
+use App\Http\Requests\StoreSkillsRequest;
+
 
 class SkillsController extends Controller
 {
-    public function addSkill(storeSkillsRequest $request)
+    public function GetSkills(Request $request)
     {
-        $user = Auth::user();
-        if ($user->type == 'admin') {
-            $validatedData = $request->validated();
-            $skill = skill::create($validatedData);
-            return new skillResource($skill);
+        // Filter skills based on type
+        $filter = new SkillFilter();
+        $queryItems = $filter->transform($request);
+
+        // Response
+        if (empty($queryItems)) {
+            return response()->json([
+                'skills' => new skillsCollection(Skill::all()),
+            ]);
         }
+        return response()->json([
+            'skills' => new skillsCollection(Skill::where($queryItems)->get()->all()),
+        ]);
+    }
+
+    public function GetSkillTypes()
+    {
+        $enumValues = ['IT', 'Design', 'Business', 'Languages', 'Engineering', 'Worker'];
+        // Response
+        return response()->json([
+            "types" => $enumValues
+        ], 200);
+    }
+
+    public function AddSkill(StoreSkillsRequest $request)
+    {
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user->type == 'admin') {
+            // Validate request
+            $validatedData = $request->validated();
+            $skill = Skill::create($validatedData);
+            return new SkillResource($skill);
+        }
+
+        // Response
         return response()->json([
             "message" => "Not Authorized"
         ], 401);
-    }
-    public function getUserSkills()
-    {
-        $user = Auth::user();
-        $userSkills = userSkills::where('user_id', $user->id)->get();
-
-        $skills = [];
-        foreach ($userSkills as $relation) {
-            $skills[] = $relation->skill;
-        }
-        return response()->json([
-            'user' => $user,
-            'skills' => $skills
-        ]);
-    }
-    public function addUserSkill(storeUserSkillRequest $request)
-    {
-        $validatedData = $request->validated();
-        $validatedData['user_id'] = Auth::user()->id;
-        userSkills::create($validatedData);
-        return response()->json([
-            "message" => "skill is added succesfully"
-        ], 202);
-    }
-    public function removeUserSkill(Request $request, $userSkill_id)
-    {
-        $skill = userSkills::find($userSkill_id);
-
-        if (!$skill) {
-            return response()->json([
-                'message' => 'Skill not found'
-            ], 404);
-        }
-
-        $skill->delete();
-
-        return response()->json([
-            'message' => 'Skill deleted successfully'
-        ], 203);
-    }
-    public function getSkillTypes()
-    {
-        $enumValues = ['IT', 'design', 'business', 'languages', 'engineering', 'worker'];
-        return response()->json(["types" => $enumValues]);
     }
 }

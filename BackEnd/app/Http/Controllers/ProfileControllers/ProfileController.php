@@ -3,28 +3,74 @@
 namespace App\Http\Controllers\ProfileControllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\skill;
-use App\Filters\SkillFilter;
+use App\Models\UserSkills;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
-use App\Http\Resources\skillsCollection;
+use App\Http\Requests\StoreUserSkillRequest;
+
 
 class ProfileController extends Controller
 {
     public function show()
     {
         // Response
-        return Response()->json([
+        return response()->json([
             'user' => new UserResource(auth()->user())
         ], 200);
     }
-    public function getSkills(Request $request)
+
+    public function GetUserSkills()
     {
-        $filter = new SkillFilter();
-        $queryItems = $filter->transform($request);
-        if (empty($queryItems)) {
-            return new skillsCollection(skill::all());
+        // Get User
+        $user = auth()->user();
+        $userSkills = UserSkills::where('user_id', $user->id)->get()->all();
+
+        // Send Only skills
+        $skills = [];
+        foreach ($userSkills as $relation) {
+            $skills[] = $relation->skill;
         }
-        return new skillsCollection(skill::where($queryItems)->get());
+
+        // Response
+        return response()->json([
+            'user' => $user,
+            'skills' => $skills
+        ]);
+    }
+
+    public function AddUserSkill(StoreUserSkillRequest $request)
+    {
+        // Validate request
+        $validatedData = $request->validated();
+        $validatedData['user_id'] = auth()->user()->id;
+
+        // Add skill
+        UserSkills::create($validatedData);
+
+        // Response
+        return response()->json([
+            "message" => "Skill is added successfully"
+        ], 202);
+    }
+
+    public function RemoveUserSkill(Request $request, $userSkill_id)
+    {
+        // Get skill
+        $skill = UserSkills::find($userSkill_id);
+
+        // Check skill
+        if (!$skill) {
+            return response()->json([
+                'message' => 'Skill not found'
+            ], 404);
+        }
+
+        // Delete skill
+        $skill->delete();
+
+        // Response
+        return response()->json([
+            'message' => 'Skill deleted successfully'
+        ], 203);
     }
 }

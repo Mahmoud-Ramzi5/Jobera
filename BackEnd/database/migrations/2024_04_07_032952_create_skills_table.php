@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('skills', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->enum("type",['IT','design','business','languages','engineering','worker']);
+            $table->enum("type", ['IT', 'Design', 'Business', 'Languages', 'Engineering', 'Worker']);
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class storeSkillsRequest extends FormRequest
+class StoreUserSkillRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,7 @@ class storeSkillsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "name"=>['required'],
-            "type"=>['required','in:IT,design,business,languages,engineering,worker']
+            "skill_id" => ['required']
         ];
     }
 }
