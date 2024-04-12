@@ -1,15 +1,30 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Carousel from 'react-bootstrap/Carousel';
+import { LoginContext } from '../App.jsx';
 import Slide1 from '../assets/Slide1.png';
 import Slide2 from '../assets/Slide2.png';
-import Slide3 from '../assets/Slide3.jpg';
+import Slide3 from '../assets/Slide3.png';
 import styles from '../styles/index.module.css';
 
 const Index = () => {
+  // Context
+  const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
+  // Define states
+  const navigate = useNavigate();
   const [index, setIndex] = useState(0);
 
   const handleSelect = (selectedIndex) => {
     setIndex(selectedIndex);
+  };
+
+  const handleButtonClick = (event) => {
+    if (loggedIn) {
+      // TODO...
+    }
+    else {
+      navigate('/login');
+    }
   };
 
   return (
@@ -20,8 +35,10 @@ const Index = () => {
             <div className={styles.carousel_container}>
               <span>Find Your Next Dream Job</span>
               <p>Easiest way to find a perfect job</p>
-              <button>Looking For a job?</button>
-              <button>Post a job</button>
+              <div className={styles.carousel_buttons}>
+                <button onClick={handleButtonClick}>Looking For a job?</button>
+                <button onClick={handleButtonClick}>Post a job</button>
+              </div>
             </div>
           </Carousel.Caption>
         </Carousel.Item>
@@ -44,6 +61,19 @@ const Index = () => {
           </Carousel.Caption>
         </Carousel.Item>
       </Carousel>
+
+      <div className={styles.container}>
+        <div className="row justify-content-center">
+          <div className="col-xl-8 col-lg-9 col-md-12">
+
+            <div className="section-tittle section-tittle3 text-center mb-10">
+              <span>1000+</span>
+              <h2>Browse From Our Top Jobs</h2>
+              <p>The automated process starts as soon as your clothes go into the machine. The outcome is gleaming clothes. Placeholder text commonly used.</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
