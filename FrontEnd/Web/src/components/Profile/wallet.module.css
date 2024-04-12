@@ -1,6 +1,7 @@
 .wallet_card {
   width: 90%;
-  margin-top: 10px;
+  margin-bottom: 9px;
+  background-color: var(--color-backgroundV2) !important;
 }
 
 .wallet_inside {

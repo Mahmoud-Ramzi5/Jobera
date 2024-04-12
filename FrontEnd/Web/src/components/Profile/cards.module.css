@@ -1,15 +1,12 @@
 .cards {
   width: 90%;
   margin-bottom: 9px;
-  margin-top: 9px;
-  padding: 2px;
-  background-color: var(--color-background) !important;
+  background-color: var(--color-backgroundV2) !important;
 }
 
 .background {
-  background: var(--color-background);
   color: var(--color-button);
-  
+  background: var(--color-background);
 }
 
 .titles {
@@ -76,33 +73,28 @@
   padding: 10px 20px;
   margin-top: 15px;
   border: none;
-  color: var(--color-rating);
   display: flex;
+  color: var(--color-rating);
   justify-content: space-between;
 }
 
-.portfolio_card {
-  padding: 5px;
-}
-.view_all {
+.portfolio_button {
   margin-top: 5px;
   margin-bottom: 10px;
 }
-.portfolio {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
+
+.portfolio_div {
+  padding: 5px;
 }
 
 .portfolio_card {
   width: 100%;
+  background-color: var(--color-backgroundV2) !important;
 }
 
 .portfolio_background {
-  position: relative;
-  overflow: hidden;
-  background-color: var(--color-background);
   color: var(--color-rating);
+  background-color: var(--color-background);
 }
 
 .portfolio_background::before {
@@ -112,9 +104,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: opacity 0.35s ease;
 }
 
 .portfolio_background:hover::before {
@@ -127,29 +119,9 @@
   object-fit: cover;
 }
 
-.portfolio_background .card-body {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 10px;
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.7);
-}
-
-.portfolio_background .card-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 0;
-}
-
 @media screen and (max-width: 970px) {
   .portfolio {
     display: grid;
     grid-template-columns: 50% 50%;
   }
-}
-
-.body {
-  background: var(--color-background);
 }

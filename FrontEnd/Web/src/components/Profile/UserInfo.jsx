@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { StarFill, StarHalf } from 'react-bootstrap-icons';
 import styles from './userinfo.module.css';
+
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
@@ -28,19 +29,11 @@ const UserInfo = ({ profileData }) => {
     const hasHalfStar = rating - fullStars >= 0.5;
 
     for (let i = 0; i < fullStars; i++) {
-      stars.push(
-        <i key={i}>
-          <StarFill />
-        </i>
-      );
+      stars.push(<i key={i}><StarFill /></i>);
     }
 
     if (hasHalfStar) {
-      stars.push(
-        <i key="half">
-          <StarHalf />
-        </i>
-      );
+      stars.push(<i key="half"><StarHalf /></i>);
     }
 
     return stars;
@@ -74,17 +67,10 @@ const UserInfo = ({ profileData }) => {
         <div className={styles.info_in_profile}>
           <div className={styles.user_info_title}>
             <h3 className="card-title">{profileData.fullName}</h3>
-            <h4 className={styles.specification}>
-              {profileData.specification}
-            </h4>
-            <h6 className={styles.location}>
-              Location: {profileData.state}, {profileData.country}
-            </h6>
+            <h4 className={styles.specification}>{profileData.specification}</h4>
+            <h6 className={styles.location}>Location: {profileData.state}, {profileData.country}</h6>
             <div className={styles.rating}>
-              <h6>
-                Rating: {renderStars(profileData.rating)} {profileData.rating} (
-                {profileData.reviews} reviews){' '}
-              </h6>
+              <h6>Rating: {renderStars(profileData.rating)} {profileData.rating} ({profileData.reviews} reviews){' '}</h6>
             </div>
             {isEditing ? (
               <div className={styles.description}>
@@ -97,15 +83,11 @@ const UserInfo = ({ profileData }) => {
             ) : (
               <p className={styles.description}>{formattedDescription}</p>
             )}
-            <Button variant="primary" onClick={handleEditProfile}>
-              Edit Profile
-            </Button>{' '}
-            <Button variant="secondary" onClick={handleShareProfile}>
-              Share
-            </Button>
-            <Button variant="info" onClick={toggleEdit}>
-              {isEditing ? 'Cancel' : 'Edit Description'}
-            </Button>
+            <Button variant="primary" onClick={handleEditProfile}>Edit Profile</Button>
+            {' '}
+            <Button variant="secondary" onClick={handleShareProfile}>Share</Button>
+            {' '}
+            <Button variant="info" onClick={toggleEdit}>{isEditing ? 'Cancel' : 'Edit Description'}</Button>
           </div>
         </div>
       </div>
