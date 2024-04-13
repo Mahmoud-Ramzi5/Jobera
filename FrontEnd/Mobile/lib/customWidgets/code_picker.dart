@@ -10,9 +10,8 @@ class CodePicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return CountryCodePicker(
       showDropDownButton: true,
-      dialogBackgroundColor: Colors.orange.shade100,
-      dialogTextStyle: Theme.of(context).textTheme.bodyLarge,
-      searchStyle: Theme.of(context).textTheme.bodyLarge,
+      dialogTextStyle: Theme.of(context).textTheme.labelLarge,
+      searchStyle: Theme.of(context).textTheme.labelLarge,
       dialogSize: const Size(400, 300),
       hideSearch: true,
       textStyle: Theme.of(context).textTheme.labelLarge,

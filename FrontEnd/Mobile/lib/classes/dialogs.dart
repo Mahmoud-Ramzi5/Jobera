@@ -3,17 +3,20 @@ import 'package:get/get.dart';
 import 'package:jobera/classes/texts.dart';
 
 class Dialogs {
-  Future<void> showErrorDialog(
-      String title, String content, BuildContext? context) async {
+  Future<void> showErrorDialog(String title, String content) async {
     Get.defaultDialog(
       title: title,
-      titleStyle: Theme.of(context!).textTheme.titleLarge,
-      backgroundColor: Colors.orange.shade100,
+      titleStyle: const TextStyle(
+        color: Colors.red,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
       content: Column(
         children: [
           const Icon(
             Icons.cancel_outlined,
             color: Colors.red,
+            size: 40,
           ),
           Padding(
             padding: const EdgeInsets.all(10),
@@ -24,17 +27,20 @@ class Dialogs {
     );
   }
 
-  Future<void> showSuccessDialog(
-      String title, String content, BuildContext? context) async {
+  Future<void> showSuccessDialog(String title, String content) async {
     Get.defaultDialog(
       title: title,
-      titleStyle: Theme.of(context!).textTheme.titleLarge,
-      backgroundColor: Colors.lightBlue.shade100,
+      titleStyle: const TextStyle(
+        color: Colors.green,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
       content: Column(
         children: [
           const Icon(
             Icons.check_circle_outline,
             color: Colors.green,
+            size: 40,
           ),
           Padding(
             padding: const EdgeInsets.all(10),
@@ -45,14 +51,16 @@ class Dialogs {
     );
   }
 
-  Future<void> showLogoutDialog(
-      void Function()? onTap, BuildContext context) async {
+  Future<void> showLogoutDialog(void Function()? onTap) async {
     Get.defaultDialog(
-      backgroundColor: Colors.lightBlue.shade100,
       title: "Logout",
-      titleStyle: Theme.of(context).textTheme.titleLarge,
+      titleStyle: TextStyle(
+        color: Colors.orange.shade800,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
       middleText: "Are you sure you want to logout?",
-      middleTextStyle: Theme.of(context).textTheme.labelLarge,
+      middleTextStyle: const TextStyle(fontSize: 18),
       confirm: GestureDetector(
         onTap: onTap,
         child: const Padding(

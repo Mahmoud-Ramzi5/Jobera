@@ -23,15 +23,14 @@ class HomeView extends StatelessWidget {
               title: "Settings",
               icon: Icons.settings,
               onTap: () {
-                Get.to(const SettingsView());
+                Get.to(() => const SettingsView());
               },
             ),
             MenuListTile(
               title: "Logout",
               icon: Icons.logout,
-              onTap: () async => await Dialogs().showLogoutDialog(
+              onTap: () async => Dialogs().showLogoutDialog(
                 () => _homeController.logout(),
-                context,
               ),
             ),
           ],

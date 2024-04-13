@@ -66,7 +66,7 @@ class LoginController extends GetxController {
           "access_token",
           response.data["access_token"].toString(),
         );
-        await Dialogs().showSuccessDialog('Login Successfull', '', Get.context);
+        await Dialogs().showSuccessDialog('Login Successfull', '');
         isLoggedIn = true;
         return null;
       }
@@ -75,7 +75,6 @@ class LoginController extends GetxController {
       await Dialogs().showErrorDialog(
         'Login Failed',
         e.response!.data["errors"].toString(),
-        Get.context,
       );
     }
   }
