@@ -11,7 +11,7 @@ use App\Http\Requests\StoreUserSkillRequest;
 
 class ProfileController extends Controller
 {
-    public function show()
+    public function Show()
     {
         // Response
         return response()->json([

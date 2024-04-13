@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Skill;
 use App\Filters\SkillFilter;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\SkillResource;
 use App\Http\Resources\SkillsCollection;
 use App\Http\Requests\StoreSkillsRequest;
@@ -33,7 +32,16 @@ class SkillsController extends Controller
 
     public function GetSkillTypes()
     {
-        $enumValues = ['IT', 'Design', 'Business', 'Languages', 'Engineering', 'Worker'];
+        $enumValues =
+        [
+            ['id' => '1', 'name' => 'IT'],
+            ['id' => '2', 'name' => 'Design'],
+            ['id' => '3', 'name' => 'Business'],
+            ['id' => '4', 'name' => 'Languages'],
+            ['id' => '5', 'name' => 'Engineering'],
+            ['id' => '6', 'name' => 'Worker'],
+        ];
+
         // Response
         return response()->json([
             "types" => $enumValues

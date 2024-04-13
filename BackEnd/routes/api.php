@@ -24,7 +24,7 @@ Route::controller(AuthController::class)->group(function () {
 
     Route::get('/verifyEmail', 'VerifyEmail')->middleware('auth:api');
     Route::get('/isExpired', 'IsExpired')->middleware('auth:api');
-    Route::get('/IsVerified', 'IsVerified')->middleware('auth:api');
+    Route::get('/isVerified', 'IsVerified')->middleware('auth:api');
 
     Route::get('/countries', function () {
         return Response()->json([

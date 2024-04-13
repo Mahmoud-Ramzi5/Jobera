@@ -23,7 +23,7 @@ class StoreSkillsRequest extends FormRequest
     {
         return [
             "name" => ['required'],
-            "type" => ['required','in:IT,design,business,languages,engineering,worker']
+            "type" => ['required','in:IT,Design,Business,Languages,Engineering,Worker']
         ];
     }
 }
