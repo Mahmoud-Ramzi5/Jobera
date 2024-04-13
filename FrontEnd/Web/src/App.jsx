@@ -7,6 +7,7 @@ import AnonymousRoutes from './utils/AnonymousRoutes.jsx';
 import Layout from './utils/Layout.jsx';
 import Index from './pages/Index.jsx';
 import Register from './pages/Register.jsx';
+import Register2 from './pages/Register2.jsx';
 import Login from './pages/Login.jsx';
 import Logout from './pages/Logout.jsx';
 import CallBack from './components/CallBack.jsx';
@@ -92,6 +93,7 @@ function App() {
 
             <Route element={<AnonymousRoutes />}>
               <Route path="/register" element={<Register />} />
+              <Route path="/Test" element={<Register2/>}/>
               <Route path="/login" element={<Login />} />
               <Route path="/auth/:provider/call-back" element={<CallBack />} />
               <Route path="/reset-password" element={<ResetPassword />} />

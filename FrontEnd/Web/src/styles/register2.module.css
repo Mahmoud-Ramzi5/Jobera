@@ -1,0 +1,73 @@
+.inputsforregister{
+    position:relative;
+    top:150px;
+}
+
+.title{
+    width:25%;
+    align-content: center;
+    text-align: center;
+    font-size: 2em;
+    font-weight: 500;
+    padding-bottom: 10px;
+    color:var(--color-button);
+    background-color: var(--color-Background);
+    margin-right:20px;
+}
+
+.register__row {
+    display: flex;
+    position: relative;   
+}
+
+div.scroll{
+    background-color: var(--color-titles);
+    width: 100%;
+    height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: center;
+    padding: 20px;
+    border: 5px;
+    border-radius: 5px;
+    border-style: inset;
+    border-color: var(--color-title);
+}
+
+.choosedskills{
+    background-color: var(--color-titles);
+    color:var(--color-foreground);
+    width: 100%;
+    height: 500px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: center;
+    padding: 20px;
+    border:5px;
+    border-radius: 5px;
+    border-style: inset;
+    border-color: var(--color-title);
+}
+.skillbutton{
+    border:2px;
+    border-radius: 20px;
+    border-color: rgb(48, 47, 47);
+    border-style: outset;
+}
+.available_skills:disabled{
+    display: none;
+}
+.available_skills:enabled{
+    display:block;
+}
+.available_skills{
+    width:100%;
+    border:3px;
+    border-radius: 3px;
+    border-style: inset;
+    border-color: var(--color-title);
+    color:var(--color-button);
+    margin-bottom: 20px;
+}
+
+
