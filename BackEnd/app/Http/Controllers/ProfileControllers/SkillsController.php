@@ -15,6 +15,16 @@ class SkillsController extends Controller
 {
     public function GetSkills(Request $request)
     {
+        $request->validate([
+            "type" => "required|in:IT,Design,Business,Languages,Engineering,Worker"
+        ]);
+
+        return response()->json([
+            'skills' => Skill::where("type", $request->input("type"))->get()->all()
+        ], 200);
+
+        // Rip Hisham
+        /*
         // Filter skills based on type
         $filter = new SkillFilter();
         $queryItems = $filter->transform($request);
@@ -22,12 +32,12 @@ class SkillsController extends Controller
         // Response
         if (empty($queryItems)) {
             return response()->json([
-                'skills' => new skillsCollection(Skill::all()),
+                'skills' => new SkillsCollection(Skill::all()),
             ]);
         }
         return response()->json([
-            'skills' => new skillsCollection(Skill::where($queryItems)->get()->all()),
-        ]);
+            'skills' => new SkillsCollection(Skill::where($queryItems)->get()->all()),
+        ]);*/
     }
 
     public function GetSkillTypes()

@@ -58,7 +58,8 @@ Route::controller(ProfileController::class)->group(function () {
 });
 
 Route::controller(SkillsController::class)->group(function() {
-    Route::get('/skills', 'GetSkils');
     Route::get('/skills/types', 'GetSkillTypes');
-    Route::post('/skills', 'AddSkill');
+    Route::post('/skills', 'GetSkills');
+
+    Route::post('/skills/add', 'AddSkill');
 });
