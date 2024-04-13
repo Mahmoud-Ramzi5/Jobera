@@ -213,17 +213,12 @@ class RegisterController extends GetxController {
           "access_token",
           response.data["access_token"].toString(),
         );
-        await Dialogs().showSuccessDialog(
-          'Register Successful',
-          '',
-          Get.context,
-        );
+        await Dialogs().showSuccessDialog('Register Successful', '');
       }
     } on DioException catch (e) {
       await Dialogs().showErrorDialog(
         'Register Failed',
         e.response!.data["errors"].toString(),
-        Get.context,
       );
     }
   }

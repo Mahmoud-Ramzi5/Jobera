@@ -31,13 +31,16 @@ class HomeController extends GetxController {
           ));
       if (response.statusCode == 200) {
         sharedPreferences?.remove('access_token');
+        Dialogs().showSuccessDialog(
+          'Success',
+          response.data['message'].toString(),
+        );
         Get.offAll(() => LoginView());
       }
     } on DioException catch (e) {
       await Dialogs().showErrorDialog(
         'Logout Failed',
         e.response!.data["errors"].toString(),
-        Get.context,
       );
     }
   }

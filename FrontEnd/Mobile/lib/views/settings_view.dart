@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jobera/classes/texts.dart';
+import 'package:jobera/controllers/settings_controller.dart';
 import 'package:jobera/customWidgets/list_tiles.dart';
 import 'package:jobera/customWidgets/settings_single_section.dart';
 
 class SettingsView extends StatelessWidget {
+  // final SettingsController _settingsController = Get.find();
+
   const SettingsView({super.key});
 
   @override
@@ -23,7 +27,12 @@ class SettingsView extends StatelessWidget {
                   SettingsListTile(
                     title: "Dark Mode",
                     icon: Icons.dark_mode_outlined,
-                    trailing: Switch(value: true, onChanged: (value) {}),
+                    trailing: GetBuilder<SettingsController>(
+                      builder: (controller) => Switch(
+                        value: controller.isDarkMode,
+                        onChanged: (value) => controller.changeTheme(value),
+                      ),
+                    ),
                   ),
                   const SettingsListTile(
                       title: "Notifications",

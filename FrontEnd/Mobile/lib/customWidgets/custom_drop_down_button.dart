@@ -20,7 +20,6 @@ class CustomDropDownButton extends StatelessWidget {
     return DropdownButton<dynamic>(
       value: value,
       onChanged: onChanged,
-      dropdownColor: Colors.orange.shade100,
       iconEnabledColor: Colors.lightBlue.shade900,
       items: items,
       hint: BodyText(text: text),
