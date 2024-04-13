@@ -114,23 +114,25 @@ const Register2 = () => {
                     ))}
                   </div>
                 </div>
-                <div className={styles.title}>
-                  Chosen Skills:
-                  <div className={styles.choosedskills}>
-                    {userSkills.map((skill) => (
-                      <button
-                        className={styles.skillbutton}
-                        key={skill.id}
-                        value={skill.name}
-                        onClick={(event) => {
-                          handleChange2(event, skill.id);
-                        }}
-                      >
-                        {skill.name}
-                      </button>
-                    ))}
+                {userSkills.length > 0 && (
+                  <div className={styles.title}>
+                    Chosen Skills:
+                    <div className={styles.choosedskills}>
+                      {userSkills.map((skill) => (
+                        <button
+                          className={styles.skillbutton}
+                          key={skill.id}
+                          value={skill.name}
+                          onClick={(event) => {
+                            handleChange2(event, skill.id);
+                          }}
+                        >
+                          {skill.name}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </>
             )}
           </div>
