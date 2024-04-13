@@ -229,9 +229,20 @@ export const FetchSkillTypes = async () => {
 
 export const FetchSkills = async (type) => {
     try {
-        const response = await axios.post('http://127.0.0.1:8000/api/skills', {
-            'type': type
-        }, {
+        const response = await axios.get(`http://127.0.0.1:8000/api/skills?type[eq]=${type}`,  {
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Accept': "application/json",
+            }
+        });
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+};
+export const FetchAllSkills = async () => {
+    try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/skills`,  {
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
                 'Accept': "application/json",
