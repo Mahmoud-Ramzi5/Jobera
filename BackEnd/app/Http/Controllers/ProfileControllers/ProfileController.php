@@ -42,14 +42,19 @@ class ProfileController extends Controller
     {
         // Validate request
         $validatedData = $request->validated();
-        $validatedData['user_id'] = auth()->user()->id;
-
-        // Add skill
-        UserSkills::create($validatedData);
-
+        $user = auth()->user();
+        
+        // Add skills
+        $skills = [];
+        foreach ($validatedData['skills'] as $skillData) {
+            $skillData['user_id'] = $user->id;
+            $skills[] = UserSkills::create($skillData);
+        }
+    
         // Response
         return response()->json([
-            "message" => "Skill is added successfully"
+            "message" => "Skills added successfully",
+            "skills" => $skills
         ], 202);
     }
 

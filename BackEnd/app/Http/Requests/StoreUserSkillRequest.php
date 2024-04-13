@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreUserSkillRequest extends FormRequest
 {
@@ -22,7 +24,14 @@ class StoreUserSkillRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "skill_id" => ['required']
+            'skills' => ['required', 'array'],
+            'skills.*.skill_id' => ['required']
         ];
+    }
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'errors' => $validator->errors()
+        ], 422));
     }
 }
