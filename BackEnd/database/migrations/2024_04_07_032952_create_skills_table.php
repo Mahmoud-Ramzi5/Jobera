@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\SkillTypes;
 
 return new class extends Migration
 {
@@ -14,7 +15,7 @@ return new class extends Migration
         Schema::create('skills', function (Blueprint $table) {
             $table->id();
             $table->string("name");
-            $table->enum("type", ['IT', 'Design', 'Business', 'Languages', 'Engineering', 'Worker']);
+            $table->enum("type", SkillTypes::cases());
             $table->timestamps();
         });
     }

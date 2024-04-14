@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ProfileControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Skill;
+use App\Enums\SkillTypes;
 use App\Filters\SkillFilter;
 use Illuminate\Http\Request;
 use App\Http\Resources\SkillResource;
@@ -15,16 +16,6 @@ class SkillsController extends Controller
 {
     public function GetSkills(Request $request)
     {
-      /*  $request->validate([
-            "type" => "required|in:IT,Design,Business,Languages,Engineering,Worker"
-        ]);
-
-        return response()->json([
-            'skills' => Skill::where("type", $request->input("type"))->get()->all()
-        ], 200);
-        */
-        // Rip Hisham
-        
         // Filter skills based on type
         $filter = new SkillFilter();
         $queryItems = $filter->transform($request);
@@ -33,28 +24,25 @@ class SkillsController extends Controller
         if (empty($queryItems)) {
             return response()->json([
                 'skills' => new SkillsCollection(Skill::all()),
-            ]);
+            ], 200);
         }
         return response()->json([
             'skills' => new SkillsCollection(Skill::where($queryItems)->get()->all()),
-        ]);
+        ], 200);
     }
 
     public function GetSkillTypes()
     {
-        $enumValues =
-        [
-            ['id' => '1', 'name' => 'IT'],
-            ['id' => '2', 'name' => 'Design'],
-            ['id' => '3', 'name' => 'Business'],
-            ['id' => '4', 'name' => 'Languages'],
-            ['id' => '5', 'name' => 'Engineering'],
-            ['id' => '6', 'name' => 'Worker'],
-        ];
+        // Get SkillTypes
+        $enumValues = SkillTypes::cases();
+        $response = [];
+        for($i = 0; $i<count($enumValues); $i++) {
+            array_push($response, ['id' => $i+1, 'name' => $enumValues[$i]]);
+        }
 
         // Response
         return response()->json([
-            "types" => $enumValues
+            "types" => $response
         ], 200);
     }
 

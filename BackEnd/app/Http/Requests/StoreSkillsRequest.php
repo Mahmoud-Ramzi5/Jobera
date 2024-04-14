@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Enums\SkillTypes;
 
 class StoreSkillsRequest extends FormRequest
 {
@@ -23,7 +25,7 @@ class StoreSkillsRequest extends FormRequest
     {
         return [
             "name" => ['required'],
-            "type" => ['required','in:IT,Design,Business,Languages,Engineering,Worker']
+            "type" => ['required', Rule::enum(SkillTypes::class)]
         ];
     }
 }
