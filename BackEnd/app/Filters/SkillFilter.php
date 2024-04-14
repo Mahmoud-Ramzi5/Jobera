@@ -3,13 +3,14 @@ namespace App\Filters;
 
 use Illuminate\Http\Request;
 
-class SkillFilter{
-    protected $safeParms =[
+class SkillFilter
+{
+    protected $safeParms = [
         'name' => ['eq', 'like'],
         'type' => ['eq'],
     ];
 
-    protected $operatorMap=[
+    protected $operatorMap = [
         'eq' => '=',
         'lt' => '<',
         'lte' => '<=',
