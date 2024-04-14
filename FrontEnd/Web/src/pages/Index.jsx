@@ -62,16 +62,11 @@ const Index = () => {
         </Carousel.Item>
       </Carousel>
 
-      <div className={styles.container}>
-        <div className="row justify-content-center">
-          <div className="col-xl-8 col-lg-9 col-md-12">
-
-            <div className="section-tittle section-tittle3 text-center mb-10">
-              <span>1000+</span>
-              <h2>Browse From Our Top Jobs</h2>
-              <p>The automated process starts as soon as your clothes go into the machine. The outcome is gleaming clothes. Placeholder text commonly used.</p>
-            </div>
-          </div>
+      <div className={styles.container1}>
+        <div className={styles.container2}>
+          <span>1000+</span>
+          <h2>Browse From Our Top Jobs</h2>
+          <p>The automated process starts as soon as your clothes go into the machine. The outcome is gleaming clothes. Placeholder text commonly used.</p>
         </div>
       </div>
     </>
