@@ -6,9 +6,6 @@ import 'package:jobera/customWidgets/logo_container.dart';
 import 'package:jobera/classes/texts.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
 import 'package:jobera/classes/validation.dart';
-import 'package:jobera/views/forgot_password_view.dart';
-import 'package:jobera/views/home_view.dart';
-import 'package:jobera/views/registerViews/register_view.dart';
 
 class LoginView extends StatelessWidget {
   final LoginController _loginController = Get.put(LoginController());
@@ -57,7 +54,7 @@ class LoginView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () => Get.to(() => ForgotPasswordView()),
+                        onPressed: () => Get.toNamed('/forgotpassword'),
                         child: const LabelText(text: "Forgot Password?"),
                       ),
                     ],
@@ -95,14 +92,6 @@ class LoginView extends StatelessWidget {
                                   _loginController.passwordController.text,
                                   _loginController.remeberMe,
                                 );
-                                if (_loginController.isLoggedIn == true) {
-                                  Future.delayed(
-                                    const Duration(seconds: 1),
-                                    () {
-                                      Get.offAll(() => HomeView());
-                                    },
-                                  );
-                                }
                               }
                             },
                             child: Row(
@@ -142,7 +131,7 @@ class LoginView extends StatelessWidget {
                     children: [
                       const LabelText(text: "New Around Here ?"),
                       TextButton(
-                          onPressed: () => Get.to(() => const RegisterView()),
+                          onPressed: () => Get.toNamed('/register'),
                           child: const BodyText(text: "Register")),
                     ],
                   ),

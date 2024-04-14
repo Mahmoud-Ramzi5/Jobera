@@ -62,7 +62,7 @@ class Themes {
     textTheme: TextTheme(
       titleLarge: const TextStyle(color: Colors.white),
       headlineSmall: TextStyle(color: Colors.orange.shade800),
-      labelLarge: TextStyle(color: Colors.orange.shade800),
+      labelLarge: TextStyle(color: Colors.lightBlue.shade900),
       bodyLarge: const TextStyle(color: Colors.white),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(

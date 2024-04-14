@@ -7,6 +7,7 @@ import 'package:jobera/classes/texts.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
+import 'package:jobera/views/home_view.dart';
 
 class RegisterController extends GetxController {
   late GlobalKey<FormState> formField;
@@ -214,6 +215,12 @@ class RegisterController extends GetxController {
           response.data["access_token"].toString(),
         );
         await Dialogs().showSuccessDialog('Register Successful', '');
+        Future.delayed(
+          const Duration(seconds: 1),
+          () {
+            Get.offAll(() => HomeView());
+          },
+        );
       }
     } on DioException catch (e) {
       await Dialogs().showErrorDialog(

@@ -4,7 +4,6 @@ import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/controllers/home_controller.dart';
 import 'package:jobera/customWidgets/list_tiles.dart';
 import 'package:jobera/customWidgets/profile_photo_container.dart';
-import 'package:jobera/views/settings_view.dart';
 
 class HomeView extends StatelessWidget {
   final HomeController _homeController = Get.put(HomeController());
@@ -23,15 +22,15 @@ class HomeView extends StatelessWidget {
               title: "Settings",
               icon: Icons.settings,
               onTap: () {
-                Get.to(() => const SettingsView());
+                Get.toNamed('/settings');
               },
             ),
             MenuListTile(
               title: "Logout",
               icon: Icons.logout,
-              onTap: () async => Dialogs().showLogoutDialog(
-                () => _homeController.logout(),
-              ),
+              onTap: () {
+                Dialogs().showLogoutDialog(() => _homeController.logout());
+              },
             ),
           ],
         ),

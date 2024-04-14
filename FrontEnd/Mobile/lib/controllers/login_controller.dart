@@ -10,7 +10,6 @@ class LoginController extends GetxController {
   late TextEditingController passwordController;
   late bool passwordToggle;
   late bool remeberMe;
-  late bool isLoggedIn;
   late Dio dio;
 
   @override
@@ -20,7 +19,6 @@ class LoginController extends GetxController {
     passwordController = TextEditingController();
     passwordToggle = true;
     remeberMe = false;
-    isLoggedIn = false;
     dio = Dio();
     super.onInit();
   }
@@ -67,11 +65,14 @@ class LoginController extends GetxController {
           response.data["access_token"].toString(),
         );
         await Dialogs().showSuccessDialog('Login Successfull', '');
-        isLoggedIn = true;
-        return null;
+        Future.delayed(
+          const Duration(seconds: 1),
+          () {
+            Get.offAllNamed('/home');
+          },
+        );
       }
     } on DioException catch (e) {
-      isLoggedIn = false;
       await Dialogs().showErrorDialog(
         'Login Failed',
         e.response!.data["errors"].toString(),
