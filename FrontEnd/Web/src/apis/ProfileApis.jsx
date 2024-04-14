@@ -16,23 +16,24 @@ export const FetchUserProfile = async (token) => {
         return error.response;
     }
 };
-export const AddSkills = async (token, skillsIds) => {
-    try {
-      const response = await axios.post(
-        'http://127.0.0.1:8000/api/profile/skills',
-        {
-          "skills": skillsIds.map(skillId => ({ "skill_id": skillId })),
+export const AddSkills = async (token, skillIds) => {
+  try {
+   // const skills = skillIds.map((id) => ({ skill_id: id }));
+    const response = await axios.post(
+      'http://127.0.0.1:8000/api/profile/skills',
+      {
+        skills: skillIds,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          Accept: 'application/json',
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      return response;
-    } catch (error) {
-      return error.response;
-    }
-  };
+      }
+    );
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};

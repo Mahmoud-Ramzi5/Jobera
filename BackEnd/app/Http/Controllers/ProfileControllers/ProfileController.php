@@ -47,8 +47,7 @@ class ProfileController extends Controller
         // Add skills
         $skills = [];
         foreach ($validatedData['skills'] as $skillData) {
-            $skillData['user_id'] = $user->id;
-            $skills[] = UserSkills::create($skillData);
+            
         }
     
         // Response

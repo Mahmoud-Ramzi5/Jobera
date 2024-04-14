@@ -25,7 +25,6 @@ class StoreUserSkillRequest extends FormRequest
     {
         return [
             'skills' => ['required', 'array'],
-            'skills.*.skill_id' => ['required']
         ];
     }
     protected function failedValidation(Validator $validator)
