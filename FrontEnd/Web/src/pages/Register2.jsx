@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { FetchSkillTypes, FetchSkills } from "../apis/AuthApis.jsx";
+import { FetchSkillTypes, FetchSkills ,SearchSkills} from "../apis/AuthApis.jsx";
 import styles from "../styles/register2.module.css";
 import Inputstyles from "../styles/Input.module.css";
 import { AddSkills } from "../apis/ProfileApis.jsx";
@@ -13,8 +13,28 @@ const Register2 = () => {
   const [skillIds, setSkillIds] = useState([]);
   const [checked, setChecked] = useState({});
   const [userSkills, setUserSkills] = useState([]);
+  const [searchSkill, setSearchSkill] = useState("");
   const [showSubmitButton, setShowSubmitButton] = useState(false); // State for showing submit button
 
+  const handleSearch = (event) =>{
+    let something = event.target.value;
+    setSearchSkill(something);
+    getSearchedSkills(something);
+  }
+  const getSearchedSkills = (e) =>{
+    SearchSkills(e).then((response) => {
+    if (response.status === 200) {
+      setSkills(response.data.skills);
+      response.data.skills.forEach((skill) => {
+        if (!checked[skill.id]) {
+          setChecked((prevState) => ({ ...prevState, [skill.id]: false }));
+        }
+      });
+    } else {
+      console.log(response.statusText);
+    }
+  });;}
+  
   const handleChange = (event, index) => {
     event.persist();
     setChecked((prevState) => ({ ...prevState, [index]: true }));
@@ -58,6 +78,7 @@ const Register2 = () => {
 
   const handleTypeSelect = (event) => {
     setType(event.target.value);
+    setSearchSkill("");
     FetchSkills(event.target.value).then((response) => {
       if (response.status === 200) {
         setSkills(response.data.skills);
@@ -87,15 +108,23 @@ const Register2 = () => {
       <div className={styles.screen}>
         <div className={styles.inputsforregister}>
           <div className={styles.register__row}>
+            <input type="text" placeholder="Search for skill" value={searchSkill} onChange={handleSearch}></input>
+          {showSubmitButton && (
+                  <form onSubmit={handleSubmit}>
+                    <button className={styles.submitButton}>Submit</button>
+                  </form>
+                )}
+          </div>
+          <div className={styles.register__row}>
             <div className={styles.title}>
               Skill Types:
-              <div className={styles.scroll}>
+              <div className={styles.scroll_types}>
                 {types.length === 0 ? (
                   <h1>No skill types available.</h1>
                 ) : (
                   types.map((type) => (
                     <button
-                      className={styles.available_skills}
+                    className={styles.available_types}
                       key={type.id}
                       value={type.name}
                       onClick={handleTypeSelect}
@@ -106,7 +135,7 @@ const Register2 = () => {
                 )}
               </div>
             </div>
-            {type && (
+            {(type || searchSkill) &&(
               <>
                 <div className={styles.title}>
                   Available Skills:
@@ -144,11 +173,6 @@ const Register2 = () => {
                       ))}
                     </div>
                   </div>
-                )}
-                {showSubmitButton && (
-                  <form onSubmit={handleSubmit}>
-                    <button className={styles.submitButton}>Submit</button>
-                  </form>
                 )}
               </>
             )}
