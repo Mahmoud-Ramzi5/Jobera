@@ -24,7 +24,7 @@
   position: relative;
 }
 
-.progress-step:before {
+.progress-step:not(:first-child):before {
   content: "";
   position: absolute;
   top: 50%;
@@ -37,7 +37,7 @@
   border-left: 10px solid #ccc; /* Change border to point to the left */
 }
 
-.progress-step:after {
+.progress-step:not(:last-child):after {
   content: "";
   position: absolute;
   top: 50%;
@@ -50,6 +50,7 @@
   border-right: 10px solid #ccc; /* Change border to point to the right */
   display: none; /* Hide the arrow initially */
 }
+
 
 .progress-step:first-child:before {
   display: none;
