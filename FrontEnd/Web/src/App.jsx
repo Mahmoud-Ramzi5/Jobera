@@ -15,7 +15,7 @@ import Profile from './pages/Profile.jsx';
 import ResetPassword from './pages/ResetPassword.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
 import EmailVerificationMessage from './pages/EmailVerification.jsx';
-import Progress from './components/progress.jsx';
+import Bar from './components/test.jsx';
 
 
 export const ThemeContext = createContext({});
@@ -95,7 +95,7 @@ function App() {
             <Route element={<AnonymousRoutes />}>
               <Route path="/register" element={<Register />} />
               <Route path="/Test" element={<Register2/>}/>
-              <Route path='/progress' element={<Progress/>}/>
+              <Route path='/progress' element={<Bar/>}/>
               <Route path="/login" element={<Login />} />
               <Route path="/auth/:provider/call-back" element={<CallBack />} />
               <Route path="/reset-password" element={<ResetPassword />} />

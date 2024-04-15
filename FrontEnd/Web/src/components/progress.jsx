@@ -1,16 +1,26 @@
 import React from "react";
-import './progress.module.css';
-const Progress = () => {
-    const steps=["Skills","Education","Certificates","Portifolio"];
+import { useState } from "react";
+import './progress.css';
+const Progress = ({ steps }) => {
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const handleClick = (stepIndex) => {
+    setCurrentStep(stepIndex);
+  };
+
   return (
-    <div className="container">
-      {
-        steps?.map((step,i)=>(
-            <div key={i} className="step-item">
-                <div>{i+1}</div>
-                <p className="step">{step}</p>
-            </div>
+    <div className="progress-bar">
+      <div className="progress-steps-container">
+        {steps.map((step, index) => (
+          <div
+            key={index}
+            className={`progress-step ${index === currentStep ? "active" : ""}`}
+            onClick={() => handleClick(index)}
+          >
+            {step}
+          </div>
         ))}
+      </div>
     </div>
   );
 };
