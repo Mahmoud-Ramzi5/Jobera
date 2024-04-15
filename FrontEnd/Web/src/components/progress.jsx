@@ -19,7 +19,7 @@ const Progress = ({ steps }) => {
           >
             {step}
           </div>
-        ))}
+        )).reverse()}
       </div>
     </div>
   );

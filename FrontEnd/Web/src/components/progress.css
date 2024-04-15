@@ -8,6 +8,7 @@
 
 .progress-steps-container {
   display: flex;
+  flex-direction: row-reverse; /* Change flex direction to reverse */
   flex: 1;
 }
 
@@ -27,26 +28,26 @@
   content: "";
   position: absolute;
   top: 50%;
-  left: -10px;
+  right: -10px; /* Adjust right position for arrow */
   transform: translateY(-50%);
   width: 0;
   height: 0;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
-  border-right: 10px solid #ccc;
+  border-left: 10px solid #ccc; /* Change border to point to the left */
 }
 
 .progress-step:after {
   content: "";
   position: absolute;
   top: 50%;
-  right: -10px;
+  left: -10px; /* Adjust left position for arrow */
   transform: translateY(-50%) rotate(180deg);
   width: 0;
   height: 0;
   border-top: 10px solid transparent;
   border-bottom: 10px solid transparent;
-  border-left: 10px solid #ccc;
+  border-right: 10px solid #ccc; /* Change border to point to the right */
   display: none; /* Hide the arrow initially */
 }
 
@@ -64,10 +65,10 @@
 }
 
 .progress-step.active:before {
-  border-right-color: #007bff;
+  border-left-color: #007bff; /* Adjust border color */
 }
 
 .progress-step.active:after {
   display: block; /* Show the arrow for the active step */
-  border-left-color: #007bff;
+  border-right-color: #007bff; /* Adjust border color */
 }
