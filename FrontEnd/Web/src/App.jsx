@@ -99,7 +99,7 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/auth/:provider/call-back" element={<CallBack />} />
               <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/ForgetPassword" element={<ForgotPassword />} />
               <Route path="/emailVerify" element={<EmailVerificationMessage />} />
             </Route>
           </Routes>
