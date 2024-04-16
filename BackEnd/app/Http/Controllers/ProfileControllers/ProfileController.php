@@ -84,8 +84,11 @@ class ProfileController extends Controller
     public function AddProfilePhoto(storeProfilePhotoRequest $request){
         $validated = $request->validated();
         $user=auth()->user();
-        $avatarPath = $validated->file('avatarPhoto')->store('avatars', 'public');
-        $user->DB::update('avatarPhoto', $avatarPath);
-        return response()->json([]);
+        $avatarPath = $request->file('avatarPhoto')->store('avatars', 'public');
+        $user->avatarPhoto = $avatarPath;
+        $user->save();        
+        return response()->json([
+            "message"=>"profile photo has been add successfully"
+        ]);
     }
 }

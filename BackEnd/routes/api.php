@@ -55,6 +55,7 @@ Route::controller(ProfileController::class)->group(function () {
     Route::get('/profile/skills', 'GetUserSkills')->middleware('auth:api');
     Route::post('/profile/skills', 'AddUserSkill')->middleware('auth:api');
     Route::delete('/profile/skills/{userSkill_id}', 'RemoveUserSkill')->middleware('auth:api');
+    Route::post('/profilePhoto','AddProfilePhoto')->middleware('auth:api');
 });
 
 Route::controller(SkillsController::class)->group(function() {
