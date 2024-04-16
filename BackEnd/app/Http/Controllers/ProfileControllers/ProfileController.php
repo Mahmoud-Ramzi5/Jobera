@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ProfileControllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\storeProfilePhotoRequest;
 use App\Models\UserSkills;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
@@ -79,5 +80,12 @@ class ProfileController extends Controller
         return response()->json([
             'message' => 'Skill deleted successfully'
         ], 203);
+    }
+    public function AddProfilePhoto(storeProfilePhotoRequest $request){
+        $validated = $request->validated();
+        $user=auth()->user();
+        $avatarPath = $validated->file('avatarPhoto')->store('avatars', 'public');
+        $user->DB::update('avatarPhoto', $avatarPath);
+        return response()->json([]);
     }
 }
