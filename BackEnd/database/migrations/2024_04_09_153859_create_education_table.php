@@ -12,11 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('education', function (Blueprint $table) {
-            $table->id();
+            $table->id();   
             $table->enum("level",['Bachelor','Master','PHD','High School Diploma','High Institute']);
             $table->string("feild");
-            $table->string("startDate");
-            $table->string("endDate");
+            $table->string("school");
+            $table->dateTime("startDate");
+            $table->dateTime("endDate");
             $table->timestamps();
         });
     }
