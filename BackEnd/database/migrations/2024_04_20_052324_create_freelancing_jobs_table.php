@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('freelancing_jobs', function (Blueprint $table) {
             $table->id();
+            $table->dateTime("deadline");
+            $table->string("title");
+            $table->foreignId("company_id")->nullable();
+            $table->foreignId("user_id")->nullable();
+            $table->text("description");
+            $table->integer("max_salary");
+            $table->integer("min_salary");
+            $table->boolean("isDone");
             $table->timestamps();
         });
     }
