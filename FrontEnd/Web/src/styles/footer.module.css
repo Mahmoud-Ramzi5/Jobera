@@ -1,0 +1,99 @@
+.footer {
+  display: block;
+  padding: 100px 10px 10px;
+  background: #14314a;
+  color: #777777;
+}
+
+.container {
+  width: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
+}
+
+.column {
+  position: relative;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.col_1 {
+  width: 30%;
+}
+
+.col_2 {
+  width: 15%;
+}
+
+.column p {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.column h3 {
+  color: #ffffff;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.footerLogo {
+  display: block;
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 30px;
+  text-decoration: none;
+}
+
+.footerList_links {
+  padding-left: 1px;
+  list-style: none;
+}
+
+.footerList_links li {
+  margin-bottom: 10px;
+}
+
+.footerList_links li a {
+  color: #999999;
+  text-decoration: none;
+}
+
+.footerList_links li a:hover {
+  color: #ffffff;
+}
+
+.line {
+  position: relative;
+  width: 100%;
+  margin: 10px 20px;
+  border-top: 1px solid #ffffff33;
+}
+
+@media screen and (max-width: 970px) {
+  .col_1 {
+    width: 100%;
+  }
+
+  .col_2 {
+    width: 25%;
+  }
+}
+
+@media screen and (max-width: 485px) {
+  .col_1 {
+    width: 100%;
+  }
+
+  .col_2 {
+    width: 100%;
+  }
+}
