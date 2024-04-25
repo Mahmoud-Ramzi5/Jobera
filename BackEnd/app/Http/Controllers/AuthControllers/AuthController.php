@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\AuthControllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CompanyRegisterRequest;
+use App\Models\company;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
@@ -44,6 +46,33 @@ class AuthController extends Controller
         ], 201);
     }
 
+    public function CompanyRegister(CompanyRegisterRequest $request){
+        // Validate request
+        $validated = $request->validated();
+
+        // Hash password and remove confirm password
+        $validated['password'] = bcrypt($validated['password']);
+        $validated = Arr::except($validated, 'confirmPassword');
+
+        // Handle profile photo
+        if ($request->hasFile('avatarPhoto')) {
+            $avatarPath = $request->file('avatarPhoto')->store('avatars', 'public');
+            $validated['avatarPhoto'] = $avatarPath;
+        }
+
+        // Register user and send verification email
+        $company = company::create($validated);
+        $token = $company->createToken("api_token")->accessToken;
+        $this->SendEmailVerification($request);
+
+        // Response
+        return response()->json([
+            "message" => "users registered",
+            "data" => $company,
+            "access_token" => $token,
+            "token_type" => "bearer"
+        ], 201);
+    }
     public function Login(LoginRequest $request)
     {
         // Validate request
