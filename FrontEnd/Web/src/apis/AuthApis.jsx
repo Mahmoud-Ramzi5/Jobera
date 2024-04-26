@@ -38,6 +38,38 @@ export const RegisterAPI = async (
     }
 };
 
+export const CompanyRegisterAPI = async (
+    name,
+    field,
+    email,
+    PhoneNumber,
+    password,
+    ConfirmPassword,
+    country,
+    state,
+) => {
+    try {
+        const response = await axios.post('http://127.0.0.1:8000/api/company/register', {
+            "name": name,
+            "email": email,
+            "phoneNumber": PhoneNumber,
+            "password": password,
+            "confirmPassword": ConfirmPassword,
+            "country": country,
+            "state": state,
+            "type": "company"
+        }, {
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Accept': "application/json",
+            }
+        });
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+};
+
 export const LoginAPI = async (
     email,
     password,
