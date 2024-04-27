@@ -5,8 +5,8 @@
     margin: 0 auto;
     padding: 40px;
     border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: var(--color-scrollbar-track2);
+    box-shadow: 0 4px 6px rgba(188, 178, 210, 0.1);
   }
   
   .heading {
@@ -57,28 +57,28 @@
   }
   /* Responsive adjustments */
 @media screen and (max-width: 768px) {
-    .educationFormContainer {
-      padding: 20px;
-    }
-  
-    .heading {
-      font-size: 1.5rem;
-      margin-bottom: 30px;
-    }
-  
-    .formGroup {
-      margin-bottom: 20px;
-    }
-  
-    .inputField {
-      font-size: 1rem;
-      padding: 10px;
-      margin-bottom: 20px;
-    }
-  
-    .dateInputField {
-      width: 100%;
-      margin-left: 0;
-      margin-bottom: 20px;
-    }
+  .educationFormContainer {
+    padding: 20px;
   }
+
+  .heading {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+  }
+
+  .formGroup {
+    margin-bottom: 20px;
+  }
+
+  .inputField {
+    font-size: 1rem;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+
+  .dateInputField {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 20px;
+  }
+}

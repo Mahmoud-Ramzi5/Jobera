@@ -26,6 +26,7 @@ html, body {
   --color-background: #fafafa;
   --color-backgroundV2:#1f2023;
   --color-scrollbar-track: #eceded;
+  --color-scrollbar-track2:#eceded;
   --color-scrollbar-thump: #d5d6d7;
   --color-navbar: linear-gradient(90deg, #00C9FF, #E27D48, #3B6D99);
   color: var(--color-foreground);
@@ -41,6 +42,7 @@ html, body {
   --color-background: #1f2023;
   --color-backgroundV2:#fafafa;
   --color-scrollbar-track: #242526;
+  --color-scrollbar-track2: #3d4349;
   --color-scrollbar-thump: #3A3B3C;
   --color-navbar: linear-gradient(90deg, #0084B9, #A95D32, #1E3D59);
   color: var(--color-foreground);
