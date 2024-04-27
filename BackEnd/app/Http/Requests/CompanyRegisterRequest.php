@@ -27,7 +27,7 @@ class CompanyRegisterRequest extends FormRequest
             'name' => ['required'],
             'field' => ['required'],
             'email' => ['required', 'unique:users', 'email'],
-            'phoneNumber' => ['required', 'unique:users', 'min:11', 'max:13', 'regex:/^\+/'],
+            'phoneNumber' => ['required', 'unique:users', 'unique:companies', 'min:11', 'max:13', 'regex:/^\+/'],
             'password' => ['required'],
             'confirmPassword' => ['required', 'same:password'],
             'country' => ['required'],
