@@ -103,7 +103,7 @@
     bottom: 0;
     height: 46px;
     width: 92px;
-    border-radius: 23px;
+    border-radius: 1px;
     background: linear-gradient(90deg, rgb(255, 195, 110), rgb(255, 146, 91));
     transition: all 0.5s ease-in-out;
 }
@@ -113,11 +113,11 @@
     display: flex;
     height: 48px;
     width: 192px;
-    border: solid;
     border-width: 1px;
-    border-radius: 24px;
+    border-bottom: solid;
     align-items: center;
     justify-content: space-around;
+    background-color: var(--color-scrollbar-thump);
     translate: 320px 32px;
 }
 
