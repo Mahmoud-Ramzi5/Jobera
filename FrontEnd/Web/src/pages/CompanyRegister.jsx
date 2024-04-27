@@ -1,8 +1,8 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  PersonFill, EnvelopeFill, TelephoneFill, Calendar3, ChevronRight,
-  MapFill, GeoAltFill, SuitcaseFill, PersonStanding, PersonStandingDress
+  PersonFill, EnvelopeFill, TelephoneFill, Globe,
+  GeoAltFill, SuitcaseFill, ChevronRight,
 } from 'react-bootstrap-icons';
 import Cookies from 'js-cookie';
 import { LoginContext } from '../App.jsx';
@@ -159,6 +159,7 @@ const CompanyRegister = () => {
             </div>
             <div className={styles.register__row}>
               <div className={Inputstyles.field}>
+                <i className={Inputstyles.icon}><Globe /></i>
                 <select onChange={handleCountrySelect} value={country} className={Inputstyles.input} required>
                   <option key={0} value='' disabled>Country</option>
                   {(countries.length === 0) ? <></> : countries.map((country) => {
@@ -167,6 +168,7 @@ const CompanyRegister = () => {
                 </select>
               </div>
               <div className={Inputstyles.field}>
+                <i className={Inputstyles.icon}><GeoAltFill /></i>
                 <select onChange={(event) => setState(event.target.value)} value={state} className={Inputstyles.input} required>
                   <option key={0} value='' disabled>City</option>
                   {(states.length === 0) ? <></> : states.map((state) => {
@@ -174,6 +176,10 @@ const CompanyRegister = () => {
                   })}
                 </select>
               </div>
+            </div>
+            <div className={styles.register__row}>
+              <div className={Inputstyles.field}></div>
+              <div className={Inputstyles.field}></div>
             </div>
             <button type="submit" className={styles.register__submit}>
               <span>Register now</span>
