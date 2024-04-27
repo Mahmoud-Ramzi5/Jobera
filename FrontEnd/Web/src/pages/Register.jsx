@@ -21,6 +21,7 @@ const Register = () => {
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
+  const [RegisterType, setRegisterType] = useState('individual');
   const [FirstName, setFirstName] = useState('');
   const [LastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -122,8 +123,13 @@ const Register = () => {
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen__content}>
-          <img src={Logo} className={styles.logo} alt="logo" />
+        <img src={Logo} className={styles.logo} alt="logo" />
           <div className={styles.title}>Register</div>
+          <div className={styles.btn}>
+          <div className={styles.slider} style={RegisterType === 'individual'? {left: 0} : {left:'100px'}} />
+            <button onClick={() => setRegisterType('company')}>Individual</button>
+            <button onClick={() => setRegisterType('individual')}>Company</button>
+          </div>
           <form className={styles.register} onSubmit={handleSubmit}>
             <div className={styles.register__row}>
               <NormalInput

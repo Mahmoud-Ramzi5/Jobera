@@ -98,6 +98,38 @@
     filter: drop-shadow(0 0 32px #00C9FF);
 }
 
+.slider {
+    position: absolute;
+    bottom: 0;
+    height: 46px;
+    width: 92px;
+    border-radius: 23px;
+    background: linear-gradient(90deg, rgb(255, 195, 110), rgb(255, 146, 91));
+    transition: all 0.5s ease-in-out;
+}
+
+.btn {
+    position: absolute;
+    display: flex;
+    height: 48px;
+    width: 192px;
+    border: solid;
+    border-width: 1px;
+    border-radius: 24px;
+    align-items: center;
+    justify-content: space-around;
+    translate: 320px 32px;
+}
+
+.btn button {
+    position: relative;
+    font-size: 16px;
+    font-weight: 480;
+    border: none;
+    color: var(--color-foreground);
+    background-color: transparent;
+}
+
 .register {
     box-sizing: border-box;
     margin: 0;
