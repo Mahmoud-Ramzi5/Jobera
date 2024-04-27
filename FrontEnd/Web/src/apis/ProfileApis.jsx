@@ -34,3 +34,34 @@ export const AddSkills = async (token, skillIds) => {
     return error.response;
   }
 };
+
+export const AddEducation = async (
+  token, 
+  level,
+  field,
+  school,
+  startDate,
+  endDate,
+  certificate
+) => {
+  try {
+    const response = await axios.post(
+      'http://127.0.0.1:8000/api/education', {
+      'level': level,
+      'feild': field,
+      'school':school,
+      'startDate':startDate,
+      'endDate':endDate,
+      'certificate_file':certificate
+    }, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};

@@ -9,6 +9,7 @@ class Education extends Model
 {
     use HasFactory;
     protected $fillable=[
+        "user_id",
         "level",
         "feild",
         "school",
@@ -16,6 +17,6 @@ class Education extends Model
         "endDate"
     ];
     public function User(){
-        
+        return $this->belongsTo(User::class);
     }
 }

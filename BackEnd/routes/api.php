@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileControllers\EducationController;
 use App\Http\Controllers\ProfileControllers\SkillsController;
 use App\Models\State;
 use App\Models\Country;
@@ -63,4 +64,8 @@ Route::controller(SkillsController::class)->group(function() {
     Route::get('/skills', 'GetSkills');
 
     Route::post('/skills/add', 'AddSkill');
+});
+
+Route::controller(EducationController::class)->group(function() {
+    Route::post('/education','AddEducation')->middleware('auth:api');
 });

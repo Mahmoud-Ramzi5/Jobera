@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string("school");
             $table->dateTime("startDate");
             $table->dateTime("endDate");
+            $table->foreignId("user_id")->constrained()->cascadeOnDelete();
+            $table->string("certificate_file")->nullable();
             $table->timestamps();
         });
     }

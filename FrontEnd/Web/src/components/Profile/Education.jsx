@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './Education.module.css';
+import { AddEducation } from '../../apis/ProfileApis';
 
 const EducationForm = () => {
   const [educationData, setEducationData] = useState({
@@ -7,7 +8,8 @@ const EducationForm = () => {
     field: '',
     school: '',
     startDate: '',
-    endDate: ''
+    endDate: '',
+    certificate: null // New state for certificate file
   });
 
   const handleInputChange = (event) => {
@@ -15,30 +17,31 @@ const EducationForm = () => {
     setEducationData({ ...educationData, [name]: value });
   };
 
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setEducationData({ ...educationData, certificate: file });
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log('Submitted education data:', educationData);
     // Add logic to handle form submission (e.g., send data to backend)
     // You can also reset the form fields after submission if needed
+    AddEducation(
+      educationData.level,
+      educationData.field,
+      educationData.school,
+      educationData.startDate,
+      educationData.endDate,
+      educationData.certificate,
+    )
   };
 
   return (
     <div className={styles.educationFormContainer}>
       <h2 className={styles.heading}>Add Education</h2>
       <form onSubmit={handleSubmit} className="education-form">
-      <div className={styles.formGroup}>
-      <div className="form-group">
-          <label htmlFor="field">Field:</label>
-          <input  
-          className={styles.inputField}
-            type="text"
-            id="field"
-            name="field"
-            value={educationData.field}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
+        <div className={styles.formGroup}>
           <label className={styles.label} htmlFor="level">Level:</label>
           <select
             id="level"
@@ -56,7 +59,19 @@ const EducationForm = () => {
           </select>
         </div>
         <div className={styles.formGroup}>
-          <label htmlFor="school">School:</label>
+          <label className={styles.label} htmlFor="field">Field:</label>
+          <input
+            className={styles.inputField}
+            type="text"
+            id="field"
+            name="field"
+            value={educationData.field}
+            onChange={handleInputChange}
+            required
+          />
+        </div>
+        <div className={styles.formGroup}>
+          <label className={styles.label} htmlFor="school">School:</label>
           <input
             type="text"
             id="school"
@@ -67,7 +82,7 @@ const EducationForm = () => {
           />
         </div>
         <div className={styles.formGroup}>
-          <label htmlFor="startDate">Start Date:</label>
+          <label className={styles.label} htmlFor="startDate">Start Date:</label>
           <input
             type="date"
             id="startDate"
@@ -78,7 +93,7 @@ const EducationForm = () => {
           />
         </div>
         <div className={styles.formGroup}>
-          <label htmlFor="endDate">End Date:</label>
+          <label className={styles.label} htmlFor="endDate">End Date:</label>
           <input
             type="date"
             id="endDate"
@@ -88,7 +103,18 @@ const EducationForm = () => {
             required
           />
         </div>
-        <button type="submit" className={styles.submitButton} >Add Education</button>
+        {/* File upload field */}
+        <div className={styles.formGroup}>
+          <label className={styles.label} htmlFor="certificate">Certificate:</label>
+          <input
+            type="file"
+            id="certificate"
+            name="certificate"
+            accept=".pdf,.doc,.docx"
+            onChange={handleFileChange}
+          />
+        </div>
+        <button type="submit" className={styles.submitButton}>Add Education</button>
       </form>
     </div>
   );
