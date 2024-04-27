@@ -18,6 +18,8 @@ html, body {
 }
 
 .theme-light {
+  --color-types:#393939;
+  --color-typeschecked:#676767;
   --color-title:#3E6FA9;
   --color-titles:#fdf8f8;
   --color-rating:#000000;
@@ -33,6 +35,8 @@ html, body {
 }
 
 .theme-dark {
+  --color-types:#d5d5d5;
+  --color-typeschecked:#7e7e7e;
   --color-title:#0e4a94;
   --color-titles:#292929;
   --color-rating:#0e4a94;
