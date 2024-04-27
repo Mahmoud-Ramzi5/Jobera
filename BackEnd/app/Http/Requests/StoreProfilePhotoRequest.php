@@ -27,6 +27,7 @@ class StoreProfilePhotoRequest extends FormRequest
             'avatarPhoto' => ['required', 'image', 'max:4096'],
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
