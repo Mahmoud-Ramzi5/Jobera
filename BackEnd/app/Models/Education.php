@@ -15,4 +15,7 @@ class Education extends Model
         "startDate",
         "endDate"
     ];
+    public function User(){
+        
+    }
 }
