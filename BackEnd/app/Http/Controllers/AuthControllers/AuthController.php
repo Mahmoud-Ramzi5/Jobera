@@ -29,7 +29,6 @@ class AuthController extends Controller
         if ($request->hasFile('avatarPhoto')) {
             $avatarPath = $request->file('avatarPhoto')->store('avatars', 'public');
             $validated['avatarPhoto'] = $avatarPath;
-
         }
 
         // Register user and send verification email
@@ -39,7 +38,7 @@ class AuthController extends Controller
 
         // Response
         return response()->json([
-            "message" => "users registered",
+            "message" => "user registered",
             "data" => $user,
             "access_token" => $token,
             "token_type" => "bearer"
@@ -60,19 +59,20 @@ class AuthController extends Controller
             $validated['avatarPhoto'] = $avatarPath;
         }
 
-        // Register user and send verification email
+        // Register company and send verification email
         $company = company::create($validated);
         $token = $company->createToken("api_token")->accessToken;
         $this->SendEmailVerification($request);
 
         // Response
         return response()->json([
-            "message" => "users registered",
+            "message" => "company registered",
             "data" => $company,
             "access_token" => $token,
             "token_type" => "bearer"
         ], 201);
     }
+
     public function Login(LoginRequest $request)
     {
         // Validate request
