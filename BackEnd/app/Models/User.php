@@ -28,6 +28,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'gender',
         'type',
         'avatarPhoto',
+        'education_id'
     ];
 
     /**
@@ -59,5 +60,8 @@ class User extends Authenticatable implements MustVerifyEmail
     }
     public function skills(){
         return $this->hasMany(userSkills::class);
+    }
+    public function education(){
+        return $this->hasOne(Education::class);
     }
 }
