@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/controllers/register_controller.dart';
+import 'package:jobera/controllers/user_register_controller.dart';
 import 'package:jobera/customWidgets/code_picker.dart';
 import 'package:jobera/customWidgets/date_container.dart';
 import 'package:jobera/customWidgets/custom_drop_down_button.dart';
@@ -11,13 +11,14 @@ import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
 
 class UserRegisterView extends StatelessWidget {
-  final RegisterController _registerController = Get.put(RegisterController());
+  final UserRegisterController _userRegisterController =
+      Get.put(UserRegisterController());
   UserRegisterView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _registerController.formField,
+      key: _userRegisterController.formField,
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -25,7 +26,7 @@ class UserRegisterView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CustomTextField(
-                controller: _registerController.fullNameController,
+                controller: _userRegisterController.fullNameController,
                 textInputType: TextInputType.name,
                 obsecureText: false,
                 labelText: 'Full Name',
@@ -35,7 +36,7 @@ class UserRegisterView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                 child: CustomTextField(
-                  controller: _registerController.emailController,
+                  controller: _userRegisterController.emailController,
                   textInputType: TextInputType.emailAddress,
                   obsecureText: false,
                   labelText: 'Email',
@@ -43,7 +44,7 @@ class UserRegisterView extends StatelessWidget {
                   validator: (p0) => Validation().validateEmail(p0),
                 ),
               ),
-              GetBuilder<RegisterController>(
+              GetBuilder<UserRegisterController>(
                 builder: (controller) => Column(
                   children: [
                     Padding(
@@ -69,7 +70,8 @@ class UserRegisterView extends StatelessWidget {
                         icon: const Icon(Icons.key),
                         inkWell: controller.passwordInkwell(),
                         validator: (p0) => Validation().validateConfirmPassword(
-                            p0, _registerController.passwordController.text),
+                            p0,
+                            _userRegisterController.passwordController.text),
                       ),
                     ),
                   ],
@@ -83,12 +85,13 @@ class UserRegisterView extends StatelessWidget {
                   children: [
                     CodePicker(
                       onChange: (p0) =>
-                          _registerController.selectCountryCode(p0),
+                          _userRegisterController.selectCountryCode(p0),
                     ),
                     SizedBox(
                       width: 200,
                       child: CustomTextField(
-                        controller: _registerController.phoneNumberController,
+                        controller:
+                            _userRegisterController.phoneNumberController,
                         textInputType: TextInputType.phone,
                         obsecureText: false,
                         labelText: 'Phone Number',
@@ -100,7 +103,7 @@ class UserRegisterView extends StatelessWidget {
                   ],
                 ),
               ),
-              GetBuilder<RegisterController>(
+              GetBuilder<UserRegisterController>(
                 builder: (controller) => Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -131,7 +134,7 @@ class UserRegisterView extends StatelessWidget {
                           )
                           .toList(),
                       onChanged: (p0) => controller.selectState(p0!),
-                      text: 'Select State',
+                      text: 'Select City',
                     ),
                   ],
                 ),
@@ -142,7 +145,7 @@ class UserRegisterView extends StatelessWidget {
                   Column(
                     children: [
                       DateContainer(
-                        widget: GetBuilder<RegisterController>(
+                        widget: GetBuilder<UserRegisterController>(
                           builder: (controller) => BodyText(
                             text: "${controller.selectedDate}".split(' ')[0],
                           ),
@@ -150,12 +153,12 @@ class UserRegisterView extends StatelessWidget {
                       ),
                       OutlinedButton(
                         onPressed: () =>
-                            _registerController.selectDate(context),
+                            _userRegisterController.selectDate(context),
                         child: const BodyText(text: "Select Birthdate"),
                       ),
                     ],
                   ),
-                  GetBuilder<RegisterController>(
+                  GetBuilder<UserRegisterController>(
                     builder: (controller) => Column(
                       children: [
                         RadioMenuButton(
@@ -187,19 +190,19 @@ class UserRegisterView extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                 child: ElevatedButton(
                   onPressed: () async {
-                    if (_registerController.formField.currentState
+                    if (_userRegisterController.formField.currentState
                             ?.validate() ==
                         true) {
-                      await _registerController.userRegister(
-                        _registerController.fullNameController.text,
-                        _registerController.emailController.text,
-                        _registerController.passwordController.text,
-                        _registerController.confirmPasswordController.text,
-                        _registerController.selectedCountry!.countryName,
-                        _registerController.selectedState!.stateName,
-                        '${_registerController.countryCode.dialCode}${_registerController.phoneNumberController.text}',
-                        _registerController.selectedGender,
-                        '${_registerController.selectedDate.day}-${_registerController.selectedDate.month}-${_registerController.selectedDate.year}',
+                      await _userRegisterController.userRegister(
+                        _userRegisterController.fullNameController.text,
+                        _userRegisterController.emailController.text,
+                        _userRegisterController.passwordController.text,
+                        _userRegisterController.confirmPasswordController.text,
+                        _userRegisterController.selectedCountry!.countryName,
+                        _userRegisterController.selectedState!.stateName,
+                        '${_userRegisterController.countryCode.dialCode}${_userRegisterController.phoneNumberController.text}',
+                        _userRegisterController.selectedGender,
+                        '${_userRegisterController.selectedDate.day}-${_userRegisterController.selectedDate.month}-${_userRegisterController.selectedDate.year}',
                       );
                     }
                   },
