@@ -35,7 +35,7 @@ class RegisterView extends StatelessWidget {
             body: TabBarView(
               children: [
                 UserRegisterView(),
-                const CompanyRegisterView(),
+                CompanyRegisterView(),
               ],
             ),
           ),

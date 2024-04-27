@@ -2,25 +2,19 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/classes/texts.dart';
-import 'package:jobera/main.dart';
 import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
-import 'package:jobera/views/home_view.dart';
 
-class RegisterController extends GetxController {
+class CompanyRegisterController extends GetxController {
   late GlobalKey<FormState> formField;
-  late TabController tabController;
-  late TextEditingController fullNameController;
+  late TextEditingController nameController;
+  late TextEditingController workFieldController;
   late TextEditingController emailController;
   late TextEditingController phoneNumberController;
   late TextEditingController passwordController;
   late TextEditingController confirmPasswordController;
   late bool passwordToggle;
-  late bool isRegistered;
-  late DateTime selectedDate;
-  late String selectedGender;
   late CountryCode countryCode;
   late Dio dio;
   late Countries? selectedCountry;
@@ -31,15 +25,13 @@ class RegisterController extends GetxController {
   @override
   Future<void> onInit() async {
     formField = GlobalKey<FormState>();
-    fullNameController = TextEditingController();
+    nameController = TextEditingController();
+    workFieldController = TextEditingController();
     emailController = TextEditingController();
     phoneNumberController = TextEditingController();
     passwordController = TextEditingController();
     confirmPasswordController = TextEditingController();
     passwordToggle = true;
-    isRegistered = false;
-    selectedDate = DateTime.now();
-    selectedGender = 'male';
     countryCode = CountryCode(dialCode: '+963');
     dio = Dio();
     selectedCountry = null;
@@ -49,7 +41,8 @@ class RegisterController extends GetxController {
 
   @override
   void onClose() {
-    fullNameController.dispose();
+    nameController.dispose();
+    workFieldController.dispose();
     emailController.dispose();
     phoneNumberController.dispose();
     passwordController.dispose();
@@ -57,22 +50,9 @@ class RegisterController extends GetxController {
     super.onClose();
   }
 
-  Future<void> selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        firstDate: DateTime(1900),
-        lastDate: DateTime(2100),
-        currentDate: DateTime.now(),
-        initialEntryMode: DatePickerEntryMode.calendarOnly);
-    if (picked != null && picked != selectedDate) {
-      selectedDate = picked;
-      update();
-    }
-  }
-
-  void changeGender(String value) {
-    selectedGender = value;
-    update();
+  void resetStates() {
+    selectedState = null;
+    stateOptions = [];
   }
 
   void selectCountryCode(CountryCode code) {
@@ -88,11 +68,6 @@ class RegisterController extends GetxController {
   void selectState(States state) {
     selectedState = state;
     update();
-  }
-
-  void resetStates() {
-    selectedState = null;
-    stateOptions = [];
   }
 
   InkWell passwordInkwell() {
@@ -174,58 +149,6 @@ class RegisterController extends GetxController {
             BodyText(text: e.response!.data["errors"].toString()),
           ],
         ),
-      );
-    }
-  }
-
-  Future<dynamic> userRegister(
-    String fullName,
-    String email,
-    String password,
-    String confirmPassword,
-    String country,
-    String state,
-    String phoneNumber,
-    String gender,
-    String birthDate,
-  ) async {
-    try {
-      var response = await dio.post('http://10.0.2.2:8000/api/register',
-          data: {
-            "fullName": fullName,
-            "email": email,
-            "password": password,
-            "confirmPassword": confirmPassword,
-            "country": country,
-            "state": state,
-            "phoneNumber": phoneNumber,
-            "gender": gender,
-            "birthDate": birthDate,
-            "type": "indvidual",
-          },
-          options: Options(
-            headers: {
-              'Content-Type': 'application/json; charset=UTF-8',
-              'Accept': 'application/json',
-            },
-          ));
-      if (response.statusCode == 201) {
-        sharedPreferences?.setString(
-          "access_token",
-          response.data["access_token"].toString(),
-        );
-        await Dialogs().showSuccessDialog('Register Successful', '');
-        Future.delayed(
-          const Duration(seconds: 1),
-          () {
-            Get.offAll(() => HomeView());
-          },
-        );
-      }
-    } on DioException catch (e) {
-      await Dialogs().showErrorDialog(
-        'Register Failed',
-        e.response!.data["errors"].toString(),
       );
     }
   }
