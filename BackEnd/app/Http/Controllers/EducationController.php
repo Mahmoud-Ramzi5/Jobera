@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 class EducationController extends Controller
 {
     public function AddEducation(AddEducationRequest $request){
+        $user = auth()->user();
         
     }
 }
