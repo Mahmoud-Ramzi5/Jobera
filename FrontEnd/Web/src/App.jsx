@@ -7,7 +7,6 @@ import AnonymousRoutes from './utils/AnonymousRoutes.jsx';
 import Layout from './utils/Layout.jsx';
 import Index from './pages/Index.jsx';
 import Register from './pages/Register.jsx';
-import CompanyRegister from './components/Register/CompanyForm.jsx';
 import Register2 from './pages/Register2.jsx';
 import Login from './pages/Login.jsx';
 import Logout from './pages/Logout.jsx';
@@ -96,10 +95,9 @@ function App() {
 
             <Route element={<AnonymousRoutes />}>
               <Route path="/register" element={<Register />} />
-              <Route path="/ed" element={<EducationForm/>} />
-              <Route path='/company/register' element={<CompanyRegister />} />
-              <Route path="/Test" element={<Register2/>}/>
-              <Route path='/progress' element={<Bar/>}/>
+              <Route path="/ed" element={<EducationForm />} />
+              <Route path="/Test" element={<Register2 />} />
+              <Route path='/progress' element={<Bar />} />
               <Route path="/login" element={<Login />} />
               <Route path="/auth/:provider/call-back" element={<CallBack />} />
               <Route path="/reset-password" element={<ResetPassword />} />
