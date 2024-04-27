@@ -7,7 +7,7 @@ import AnonymousRoutes from './utils/AnonymousRoutes.jsx';
 import Layout from './utils/Layout.jsx';
 import Index from './pages/Index.jsx';
 import Register from './pages/Register.jsx';
-import CompanyRegister from './pages/CompanyRegister.jsx';
+import CompanyRegister from './components/Register/CompanyForm.jsx';
 import Register2 from './pages/Register2.jsx';
 import Login from './pages/Login.jsx';
 import Logout from './pages/Logout.jsx';
