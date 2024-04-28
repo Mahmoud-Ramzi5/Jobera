@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('education', function (Blueprint $table) {
             $table->id();   
             $table->enum("level",['Bachelor','Master','PHD','High School Diploma','High Institute']);
-            $table->string("feild");
+            $table->string("field");
             $table->string("school");
             $table->dateTime("startDate");
             $table->dateTime("endDate");

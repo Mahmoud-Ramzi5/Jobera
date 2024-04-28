@@ -38,7 +38,7 @@ export const AddSkills = async (token, skillIds) => {
 export const AddEducation = async (
   token, 
   level,
-  field,
+  field, // Corrected field name
   school,
   startDate,
   endDate,
@@ -48,11 +48,11 @@ export const AddEducation = async (
     const response = await axios.post(
       'http://127.0.0.1:8000/api/education', {
       'level': level,
-      'feild': field,
-      'school':school,
-      'startDate':startDate,
-      'endDate':endDate,
-      'certificate_file':certificate
+      'field': field, // Corrected field name
+      'school': school,
+      'startDate': startDate,
+      'endDate': endDate,
+      'certificate_file': certificate
     }, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',

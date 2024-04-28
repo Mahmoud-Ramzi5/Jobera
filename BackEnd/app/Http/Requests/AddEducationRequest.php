@@ -25,7 +25,7 @@ class AddEducationRequest extends FormRequest
     {
         return [
             "level"=>["required","in:Bachelor,Master,PHD,High School Diploma,High Institute"],
-            "feild"=>["required"],
+            "field"=>["required"],
             "school"=>["required"],
             "startDate"=>["required"],
             "endDate"=>["required"],
