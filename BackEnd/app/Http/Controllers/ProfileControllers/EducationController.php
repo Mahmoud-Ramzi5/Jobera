@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\ProfileControllers;
 
+use App\Http\Resources\CertificateCollection;
+use App\Http\Resources\CertificateResource;
 use App\Models\Certificate;
 use App\Models\Education;
 use Illuminate\Http\Request;
@@ -48,7 +50,14 @@ class EducationController extends Controller
         $certificate=Certificate::create($validated);
         return response()->json([
             "message" => "Certificate created",
-            "data" => $certificate,
+            "data" => new CertificateResource($certificate),
         ], 201);
+    }
+    public function ShowUserCertificate(){
+        $user = auth()->user();
+        $certificates = $user->certificates()->get();
+        return response()->json([
+            "data"=> new CertificateCollection($certificates)
+        ],202);       
     }
 }

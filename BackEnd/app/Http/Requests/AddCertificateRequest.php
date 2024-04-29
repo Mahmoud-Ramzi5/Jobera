@@ -25,7 +25,7 @@ class AddCertificateRequest extends FormRequest
             'name'=>['required'],
             'organization'=>['required'],
             'releaseDate'=>['required','date'],
-            'file'=>['required']
+            'file'=>['sometimes']
         ];
     }
 }

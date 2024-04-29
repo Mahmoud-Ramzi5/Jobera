@@ -9,7 +9,11 @@ class Certificate extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'name','organization','releaseDate','file','user_id'
+        'name',
+        'organization',
+        'releaseDate',
+        'file',
+        'user_id'
     ];
     public function user(){
         return $this->belongsTo(User::class);
