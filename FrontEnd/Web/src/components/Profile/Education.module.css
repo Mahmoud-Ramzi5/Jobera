@@ -1,39 +1,64 @@
-/* Education.module.css */
-
 .educationFormContainer {
-  max-width: 500px; /* Adjusted max-width */
+  max-width: 500px;
   margin: 0 auto;
-  margin-top: 20px;
-  padding: 30px; /* Adjusted padding */
+  margin-top: 60px;
+  padding: 30px;
   border-radius: 8px;
   background-color: var(--color-scrollbar-track2);
   box-shadow: 0 4px 6px rgba(188, 178, 210, 0.1);
 }
 
 .heading {
-  margin-bottom: 30px; /* Adjusted margin-bottom */
+  margin-bottom: 30px;
   font-size: 1.8rem;
   font-weight: bold;
   text-align: center;
 }
 
 .formGroup {
-  margin-bottom: 25px; /* Adjusted margin-bottom */
+  margin-bottom: 25px;
+}
+
+.label {
+  font-weight: bold;
+}
+
+.inputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
 .inputField {
-  width: 100%;
+  flex: 1;
   padding: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1.2rem;
-  margin-bottom: 25px; /* Adjusted margin-bottom */
 }
+
+.inputIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background-color: #f0f0f0;
+  color: #555;
+  border-radius: 4px;
+  margin-left: -1px;
+}
+
+.inputIcon i {
+  font-size: 0.8rem;
+}
+
+/* Adjusted styles for other elements */
 
 .dateInputField {
   width: 100%;
   margin-left: 0;
-  margin-bottom: 25px; /* Adjusted margin-bottom */
+  margin-bottom: 25px;
 }
 
 .submitButton {
@@ -52,32 +77,60 @@
 .submitButton:hover {
   background-color: #005a8c;
 }
+.dropdownContainer {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.dropdownSelect {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  appearance: none;
+  background-color: white;
+}
+
+.dropdownIcon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #555;
+}
+
+.dropdownIcon i {
+  font-size: 0.8rem;
+}
 
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
-.educationFormContainer {
-  max-width: 90%; /* Adjusted max-width */
-  padding: 20px;
+  .educationFormContainer {
+    max-width: 90%;
+    padding: 20px;
+  }
+
+  .heading {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+
+  .formGroup {
+    margin-bottom: 15px;
+  }
+
+  .inputField {
+    font-size: 1rem;
+    padding: 10px;
+    margin-bottom: 15px;
 }
 
-.heading {
-  font-size: 1.5rem;
-  margin-bottom: 20px; /* Adjusted margin-bottom */
-}
-
-.formGroup {
-  margin-bottom: 15px; /* Adjusted margin-bottom */
-}
-
-.inputField {
-  font-size: 1rem;
-  padding: 10px;
-  margin-bottom: 15px; /* Adjusted margin-bottom */
-}
-
-.dateInputField {
-  width: 100%;
-  margin-left: 0;
-  margin-bottom: 15px; /* Adjusted margin-bottom */
-}
+  .dateInputField {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 15px;
+  }
 }

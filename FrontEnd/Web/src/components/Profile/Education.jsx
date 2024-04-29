@@ -38,8 +38,8 @@ const EducationForm = () => {
     // You can also reset the form fields after submission if needed
     console.log(accessToken);
     AddEducation(
-     // accessToken,
-     "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNGM0ZGVmMjhlODcyYTljYjg0ZDZlNGRlZWUyZjQzYzdjNjkzNjA2Y2I0NjhhY2ExZmJmZTE3NjE0NzZlZWI4YTU5MWVjMzY5YzVmNTI0YTkiLCJpYXQiOjE3MTQzMTkxMTEuMzA4OTM4LCJuYmYiOjE3MTQzMTkxMTEuMzA4OTQxLCJleHAiOjE3NDU4NTUxMTEuMjEzMjE2LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.KRZx8S9wT9RdY1IF3cA0q4K_DfcJzbWgzerBl9CkRFipmI-Q0F33tA6dUlLXT4IdwvQTe9Fuu12qoZpFGn1Cmty2q7SgV-_GN3XM_IGvs9O0n4Hc5MfFhpx61qqwjjN12N6iF9jmuR4WDWB8gCqUPdJtDJ3JZvQYrX9DoZnFPNBQoMKsGUfjcvcxnHRBbxQWFS-6vw8lTvCP73Y3_Lf_fQgz-4Wef2GEtw6hX3y2c9y_pMc-gTt3MUZFN8m0eGVb9i4w8EPe8POyQ94nSKRwEs0GDEtvRr8OBW1v4bRK_zZl4dTlgppW9Gx3xohhAAG-4ks8YFCGgWkd18GiXy5A8CgbAbSTFl-7D_8IaMQAEnDZSqfp1BDKbzvSYi_Tuj-IHFBFRH4FLfUDnsi_tKRD8hGxY-tnody0oRdBFJceHjQKRYXADP6qcao3t9fNra_CxvK1SjERmRN5dPXwYeoSqsBb3uDMXKY7RR13_DgUh6SiQ6K_oVLi7Pi0foJda5TyYVDSQ7fklMtST4gj_gNCNrToO5GLrMxkxrbAVMZSv-FeDn7YqKxMtQf4VXY6AhVDEHTURkzxpuzig9SW9HzD59-fSzqqbuok3nMc8EuspNh52YTr8iwLI54gJma4fAD3wq4mgwPkHdTsrNbnQPi8Kde8Lnr_4qKLw-NagmrGEJ4",
+      // accessToken,
+      "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNGM0ZGVmMjhlODcyYTljYjg0ZDZlNGRlZWUyZjQzYzdjNjkzNjA2Y2I0NjhhY2ExZmJmZTE3NjE0NzZlZWI4YTU5MWVjMzY5YzVmNTI0YTkiLCJpYXQiOjE3MTQzMTkxMTEuMzA4OTM4LCJuYmYiOjE3MTQzMTkxMTEuMzA4OTQxLCJleHAiOjE3NDU4NTUxMTEuMjEzMjE2LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.KRZx8S9wT9RdY1IF3cA0q4K_DfcJzbWgzerBl9CkRFipmI-Q0F33tA6dUlLXT4IdwvQTe9Fuu12qoZpFGn1Cmty2q7SgV-_GN3XM_IGvs9O0n4Hc5MfFhpx61qqwjjN12N6iF9jmuR4WDWB8gCqUPdJtDJ3JZvQYrX9DoZnFPNBQoMKsGUfjcvcxnHRBbxQWFS-6vw8lTvCP73Y3_Lf_fQgz-4Wef2GEtw6hX3y2c9y_pMc-gTt3MUZFN8m0eGVb9i4w8EPe8POyQ94nSKRwEs0GDEtvRr8OBW1v4bRK_zZl4dTlgppW9Gx3xohhAAG-4ks8YFCGgWkd18GiXy5A8CgbAbSTFl-7D_8IaMQAEnDZSqfp1BDKbzvSYi_Tuj-IHFBFRH4FLfUDnsi_tKRD8hGxY-tnody0oRdBFJceHjQKRYXADP6qcao3t9fNra_CxvK1SjERmRN5dPXwYeoSqsBb3uDMXKY7RR13_DgUh6SiQ6K_oVLi7Pi0foJda5TyYVDSQ7fklMtST4gj_gNCNrToO5GLrMxkxrbAVMZSv-FeDn7YqKxMtQf4VXY6AhVDEHTURkzxpuzig9SW9HzD59-fSzqqbuok3nMc8EuspNh52YTr8iwLI54gJma4fAD3wq4mgwPkHdTsrNbnQPi8Kde8Lnr_4qKLw-NagmrGEJ4",
       educationData.level,
       educationData.field,
       educationData.school,
@@ -75,47 +75,60 @@ const EducationForm = () => {
           <label className={styles.label} htmlFor="level">
             Level:
           </label>
-          <select
-            id="level"
-            name="level"
-            value={educationData.level}
-            onChange={handleInputChange}
-            required
-          >
-            <option value="">Select Level</option>
-            <option value="Bachelor">Bachelor</option>
-            <option value="Master">Master</option>
-            <option value="PHD">PHD</option>
-            <option value="High School Diploma">High School Diploma</option>
-            <option value="High Institute">High Institute</option>
-          </select>
+          <div className={styles.dropdownContainer}>
+            <select
+              id="level"
+              name="level"
+              value={educationData.level}
+              onChange={handleInputChange}
+              required
+              className={styles.dropdownSelect}
+            >
+              <option value="">Select Level</option>
+              <option value="Bachelor">Bachelor</option>
+              <option value="Master">Master</option>
+              <option value="PHD">PHD</option>
+              <option value="High School Diploma">High School Diploma</option>
+              <option value="High Institute">High Institute</option>
+            </select>
+            <div className={styles.dropdownIcon}>
+              <i className="fas fa-chevron-down"></i>
+            </div>
+          </div>
         </div>
         <div className={styles.formGroup}>
           <label className={styles.label} htmlFor="field">
-            field:
+            Field: <i className="fas fa-graduation-cap"></i>
           </label>
-          <input
-            className={styles.inputfield}
-            type="text"
-            id="field"
-            name="field"
-            value={educationData.field}
-            onChange={handleInputChange}
-            required
-          />
+          <div className={styles.inputContainer}>
+            <input
+              className={styles.inputField}
+              type="text"
+              id="field"
+              name="field"
+              value={educationData.field}
+              onChange={handleInputChange}
+              required
+              placeholder="Enter field of study"
+            />
+          </div>
         </div>
         <div className={styles.formGroup}>
           <label className={styles.label} htmlFor="school">
-            School:
+            School: <i className="fas fa-university"></i>
           </label>
-          <input
-            type="text"
-            id="school"
-            name="school"
-            value={educationData.school}
-            onChange={handleInputChange}
-            required
-          />
+          <div className={styles.inputContainer}>
+            <input
+              className={styles.inputField}
+              type="text"
+              id="school"
+              name="school"
+              value={educationData.school}
+              onChange={handleInputChange}
+              required
+              placeholder="Enter school name"
+            />
+          </div>
         </div>
         <div className={styles.formGroup}>
           <label className={styles.label} htmlFor="startDate">
