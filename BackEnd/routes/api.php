@@ -14,6 +14,7 @@ use App\Http\Controllers\AuthControllers\ForgetPasswordController;
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'Register');
+    Route::post('/company/register', 'CompanyRegister');
     Route::post('/login', 'Login');
     Route::post('/logout', 'Logout')->middleware('auth:api');
 
@@ -60,9 +61,8 @@ Route::controller(ProfileController::class)->group(function () {
 });
 
 Route::controller(SkillsController::class)->group(function() {
-    Route::get('/skills/types', 'GetSkillTypes');
     Route::get('/skills', 'GetSkills');
-
+    Route::get('/skills/types', 'GetSkillTypes');
     Route::post('/skills/add', 'AddSkill');
 });
 

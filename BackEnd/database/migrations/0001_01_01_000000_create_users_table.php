@@ -13,21 +13,22 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('fullName');
+            $table->string('full_name');
             $table->string('email')->unique();
-            $table->string('phoneNumber')->unique();
+            $table->string('phone_number')->unique();
             $table->string('password')->nullable();
-            $table->string('country')->nullable();
-            $table->string('state')->nullable();
-            $table->dateTime('birthDate');
+            $table->bigInteger('state_id')->unsigned();
+            $table->dateTime('birth_date');
             $table->enum('gender', ['male', 'female']);
             $table->enum('type', ['admin', 'indvidual']);
-            $table->string('avatarPhoto')->nullable();
+            $table->text("description")->nullable();
+            $table->string('avatar_photo')->nullable();
             $table->float('rating')->default(0.0)->nullable();
-            $table->foreignId('education_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('state_id')->references('state_id')->on('states')->onDelete('cascade');
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

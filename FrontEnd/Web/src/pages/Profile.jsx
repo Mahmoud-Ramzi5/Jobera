@@ -36,8 +36,8 @@ const Profile = () => {
   return (
     <div className={styles.Profile}>
       <div className={styles.leftSideContainer}>
-        <div className={styles.leftSide}><UserInfo profileData={profile} /></div>
-        <div className={styles.leftSide}><Wallet profileData={profile} /></div>
+        <div className={styles.leftSide}><UserInfo ProfileData={profile} /></div>
+        <div className={styles.leftSide}><Wallet ProfileData={profile} /></div>
         <div className={styles.leftSide}><PortfolioCardList /></div>
       </div>
       <div className={styles.rightSideContainer}>

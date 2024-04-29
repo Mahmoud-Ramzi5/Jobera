@@ -24,17 +24,16 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'fullName' => ['required'],
+            'full_name' => ['required'],
             'email' => ['required', 'unique:users', 'email'],
-            'phoneNumber' => ['required', 'unique:users', 'min:11', 'max:13', 'regex:/^\+/'],
+            'phone_number' => ['required', 'unique:users', 'min:11', 'max:13', 'regex:/^\+/'],
             'password' => ['required'],
-            'confirmPassword' => ['required', 'same:password'],
-            'country' => ['required'],
-            'state' => ['required'],
-            'birthDate' => ['required', 'date'],
+            'confirm_password' => ['required', 'same:password'],
+            'state_id' => ['required'],
+            'birth_date' => ['required', 'date'],
             'gender' => ['required', 'in:male,female'],
             'type' => ['required', 'in:admin,indvidual'],
-            'avatarPhoto' => ['sometimes', 'image', 'max:4096'],
+            'avatar_photo' => ['sometimes', 'image', 'max:4096'],
         ];
     }
 

@@ -14,21 +14,22 @@ class UserResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $isVerified = false;
+        $is_verified = false;
         if ($this->email_verified_at) {
-            $isVerified = true;
+            $is_verified = true;
         }
         return [
-            "fullName" => $this->fullName,
+            "full_name" => $this->full_name,
             "email" => $this->email,
-            "phoneNumber" => $this->phoneNumber,
-            "country" => $this->country,
-            "state" => $this->state,
-            "birthDate" => $this->birthDate,
+            "phone_number" => $this->phone_number,
+            "country" => $this->state->country->country_name,
+            "state" => $this->state->state_name,
+            "birth_date" => $this->birth_date,
             "gender" => $this->gender,
-            "avatarPhoto" => "http://127.0.0.1:8000/storage/$this->avatarPhoto",
+            "description" => $this->description,
+            "avatar_photo" => "http://127.0.0.1:8000/storage/$this->avatar_photo",
             "rating" => $this->rating,
-            "isVerifed" => $isVerified
+            "is_verifed" => $is_verified
         ];
     }
 }

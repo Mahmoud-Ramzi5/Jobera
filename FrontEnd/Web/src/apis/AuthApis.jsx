@@ -9,21 +9,19 @@ export const RegisterAPI = async (
     PhoneNumber,
     password,
     ConfirmPassword,
-    country,
-    state,
+    StateId,
     date,
     gender
 ) => {
     try {
         const response = await axios.post('http://127.0.0.1:8000/api/register', {
-            "fullName": FirstName + " " + LastName,
+            "full_name": FirstName + " " + LastName,
             "email": email,
-            "phoneNumber": PhoneNumber,
+            "phone_number": PhoneNumber,
             "password": password,
-            "confirmPassword": ConfirmPassword,
-            "country": country,
-            "state": state,
-            "birthDate": date,
+            "confirm_password": ConfirmPassword,
+            "state_id": StateId,
+            "birth_date": date,
             "gender": gender,
             "type": "indvidual"
         }, {
@@ -45,18 +43,17 @@ export const CompanyRegisterAPI = async (
     PhoneNumber,
     password,
     ConfirmPassword,
-    country,
-    state,
+    StateId
 ) => {
     try {
         const response = await axios.post('http://127.0.0.1:8000/api/company/register', {
             "name": name,
+            "field": field,
             "email": email,
-            "phoneNumber": PhoneNumber,
+            "phone_number": PhoneNumber,
             "password": password,
-            "confirmPassword": ConfirmPassword,
-            "country": country,
-            "state": state,
+            "confirm_password": ConfirmPassword,
+            "state_id": StateId,
             "type": "company"
         }, {
             headers: {
@@ -132,13 +129,13 @@ export const ResetPasswordAPI = async (
     token,
     email,
     password,
-    confirmPassword
+    ConfirmPassword
 ) => {
     try {
         const response = await axios.post('http://127.0.0.1:8000/api/password/reset', {
             "email": email,
             "password": password,
-            "confirm_password": confirmPassword,
+            "confirm_password": ConfirmPassword,
         }, {
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',

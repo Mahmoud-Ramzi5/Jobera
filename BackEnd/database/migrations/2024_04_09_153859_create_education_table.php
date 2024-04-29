@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('education', function (Blueprint $table) {
-            $table->id();   
-            $table->enum("level",['Bachelor','Master','PHD','High School Diploma','High Institute']);
+            $table->id();
+            $table->enum("level", ['Bachelor','Master','PHD','High School Diploma','High Institute']);
             $table->string("field");
             $table->string("school");
-            $table->dateTime("startDate");
-            $table->dateTime("endDate");
+            $table->dateTime("start_date");
+            $table->dateTime("end_date");
             $table->foreignId("user_id")->constrained()->cascadeOnDelete();
             $table->string("certificate_file")->nullable();
             $table->timestamps();

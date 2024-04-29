@@ -22,10 +22,10 @@ class AddCertificateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>['required'],
-            'organization'=>['required'],
-            'releaseDate'=>['required','date'],
-            'file'=>['sometimes']
+            'name' => ['required'],
+            'organization' => ['required'],
+            'release_date' => ['required', 'date'],
+            'file' => ['sometimes']
         ];
     }
 }

@@ -6,8 +6,8 @@ import styles from './userinfo.module.css';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
-const UserInfo = ({ profileData }) => {
-  const [description, setDescription] = useState(profileData.description);
+const UserInfo = ({ ProfileData }) => {
+  const [description, setDescription] = useState(ProfileData.description);
   const [isEditing, setIsEditing] = useState(false);
 
   const handleEditProfile = () => {
@@ -66,11 +66,11 @@ const UserInfo = ({ profileData }) => {
         </div>
         <div className={styles.info_in_profile}>
           <div className={styles.user_info_title}>
-            <h3 className="card-title">{profileData.fullName}</h3>
-            <h4 className={styles.specification}>{profileData.specification}</h4>
-            <h6 className={styles.location}>Location: {profileData.state}, {profileData.country}</h6>
+            <h3 className="card-title">{ProfileData.full_name}</h3>
+            <h4 className={styles.specification}>{ProfileData.specification}</h4>
+            <h6 className={styles.location}>Location: {ProfileData.state}, {ProfileData.country}</h6>
             <div className={styles.rating}>
-              <h6>Rating: {renderStars(profileData.rating)} {profileData.rating} ({profileData.reviews} reviews){' '}</h6>
+              <h6>Rating: {renderStars(ProfileData.rating)} {ProfileData.rating} ({ProfileData.reviews} reviews){' '}</h6>
             </div>
             {isEditing ? (
               <div className={styles.description}>

@@ -16,8 +16,8 @@ class Country extends Model
      */
     protected $fillable = [
         'country_id',
-        'sortName',
-        'countryName',
+        'sort_name',
+        'country_name',
     ];
 
     /**
@@ -30,8 +30,7 @@ class Country extends Model
         'updated_at'
     ];
 
-    public function states()
-    {
+    public function states() {
         return $this->hasMany(State::class, 'country_id', 'id');
     }
 }
