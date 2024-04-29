@@ -17,6 +17,8 @@ import ForgotPassword from './pages/ForgotPassword.jsx';
 import EmailVerificationMessage from './pages/EmailVerification.jsx';
 import Bar from './components/test.jsx';
 import EducationForm from './components/Profile/Education.jsx';
+import CertificateForm from './components/Profile/Certificate.jsx';
+import Certificates from './components/Profile/Certificates.jsx';
 
 
 export const ThemeContext = createContext({});
@@ -96,6 +98,8 @@ function App() {
             <Route element={<AnonymousRoutes />}>
               <Route path="/register" element={<Register />} />
               <Route path="/ed" element={<EducationForm />} />
+              <Route path="/cer" element={<CertificateForm />} />
+              <Route path="/cers" element={<Certificates />} />
               <Route path="/Test" element={<Register2 />} />
               <Route path='/progress' element={<Bar />} />
               <Route path="/login" element={<Login />} />

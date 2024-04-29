@@ -65,3 +65,47 @@ export const AddEducation = async (
     return error.response;
   }
 };
+
+export const AddCertificate= async (
+  token, 
+  name,
+  organization,
+  releaseDate,
+  file,
+) => {
+  try {
+    const response = await axios.post(
+      'http://127.0.0.1:8000/api/certificate', {
+        'name': name,
+        'organization': organization,
+        'releaseDate': releaseDate,
+        'file': file,
+    }, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+export const ShowCertificates= async (
+  token
+) => {
+  try {
+    const response = await axios.get(
+      'http://127.0.0.1:8000/api/certificate', {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
