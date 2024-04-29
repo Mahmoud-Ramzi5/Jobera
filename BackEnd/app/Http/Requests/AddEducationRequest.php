@@ -27,8 +27,8 @@ class AddEducationRequest extends FormRequest
             "level"=>["required","in:Bachelor,Master,PHD,High School Diploma,High Institute"],
             "field"=>["required"],
             "school"=>["required"],
-            "startDate"=>["required"],
-            "endDate"=>["required"],
+            "startDate"=>"required|date",
+            "endDate"=>"required|date|after:startDate",
             "certificate_file"=>["sometimes"]
         ];
     }

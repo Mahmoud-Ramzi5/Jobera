@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\ProfileControllers;
 
+use App\Models\Certificate;
 use App\Models\Education;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AddEducationRequest;
+use App\Http\Requests\AddCertificateRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
@@ -34,4 +36,19 @@ class EducationController extends Controller
         ], 201);
     }
 
+    public function AddCertificate(AddCertificateRequest $request){
+        $user = auth()->user();
+        $validated=$request->validated();
+        // Handle certificate file
+        if ($request->hasFile('file')) {
+            $avatarPath = $request->file('file')->store('files', 'public');
+            $validated['file'] = $avatarPath;
+        }
+        $validated['user_id']=$user->id;
+        $certificate=Certificate::create($validated);
+        return response()->json([
+            "message" => "Certificate created",
+            "data" => $certificate,
+        ], 201);
+    }
 }
