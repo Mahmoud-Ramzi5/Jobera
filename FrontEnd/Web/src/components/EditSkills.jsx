@@ -6,12 +6,12 @@ import Bar from "./test.jsx";
 import Logo from '../assets/JoberaLogo.png';
 import styles from "../styles/register2.module.css";
 
-const EditSkills = ({ edit }) => {
+const EditSkills = ({ edit, register, step }) => {
   const initialized = useRef(false);
   const [types, setTypes] = useState([]);
   const [type, setType] = useState("");
   const [skills, setSkills] = useState([]);
-  const [skillIds, setSkillIds] = useState([]);
+  const [SkillIds, setSkillIds] = useState([]);
   const [checked, setChecked] = useState({});
   const [userSkills, setUserSkills] = useState([]);
   const [searchSkill, setSearchSkill] = useState("");
@@ -96,14 +96,20 @@ const EditSkills = ({ edit }) => {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(skillIds);
+    console.log(SkillIds);
     AddSkills(
       "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOThmZWU2YjBhNWM4NjQ1MzdmMDcxYzE1NmFiYmJjODIwOWYxNTg3OTIzMzM1Mjc2OGI5Zjk0OTBkYTI2YzQ2ODJiYzFjYjg5NTliOThkMTYiLCJpYXQiOjE3MTMwMjAxMjUuMTY3NTgsIm5iZiI6MTcxMzAyMDEyNS4xNjc1ODIsImV4cCI6MTc0NDU1NjEyNS4xNTg0MjYsInN1YiI6IjIiLCJzY29wZXMiOltdfQ.mPoISxA7AjSEFBHC1cFdAazZeY86STejWLYCX_L0BuORV05hUvtjHEiB-TXR6mU9-iAdY_sqKuGbAlw1Ep9XXjEu-ALd8n1ixag6wlo470IqCTr8iMHnOt_3YqQwS84jnhwWytCT2wWmW4fBm9JcbGcNslTspZk51cqtX_HamfotXdYjYrD8JgBMU7ui0yP-T1B0F7TAalIBwEPzADVu6U_7UZnGSRUJfkiCTygdsJxIqGLywxlrqrYUmsKwWspbEH0svj6y9wKPAedHxumSydpDo9o51YBQUHiFjHr0NvzcBrKtj6Tdzfucwi4IeVrPI0HsoymcudptApsgKRFWO7RZlefQnKXDC8Z_-h4kz5f7KFZOk60hDQwpuCTXJEIUG3fKf2TGsK5iCw8co1siJiJLouGWU61ymCrES_uNMHzmn3oaZqTULgadSD3l_PqKfO05ckpZY5d76NIlmrWFrTh2Rqb-Qa7vokfBxAnuqAADy9u2MblXVY2LNiuUwFJAgTMUuxqE0lUvPgTOxaLQ1m_UelO90VoFKXfdUb9O9zrzobiaoMQmzsolGwckcIh-LR1iwAz3HDmp0de_wGhY2oXTuBbwjWkb4Hp6wpn3oXU5FkEY7jrTfrDULpHV8UNwE8-H7qrPiER7muj8kFl67KEVggzrKOs3WxLxZL2_1eI",
-      skillIds
+      SkillIds
     ).then((response) => {
       console.log(response);
     });
   };
+  const handlestep2 = (event =>{
+    event.preventDefault();
+    console.log(SkillIds);
+    register(SkillIds);
+    step('education');
+  })
 
   return (
     <>
@@ -128,11 +134,19 @@ const EditSkills = ({ edit }) => {
             {edit ? <></> : <Bar />}
           </div>
           {showSubmitButton && (
+            <>
+            {edit ? 
             <form className={styles.submitdiv} onSubmit={handleSubmit}>
               <div>
                 <button className={styles.submitButton}>Submit</button>
               </div>
-            </form>
+            </form>:
+            <form className={styles.submitdiv} onSubmit={handlestep2}>
+              <div>
+                <button className={styles.submitButton}>Submit</button>
+              </div>
+            </form>}
+            </>
           )}
         </div>
         <div className={styles.body}>

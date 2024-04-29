@@ -4,9 +4,14 @@ import EditSkills from "../components/EditSkills.jsx";
 import styles from "../styles/register2.module.css";
 
 
+
 const Register2 = () => {
+  const [step, setStep]=useState("skills");
+  const [skills, setSkills]=useState([]);
   return (
-    <EditSkills edit={false} />
+    <>
+    {step == "skills" ? <EditSkills  edit={false} register={setSkills} step={setStep}/> : step == "education" ? <></> : step == "certificates" ? <></> : step == "portfolio" ? <></>:<h1>Sorry something went wrong</h1>}
+    </>
   );
 };
 
