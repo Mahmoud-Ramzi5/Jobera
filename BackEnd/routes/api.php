@@ -14,6 +14,7 @@ use App\Http\Controllers\AuthControllers\ForgetPasswordController;
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'Register');
+    Route::post('/company/register', 'CompanyRegister');
     Route::post('/login', 'Login');
     Route::post('/logout', 'Logout')->middleware('auth:api');
 

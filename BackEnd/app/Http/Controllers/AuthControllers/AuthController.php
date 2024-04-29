@@ -23,12 +23,12 @@ class AuthController extends Controller
 
         // Hash password and remove confirm password
         $validated['password'] = bcrypt($validated['password']);
-        $validated = Arr::except($validated, 'confirmPassword');
+        $validated = Arr::except($validated, 'confirm_password');
 
         // Handle profile photo
-        if ($request->hasFile('avatarPhoto')) {
-            $avatarPath = $request->file('avatarPhoto')->store('avatars', 'public');
-            $validated['avatarPhoto'] = $avatarPath;
+        if ($request->hasFile('avatar_photo')) {
+            $avatarPath = $request->file('avatar_photo')->store('avatars', 'public');
+            $validated['avatar_photo'] = $avatarPath;
         }
 
         // Register user and send verification email
@@ -45,18 +45,19 @@ class AuthController extends Controller
         ], 201);
     }
 
-    public function CompanyRegister(CompanyRegisterRequest $request){
+    public function CompanyRegister(CompanyRegisterRequest $request)
+    {
         // Validate request
         $validated = $request->validated();
 
         // Hash password and remove confirm password
         $validated['password'] = bcrypt($validated['password']);
-        $validated = Arr::except($validated, 'confirmPassword');
+        $validated = Arr::except($validated, 'confirm_password');
 
         // Handle profile photo
-        if ($request->hasFile('avatarPhoto')) {
-            $avatarPath = $request->file('avatarPhoto')->store('avatars', 'public');
-            $validated['avatarPhoto'] = $avatarPath;
+        if ($request->hasFile('avatar_photo')) {
+            $avatarPath = $request->file('avatar_photo')->store('avatars', 'public');
+            $validated['avatar_photo'] = $avatarPath;
         }
 
         // Register company and send verification email
@@ -160,6 +161,7 @@ class AuthController extends Controller
             ], 200);
         }
 
+        // Response
         return response()->json([
             'errors' => 'Email verification failed',
         ], 500);
@@ -183,6 +185,8 @@ class AuthController extends Controller
                 'message'=>'Verified'
             ], 200);
         }
+
+        // Response
         return response()->json([
             'message'=>'Not Verified'
         ], 200);

@@ -24,7 +24,7 @@ class StoreProfilePhotoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'avatarPhoto' => ['required', 'image', 'max:4096'],
+            'avatar_photo' => ['required', 'image', 'max:4096'],
         ];
     }
 

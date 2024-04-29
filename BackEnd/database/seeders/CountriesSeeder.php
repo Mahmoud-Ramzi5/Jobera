@@ -20,13 +20,13 @@ class CountriesSeeder extends Seeder
         {
             $C = Country::create([
                 "country_id" => $country["country_id"],
-                "sortName"=> $country["sortname"],
-                "countryName"=> $country["country_name"],
+                "sort_name"=> $country["sortname"],
+                "country_name"=> $country["country_name"],
             ]);
             foreach($country["states"] as $state) {
                 $S = State::create([
                     "state_id" => $state["state_id"],
-                    "stateName"=> $state["state_name"],
+                    "state_name"=> $state["state_name"],
                     "country_id"=> $state["country_id"],
                 ]);
             }

@@ -16,7 +16,7 @@ class State extends Model
      */
     protected $fillable = [
         'state_id',
-        'stateName',
+        'state_name',
         'country_id',
     ];
 
@@ -30,8 +30,15 @@ class State extends Model
         'updated_at'
     ];
 
-    public function country()
-    {
+    public function country() {
         return $this->belongsTo(Country::class, 'country_id', 'id');
+    }
+
+    public function users() {
+        return $this->hasMany(User::class, 'state_id', 'state_id');
+    }
+
+    public function companies() {
+        return $this->hasMany(Company::class, 'state_id', 'state_id');
     }
 }

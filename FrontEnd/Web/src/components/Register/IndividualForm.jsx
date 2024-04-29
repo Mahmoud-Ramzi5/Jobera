@@ -84,7 +84,6 @@ const IndividualForm = () => {
       PhoneNumber,
       password,
       ConfirmPassword,
-      country,
       state,
       date,
       gender)
@@ -167,7 +166,7 @@ const IndividualForm = () => {
           <select onChange={handleCountrySelect} value={country} className={Inputstyles.input} required>
             <option key={0} value='' disabled>Country</option>
             {(countries.length === 0) ? <></> : countries.map((country) => {
-              return <option key={country.country_id} value={country.countryName} className={Inputstyles.option}>{country.countryName}</option>
+              return <option key={country.country_id} value={country.country_name} className={Inputstyles.option}>{country.country_name}</option>
             })}
           </select>
         </div>
@@ -176,7 +175,7 @@ const IndividualForm = () => {
           <select onChange={(event) => setState(event.target.value)} value={state} className={Inputstyles.input} required>
             <option key={0} value='' disabled>City</option>
             {(states.length === 0) ? <></> : states.map((state) => {
-              return <option key={state.state_id} value={state.stateName} className={Inputstyles.option}>{state.stateName}</option>
+              return <option key={state.state_id} value={state.state_id} className={Inputstyles.option}>{state.state_name}</option>
             })}
           </select>
         </div>

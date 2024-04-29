@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('countries', function (Blueprint $table) {
             $table->id();
             $table->integer('country_id');
-            $table->string('sortName');
-            $table->string('countryName');
+            $table->string('sort_name');
+            $table->string('country_name');
             $table->timestamps();
         });
     }

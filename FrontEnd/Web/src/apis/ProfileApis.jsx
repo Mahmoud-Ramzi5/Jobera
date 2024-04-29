@@ -17,11 +17,10 @@ export const FetchUserProfile = async (token) => {
   }
 };
 
-export const AddSkills = async (token, skillIds) => {
+export const AddSkills = async (token, SkillIds) => {
   try {
-    const response = await axios.post(
-      'http://127.0.0.1:8000/api/profile/skills', {
-      'skills': skillIds,
+    const response = await axios.post('http://127.0.0.1:8000/api/profile/skills', {
+      'skills': SkillIds,
     }, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
@@ -36,22 +35,21 @@ export const AddSkills = async (token, skillIds) => {
 };
 
 export const AddEducation = async (
-  token, 
+  token,
   level,
-  field, // Corrected field name
+  field,
   school,
-  startDate,
-  endDate,
+  StartDate,
+  EndDate,
   certificate
 ) => {
   try {
-    const response = await axios.post(
-      'http://127.0.0.1:8000/api/education', {
+    const response = await axios.post('http://127.0.0.1:8000/api/education', {
       'level': level,
-      'field': field, // Corrected field name
+      'field': field,
       'school': school,
-      'startDate': startDate,
-      'endDate': endDate,
+      'start_date': StartDate,
+      'end_date': EndDate,
       'certificate_file': certificate
     }, {
       headers: {

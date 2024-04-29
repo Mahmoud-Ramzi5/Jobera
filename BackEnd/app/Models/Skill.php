@@ -18,4 +18,5 @@ class Skill extends Model
         'name',
         'type',
     ];
+
 }

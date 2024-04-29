@@ -18,17 +18,16 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
-        'fullName',
+        'full_name',
         'email',
-        'phoneNumber',
+        'phone_number',
         'password',
-        'country',
-        'state',
-        'birthDate',
+        'state_id',
+        'birth_date',
         'gender',
         'type',
-        'avatarPhoto',
-        'education_id'
+        'description',
+        'avatar_photo',
     ];
 
     /**
@@ -58,13 +57,24 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Provider::class, 'user_id', 'id');
     }
-    public function skills(){
-        return $this->hasMany(userSkills::class);
+
+    public function state()
+    {
+        return $this->belongsTo(State::class, 'state_id', 'state_id');
     }
-    public function education(){
+
+    public function skills()
+    {
+        return $this->hasMany(UserSkills::class);
+    }
+
+    public function education()
+    {
         return $this->hasOne(Education::class);
     }
-    public function certificates(){
+
+    public function certificates()
+    {
         return $this->hasMany(Certificate::class);
     }
 }

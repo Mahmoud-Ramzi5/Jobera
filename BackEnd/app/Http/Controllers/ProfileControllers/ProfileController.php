@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\ProfileControllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreProfilePhotoRequest;
 use App\Models\UserSkills;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Http\Requests\StoreUserSkillRequest;
-
+use App\Http\Requests\StoreProfilePhotoRequest;
 
 class ProfileController extends Controller
 {
@@ -81,14 +80,21 @@ class ProfileController extends Controller
             'message' => 'Skill deleted successfully'
         ], 203);
     }
-    public function AddProfilePhoto(StoreProfilePhotoRequest $request){
+
+    public function AddProfilePhoto(StoreProfilePhotoRequest $request)
+    {
+        // Validate request
         $validated = $request->validated();
-        $user=auth()->user();
-        $avatarPath = $request->file('avatarPhoto')->store('avatars', 'public');
+        $user = auth()->user();
+
+        // Store photo
+        $avatarPath = $request->file('avatar_photo')->store('avatars', 'public');
         $user->avatarPhoto = $avatarPath;
         $user->save();
+
+        // Response
         return response()->json([
-            "message"=>"profile photo has been add successfully"
-        ]);
+            "message"=>"Profile photo has been add successfully"
+        ], 200);
     }
 }
