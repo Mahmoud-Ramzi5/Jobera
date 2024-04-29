@@ -61,12 +61,13 @@ Route::controller(ProfileController::class)->group(function () {
 });
 
 Route::controller(SkillsController::class)->group(function() {
-    Route::get('/skills/types', 'GetSkillTypes');
     Route::get('/skills', 'GetSkills');
-
+    Route::get('/skills/types', 'GetSkillTypes');
     Route::post('/skills/add', 'AddSkill');
 });
 
 Route::controller(EducationController::class)->group(function() {
     Route::post('/education','AddEducation')->middleware('auth:api');
+    Route::post('/certificate','AddCertificate')->middleware('auth:api');
+    Route::get('/certificate','ShowUserCertificate')->middleware('auth:api');
 });
