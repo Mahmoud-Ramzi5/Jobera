@@ -31,7 +31,7 @@ const CertificateForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Submitted Certificate data:", CertificateData);
+    console.log("Submitted Certificate data:", CertificateData.releaseDate);
     // Add logic to handle form submission (e.g., send data to backend)
     // You can also reset the form fields after submission if needed
     AddCertificate(

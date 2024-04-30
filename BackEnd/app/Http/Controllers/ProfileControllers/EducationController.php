@@ -54,6 +54,7 @@ class EducationController extends Controller
 
         // Handle certificate file
         if ($request->hasFile('file')) {
+            dd($request->file('file'));
             $avatarPath = $request->file('file')->store('files', 'public');
             $validated['file'] = $avatarPath;
         }

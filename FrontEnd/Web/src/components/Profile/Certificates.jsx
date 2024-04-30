@@ -1,44 +1,103 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Certificates.module.css";
+import { Link } from "react-router-dom";
 import { ShowCertificates } from "../../apis/ProfileApis";
+import { BsTrash, BsPencil, BsEye } from "react-icons/bs"; // Import the Bootstrap icons
 
 const Certificates = () => {
   const navigate = useNavigate();
   const [certificates, setCertificates] = useState([]);
-  
+  const [searchQuery, setSearchQuery] = useState("");
+
   useEffect(() => {
-    ShowCertificates( "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiZjUyOGJkZGVmZmYwN2EzMjdkMDI4NTAyMDk4YjllODExODg2ZjYwMTViMjY2ZjU0MDg5OWViZDY5YTA5YzE0MDc0OTUwMzMzNDA0NDg3YmEiLCJpYXQiOjE3MTQzODIxMzUuNDc4MzE0LCJuYmYiOjE3MTQzODIxMzUuNDc4MzE2LCJleHAiOjE3NDU5MTgxMzUuNDcwNjk2LCJzdWIiOiIxIiwic2NvcGVzIjpbXX0.KgPbgFDzU5uDfn4NbVD5F_xxuSj8Af4qBZKkOjhyhaSmWwXz6LPCB9bjA9RQtNI40IM1UcMsMh4G0dH_3vJqN_bj4knngpi4eZCvKdim1o6V9Ar8V2ZePrJiYAdap-QtOq6zgU4wQuZ5fjEJCQM8uJiQYIVGCYaGbLSO7Uvf3p_2U8zO-meIuptz5F3hNz67B6Lh6Nucgjs8E13euA5IJhAopJ0HparIbd8arsG7-OmZJyTOdKmC54b9i-ZYcZTrKJj_8UaDBc-xal6ujbOWw6YdQ3h2G2SoGjdM52K0fbed0o4Zj3p2-jNcTvj5ulFQWG34V4qEa_7p8yPQwf02lPNZ2IhSbF6NsB1b1LeCcbPE4H26eR9tjOoYXuYqJF8L6ny81MoFBuAQrjjoxcqphdv_RRFSmWpegJBxikk-lFvh9LLrkZK4DJ2fWvLfaXCOJX0KCaB9snp1hEj5EXN_hstKohWaopt0sOYpJikhJqYqn24lXUQd0OvHBAVmqrwmdl2J01wHbVcI9e9x7iD0Q-8Xy8eoLejn__bW-42fcouClWO8JeJ16-C8ptyxwXzU4fHS9q8RnrukEJs9wTfHxtlqem0Dbyilni2OaghNDIzbTytbfl-G6bASv8t_XO2024r2tTFw2AIiotVJmcvRqZlu6ODTepY-BtuOT1EI4Qo")
+    ShowCertificates( "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiODA5ZTQ5N2FhNDIxNjUyNjkyYmM3MTg3MjVkM2ZmOTg4NWNmZDBmOGI1NzZmYzQwODk5MTlkYjAzMDlhNzZlYWNiZGI4NGYxNzJjYzI1MjUiLCJpYXQiOjE3MTQ0NzA4MzYuNzY1NjQzLCJuYmYiOjE3MTQ0NzA4MzYuNzY1NjQ2LCJleHAiOjE3NDYwMDY4MzYuNTk2OTI2LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.YYRKETl5K8Qy2TigkybyHpD81nwgBlr6lpTrQJa-NF9puzDPbne4kgfzsHU_vwRyWG4VygWMAAmJusDeO-TJNFiycoRRMHGQujs3vRD7KvKJ4xqwa1Igm63cuq-Gau6JjWuxbR_xPttfOw7rHtjX-jvZkoKsCoPrXKrY6bi4DWzpUumRUOaT2h_prXID3xz7LHxNpUDJzlZbtNUVtgoGWHtitVlJ6l5PuMrR6R6_wCBLd_WSxhHn5duolutKqtIB4ESMIDBcPifO5mhdmUrwYCrjDBIMl7DEaLOPYVNNNifLLvW4X0glN7pjDIKlnF_pHdPckVVvQiFVP2FdpfcH59ku-N6GLa9qpesTXncXBadzt_-g0LTQZ3HW6eQd9StHzHs5h_p0BqUUPrLdET865knGztYri1pwXBkdf5q6IwoOekUcg3mLrBnrrwpA9OxVfMlb3hYqI4EoSL429kaqUKuyB7USOAXGRB6Iey1OyFEcAYyuQaJBrUv9X4WvpRlLOa4iC3ubkx1lV8Xs841zz5kJFWeHHUQWhsSXvAIVIcztoBXEiS-knrx_l9nWRwqUPW3GhDC8OgQOnBJ6PUpvjjmXi6eXimX-yzqvDxxrVleQpsGy9Q--QbvTb4C_-RMrjTUw8EWINbhcKKhEUhz5_V8xjwvfHlP6UnndkMJTyuE")
     .then((response) => {
       if (response.status === 202) {
         setCertificates(response.data.data);
-        console.log(certificates);
       }
       else {
         console.log(response.statusText);
       }
     });
   });
+  const renderCertificate = (certificate) => {
+    const handleEdit = () => {
+      console.log(`Edit certificate with ID: ${certificate.id}`);
+    };
+
+    const handleDelete = () => {
+      console.log(`Delete certificate with ID: ${certificate.id}`);
+    };
+
+    return (
+      <tr key={certificate.id}>
+        <td>{certificate.name}</td>
+        <td>{certificate.organization}</td>
+        <td>{certificate.release_date}</td>
+        <td>
+          <Link
+            to={`/certificates/${certificate.id}`}
+            className={styles.btnPrimary}
+          >
+            <BsEye /> View file
+          </Link>
+          <button
+            onClick={() => handleEdit(certificate.id)}
+            className={styles.btnWarning}
+          >
+            <BsPencil /> Edit
+          </button>
+          <button
+            onClick={() => handleDelete(certificate.id)}
+            className={styles.btnDanger}
+          >
+            <BsTrash /> Delete
+          </button>
+        </td>
+      </tr>
+    );
+  };
+
+  const filteredCertificates = certificates.filter((certificate) =>
+    certificate.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
   return (
-    <div className="container">
-      <div className={styles.certificatesContainer}>
-        <h1 className={styles.heading}>Certificates</h1>
-        <ul className={styles.certificateList}>
-          {certificates.length === 0 ? (
-            <p className={styles.message}>No certificates found.</p>
-          ) : (
-            certificates.map((certificate, index) => (
-              <li key={index} className={styles.certificateRow}>
-                <span>{certificate.name}</span>
-                <span>{certificate.organization}</span>
-                <span>{certificate.releaseDate}</span>
-              </li>
-            ))
-          )}
-        </ul>
-        <button className={styles.addButton} onClick={() => navigate("/cer")}>
-          Add Certificate
-        </button>
+    <div className={styles.certificatesPage}>
+      <div className={styles.content}>
+        <div className={styles.topBar}>
+          <h1>Certificates</h1>
+          <div className={styles.searchBar}>
+            <input
+              type="text"
+              className={styles.searchInput}
+              placeholder="Search..."
+              value={searchQuery}
+              onChange={handleSearch}
+            />
+            <button className={styles.searchButton}>Search</button>
+            <Link to="/certificates/create" className={styles.btn + " " + styles.btnPrimary}>
+              Create
+            </Link>
+          </div>
+        </div>
+        <table className={styles.certificatesTable}>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Organization</th>
+              <th>Release Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>{certificates.map(renderCertificate)}</tbody>
+        </table>
+        <div className={styles.ctaButtons}></div>
       </div>
     </div>
   );

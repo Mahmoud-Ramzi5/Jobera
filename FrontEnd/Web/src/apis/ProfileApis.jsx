@@ -76,7 +76,7 @@ export const AddCertificate= async (
       'http://127.0.0.1:8000/api/certificate', {
         'name': name,
         'organization': organization,
-        'releaseDate': releaseDate,
+        'release_date': releaseDate,
         'file': file,
     }, {
       headers: {

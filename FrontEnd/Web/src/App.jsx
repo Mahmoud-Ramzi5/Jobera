@@ -98,7 +98,7 @@ function App() {
             <Route element={<AnonymousRoutes />}>
               <Route path="/register" element={<Register />} />
               <Route path="/ed" element={<EducationForm />} />
-              <Route path="/cer" element={<CertificateForm />} />
+              <Route path="/certificates/create" element={<CertificateForm />} />
               <Route path="/cers" element={<Certificates />} />
               <Route path="/Test" element={<Register2 />} />
               <Route path='/progress' element={<Bar />} />
