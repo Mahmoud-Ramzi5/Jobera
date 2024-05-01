@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('companies', function (Blueprint $table) {
+        Schema::create('individuals', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            $table->string("field");
+            $table->string('full_name');
+            $table->dateTime('birth_date');
+            $table->enum('gender', ['male', 'female']);
+            $table->enum('type', ['admin', 'indvidual']);
             $table->text("description")->nullable();
             $table->string('avatar_photo')->nullable();
             $table->float('rating')->default(0.0)->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->timestamp('email_verified_at')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('companies');
+        Schema::dropIfExists('individuals');
     }
 };

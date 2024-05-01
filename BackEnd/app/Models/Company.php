@@ -55,4 +55,7 @@ class Company extends Authenticatable implements MustVerifyEmail
     public function state() {
         return $this->belongsTo(State::class, 'state_id', 'state_id');
     }
+    public function User(){
+        return $this->belongsTo(User::class);
+    }
 }
