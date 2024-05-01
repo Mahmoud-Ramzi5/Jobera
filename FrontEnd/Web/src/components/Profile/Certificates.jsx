@@ -38,21 +38,21 @@ const Certificates = () => {
         <td>
           <Link
             to={`/certificates/${certificate.id}`}
-            className={styles.btnPrimary}
+            className={styles.btn}
           >
-            <BsEye /> View file
+            <BsEye /> 
           </Link>
           <button
             onClick={() => handleEdit(certificate.id)}
             className={styles.btnWarning}
           >
-            <BsPencil /> Edit
+            <BsPencil /> 
           </button>
           <button
             onClick={() => handleDelete(certificate.id)}
-            className={styles.btnDanger}
+            className={ styles.btnDanger}
           >
-            <BsTrash /> Delete
+            <BsTrash /> 
           </button>
         </td>
       </tr>
@@ -80,7 +80,7 @@ const Certificates = () => {
               value={searchQuery}
               onChange={handleSearch}
             />
-            <button className={styles.searchButton}>Search</button>
+            <button className={styles.SearchButton}>Search</button>
             <Link to="/certificates/create" className={styles.btn + " " + styles.btnPrimary}>
               Create
             </Link>

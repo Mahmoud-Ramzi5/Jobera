@@ -24,15 +24,15 @@
 .SearchInput {
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
+  border-radius: 15px;
+  font-size: 32px;
   outline: none;
 }
 
 .SearchButton {
   padding: 10px 20px;
-  background-color: rgb(203, 210, 164);
-  color: var(--color-text-light);
+  background-color: var(--color-types);
+  color: white;
   border: none;
   border-radius: 4px;
   margin-left: 10px;
@@ -62,11 +62,25 @@
 .btn-primary {
   margin-left: 10px;
 }
-.btn-danger{
+.btnDanger{
   background-color: red;
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
 }
-.btn-warning{
-  background-color: yellow;
+.btnWarning{
+  background-color: rgb(25, 153, 23);
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 2px;
+  transition: background-color 0.3s ease;
 }
 
 
