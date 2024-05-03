@@ -20,7 +20,7 @@ const Certificates = () => {
         console.log(response.statusText);
       }
     });
-  });
+  }, []);
   const renderCertificate = (certificate) => {
     const handleEdit = () => {
       console.log(`Edit certificate with ID: ${certificate.id}`);
@@ -95,7 +95,7 @@ const Certificates = () => {
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>{certificates.map(renderCertificate)}</tbody>
+          <tbody>{filteredCertificates.map(renderCertificate)}</tbody>
         </table>
         <div className={styles.ctaButtons}></div>
       </div>
