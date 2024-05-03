@@ -28,7 +28,12 @@ const EducationForm = () => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    setEducationData({ ...educationData, certificate: file });
+    const allowedFileTypes = ["application/pdf"];
+    if (file && allowedFileTypes.includes(file.type)) {
+      setEducationData({ ...educationData, certificate: file });
+    } else {
+      console.log("Invalid file type. Please select a PDF or Word document.");
+    }
   };
 
   const handleSubmit = (event) => {
