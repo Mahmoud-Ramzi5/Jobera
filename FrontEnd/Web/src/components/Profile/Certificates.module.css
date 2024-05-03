@@ -83,17 +83,11 @@
   transition: background-color 0.3s ease;
 }
 
-
-nav {
-  position: relative;
-}
-
-
 .content {
   background-color: #fff;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-top: 20px;
+
 }
 
 .content h1 {
@@ -129,7 +123,6 @@ nav {
 .cta-buttons {
   display: flex;
   gap: 10px;
-  margin-top: 20px;
 }
 
 .btn {
