@@ -1,30 +1,28 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Fonts, PencilSquare, Link45deg, Files } from 'react-bootstrap-icons';
 import { FetchAllSkills, SearchSkills } from '../../apis/AuthApis.jsx';
 import { AddSkills } from '../../apis/ProfileApis.jsx';
-import Bar from '../test.jsx';
-import Logo from '../../assets/JoberaLogo.png';
-import styles from './editportfolio.module.css';
-import Inputstyles from '../../styles/Input.module.css';
 import NormalInput from '../NormalInput.jsx';
+import img_holder from '../../assets/upload.png';
+import styles from './portfolio.module.css';
+import Inputstyles from '../../styles/Input.module.css';
+
 
 const EditPortfolio = ({ edit, token, register, step }) => {
   const initialized = useRef(false);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [photo, setPhoto] = useState(null);
-  const [files, setFiles] = useState('');
   const [link, setLink] = useState('');
+  const [files, setFiles] = useState(null);
 
-  const [types, setTypes] = useState([]);
-  const [type, setType] = useState("");
   const [skills, setSkills] = useState([]);
-  const [skill, setSkill] = useState("");
   const [SkillIds, setSkillIds] = useState([]);
   const [checked, setChecked] = useState({});
   const [userSkills, setUserSkills] = useState([]);
   const [searchSkill, setSearchSkill] = useState("");
-  const [showSubmitButton, setShowSubmitButton] = useState(false);
+  const [skillCount, setSkillCount] = useState(5);
 
   useEffect(() => {
     if (!initialized.current) {
@@ -65,7 +63,7 @@ const EditPortfolio = ({ edit, token, register, step }) => {
       name: event.target.value,
     }
     ]);
-    setShowSubmitButton(true);
+    setSkillCount((prevState) => (prevState > 0 ? --prevState : prevState));
   };
 
   const RemoveSkill = (event, index) => {
@@ -73,9 +71,7 @@ const EditPortfolio = ({ edit, token, register, step }) => {
     setChecked((prevState) => ({ ...prevState, [index]: false }));
     setSkillIds((prevState) => prevState.filter((id) => id !== index));
     setUserSkills((prevState) => prevState.filter((skill) => skill.name !== event.target.value));
-    if (userSkills.length === 1) {
-      setShowSubmitButton(false);
-    }
+    setSkillCount((prevState) => (prevState >= 0 ? ++prevState : prevState));
   };
 
   const handleEdit = (event) => {
@@ -85,10 +81,10 @@ const EditPortfolio = ({ edit, token, register, step }) => {
     });
   };
 
-  const handlestep2 = (event) => {
+  const handleStep4 = (event) => {
     event.preventDefault();
-    register(SkillIds);
-    step('EDUCATION');
+    register([title, description, photo, link, files, SkillIds]);
+    step('DONE');
   };
 
   return (
@@ -96,17 +92,18 @@ const EditPortfolio = ({ edit, token, register, step }) => {
       <div className={styles.screen}>
         <div className={styles.screen_content}>
           <h2 className={styles.heading}>Add Portfolio item</h2>
-          <form className={styles.form} onSubmit={false}>
+          <form className={styles.form} onSubmit={edit ? handleEdit : handleStep4}>
             <div className={styles.row}>
               <div className={styles.column}>
                 <NormalInput
                   type='text'
                   placeholder='Title'
-                  icon={<></>}
+                  icon={<Fonts />}
                   value={title}
                   setChange={setTitle}
                 />
                 <div className={Inputstyles.field}>
+                  <i className={Inputstyles.icon}><PencilSquare /></i>
                   <textarea
                     placeholder='Description'
                     value={description}
@@ -118,7 +115,7 @@ const EditPortfolio = ({ edit, token, register, step }) => {
                 <NormalInput
                   type='text'
                   placeholder='Link'
-                  icon={<></>}
+                  icon={<Link45deg />}
                   value={link}
                   setChange={setLink}
                 />
@@ -127,9 +124,9 @@ const EditPortfolio = ({ edit, token, register, step }) => {
                 <div className={Inputstyles.field}>
                   <label htmlFor='photo' className={styles.img_holder}>
                     {photo ? (
-                      <img src={photo} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} />
+                      <img src={URL.createObjectURL(photo)} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} />
                     ) : (
-                      <img src='https://via.placeholder.com/300x300.png?text=UPLOAD' alt="Photo Placeholder" style={{ pointerEvents: 'none' }} />
+                      <img src={img_holder} alt="Photo Placeholder" style={{ pointerEvents: 'none' }} />
                     )}
                   </label>
                   <input
@@ -142,10 +139,11 @@ const EditPortfolio = ({ edit, token, register, step }) => {
                   />
                 </div>
                 <div className={Inputstyles.field}>
+                  <i className={Inputstyles.icon}><Files /></i>
                   <input
                     id='files'
                     type='file'
-                    placeholder='files'
+                    placeholder='Files'
                     accept='.pdf,.doc,.docx,.png,.jpg,.jpeg'
                     onChange={(event) => setFiles(event.target.files)}
                     multiple
@@ -154,9 +152,7 @@ const EditPortfolio = ({ edit, token, register, step }) => {
                 </div>
               </div>
             </div>
-            <div className={styles.heading}>
-              <span> Skills used: </span>
-            </div>
+            <h4 className={styles.heading}>Skills used:</h4>
             <div className={styles.row}>
               <div className={styles.column}>
                 <div className={styles.skills}>
@@ -167,31 +163,34 @@ const EditPortfolio = ({ edit, token, register, step }) => {
                     onChange={(event) => SearchSkill(event.target.value)}
                   />
                   <p></p>
-                  <select value={skill} multiple>
-                    {skills.length === 0 ? (<option
-                      key='0'
-                      value=''
-                      disabled={true}
-                    >
-                      Skill not found
-                    </option>
-                    ) : (skills.map((skill) => (
+                  <select multiple disabled={skillCount === 0}>
+                    {skills.length === 0 ? (
                       <option
-                        key={skill.id}
-                        value={skill.name}
-                        onClick={(event) => AddSkill(event, skill.id)}
-                        hidden={checked[skill.id]}
-                        disabled={checked[skill.id]}
+                        key='0'
+                        value=''
+                        disabled={true}
                       >
-                        {skill.name}
+                        Skill not found
                       </option>
-                    )))}
+                    ) : (
+                      skills.map((skill) => (
+                        <option
+                          key={skill.id}
+                          value={skill.name}
+                          onClick={(event) => AddSkill(event, skill.id)}
+                          hidden={checked[skill.id]}
+                          disabled={checked[skill.id] || skillCount === 0}
+                        >
+                          {skill.name}
+                        </option>
+                      ))
+                    )}
                   </select>
                 </div>
               </div>
               <div className={styles.column}>
                 <div className={styles.skills}>
-                  <span> Skills left: 5</span>
+                  <span> Skills left: {skillCount}</span>
                   {userSkills.length === 0 ? <></> :
                     <div className={styles.choosed_skills}>
                       {userSkills.map((skill) => (
@@ -199,9 +198,7 @@ const EditPortfolio = ({ edit, token, register, step }) => {
                           className={styles.choosed_skill}
                           key={skill.id}
                           value={skill.name}
-                          onClick={(event) => {
-                            RemoveSkill(event, skill.id);
-                          }}
+                          onClick={(event) => RemoveSkill(event, skill.id)}
                         >
                           {skill.name}
                         </button>
@@ -212,7 +209,7 @@ const EditPortfolio = ({ edit, token, register, step }) => {
               </div>
             </div>
             <div className={styles.submit_div}>
-              <button className={styles.submit_button}>Submit</button>
+              <button className={styles.submit_button} disabled={skillCount < 0}>Submit</button>
             </div>
           </form>
         </div>

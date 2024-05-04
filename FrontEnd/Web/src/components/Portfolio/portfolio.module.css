@@ -3,14 +3,14 @@
   text-align: center;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 160vh;
 }
 
 .screen {
   position: relative;
   height: 960px;
   width: 960px;   
-  border-radius: 8px;
+  border-radius: 10px;
   background-color: var(--color-scrollbar-track2);
   box-shadow: 0 4px 6px #bcb2d21a;
 }
@@ -61,12 +61,6 @@
   padding: 10px;
   align-items: center;
   justify-content: center;
-}
-
-.heading span {
-  font-size: 25px;
-  font-weight: 500;
-  color: var(--color-foreground);
 }
 
 .skills {
