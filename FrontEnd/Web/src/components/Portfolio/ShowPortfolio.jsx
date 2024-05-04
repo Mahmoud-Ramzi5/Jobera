@@ -9,83 +9,29 @@ import styles from './portfolio.module.css';
 import Inputstyles from '../../styles/Input.module.css';
 
 
-const ShowPortfolio = ({ edit, token, register, step }) => {
+const ShowPortfolio = () => {
   const initialized = useRef(false);
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [photo, setPhoto] = useState(null);
-  const [link, setLink] = useState('');
-  const [files, setFiles] = useState(null);
 
-  const [skills, setSkills] = useState([]);
-  const [SkillIds, setSkillIds] = useState([]);
-  const [checked, setChecked] = useState({});
-  const [userSkills, setUserSkills] = useState([]);
-  const [searchSkill, setSearchSkill] = useState("");
-  const [skillCount, setSkillCount] = useState(5);
+  var Data = {
+    title: "title",
+    description: "description",
+    photo: "",
+    link: "link",
+    files: [
+      {name: "IT"},
+      {name: "GG"},
+    ],
+    skills: [
+      "IT",
+    ]
+  }
 
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
-      FetchAllSkills().then((response) => {
-        if (response.status === 200) {
-          setSkills(response.data.skills);
-        } else {
-          console.log(response.statusText);
-        }
-      });
+
     }
   }, []);
-
-  const SearchSkill = (skill) => {
-    setSearchSkill(skill);
-    SearchSkills(skill).then((response) => {
-      if (response.status === 200) {
-        setSkills(response.data.skills);
-        response.data.skills.forEach((skill) => {
-          if (!checked[skill.id]) {
-            setChecked((prevState) => ({ ...prevState, [skill.id]: false }));
-          }
-        });
-      } else {
-        console.log(response.statusText);
-      }
-    });
-  }
-
-  const AddSkill = (event, index) => {
-    event.persist();
-    setChecked((prevState) => ({ ...prevState, [index]: true }));
-    setSkillIds((prevState) => [...prevState, index]);
-    setUserSkills((prevState) => [...prevState,
-    {
-      id: index,
-      name: event.target.value,
-    }
-    ]);
-    setSkillCount((prevState) => (prevState > 0 ? --prevState : prevState));
-  };
-
-  const RemoveSkill = (event, index) => {
-    event.persist();
-    setChecked((prevState) => ({ ...prevState, [index]: false }));
-    setSkillIds((prevState) => prevState.filter((id) => id !== index));
-    setUserSkills((prevState) => prevState.filter((skill) => skill.name !== event.target.value));
-    setSkillCount((prevState) => (prevState >= 0 ? ++prevState : prevState));
-  };
-
-  const handleEdit = (event) => {
-    event.preventDefault();
-    AddSkills(token, SkillIds).then((response) => {
-      console.log(response);
-    });
-  };
-
-  const handleStep4 = (event) => {
-    event.preventDefault();
-    register([title, description, photo, link, files, SkillIds]);
-    step('DONE');
-  };
 
   return (
     <div className={styles.container}>
@@ -99,53 +45,57 @@ const ShowPortfolio = ({ edit, token, register, step }) => {
             <div className={styles.column}>
               <div className={styles.data_field}>
                 <div className={styles.data}>
-                  <h5>title</h5>
+                  <h5>{Data.title}</h5>
                 </div>
                 <div className={styles.data}>
-                  <p>description</p>
+                  <p>{Data.description}</p>
                 </div>
                 <div className={styles.data}>
-                  <h6>link</h6>
+                  <h6>{Data.link}</h6>
+                </div>
+                <h4 className={styles.heading}>Skills used:</h4>
+                <div className={styles.data}>
+                  {Data.skills.map((skill) => (
+                    <div className={styles.used_skills}>
+                      <div className={styles.used_skill}>{skill}</div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
             <div className={styles.column}>
               <div className={styles.data_field}>
                 <div className={styles.img_holder}>
-                  {photo ? (
-                    <img src={URL.createObjectURL(photo)} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} />
+                  {Data.photo ? (
+                    <img src={URL.createObjectURL(Data.photo)} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} />
                   ) : (
                     <img src={img_holder} alt="Photo Placeholder" style={{ pointerEvents: 'none' }} />
                   )}
                 </div>
               </div>
               <div className={Inputstyles.field}>
-                <i className={Inputstyles.icon}><Files /></i>
-                <input
-                  id='files'
-                  type='file'
-                  placeholder='Files'
-                  accept='.pdf,.doc,.docx,.png,.jpg,.jpeg'
-                  onChange={(event) => setFiles(event.target.files)}
-                  multiple
-                  className={Inputstyles.input}
-                />
+              {Data.files.map((file) => (
+                    <div className={styles.files}>
+                      <div className={styles.file}>{file.name}</div>
+                    </div>
+                  ))}
               </div>
             </div>
           </div>
-          <h4 className={styles.heading}>Skills used:</h4>
+
           <div className={styles.row}>
             <div className={styles.column}>
               <div className={styles.skills}>
-                
+
               </div>
             </div>
             <div className={styles.column}>
               <div className={styles.skills}>
-                
+
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
