@@ -164,3 +164,29 @@
   border-color: var(--color-typeschecked);
   outline: none;
 }
+
+.data_field {
+  padding-top: 40px;
+  padding-bottom: 10px;
+  width: 100%;    
+  position: relative;   
+}
+
+.data {
+  border: none;
+  border-bottom: 2px solid #A5A5A8;
+  background: none;
+  color: var(--color-foreground);
+  padding-left: 10px;
+  padding-bottom: 5px;
+  margin-left: 20px;
+  margin-bottom: 40px;
+  width: 80%;
+  font-weight: 600;
+  text-align: left;
+  transition: .2s;
+}
+
+.data p {
+  height: 200px;
+}
