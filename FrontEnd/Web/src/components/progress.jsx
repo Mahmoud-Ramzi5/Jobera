@@ -1,21 +1,21 @@
 import React from "react";
-import { useState } from "react";
-import './progress.css';
-const Progress = ({ steps }) => {
-  const [currentStep, setCurrentStep] = useState(0);
+import { useState, useEffect, useRef} from "react";
+import styles from './progress.module.css';
+const Progress = ({ steps ,currentStep}) => {
+  const initialized = useRef(false);
 
-  const handleClick = (stepIndex) => {
-    setCurrentStep(stepIndex);
-  };
-
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+    }
+  }, []);
   return (
-    <div className="progress-bar">
-      <div className="progress-steps-container">
+    <div className={styles.progressbar}>
+      <div className={styles.progressstepscontainer}>
         {steps.map((step, index) => (
           <div
             key={index}
-            className={`progress-step ${index === currentStep ? "active" : ""}`}
-            onClick={() => handleClick(index)}
+            className={`${styles.progressstep} ${step === currentStep ? styles.active : ""}`}
           >
             {step}
           </div>

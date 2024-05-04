@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { ShowCertificates } from "../../apis/ProfileApis";
 import { BsTrash, BsPencil, BsEye } from "react-icons/bs"; // Import the Bootstrap icons
 
-const Certificates = () => {
+const Certificates = ({edit,token,step}) => {
   const navigate = useNavigate();
   const [certificates, setCertificates] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -21,6 +21,14 @@ const Certificates = () => {
       }
     });
   }, []);
+  const handleStep4=(event)=>{
+    event.preventDefault();
+    step('PORTFOLIO');
+  }
+  const handleEditing=(event)=>{
+    event.preventDefault();
+    navigate("/profile");
+  }
   const renderCertificate = (certificate) => {
     const handleEdit = () => {
       console.log(`Edit certificate with ID: ${certificate.id}`);
@@ -84,6 +92,11 @@ const Certificates = () => {
             <Link to="/certificates/create" className={styles.btn + " " + styles.btnPrimary}>
               Create
             </Link>
+            <form className={styles.submit_div} onSubmit={edit ? handleEditing : handleStep4}>
+            <div>
+              <button className={styles.submit_button}>Submit</button>
+            </div>
+          </form>
           </div>
         </div>
         <table className={styles.certificatesTable}>
