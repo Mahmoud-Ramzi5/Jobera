@@ -2,8 +2,7 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FetchSkillTypes, FetchSkills, SearchSkills } from '../apis/AuthApis.jsx';
 import { AddSkills } from '../apis/ProfileApis.jsx';
-import Bar from './test.jsx';
-import Logo from '../assets/JoberaLogo.png';
+import Bar from './Bar.jsx';
 import styles from '../styles/editskills.module.css';
 
 const EditSkills = ({ edit, token, register, step }) => {
@@ -107,9 +106,9 @@ const EditSkills = ({ edit, token, register, step }) => {
     <div className={styles.screen}>
       <div className={styles.header}>
         <div className={styles.container}>
-          <div className={styles.logo_holder}>
+          {/*<div className={styles.logo_holder}>
             <img src={Logo} className={styles.logo} alt="logo" />
-          </div>
+          </div>*/}
           <div className={styles.search} >
             <input
               className={styles.search_input}
@@ -121,7 +120,7 @@ const EditSkills = ({ edit, token, register, step }) => {
           </div>
         </div>
         <div className={styles.Bar}>
-          {edit ? <></> : <Bar />}
+          <></>
         </div>
         {showSubmitButton && (
           <form className={styles.submit_div} onSubmit={edit ? handleEdit : handlestep2}>

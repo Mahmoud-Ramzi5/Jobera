@@ -15,7 +15,7 @@ import Profile from './pages/Profile.jsx';
 import ResetPassword from './pages/ResetPassword.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
 import EmailVerificationMessage from './pages/EmailVerification.jsx';
-import Bar from './components/test.jsx';
+import Bar from './components/Bar.jsx';
 import EducationForm from './components/Profile/Education.jsx';
 import CertificateForm from './components/Profile/Certificate.jsx';
 import Certificates from './components/Profile/Certificates.jsx';

@@ -1,4 +1,4 @@
-.progress-bar {
+.progressbar {
   display: flex;
   align-items: center;
   background-color: #f0f0f0;
@@ -6,13 +6,13 @@
   padding: 6px;
 }
 
-.progress-steps-container {
+.progressstepscontainer {
   display: flex;
   flex-direction: row-reverse; /* Change flex direction to reverse */
   flex: 1;
 }
 
-.progress-step {
+.progressstep {
   flex: 1;
   text-align: center;
   padding: 10px;
@@ -24,7 +24,7 @@
   position: relative;
 }
 
-.progress-step:not(:first-child):before {
+.progressstep:not(:first-child):before {
   content: "";
   position: absolute;
   top: 50%;
@@ -37,7 +37,7 @@
   border-left: 10px solid #ccc; /* Change border to point to the left */
 }
 
-.progress-step:not(:last-child):after {
+.progressstep:not(:last-child):after {
   content: "";
   position: absolute;
   top: 50%;
@@ -51,25 +51,24 @@
   display: none; /* Hide the arrow initially */
 }
 
-
-.progress-step:first-child:before {
+.progressstep:first-child:before {
   display: none;
 }
 
-.progress-step:last-child:after {
+.progressstep:last-child:after {
   display: none;
 }
 
-.progress-step.active {
+.progressstep.active {
   background-color: #007bff;
   color: #fff;
 }
 
-.progress-step.active:before {
-  border-left-color: #007bff; /* Adjust border color */
+.progressstep.active:before {
+  border-left-color: #007bff;/* Adjust border color */
 }
 
-.progress-step.active:after {
+.progressstep.active:after {
   display: block; /* Show the arrow for the active step */
   border-right-color: #007bff; /* Adjust border color */
 }
