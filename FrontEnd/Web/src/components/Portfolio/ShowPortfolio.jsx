@@ -1,9 +1,5 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Fonts, PencilSquare, Link45deg, Files } from 'react-bootstrap-icons';
-import { FetchAllSkills, SearchSkills } from '../../apis/AuthApis.jsx';
-import { AddSkills } from '../../apis/ProfileApis.jsx';
-import NormalInput from '../NormalInput.jsx';
 import img_holder from '../../assets/upload.png';
 import styles from './portfolio.module.css';
 import Inputstyles from '../../styles/Input.module.css';
@@ -18,8 +14,8 @@ const ShowPortfolio = () => {
     photo: "",
     link: "link",
     files: [
-      {name: "IT"},
-      {name: "GG"},
+      { name: "IT" },
+      { name: "GG" },
     ],
     skills: [
       "IT",
@@ -73,29 +69,19 @@ const ShowPortfolio = () => {
                   )}
                 </div>
               </div>
+              <h4 className={styles.heading}>Files:</h4>
               <div className={Inputstyles.field}>
-              {Data.files.map((file) => (
-                    <div className={styles.files}>
-                      <div className={styles.file}>{file.name}</div>
+                {Data.files.map((file) => (
+                  <div className={styles.files}>
+                    <div className={styles.file}>
+                      <span>{file.name}</span>
+                      <button>Browse</button>
                     </div>
-                  ))}
+                  </div>
+                ))}
               </div>
             </div>
           </div>
-
-          <div className={styles.row}>
-            <div className={styles.column}>
-              <div className={styles.skills}>
-
-              </div>
-            </div>
-            <div className={styles.column}>
-              <div className={styles.skills}>
-
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
