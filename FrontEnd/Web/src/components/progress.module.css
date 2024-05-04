@@ -51,6 +51,7 @@
   display: none; /* Hide the arrow initially */
 }
 
+
 .progressstep:first-child:before {
   display: none;
 }

@@ -4,6 +4,7 @@ import { LoginContext } from "../App.jsx";
 import EditSkills from "../components/EditSkills.jsx";
 import EducationForm from "../components/Profile/Education.jsx";
 import Certificates from "../components/Profile/Certificates.jsx";
+import Bar from "../components/Bar.jsx";
 
 const Register2 = () => {
   // Context
@@ -12,12 +13,13 @@ const Register2 = () => {
   // Define states
   const initialized = useRef(false);
   const [step, setStep] = useState("SKILLS");
+  const [stepIndex, setStepIndex] = useState(0);
   const [skills, setSkills] = useState([]);
   const [education, setEducation] = useState({});
 
-  console.log(step);
+
   return (
-    <>
+    <><Bar step={step}/>
       {(() => {
         switch (step) {
           case "SKILLS":
@@ -40,6 +42,7 @@ const Register2 = () => {
             );
 
           case "CERTIFICATES":
+
             return (
               <Certificates edit={false} token={accessToken} step={setStep} />
             );
