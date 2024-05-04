@@ -19,6 +19,7 @@ import Bar from './components/Bar.jsx';
 import EducationForm from './components/Profile/Education.jsx';
 import CertificateForm from './components/Profile/Certificate.jsx';
 import Certificates from './components/Profile/Certificates.jsx';
+import FileDisplay from './components/FileDisplay.jsx';
 
 
 export const ThemeContext = createContext({});
@@ -107,6 +108,7 @@ function App() {
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/ForgetPassword" element={<ForgotPassword />} />
               <Route path="/emailVerify" element={<EmailVerificationMessage />} />
+              <Route path='/file' element={< FileDisplay/>}/>
             </Route>
           </Routes>
         </BrowserRouter>
