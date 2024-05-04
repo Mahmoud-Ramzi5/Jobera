@@ -1,0 +1,14 @@
+.wholescreen{
+    position: relative;
+}
+
+.Bar{
+    top:70px;
+    position: relative;
+    width:34%;
+    z-index: 1;
+    margin-left: 33%;
+}
+.steps{
+
+}

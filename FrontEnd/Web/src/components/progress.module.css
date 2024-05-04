@@ -1,7 +1,7 @@
 .progressbar {
   display: flex;
   align-items: center;
-  background-color: #f0f0f0;
+  background-color:var(background-color);
   border-radius: 6px;
   padding: 6px;
 }
@@ -19,7 +19,7 @@
   background-color: #ccc;
   color: #555;
   font-weight: bold;
-  cursor: pointer;
+  cursor:default;
   transition: background-color 0.3s ease;
   position: relative;
 }

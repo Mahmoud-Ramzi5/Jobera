@@ -19,6 +19,7 @@ html, body {
 
 .theme-light {
   --color-types:#393939;
+  --color-available:#252a2f;
   --color-typeschecked:#676767;
   --color-title:#3E6FA9;
   --color-titles:#fdf8f8;
@@ -37,6 +38,7 @@ html, body {
 
 .theme-dark {
   --color-types:#d5d5d5;
+  --color-available:#efefef;
   --color-typeschecked:#7e7e7e;
   --color-title:#0e4a94;
   --color-titles:#292929;
