@@ -169,7 +169,8 @@
   padding-top: 40px;
   padding-bottom: 10px;
   width: 100%;    
-  position: relative;   
+  position: relative;
+  justify-content: space-around;   
 }
 
 .data {
@@ -181,7 +182,7 @@
   padding-bottom: 5px;
   margin-left: 20px;
   margin-bottom: 40px;
-  width: 80%;
+  width: 90%;
   font-weight: 600;
   text-align: left;
   transition: .2s;
@@ -189,4 +190,29 @@
 
 .data p {
   height: 200px;
+}
+
+.used_skills {
+  width: 100%; 
+  position: relative;
+  display: flex;
+  align-self: center;
+  justify-content: center;
+}
+
+.used_skill {
+  font-size: 15px;
+  padding: 5px 10px;
+  border: 1px;
+  border-radius: 10px;
+  border-style: dashed;
+  border-color: #302f2f;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  margin: 5px 1px;
+  color: #295283;
+  transition: .2s;
 }
