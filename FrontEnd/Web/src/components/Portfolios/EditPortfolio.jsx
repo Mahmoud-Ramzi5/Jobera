@@ -15,7 +15,7 @@ const EditPortfolio = ({ edit, token, register, step }) => {
   const [description, setDescription] = useState('');
   const [photo, setPhoto] = useState(null);
   const [link, setLink] = useState('');
-  const [files, setFiles] = useState(null);
+  const [files, setFiles] = useState([]);
 
   const [skills, setSkills] = useState([]);
   const [SkillIds, setSkillIds] = useState([]);
@@ -145,10 +145,26 @@ const EditPortfolio = ({ edit, token, register, step }) => {
                     type='file'
                     placeholder='Files'
                     accept='.pdf,.doc,.docx,.png,.jpg,.jpeg'
-                    onChange={(event) => setFiles(event.target.files)}
+                    onChange={(event) => {
+                      if (event.target.files.length <= 5) {
+                        setFiles(event.target.files);
+                      }
+                      else {
+                        for (let i = 0; i < 5; i++) {
+                          setFiles((prevState) => [...prevState, event.target.files[i]]);
+                        }
+                        event.preventDefault();
+                      }
+                    }}
                     multiple
                     className={Inputstyles.input}
                   />
+                  <p>
+                    Up to 5 files.
+                    <span style={{ fontSize: '10px', marginLeft: '10px' }}>
+                      If more is uploaded, only the first 5 files will be uploaded.
+                    </span>
+                  </p>
                 </div>
               </div>
             </div>

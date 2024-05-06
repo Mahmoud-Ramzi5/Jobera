@@ -1,0 +1,23 @@
+.container {
+  position: relative;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+}
+
+.Bar {
+  top: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.steps {
+  
+}
+
+@media screen and (max-width: 970px) {
+  .container {
+    min-width: 970px;
+  }
+}

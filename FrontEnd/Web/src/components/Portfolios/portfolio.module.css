@@ -216,3 +216,35 @@
   color: #295283;
   transition: .2s;
 }
+
+.files {
+  width: 100%; 
+  padding-top: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.file {
+  font-size: 15px;
+  padding: 5px 10px;
+  border-left: 1px dashed;
+  border-bottom: 1px dashed;
+  border-color: #302f2f;
+  font-weight: 600;
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin: 5px 1px;
+  color: #295283;
+  transition: .2s;
+}
+
+.file button {
+  border: dotted;
+  border-width: 1px;
+  border-radius: 10px;
+  border-color:#302f2f;
+  padding: 5px 10px;
+}

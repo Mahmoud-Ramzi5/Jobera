@@ -2,7 +2,6 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FetchSkillTypes, FetchSkills, SearchSkills } from '../apis/AuthApis.jsx';
 import { AddSkills } from '../apis/ProfileApis.jsx';
-import Bar from './Bar.jsx';
 import styles from '../styles/editskills.module.css';
 
 const EditSkills = ({ edit, token, register, step }) => {
@@ -10,6 +9,7 @@ const EditSkills = ({ edit, token, register, step }) => {
   const [types, setTypes] = useState([]);
   const [type, setType] = useState("");
   const [skills, setSkills] = useState([]);
+  const [skillCount, setSkillCount] = useState(25);
   const [SkillIds, setSkillIds] = useState([]);
   const [checked, setChecked] = useState({});
   const [userSkills, setUserSkills] = useState([]);
@@ -104,23 +104,20 @@ const EditSkills = ({ edit, token, register, step }) => {
 
   return (
     <div className={styles.screen}>
-      <div className={styles.header}>
-        <div className={styles.container}>
-          {/*<div className={styles.logo_holder}>
+      <div className={styles.container}>
+        {/*<div className={styles.logo_holder}>
             <img src={Logo} className={styles.logo} alt="logo" />
           </div>*/}
-          <div className={styles.search} >
-            <input
-              className={styles.search_input}
-              type="text"
-              placeholder="Enter skill name to search"
-              value={searchSkill}
-              onChange={handleSearch}
-            />
-          </div>
+        <div className={styles.search} >
+          <input
+            className={styles.search_input}
+            type="text"
+            placeholder="Enter skill name to search"
+            value={searchSkill}
+            onChange={handleSearch}
+          />
         </div>
         <div className={styles.Bar}>
-          <></>
         </div>
         {showSubmitButton && (
           <form className={styles.submit_div} onSubmit={edit ? handleEdit : handlestep2}>
@@ -133,26 +130,59 @@ const EditSkills = ({ edit, token, register, step }) => {
       <div className={styles.body}>
         <div className={styles.title}>
           Skill Types:
-          <div className={styles.scroll_types}>
+          <select multiple className={styles.scroll_types}>
             {types.length === 0 ? (
-              <h1>No skill types available.</h1>
+              <option
+                key='0'
+                value=''
+                disabled={true}
+              >
+                Loading types
+              </option>
             ) : (
               types.map((type) => (
-                <button
+                <option
                   className={styles.available_types}
                   key={type.id}
                   value={type.name['en']}
                   onClick={handleTypeSelect}
                 >
                   {type.name['en']}
-                </button>
+                </option>
               ))
             )}
-          </div>
+          </select>
         </div>
         {(type || searchSkill) && (
           <>
             <div className={styles.title}>
+              Available Skills:
+              <select multiple disabled={skillCount === 0} className={styles.scroll_types}>
+                {skills.length === 0 ? (
+                  <option
+                    key='0'
+                    value=''
+                    disabled={true}
+                  >
+                    Skill not found
+                  </option>
+                ) : (
+                  skills.map((skill) => (
+                    <option
+                      key={skill.id}
+                      value={skill.name}
+                      onClick={(event) => AddSkill(event, skill.id)}
+                      hidden={checked[skill.id]}
+                      disabled={checked[skill.id] || skillCount === 0}
+                      className={styles.available_skills}
+                    >
+                      {skill.name}
+                    </option>
+                  ))
+                )}
+              </select>
+            </div>
+            {/*<div className={styles.title}>
               Available Skills:
               <div className={styles.scroll}>
                 {skills.map((skill) => (
@@ -169,7 +199,7 @@ const EditSkills = ({ edit, token, register, step }) => {
                   </button>
                 ))}
               </div>
-            </div>
+            </div>*/}
             {userSkills.length > 0 && (
               <div className={styles.title}>
                 Chosen Skills:

@@ -15,10 +15,7 @@ import Profile from './pages/Profile.jsx';
 import ResetPassword from './pages/ResetPassword.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
 import EmailVerificationMessage from './pages/EmailVerification.jsx';
-import Bar from './components/Bar.jsx';
-import EducationForm from './components/Profile/Education.jsx';
-import CertificateForm from './components/Profile/Certificate.jsx';
-import Certificates from './components/Profile/Certificates.jsx';
+
 import FileDisplay from './components/FileDisplay.jsx';
 
 
@@ -90,6 +87,7 @@ function App() {
             <Route element={<Layout />}>
               <Route path="/" element={<Index />} />
               <Route element={<PrivateRoutes />}>
+                <Route path="/complete-register" element={<Register2 />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/dashboard" element={<></>} />
                 <Route path="/logout" element={<Logout />} />
@@ -98,17 +96,12 @@ function App() {
 
             <Route element={<AnonymousRoutes />}>
               <Route path="/register" element={<Register />} />
-              <Route path="/ed" element={<EducationForm />} />
-              <Route path="/certificates/create" element={<CertificateForm />} />
-              <Route path="/cers" element={<Certificates />} />
-              <Route path="/Test" element={<Register2 />} />
-              <Route path='/progress' element={<Bar />} />
               <Route path="/login" element={<Login />} />
               <Route path="/auth/:provider/call-back" element={<CallBack />} />
               <Route path="/reset-password" element={<ResetPassword />} />
               <Route path="/ForgetPassword" element={<ForgotPassword />} />
               <Route path="/emailVerify" element={<EmailVerificationMessage />} />
-              <Route path='/file' element={< FileDisplay/>}/>
+              <Route path='/file' element={< FileDisplay />} />
             </Route>
           </Routes>
         </BrowserRouter>
