@@ -17,6 +17,7 @@ import ForgotPassword from './pages/ForgotPassword.jsx';
 import EmailVerificationMessage from './pages/EmailVerification.jsx';
 
 import FileDisplay from './components/FileDisplay.jsx';
+import CertificateForm from './components/Certificates/Certificate.jsx';
 
 
 export const ThemeContext = createContext({});
@@ -88,6 +89,7 @@ function App() {
               <Route path="/" element={<Index />} />
               <Route element={<PrivateRoutes />}>
                 <Route path="/complete-register" element={<Register2 />} />
+                <Route path="/certificates/create" element={<CertificateForm/>}/>
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/dashboard" element={<></>} />
                 <Route path="/logout" element={<Logout />} />
