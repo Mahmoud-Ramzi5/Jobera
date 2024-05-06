@@ -6,5 +6,5 @@ class Countries {
 
   Countries.fromJson(Map<String, dynamic> json)
       : countryId = json['id'] as int,
-        countryName = json['countryName'] as String;
+        countryName = json['country_name'] as String;
 }

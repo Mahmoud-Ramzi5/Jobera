@@ -13,7 +13,7 @@ class CodePicker extends StatelessWidget {
       dialogTextStyle: Theme.of(context).textTheme.labelLarge,
       searchStyle: Theme.of(context).textTheme.labelLarge,
       dialogSize: const Size(400, 300),
-      hideSearch: true,
+      hideSearch: false,
       textStyle: Theme.of(context).textTheme.labelLarge,
       initialSelection: '+963',
       onChanged: onChange,
