@@ -35,7 +35,7 @@ class CompanyRegisterView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                 child: CustomTextField(
-                  controller: _companyRegisterController.nameController,
+                  controller: _companyRegisterController.workFieldController,
                   textInputType: TextInputType.name,
                   obsecureText: false,
                   labelText: 'Field of Work',
@@ -149,7 +149,24 @@ class CompanyRegisterView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
                       child: ElevatedButton(
-                        onPressed: () async {},
+                        onPressed: () async {
+                          if (_companyRegisterController.formField.currentState
+                                  ?.validate() ==
+                              true) {
+                            _companyRegisterController.companyRegister(
+                              _companyRegisterController.nameController.text,
+                              _companyRegisterController
+                                  .workFieldController.text,
+                              _companyRegisterController.emailController.text,
+                              _companyRegisterController
+                                  .passwordController.text,
+                              _companyRegisterController
+                                  .confirmPasswordController.text,
+                              _companyRegisterController.selectedState!.stateId,
+                              '${_companyRegisterController.countryCode.dialCode}${_companyRegisterController.phoneNumberController.text}',
+                            );
+                          }
+                        },
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [

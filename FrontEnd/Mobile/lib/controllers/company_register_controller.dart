@@ -2,9 +2,12 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/classes/texts.dart';
+import 'package:jobera/main.dart';
 import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
+import 'package:jobera/views/home_view.dart';
 
 class CompanyRegisterController extends GetxController {
   late GlobalKey<FormState> formField;
@@ -149,6 +152,53 @@ class CompanyRegisterController extends GetxController {
             BodyText(text: e.response!.data["errors"].toString()),
           ],
         ),
+      );
+    }
+  }
+
+  Future<dynamic> companyRegister(
+    String name,
+    String workField,
+    String email,
+    String password,
+    String confirmPassword,
+    int state,
+    String phoneNumber,
+  ) async {
+    try {
+      var response = await dio.post('http://10.0.2.2:8000/api/register',
+          data: {
+            "full_name": name,
+            "email": email,
+            "password": password,
+            "confirm_password": confirmPassword,
+            "state_id": state,
+            "phone_number": phoneNumber,
+            "type": "company",
+          },
+          options: Options(
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Accept': 'application/json',
+            },
+          ));
+      if (response.statusCode == 201) {
+        sharedPreferences?.setString(
+          "access_token",
+          response.data["access_token"].toString(),
+        );
+        await Dialogs().showSuccessDialog('Register Successful', '');
+        Future.delayed(
+          const Duration(seconds: 1),
+          () {
+            Get.offAll(() => HomeView());
+          },
+        );
+      }
+    } on DioException catch (e) {
+      await Dialogs().showErrorDialog(
+        'Register Failed',
+        e.response!.data["errors"].toString(),
       );
     }
   }

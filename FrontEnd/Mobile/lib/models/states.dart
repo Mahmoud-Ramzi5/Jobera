@@ -6,5 +6,5 @@ class States {
 
   States.fromJson(Map<String, dynamic> json)
       : stateId = json['id'] as int,
-        stateName = json['stateName'] as String;
+        stateName = json['state_name'] as String;
 }
