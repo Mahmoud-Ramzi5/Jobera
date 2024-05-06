@@ -26,7 +26,10 @@ const SkillsCard = ({ ProfileData }) => {
             <button
               type="button"
               className={styles.pen_button}
-              onClick={() => navigate('/edit-skills')}>
+              onClick={() => navigate('/edit-skills', {
+                edit: true,
+              }
+              )}>
               <i className={styles.pen}><PenFill /></i>
             </button>
           </div>

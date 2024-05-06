@@ -1,11 +1,26 @@
-.educationFormContainer {
-  max-width: 500px;
-  margin: 0 auto;
-  margin-top: 60px;
-  padding: 30px;
-  border-radius: 8px;
+.container {
+  top: 150px;
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 150px;
+}
+
+.screen {
+  position: relative;
+  height: 720px;
+  width: 600px;   
+  border-radius: 10px;
   background-color: var(--color-scrollbar-track2);
-  box-shadow: 0 4px 6px rgba(188, 178, 210, 0.1);
+  box-shadow: 0 4px 6px #bcb2d21a;
+}
+
+.screen_content {
+  z-index: 1;
+  position: relative;
+  padding: 15px 30px; 
+  height: 100%;
 }
 
 .heading {
@@ -109,11 +124,6 @@
 
 /* Responsive adjustments */
 @media screen and (max-width: 768px) {
-  .educationFormContainer {
-    max-width: 90%;
-    padding: 20px;
-  }
-
   .heading {
     font-size: 1.5rem;
     margin-bottom: 20px;
