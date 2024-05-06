@@ -44,8 +44,8 @@ const Profile = () => {
         {!isRegistered ? (<>
           <div className={styles.rightSide}><SetUpCard /></div>
         </>) : (<></>)}
-        <div className={styles.rightSide}><CertificationsCard /></div>
-        <div className={styles.rightSide}><SkillsCard /></div>
+        <div className={styles.rightSide}><CertificationsCard ProfileData={profile} /></div>
+        <div className={styles.rightSide}><SkillsCard ProfileData={profile} /></div>
       </div>
     </div>
   );

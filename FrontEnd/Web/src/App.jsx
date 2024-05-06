@@ -12,11 +12,13 @@ import Login from './pages/Login.jsx';
 import Logout from './pages/Logout.jsx';
 import CallBack from './components/CallBack.jsx';
 import Profile from './pages/Profile.jsx';
+import EditSkills from './components/EditSkills.jsx';
 import ResetPassword from './pages/ResetPassword.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
 import EmailVerificationMessage from './pages/EmailVerification.jsx';
 
 import FileDisplay from './components/FileDisplay.jsx';
+
 
 
 export const ThemeContext = createContext({});
@@ -89,6 +91,7 @@ function App() {
               <Route element={<PrivateRoutes />}>
                 <Route path="/complete-register" element={<Register2 />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/edit-skills" element={<EditSkills />} />
                 <Route path="/dashboard" element={<></>} />
                 <Route path="/logout" element={<Logout />} />
               </Route>
