@@ -96,7 +96,7 @@ const EditSkills = ({ edit, token, register, step }) => {
     });
   };
 
-  const handlestep2 = (event) => {
+  const handleStep1 = (event) => {
     event.preventDefault();
     register(SkillIds);
     step('EDUCATION');
@@ -105,9 +105,6 @@ const EditSkills = ({ edit, token, register, step }) => {
   return (
     <div className={styles.screen}>
       <div className={styles.container}>
-        {/*<div className={styles.logo_holder}>
-            <img src={Logo} className={styles.logo} alt="logo" />
-          </div>*/}
         <div className={styles.search} >
           <input
             className={styles.search_input}
@@ -117,10 +114,8 @@ const EditSkills = ({ edit, token, register, step }) => {
             onChange={handleSearch}
           />
         </div>
-        <div className={styles.Bar}>
-        </div>
         {showSubmitButton && (
-          <form className={styles.submit_div} onSubmit={edit ? handleEdit : handlestep2}>
+          <form className={styles.submit_div} onSubmit={edit ? handleEdit : handleStep1}>
             <div>
               <button className={styles.submit_button}>Submit</button>
             </div>

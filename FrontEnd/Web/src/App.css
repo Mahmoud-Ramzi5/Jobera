@@ -25,6 +25,7 @@ html, body {
   --color-titles:#fdf8f8;
   --color-rating:#000000;
   --color-button: #000000;
+  --color-addbutton:#5694e0;
   --color-foreground: #3E6FA9;
   --color-background: #fafafa;
   --color-backgroundV2:#1f2023;
@@ -44,6 +45,7 @@ html, body {
   --color-titles:#292929;
   --color-rating:#0e4a94;
   --color-button: #fafafa;
+  --color-addbutton:#005ed1;
   --color-foreground: #efefef;
   --color-background: #1f2023;
   --color-backgroundV2:#fafafa;

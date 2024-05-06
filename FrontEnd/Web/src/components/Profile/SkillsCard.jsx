@@ -7,7 +7,7 @@ import SlicingArrayInput from './SlicingArrayInput';
 import styles from './cards.module.css';
 
 
-const SkillsCard = () => {
+const SkillsCard = ({ ProfileData }) => {
   // Context    
   const { theme } = useContext(ThemeContext);
   // Define states
@@ -26,7 +26,10 @@ const SkillsCard = () => {
             <button
               type="button"
               className={styles.pen_button}
-              onClick={() => navigate('/EditSkills')}>
+              onClick={() => navigate('/edit-skills', {
+                edit: true,
+              }
+              )}>
               <i className={styles.pen}><PenFill /></i>
             </button>
           </div>

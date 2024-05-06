@@ -23,7 +23,7 @@ const Register2 = () => {
       <div className={styles.Bar}>
         <ProgressBar step={step} />
       </div>
-      <div className={styles.steps}>
+      <div>
         {(() => {
           switch (step) {
             case "SKILLS":

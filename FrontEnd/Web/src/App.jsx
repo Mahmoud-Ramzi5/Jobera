@@ -12,13 +12,16 @@ import Login from './pages/Login.jsx';
 import Logout from './pages/Logout.jsx';
 import CallBack from './components/CallBack.jsx';
 import Profile from './pages/Profile.jsx';
+import EditSkills from './components/EditSkills.jsx';
+import EditPortfolio from './components/Portfolios/EditPortfolio.jsx';
 import ResetPassword from './pages/ResetPassword.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
 import EmailVerificationMessage from './pages/EmailVerification.jsx';
 
 import FileDisplay from './components/FileDisplay.jsx';
 import CertificateForm from './components/Certificates/Certificate.jsx';
-import PDFViewer from './components/PdfViewer.jsx';
+import Portfolios from './components/Portfolios/Portfolios.jsx';
+
 
 
 export const ThemeContext = createContext({});
@@ -92,8 +95,11 @@ function App() {
                 <Route path="/complete-register" element={<Register2 />} />
                 <Route path="/certificates/create" element={<CertificateForm/>}/>
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/edit-skills" element={<EditSkills />} />
+                <Route path="/edit-portfolio" element={<EditPortfolio />} />
                 <Route path="/dashboard" element={<></>} />
                 <Route path="/logout" element={<Logout />} />
+                <Route path="/Test" element={<Portfolios/>}/>
               </Route>
             </Route>
 
