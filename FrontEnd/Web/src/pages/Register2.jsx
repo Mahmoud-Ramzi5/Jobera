@@ -5,6 +5,7 @@ import ProgressBar from "../components/Register/ProgressBar.jsx";
 import EditSkills from "../components/EditSkills.jsx";
 import EducationForm from "../components/Profile/Education.jsx";
 import Certificates from "../components/Certificates/Certificates.jsx";
+import Portfolios from "../components/Portfolios/Portfolios.jsx";
 import styles from "../styles/register2.module.css"
 
 
@@ -53,9 +54,9 @@ const Register2 = () => {
                 />
               );
             case "PORTFOLIO":
-              return <></>;
+              return <Portfolios />;
             default:
-              return <h1>Working on it.</h1>;
+              return <h1>404 Not Found</h1>;
           }
         })()}
       </div>
