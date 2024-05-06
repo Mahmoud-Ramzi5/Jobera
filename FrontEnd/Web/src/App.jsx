@@ -13,15 +13,14 @@ import Logout from './pages/Logout.jsx';
 import CallBack from './components/CallBack.jsx';
 import Profile from './pages/Profile.jsx';
 import EditSkills from './components/EditSkills.jsx';
+import Portfolios from './components/Portfolios/Portfolios.jsx';
 import EditPortfolio from './components/Portfolios/EditPortfolio.jsx';
+import CertificateForm from './components/Education&Certificates/Certificate.jsx';
 import ResetPassword from './pages/ResetPassword.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
 import EmailVerificationMessage from './pages/EmailVerification.jsx';
 
 import FileDisplay from './components/FileDisplay.jsx';
-import CertificateForm from './components/Certificates/Certificate.jsx';
-import Portfolios from './components/Portfolios/Portfolios.jsx';
-
 
 
 export const ThemeContext = createContext({});
@@ -93,13 +92,13 @@ function App() {
               <Route path="/" element={<Index />} />
               <Route element={<PrivateRoutes />}>
                 <Route path="/complete-register" element={<Register2 />} />
-                <Route path="/certificates/create" element={<CertificateForm/>}/>
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/edit-skills" element={<EditSkills />} />
+                <Route path="/portfolios" element={<Portfolios/>}/>
                 <Route path="/edit-portfolio" element={<EditPortfolio />} />
+                <Route path="/certificates/create" element={<CertificateForm/>}/>
                 <Route path="/dashboard" element={<></>} />
                 <Route path="/logout" element={<Logout />} />
-                <Route path="/Test" element={<Portfolios/>}/>
               </Route>
             </Route>
 

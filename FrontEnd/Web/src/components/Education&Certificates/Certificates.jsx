@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import styles from './Certificates.module.css';
-import { ShowCertificates } from "../../apis/ProfileApis";
 import { BsTrash, BsPencil, BsEye } from "react-icons/bs"; // Import the Bootstrap icons
+import { ShowCertificates } from '../../apis/ProfileApis';
+import styles from './certificates.module.css';
 
 const Certificates = ({ edit, token, step }) => {
   const navigate = useNavigate();

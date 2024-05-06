@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { LoginContext } from "../App.jsx";
 import ProgressBar from "../components/Register/ProgressBar.jsx";
 import EditSkills from "../components/EditSkills.jsx";
-import EducationForm from "../components/Profile/Education.jsx";
-import Certificates from "../components/Certificates/Certificates.jsx";
+import EducationForm from "../components/Education&Certificates/Education.jsx";
+import Certificates from "../components/Education&Certificates/Certificates.jsx";
 import Portfolios from "../components/Portfolios/Portfolios.jsx";
 import styles from "../styles/register2.module.css"
 
