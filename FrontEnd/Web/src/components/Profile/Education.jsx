@@ -66,7 +66,7 @@ const EducationForm = ({edit,token,register,step}) => {
 
   return (
     <div className={styles.educationFormContainer}>
-      <h2 className={styles.heading}>{edit ? <p>Add Education</p>:<p>Edit Education</p>}</h2>
+      <h2 className={styles.heading}>{edit ? <p>Edit Education</p>:<p>Add Education</p>}</h2>
       <form onSubmit={edit ? handleEdit : handleStep3} className="education-form">
         <div className={styles.formGroup}>
           <label className={styles.label} htmlFor="level">
