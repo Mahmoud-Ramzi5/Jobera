@@ -12,10 +12,13 @@
   "dependencies": {
     "@ckeditor/ckeditor5-build-classic": "^41.3.1",
     "@ckeditor/ckeditor5-react": "^6.3.0",
+    "@react-pdf-viewer/core": "^3.12.0",
+    "@react-pdf-viewer/default-layout": "^3.12.0",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "js-cookie": "^3.0.5",
+    "pdfjs-dist": "^3.4.120",
     "react": "^18.3.1",
     "react-bootstrap": "^2.10.2",
     "react-bootstrap-icons": "^1.11.3",
