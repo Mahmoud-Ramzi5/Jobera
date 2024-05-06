@@ -6,17 +6,13 @@ const FileDisplay = () => {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-
     if (file) {
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        const content = e.target.result;
-        setFileContent(content); // Set the file content in the state
-      };
-
-      reader.readAsText(file);
-    }
+      let reader=new FileReader();
+      reader.readAsDataURL(file)
+      reader.onload=(e)=>{
+        setFileContent(e.target.result)  
+      }
+    } 
   };
 
   return (

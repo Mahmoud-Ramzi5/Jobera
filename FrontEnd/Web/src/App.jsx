@@ -18,6 +18,7 @@ import EmailVerificationMessage from './pages/EmailVerification.jsx';
 
 import FileDisplay from './components/FileDisplay.jsx';
 import CertificateForm from './components/Certificates/Certificate.jsx';
+import PDFViewer from './components/PdfViewer.jsx';
 
 
 export const ThemeContext = createContext({});
