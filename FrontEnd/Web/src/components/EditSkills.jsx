@@ -2,7 +2,6 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FetchSkillTypes, FetchSkills, SearchSkills } from '../apis/AuthApis.jsx';
 import { AddSkills } from '../apis/ProfileApis.jsx';
-import Bar from './Bar.jsx';
 import styles from '../styles/editskills.module.css';
 
 const EditSkills = ({ edit, token, register, step }) => {

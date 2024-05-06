@@ -1,14 +1,23 @@
-.wholescreen{
-    position: relative;
+.container {
+  position: relative;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
 }
 
-.Bar{
-    top:70px;
-    position: relative;
-    width:34%;
-    z-index: 1;
-    margin-left: 33%;
+.Bar {
+  top: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
-.steps{
 
+.steps {
+  
+}
+
+@media screen and (max-width: 970px) {
+  .container {
+    min-width: 970px;
+  }
 }

@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext, useRef } from "react";
-import styles from "./Education.module.css";
-import { AddCertificate } from "../../apis/ProfileApis";
+import styles from "../Profile/Education.module.css";
+import { AddCertificate } from "../../apis/ProfileApis.jsx";
 import { LoginContext } from "../../App.jsx";
 
 const CertificateForm = () => {
