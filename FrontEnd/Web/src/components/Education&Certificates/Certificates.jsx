@@ -1,24 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { BsTrash, BsPencil, BsEye } from "react-icons/bs"; // Import the Bootstrap icons
 import { ShowCertificates } from '../../apis/ProfileApis';
 import styles from './certificates.module.css';
 
 const Certificates = ({ edit, token, step }) => {
   const navigate = useNavigate();
+  const location = useLocation();
+  if (location.state !== null) {
+    edit = location.state.edit;
+    token = location.state.token;
+  }
   const [certificates, setCertificates] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    ShowCertificates("eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiODA5ZTQ5N2FhNDIxNjUyNjkyYmM3MTg3MjVkM2ZmOTg4NWNmZDBmOGI1NzZmYzQwODk5MTlkYjAzMDlhNzZlYWNiZGI4NGYxNzJjYzI1MjUiLCJpYXQiOjE3MTQ0NzA4MzYuNzY1NjQzLCJuYmYiOjE3MTQ0NzA4MzYuNzY1NjQ2LCJleHAiOjE3NDYwMDY4MzYuNTk2OTI2LCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.YYRKETl5K8Qy2TigkybyHpD81nwgBlr6lpTrQJa-NF9puzDPbne4kgfzsHU_vwRyWG4VygWMAAmJusDeO-TJNFiycoRRMHGQujs3vRD7KvKJ4xqwa1Igm63cuq-Gau6JjWuxbR_xPttfOw7rHtjX-jvZkoKsCoPrXKrY6bi4DWzpUumRUOaT2h_prXID3xz7LHxNpUDJzlZbtNUVtgoGWHtitVlJ6l5PuMrR6R6_wCBLd_WSxhHn5duolutKqtIB4ESMIDBcPifO5mhdmUrwYCrjDBIMl7DEaLOPYVNNNifLLvW4X0glN7pjDIKlnF_pHdPckVVvQiFVP2FdpfcH59ku-N6GLa9qpesTXncXBadzt_-g0LTQZ3HW6eQd9StHzHs5h_p0BqUUPrLdET865knGztYri1pwXBkdf5q6IwoOekUcg3mLrBnrrwpA9OxVfMlb3hYqI4EoSL429kaqUKuyB7USOAXGRB6Iey1OyFEcAYyuQaJBrUv9X4WvpRlLOa4iC3ubkx1lV8Xs841zz5kJFWeHHUQWhsSXvAIVIcztoBXEiS-knrx_l9nWRwqUPW3GhDC8OgQOnBJ6PUpvjjmXi6eXimX-yzqvDxxrVleQpsGy9Q--QbvTb4C_-RMrjTUw8EWINbhcKKhEUhz5_V8xjwvfHlP6UnndkMJTyuE")
-      .then((response) => {
-        if (response.status === 202) {
-          setCertificates(response.data.data);
-        }
-        else {
-          console.log(response.statusText);
-        }
-      });
+    ShowCertificates(token).then((response) => {
+      if (response.status === 200) {
+        setCertificates(response.data.certificates);
+      }
+      else {
+        console.log(response.statusText);
+      }
+    });
   }, []);
 
   const handleSearch = (event) => {
@@ -35,7 +39,7 @@ const Certificates = ({ edit, token, step }) => {
     step('PORTFOLIO');
   }
 
-  const renderCertificate = (certificate) => {
+  const RenderCertificate = (certificate) => {
     const handleEdit = () => {
       console.log(`Edit certificate with ID: ${certificate.id}`);
     };
@@ -50,12 +54,12 @@ const Certificates = ({ edit, token, step }) => {
         <td>{certificate.organization}</td>
         <td>{certificate.release_date}</td>
         <td>
-          <Link
-            to={`/certificates/${certificate.id}`}
+          <button
+            onClick={() => navigate(`/certificates/${certificate.id}`)}
             className={styles.view_button}
           >
             <BsEye />
-          </Link>
+          </button>
           <button
             onClick={() => handleEdit(certificate.id)}
             className={styles.edit_button}
@@ -91,9 +95,14 @@ const Certificates = ({ edit, token, step }) => {
               className={styles.search_input}
             />
             <button className={styles.search_button}>Search</button>
-            <Link to="/certificates/create" className={styles.create_button}>
+            <button
+              className={styles.create_button}
+              onClick={() => navigate('/certificates/create', {
+                state: { token: token }
+              })}
+            >
               Create
-            </Link>
+            </button>
             <form className={styles.submit_div} onSubmit={edit ? handleEdit : handleStep3}>
               <div>
                 <button className={styles.submit_button}>Submit</button>
@@ -110,7 +119,7 @@ const Certificates = ({ edit, token, step }) => {
               <th>Actions</th>
             </tr>
           </thead>
-          <tbody>{filteredCertificates.map(renderCertificate)}</tbody>
+          <tbody>{filteredCertificates.map(RenderCertificate)}</tbody>
         </table>
       </div>
     </div>

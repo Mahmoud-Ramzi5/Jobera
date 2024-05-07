@@ -77,7 +77,7 @@ class ProfileController extends Controller
         return response()->json([
             "message" => "Skills added successfully",
             "skills" => $skills
-        ], 202);
+        ], 200);
     }
 
     public function RemoveUserSkill(Request $request, $userSkill_id)

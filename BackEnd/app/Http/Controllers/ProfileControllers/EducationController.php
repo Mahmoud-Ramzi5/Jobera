@@ -3,14 +3,16 @@
 namespace App\Http\Controllers\ProfileControllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\EditEducatonRequest;
 use App\Models\Education;
 use App\Models\Certificate;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use App\Http\Requests\AddEducationRequest;
+use App\Http\Requests\EditEducationRequest;
+use App\Http\Requests\AddCertificateRequest;
+use App\Http\Requests\EditCertificateRequest;
 use App\Http\Resources\CertificateResource;
 use App\Http\Resources\CertificateCollection;
-use App\Http\Requests\AddEducationRequest;
-use App\Http\Requests\AddCertificateRequest;
 
 class EducationController extends Controller
 {
@@ -21,7 +23,7 @@ class EducationController extends Controller
         if($user->education != null) {
             return response()->json([
                 "message" => "already exists"
-            ]);
+            ], 400);
         }
 
         // Validate request
@@ -43,39 +45,46 @@ class EducationController extends Controller
         ], 201);
     }
 
-    public function EditEducation(EditEducatonRequest $request){
-         // Validate request
-         $validated = $request->validated();
+    public function EditEducation(EditEducationRequest $request)
+    {
+        // Get User
+        $user = auth()->user();
+        if($user == null) {
+            return response()->json([
+                "message" => "error"
+            ], 400);
+        }
 
-         // Handle certificate file
-         if ($request->hasFile('certificate_file')) {
-             $avatarPath = $request->file('certificate_file')->store('files', 'public');
-             $validated['certificate_file'] = $avatarPath;
-         }
-         $education = Education::update($validated);
-         // Response
-        return response()->json([
-            "message" => "Education updated",
-            "data" => $education,
-        ], 201);
-    }
-    public function EditCertificate(EditEducatonRequest $request){
         // Validate request
         $validated = $request->validated();
 
         // Handle certificate file
-        if ($request->hasFile('file')) {
-            $avatarPath = $request->file('file')->store('files', 'public');
-            $validated['file'] = $avatarPath;
+        if ($request->hasFile('certificate_file')) {
+            $avatarPath = $request->file('certificate_file')->store('files', 'public');
+            $validated['certificate_file'] = $avatarPath;
         }
-        $certificate = Certificate::create($validated);
+
+        $education = $user->education;
+        $education->update($validated);
 
         // Response
         return response()->json([
-            "message" => "Certificate updated",
-            "data" => new CertificateResource($certificate),
-        ], 202);
-   }
+            "message" => "Education updated",
+            "data" => $education,
+        ], 200);
+    }
+
+    public function ShowUserCertificates()
+    {
+        // Get User
+        $user = auth()->user();
+        $certificates = $user->certificates;
+
+        // Response
+        return response()->json([
+            "certificates" => new CertificateCollection($certificates)
+        ], 200);
+    }
 
     public function AddCertificate(AddCertificateRequest $request)
     {
@@ -101,15 +110,24 @@ class EducationController extends Controller
         ], 201);
     }
 
-    public function ShowUserCertificate()
-    {
-        // Get User
-        $user = auth()->user();
-        $certificates = $user->certificates()->get();
+    public function EditCertificate(EditCertificateRequest $request){
+        // Validate request
+        $validated = $request->validated();
+
+        // Handle certificate file
+        if ($request->hasFile('file')) {
+            $avatarPath = $request->file('file')->store('files', 'public');
+            $validated['file'] = $avatarPath;
+        }
+
+        $certificate = Certificate::find($validated['id']);
+        $validated = Arr::except($validated, 'id');
+        $certificate->update($validated);
 
         // Response
         return response()->json([
-            "data" => new CertificateCollection($certificates)
-        ], 202);
+            "message" => "Certificate updated",
+            "data" => new CertificateResource($certificate),
+        ], 200);
     }
 }

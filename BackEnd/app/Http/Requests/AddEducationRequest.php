@@ -24,14 +24,15 @@ class AddEducationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "level"=>["required","in:Bachelor,Master,PHD,High School Diploma,High Institute"],
-            "field"=>["required"],
-            "school"=>["required"],
-            "startDate"=>"required|date",
-            "endDate"=>"required|date|after:startDate",
-            "certificate_file"=>["sometimes"]
+            "level" => ["required", "in:Bachelor,Master,PHD,High School Diploma,High Institute"],
+            "field" => ["required"],
+            "school" => ["required"],
+            "start_date" => ["required", "date"],
+            "end_date" => ["required", "date", "after:startDate"],
+            "certificate_file" => ["sometimes"]
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([

@@ -44,7 +44,7 @@ const Profile = () => {
         {!isRegistered ? (<>
           <div className={styles.rightSide}><SetUpCard /></div>
         </>) : (<></>)}
-        <div className={styles.rightSide}><CertificationsCard ProfileData={profile} /></div>
+        <div className={styles.rightSide}><CertificationsCard ProfileData={profile} token={accessToken} /></div>
         <div className={styles.rightSide}><SkillsCard ProfileData={profile} token={accessToken} /></div>
       </div>
     </div>

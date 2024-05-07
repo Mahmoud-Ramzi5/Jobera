@@ -19,6 +19,22 @@ const Register2 = () => {
   const [skills, setSkills] = useState([]);
   const [education, setEducation] = useState({});
 
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+      // Get data from local storage
+      const RegisterStep = localStorage.getItem('register_step');
+      console.log(RegisterStep)
+      // Set step
+      if (RegisterStep !== null) {
+        setStep(RegisterStep);
+      }
+      else {
+        setStep('SKILLS')
+      }
+    }
+  }, []);
+
   return (
     <div className={styles.container}>
       <div className={styles.Bar}>
@@ -41,7 +57,6 @@ const Register2 = () => {
                 <EducationForm
                   edit={false}
                   token={accessToken}
-                  register={setEducation}
                   step={setStep}
                 />
               );

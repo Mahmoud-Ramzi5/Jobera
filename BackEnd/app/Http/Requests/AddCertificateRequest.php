@@ -30,6 +30,7 @@ class AddCertificateRequest extends FormRequest
             'file' => ['sometimes']
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
