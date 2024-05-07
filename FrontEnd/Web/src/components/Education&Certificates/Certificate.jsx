@@ -1,11 +1,10 @@
-import { useEffect, useState, useContext, useRef } from "react";
-import styles from "../Profile/Education.module.css";
-import { AddCertificate } from "../../apis/ProfileApis.jsx";
-import { LoginContext } from "../../App.jsx";
+import { useEffect, useState, useContext, useRef } from 'react';
+import { LoginContext } from '../../App.jsx';
+import { AddCertificate } from '../../apis/ProfileApis.jsx';
+import styles from './certificate.module.css';
 
 const CertificateForm = () => {
-  const { loggedIn, setLoggedIn, accessToken, setAccessToken } =
-    useContext(LoginContext);
+  const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
   const initialized = useRef(false);
   const [CertificateData, setCertificateData] = useState({
     name: "",
@@ -13,6 +12,7 @@ const CertificateForm = () => {
     releaseDate: "",
     file: null, // New state for certificate file
   });
+
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
@@ -61,73 +61,73 @@ const CertificateForm = () => {
   };
 
   return (
-    <div className={styles.educationFormContainer}>
-      <h2 className={styles.heading}>Add Certificate</h2>
-      <form onSubmit={handleSubmit} className="education-form">
-        <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="name">
-            Name:
-          </label>
-          <div className={styles.inputContainer}>
-            <input
-              className={styles.inputField}
-              type="text"
-              id="name"
-              name="name"
-              value={CertificateData.name}
-              onChange={handleInputChange}
-              required
-              placeholder="Enter certificate name"
-            />
-          </div>
+    <div className={styles.container}>
+      <div className={styles.screen}>
+        <div className={styles.screen_content}>
+          <h3 className={styles.heading}>Add Certificate</h3>
+          <form className={styles.form} onSubmit={handleSubmit}>
+            <div className={styles.row}>
+              <label htmlFor="name">
+                Name:
+              </label>
+              <input
+                className={styles.inputField}
+                type="text"
+                id="name"
+                name="name"
+                value={CertificateData.name}
+                onChange={handleInputChange}
+                required
+                placeholder="Enter certificate name"
+              />
+            </div>
+            <div className={styles.row}>
+              <label htmlFor="organization">
+                Organization:
+              </label>
+              <input
+                className={styles.inputField}
+                type="text"
+                id="organization"
+                name="organization"
+                value={CertificateData.organization}
+                onChange={handleInputChange}
+                required
+                placeholder="Enter organization name"
+              />
+            </div>
+            <div className={styles.row}>
+              <label htmlFor="releaseDate">
+                Release Date:
+              </label>
+              <input
+                type="date"
+                id="releaseDate"
+                name="releaseDate"
+                value={CertificateData.releaseDate}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+            {/* File upload field */}
+            <div className={styles.row}>
+              <label htmlFor="certificate">
+                Certificate:
+              </label>
+              <input
+                type="file"
+                id="certificate"
+                name="certificate"
+                accept=".pdf,.doc,.docx"
+                onChange={handleFileChange}
+              />
+            </div>
+            <button type="submit" className={styles.submit_button}>
+              Add Certificate
+            </button>
+          </form>
         </div>
-        <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="organization">
-            Organization:
-          </label>
-          <div className={styles.inputContainer}>
-            <input
-              className={styles.inputField}
-              type="text"
-              id="organization"
-              name="organization"
-              value={CertificateData.organization}
-              onChange={handleInputChange}
-              required
-              placeholder="Enter organization name"
-            />
-          </div>
-        </div>
-        <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="releaseDate">
-            Release Date:
-          </label>
-          <input
-            type="date"
-            id="releaseDate"
-            name="releaseDate"
-            value={CertificateData.releaseDate}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        {/* File upload field */}
-        <div className={styles.formGroup}>
-          <label className={styles.label} htmlFor="certificate">
-            Certificate:
-          </label>
-          <input
-            type="file"
-            id="certificate"
-            name="certificate"
-            accept=".pdf,.doc,.docx"
-            onChange={handleFileChange}
-          />
-        </div>
-        <button type="submit" className={styles.submitButton}>
-          Add Certificate
-        </button>
-      </form>
+      </div>
     </div>
   );
 };
