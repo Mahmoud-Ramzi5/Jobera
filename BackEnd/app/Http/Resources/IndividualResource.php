@@ -38,7 +38,7 @@ class IndividualResource extends JsonResource
             'portfolios'=>$portfolios,
             'skills'=>$skills,
             'education'=>$education,
-            'certificates'=>$certificates
+            'certificates'=>new CertificateCollection($certificates)
         ];
     }
 }

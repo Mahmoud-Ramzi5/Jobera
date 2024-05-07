@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ProfileControllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EditEducatonRequest;
 use App\Models\Education;
 use App\Models\Certificate;
 use Illuminate\Http\Request;
@@ -34,8 +35,6 @@ class EducationController extends Controller
 
         $validated['user_id'] = $user->id;
         $education = Education::create($validated);
-        $user->education_id = $education->id;
-        $user->save();
 
         // Response
         return response()->json([
@@ -43,6 +42,40 @@ class EducationController extends Controller
             "data" => $education,
         ], 201);
     }
+
+    public function EditEducation(EditEducatonRequest $request){
+         // Validate request
+         $validated = $request->validated();
+
+         // Handle certificate file
+         if ($request->hasFile('certificate_file')) {
+             $avatarPath = $request->file('certificate_file')->store('files', 'public');
+             $validated['certificate_file'] = $avatarPath;
+         }
+         $education = Education::update($validated);
+         // Response
+        return response()->json([
+            "message" => "Education updated",
+            "data" => $education,
+        ], 201);
+    }
+    public function EditCertificate(EditEducatonRequest $request){
+        // Validate request
+        $validated = $request->validated();
+
+        // Handle certificate file
+        if ($request->hasFile('file')) {
+            $avatarPath = $request->file('file')->store('files', 'public');
+            $validated['file'] = $avatarPath;
+        }
+        $certificate = Certificate::create($validated);
+
+        // Response
+        return response()->json([
+            "message" => "Certificate updated",
+            "data" => new CertificateResource($certificate),
+        ], 202);
+   }
 
     public function AddCertificate(AddCertificateRequest $request)
     {
@@ -54,7 +87,6 @@ class EducationController extends Controller
 
         // Handle certificate file
         if ($request->hasFile('file')) {
-            dd($request->file('file'));
             $avatarPath = $request->file('file')->store('files', 'public');
             $validated['file'] = $avatarPath;
         }
