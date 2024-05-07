@@ -8,7 +8,6 @@ use App\Http\Resources\IndividualResource;
 use App\Models\Individual;
 use App\Models\UserSkills;
 use Illuminate\Http\Request;
-use App\Http\Resources\UserResource;
 use App\Http\Requests\StoreUserSkillRequest;
 use App\Http\Requests\StoreProfilePhotoRequest;
 

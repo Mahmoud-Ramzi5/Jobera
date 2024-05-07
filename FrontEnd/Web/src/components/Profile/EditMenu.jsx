@@ -21,6 +21,7 @@ const EditMenu = ({ data, onChange, onSave, onCancel }) => {
 
   return (
     <div className={styles.edit_menu}>
+      <div className={styles.edit__row}>
       <NormalInput
         type="text"
         name="full_name"
@@ -33,6 +34,8 @@ const EditMenu = ({ data, onChange, onSave, onCancel }) => {
         value={data.phone_number}
         setChange={handleInputChange}
       />
+      </div>
+      <div className={styles.edit__row}>
       <NormalInput
         type="text"
         name="country"
@@ -47,6 +50,7 @@ const EditMenu = ({ data, onChange, onSave, onCancel }) => {
         onChange={handleInputChange}
         placeholder="City"
       />
+      </div>
       <NormalInput
           type='date'
           placeholder='Birthdate'
@@ -54,9 +58,9 @@ const EditMenu = ({ data, onChange, onSave, onCancel }) => {
           value={data.birth_date}
           setChange={handleInputChange}
         />
-       <div >
+       <div className={styles.register__field__radio}>
           {genders.map((G) => (
-            <div  key={G.value}>
+            <div className={styles.register__input__radio} key={G.value}>
               <input
                 type="radio"
                 value={G.value}
@@ -68,8 +72,8 @@ const EditMenu = ({ data, onChange, onSave, onCancel }) => {
             </div>
           ))}
         </div>
-      <Button variant="primary"  onClick={onSave}>Save</Button>
-      <Button variant="secondary"  onClick={onCancel}>Cancel</Button>
+      <Button className={styles.saveButton} variant="primary"  onClick={onSave}>Save</Button>
+      <Button className={styles.cansleButton} variant="secondary"  onClick={onCancel}>Cancel</Button>
     </div>
   );
 };
