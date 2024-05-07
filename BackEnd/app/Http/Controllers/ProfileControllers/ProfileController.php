@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ProfileControllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\EditProfileRequest;
 use App\Models\UserSkills;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
@@ -17,6 +18,17 @@ class ProfileController extends Controller
         return response()->json([
             'user' => new UserResource(auth()->user())
         ], 200);
+    }
+
+    public function EditProfile(EditProfileRequest $request){
+        $validated=$request->validated();
+        // Get User
+        $user = auth()->user();
+        $user->update($validated);
+        return response()->json([
+            "message"=>"user data updated",
+            "user"=>new UserResource($user)
+        ],202);
     }
 
     public function GetUserSkills()
