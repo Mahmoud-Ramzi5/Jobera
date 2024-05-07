@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Models\Individual;
 use App\Notifications\EmailVerification;
 
 class AuthController extends Controller
@@ -32,14 +33,29 @@ class AuthController extends Controller
         }
 
         // Register user and send verification email
-        $user = User::create($validated);
+        $user = User::create([
+            'email' => $validated['email'],
+            'phone_number' => $validated['phone_number'],
+            'password' => $validated['password'],
+            'state_id' => $validated['state_id'],
+        ]);
+
+        if($user == null) {
+            return response()->json([
+                "message" => "Invalid data",
+            ], 401);
+        }
+
+        $validated['user_id'] = $user->id;
+        $individual = Individual::create($validated);
+
         $token = $user->createToken("api_token")->accessToken;
         $this->SendEmailVerification($request);
 
         // Response
         return response()->json([
             "message" => "user registered",
-            "data" => $user,
+            "data" => $individual,
             "access_token" => $token,
             "token_type" => "bearer"
         ], 201);
@@ -60,8 +76,23 @@ class AuthController extends Controller
             $validated['avatar_photo'] = $avatarPath;
         }
 
-        // Register company and send verification email
-        $company = company::create($validated);
+        // Register user and send verification email
+        $user = User::create([
+            'email' => $validated['email'],
+            'phone_number' => $validated['phone_number'],
+            'password' => $validated['password'],
+            'state_id' => $validated['state_id'],
+        ]);
+
+        if($user == null) {
+            return response()->json([
+                "message" => "Invalid data",
+            ], 401);
+        }
+
+        $validated['user_id'] = $user->id;
+        $company = Company::create($validated);
+
         $token = $company->createToken("api_token")->accessToken;
         $this->SendEmailVerification($request);
 

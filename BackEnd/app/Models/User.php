@@ -18,16 +18,10 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $fillable = [
-        'full_name',
         'email',
         'phone_number',
         'password',
         'state_id',
-        'birth_date',
-        'gender',
-        'type',
-        'description',
-        'avatar_photo',
     ];
 
     /**
@@ -76,5 +70,10 @@ class User extends Authenticatable implements MustVerifyEmail
     public function certificates()
     {
         return $this->hasMany(Certificate::class);
+    }
+
+    public function portfolios()
+    {
+        return $this->hasMany(Portfolio::class);
     }
 }

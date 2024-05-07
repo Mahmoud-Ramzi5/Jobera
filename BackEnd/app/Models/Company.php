@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
 
-class Company extends Authenticatable implements MustVerifyEmail
+class Company extends User
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -22,12 +22,9 @@ class Company extends Authenticatable implements MustVerifyEmail
     protected $fillable = [
         'name',
         'field',
-        'email',
-        'phone_number',
-        'password',
-        'state_id',
         'description',
         'avatar_photo',
+        'user_id'
     ];
 
     /**
@@ -36,7 +33,7 @@ class Company extends Authenticatable implements MustVerifyEmail
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
+
     ];
 
     /**
@@ -47,15 +44,11 @@ class Company extends Authenticatable implements MustVerifyEmail
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+
         ];
     }
 
-    public function state() {
-        return $this->belongsTo(State::class, 'state_id', 'state_id');
-    }
-    public function User(){
+    public function User() {
         return $this->belongsTo(User::class);
     }
 }
