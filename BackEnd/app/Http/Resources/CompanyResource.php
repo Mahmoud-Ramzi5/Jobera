@@ -14,7 +14,7 @@ class CompanyResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $user = $this->user()->get();
+        $user = $this->user()->first();
         $is_verified = false;
         if ($user->email_verified_at) {
             $is_verified = true;

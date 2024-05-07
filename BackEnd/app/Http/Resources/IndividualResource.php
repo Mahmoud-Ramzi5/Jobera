@@ -21,7 +21,7 @@ class IndividualResource extends JsonResource
         }
         $portfolios=$user->portfolios()->get();
         $skills=$user->skills()->get();
-        $education=$user->education()->get();
+        $education=$user->education()->first();
         $certificates=$user->certificates()->get();
         return [
             "email" => $user->email,
