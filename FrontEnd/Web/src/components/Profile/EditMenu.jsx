@@ -1,5 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
+import styles from "./EditMenu.module.css";
+import { Card, Button } from "react-bootstrap";
+import NormalInput from '../NormalInput';
+import CustomPhoneInput from '../CustomPhoneInput';
 import {
     PersonFill, EnvelopeFill, TelephoneFill, Globe, GeoAltFill,
     Calendar3, ChevronRight, PersonStanding, PersonStandingDress
@@ -16,42 +20,40 @@ const EditMenu = ({ data, onChange, onSave, onCancel }) => {
   };
 
   return (
-    <div className="edit-menu">
-      <input
+    <div className={styles.edit_menu}>
+      <NormalInput
         type="text"
         name="full_name"
         value={data.full_name}
         onChange={handleInputChange}
         placeholder="Full Name"
       />
-      <input
-        type="tel"
-        name="phone_number"
+      <CustomPhoneInput
+        defaultCountry='us'
         value={data.phone_number}
-        onChange={handleInputChange}
-        placeholder="Phone Number"
+        setChange={handleInputChange}
       />
-      <input
+      <NormalInput
         type="text"
         name="country"
         value={data.country}
         onChange={handleInputChange}
         placeholder="Country"
       />
-      <input
+      <NormalInput
         type="text"
         name="city"
         value={data.state}
         onChange={handleInputChange}
         placeholder="City"
       />
-      <input
-        type="date"
-        name="birthDate"
-        value={data.birth_date}
-        onChange={handleInputChange}
-        placeholder="Birth Date"
-      />
+      <NormalInput
+          type='date'
+          placeholder='Birthdate'
+          icon={<Calendar3 />}
+          value={data.birth_date}
+          setChange={handleInputChange}
+        />
        <div >
           {genders.map((G) => (
             <div  key={G.value}>
@@ -66,8 +68,8 @@ const EditMenu = ({ data, onChange, onSave, onCancel }) => {
             </div>
           ))}
         </div>
-      <button onClick={onSave}>Save</button>
-      <button onClick={onCancel}>Cancel</button>
+      <Button variant="primary"  onClick={onSave}>Save</Button>
+      <Button variant="secondary"  onClick={onCancel}>Cancel</Button>
     </div>
   );
 };

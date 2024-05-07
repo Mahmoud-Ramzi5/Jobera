@@ -1,0 +1,26 @@
+.edit_menu {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .edit_menu input {
+    margin-bottom: 10px;
+    padding: 5px;
+  }
+  
+  .edit_menu button {
+    margin-top: 10px;
+    padding: 5px 10px;
+  }
+  
+  .edit_menu div {
+    margin-bottom: 10px;
+  }
+  
+  .edit_menu div input[type="radio"] {
+    margin-right: 5px;
+  }
+  
+  .edit_menu div i {
+    margin-right: 5px;
+  }
