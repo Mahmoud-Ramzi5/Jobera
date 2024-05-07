@@ -1,11 +1,12 @@
 import { useEffect, useState, useContext, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { FetchSkillTypes, FetchSkills, SearchSkills } from '../apis/AuthApis.jsx';
 import { AddSkills } from '../apis/ProfileApis.jsx';
 import styles from '../styles/editskills.module.css';
 
-const EditSkills = ({ edit, token, register, step }) => {
+const EditSkills = ({ edit, token, step }) => {
   const initialized = useRef(false);
+  const Navigate = useNavigate()
   const [types, setTypes] = useState([]);
   const [type, setType] = useState("");
   const [skills, setSkills] = useState([]);
@@ -15,6 +16,13 @@ const EditSkills = ({ edit, token, register, step }) => {
   const [userSkills, setUserSkills] = useState([]);
   const [searchSkill, setSearchSkill] = useState("");
   const [showSubmitButton, setShowSubmitButton] = useState(false);
+  const location = useLocation();
+  if (location.state !== null) {
+    edit = location.state.edit;
+    token = location.state.token;
+    const skills = location.state.skills;
+    console.log(skills);
+  }
 
   useEffect(() => {
     if (!initialized.current) {
@@ -92,14 +100,23 @@ const EditSkills = ({ edit, token, register, step }) => {
   const handleEdit = (event) => {
     event.preventDefault();
     AddSkills(token, SkillIds).then((response) => {
-      console.log(response);
+      if (response.status == 200) {
+        Navigate('/profile');
+      } else {
+        console.log(response);
+      }
     });
   };
 
   const handleStep1 = (event) => {
     event.preventDefault();
-    register(SkillIds);
-    step('EDUCATION');
+    AddSkills(token, SkillIds).then((response) => {
+      if (response.status == 200) {
+        step('EDUCATION');
+      } else {
+        console.log(response);
+      }
+    });
   };
 
   return (

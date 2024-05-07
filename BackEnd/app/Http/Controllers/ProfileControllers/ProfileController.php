@@ -4,6 +4,8 @@ namespace App\Http\Controllers\ProfileControllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EditProfileRequest;
+use App\Http\Resources\IndividualResource;
+use App\Models\Individual;
 use App\Models\UserSkills;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
@@ -13,21 +15,27 @@ use App\Http\Requests\StoreProfilePhotoRequest;
 class ProfileController extends Controller
 {
     public function Show()
-    {
-        // Response
-        return response()->json([
-            'user' => new UserResource(auth()->user())
-        ], 200);
-    }
+{
+    $user = auth()->user();
+    $individual = Individual::where('user_id', $user->id)->firstOrFail();
+    // Response
+    return response()->json([
+        'user' => new IndividualResource($individual)
+    ], 200);
+}
 
     public function EditProfile(EditProfileRequest $request){
         $validated=$request->validated();
         // Get User
         $user = auth()->user();
-        $user->update($validated);
+        $individual = Individual::where('user_id', $user->id)->firstOrFail();
+        $user->fill($validated);
+        $user->save();
+        $individual->fill($validated);
+        $individual->save();
         return response()->json([
             "message"=>"user data updated",
-            "user"=>new UserResource($user)
+            'user' => new IndividualResource($individual)
         ],202);
     }
 
