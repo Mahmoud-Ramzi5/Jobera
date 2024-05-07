@@ -38,7 +38,7 @@
 .SearchButton:hover {
   background-color: blue;
 }
-.content h1 {
+.h1 {
   color: #333;
   font-size: 28px; /* Increase the font size */
   font-weight: bold; /* Add bold font weight */

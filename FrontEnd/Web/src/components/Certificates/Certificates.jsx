@@ -79,7 +79,7 @@ const Certificates = ({edit,token,step}) => {
     <div className={styles.certificatesPage}>
       <div className={styles.content}>
         <div className={styles.topBar}>
-          <h1>Certificates</h1>
+          <h1 className="h1">Certificates</h1>
           <div className={styles.searchBar}>
             <input
               type="text"

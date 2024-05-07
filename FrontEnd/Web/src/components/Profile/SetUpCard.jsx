@@ -25,7 +25,7 @@ const SetUpCard = () => {
           <button
             type="button"
             className={(theme === "theme-light") ? "btn btn-outline-dark" : "btn btn-outline-light"}
-            onClick={() => navigate('/ContineRegisteration')}>
+            onClick={() => navigate('/complete-register')}>
             Set yourself up
           </button>
         </Card.Body>
