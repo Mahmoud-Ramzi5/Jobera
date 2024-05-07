@@ -4,6 +4,8 @@ namespace App\Http\Controllers\AuthControllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CompanyRegisterRequest;
+use App\Http\Resources\CompanyResource;
+use App\Http\Resources\IndividualResource;
 use App\Models\company;
 use App\Models\User;
 use Carbon\Carbon;
@@ -55,7 +57,7 @@ class AuthController extends Controller
         // Response
         return response()->json([
             "message" => "user registered",
-            "data" => $individual,
+            "data" => new IndividualResource($individual),
             "access_token" => $token,
             "token_type" => "bearer"
         ], 201);
@@ -99,7 +101,7 @@ class AuthController extends Controller
         // Response
         return response()->json([
             "message" => "company registered",
-            "data" => $company,
+            "data" => new CompanyResource($company),
             "access_token" => $token,
             "token_type" => "bearer"
         ], 201);
