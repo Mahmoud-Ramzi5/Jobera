@@ -1,3 +1,18 @@
+.register__input__radio {
+  padding: 10px 0px;
+  padding-left: 3px;
+  font-weight: 500;
+  width: 35%;
+  color: var(--color-foreground);
+  text-decoration: inherit;  
+  accent-color: #4F6E95;
+}
+.register__field__radio {    
+  padding: 20px 0px;
+  width: 100%;
+  display: flex;
+  position: relative;  
+}
 .edit_menu {
     display: flex;
     flex-direction: column;
@@ -24,3 +39,10 @@
   .edit_menu div i {
     margin-right: 5px;
   }
+  .cansleButton{
+    margin-bottom: 5%;
+  }
+  .edit__row {
+    display: flex;
+    position: relative;   
+}

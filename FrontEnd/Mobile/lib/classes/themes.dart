@@ -51,6 +51,10 @@ class Themes {
     datePickerTheme: DatePickerThemeData(
       todayForegroundColor: MaterialStatePropertyAll(Colors.orange.shade800),
     ),
+    progressIndicatorTheme: ProgressIndicatorThemeData(
+      color: Colors.orange.shade800,
+      linearMinHeight: 8,
+    ),
   );
 
   static final darkTheme = ThemeData.dark().copyWith(
@@ -105,6 +109,10 @@ class Themes {
     switchTheme: SwitchThemeData(
       trackColor: MaterialStatePropertyAll(Colors.orange.shade800),
       thumbColor: const MaterialStatePropertyAll(Colors.white),
+    ),
+    progressIndicatorTheme: ProgressIndicatorThemeData(
+      color: Colors.orange.shade800,
+      linearMinHeight: 8,
     ),
   );
 }

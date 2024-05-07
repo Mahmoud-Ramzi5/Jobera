@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\ProfileControllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\EditProfileRequest;
-use App\Http\Resources\IndividualResource;
 use App\Models\Individual;
 use App\Models\UserSkills;
 use Illuminate\Http\Request;
-use App\Http\Resources\UserResource;
 use App\Http\Requests\StoreUserSkillRequest;
 use App\Http\Requests\StoreProfilePhotoRequest;
+use App\Http\Requests\EditProfileRequest;
+use App\Http\Resources\IndividualResource;
 
 class ProfileController extends Controller
 {
