@@ -45,7 +45,7 @@ const Profile = () => {
           <div className={styles.rightSide}><SetUpCard /></div>
         </>) : (<></>)}
         <div className={styles.rightSide}><CertificationsCard ProfileData={profile} /></div>
-        <div className={styles.rightSide}><SkillsCard ProfileData={profile} /></div>
+        <div className={styles.rightSide}><SkillsCard ProfileData={profile} token={accessToken} /></div>
       </div>
     </div>
   );
