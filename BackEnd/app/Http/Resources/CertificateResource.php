@@ -21,7 +21,6 @@ class CertificateResource extends JsonResource
             "organization" => $this->organization,
             "release_date" => $this->release_date,
             "file" => $this->file,
-            "user" => new UserResource($this->user)
         ];
     }
 }

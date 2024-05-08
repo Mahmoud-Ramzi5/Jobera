@@ -1,11 +1,18 @@
 import { useEffect, useState, useContext, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { MortarboardFill, ChevronDown } from 'react-bootstrap-icons';
-import { LoginContext } from '../../App.jsx';
-import { AddEducation } from '../../apis/ProfileApis.jsx';
+import { AddEducation, EditEducation } from '../../apis/ProfileApis.jsx';
 import styles from './education.module.css';
 
-const EducationForm = ({ edit, token, register, step }) => {
+const EducationForm = ({ edit, token, step }) => {
   const initialized = useRef(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
+  if (location.state !== null) {
+    edit = location.state.edit;
+    token = location.state.token;
+  }
   const [educationData, setEducationData] = useState({
     level: "",
     field: "",
@@ -38,29 +45,63 @@ const EducationForm = ({ edit, token, register, step }) => {
 
   const handleEdit = (event) => {
     event.preventDefault();
+    EditEducation(
+      token,
+      educationData.level,
+      educationData.field,
+      educationData.school,
+      educationData.startDate,
+      educationData.endDate,
+      educationData.certificate
+    ).then((response) => {
+      if (response.status === 200) {
+        console.log(response.data);
+
+        // Reset the form fields
+        setEducationData({
+          level: "",
+          field: "",
+          school: "",
+          startDate: "",
+          endDate: "",
+          certificate: null,
+        });
+
+        navigate('/profile');
+      }
+      else {
+        console.log(response.statusText);
+      }
+    });
   }
 
   const handleStep2 = (event) => {
     event.preventDefault();
-    console.log("Submitted education data:", educationData);
-    // Add logic to handle form submission (e.g., send data to backend)
-    // You can also reset the form fields after submission if needed
-    register({
-      "level": educationData.level,
-      "field": educationData.field,
-      "school": educationData.school,
-      "startDate": educationData.startDate,
-      "endDate": educationData.endDate,
-      "certificates": educationData.certificate
-    })
-    // Reset the form fields
-    setEducationData({
-      level: "",
-      field: "",
-      school: "",
-      startDate: "",
-      endDate: "",
-      certificate: null,
+    AddEducation(
+      token,
+      educationData.level,
+      educationData.field,
+      educationData.school,
+      educationData.startDate,
+      educationData.endDate,
+      educationData.certificate
+    ).then((response) => {
+      if (response.status === 201) {
+        console.log(response.data);
+
+        // Reset the form fields
+        setEducationData({
+          level: "",
+          field: "",
+          school: "",
+          startDate: "",
+          endDate: "",
+          certificate: null,
+        });
+      }
+      else {
+        console.log(response.statusText);
+      }
     });
     step('CERTIFICATES');
   };
@@ -70,7 +111,7 @@ const EducationForm = ({ edit, token, register, step }) => {
       <div className={styles.screen}>
         <div className={styles.screen_content}>
           <h2 className={styles.heading}>{edit ? 'Edit Education' : 'Add Education'}</h2>
-          <form onSubmit={edit ? handleEdit : handleStep2} className="education-form">
+          <form onSubmit={edit ? handleEdit : handleStep2}>
             <div className={styles.row}>
               <label htmlFor="level">Level:</label>
               <div className={styles.dropdown_container}>

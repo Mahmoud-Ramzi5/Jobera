@@ -1,11 +1,11 @@
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { ThemeContext } from '../../App.jsx';
 import styles from './cards.module.css';
 
 
-const SetUpCard = () => {
+const SetUpCard = ({ ProfileData, token }) => {
   // Context    
   const { theme } = useContext(ThemeContext);
   // Define states
@@ -25,7 +25,17 @@ const SetUpCard = () => {
           <button
             type="button"
             className={(theme === "theme-light") ? "btn btn-outline-dark" : "btn btn-outline-light"}
-            onClick={() => navigate('/complete-register')}>
+            onClick={() => navigate('/complete-register', {
+              state: {
+                edit: false,
+                token: token,
+                skills: ProfileData.skills,
+                education: ProfileData.education,
+                certificates: ProfileData.certificates,
+                Portfolios: ProfileData.Portfolios,
+              }
+            }
+            )}>
             Set yourself up
           </button>
         </Card.Body>

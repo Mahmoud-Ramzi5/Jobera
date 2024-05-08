@@ -1,23 +1,35 @@
-import { useEffect, useState, useContext, useRef } from "react";
-import { useNavigate } from "react-router-dom";
-import { LoginContext } from "../App.jsx";
-import ProgressBar from "../components/Register/ProgressBar.jsx";
-import EditSkills from "../components/EditSkills.jsx";
-import EducationForm from "../components/Education&Certificates/Education.jsx";
-import Certificates from "../components/Education&Certificates/Certificates.jsx";
-import Portfolios from "../components/Portfolios/Portfolios.jsx";
-import styles from "../styles/register2.module.css"
+import { useEffect, useState, useContext, useRef } from 'react';
+import { useNavigate, useLocation, Navigate } from 'react-router-dom';
+import ProgressBar from '../components/Register/ProgressBar.jsx';
+import EditSkills from '../components/EditSkills.jsx';
+import EducationForm from '../components/Education&Certificates/Education.jsx';
+import Certificates from '../components/Education&Certificates/Certificates.jsx';
+import Portfolios from '../components/Portfolios/Portfolios.jsx';
+import styles from '../styles/register2.module.css';
 
 
 const Register2 = () => {
-  // Context
-  const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
   // Define states
   const initialized = useRef(false);
-  const [step, setStep] = useState("SKILLS");
-  const [stepIndex, setStepIndex] = useState(0);
-  const [skills, setSkills] = useState([]);
-  const [education, setEducation] = useState({});
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [step, setStep] = useState('SKILLS');
+
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+      // Get data from local storage
+      const RegisterStep = localStorage.getItem('register_step');
+      console.log(RegisterStep);
+      // Set step
+      if (RegisterStep !== null) {
+        setStep(RegisterStep);
+      }
+      else {
+        setStep('SKILLS')
+      }
+    }
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -27,25 +39,19 @@ const Register2 = () => {
       <div>
         {(() => {
           switch (step) {
-            case "SKILLS":
+            case 'SKILLS':
               return (
-                <EditSkills
-                  edit={false}
-                  token={accessToken}
-                  register={setSkills}
-                  step={setStep}
-                />
+                <EditSkills step={setStep}/>
               );
-            case "EDUCATION":
+            case 'EDUCATION':
               return (
                 <EducationForm
                   edit={false}
                   token={accessToken}
-                  register={setEducation}
                   step={setStep}
                 />
               );
-            case "CERTIFICATES":
+            case 'CERTIFICATES':
               return (
                 <Certificates
                   edit={false}
@@ -53,7 +59,7 @@ const Register2 = () => {
                   step={setStep}
                 />
               );
-            case "PORTFOLIO":
+            case 'PORTFOLIO':
               return <Portfolios />;
             default:
               return <h1>404 Not Found</h1>;

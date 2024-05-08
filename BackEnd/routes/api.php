@@ -64,11 +64,15 @@ Route::controller(ProfileController::class)->group(function () {
 Route::controller(SkillsController::class)->group(function() {
     Route::get('/skills', 'GetSkills');
     Route::get('/skills/types', 'GetSkillTypes');
-    Route::post('/skills/add', 'AddSkill');
+
+    Route::post('/skills', 'AddSkill');
 });
 
 Route::controller(EducationController::class)->group(function() {
-    Route::post('/education','AddEducation')->middleware('auth:api');
-    Route::post('/certificate','AddCertificate')->middleware('auth:api');
-    Route::get('/certificate','ShowUserCertificate')->middleware('auth:api');
+    Route::post('/education/add', 'AddEducation')->middleware('auth:api');
+    Route::post('/education/edit', 'EditEducation')->middleware('auth:api');
+
+    Route::get('/certificates', 'ShowUserCertificates')->middleware('auth:api');
+    Route::post('/certificate/add', 'AddCertificate')->middleware('auth:api');
+    Route::post('/certificate/edit', 'EditCertificate')->middleware('auth:api');
 });

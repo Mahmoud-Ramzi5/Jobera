@@ -8,7 +8,7 @@ use App\Enums\SkillTypes;
 use App\Filters\SkillFilter;
 use Illuminate\Http\Request;
 use App\Http\Resources\SkillResource;
-use App\Http\Resources\SkillsCollection;
+use App\Http\Resources\SkillCollection;
 use App\Http\Requests\StoreSkillsRequest;
 
 
@@ -23,11 +23,11 @@ class SkillsController extends Controller
         // Response
         if (empty($queryItems)) {
             return response()->json([
-                'skills' => new SkillsCollection(Skill::all()),
+                'skills' => new SkillCollection(Skill::all()),
             ], 200);
         }
         return response()->json([
-            'skills' => new SkillsCollection(Skill::where($queryItems)->get()->all()),
+            'skills' => new SkillCollection(Skill::where($queryItems)->get()->all()),
         ], 200);
     }
 

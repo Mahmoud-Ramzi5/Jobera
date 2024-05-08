@@ -15,6 +15,7 @@ import Profile from './pages/Profile.jsx';
 import EditSkills from './components/EditSkills.jsx';
 import Portfolios from './components/Portfolios/Portfolios.jsx';
 import EditPortfolio from './components/Portfolios/EditPortfolio.jsx';
+import Certificates from './components/Education&Certificates/Certificates.jsx';
 import CertificateForm from './components/Education&Certificates/Certificate.jsx';
 import ResetPassword from './pages/ResetPassword.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
@@ -81,7 +82,7 @@ function App() {
   }, [theme]);
 
   if (isLoading) {
-    return <></>
+    return <div id='loading'></div>
   }
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
@@ -96,6 +97,7 @@ function App() {
                 <Route path="/edit-skills" element={<EditSkills />} />
                 <Route path="/portfolios" element={<Portfolios/>}/>
                 <Route path="/edit-portfolio" element={<EditPortfolio />} />
+                <Route path="/certificates" element={<Certificates/>}/>
                 <Route path="/certificates/create" element={<CertificateForm/>}/>
                 <Route path="/dashboard" element={<></>} />
                 <Route path="/logout" element={<Logout />} />

@@ -5,7 +5,7 @@ import { ThemeContext } from '../../App.jsx';
 import styles from './cards.module.css';
 
 
-const CertificationsCard = () => {
+const CertificationsCard = ({ token }) => {
   // Context    
   const { theme } = useContext(ThemeContext);
   // Define states
@@ -27,7 +27,10 @@ const CertificationsCard = () => {
           <button
             type="button"
             className={(theme === "theme-light") ? "btn btn-outline-dark" : "btn btn-outline-light"}
-            onClick={() => navigate('/Certificates')}>
+            onClick={() => navigate('/certificates', {
+              state: { edit: true, token: token }
+            })}
+          >
             Show Certificates
           </button>
         </Card.Body>

@@ -15,9 +15,11 @@ const Profile = () => {
   const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
   // Define states
   const initialized = useRef(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isRegistered, setIsRegistered] = useState(false);
   const [profile, setProfile] = useState({});
 
+  console.log(profile);
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
@@ -29,22 +31,27 @@ const Profile = () => {
         else {
           console.log(response.statusText);
         }
+      }).then(() => {
+          setIsLoading(false);
       });
     }
   }, [loggedIn])
 
+  if (isLoading) {
+    return <div id='loading'></div>
+  }
   return (
     <div className={styles.Profile}>
       <div className={styles.leftSideContainer}>
-        <div className={styles.leftSide}><UserInfo ProfileData={profile} /></div>
-        <div className={styles.leftSide}><Wallet ProfileData={profile} /></div>
-        <div className={styles.leftSide}><PortfolioCardList /></div>
+        <div className={styles.leftSide}><UserInfo ProfileData={profile} token={accessToken} /></div>
+        <div className={styles.leftSide}><Wallet ProfileData={profile} token={accessToken} /></div>
+        <div className={styles.leftSide}><PortfolioCardList ProfileData={profile} token={accessToken} /></div>
       </div>
       <div className={styles.rightSideContainer}>
         {!isRegistered ? (<>
-          <div className={styles.rightSide}><SetUpCard /></div>
+          <div className={styles.rightSide}><SetUpCard ProfileData={profile} token={accessToken} /></div>
         </>) : (<></>)}
-        <div className={styles.rightSide}><CertificationsCard ProfileData={profile} /></div>
+        <div className={styles.rightSide}><CertificationsCard ProfileData={profile} token={accessToken} /></div>
         <div className={styles.rightSide}><SkillsCard ProfileData={profile} token={accessToken} /></div>
       </div>
     </div>
