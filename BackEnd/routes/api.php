@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileControllers\EducationController;
+use App\Http\Controllers\ProfileControllers\PortfolioController;
 use App\Http\Controllers\ProfileControllers\SkillsController;
 use App\Models\State;
 use App\Models\Country;
@@ -75,4 +76,10 @@ Route::controller(EducationController::class)->group(function() {
     Route::get('/certificates', 'ShowUserCertificates')->middleware('auth:api');
     Route::post('/certificate/add', 'AddCertificate')->middleware('auth:api');
     Route::post('/certificate/edit', 'EditCertificate')->middleware('auth:api');
+});
+
+Route::controller(PortfolioController::class)->group(function(){
+    Route::post('/portfolio/add','AddPortfolio')->middleware('auth:api');
+    Route::get('portfolio/{portfolio}','ShowPortfolio')->middleware('auth:api');
+    Route::get('portfolios','AllPortfolios')->middleware('auth:api');
 });
