@@ -54,17 +54,18 @@ Route::controller(ForgetPasswordController::class)->group(function () {
 });
 
 Route::controller(ProfileController::class)->group(function () {
-    Route::get('/profile', 'Show')->middleware('auth:api');
-    Route::get('/profile/skills', 'GetUserSkills')->middleware('auth:api');
-    Route::post('/profile/skills', 'AddUserSkill')->middleware('auth:api');
-    Route::delete('/profile/skills/{userSkill_id}', 'RemoveUserSkill')->middleware('auth:api');
-    Route::post('/profilePhoto','AddProfilePhoto')->middleware('auth:api');
-    Route::put('/profile/edit','EditProfile')->middleware('auth:api');
+    Route::get('/profile', 'ShowProfile')->middleware('auth:api');
+    Route::post('/profile/edit', 'EditProfile')->middleware('auth:api');
+    Route::post('/profilePhoto', 'AddProfilePhoto')->middleware('auth:api');
 });
 
 Route::controller(SkillsController::class)->group(function() {
     Route::get('/skills', 'GetSkills');
     Route::get('/skills/types', 'GetSkillTypes');
+
+    Route::get('/user/skills', 'GetUserSkills')->middleware('auth:api');
+    Route::post('/user/skills/add', 'AddUserSkills')->middleware('auth:api');
+    Route::post('/user/skills/edit', 'EditUserSkills')->middleware('auth:api');
 
     Route::post('/skills', 'AddSkill');
 });

@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation, Navigate } from 'react-router-dom';
 import ProgressBar from '../components/Register/ProgressBar.jsx';
-import EditSkills from '../components/EditSkills.jsx';
+import SkillsForm from '../components/SkillsForm.jsx';
 import EducationForm from '../components/Education&Certificates/Education.jsx';
 import Certificates from '../components/Education&Certificates/Certificates.jsx';
 import Portfolios from '../components/Portfolios/Portfolios.jsx';
@@ -43,7 +43,7 @@ const Register2 = () => {
           switch (step) {
             case 'SKILLS':
               return (
-                <EditSkills step={setStep} />
+                <SkillsForm step={setStep} />
               );
             case 'EDUCATION':
               return (

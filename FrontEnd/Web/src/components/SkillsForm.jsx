@@ -1,10 +1,10 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FetchSkillTypes, FetchSkills, SearchSkills } from '../apis/AuthApis.jsx';
-import { AddSkills } from '../apis/ProfileApis.jsx';
-import styles from '../styles/editskills.module.css';
+import { AddSkills, EditSkills } from '../apis/ProfileApis.jsx';
+import styles from '../styles/skillsform.module.css';
 
-const EditSkills = ({ step }) => {
+const SkillsForm = ({ step }) => {
   const initialized = useRef(false);
   const navigate = useNavigate()
   const location = useLocation();
@@ -109,7 +109,13 @@ const EditSkills = ({ step }) => {
 
   const handleEdit = (event) => {
     event.preventDefault();
-    // TODO
+    EditSkills(location.state.token, SkillIds).then((response) => {
+      if (response.status == 200) {
+        navigate('/profile');
+      } else {
+        console.log(response);
+      }
+    });
   };
 
   const handleStep1 = (event) => {
@@ -218,4 +224,4 @@ const EditSkills = ({ step }) => {
   );
 };
 
-export default EditSkills;
+export default SkillsForm;
