@@ -31,12 +31,17 @@ class IndividualResource extends JsonResource
             array_push($skills, $Skill);
         }
 
+        $is_registered = false;
+        if(count($skills) != 0 && $user->education != null) {
+            $is_registered = true;
+        }
+
         return [
             'full_name' => $this->full_name,
-            "email" => $user->email,
-            "phone_number" => $user->phone_number,
-            "country" => $user->state->country->country_name,
-            "state" => $user->state->state_name,
+            'email' => $user->email,
+            'phone_number' => $user->phone_number,
+            'country' => $user->state->country->country_name,
+            'state' => $user->state->state_name,
             'birth_date' => $this->birth_date,
             'gender' => $this->gender,
             'type' => $this->type,
@@ -46,7 +51,8 @@ class IndividualResource extends JsonResource
             'education' => $user->education,
             'certificates' => new CertificateCollection($user->certificates),
             'portfolios' => $user->portfolios,
-            "is_verifed" => $is_verified,
+            'is_verifed' => $is_verified,
+            'is_registered' => $is_registered
         ];
     }
 }

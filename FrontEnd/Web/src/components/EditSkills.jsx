@@ -18,11 +18,6 @@ const EditSkills = ({ step }) => {
   const [searchSkill, setSearchSkill] = useState("");
   const [showSubmitButton, setShowSubmitButton] = useState(false);
 
-  console.log(skills);
-  console.log(userSkills);
-  console.log(SkillIds);
-  console.log(checked);
-
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;

@@ -4,6 +4,7 @@ import { FetchUserProfile } from '../apis/ProfileApis.jsx';
 import UserInfo from '../components/Profile/UserInfo';
 import Wallet from '../components/Profile/Wallet.jsx';
 import SetUpCard from '../components/Profile/SetUpCard.jsx';
+import EducationCard from '../components/Profile/EducationCard.jsx';
 import CertificationsCard from '../components/Profile/CertificationsCard.jsx';
 import SkillsCard from '../components/Profile/SkillsCard.jsx';
 import PortfolioCardList from '../components/Profile/PortfolioCard.jsx';
@@ -16,7 +17,6 @@ const Profile = () => {
   // Define states
   const initialized = useRef(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [isRegistered, setIsRegistered] = useState(false);
   const [profile, setProfile] = useState({});
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const Profile = () => {
           console.log(response.statusText);
         }
       }).then(() => {
-          setIsLoading(false);
+        setIsLoading(false);
       });
     }
   }, [loggedIn])
@@ -47,9 +47,10 @@ const Profile = () => {
         <div className={styles.leftSide}><PortfolioCardList ProfileData={profile} token={accessToken} /></div>
       </div>
       <div className={styles.rightSideContainer}>
-        {!isRegistered ? (<>
+        {profile.is_registered ? (<></>) : (
           <div className={styles.rightSide}><SetUpCard ProfileData={profile} token={accessToken} /></div>
-        </>) : (<></>)}
+        )}
+        <div className={styles.rightSide}><EducationCard ProfileData={profile} token={accessToken} /></div>
         <div className={styles.rightSide}><CertificationsCard ProfileData={profile} token={accessToken} /></div>
         <div className={styles.rightSide}><SkillsCard ProfileData={profile} token={accessToken} /></div>
       </div>

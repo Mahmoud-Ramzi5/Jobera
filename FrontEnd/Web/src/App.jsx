@@ -14,6 +14,7 @@ import CallBack from './components/CallBack.jsx';
 import Profile from './pages/Profile.jsx';
 import EditSkills from './components/EditSkills.jsx';
 import Portfolios from './components/Portfolios/Portfolios.jsx';
+import EducationForm from './components/Education&Certificates/Education.jsx';
 import EditPortfolio from './components/Portfolios/EditPortfolio.jsx';
 import Certificates from './components/Education&Certificates/Certificates.jsx';
 import CertificateForm from './components/Education&Certificates/Certificate.jsx';
@@ -97,6 +98,7 @@ function App() {
                 <Route path="/edit-skills" element={<EditSkills />} />
                 <Route path="/portfolios" element={<Portfolios />} />
                 <Route path="/edit-portfolio" element={<EditPortfolio />} />
+                <Route path="/education" element={<EducationForm />} />
                 <Route path="/certificates" element={<Certificates />} />
                 <Route path="/certificates/create" element={<CertificateForm />} />
                 <Route path="/dashboard" element={<></>} />

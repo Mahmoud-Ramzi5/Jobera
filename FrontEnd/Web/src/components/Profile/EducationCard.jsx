@@ -1,12 +1,11 @@
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Card, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { ThemeContext } from '../../App.jsx';
-import certificate from '../../assets/certificate.png'
 import styles from './cards.module.css';
 
 
-const CertificationsCard = ({ token }) => {
+const EducationCard = ({ ProfileData, token }) => {
   // Context    
   const { theme } = useContext(ThemeContext);
   // Define states
@@ -16,23 +15,24 @@ const CertificationsCard = ({ token }) => {
     <Card className={styles.cards}>
       <div className={styles.background}>
         <Card.Header className={styles.titles}>
-          <div className={styles.title}>Personal Certifications</div>
+          <div className={styles.title}>Education</div>
         </Card.Header>
         <Card.Body>
-          <div className={styles.cer_img}>
-            <img src={certificate} alt="Certificate" />
-          </div>
-          <Card.Text>
-            Click on the button to display your cirtificates
-          </Card.Text>
+
+            <p>Level: {ProfileData.education.level}</p>
+            <p>Field: {ProfileData.education.field}</p>
+            <p>School: {ProfileData.education.school}</p>
+            <p>Start date: {ProfileData.education.start_date}</p>
+            <p>End date: {ProfileData.education.end_date}</p>
+
           <button
             type="button"
             className={(theme === "theme-light") ? "btn btn-outline-dark" : "btn btn-outline-light"}
-            onClick={() => navigate('/certificates', {
-              state: { edit: true, token: token }
+            onClick={() => navigate('/education', {
+              state: { edit: true, token: token, education: ProfileData.education }
             })}
           >
-            Show Certificates
+            Edit education
           </button>
         </Card.Body>
       </div>
@@ -40,4 +40,4 @@ const CertificationsCard = ({ token }) => {
   )
 }
 
-export default CertificationsCard;
+export default EducationCard;

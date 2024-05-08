@@ -17,10 +17,12 @@ const Register2 = () => {
 
   useEffect(() => {
     if (!initialized.current) {
+      if (location.state === null) {
+        navigate('/profile');
+      }
       initialized.current = true;
       // Get data from local storage
       const RegisterStep = localStorage.getItem('register_step');
-      console.log(RegisterStep);
       // Set step
       if (RegisterStep !== null) {
         setStep(RegisterStep);
@@ -41,23 +43,15 @@ const Register2 = () => {
           switch (step) {
             case 'SKILLS':
               return (
-                <EditSkills step={setStep}/>
+                <EditSkills step={setStep} />
               );
             case 'EDUCATION':
               return (
-                <EducationForm
-                  edit={false}
-                  token={accessToken}
-                  step={setStep}
-                />
+                <EducationForm step={setStep} />
               );
             case 'CERTIFICATES':
               return (
-                <Certificates
-                  edit={false}
-                  token={accessToken}
-                  step={setStep}
-                />
+                <Certificates step={setStep} />
               );
             case 'PORTFOLIO':
               return <Portfolios />;

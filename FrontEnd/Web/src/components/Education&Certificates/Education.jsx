@@ -4,27 +4,26 @@ import { MortarboardFill, ChevronDown } from 'react-bootstrap-icons';
 import { AddEducation, EditEducation } from '../../apis/ProfileApis.jsx';
 import styles from './education.module.css';
 
-const EducationForm = ({ edit, token, step }) => {
+const EducationForm = ({ step }) => {
   const initialized = useRef(false);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
-  if (location.state !== null) {
-    edit = location.state.edit;
-    token = location.state.token;
-  }
   const [educationData, setEducationData] = useState({
     level: "",
     field: "",
     school: "",
-    startDate: "",
-    endDate: "",
-    certificate: null, // New state for certificate file
+    start_date: "",
+    end_date: "",
+    certificate_file: null, // New state for certificate file
   });
 
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
+
+      if (location.state !== null) {
+        setEducationData(location.state.education);
+      }
     }
   });
 
@@ -37,7 +36,7 @@ const EducationForm = ({ edit, token, step }) => {
     const file = event.target.files[0];
     const allowedFileTypes = ["application/pdf"];
     if (file && allowedFileTypes.includes(file.type)) {
-      setEducationData({ ...educationData, certificate: file });
+      setEducationData({ ...educationData, certificate_file: file });
     } else {
       console.log("Invalid file type. Please select a PDF or Word document.");
     }
@@ -46,13 +45,13 @@ const EducationForm = ({ edit, token, step }) => {
   const handleEdit = (event) => {
     event.preventDefault();
     EditEducation(
-      token,
+      location.state.token,
       educationData.level,
       educationData.field,
       educationData.school,
-      educationData.startDate,
-      educationData.endDate,
-      educationData.certificate
+      educationData.start_date,
+      educationData.end_date,
+      educationData.certificate_file
     ).then((response) => {
       if (response.status === 200) {
         console.log(response.data);
@@ -62,9 +61,9 @@ const EducationForm = ({ edit, token, step }) => {
           level: "",
           field: "",
           school: "",
-          startDate: "",
-          endDate: "",
-          certificate: null,
+          start_date: "",
+          end_date: "",
+          certificate_file: null,
         });
 
         navigate('/profile');
@@ -78,13 +77,13 @@ const EducationForm = ({ edit, token, step }) => {
   const handleStep2 = (event) => {
     event.preventDefault();
     AddEducation(
-      token,
+      location.state.token,
       educationData.level,
       educationData.field,
       educationData.school,
-      educationData.startDate,
-      educationData.endDate,
-      educationData.certificate
+      educationData.start_date,
+      educationData.end_date,
+      educationData.certificate_file
     ).then((response) => {
       if (response.status === 201) {
         console.log(response.data);
@@ -94,24 +93,26 @@ const EducationForm = ({ edit, token, step }) => {
           level: "",
           field: "",
           school: "",
-          startDate: "",
-          endDate: "",
-          certificate: null,
+          start_date: "",
+          end_date: "",
+          certificate_file: null,
         });
+
+        localStorage.setItem('register_step', 'EDUCATION');
+        step('CERTIFICATES');
       }
       else {
         console.log(response.statusText);
       }
     });
-    step('CERTIFICATES');
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen_content}>
-          <h2 className={styles.heading}>{edit ? 'Edit Education' : 'Add Education'}</h2>
-          <form onSubmit={edit ? handleEdit : handleStep2}>
+          <h2 className={styles.heading}>{location.state.edit ? 'Edit Education' : 'Add Education'}</h2>
+          <form onSubmit={location.state.edit ? handleEdit : handleStep2}>
             <div className={styles.row}>
               <label htmlFor="level">Level:</label>
               <div className={styles.dropdown_container}>
@@ -162,27 +163,27 @@ const EducationForm = ({ edit, token, step }) => {
               />
             </div>
             <div className={styles.row}>
-              <label htmlFor="startDate">
+              <label htmlFor="StartDate">
                 Start Date:
               </label>
               <input
                 type="date"
-                id="startDate"
-                name="startDate"
-                value={educationData.startDate}
+                id="StartDate"
+                name="start_date"
+                value={educationData.start_date}
                 onChange={handleInputChange}
                 required
               />
             </div>
             <div className={styles.row}>
-              <label htmlFor="endDate">
+              <label htmlFor="EndDate">
                 End Date:
               </label>
               <input
                 type="date"
-                id="endDate"
-                name="endDate"
-                value={educationData.endDate}
+                id="EndDate"
+                name="end_date"
+                value={educationData.end_date}
                 onChange={handleInputChange}
                 required
               />
