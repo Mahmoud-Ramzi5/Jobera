@@ -82,7 +82,7 @@ function App() {
   }, [theme]);
 
   if (isLoading) {
-    return <div id='loading'></div>
+    return <div id='loader'><div className="clock-loader"></div></div>
   }
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
@@ -95,10 +95,10 @@ function App() {
                 <Route path="/complete-register" element={<Register2 />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/edit-skills" element={<EditSkills />} />
-                <Route path="/portfolios" element={<Portfolios/>}/>
+                <Route path="/portfolios" element={<Portfolios />} />
                 <Route path="/edit-portfolio" element={<EditPortfolio />} />
-                <Route path="/certificates" element={<Certificates/>}/>
-                <Route path="/certificates/create" element={<CertificateForm/>}/>
+                <Route path="/certificates" element={<Certificates />} />
+                <Route path="/certificates/create" element={<CertificateForm />} />
                 <Route path="/dashboard" element={<></>} />
                 <Route path="/logout" element={<Logout />} />
               </Route>
