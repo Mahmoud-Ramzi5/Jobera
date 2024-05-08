@@ -4,9 +4,10 @@ import { FetchSkillTypes, FetchSkills, SearchSkills } from '../apis/AuthApis.jsx
 import { AddSkills } from '../apis/ProfileApis.jsx';
 import styles from '../styles/editskills.module.css';
 
-const EditSkills = ({ edit, token, step }) => {
+const EditSkills = ({ step }) => {
   const initialized = useRef(false);
   const Navigate = useNavigate()
+  const location = useLocation();
   const [types, setTypes] = useState([]);
   const [type, setType] = useState("");
   const [skills, setSkills] = useState([]);
@@ -16,17 +17,32 @@ const EditSkills = ({ edit, token, step }) => {
   const [userSkills, setUserSkills] = useState([]);
   const [searchSkill, setSearchSkill] = useState("");
   const [showSubmitButton, setShowSubmitButton] = useState(false);
-  const location = useLocation();
-  if (location.state !== null) {
-    edit = location.state.edit;
-    token = location.state.token;
-    const skills = location.state.skills;
-    console.log(skills);
-  }
+
+  console.log(skills);
+  console.log(userSkills);
+  console.log(SkillIds);
+  console.log(checked);
 
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
+
+      if (location.state !== null) {
+        location.state.skills.forEach((skill) => {
+          if (!checked[skill.id]) {
+            setChecked((prevState) => ({ ...prevState, [skill.id]: true }));
+            setSkillIds((prevState) => [...prevState, skill.id]);
+            setUserSkills((prevState) => [...prevState,
+            {
+              id: skill.id,
+              name: skill.name,
+            }
+            ]);
+            setShowSubmitButton(true);
+          }
+        });
+      }
+
       FetchSkillTypes().then((response) => {
         if (response.status === 200) {
           setTypes(response.data.types);
@@ -36,26 +52,6 @@ const EditSkills = ({ edit, token, step }) => {
       });
     }
   }, []);
-
-  const handleSearch = (event) => {
-    setSearchSkill(event.target.value);
-    GetSearchedSkills(event.target.value);
-  }
-
-  const GetSearchedSkills = (skill) => {
-    SearchSkills(skill).then((response) => {
-      if (response.status === 200) {
-        setSkills(response.data.skills);
-        response.data.skills.forEach((skill) => {
-          if (!checked[skill.id]) {
-            setChecked((prevState) => ({ ...prevState, [skill.id]: false }));
-          }
-        });
-      } else {
-        console.log(response.statusText);
-      }
-    });
-  }
 
   const AddSkill = (event, index) => {
     event.persist();
@@ -80,6 +76,22 @@ const EditSkills = ({ edit, token, step }) => {
     }
   };
 
+  const handleSearch = (event) => {
+    setSearchSkill(event.target.value);
+    SearchSkills(event.target.value).then((response) => {
+      if (response.status === 200) {
+        setSkills(response.data.skills);
+        response.data.skills.forEach((skill) => {
+          if (!checked[skill.id]) {
+            setChecked((prevState) => ({ ...prevState, [skill.id]: false }));
+          }
+        });
+      } else {
+        console.log(response.statusText);
+      }
+    });
+  }
+
   const handleTypeSelect = (event) => {
     setType(event.target.value);
     setSearchSkill("");
@@ -99,19 +111,14 @@ const EditSkills = ({ edit, token, step }) => {
 
   const handleEdit = (event) => {
     event.preventDefault();
-    AddSkills(token, SkillIds).then((response) => {
-      if (response.status == 200) {
-        Navigate('/profile');
-      } else {
-        console.log(response);
-      }
-    });
+    // TODO
   };
 
   const handleStep1 = (event) => {
     event.preventDefault();
-    AddSkills(token, SkillIds).then((response) => {
+    AddSkills(location.state.token, SkillIds).then((response) => {
       if (response.status == 200) {
+        localStorage.setItem('register_step', 'EDUCATION');
         step('EDUCATION');
       } else {
         console.log(response);
@@ -132,7 +139,7 @@ const EditSkills = ({ edit, token, step }) => {
           />
         </div>
         {showSubmitButton && (
-          <form className={styles.submit_div} onSubmit={edit ? handleEdit : handleStep1}>
+          <form className={styles.submit_div} onSubmit={location.state.edit ? handleEdit : handleStep1}>
             <div>
               <button className={styles.submit_button}>Submit</button>
             </div>
@@ -165,37 +172,10 @@ const EditSkills = ({ edit, token, step }) => {
             )}
           </select>
         </div>
-        {(type || searchSkill) && (
-          <>
-            <div className={styles.title}>
-              Available Skills:
-              <select multiple disabled={skillCount === 0} className={styles.scroll_types}>
-                {skills.length === 0 ? (
-                  <option
-                    key='0'
-                    value=''
-                    disabled={true}
-                  >
-                    Skill not found
-                  </option>
-                ) : (
-                  skills.map((skill) => (
-                    <option
-                      key={skill.id}
-                      value={skill.name}
-                      onClick={(event) => AddSkill(event, skill.id)}
-                      hidden={checked[skill.id]}
-                      disabled={checked[skill.id] || skillCount === 0}
-                      className={styles.available_skills}
-                    >
-                      {skill.name}
-                    </option>
-                  ))
-                )}
-              </select>
-            </div>
-            {/*<div className={styles.title}>
-              Available Skills:
+        <div className={styles.title}>
+          {(type || searchSkill) && (
+            <>
+              <>Available Skills:</>
               <div className={styles.scroll}>
                 {skills.map((skill) => (
                   <button
@@ -205,34 +185,36 @@ const EditSkills = ({ edit, token, step }) => {
                     onClick={(event) => {
                       AddSkill(event, skill.id);
                     }}
-                    disabled={checked[skill.id]}
+                    disabled={checked[skill.id] || skillCount === 0}
                   >
                     {skill.name}
                   </button>
                 ))}
               </div>
-            </div>*/}
-            {userSkills.length > 0 && (
-              <div className={styles.title}>
-                Chosen Skills:
-                <div className={styles.scroll}>
-                  {userSkills.map((skill) => (
-                    <button
-                      className={styles.choosed_skills}
-                      key={skill.id}
-                      value={skill.name}
-                      onClick={(event) => {
-                        RemoveSkill(event, skill.id);
-                      }}
-                    >
-                      {skill.name}
-                    </button>
-                  ))}
-                </div>
+            </>
+          )}
+        </div>
+        <div className={styles.title}>
+          {userSkills.length > 0 && (
+            <>
+              <>Chosen Skills:</>
+              <div className={styles.scroll}>
+                {userSkills.map((skill) => (
+                  <button
+                    className={styles.choosed_skills}
+                    key={skill.id}
+                    value={skill.name}
+                    onClick={(event) => {
+                      RemoveSkill(event, skill.id);
+                    }}
+                  >
+                    {skill.name}
+                  </button>
+                ))}
               </div>
-            )}
-          </>
-        )}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

@@ -82,7 +82,7 @@ function App() {
   }, [theme]);
 
   if (isLoading) {
-    return <></>
+    return <div id='loading'></div>
   }
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>

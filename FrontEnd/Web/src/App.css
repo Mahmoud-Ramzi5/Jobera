@@ -17,6 +17,10 @@ html, body {
   padding: 0;
 }
 
+#loading {
+  min-height: 100vh;
+}
+
 .theme-light {
   --color-types:#393939;
   --color-available:#252a2f;
