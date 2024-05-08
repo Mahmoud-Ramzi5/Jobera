@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ProfileControllers;
 
+use App\Http\Requests\EditPortfolioRequest;
 use App\Models\Portfolio;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
@@ -70,5 +71,40 @@ class PortfolioController extends Controller
         return response()->json([
             "data" => new PortfolioCollection($portfolios),
         ], 201);        
+    }
+    public function EditPortfolio(EditPortfolioRequest $request,Portfolio $portfolio){
+        // Get User
+        $user = auth()->user();
+        if($user == null) {
+            return response()->json([
+                "message" => "user not found"
+            ], 401);
+        }
+
+        // Validate request
+        $validated = $request->validated();
+
+        // Handle photo file
+        if ($request->hasFile('photo')) {
+            $Path = $request->file('photo')->store('avatars', 'public');
+            $validated['photo'] = $Path;
+        }
+
+        // Handle portfolio files
+        if ($request->hasFile('files')) {
+            $files = $request->file('attachment');
+            foreach ($files as $file) {
+                $file->store('files', 'public');
+            }
+            $validated = Arr::except($validated, 'files');
+        }
+
+        $validated['user_id'] = $user->id;
+        $portfolio->update($validated);
+        // Response
+        return response()->json([
+            "message" => "Portfolio updated sucessfully",
+            "data" => new PortfolioResource($portfolio),
+        ], 201);
     }
 }

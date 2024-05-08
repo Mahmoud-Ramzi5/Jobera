@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\ProfileControllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Individual;
 use App\Models\UserSkills;
 use Illuminate\Http\Request;
-use App\Http\Requests\StoreUserSkillRequest;
-use App\Http\Requests\StoreProfilePhotoRequest;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\EditProfileRequest;
 use App\Http\Resources\IndividualResource;
+use App\Http\Requests\EditUserSkillsRequest;
+use App\Http\Requests\StoreUserSkillRequest;
+use App\Http\Requests\StoreProfilePhotoRequest;
 
 class ProfileController extends Controller
 {
@@ -98,6 +99,43 @@ class ProfileController extends Controller
         return response()->json([
             'message' => 'Skill deleted successfully'
         ], 203);
+    }
+    public function EditUserSkill(EditUserSkillsRequest $request)
+    {
+        // Get user
+        $user = auth()->user();
+        
+        // Validate the request
+        $validated = $request->validated();
+        
+        // Get the user's existing skills
+        $existingSkills = $user->skills()->pluck('skill_id')->toArray();
+        
+        // Determine the skills to remove
+        $skillsToRemove = array_diff($existingSkills, $validated['skills']);
+        
+        // Remove the skills that are not in the validated skills
+        $user->skills()->whereIn('skill_id', $skillsToRemove)->delete();
+        
+        // Add the new skills
+        foreach ($validated['skills'] as $skillData) {
+            // Check if the skill is already associated with the user
+            if (!in_array($skillData, $existingSkills)) {
+                // Create a new skill if it's not already associated
+                $user->skills()->create([
+                    'skill_id' => $skillData
+                ]);
+            }
+        }
+    
+        // Get the updated list of skills
+        $updatedSkills = $user->skills()->get();
+    
+        // Response
+        return response()->json([
+            "message" => "Skills updated successfully",
+            "skills" => $updatedSkills
+        ], 200);
     }
 
     public function AddProfilePhoto(StoreProfilePhotoRequest $request)

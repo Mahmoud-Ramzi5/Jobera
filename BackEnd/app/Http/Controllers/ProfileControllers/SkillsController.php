@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers\ProfileControllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Skill;
 use App\Enums\SkillTypes;
 use App\Filters\SkillFilter;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\SkillResource;
 use App\Http\Resources\SkillCollection;
 use App\Http\Requests\StoreSkillsRequest;
+use App\Http\Requests\EditUserSkillsRequest;
 
 
 class SkillsController extends Controller

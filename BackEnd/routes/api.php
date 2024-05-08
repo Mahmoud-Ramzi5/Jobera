@@ -80,6 +80,7 @@ Route::controller(EducationController::class)->group(function() {
 
 Route::controller(PortfolioController::class)->group(function(){
     Route::post('/portfolio/add','AddPortfolio')->middleware('auth:api');
-    Route::get('portfolio/{portfolio}','ShowPortfolio')->middleware('auth:api');
-    Route::get('portfolios','AllPortfolios')->middleware('auth:api');
+    Route::get('/portfolio/{portfolio}','ShowPortfolio')->middleware('auth:api');
+    Route::get('/portfolios','AllPortfolios')->middleware('auth:api');
+    Route::put('/portfolio/{portfolio}','EditPortfolio')->middleware('auth:api');
 });
