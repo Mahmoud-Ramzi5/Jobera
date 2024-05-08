@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\ProfileControllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Portfolio;
 use Illuminate\Support\Arr;
-use App\Http\Resources\CertificateResource;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\PortfolioResource;
 use App\Http\Requests\AddPortfolioRequest;
+use App\Http\Resources\CertificateResource;
+use App\Http\Resources\PortfolioCollection;
 
 class PortfolioController extends Controller
 {
@@ -44,7 +47,28 @@ class PortfolioController extends Controller
         // Response
         return response()->json([
             "message" => "Portfolio created sucessfully",
-            "data" => $portfolio,
+            "data" => new PortfolioResource($portfolio),
         ], 201);
+    }
+    public function ShowPortifolio(Request $request,Portfolio $portfolio){
+        return response()->json([
+            "data"=>new PortfolioResource($portfolio)
+        ]);
+    }
+    public function AllPortifolios(){
+        // Get User
+        $user = auth()->user();
+        if($user == null) {
+            return response()->json([
+                "message" => "user not found"
+            ], 401);
+        }
+        
+        $portfolios=$user->portifolios()->get();
+        
+        // Response
+        return response()->json([
+            "data" => new PortfolioCollection($portfolios),
+        ], 201);        
     }
 }
