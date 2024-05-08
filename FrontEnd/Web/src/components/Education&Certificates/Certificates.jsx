@@ -1,28 +1,34 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { BsTrash, BsPencil, BsEye } from "react-icons/bs"; // Import the Bootstrap icons
+import { useEffect, useState, useRef } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Eye, Pencil, Trash } from 'react-bootstrap-icons';
 import { ShowCertificates } from '../../apis/ProfileApis';
 import styles from './certificates.module.css';
 
-const Certificates = ({ edit, token, step }) => {
+const Certificates = ({ step }) => {
+  const initialized = useRef(false);
   const navigate = useNavigate();
   const location = useLocation();
-  if (location.state !== null) {
-    edit = location.state.edit;
-    token = location.state.token;
-  }
   const [certificates, setCertificates] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    ShowCertificates(token).then((response) => {
-      if (response.status === 200) {
-        setCertificates(response.data.certificates);
+    if (!initialized.current) {
+      initialized.current = true;
+
+      if (location.state !== null) {
+        ShowCertificates(location.state.token).then((response) => {
+          if (response.status === 200) {
+            setCertificates(response.data.certificates);
+          }
+          else {
+            console.log(response.statusText);
+          }
+        });
       }
       else {
-        console.log(response.statusText);
+        navigate('/profile');
       }
-    });
+    }
   }, []);
 
   const handleSearch = (event) => {
@@ -36,6 +42,7 @@ const Certificates = ({ edit, token, step }) => {
 
   const handleStep3 = (event) => {
     event.preventDefault();
+    localStorage.setItem('register_step', 'PORTFOLIO');
     step('PORTFOLIO');
   }
 
@@ -58,19 +65,19 @@ const Certificates = ({ edit, token, step }) => {
             onClick={() => navigate(`/certificates/${certificate.id}`)}
             className={styles.view_button}
           >
-            <BsEye />
+            <Eye />
           </button>
           <button
             onClick={() => handleEdit(certificate.id)}
             className={styles.edit_button}
           >
-            <BsPencil />
+            <Pencil />
           </button>
           <button
             onClick={() => handleDelete(certificate.id)}
             className={styles.delete_button}
           >
-            <BsTrash />
+            <Trash />
           </button>
         </td>
       </tr>
@@ -94,16 +101,15 @@ const Certificates = ({ edit, token, step }) => {
               onChange={handleSearch}
               className={styles.search_input}
             />
-            <button className={styles.search_button}>Search</button>
             <button
               className={styles.create_button}
               onClick={() => navigate('/certificates/create', {
-                state: { token: token }
+                state: { edit: location.state.edit, token: location.state.token }
               })}
             >
               Create
             </button>
-            <form className={styles.submit_div} onSubmit={edit ? handleEdit : handleStep3}>
+            <form className={styles.submit_div} onSubmit={location.state.edit ? handleEdit : handleStep3}>
               <div>
                 <button className={styles.submit_button}>Submit</button>
               </div>

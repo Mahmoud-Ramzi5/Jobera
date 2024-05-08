@@ -24,6 +24,9 @@ const EducationForm = ({ step }) => {
       if (location.state !== null) {
         setEducationData(location.state.education);
       }
+      else {
+        navigate('/profile');
+      }
     }
   });
 
@@ -98,7 +101,7 @@ const EducationForm = ({ step }) => {
           certificate_file: null,
         });
 
-        localStorage.setItem('register_step', 'EDUCATION');
+        localStorage.setItem('register_step', 'CERTIFICATES');
         step('CERTIFICATES');
       }
       else {

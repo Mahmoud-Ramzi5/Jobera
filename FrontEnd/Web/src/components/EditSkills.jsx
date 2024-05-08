@@ -6,7 +6,7 @@ import styles from '../styles/editskills.module.css';
 
 const EditSkills = ({ step }) => {
   const initialized = useRef(false);
-  const Navigate = useNavigate()
+  const navigate = useNavigate()
   const location = useLocation();
   const [types, setTypes] = useState([]);
   const [type, setType] = useState("");
@@ -36,6 +36,9 @@ const EditSkills = ({ step }) => {
             setShowSubmitButton(true);
           }
         });
+      }
+      else {
+        navigate('/profile');
       }
 
       FetchSkillTypes().then((response) => {
