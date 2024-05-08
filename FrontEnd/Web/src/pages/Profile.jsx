@@ -19,7 +19,6 @@ const Profile = () => {
   const [isRegistered, setIsRegistered] = useState(false);
   const [profile, setProfile] = useState({});
 
-  console.log(profile);
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
@@ -38,7 +37,7 @@ const Profile = () => {
   }, [loggedIn])
 
   if (isLoading) {
-    return <div id='loading'></div>
+    return <div id='loader'><div className="clock-loader"></div></div>
   }
   return (
     <div className={styles.Profile}>
