@@ -21,16 +21,17 @@ class CompanyResource extends JsonResource
         }
         $portfolios=$user->portfolios()->get();
         return [
-            "email" => $user->email,
-            "phone_number" => $user->phone_number,
-            "country" => $user->state->country->country_name,
-            "state" => $user->state->state_name,
-            "is_verifed" => $is_verified,
             'name' => $this->name,
+            'email' => $user->email,
+            'phone_number' => $user->phone_number,
+            'country' => $user->state->country->country_name,
+            'state' => $user->state->state_name,
+            'date' => $this->birth,
             'field' => $this->field,
             'description' => $this->description,
             'avatar_photo' => $this->avatar_photo,
-            'portfolios'=>$portfolios,
+            'portfolios' => new PortfolioCollection($user->portfolios),
+            'is_verifed' => $is_verified,
         ];
     }
 }

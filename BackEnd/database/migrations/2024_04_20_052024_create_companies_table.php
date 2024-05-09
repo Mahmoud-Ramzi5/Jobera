@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
-            $table->string("name");
-            $table->string("field");
-            $table->text("description")->nullable();
+            $table->string('name');
+            $table->dateTime('date');
+            $table->string('field');
+            $table->text('description')->nullable();
             $table->string('avatar_photo')->nullable();
             $table->float('rating')->default(0.0)->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
