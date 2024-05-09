@@ -13,7 +13,7 @@ class EditCertificateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,7 +25,6 @@ class EditCertificateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => ['required'],
             'name' => ['sometimes'],
             'organization' => ['sometimes'],
             'release_date' => ['sometimes', 'date'],

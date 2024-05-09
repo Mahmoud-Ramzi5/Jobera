@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { AddCertificate, ShowCertificate } from '../../apis/ProfileApis.jsx';
+import { AddCertificate, EditCertificate, ShowCertificate } from '../../apis/ProfileApis.jsx';
 import styles from './certificate.module.css';
 
 const CertificateForm = () => {
@@ -52,8 +52,26 @@ const CertificateForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if(location.state.edit){
-
-    }
+      console.log(location.state.token)
+      EditCertificate(
+        location.state.token,
+        location.state.id,
+        CertificateData.name,
+        CertificateData.organization,
+        CertificateData.releaseDate,
+        CertificateData.file
+      ).then((response) => {
+        if (response.status === 201) {
+          console.log(response.data);
+  
+          navigate('/certificates', {
+            state: { edit: true, token: location.state.token }
+          })
+        } else {
+          console.log(response.statusText);
+        }
+      });
+    }  
     else{
     AddCertificate(
       location.state.token,

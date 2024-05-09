@@ -140,7 +140,7 @@ class EducationController extends Controller
         ], 201);
     }
 
-    public function EditCertificate(EditCertificateRequest $request)
+    public function EditCertificate(EditCertificateRequest $request,Certificate $certificate)
     {
         // Validate request
         $validated = $request->validated();
@@ -160,16 +160,13 @@ class EducationController extends Controller
             $avatarPath = $request->file('file')->store('files', 'public');
             $validated['file'] = $avatarPath;
         }
-
-        $certificate = $user->certificates()->where('id', $validated['id']);
-        $validated = Arr::except($validated, 'id');
         $certificate->update($validated);
 
         // Response
         return response()->json([
             "message" => "Certificate updated",
             "data" => new CertificateResource($certificate),
-        ], 200);
+        ], 201);
     }
     public function DeleteCertificate(Request $request,Certificate $certificate){
         $certificate->delete();

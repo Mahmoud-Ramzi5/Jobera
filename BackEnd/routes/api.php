@@ -77,7 +77,7 @@ Route::controller(EducationController::class)->group(function() {
     Route::get('/certificates', 'ShowUserCertificates')->middleware('auth:api');
     Route::get('/certificates/{certificate}', 'ShowCertificate')->middleware('auth:api');
     Route::post('/certificate/add', 'AddCertificate')->middleware('auth:api');
-    Route::post('/certificate/edit', 'EditCertificate')->middleware('auth:api');
+    Route::put('/certificate/edit/{certificate}', 'EditCertificate')->middleware('auth:api');
 });
 
 Route::controller(PortfolioController::class)->group(function() {

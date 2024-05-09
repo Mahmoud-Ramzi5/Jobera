@@ -180,8 +180,7 @@ export const EditCertificate = async (
   file,
 ) => {
   try {
-    const response = await axios.post('http://127.0.0.1:8000/api/certificate/edit', {
-      'id': id,
+    const response = await axios.put(`http://127.0.0.1:8000/api/certificate/edit/${id}`, {
       'name': name,
       'organization': organization,
       'release_date': ReleaseDate,
