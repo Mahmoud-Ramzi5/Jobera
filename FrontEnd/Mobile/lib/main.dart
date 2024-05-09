@@ -64,7 +64,7 @@ class MainApp extends StatelessWidget {
 
 Future<bool> checkToken() async {
   Dio dio = Dio();
-  String? token = sharedPreferences!.getString('access_token');
+  String? token = sharedPreferences?.getString('access_token');
   if (token == null) {
     return false;
   } else {
@@ -82,8 +82,8 @@ Future<bool> checkToken() async {
       }
     } on DioException catch (e) {
       await Dialogs().showErrorDialog(
-        'Error',
-        e.response!.data["errors"].toString(),
+        "Error",
+        e.message.toString(),
       );
     }
   }
