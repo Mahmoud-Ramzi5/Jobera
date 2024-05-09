@@ -60,6 +60,7 @@ Route::controller(ProfileController::class)->group(function () {
     Route::delete('/profile/skills/{userSkill_id}', 'RemoveUserSkill')->middleware('auth:api');
     Route::post('/profilePhoto','AddProfilePhoto')->middleware('auth:api');
     Route::put('/profile/edit','EditProfile')->middleware('auth:api');
+    Route::put('/skills/edit','EditUserSkill')->middleware('auth:api');
 });
 
 Route::controller(SkillsController::class)->group(function() {

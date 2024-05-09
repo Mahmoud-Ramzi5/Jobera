@@ -15,6 +15,7 @@ class PortfolioResource extends JsonResource
     public function toArray(Request $request): array
     {
         $skills=$this->skills()->get();
+        $files=$this->files()->get();
         return [
             "id"=>$this->id,
             "title"=>$this->title,
@@ -22,7 +23,8 @@ class PortfolioResource extends JsonResource
             "link"=>$this->link,
             "photo"=>$this->photo,
             "user_id"=>$this->user_id,
-            "skills"=>$skills
+            "skills"=>$skills,
+            "files"=>$files
         ];
     }
 }
