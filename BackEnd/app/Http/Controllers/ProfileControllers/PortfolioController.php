@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\ProfileControllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Portfolio;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use App\Models\PortfolioFile;
+use App\Http\Controllers\Controller;
+use App\Http\Resources\PortfolioResource;
 use App\Http\Requests\AddPortfolioRequest;
 use App\Http\Requests\EditPortfolioRequest;
-use App\Http\Resources\PortfolioResource;
+use App\Http\Resources\CertificateResource;
 use App\Http\Resources\PortfolioCollection;
 
 class PortfolioController extends Controller
@@ -17,8 +19,6 @@ class PortfolioController extends Controller
     {
         // Get User
         $user = auth()->user();
-
-        // Check user
         if ($user == null) {
             return response()->json([
                 'user' => 'Invalid user'
@@ -66,17 +66,28 @@ class PortfolioController extends Controller
             $validated['photo'] = $Path;
         }
 
-        // Handle portfolio files
-        if ($request->hasFile('files')) {
-            $files = $request->file('attachment');
-            foreach ($files as $file) {
-                $file->store('files', 'public');
-            }
-            $validated = Arr::except($validated, 'files');
-        }
-
         $validated['user_id'] = $user->id;
         $portfolio = Portfolio::create($validated);
+
+        // Save the associated skills
+        $skills = $validated['skills'];
+        $portfolio->skills()->attach($skills);
+
+        // Handle file uploads if present in the request
+
+        if ($request->hasFile('files')) {
+            $files = $request->file('files');
+
+            foreach ($files as $file) {
+                $filePath = $file->store('portfolio_files');
+
+                // Create and associate a new file instance with the portfolio
+
+                $portfolioFile = new PortfolioFile();
+                $portfolioFile->file_path = $filePath;
+                $portfolio->files()->save($portfolioFile);
+            }
+        }
 
         // Response
         return response()->json([
@@ -84,17 +95,31 @@ class PortfolioController extends Controller
             "data" => new PortfolioResource($portfolio),
         ], 201);
     }
-
-
-    public function EditPortfolio(EditPortfolioRequest $request,Portfolio $portfolio){
+    public function ShowPortifolio(Request $request, Portfolio $portfolio)
+    {
+        return response()->json([
+            "data" => new PortfolioResource($portfolio)
+        ]);
+    }
+    public function AllPortifolios()
+    {
         // Get User
         $user = auth()->user();
-        if($user == null) {
+        if ($user == null) {
             return response()->json([
                 "message" => "user not found"
             ], 401);
         }
 
+        $portfolios = $user->portifolios()->get();
+
+        // Response
+        return response()->json([
+            "data" => new PortfolioCollection($portfolios),
+        ], 201);
+    }
+    public function EditPortfolio(EditPortfolioRequest $request, Portfolio $portfolio)
+    {
         // Validate request
         $validated = $request->validated();
 
@@ -103,18 +128,30 @@ class PortfolioController extends Controller
             $Path = $request->file('photo')->store('avatars', 'public');
             $validated['photo'] = $Path;
         }
-
-        // Handle portfolio files
-        if ($request->hasFile('files')) {
-            $files = $request->file('attachment');
-            foreach ($files as $file) {
-                $file->store('files', 'public');
-            }
-            $validated = Arr::except($validated, 'files');
-        }
-
-        $validated['user_id'] = $user->id;
         $portfolio->update($validated);
+        // Save the associated skills
+        $skills = $validated['skills'];
+        $portSkills=$portfolio->skills()->get();
+        foreach($skills as $skill){
+            if(! in_array($portSkills,$skill)){
+                $portfolio->skills()->attach($skill);
+            }
+        }
+        //handle files
+        if ($request->hasFile('files')) {
+            $files = $request->file('files');
+
+            foreach ($files as $file) {
+                $filePath = $file->store('portfolio_files');
+
+                // Create and associate a new file instance with the portfolio
+
+                $portfolioFile = new PortfolioFile();
+                $portfolioFile->file_path = $filePath;
+                $portfolio->files()->save($portfolioFile);
+            }
+        }
+        
         // Response
         return response()->json([
             "message" => "Portfolio updated sucessfully",
