@@ -18,18 +18,20 @@ const EducationCard = ({ ProfileData, token }) => {
           <div className={styles.title}>Education</div>
         </Card.Header>
         <Card.Body>
-
-            <p>Level: {ProfileData.education.level}</p>
-            <p>Field: {ProfileData.education.field}</p>
-            <p>School: {ProfileData.education.school}</p>
-            <p>Start date: {ProfileData.education.start_date}</p>
-            <p>End date: {ProfileData.education.end_date}</p>
-
+          {ProfileData.education === null ? <></> :
+            <>
+              <p>Level: {ProfileData.education.level}</p>
+              <p>Field: {ProfileData.education.field}</p>
+              <p>School: {ProfileData.education.school}</p>
+              <p>Start date: {ProfileData.education.start_date}</p>
+              <p>End date: {ProfileData.education.end_date}</p>
+            </>
+          }
           <button
             type="button"
             className={(theme === "theme-light") ? "btn btn-outline-dark" : "btn btn-outline-light"}
             onClick={() => navigate('/education', {
-              state: { edit: true, token: token, education: ProfileData.education }
+              state: { edit: true, education: ProfileData.education }
             })}
           >
             Edit education

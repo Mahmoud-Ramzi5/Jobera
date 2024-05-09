@@ -1,13 +1,20 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MortarboardFill, ChevronDown } from 'react-bootstrap-icons';
+import { LoginContext } from '../../App.jsx';
 import { AddEducation, EditEducation } from '../../apis/ProfileApis.jsx';
 import styles from './education.module.css';
 
 const EducationForm = ({ step }) => {
+  // Context
+  const { accessToken } = useContext(LoginContext);
+  // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [edit, setEdit] = useState(true);
+
   const [educationData, setEducationData] = useState({
     level: "",
     field: "",
@@ -22,7 +29,10 @@ const EducationForm = ({ step }) => {
       initialized.current = true;
 
       if (location.state !== null) {
-        setEducationData(location.state.education);
+        setEdit(location.state.edit);
+        if (location.state.education !== null) {
+          setEducationData(location.state.education);
+        }
       }
       else {
         navigate('/profile');
@@ -48,7 +58,7 @@ const EducationForm = ({ step }) => {
   const handleEdit = (event) => {
     event.preventDefault();
     EditEducation(
-      location.state.token,
+      accessToken,
       educationData.level,
       educationData.field,
       educationData.school,
@@ -80,7 +90,7 @@ const EducationForm = ({ step }) => {
   const handleStep2 = (event) => {
     event.preventDefault();
     AddEducation(
-      location.state.token,
+      accessToken,
       educationData.level,
       educationData.field,
       educationData.school,
@@ -114,8 +124,8 @@ const EducationForm = ({ step }) => {
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen_content}>
-          <h2 className={styles.heading}>{location.state.edit ? 'Edit Education' : 'Add Education'}</h2>
-          <form onSubmit={location.state.edit ? handleEdit : handleStep2}>
+          <h2 className={styles.heading}>{edit ? 'Edit Education' : 'Add Education'}</h2>
+          <form onSubmit={edit ? handleEdit : handleStep2}>
             <div className={styles.row}>
               <label htmlFor="level">Level:</label>
               <div className={styles.dropdown_container}>
