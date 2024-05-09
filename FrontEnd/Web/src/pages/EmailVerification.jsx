@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CheckLg } from 'react-bootstrap-icons';
-import { VerifyEmail } from '../apis/AuthApis.jsx';
+import { VerifyEmailAPI } from '../apis/AuthApis.jsx';
 import Logo from '../assets/JoberaLogo.png';
 import styles from '../styles/emailverfication.module.css';
 
@@ -12,7 +12,7 @@ const EmailVerificationMessage = () => {
     const params = new URLSearchParams(window.location.search);
 
     // Api Call
-    VerifyEmail(params.get('token')).then((response) => {
+    VerifyEmailAPI(params.get('token')).then((response) => {
       if (response.status === 200) {
         setVerified(true);
       }

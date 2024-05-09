@@ -1,9 +1,7 @@
-import { useEffect, useState, useContext, useRef } from 'react';
+import { useContext } from 'react';
 import ReactSwitch from 'react-switch';
 import { BriefcaseFill, EnvelopeAtFill, BellFill, List, X } from 'react-bootstrap-icons';
-import { ThemeContext } from '../App.jsx';
-import { LoginContext } from '../App.jsx';
-import { FetchUserProfile } from '../apis/ProfileApis.jsx';
+import { ThemeContext, LoginContext, ProfileContext } from '../utils/Contexts.jsx';
 import Logo from '../assets/JoberaLogo.png';
 import styles from '../styles/navbar.module.css';
 
@@ -11,27 +9,8 @@ import styles from '../styles/navbar.module.css';
 const NavBar = () => {
   // Context    
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
-  // Define states
-  const initialized = useRef(false);
-  const [user, setUser] = useState({});
-
-  useEffect(() => {
-    if (!initialized.current) {
-      initialized.current = true;
-
-      if (loggedIn) {
-        FetchUserProfile(accessToken).then((response) => {
-          if (response.status === 200) {
-            setUser(response.data.user);
-          }
-          else {
-            console.log(response.statusText);
-          }
-        });
-      }
-    }
-  }, [loggedIn])
+  const { loggedIn } = useContext(LoginContext);
+  const { profile } = useContext(ProfileContext);
 
   return (
     <nav>
@@ -59,14 +38,14 @@ const NavBar = () => {
           </div>
 
           <div className={styles.nav_links_right}>
-            <label htmlFor="close_btn" className={`${styles.btn} ${styles.close_btn}`}><X size={31}/></label>
+            <label htmlFor="close_btn" className={`${styles.btn} ${styles.close_btn}`}><X size={31} /></label>
             {(loggedIn) ? <><li><a href='/manage'><BriefcaseFill /> Manage </a></li>
               <li><a href='#'><EnvelopeAtFill /></a></li>
               <li><a href='#'><BellFill /></a></li>
               <li>
-                <div className={styles.desktop_item}><NavUser UserData={user} /></div>
+                <div className={styles.desktop_item}><NavUser UserData={profile} /></div>
                 <input type="checkbox" id="Profile" className={styles.showDrop} />
-                <label htmlFor="Profile" className={styles.mobile_item}><NavUser  UserData={user} /></label>
+                <label htmlFor="Profile" className={styles.mobile_item}><NavUser UserData={profile} /></label>
                 <ul className={styles.drop_menu}>
                   <li><a href="/profile">My Profile</a></li>
                   <li><a href="/logout">LogOut</a></li>
@@ -85,7 +64,7 @@ const NavBar = () => {
             </li>
           </div>
         </ul>
-        <label htmlFor="menu_btn" className={`${styles.btn} ${styles.menu_btn}`}><List size={29}/></label>
+        <label htmlFor="menu_btn" className={`${styles.btn} ${styles.menu_btn}`}><List size={29} /></label>
       </div>
     </nav>
   );

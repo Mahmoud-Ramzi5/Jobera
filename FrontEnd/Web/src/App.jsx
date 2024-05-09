@@ -1,7 +1,9 @@
 import { useEffect, useState, useRef, createContext } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { ThemeContext, LoginContext, ProfileContext } from './utils/Contexts.jsx';
 import { CheckToken } from './apis/AuthApis.jsx';
+import { FetchUserProfile } from './apis/ProfileApis.jsx';
 import PrivateRoutes from './utils/PrivateRoutes.jsx';
 import AnonymousRoutes from './utils/AnonymousRoutes.jsx';
 import Layout from './utils/Layout.jsx';
@@ -25,16 +27,12 @@ import EmailVerificationMessage from './pages/EmailVerification.jsx';
 
 import FileDisplay from './components/FileDisplay.jsx';
 
-
-export const ThemeContext = createContext({});
-export const LoginContext = createContext({});
-
-
 function App() {
   const initialized = useRef(false);
   const [isLoading, setIsLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
   const [accessToken, setAccessToken] = useState(null);
+  const [profile, setProfile] = useState({});
   const [theme, setTheme] = useState('theme-light');
 
   const toggleTheme = () => {
@@ -64,12 +62,23 @@ function App() {
           if (response.status === 200) {
             setLoggedIn(true);
             setAccessToken(cookieToken);
+
+            FetchUserProfile(cookieToken).then((response) => {
+              if (response.status === 200) {
+                setProfile(response.data.user);
+              }
+              else {
+                console.log(response.statusText);
+              }
+            }).then(() => {
+              setIsLoading(false);
+            });
           }
           else {
             Cookies.remove('access_token');
+            setIsLoading(false);
             console.log(response.statusText);
           }
-          setIsLoading(false);
         });
       }
       else {
@@ -77,6 +86,22 @@ function App() {
       }
     }
   }, []);
+
+  useEffect(() => {
+      if (loggedIn && accessToken) {
+        setIsLoading(true);
+        FetchUserProfile(accessToken).then((response) => {
+          if (response.status === 200) {
+            setProfile(response.data.user);
+          }
+          else {
+            console.log(response.statusText);
+          }
+        }).then(() => {
+          setIsLoading(false);
+        });
+      }
+  }, [loggedIn])
 
   useEffect(() => {
     localStorage.setItem('Theme', theme);
@@ -89,6 +114,7 @@ function App() {
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <LoginContext.Provider value={{ loggedIn, setLoggedIn, accessToken, setAccessToken }}>
+        <ProfileContext.Provider value={{ profile, setProfile }}>
         <BrowserRouter>
           <Routes>
             <Route element={<Layout />}>
@@ -119,6 +145,7 @@ function App() {
             </Route>
           </Routes>
         </BrowserRouter>
+        </ProfileContext.Provider>
       </LoginContext.Provider>
     </ThemeContext.Provider>
   )

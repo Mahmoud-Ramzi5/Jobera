@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { LoginContext } from '../../App.jsx';
+import { LoginContext } from '../../utils/Contexts.jsx';
 import { ShowPortfoliosAPI } from '../../apis/ProfileApis.jsx';
 import Portfolio from './Portfolio.jsx';
 import styles from './portfolios.module.css';
@@ -41,19 +41,38 @@ const Portfolios = ({ step }) => {
       <div className={styles.container}>
         <div className={styles.heading}>
           <h1>Portfolios</h1>
-          <button className={styles.add_button} onClick={() => navigate('/edit-portfolio')}>+ Add Portfolio</button>
+          <button
+            className={styles.add_button}
+            onClick={() => navigate('/edit-portfolio', { state: { edit: false } })}
+          >
+            + Add Portfolio
+          </button>
         </div>
       </div>
       <div className={styles.container}>
         <div className={styles.portfolios}>
           {portfolios.map((portfolio) => (
             <div className={styles.portfolio_card} key={portfolio.id}>
-              <Link to={`/portfolio/${portfolio.id}`}>
+              <Link to={`/portfolio/${portfolio.id}`} state={{ portfolio }}>
                 <Portfolio title={portfolio.title} photo={portfolio.photo} />
               </Link>
             </div>
           ))}
         </div>
+      </div>
+      <div className={styles.container}>
+        <button
+          className={styles.back_button}
+          onClick={() => {
+            if (!edit) {
+              localStorage.removeItem('register_step');
+              step('DONE');
+            }
+            navigate('/profile');
+          }}
+        >
+          Back to profile
+        </button>
       </div>
     </div>
   );

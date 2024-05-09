@@ -1,7 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { LoginContext } from '../../App.jsx';
-import { ShowPortfolioAPI } from '../../apis/ProfileApis';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { LoginContext } from '../../utils/Contexts';
 import img_holder from '../../assets/upload.png';
 import styles from './portfolio.module.css';
 import Inputstyles from '../../styles/Input.module.css';
@@ -13,7 +12,7 @@ const ShowPortfolio = () => {
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
-  const { id } = useParams();
+  const location = useLocation();
 
   const [portfolio, SetPortfolio] = useState(
     {
@@ -30,14 +29,12 @@ const ShowPortfolio = () => {
     if (!initialized.current) {
       initialized.current = true;
 
-      ShowPortfolioAPI(accessToken, id).then((response) => {
-        if (response.status === 200) {
-          SetPortfolio(response.data.portfolio);
-        }
-        else {
-          console.log(response.statusText);
-        }
-      });
+      if (location.state !== null) {
+        SetPortfolio(location.state.portfolio);
+      }
+      else {
+        navigate('/portfolios');
+      }
     }
   }, []);
 

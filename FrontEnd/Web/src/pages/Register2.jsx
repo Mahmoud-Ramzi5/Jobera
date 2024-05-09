@@ -54,7 +54,11 @@ const Register2 = () => {
                 <Certificates step={setStep} />
               );
             case 'PORTFOLIO':
-              return <Portfolios />;
+              return (
+                <Portfolios step={setStep} />
+              );
+            case 'DONE': 
+              return navigate('/profile');
             default:
               return <h1>404 Not Found</h1>;
           }

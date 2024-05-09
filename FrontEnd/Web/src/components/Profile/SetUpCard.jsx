@@ -1,13 +1,14 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
-import { ThemeContext } from '../../App.jsx';
+import { ThemeContext, LoginContext } from '../../utils/Contexts';
 import styles from './cards.module.css';
 
 
 const SetUpCard = ({ ProfileData, token }) => {
   // Context    
   const { theme } = useContext(ThemeContext);
+  const { accessToken } = useContext(LoginContext);
   // Define states
   const navigate = useNavigate();
 
@@ -28,7 +29,7 @@ const SetUpCard = ({ ProfileData, token }) => {
             onClick={() => navigate('/complete-register', {
               state: {
                 edit: false,
-                token: token,
+                token: accessToken,
                 skills: ProfileData.skills,
                 education: ProfileData.education,
                 certificates: ProfileData.certificates,

@@ -2,7 +2,7 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PersonFill, ChevronRight } from 'react-bootstrap-icons';
 import Cookies from 'js-cookie';
-import { LoginContext } from '../App.jsx';
+import { LoginContext } from '../utils/Contexts.jsx';
 import { FetchProviders, LoginAPI } from '../apis/AuthApis.jsx';
 import NormalInput from '../components/NormalInput.jsx';
 import PasswordInput from '../components/PasswordInput.jsx';
@@ -12,7 +12,7 @@ import styles from '../styles/login.module.css';
 
 const Login = () => {
   // Context
-  const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
+  const { setLoggedIn, setAccessToken } = useContext(LoginContext);
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();

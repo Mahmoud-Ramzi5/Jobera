@@ -1,13 +1,20 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { LoginContext } from '../utils/Contexts.jsx';
 import { FetchSkillTypes, FetchSkills, SearchSkills } from '../apis/AuthApis.jsx';
-import { AddSkills, EditSkills } from '../apis/ProfileApis.jsx';
+import { AddSkillsAPI, EditSkillsAPI } from '../apis/ProfileApis.jsx';
 import styles from '../styles/skillsform.module.css';
 
 const SkillsForm = ({ step }) => {
+  // Context
+  const { accessToken } = useContext(LoginContext);
+  // Define states
   const initialized = useRef(false);
   const navigate = useNavigate()
   const location = useLocation();
+
+  const [edit, setEdit] = useState(true);
+
   const [types, setTypes] = useState([]);
   const [type, setType] = useState("");
   const [skills, setSkills] = useState([]);
@@ -23,19 +30,25 @@ const SkillsForm = ({ step }) => {
       initialized.current = true;
 
       if (location.state !== null) {
-        location.state.skills.forEach((skill) => {
-          if (!checked[skill.id]) {
-            setChecked((prevState) => ({ ...prevState, [skill.id]: true }));
-            setSkillIds((prevState) => [...prevState, skill.id]);
-            setUserSkills((prevState) => [...prevState,
-            {
-              id: skill.id,
-              name: skill.name,
+        if (location.state.edit) {
+          setEdit(location.state.edit);
+          location.state.skills.forEach((skill) => {
+            if (!checked[skill.id]) {
+              setChecked((prevState) => ({ ...prevState, [skill.id]: true }));
+              setSkillIds((prevState) => [...prevState, skill.id]);
+              setUserSkills((prevState) => [...prevState,
+              {
+                id: skill.id,
+                name: skill.name,
+              }
+              ]);
+              setShowSubmitButton(true);
             }
-            ]);
-            setShowSubmitButton(true);
-          }
-        });
+          });
+        }
+        else {
+          setEdit(false);
+        }
       }
       else {
         navigate('/profile');
@@ -109,7 +122,7 @@ const SkillsForm = ({ step }) => {
 
   const handleEdit = (event) => {
     event.preventDefault();
-    EditSkills(location.state.token, SkillIds).then((response) => {
+    EditSkillsAPI(accessToken, SkillIds).then((response) => {
       if (response.status == 200) {
         navigate('/profile');
       } else {
@@ -120,7 +133,7 @@ const SkillsForm = ({ step }) => {
 
   const handleStep1 = (event) => {
     event.preventDefault();
-    AddSkills(location.state.token, SkillIds).then((response) => {
+    AddSkillsAPI(accessToken, SkillIds).then((response) => {
       if (response.status == 200) {
         localStorage.setItem('register_step', 'EDUCATION');
         step('EDUCATION');
@@ -143,7 +156,7 @@ const SkillsForm = ({ step }) => {
           />
         </div>
         {showSubmitButton && (
-          <form className={styles.submit_div} onSubmit={location.state.edit ? handleEdit : handleStep1}>
+          <form className={styles.submit_div} onSubmit={edit ? handleEdit : handleStep1}>
             <div>
               <button className={styles.submit_button}>Submit</button>
             </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MortarboardFill, ChevronDown } from 'react-bootstrap-icons';
-import { LoginContext } from '../../App.jsx';
+import { LoginContext } from '../../utils/Contexts.jsx';
 import { AddEducation, EditEducation } from '../../apis/ProfileApis.jsx';
 import styles from './education.module.css';
 

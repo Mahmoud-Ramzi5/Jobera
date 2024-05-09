@@ -1,28 +1,12 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Card, Button } from 'react-bootstrap';
-import logo from '../../assets/JoberaLogo.png';
 import styles from './cards.module.css';
 
-const PortfolioCardList = ({ ProfileData, token }) => {
+const PortfolioCardList = ({ ProfileData }) => {
+  // Define states
   const navigate = useNavigate();
-  const portfolios = [
-    {
-      id: 1,
-      title: 'Portfolio 1',
-      photo: logo
-    },
-    {
-      id: 2,
-      title: 'Portfolio 2',
-      photo: logo
-    },
-    {
-      id: 3,
-      title: 'Portfolio 3',
-      photo: logo
-    },
-  ];
+  const portfolios = ProfileData.portfolios.slice(0, 3);
 
   return (
     <Card className={styles.cards}>

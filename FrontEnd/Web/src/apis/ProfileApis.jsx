@@ -17,7 +17,7 @@ export const FetchUserProfile = async (token) => {
   }
 };
 
-export const AddSkills = async (token, SkillIds) => {
+export const AddSkillsAPI = async (token, SkillIds) => {
   try {
     const response = await axios.post('http://127.0.0.1:8000/api/user/skills/add', {
       'skills': SkillIds,
@@ -34,7 +34,7 @@ export const AddSkills = async (token, SkillIds) => {
   }
 };
 
-export const EditSkills = async (token, SkillIds) => {
+export const EditSkillsAPI = async (token, SkillIds) => {
   try {
     const response = await axios.post('http://127.0.0.1:8000/api/user/skills/edit', {
       'skills': SkillIds,
@@ -228,6 +228,37 @@ export const AddPortfolioAPI = async (
 ) => {
   try {
     const response = await axios.post('http://127.0.0.1:8000/api/portfolio/add', {
+      'title': title,
+      'description': description,
+      'photo': photo,
+      'link': link,
+      'files': files,
+      'skills': SkillIds,
+    }, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const EditPortfolioAPI = async (
+  token,
+  id,
+  title,
+  description,
+  photo,
+  link,
+  files,
+  SkillIds
+) => {
+  try {
+    const response = await axios.post('http://127.0.0.1:8000/api/portfolio/edit', {
       'title': title,
       'description': description,
       'photo': photo,

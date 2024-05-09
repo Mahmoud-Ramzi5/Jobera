@@ -166,7 +166,7 @@ export const CheckToken = async (
     }
 };
 
-export const VerifyEmail = async (
+export const VerifyEmailAPI = async (
     token
 ) => {
     try {

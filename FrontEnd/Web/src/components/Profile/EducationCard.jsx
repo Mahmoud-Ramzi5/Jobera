@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
-import { ThemeContext } from '../../App.jsx';
+import { ThemeContext } from '../../utils/Contexts';
 import styles from './cards.module.css';
 
 
-const EducationCard = ({ ProfileData, token }) => {
+const EducationCard = ({ ProfileData }) => {
   // Context    
   const { theme } = useContext(ThemeContext);
   // Define states

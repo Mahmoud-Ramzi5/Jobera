@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Carousel from 'react-bootstrap/Carousel';
-import { LoginContext } from '../App.jsx';
+import { LoginContext } from '../utils/Contexts.jsx';
 import Slide1 from '../assets/Slide1.png';
 import Slide2 from '../assets/Slide2.png';
 import Slide3 from '../assets/Slide3.png';
@@ -9,7 +9,7 @@ import styles from '../styles/index.module.css';
 
 const Index = () => {
   // Context
-  const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
+  const { loggedIn } = useContext(LoginContext);
   // Define states
   const navigate = useNavigate();
   const [index, setIndex] = useState(0);

@@ -1,12 +1,13 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { LoginContext } from '../App.jsx';
+import { LoginContext, ProfileContext } from '../utils/Contexts.jsx';
 import { LogoutAPI } from '../apis/AuthApis.jsx';
 
 
 const Logout = () => {
   const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
+  const { profile, setProfile } = useContext(ProfileContext);
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ const Logout = () => {
           setLoggedIn(false);
           setAccessToken(null);
           Cookies.remove('access_token');
+          setProfile({});
         }
         else {
           console.log(response.statusText);

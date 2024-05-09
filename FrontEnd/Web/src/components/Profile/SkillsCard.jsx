@@ -6,7 +6,7 @@ import SlicingArrayInput from './SlicingArrayInput';
 import styles from './cards.module.css';
 
 
-const SkillsCard = ({ ProfileData, token }) => {
+const SkillsCard = ({ ProfileData }) => {
   // Define states
   const navigate = useNavigate();
   const [specific, setSpecific] = useState(5);
@@ -22,7 +22,7 @@ const SkillsCard = ({ ProfileData, token }) => {
               type="button"
               className={styles.pen_button}
               onClick={() => navigate('/edit-skills', {
-                state: { edit: true, token: token, skills: ProfileData.skills }
+                state: { edit: true, skills: ProfileData.skills }
               }
               )}>
               <i className={styles.pen}><PenFill /></i>

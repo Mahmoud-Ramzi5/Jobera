@@ -1,9 +1,9 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Fonts, PencilSquare, Link45deg, Files } from 'react-bootstrap-icons';
-import { LoginContext } from '../../App.jsx';
+import { LoginContext } from '../../utils/Contexts.jsx';
 import { FetchAllSkills, SearchSkills } from '../../apis/AuthApis.jsx';
-import { AddPortfolioAPI } from '../../apis/ProfileApis.jsx';
+import { AddPortfolioAPI, EditPortfolioAPI } from '../../apis/ProfileApis.jsx';
 import NormalInput from '../NormalInput.jsx';
 import img_holder from '../../assets/upload.png';
 import styles from './portfolio.module.css';
@@ -45,26 +45,31 @@ const EditPortfolio = () => {
       });
 
       if (location.state !== null) {
-        setEdit(location.state.edit);
+        if (location.state.edit) {
+          setEdit(location.state.edit);
 
-        setTitle(location.state.portfolio.title);
-        setDescription(location.state.portfolio.description);
-        setPhoto(location.state.portfolio.photo);
-        setLink(location.state.portfolio.link);
-        setFiles(location.state.portfolio.files);
-        location.state.portfolio.skills.map((skill) => {
-          if (!checked[skill.id]) {
-            setChecked((prevState) => ({ ...prevState, [skill.id]: true }));
-            setSkillIds((prevState) => [...prevState, skill.id]);
-            setPortfolioSkills((prevState) => [...prevState,
-            {
-              id: skill.id,
-              name: skill.name,
+          setTitle(location.state.portfolio.title);
+          setDescription(location.state.portfolio.description);
+          setPhoto(location.state.portfolio.photo);
+          setLink(location.state.portfolio.link);
+          setFiles(location.state.portfolio.files);
+          location.state.portfolio.skills.map((skill) => {
+            if (!checked[skill.id]) {
+              setChecked((prevState) => ({ ...prevState, [skill.id]: true }));
+              setSkillIds((prevState) => [...prevState, skill.id]);
+              setPortfolioSkills((prevState) => [...prevState,
+              {
+                id: skill.id,
+                name: skill.name,
+              }
+              ]);
+              setSkillCount((prevState) => (--prevState));
             }
-            ]);
-            setSkillCount((prevState) => (--prevState));
-          }
-        });
+          });
+        }
+        else {
+          setEdit(false);
+        }
       }
     }
   }, []);
@@ -108,7 +113,24 @@ const EditPortfolio = () => {
 
   const handleEdit = (event) => {
     event.preventDefault();
-    // TODO
+    EditPortfolioAPI(
+      accessToken,
+      location.state.portfolio.id,
+      title,
+      description,
+      photo,
+      link,
+      files,
+      SkillIds
+    ).then((response) => {
+      if (response.status === 200) {
+        console.log(response.data);
+
+        navigate('/portfolios');
+      } else {
+        console.log(response.statusText);
+      }
+    });
   };
 
   const handleStep4 = (event) => {
@@ -126,11 +148,11 @@ const EditPortfolio = () => {
         console.log(response.data);
 
         // Reset the form fields
-          setTitle("");
-          setDescription("");
-          setPhoto("");
-          setLink("");
-          setFiles(null);
+        setTitle("");
+        setDescription("");
+        setPhoto("");
+        setLink("");
+        setFiles(null);
 
         navigate('/portfolios');
       } else {
@@ -143,7 +165,7 @@ const EditPortfolio = () => {
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen_content}>
-          <h2 className={styles.heading}>{edit ? 'edit Portfolio item' : 'Add Portfolioitem'}</h2>
+          <h2 className={styles.heading}>{edit ? 'Edit Portfolio item' : 'Add Portfolioitem'}</h2>
           <form className={styles.form} onSubmit={edit ? handleEdit : handleStep4}>
             <div className={styles.row}>
               <div className={styles.column}>

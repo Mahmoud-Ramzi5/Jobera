@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card, Button } from 'react-bootstrap';
-import { ThemeContext } from '../../App.jsx';
+import { ThemeContext } from '../../utils/Contexts';
 import certificate from '../../assets/certificate.png'
 import styles from './cards.module.css';
 

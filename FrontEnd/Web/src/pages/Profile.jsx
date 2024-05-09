@@ -1,6 +1,5 @@
-import { useEffect, useState, useContext, useRef } from 'react';
-import { LoginContext } from '../App.jsx';
-import { FetchUserProfile } from '../apis/ProfileApis.jsx';
+import { useContext } from 'react';
+import { LoginContext, ProfileContext } from '../utils/Contexts.jsx';
 import UserInfo from '../components/Profile/UserInfo';
 import Wallet from '../components/Profile/Wallet.jsx';
 import SetUpCard from '../components/Profile/SetUpCard.jsx';
@@ -13,46 +12,23 @@ import styles from '../styles/profile.module.css';
 
 const Profile = () => {
   // Context    
-  const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
-  // Define states
-  const initialized = useRef(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [profile, setProfile] = useState({});
+  const { accessToken } = useContext(LoginContext);
+  const { profile } = useContext(ProfileContext);
 
-  useEffect(() => {
-    if (!initialized.current) {
-      initialized.current = true;
-
-      FetchUserProfile(accessToken).then((response) => {
-        if (response.status === 200) {
-          setProfile(response.data.user);
-        }
-        else {
-          console.log(response.statusText);
-        }
-      }).then(() => {
-        setIsLoading(false);
-      });
-    }
-  }, [loggedIn])
-
-  if (isLoading) {
-    return <div id='loader'><div className="clock-loader"></div></div>
-  }
   return (
     <div className={styles.Profile}>
       <div className={styles.leftSideContainer}>
-        <div className={styles.leftSide}><UserInfo ProfileData={profile} token={accessToken} /></div>
-        <div className={styles.leftSide}><Wallet ProfileData={profile} token={accessToken} /></div>
-        <div className={styles.leftSide}><PortfolioCardList ProfileData={profile} token={accessToken} /></div>
+        <div className={styles.leftSide}><UserInfo ProfileData={profile} /></div>
+        <div className={styles.leftSide}><Wallet ProfileData={profile} /></div>
+        <div className={styles.leftSide}><PortfolioCardList ProfileData={profile} /></div>
       </div>
       <div className={styles.rightSideContainer}>
         {profile.is_registered ? (<></>) : (
-          <div className={styles.rightSide}><SetUpCard ProfileData={profile} token={accessToken} /></div>
+          <div className={styles.rightSide}><SetUpCard ProfileData={profile} /></div>
         )}
-        <div className={styles.rightSide}><EducationCard ProfileData={profile} token={accessToken} /></div>
-        <div className={styles.rightSide}><CertificationsCard ProfileData={profile} token={accessToken} /></div>
-        <div className={styles.rightSide}><SkillsCard ProfileData={profile} token={accessToken} /></div>
+        <div className={styles.rightSide}><EducationCard ProfileData={profile} /></div>
+        <div className={styles.rightSide}><CertificationsCard ProfileData={profile} /></div>
+        <div className={styles.rightSide}><SkillsCard ProfileData={profile} /></div>
       </div>
     </div>
   );

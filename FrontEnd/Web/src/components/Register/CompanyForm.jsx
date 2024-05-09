@@ -5,7 +5,7 @@ import {
   GeoAltFill, SuitcaseFill, ChevronRight,
 } from 'react-bootstrap-icons';
 import Cookies from 'js-cookie';
-import { LoginContext } from '../../App.jsx';
+import { LoginContext } from '../../utils/Contexts.jsx';
 import { FetchCountries, FetchStates, CompanyRegisterAPI } from '../../apis/AuthApis.jsx';
 import NormalInput from '../NormalInput.jsx';
 import PasswordInput from '../PasswordInput.jsx';

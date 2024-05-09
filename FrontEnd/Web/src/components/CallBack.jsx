@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import { LoginContext } from '../App.jsx';
+import { LoginContext } from '../utils/Contexts';
 
 
 const CallBack = () => {
@@ -12,8 +12,6 @@ const CallBack = () => {
   const location = useLocation();
   const { provider } = useParams();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-  const [token, setToken] = useState('');
 
   // On page load, we take "search" parameters 
   // and proxy them to /api/auth/callback on our Laravel API
