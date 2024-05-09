@@ -12,9 +12,10 @@ import Login from './pages/Login.jsx';
 import Logout from './pages/Logout.jsx';
 import CallBack from './components/CallBack.jsx';
 import Profile from './pages/Profile.jsx';
-import EditSkills from './components/EditSkills.jsx';
-import Portfolios from './components/Portfolios/Portfolios.jsx';
+import SkillsForm from './components/SkillsForm.jsx';
 import EducationForm from './components/Education&Certificates/Education.jsx';
+import Portfolios from './components/Portfolios/Portfolios.jsx';
+import ShowPortfolio from './components/Portfolios/ShowPortfolio.jsx';
 import EditPortfolio from './components/Portfolios/EditPortfolio.jsx';
 import Certificates from './components/Education&Certificates/Certificates.jsx';
 import CertificateForm from './components/Education&Certificates/Certificate.jsx';
@@ -95,8 +96,9 @@ function App() {
               <Route element={<PrivateRoutes />}>
                 <Route path="/complete-register" element={<Register2 />} />
                 <Route path="/profile" element={<Profile />} />
-                <Route path="/edit-skills" element={<EditSkills />} />
+                <Route path="/edit-skills" element={<SkillsForm />} />
                 <Route path="/portfolios" element={<Portfolios />} />
+                <Route path="/portfolio/:id" element={<ShowPortfolio />} />
                 <Route path="/edit-portfolio" element={<EditPortfolio />} />
                 <Route path="/education" element={<EducationForm />} />
                 <Route path="/certificates" element={<Certificates />} />

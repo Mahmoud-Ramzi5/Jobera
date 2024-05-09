@@ -18,16 +18,23 @@ class EducationController extends Controller
 {
     public function AddEducation(AddEducationRequest $request)
     {
-        // Get User
-        $user = auth()->user();
-        if($user->education != null) {
-            return response()->json([
-                "message" => "already exists"
-            ], 400);
-        }
-
         // Validate request
         $validated = $request->validated();
+
+        // Get User
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+        if ($user->education != null) {
+            return response()->json([
+                "message" => "User Education already exists"
+            ], 400);
+        }
 
         // Handle certificate file
         if ($request->hasFile('certificate_file')) {
@@ -47,16 +54,23 @@ class EducationController extends Controller
 
     public function EditEducation(EditEducationRequest $request)
     {
+        // Validate request
+        $validated = $request->validated();
+
         // Get User
         $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
         if($user == null) {
             return response()->json([
                 "message" => "error"
             ], 400);
         }
-
-        // Validate request
-        $validated = $request->validated();
 
         // Handle certificate file
         if ($request->hasFile('certificate_file')) {
@@ -78,6 +92,15 @@ class EducationController extends Controller
     {
         // Get User
         $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+
+        // Get user's certificates
         $certificates = $user->certificates;
 
         // Response
@@ -88,11 +111,18 @@ class EducationController extends Controller
 
     public function AddCertificate(AddCertificateRequest $request)
     {
+        // Validate request
+        $validated = $request->validated();
+
         // Get User
         $user = auth()->user();
 
-        // Validate request
-        $validated = $request->validated();
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
 
         // Handle certificate file
         if ($request->hasFile('file')) {
@@ -110,9 +140,20 @@ class EducationController extends Controller
         ], 201);
     }
 
-    public function EditCertificate(EditCertificateRequest $request){
+    public function EditCertificate(EditCertificateRequest $request)
+    {
         // Validate request
         $validated = $request->validated();
+
+        // Get User
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
 
         // Handle certificate file
         if ($request->hasFile('file')) {
@@ -120,7 +161,7 @@ class EducationController extends Controller
             $validated['file'] = $avatarPath;
         }
 
-        $certificate = Certificate::find($validated['id']);
+        $certificate = $user->certificates()->where('id', $validated['id']);
         $validated = Arr::except($validated, 'id');
         $certificate->update($validated);
 

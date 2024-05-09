@@ -67,6 +67,10 @@ Route::controller(SkillsController::class)->group(function() {
     Route::get('/skills', 'GetSkills');
     Route::get('/skills/types', 'GetSkillTypes');
 
+    Route::get('/user/skills', 'GetUserSkills')->middleware('auth:api');
+    Route::post('/user/skills/add', 'AddUserSkills')->middleware('auth:api');
+    Route::post('/user/skills/edit', 'EditUserSkills')->middleware('auth:api');
+
     Route::post('/skills', 'AddSkill');
 });
 

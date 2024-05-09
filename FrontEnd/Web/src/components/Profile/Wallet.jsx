@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Card, Button } from 'react-bootstrap';
 import { CreditCard, ChevronRight } from 'react-bootstrap-icons';
 import NormalInput from '../../components/NormalInput';
-import walletblack from '../../assets/walletblack.png';
+import wallet from '../../assets/wallet.png';
 import styles from './wallet.module.css';
 
 
@@ -19,7 +19,7 @@ const Wallet = ({ profileData }) => {
   return (
     <Card className={styles.wallet_card}>
       <div className={styles.wallet_inside}>
-        <img src={walletblack} className={styles.wallet_image} alt="wallet" />
+        <img src={wallet} className={styles.wallet_image} alt="wallet" />
         <div className={styles.wallet_info}>
           <div className={styles.wallet_title}>
             <h3>Personal Wallet</h3>

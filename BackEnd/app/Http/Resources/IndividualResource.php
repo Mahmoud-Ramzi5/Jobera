@@ -50,7 +50,7 @@ class IndividualResource extends JsonResource
             'skills' => new SkillCollection($skills),
             'education' => $user->education,
             'certificates' => new CertificateCollection($user->certificates),
-            'portfolios' => $user->portfolios,
+            'portfolios' => new PortfolioCollection($user->portfolios),
             'is_verifed' => $is_verified,
             'is_registered' => $is_registered
         ];

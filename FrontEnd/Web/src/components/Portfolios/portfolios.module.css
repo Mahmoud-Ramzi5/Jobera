@@ -1,7 +1,7 @@
 .screen {
-    position: relative;
     top: 75px;
-    margin-bottom: 75px;
+    position: relative;
+    margin-bottom: 100px;
 }
 
 .heading {
@@ -20,7 +20,7 @@
 
 .add_button {
     background: var(--color-addbutton);
-    font-size: 18px;
+    font-size: 15px;
     padding: 10px 30px;
     border-radius: 25px;
     border: 1px solid var(--color-button);
@@ -46,11 +46,9 @@
     overflow-y: auto;
     text-align: center;
     padding: 5px;
-    border: 5px;
-    border-radius: 10px;
-    border-style: inset;
-    border-color: var(--color-rating);
-    font-size: 0.7em;
+    border: 3px inset var(--color-rating);
+    border-radius: 12px;
+    font-size: 12px;
 }
 
 .portfolio_card {

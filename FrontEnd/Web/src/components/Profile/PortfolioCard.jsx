@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { Card, Button } from 'react-bootstrap';
 import logo from '../../assets/JoberaLogo.png';
 import styles from './cards.module.css';
 
-const PortfolioCardList = () => {
+const PortfolioCardList = ({ ProfileData, token }) => {
+  const navigate = useNavigate();
   const portfolios = [
     {
       id: 1,
@@ -28,7 +29,13 @@ const PortfolioCardList = () => {
       <div className={styles.background}>
         <div className={styles.portfolio_title}>
           Portfolio
-          <Button className={styles.portfolio_button} variant="primary" as={Link} to="/portfolio">View All</Button>
+          <Button className={styles.portfolio_button} variant="primary"
+            onClick={() => navigate('/portfolios', {
+              state: { edit: true, token: token, portfolios: ProfileData.portfolios }
+            })}
+          >
+            View All
+          </Button>
         </div>
         <div className={styles.portfolio}>
           {portfolios.map((portfolio) => (
