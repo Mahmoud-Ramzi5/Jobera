@@ -166,9 +166,10 @@ class CompanyRegisterController extends GetxController {
     String phoneNumber,
   ) async {
     try {
-      var response = await dio.post('http://10.0.2.2:8000/api/register',
+      var response = await dio.post('http://10.0.2.2:8000/api/company/register',
           data: {
-            "full_name": name,
+            "name": name,
+            "field": workField,
             "email": email,
             "password": password,
             "confirm_password": confirmPassword,

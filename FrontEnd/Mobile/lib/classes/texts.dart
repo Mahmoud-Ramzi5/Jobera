@@ -15,14 +15,14 @@ class TitleText extends StatelessWidget {
 }
 
 class BodyText extends StatelessWidget {
-  final String? text;
+  final String text;
 
   const BodyText({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {
     return Text(
-      text!,
+      text,
       style: Theme.of(context).textTheme.bodyLarge,
     );
   }
