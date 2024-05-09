@@ -127,6 +127,23 @@ export const ShowCertificates = async (
     return error.response;
   }
 };
+export const ShowCertificate = async (
+  token,
+  id
+) => {
+  try {
+    const response = await axios.get(`http://127.0.0.1:8000/api/certificates/${id}`, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
 
 export const AddCertificate = async (
   token,
@@ -163,8 +180,7 @@ export const EditCertificate = async (
   file,
 ) => {
   try {
-    const response = await axios.post('http://127.0.0.1:8000/api/certificate/edit', {
-      'id': id,
+    const response = await axios.put(`http://127.0.0.1:8000/api/certificate/edit/${id}`, {
       'name': name,
       'organization': organization,
       'release_date': ReleaseDate,
@@ -181,6 +197,21 @@ export const EditCertificate = async (
     return error.response;
   }
 };
+
+export const DeleteCertificateAPI = async (token, id) => {
+  try {
+    const response = await axios.delete(`http://127.0.0.1:8000/api/certificates/${id}`, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}
 
 export const ShowPortfoliosAPI = async (
   token
