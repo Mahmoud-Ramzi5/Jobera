@@ -262,3 +262,17 @@ export const AddPortfolioAPI = async (
     return error.response;
   }
 };
+export const DeleteCertificateAPI=async(token,id)=>{
+  try {
+    const response = await axios.delete(`http://127.0.0.1:8000/api/certificates/${id}`, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}

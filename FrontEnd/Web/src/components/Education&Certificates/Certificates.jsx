@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Eye, Pencil, Trash } from 'react-bootstrap-icons';
-import { ShowCertificates } from '../../apis/ProfileApis';
+import { DeleteCertificateAPI, ShowCertificates } from '../../apis/ProfileApis';
 import styles from './certificates.module.css';
 import CertificateForm from './Certificate';
 
@@ -56,6 +56,15 @@ const Certificates = ({ step }) => {
     };
 
     const handleDelete = () => {
+      DeleteCertificateAPI(location.state.token,certificate.id).then((response)=>{
+        if(response.status==202){
+          console.log(response);
+          window.location.reload(); // Refresh the page after deletion
+        }
+        else{
+          console.log(response)
+        }
+      })
       console.log(`Delete certificate with ID: ${certificate.id}`);
     };
 
