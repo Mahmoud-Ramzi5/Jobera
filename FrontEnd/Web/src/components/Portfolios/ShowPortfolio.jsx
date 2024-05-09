@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { LoginContext } from '../../utils/Contexts';
+import { DeletePortfolioAPI } from '../../apis/ProfileApis';
 import img_holder from '../../assets/upload.png';
 import styles from './portfolio.module.css';
 import Inputstyles from '../../styles/Input.module.css';
@@ -55,7 +56,20 @@ const ShowPortfolio = () => {
             </button>
             <button
               className={styles.submit_button}
-              onClick={() => navigate('')}
+              onClick={() => {
+                DeletePortfolioAPI(accessToken, portfolio.id).then((response) => {
+                  if (response.status == 202) {
+                    console.log(response);
+
+                    navigate('/portfolios', {
+                      state: { edit: true }
+                    });
+                  }
+                  else {
+                    console.log(response.statusText);
+                  }
+                });
+              }}
             >
               delete
             </button>

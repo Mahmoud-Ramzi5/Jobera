@@ -34,15 +34,11 @@ class PortfolioController extends Controller
         ], 200);
     }
 
-    public function ShowPortfolio(Request $request, $id)
+    public function ShowPortfolio(Request $request, Portfolio $portfolio)
     {
-        // Get portfolio
-        $portfolio = Portfolio::find($id);
-
-        // Response
         return response()->json([
             "portfolio" => new PortfolioResource($portfolio)
-        ]);
+        ], 200);
     }
 
     public function AddPortfolio(AddPortfolioRequest $request)
@@ -74,7 +70,6 @@ class PortfolioController extends Controller
         $portfolio->skills()->attach($skills);
 
         // Handle file uploads if present in the request
-
         if ($request->hasFile('files')) {
             $files = $request->file('files');
 
@@ -82,7 +77,6 @@ class PortfolioController extends Controller
                 $filePath = $file->store('portfolio_files');
 
                 // Create and associate a new file instance with the portfolio
-
                 $portfolioFile = new PortfolioFile();
                 $portfolioFile->file_path = $filePath;
                 $portfolio->files()->save($portfolioFile);
@@ -95,29 +89,7 @@ class PortfolioController extends Controller
             "data" => new PortfolioResource($portfolio),
         ], 201);
     }
-    public function ShowPortifolio(Request $request, Portfolio $portfolio)
-    {
-        return response()->json([
-            "data" => new PortfolioResource($portfolio)
-        ]);
-    }
-    public function AllPortifolios()
-    {
-        // Get User
-        $user = auth()->user();
-        if ($user == null) {
-            return response()->json([
-                "message" => "user not found"
-            ], 401);
-        }
 
-        $portfolios = $user->portifolios()->get();
-
-        // Response
-        return response()->json([
-            "data" => new PortfolioCollection($portfolios),
-        ], 201);
-    }
     public function EditPortfolio(EditPortfolioRequest $request, Portfolio $portfolio)
     {
         // Validate request
@@ -129,15 +101,17 @@ class PortfolioController extends Controller
             $validated['photo'] = $Path;
         }
         $portfolio->update($validated);
+
         // Save the associated skills
         $skills = $validated['skills'];
-        $portSkills=$portfolio->skills()->get();
+        $portfolioSkills = $portfolio->skills()->get();
         foreach($skills as $skill){
-            if(! in_array($portSkills,$skill)){
+            if(!in_array($portfolioSkills,$skill)) {
                 $portfolio->skills()->attach($skill);
             }
         }
-        //handle files
+
+        // Handle files
         if ($request->hasFile('files')) {
             $files = $request->file('files');
 
@@ -145,17 +119,25 @@ class PortfolioController extends Controller
                 $filePath = $file->store('portfolio_files');
 
                 // Create and associate a new file instance with the portfolio
-
                 $portfolioFile = new PortfolioFile();
                 $portfolioFile->file_path = $filePath;
                 $portfolio->files()->save($portfolioFile);
             }
         }
-        
+
         // Response
         return response()->json([
             "message" => "Portfolio updated sucessfully",
             "data" => new PortfolioResource($portfolio),
-        ], 201);
+        ], 200);
+    }
+
+    public function DeletePortfolio(Request $request, Portfolio $portfolio)
+    {
+        $portfolio->delete();
+
+        return response()->json([
+            "message" => "Portfolio deleted",
+        ], 202);
     }
 }

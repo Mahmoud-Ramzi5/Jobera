@@ -1,5 +1,6 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState, useRef } from 'react'
 import { LoginContext, ProfileContext } from '../utils/Contexts.jsx';
+import { FetchUserProfile } from '../apis/ProfileApis.jsx';
 import UserInfo from '../components/Profile/UserInfo';
 import Wallet from '../components/Profile/Wallet.jsx';
 import SetUpCard from '../components/Profile/SetUpCard.jsx';
@@ -13,7 +14,25 @@ import styles from '../styles/profile.module.css';
 const Profile = () => {
   // Context    
   const { accessToken } = useContext(LoginContext);
-  const { profile } = useContext(ProfileContext);
+  const { profile, setProfile } = useContext(ProfileContext);
+  // Define states
+  const initialized = useRef(false);
+
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+      FetchUserProfile(accessToken).then((response) => {
+        if (response.status === 200) {
+          setProfile(response.data.user);
+        }
+        else {
+          console.log(response.statusText);
+        }
+      }).then(() => {
+        console.log('Done');
+      });
+    }
+  }, []);
 
   return (
     <div className={styles.Profile}>

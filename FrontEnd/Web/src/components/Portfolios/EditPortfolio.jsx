@@ -126,7 +126,9 @@ const EditPortfolio = () => {
       if (response.status === 200) {
         console.log(response.data);
 
-        navigate('/portfolios');
+        navigate('/portfolios', {
+          state: { edit: true }
+        });
       } else {
         console.log(response.statusText);
       }
@@ -165,7 +167,7 @@ const EditPortfolio = () => {
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen_content}>
-          <h2 className={styles.heading}>{edit ? 'Edit Portfolio item' : 'Add Portfolioitem'}</h2>
+          <h2 className={styles.heading}>{edit ? 'Edit Portfolio item' : 'Add Portfolio item'}</h2>
           <form className={styles.form} onSubmit={edit ? handleEdit : handleStep4}>
             <div className={styles.row}>
               <div className={styles.column}>

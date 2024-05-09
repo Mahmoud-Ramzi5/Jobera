@@ -1,43 +1,42 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { AddCertificate, EditCertificate, ShowCertificate } from '../../apis/ProfileApis.jsx';
+import { LoginContext } from '../../utils/Contexts.jsx';
+import { AddCertificateAPI, EditCertificateAPI } from '../../apis/ProfileApis.jsx';
 import styles from './certificate.module.css';
 
 const CertificateForm = () => {
+  // Context
+  const { accessToken } = useContext(LoginContext);
+  // Define states
   const navigate = useNavigate();
   const initialized = useRef(false);
   const location = useLocation();
+  const [edit, setEdit] = useState(true);
   const [CertificateData, setCertificateData] = useState({
     name: "",
     organization: "",
-    releaseDate: "",
+    release_date: "",
     file: null, // New state for certificate file
   });
 
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
-      if (location.state.edit) {
-        ShowCertificate(location.state.token, location.state.id)
-          .then((response) => {
-            if (response.status === 201) {
-              setCertificateData((prevData) => ({
-                ...prevData,
-                name: response.data.data.name,
-                organization: response.data.data.organization,
-                releaseDate: response.data.data.release_date,
-                file: response.data.data.file,
-              }));
-            } else {
-              console.log(response);
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+
+      if (location.state !== null) {
+        if (location.state.edit) {
+          setEdit(location.state.edit);
+          setCertificateData(location.state.certificate);
+        }
+        else {
+          setEdit(false);
+        }
+      }
+      else {
+        navigate('/certificates');
       }
     }
-  }, [location.state.edit, location.state.id, location.state.token]);
+  }, []);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -51,61 +50,60 @@ const CertificateForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if(location.state.edit){
-      console.log(location.state.token)
-      EditCertificate(
-        location.state.token,
-        location.state.id,
+    if (edit) {
+      EditCertificateAPI(
+        accessToken,
+        CertificateData.id,
         CertificateData.name,
         CertificateData.organization,
-        CertificateData.releaseDate,
+        CertificateData.release_date,
         CertificateData.file
       ).then((response) => {
-        if (response.status === 201) {
+        if (response.status === 200) {
           console.log(response.data);
-  
+
           navigate('/certificates', {
-            state: { edit: true, token: location.state.token }
+            state: { edit: true }
           })
         } else {
           console.log(response.statusText);
         }
       });
-    }  
-    else{
-    AddCertificate(
-      location.state.token,
-      CertificateData.name,
-      CertificateData.organization,
-      CertificateData.releaseDate,
-      CertificateData.file
-    ).then((response) => {
-      if (response.status === 201) {
-        console.log(response.data);
+    }
+    else {
+      AddCertificateAPI(
+        accessToken,
+        CertificateData.name,
+        CertificateData.organization,
+        CertificateData.release_date,
+        CertificateData.file
+      ).then((response) => {
+        if (response.status === 201) {
+          console.log(response.data);
 
-        // Reset the form fields
-        setCertificateData({
-          name: "",
-          organization: "",
-          releaseDate: "",
-          file: null,
-        });
+          // Reset the form fields
+          setCertificateData({
+            name: "",
+            organization: "",
+            release_date: "",
+            file: null,
+          });
 
-        navigate('/certificates', {
-          state: { edit: true, token: location.state.token }
-        })
-      } else {
-        console.log(response.statusText);
-      }
-    });
-  }
+          navigate('/certificates', {
+            state: { edit: true }
+          })
+        } else {
+          console.log(response.statusText);
+        }
+      });
+    }
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen_content}>
-          <h3 className={styles.heading}>{location.state.edit ? 'Edit Certficate' : 'Add Certificate'}</h3>
+          <h3 className={styles.heading}>{edit ? 'Edit Certficate' : 'Add Certificate'}</h3>
           <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.row}>
               <label htmlFor="name">
@@ -138,14 +136,14 @@ const CertificateForm = () => {
               />
             </div>
             <div className={styles.row}>
-              <label htmlFor="releaseDate">
+              <label htmlFor="ReleaseDate">
                 Release Date:
               </label>
               <input
                 type="date"
-                id="releaseDate"
-                name="releaseDate"
-                value={CertificateData.releaseDate}
+                id="ReleaseDate"
+                name="release_date"
+                value={CertificateData.release_date}
                 onChange={handleInputChange}
                 required
               />
@@ -164,7 +162,7 @@ const CertificateForm = () => {
               />
             </div>
             <button type="submit" className={styles.submit_button}>
-            {location.state.edit ? 'Edit Certficate' : 'Add Certificate'}
+              {edit ? 'Edit Certficate' : 'Add Certificate'}
             </button>
           </form>
         </div>

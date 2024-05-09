@@ -109,6 +109,14 @@ class EducationController extends Controller
         ], 200);
     }
 
+    public function ShowCertificate(Request $request, Certificate $certificate)
+    {
+        //response
+        return response()->json([
+            "data" => new CertificateResource($certificate)
+        ], 200);
+    }
+
     public function AddCertificate(AddCertificateRequest $request)
     {
         // Validate request
@@ -140,7 +148,7 @@ class EducationController extends Controller
         ], 201);
     }
 
-    public function EditCertificate(EditCertificateRequest $request,Certificate $certificate)
+    public function EditCertificate(EditCertificateRequest $request, Certificate $certificate)
     {
         // Validate request
         $validated = $request->validated();
@@ -166,19 +174,15 @@ class EducationController extends Controller
         return response()->json([
             "message" => "Certificate updated",
             "data" => new CertificateResource($certificate),
-        ], 201);
-    }
-    public function DeleteCertificate(Request $request,Certificate $certificate){
-        $certificate->delete();
-        return response()->json([
-            "message" => "Certificate deleted",
-        ],202);
+        ], 200);
     }
 
-    public function ShowCertificate(Request $request,Certificate $certificate){
-        //response
+    public function DeleteCertificate(Request $request, Certificate $certificate)
+    {
+        $certificate->delete();
+
         return response()->json([
-            "data"=>new CertificateResource($certificate)
-        ],201);
+            "message" => "Certificate deleted",
+        ], 202);
     }
 }

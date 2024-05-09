@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, createContext } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { ThemeContext, LoginContext, ProfileContext } from './utils/Contexts.jsx';
@@ -101,7 +101,7 @@ function App() {
           setIsLoading(false);
         });
       }
-  }, [loggedIn])
+  }, [loggedIn]);
 
   useEffect(() => {
     localStorage.setItem('Theme', theme);
@@ -123,12 +123,12 @@ function App() {
                 <Route path="/complete-register" element={<Register2 />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/edit-skills" element={<SkillsForm />} />
+                <Route path="/education" element={<EducationForm />} />
+                <Route path="/certificates" element={<Certificates />} />
+                <Route path="/edit-certificate" element={<CertificateForm />} />
                 <Route path="/portfolios" element={<Portfolios />} />
                 <Route path="/portfolio/:id" element={<ShowPortfolio />} />
                 <Route path="/edit-portfolio" element={<EditPortfolio />} />
-                <Route path="/education" element={<EducationForm />} />
-                <Route path="/certificates" element={<Certificates />} />
-                <Route path="/certificates/create" element={<CertificateForm />} />
                 <Route path="/dashboard" element={<></>} />
                 <Route path="/logout" element={<Logout />} />
               </Route>

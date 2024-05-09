@@ -111,7 +111,7 @@ export const EditEducation = async (
   }
 };
 
-export const ShowCertificates = async (
+export const ShowCertificatesAPI = async (
   token
 ) => {
   try {
@@ -127,7 +127,8 @@ export const ShowCertificates = async (
     return error.response;
   }
 };
-export const ShowCertificate = async (
+
+export const ShowCertificateAPI = async (
   token,
   id
 ) => {
@@ -145,7 +146,7 @@ export const ShowCertificate = async (
   }
 };
 
-export const AddCertificate = async (
+export const AddCertificateAPI = async (
   token,
   name,
   organization,
@@ -171,7 +172,7 @@ export const AddCertificate = async (
   }
 };
 
-export const EditCertificate = async (
+export const EditCertificateAPI = async (
   token,
   id,
   name,
@@ -289,7 +290,7 @@ export const EditPortfolioAPI = async (
   SkillIds
 ) => {
   try {
-    const response = await axios.post('http://127.0.0.1:8000/api/portfolio/edit', {
+    const response = await axios.put(`http://127.0.0.1:8000/api/portfolio/edit/${id}`, {
       'title': title,
       'description': description,
       'photo': photo,
@@ -308,3 +309,18 @@ export const EditPortfolioAPI = async (
     return error.response;
   }
 };
+
+export const DeletePortfolioAPI = async (token, id) => {
+  try {
+    const response = await axios.delete(`http://127.0.0.1:8000/api/portfolios/${id}`, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}

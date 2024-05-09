@@ -1,14 +1,18 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Eye, Pencil, Trash } from 'react-bootstrap-icons';
-import { DeleteCertificateAPI, ShowCertificates } from '../../apis/ProfileApis';
+import { LoginContext } from '../../utils/Contexts';
+import { ShowCertificatesAPI, DeleteCertificateAPI } from '../../apis/ProfileApis';
 import styles from './certificates.module.css';
-import CertificateForm from './Certificate';
 
 const Certificates = ({ step }) => {
+  // Context
+  const { accessToken } = useContext(LoginContext);
+  // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const [edit, setEdit] = useState(true);
   const [certificates, setCertificates] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -16,29 +20,28 @@ const Certificates = ({ step }) => {
     if (!initialized.current) {
       initialized.current = true;
 
+      ShowCertificatesAPI(accessToken).then((response) => {
+        if (response.status === 200) {
+          setCertificates(response.data.certificates);
+        }
+        else {
+          console.log(response.statusText);
+        }
+      });
+
       if (location.state !== null) {
-        ShowCertificates(location.state.token).then((response) => {
-          if (response.status === 200) {
-            setCertificates(response.data.certificates);
-          }
-          else {
-            console.log(response.statusText);
-          }
-        });
-      }
-      else {
-        navigate('/profile');
+        setEdit(location.state.edit);
       }
     }
   }, []);
 
-  const handleEditing=(event)=>{
-    event.preventDefault();
-    navigate('/profile');
-  };
-
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
+  };
+
+  const handleEdit = (event) => {
+    event.preventDefault();
+    navigate('/profile');
   };
 
   const handleStep3 = (event) => {
@@ -49,23 +52,21 @@ const Certificates = ({ step }) => {
 
   const RenderCertificate = (certificate) => {
     const handleEdit = (event) => {
-      navigate('/certificates/create', {
-        state: { edit: true, id:certificate.id ,token: location.state.token }
+      navigate('/edit-certificate', {
+        state: { edit: true, certificate }
       })
-      console.log(`Edit certificate with ID: ${certificate.id}`);
     };
 
-    const handleDelete = () => {
-      DeleteCertificateAPI(location.state.token,certificate.id).then((response)=>{
-        if(response.status==202){
+    const handleDelete = (event) => {
+      DeleteCertificateAPI(accessToken, certificate.id).then((response) => {
+        if (response.status == 202) {
           console.log(response);
           window.location.reload(); // Refresh the page after deletion
         }
-        else{
-          console.log(response)
+        else {
+          console.log(response.statusText);
         }
-      })
-      console.log(`Delete certificate with ID: ${certificate.id}`);
+      });
     };
 
     return (
@@ -81,13 +82,13 @@ const Certificates = ({ step }) => {
             <Eye />
           </button>
           <button
-            onClick={() => handleEdit(certificate.id)}
+            onClick={handleEdit}
             className={styles.edit_button}
           >
             <Pencil />
           </button>
           <button
-            onClick={() => handleDelete(certificate.id)}
+            onClick={handleDelete}
             className={styles.delete_button}
           >
             <Trash />
@@ -116,13 +117,13 @@ const Certificates = ({ step }) => {
             />
             <button
               className={styles.create_button}
-              onClick={() => navigate('/certificates/create', {
-                state: { edit: false ,token: location.state.token }
+              onClick={() => navigate('/edit-certificate', {
+                state: { edit: false }
               })}
             >
               Create
             </button>
-            <form className={styles.submit_div} onSubmit={location.state.edit ? handleEditing : handleStep3}>
+            <form className={styles.submit_div} onSubmit={edit ? handleEdit : handleStep3}>
               <div>
                 <button className={styles.submit_button}>Submit</button>
               </div>
