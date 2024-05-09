@@ -31,7 +31,7 @@ const PortfolioCardList = ({ ProfileData, token }) => {
           Portfolio
           <Button className={styles.portfolio_button} variant="primary"
             onClick={() => navigate('/portfolios', {
-              state: { edit: true, token: token, portfolios: ProfileData.portfolios }
+              state: { edit: true }
             })}
           >
             View All

@@ -54,13 +54,9 @@ Route::controller(ForgetPasswordController::class)->group(function () {
 });
 
 Route::controller(ProfileController::class)->group(function () {
-    Route::get('/profile', 'Show')->middleware('auth:api');
-    Route::get('/profile/skills', 'GetUserSkills')->middleware('auth:api');
-    Route::post('/profile/skills', 'AddUserSkill')->middleware('auth:api');
-    Route::delete('/profile/skills/{userSkill_id}', 'RemoveUserSkill')->middleware('auth:api');
-    Route::post('/profilePhoto','AddProfilePhoto')->middleware('auth:api');
-    Route::put('/profile/edit','EditProfile')->middleware('auth:api');
-    Route::put('/skills/edit','EditUserSkill')->middleware('auth:api');
+    Route::get('/profile', 'ShowProfile')->middleware('auth:api');
+    Route::post('/profile/edit', 'EditProfile')->middleware('auth:api');
+    Route::post('/profilePhoto', 'AddProfilePhoto')->middleware('auth:api');
 });
 
 Route::controller(SkillsController::class)->group(function() {
@@ -83,9 +79,9 @@ Route::controller(EducationController::class)->group(function() {
     Route::post('/certificate/edit', 'EditCertificate')->middleware('auth:api');
 });
 
-Route::controller(PortfolioController::class)->group(function(){
-    Route::post('/portfolio/add','AddPortfolio')->middleware('auth:api');
-    Route::get('/portfolio/{portfolio}','ShowPortfolio')->middleware('auth:api');
-    Route::get('/portfolios','AllPortfolios')->middleware('auth:api');
-    Route::put('/portfolio/{portfolio}','EditPortfolio')->middleware('auth:api');
+Route::controller(PortfolioController::class)->group(function() {
+    Route::get('/portfolios', 'ShowUserPortfolios')->middleware('auth:api');
+    Route::get('/portfolio/{id}', 'ShowPortfolio')->middleware('auth:api');
+    Route::post('/portfolio/add', 'AddPortfolio')->middleware('auth:api');
+    Route::post('/portfolio/edit', 'EditPortfolio')->middleware('auth:api');
 });

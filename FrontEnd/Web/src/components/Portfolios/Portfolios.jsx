@@ -1,23 +1,36 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { LoginContext } from '../../App.jsx';
+import { ShowPortfoliosAPI } from '../../apis/ProfileApis.jsx';
 import Portfolio from './Portfolio.jsx';
 import styles from './portfolios.module.css';
 
+
 const Portfolios = ({ step }) => {
+  // Context
+  const { accessToken } = useContext(LoginContext);
+  // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const [edit, setEdit] = useState(true);
   const [portfolios, SetPortfolios] = useState([]);
 
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
 
+      ShowPortfoliosAPI(accessToken).then((response) => {
+        if (response.status === 200) {
+          SetPortfolios(response.data.portfolios);
+        }
+        else {
+          console.log(response.statusText);
+        }
+      });
+
       if (location.state !== null) {
-        SetPortfolios(location.state.portfolios);
-      }
-      else {
-        navigate('/profile');
+        setEdit(location.state.edit);
       }
     }
   });
@@ -35,7 +48,7 @@ const Portfolios = ({ step }) => {
         <div className={styles.portfolios}>
           {portfolios.map((portfolio) => (
             <div className={styles.portfolio_card} key={portfolio.id}>
-              <Link to={`/portfolio/${portfolio.id}`} state={ { portfolio } }>
+              <Link to={`/portfolio/${portfolio.id}`}>
                 <Portfolio title={portfolio.title} photo={portfolio.photo} />
               </Link>
             </div>

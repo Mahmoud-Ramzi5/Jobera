@@ -19,6 +19,7 @@ class Portfolio extends Model
         'description',
         'link',
         'photo',
+        'files',
         'user_id',
     ];
 
@@ -29,7 +30,7 @@ class Portfolio extends Model
 
     public function skills()
     {
-        return $this->hasMany(PortfolioSkills::class, 'skill_id', 'id');
+        return $this->hasMany(PortfolioSkills::class);
     }
 
     public function files()

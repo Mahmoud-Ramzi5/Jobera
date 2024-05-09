@@ -15,18 +15,50 @@ use App\Http\Resources\PortfolioCollection;
 
 class PortfolioController extends Controller
 {
-    public function AddPortfolio(AddPortfolioRequest $request)
+    public function ShowUserPortfolios()
     {
         // Get User
         $user = auth()->user();
         if ($user == null) {
             return response()->json([
-                "message" => "user not found"
+                'user' => 'Invalid user'
             ], 401);
         }
 
+        // Get user's portfolios
+        $portfolios = $user->portfolios;
+
+        // Response
+        return response()->json([
+            "portfolios" => new PortfolioCollection($portfolios)
+        ], 200);
+    }
+
+    public function ShowPortfolio(Request $request, $id)
+    {
+        // Get portfolio
+        $portfolio = Portfolio::find($id);
+
+        // Response
+        return response()->json([
+            "portfolio" => new PortfolioResource($portfolio)
+        ]);
+    }
+
+    public function AddPortfolio(AddPortfolioRequest $request)
+    {
         // Validate request
         $validated = $request->validated();
+
+        // Get User
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
 
         // Handle photo file
         if ($request->hasFile('photo')) {
