@@ -177,4 +177,11 @@ class EducationController extends Controller
             "message" => "Certificate deleted",
         ],202);
     }
+
+    public function ShowCertificate(Request $request,Certificate $certificate){
+        //response
+        return response()->json([
+            "data"=>new CertificateResource($certificate)
+        ],201);
+    }
 }

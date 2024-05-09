@@ -27,7 +27,7 @@ class AddCertificateRequest extends FormRequest
             'name' => ['required'],
             'organization' => ['required'],
             'release_date' => ['required', 'date'],
-            'file' => ['sometimes']
+            'file' => ['nullable', 'file']
         ];
     }
 

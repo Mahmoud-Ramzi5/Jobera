@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Eye, Pencil, Trash } from 'react-bootstrap-icons';
 import { ShowCertificates } from '../../apis/ProfileApis';
 import styles from './certificates.module.css';
+import CertificateForm from './Certificate';
 
 const Certificates = ({ step }) => {
   const initialized = useRef(false);
@@ -31,14 +32,14 @@ const Certificates = ({ step }) => {
     }
   }, []);
 
+  const handleEditing=(event)=>{
+    event.preventDefault();
+    navigate('/profile');
+  };
+
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
   };
-
-  const handleEdit = (event) => {
-    event.preventDefault();
-    navigate("/profile");
-  }
 
   const handleStep3 = (event) => {
     event.preventDefault();
@@ -47,7 +48,10 @@ const Certificates = ({ step }) => {
   }
 
   const RenderCertificate = (certificate) => {
-    const handleEdit = () => {
+    const handleEdit = (event) => {
+      navigate('/certificates/create', {
+        state: { edit: true, id:certificate.id ,token: location.state.token }
+      })
       console.log(`Edit certificate with ID: ${certificate.id}`);
     };
 
@@ -104,12 +108,12 @@ const Certificates = ({ step }) => {
             <button
               className={styles.create_button}
               onClick={() => navigate('/certificates/create', {
-                state: { edit: location.state.edit, token: location.state.token }
+                state: { edit: false ,token: location.state.token }
               })}
             >
               Create
             </button>
-            <form className={styles.submit_div} onSubmit={location.state.edit ? handleEdit : handleStep3}>
+            <form className={styles.submit_div} onSubmit={location.state.edit ? handleEditing : handleStep3}>
               <div>
                 <button className={styles.submit_button}>Submit</button>
               </div>
