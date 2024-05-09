@@ -54,7 +54,7 @@ class LoginView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       TextButton(
-                        onPressed: () => Get.toNamed('/forgotpassword'),
+                        onPressed: () => Get.toNamed('/forgotPassword'),
                         child: const LabelText(text: "Forgot Password?"),
                       ),
                     ],

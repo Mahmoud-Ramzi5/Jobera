@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/main.dart';
-import 'package:jobera/views/login_view.dart';
 
 class HomeController extends GetxController {
   late Dio dio;
@@ -35,7 +34,7 @@ class HomeController extends GetxController {
           'Success',
           response.data['message'].toString(),
         );
-        Get.offAll(() => LoginView());
+        Get.offAllNamed('/login');
       }
     } on DioException catch (e) {
       await Dialogs().showErrorDialog(

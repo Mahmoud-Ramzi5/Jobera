@@ -7,7 +7,6 @@ import 'package:jobera/classes/texts.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
-import 'package:jobera/views/home_view.dart';
 
 class UserRegisterController extends GetxController {
   late GlobalKey<FormState> formField;
@@ -214,7 +213,7 @@ class UserRegisterController extends GetxController {
         Future.delayed(
           const Duration(seconds: 1),
           () {
-            Get.offAll(() => HomeView());
+            Get.offAllNamed('/home');
           },
         );
       }
