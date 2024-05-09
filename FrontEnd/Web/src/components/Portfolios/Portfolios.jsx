@@ -35,7 +35,7 @@ const Portfolios = ({ step }) => {
         <div className={styles.portfolios}>
           {portfolios.map((portfolio) => (
             <div className={styles.portfolio_card} key={portfolio.id}>
-              <Link to={`/portfolio/${portfolio.id}`}>
+              <Link to={`/portfolio/${portfolio.id}`} state={ { portfolio } }>
                 <Portfolio title={portfolio.title} photo={portfolio.photo} />
               </Link>
             </div>

@@ -30,6 +30,6 @@ class Portfolio extends Model
 
     public function skills()
     {
-        return $this->hasMany(Skill::class, 'skill_id', 'id');
+        return $this->hasMany(PortfolioSkills::class, 'skill_id', 'id');
     }
 }

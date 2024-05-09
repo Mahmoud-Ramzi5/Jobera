@@ -24,14 +24,15 @@ class EditPortfolioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['sometimes','required'],
-            'description' => ['sometimes','required'],
+            'title' => ['sometimes', 'required'],
+            'description' => ['sometimes', 'required'],
             'link' => ['sometimes'],
             'photo' => ['sometimes', 'image', 'max:4096'],
             'files' => ['sometimes', 'array', 'max:5'],
             'skills' => ['sometimes','required', 'array', 'max:5'],
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
