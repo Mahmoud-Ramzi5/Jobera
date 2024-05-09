@@ -43,7 +43,8 @@ export const CompanyRegisterAPI = async (
     PhoneNumber,
     password,
     ConfirmPassword,
-    StateId
+    StateId,
+    date
 ) => {
     try {
         const response = await axios.post('http://127.0.0.1:8000/api/company/register', {
@@ -54,6 +55,7 @@ export const CompanyRegisterAPI = async (
             "password": password,
             "confirm_password": ConfirmPassword,
             "state_id": StateId,
+            "founding_date": date,
             "type": "company"
         }, {
             headers: {

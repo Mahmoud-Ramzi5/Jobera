@@ -22,7 +22,7 @@ class Company extends User
     protected $fillable = [
         'name',
         'field',
-        'date',
+        'founding_date',
         'description',
         'avatar_photo',
         'user_id'

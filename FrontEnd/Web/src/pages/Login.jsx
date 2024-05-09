@@ -2,7 +2,7 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PersonFill, ChevronRight } from 'react-bootstrap-icons';
 import Cookies from 'js-cookie';
-import { LoginContext } from '../utils/Contexts.jsx';
+import { LoginContext, ProfileContext } from '../utils/Contexts.jsx';
 import { FetchProviders, LoginAPI } from '../apis/AuthApis.jsx';
 import NormalInput from '../components/NormalInput.jsx';
 import PasswordInput from '../components/PasswordInput.jsx';
@@ -13,6 +13,7 @@ import styles from '../styles/login.module.css';
 const Login = () => {
   // Context
   const { setLoggedIn, setAccessToken } = useContext(LoginContext);
+  const { setProfile } = useContext(ProfileContext);
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
@@ -62,6 +63,7 @@ const Login = () => {
 
           setLoggedIn(true);
           setAccessToken(token);
+          setProfile(response.data.user);
           if (rememberMe) {
             // 1 Year
             Cookies.set('access_token', token, { secure: true, expires: 365 });

@@ -57,7 +57,7 @@ class AuthController extends Controller
         // Response
         return response()->json([
             "message" => "user registered",
-            "data" => new IndividualResource($individual),
+            "individual" => new IndividualResource($individual),
             "access_token" => $token,
             "token_type" => "bearer"
         ], 201);
@@ -101,7 +101,7 @@ class AuthController extends Controller
         // Response
         return response()->json([
             "message" => "company registered",
-            "data" => new CompanyResource($company),
+            "company" => new CompanyResource($company),
             "access_token" => $token,
             "token_type" => "bearer"
         ], 201);
@@ -123,18 +123,43 @@ class AuthController extends Controller
 
         // Login user
         $user = User::where("email", $validated['email'])->first();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+
+        // Prepare token
         $token = $user->createToken("api_token");
         $expiration = $remember ? Carbon::now()->addYear() : Carbon::now()->addDay();
         $token->token->expires_at = $expiration;
         $token->token->save();
 
-        // Response
-        return response()->json([
-            "data" => $user,
-            "access_token" => $token->accessToken,
-            "token_type" => "bearer",
-            "expires_at" => $expiration,
-        ], 200);
+        // Check individual
+        $individual = Individual::where("user_id", $user->id)->first();
+        if ($individual != null) {
+            // Response
+            return response()->json([
+                "user" => new IndividualResource($individual),
+                "access_token" => $token->accessToken,
+                "token_type" => "bearer",
+                "expires_at" => $expiration,
+            ], 200);
+        }
+
+        // Check company
+        $company = Company::where("user_id", $user->id)->first();
+        if ($company != null) {
+            // Response
+            return response()->json([
+                "user" => new CompanyResource($company),
+                "access_token" => $token->accessToken,
+                "token_type" => "bearer",
+                "expires_at" => $expiration,
+            ], 200);
+        }
     }
 
     public function Logout(Request $request)

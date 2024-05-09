@@ -14,20 +14,23 @@ class CompanyResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // Get user
         $user = $this->user()->first();
+
+        // Check user verification
         $is_verified = false;
         if ($user->email_verified_at) {
             $is_verified = true;
         }
-        $portfolios=$user->portfolios()->get();
+
         return [
             'name' => $this->name,
             'email' => $user->email,
             'phone_number' => $user->phone_number,
             'country' => $user->state->country->country_name,
             'state' => $user->state->state_name,
-            'date' => $this->birth,
             'field' => $this->field,
+            'founding_date' => $this->founding_date,
             'description' => $this->description,
             'avatar_photo' => $this->avatar_photo,
             'portfolios' => new PortfolioCollection($user->portfolios),

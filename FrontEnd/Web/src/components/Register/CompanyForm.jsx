@@ -2,10 +2,10 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   PersonFill, EnvelopeFill, TelephoneFill, Globe,
-  GeoAltFill, SuitcaseFill, ChevronRight,
+  GeoAltFill, Calendar3, SuitcaseFill, ChevronRight
 } from 'react-bootstrap-icons';
 import Cookies from 'js-cookie';
-import { LoginContext } from '../../utils/Contexts.jsx';
+import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { FetchCountries, FetchStates, CompanyRegisterAPI } from '../../apis/AuthApis.jsx';
 import NormalInput from '../NormalInput.jsx';
 import PasswordInput from '../PasswordInput.jsx';
@@ -16,7 +16,8 @@ import Inputstyles from '../../styles/Input.module.css';
 
 const CompanyForm = () => {
   // Context
-  const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
+  const { setLoggedIn, setAccessToken } = useContext(LoginContext);
+  const { setProfile } = useContext(ProfileContext);
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
@@ -30,6 +31,7 @@ const CompanyForm = () => {
   const [country, setCountry] = useState('');
   const [states, setStates] = useState([]);
   const [state, setState] = useState('');
+  const [date, setDate] = useState('');
 
   useEffect(() => {
     if (!initialized.current) {
@@ -48,7 +50,6 @@ const CompanyForm = () => {
   }, []);
 
   const handleCountrySelect = (event) => {
-    console.log(event.target.options.selectedIndex);
     setCountry(event.target.value);
 
     // Api Call
@@ -78,13 +79,15 @@ const CompanyForm = () => {
       PhoneNumber,
       password,
       ConfirmPassword,
-      state)
+      state,
+      date)
       .then((response) => {
         if (response.status === 201) {
           // Store token and Log in user 
           const token = response.data.access_token;
           setLoggedIn(true);
           setAccessToken(token);
+          setProfile(response.data.company);
           Cookies.set('access_token', token, { secure: true, expires: 1 / 24 });
         }
         else {
@@ -100,6 +103,7 @@ const CompanyForm = () => {
         setConfirmPassword('');
         setCountry('');
         setState('');
+        setDate('');
 
         // Redirect to profile
         navigate('/profile')
@@ -171,7 +175,13 @@ const CompanyForm = () => {
         </div>
       </div>
       <div className={styles.register__row}>
-        <div className={Inputstyles.field}></div>
+        <NormalInput
+          type='date'
+          placeholder='Birthdate'
+          icon={<Calendar3 />}
+          value={date}
+          setChange={setDate}
+        />
         <div className={Inputstyles.field}></div>
       </div>
       <button type="submit" className={styles.register__submit}>

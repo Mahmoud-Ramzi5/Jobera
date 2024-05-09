@@ -27,10 +27,11 @@ class CompanyRegisterRequest extends FormRequest
             'name' => ['required'],
             'field' => ['required'],
             'email' => ['required', 'unique:users', 'email'],
-            'phone_number' => ['required', 'unique:users', 'unique:companies', 'min:11', 'max:13', 'regex:/^\+/'],
+            'phone_number' => ['required', 'unique:users', 'min:11', 'max:13', 'regex:/^\+/'],
             'password' => ['required'],
             'confirm_password' => ['required', 'same:password'],
             'state_id' => ['required'],
+            'founding_date' => ['required', 'date'],
             'avatar_photo' => ['sometimes', 'image', 'max:4096'],
         ];
     }

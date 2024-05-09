@@ -5,7 +5,7 @@ import {
   Calendar3, ChevronRight, PersonStanding, PersonStandingDress
 } from 'react-bootstrap-icons';
 import Cookies from 'js-cookie';
-import { LoginContext } from '../../utils/Contexts.jsx';
+import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { FetchCountries, FetchStates, RegisterAPI } from '../../apis/AuthApis.jsx';
 import NormalInput from '../NormalInput.jsx';
 import PasswordInput from '../PasswordInput.jsx';
@@ -16,7 +16,8 @@ import Inputstyles from '../../styles/Input.module.css';
 
 const IndividualForm = () => {
   // Context
-  const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
+  const { setLoggedIn, setAccessToken } = useContext(LoginContext);
+  const { setProfile } = useContext(ProfileContext);
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
@@ -54,7 +55,6 @@ const IndividualForm = () => {
   }, []);
 
   const handleCountrySelect = (event) => {
-    console.log(event.target.options.selectedIndex);
     setCountry(event.target.value);
 
     // Api Call
@@ -93,6 +93,7 @@ const IndividualForm = () => {
           const token = response.data.access_token;
           setLoggedIn(true);
           setAccessToken(token);
+          setProfile(response.data.individual);
           Cookies.set('access_token', token, { secure: true, expires: 1 / 24 });
         }
         else {

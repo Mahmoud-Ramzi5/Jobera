@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('companies', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->dateTime('date');
             $table->string('field');
+            $table->dateTime('founding_date');
             $table->text('description')->nullable();
             $table->string('avatar_photo')->nullable();
             $table->float('rating')->default(0.0)->nullable();
