@@ -78,8 +78,12 @@ class EducationController extends Controller
             $validated['certificate_file'] = $avatarPath;
         }
 
-        $education = $user->education;
-        $education->update($validated);
+        $education = $user->education();
+        if($education==null){
+            $education=new Education($validated);
+        }
+        else{$education->update($validated);}
+        
 
         // Response
         return response()->json([
