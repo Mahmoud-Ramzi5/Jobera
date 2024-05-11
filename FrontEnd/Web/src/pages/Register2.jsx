@@ -6,6 +6,7 @@ import EducationForm from '../components/Education&Certificates/Education.jsx';
 import Certificates from '../components/Education&Certificates/Certificates.jsx';
 import Portfolios from '../components/Portfolios/Portfolios.jsx';
 import styles from '../styles/register2.module.css';
+import { AdvanceRegisterStep } from '../apis/ProfileApis.jsx';
 
 
 const Register2 = () => {
@@ -22,7 +23,15 @@ const Register2 = () => {
       }
       initialized.current = true;
       // Get data from local storage
-      const RegisterStep = localStorage.getItem('register_step');
+      var RegisterStep=null;
+      AdvanceRegisterStep(location.state.token).then((response)=>{
+        if(response.status==201){
+          RegisterStep =response.step;
+        }else{
+          console.log(response);
+        }
+      })
+      
       // Set step
       if (RegisterStep !== null) {
         setStep(RegisterStep);

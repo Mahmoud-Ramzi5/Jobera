@@ -49,6 +49,7 @@ class AuthController extends Controller
         }
 
         $validated['user_id'] = $user->id;
+        $validated['register_step']="SKILLS";
         $individual = Individual::create($validated);
 
         $token = $user->createToken("api_token")->accessToken;
@@ -248,5 +249,23 @@ class AuthController extends Controller
         return response()->json([
             'message'=>'Not Verified'
         ], 200);
+    }
+    public function AdvanceRegisterStep(Request $request){
+        // Get User
+        $user = auth()->user();
+        $individual=Individual::where('user_id',$user->id)->first();
+        $steps=['SKILLS','EDUCATION','CERTIFICATE','PORTFOLIO','DONE'];
+        for($step=0;$step<count($steps);$step++){
+            if($steps[$step]==$individual->register_step){
+                $individual->register_step=$steps[++$step];
+                return response()->json([
+                    "step"=>$individual->register_step
+                ]);
+            }
+        }      
+        return response()->json([
+            "message"=>"errror",
+            "step"=>$individual->register_step
+        ]);
     }
 }

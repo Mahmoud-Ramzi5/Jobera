@@ -52,7 +52,8 @@ class IndividualResource extends JsonResource
             'certificates' => new CertificateCollection($user->certificates),
             'portfolios' => new PortfolioCollection($user->portfolios),
             'is_verifed' => $is_verified,
-            'is_registered' => $is_registered
+            'is_registered' => $is_registered,
+            'register_step'=>$this->register_step
         ];
     }
 }

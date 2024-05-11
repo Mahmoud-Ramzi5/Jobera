@@ -41,6 +41,7 @@ Route::controller(AuthController::class)->group(function () {
             'states' => State::where('country_id', $country_id)->get()->all(),
         ], 200);
     });
+    Route::get('/regStep','AdvanceRegisterStep')->middleware('auth:api');
 });
 
 Route::controller(SocialAuthController::class)->group(function () {

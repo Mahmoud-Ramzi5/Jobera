@@ -1,4 +1,3 @@
-import React from 'react';
 import axios from 'axios';
 
 
@@ -324,3 +323,19 @@ export const DeletePortfolioAPI = async (token, id) => {
     return error.response;
   }
 }
+export const AdvanceRegisterStep = async (
+  token
+) => {
+  try {
+    const response = await axios.get(`http://127.0.0.1:8000/api/regStep`, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
