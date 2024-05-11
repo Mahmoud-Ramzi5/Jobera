@@ -77,4 +77,11 @@ class Dialogs {
       ),
     );
   }
+
+  Future<void> showSesionExpiredDialog() async {
+    Get.defaultDialog(
+      title: 'Session expired',
+      content: const BodyText(text: 'Please Login again'),
+    );
+  }
 }

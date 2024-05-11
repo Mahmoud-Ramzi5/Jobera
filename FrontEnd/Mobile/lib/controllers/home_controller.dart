@@ -30,11 +30,13 @@ class HomeController extends GetxController {
           ));
       if (response.statusCode == 200) {
         sharedPreferences?.remove('access_token');
-        Dialogs().showSuccessDialog(
-          'Success',
-          response.data['message'].toString(),
+        await Dialogs().showSuccessDialog('Logout Successfull', '');
+        Future.delayed(
+          const Duration(seconds: 1),
+          () {
+            Get.offAllNamed('/login');
+          },
         );
-        Get.offAllNamed('/login');
       }
     } on DioException catch (e) {
       await Dialogs().showErrorDialog(
