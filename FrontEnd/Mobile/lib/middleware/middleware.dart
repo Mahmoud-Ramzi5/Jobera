@@ -12,11 +12,12 @@ class Middleware extends GetMiddleware {
     } else {
       if (isTokenValid) {
         return const RouteSettings(name: '/home');
-      } else {
+      } else if (!isTokenValid) {
+        Dialogs().showSesionExpiredDialog();
         Future.delayed(
           const Duration(seconds: 1),
           () {
-            Dialogs().showSesionExpiredDialog();
+            return const RouteSettings(name: '/login');
           },
         );
       }
