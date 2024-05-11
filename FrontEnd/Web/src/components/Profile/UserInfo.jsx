@@ -20,24 +20,8 @@ const UserInfo = ({ ProfileData }) => {
   };
 
   const handleSaveClick = () => {
-    
-    EditProfile(
-      accessToken,
-      ProfileData.full_name,
-      ProfileData.PhoneNumber,
-      ProfileData.state_id,
-      ProfileData.birth_date,
-      ProfileData.gender
-    ).then((response) => {
-      if (response.status === 201) {
-          setIsEditingProfile(false);
-          window.location.reload(); // Refresh the page after deletion 
-        }
-      else {
-        console.log(response.statusText);
-      }
-    })
-
+    window.location.reload(); // Refresh the page after deletion 
+    setIsEditingProfile(false);
   };
 
   const handleCancelClick = () => {

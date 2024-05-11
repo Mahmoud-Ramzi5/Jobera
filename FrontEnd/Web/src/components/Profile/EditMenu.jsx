@@ -1,8 +1,8 @@
-import { useState,useEffect,useRef } from 'react';
+import { useState,useEffect,useRef, useContext } from 'react';
 import styles from "./EditMenu.module.css";
 import {  Button } from "react-bootstrap";
 import { FetchCountries, FetchStates } from '../../apis/AuthApis.jsx';
-
+import { EditProfile } from '../../apis/ProfileApis.jsx';
 import NormalInput from '../NormalInput';
 import Inputstyles from '../../styles/Input.module.css';
 import CustomPhoneInput from '../CustomPhoneInput';
@@ -10,16 +10,18 @@ import {
   Globe, GeoAltFill,
   Calendar3,  PersonStanding, PersonStandingDress
 } from 'react-bootstrap-icons';
-const EditMenu = ({ data, onChange, onSave, onCancel }) => {
+import { LoginContext } from '../../utils/Contexts.jsx';
+const EditMenu = ({ data, onSave, onCancel }) => {
+  const { accessToken } = useContext(LoginContext);
   const initialized = useRef(false);
   const [formData, setFormData] = useState(data);
-  const [Full_name, setFullName] = useState('');
-  const [PhoneNumber, setPhoneNumber] = useState('');
+  const [Full_name, setFullName] = useState(formData.full_name);
+  const [PhoneNumber, setPhoneNumber] = useState(formData.phone_number);
   const [countries, setCountries] = useState([]);
-  const [country, setCountry] = useState('');
+  const [country, setCountry] = useState(formData.country);
   const [states, setStates] = useState([]);
-  const [state, setState] = useState('');
-  const [date, setDate] = useState('');
+  const [state, setState] = useState(formData.state);
+  const [date, setDate] = useState(formData.birth_date);
   const [gender, setGender] = useState(formData.gender);
   const genders = [
     { value: 'male', label: 'Male', icon: <PersonStanding /> },
@@ -78,19 +80,44 @@ const EditMenu = ({ data, onChange, onSave, onCancel }) => {
     });
   }
 
+  const handleSubmit=(event)=>{
+    event.preventDefault();
+    var state_id;
+    states.forEach((stat,index)=>{
+      if(stat.state_name==state){
+        state_id=stat.state_id;
+      }
+    });
+    EditProfile(
+      accessToken,
+      Full_name,
+      PhoneNumber,
+      state_id,
+      date,
+      gender
+    ).then((response) => {
+      if (response.status === 201) {   
+        console.log(response);
+      }
+      else {
+        console.log(response.statusText);
+      }
+    })
+  }
+
   return (
     <div className={styles.edit_menu}>
+      <form onSubmit={handleSubmit}>
       <div className={styles.edit__row}>
       <NormalInput
         type="text"
-        name="full_name"
-        value={formData.full_name}
+        value={Full_name}
         setChange={setFullName}
         placeholder="Full Name"
       />
       <CustomPhoneInput
         defaultCountry='us'
-        value={formData.phone_number}
+        value={PhoneNumber}
         setChange={setPhoneNumber}
       />
       </div>
@@ -118,7 +145,7 @@ const EditMenu = ({ data, onChange, onSave, onCancel }) => {
           type='date'
           placeholder='Birthdate'
           icon={<Calendar3 />}
-          value={formData.birth_date}
+          value={date}
           setChange={setDate}
         />
        <div className={styles.register__field__radio}>
@@ -135,6 +162,8 @@ const EditMenu = ({ data, onChange, onSave, onCancel }) => {
             </div>
           ))}
         </div>
+        <Button className={styles.submitButton} variant="primary" type="submit">Submit</Button>
+        </form>
       <Button className={styles.saveButton} variant="primary"  onClick={onSave}>Save</Button>
       <Button className={styles.cansleButton} variant="secondary"  onClick={onCancel}>Cancel</Button>
     </div>
