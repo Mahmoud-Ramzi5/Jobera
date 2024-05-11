@@ -53,7 +53,7 @@ class ProfileController extends Controller
         if ($individual == null) {
             return response()->json([
                 'user' => 'Invalid user'
-            ], 200);
+            ], 400);
         }
 
         // Edit user
@@ -66,7 +66,7 @@ class ProfileController extends Controller
         return response()->json([
             "message" => "User data updated successfully",
             'user' => new IndividualResource($individual)
-        ], 200);
+        ], 201);
     }
 
     public function AddProfilePhoto(StoreProfilePhotoRequest $request)

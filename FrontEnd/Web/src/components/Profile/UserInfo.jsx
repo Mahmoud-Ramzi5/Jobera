@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Card, Button } from "react-bootstrap";
 import { StarFill, StarHalf } from "react-bootstrap-icons";
 import styles from "./userinfo.module.css";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import EditMenu from "./EditMenu";
+import { LoginContext } from "../../utils/Contexts";
+import {  EditProfile } from "../../apis/ProfileApis";
 
 const UserInfo = ({ ProfileData }) => {
+    // Context
+    const { accessToken } = useContext(LoginContext);
   const [description, setDescription] = useState(ProfileData.description);
   const [isEditing, setIsEditing] = useState(false);
   const[isEditingProfile,setIsEditingProfile]=useState(false);
@@ -17,8 +21,23 @@ const UserInfo = ({ ProfileData }) => {
 
   const handleSaveClick = () => {
     
-    // Save the changes
-    setIsEditingProfile(false);
+    EditProfile(
+      accessToken,
+      ProfileData.full_name,
+      ProfileData.PhoneNumber,
+      ProfileData.state_id,
+      ProfileData.birth_date,
+      ProfileData.gender
+    ).then((response) => {
+      if (response.status === 201) {
+          setIsEditingProfile(false);
+          window.location.reload(); // Refresh the page after deletion 
+        }
+      else {
+        console.log(response.statusText);
+      }
+    })
+
   };
 
   const handleCancelClick = () => {
