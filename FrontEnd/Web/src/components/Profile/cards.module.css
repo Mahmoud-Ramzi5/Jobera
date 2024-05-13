@@ -1,10 +1,12 @@
 .cards {
   width: 90%;
+  min-height: 180px;
   margin-bottom: 9px;
   background-color: var(--color-backgroundV2) !important;
 }
 
 .background {
+  min-height: 180px;
   color: var(--color-button);
   background: var(--color-background);
 }
@@ -43,12 +45,6 @@
 .skills_button:hover {
   font-weight: 500;
   color:#5a5aec;
-}
-
-.no_skills {
-  position: relative;
-  font-size: 120%;
-  color: var(--color-foreground);
 }
 
 .cer_img {
@@ -117,6 +113,12 @@
   width: 100%;
   height: auto;
   object-fit: cover;
+}
+
+.no_data {
+  position: relative;
+  font-size: 120%;
+  color: var(--color-foreground);
 }
 
 @media screen and (max-width: 970px) {

@@ -18,7 +18,7 @@ const EducationCard = ({ ProfileData }) => {
           <div className={styles.title}>Education</div>
         </Card.Header>
         <Card.Body>
-          {ProfileData.education === null ? <></> :
+          {ProfileData.education === null ? <p className={styles.no_data}>No education to display</p> :
             <>
               <p>Level: {ProfileData.education.level}</p>
               <p>Field: {ProfileData.education.field}</p>

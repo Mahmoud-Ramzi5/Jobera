@@ -43,9 +43,9 @@ const NavBar = () => {
               <li><a href='#'><EnvelopeAtFill /></a></li>
               <li><a href='#'><BellFill /></a></li>
               <li>
-                <div className={styles.desktop_item}><NavUser UserData={profile} /></div>
+                <div className={styles.desktop_item}><NavUser ProfileData={profile} /></div>
                 <input type="checkbox" id="Profile" className={styles.showDrop} />
-                <label htmlFor="Profile" className={styles.mobile_item}><NavUser UserData={profile} /></label>
+                <label htmlFor="Profile" className={styles.mobile_item}><NavUser ProfileData={profile} /></label>
                 <ul className={styles.drop_menu}>
                   <li><a href="/profile">My Profile</a></li>
                   <li><a href="/logout">LogOut</a></li>
@@ -70,13 +70,17 @@ const NavBar = () => {
   );
 };
 
-const NavUser = ({ UserData }) => {
+const NavUser = ({ ProfileData }) => {
   return (
     <div className={styles.profile}>
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s"
         className={styles.profile_image}></img>
       <div className={styles.profile_details}>
-        <div>{UserData.full_name}</div>
+        <div>
+          {ProfileData.type === 'individual' ? ProfileData.full_name
+            : ProfileData.type === 'company' ? ProfileData.name
+              : <></>}
+        </div>
         <div>$GG</div>
       </div>
     </div>

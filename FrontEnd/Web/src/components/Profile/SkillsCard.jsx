@@ -30,25 +30,27 @@ const SkillsCard = ({ ProfileData }) => {
           </div>
         </Card.Header>
         <Card.Body>
-          {ProfileData.skills.length === 0 ? (<div className={styles.no_skills}>no skills to display</div>) : (<>
-            {/* Here should be the top skills */}
-            <SlicingArrayInput dataArray={ProfileData.skills} first={0} last={specific} />
-            {showMore === false ? (
-              <button
-                type="button"
-                className={styles.skills_button}
-                onClick={() => { setSpecific(ProfileData.skills.length); setShowMore(true) }}>
-                view more
-              </button>
-            ) : (
-              <button
-                type="button"
-                className={styles.skills_button}
-                onClick={() => { setSpecific(5); setShowMore(false) }}>
-                view less
-              </button>
-            )}
-          </>)}
+          {ProfileData.skills === null || ProfileData.skills.length === 0 ? <p className={styles.no_data}>No skills to display</p> :
+            <>
+              {/* Here should be the top skills */}
+              <SlicingArrayInput dataArray={ProfileData.skills} first={0} last={specific} />
+              {showMore === false ?
+                <button
+                  type="button"
+                  className={styles.skills_button}
+                  onClick={() => { setSpecific(ProfileData.skills.length); setShowMore(true) }}>
+                  view more
+                </button>
+                :
+                <button
+                  type="button"
+                  className={styles.skills_button}
+                  onClick={() => { setSpecific(5); setShowMore(false) }}>
+                  view less
+                </button>
+              }
+            </>
+          }
         </Card.Body>
       </div>
     </Card>

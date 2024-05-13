@@ -6,14 +6,14 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import EditMenu from "./EditMenu";
 import { LoginContext } from "../../utils/Contexts";
-import {  EditProfile } from "../../apis/ProfileApis";
+import { EditProfile } from "../../apis/ProfileApis";
 
 const UserInfo = ({ ProfileData }) => {
-    // Context
-    const { accessToken } = useContext(LoginContext);
+  // Context
+  const { accessToken } = useContext(LoginContext);
   const [description, setDescription] = useState(ProfileData.description);
   const [isEditing, setIsEditing] = useState(false);
-  const[isEditingProfile,setIsEditingProfile]=useState(false);
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
   const handleEditClick = () => {
     setIsEditingProfile(true);
     console.log(ProfileData)
@@ -89,7 +89,11 @@ const UserInfo = ({ ProfileData }) => {
         </div>
         <div className={styles.info_in_profile}>
           <div className={styles.user_info_title}>
-            <h3 className="card-title">{ProfileData.full_name}</h3>
+            <h3 className="card-title">
+              {ProfileData.type === 'individual' ? ProfileData.full_name
+                : ProfileData.type === 'company' ? ProfileData.name
+                  : <></>}
+            </h3>
             <h4 className={styles.specification}>
               {ProfileData.specification}
             </h4>
@@ -113,15 +117,15 @@ const UserInfo = ({ ProfileData }) => {
             ) : (
               <p className={styles.description}>{formattedDescription}</p>
             )}
-              {isEditingProfile ? (
-                <EditMenu
-                  data={ProfileData}
-                  onSave={handleSaveClick}
-                  onCancel={handleCancelClick}
-                />
-              ) : (
-                <Button variant="primary" onClick={handleEditClick}>Edit Profile</Button>
-              )}{" "}
+            {isEditingProfile ? (
+              <EditMenu
+                data={ProfileData}
+                onSave={handleSaveClick}
+                onCancel={handleCancelClick}
+              />
+            ) : (
+              <Button variant="primary" onClick={handleEditClick}>Edit Profile</Button>
+            )}{" "}
             <Button variant="secondary" onClick={handleShareProfile}>
               Share
             </Button>{" "}
