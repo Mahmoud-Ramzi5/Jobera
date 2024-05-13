@@ -1,6 +1,5 @@
-import { useContext, useEffect, useState, useRef } from 'react'
-import { LoginContext, ProfileContext } from '../utils/Contexts.jsx';
-import { FetchUserProfile } from '../apis/ProfileApis.jsx';
+import { useContext } from 'react'
+import { ProfileContext } from '../utils/Contexts.jsx';
 import UserInfo from '../components/Profile/UserInfo';
 import Wallet from '../components/Profile/Wallet.jsx';
 import SetUpCard from '../components/Profile/SetUpCard.jsx';
@@ -13,44 +12,40 @@ import styles from '../styles/profile.module.css';
 
 const Profile = () => {
   // Context    
-  const { accessToken } = useContext(LoginContext);
   const { profile, setProfile } = useContext(ProfileContext);
-  // Define states
-  const initialized = useRef(false);
 
-  useEffect(() => {
-    if (!initialized.current) {
-      initialized.current = true;
-      FetchUserProfile(accessToken).then((response) => {
-        if (response.status === 200) {
-          setProfile(response.data.user);
-        }
-        else {
-          console.log(response.statusText);
-        }
-      }).then(() => {
-        console.log('Done');
-      });
-    }
-  }, []);
-
-  return (
-    <div className={styles.Profile}>
-      <div className={styles.leftSideContainer}>
-        <div className={styles.leftSide}><UserInfo ProfileData={profile} /></div>
-        <div className={styles.leftSide}><Wallet ProfileData={profile} /></div>
-        <div className={styles.leftSide}><PortfolioCardList ProfileData={profile} /></div>
+  if (profile.type === 'individual') {
+    return (
+      <div className={styles.Profile}>
+        <div className={styles.leftSideContainer}>
+          <div className={styles.leftSide}><UserInfo ProfileData={profile} /></div>
+          <div className={styles.leftSide}><Wallet ProfileData={profile} /></div>
+          <div className={styles.leftSide}><PortfolioCardList ProfileData={profile} /></div>
+        </div>
+        <div className={styles.rightSideContainer}>
+          {profile.is_registered ? (<></>) : (
+            <div className={styles.rightSide}><SetUpCard ProfileData={profile} /></div>
+          )}
+          <div className={styles.rightSide}><EducationCard ProfileData={profile} /></div>
+          <div className={styles.rightSide}><CertificationsCard ProfileData={profile} /></div>
+          <div className={styles.rightSide}><SkillsCard ProfileData={profile} /></div>
+        </div>
       </div>
-      <div className={styles.rightSideContainer}>
-        {profile.is_registered ? (<></>) : (
-          <div className={styles.rightSide}><SetUpCard ProfileData={profile} /></div>
-        )}
-        <div className={styles.rightSide}><EducationCard ProfileData={profile} /></div>
-        <div className={styles.rightSide}><CertificationsCard ProfileData={profile} /></div>
-        <div className={styles.rightSide}><SkillsCard ProfileData={profile} /></div>
+    );
+  }
+  else if (profile.type === 'company') {
+    return (
+      <div className={styles.Profile}>
+        <div className={styles.CompanyContainer}>
+          <div className={styles.leftSide}><UserInfo ProfileData={profile} /></div>
+          <div className={styles.leftSide}><PortfolioCardList ProfileData={profile} /></div>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+  else {
+    return <></>
+  }
 }
 
 export default Profile;

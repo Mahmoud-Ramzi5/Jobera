@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\ProfileControllers;
 
 use App\Models\Individual;
+use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EditProfileRequest;
-use App\Http\Resources\IndividualResource;
 use App\Http\Requests\StoreProfilePhotoRequest;
+use App\Http\Resources\IndividualResource;
+use App\Http\Resources\CompanyResource;
 
 class ProfileController extends Controller
 {
@@ -22,17 +24,24 @@ class ProfileController extends Controller
                 'user' => 'Invalid user'
             ], 401);
         }
-        $individual = Individual::where('user_id', $user->id)->firstOrFail();
-        if ($individual == null) {
+
+        // Check individual
+        $individual = Individual::where("user_id", $user->id)->first();
+        if ($individual != null) {
+            // Response
             return response()->json([
-                'user' => 'Invalid user'
-            ], 401);
+                "user" => new IndividualResource($individual),
+            ], 200);
         }
 
-        // Response
-        return response()->json([
-            'user' => new IndividualResource($individual)
-        ], 200);
+        // Check company
+        $company = Company::where("user_id", $user->id)->first();
+        if ($company != null) {
+            // Response
+            return response()->json([
+                "user" => new CompanyResource($company),
+            ], 200);
+        }
     }
 
     public function EditProfile(EditProfileRequest $request)

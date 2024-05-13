@@ -31,6 +31,7 @@ class CompanyResource extends JsonResource
             'state' => $user->state->state_name,
             'field' => $this->field,
             'founding_date' => $this->founding_date,
+            'type' => 'company',
             'description' => $this->description,
             'avatar_photo' => $this->avatar_photo,
             'portfolios' => new PortfolioCollection($user->portfolios),

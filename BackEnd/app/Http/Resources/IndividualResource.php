@@ -44,7 +44,7 @@ class IndividualResource extends JsonResource
             'state' => $user->state->state_name,
             'birth_date' => $this->birth_date,
             'gender' => $this->gender,
-            'type' => $this->type,
+            'type' => 'individual',
             'description' => $this->description,
             'avatar_photo' => $this->avatar_photo,
             'skills' => new SkillCollection($skills),

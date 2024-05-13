@@ -12,8 +12,13 @@
   width: 25%;
 }
 
+.CompanyContainer {
+  width: 100%;
+}
+
 .leftSideContainer,
-.rightSideContainer {
+.rightSideContainer,
+.CompanyContainer {
   margin-top: 120px;
   padding-left: 15px;
   display: flex;
@@ -23,7 +28,7 @@
 .leftSide,
 .rightSide {
   display: relative;
-}  
+}
 
 @media screen and (max-width: 727.5px) {
   .Profile {
@@ -35,7 +40,8 @@
   }
 
   .leftSideContainer,
-  .rightSideContainer {
+  .rightSideContainer,
+  .CompanyContainer {
     min-width: 375px;
     width: 100%;
   }

@@ -3,18 +3,19 @@
 namespace App\Http\Controllers\AuthControllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CompanyRegisterRequest;
-use App\Http\Resources\CompanyResource;
-use App\Http\Resources\IndividualResource;
-use App\Models\company;
+
 use App\Models\User;
+use App\Models\Individual;
+use App\Models\company;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
-use App\Models\Individual;
+use App\Http\Requests\CompanyRegisterRequest;
+use App\Http\Resources\IndividualResource;
+use App\Http\Resources\CompanyResource;
 use App\Notifications\EmailVerification;
 
 class AuthController extends Controller
@@ -49,7 +50,7 @@ class AuthController extends Controller
         }
 
         $validated['user_id'] = $user->id;
-        $validated['register_step']="SKILLS";
+        $validated['register_step'] = "SKILLS";
         $individual = Individual::create($validated);
 
         $token = $user->createToken("api_token")->accessToken;
@@ -241,31 +242,34 @@ class AuthController extends Controller
         // Check email verification
         if ($user->email_verified_at) {
             return response()->json([
-                'message'=>'Verified'
+                'message' => 'Verified'
             ], 200);
         }
 
         // Response
         return response()->json([
-            'message'=>'Not Verified'
-        ], 200);
+            'message' => 'Not Verified'
+        ], 401);
     }
-    public function AdvanceRegisterStep(Request $request){
+
+    public function AdvanceRegisterStep(Request $request)
+    {
         // Get User
         $user = auth()->user();
-        $individual=Individual::where('user_id',$user->id)->first();
-        $steps=['SKILLS','EDUCATION','CERTIFICATE','PORTFOLIO','DONE'];
-        for($step=0;$step<count($steps);$step++){
-            if($steps[$step]==$individual->register_step){
-                $individual->register_step=$steps[++$step];
+
+        $individual = Individual::where('user_id', $user->id)->first();
+        $steps = ['SKILLS', 'EDUCATION', 'CERTIFICATE', 'PORTFOLIO', 'DONE'];
+        for($step = 0; $step < count($steps); $step++){
+            if($steps[$step] == $individual->register_step) {
+                $individual->register_step = $steps[++$step];
                 return response()->json([
-                    "step"=>$individual->register_step
-                ]);
+                    "step" => $individual->register_step
+                ], 200);
             }
-        }      
+        }
         return response()->json([
-            "message"=>"errror",
-            "step"=>$individual->register_step
-        ]);
+            "message" => "error",
+            "step" => $individual->register_step
+        ], 400);
     }
 }
