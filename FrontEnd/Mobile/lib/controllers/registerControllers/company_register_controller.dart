@@ -18,6 +18,7 @@ class CompanyRegisterController extends GetxController {
   late TextEditingController confirmPasswordController;
   late bool passwordToggle;
   late CountryCode countryCode;
+  late DateTime selectedDate;
   late Dio dio;
   late Countries? selectedCountry;
   late List<Countries> countryOptions = [];
@@ -34,6 +35,7 @@ class CompanyRegisterController extends GetxController {
     passwordController = TextEditingController();
     confirmPasswordController = TextEditingController();
     passwordToggle = true;
+    selectedDate = DateTime.now();
     countryCode = CountryCode(dialCode: '+963');
     dio = Dio();
     selectedCountry = null;
@@ -80,6 +82,19 @@ class CompanyRegisterController extends GetxController {
       },
       child: Icon(passwordToggle ? Icons.visibility_off : Icons.visibility),
     );
+  }
+
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        firstDate: DateTime(1900),
+        lastDate: DateTime(2100),
+        currentDate: DateTime.now(),
+        initialEntryMode: DatePickerEntryMode.calendarOnly);
+    if (picked != null && picked != selectedDate) {
+      selectedDate = picked;
+      update();
+    }
   }
 
   Future<dynamic> getCountries() async {
@@ -145,6 +160,7 @@ class CompanyRegisterController extends GetxController {
     String confirmPassword,
     int state,
     String phoneNumber,
+    String date,
   ) async {
     try {
       var response = await dio.post('http://10.0.2.2:8000/api/company/register',
@@ -156,6 +172,7 @@ class CompanyRegisterController extends GetxController {
             "confirm_password": confirmPassword,
             "state_id": state,
             "phone_number": phoneNumber,
+            "founding_date": date,
             "type": "company",
           },
           options: Options(

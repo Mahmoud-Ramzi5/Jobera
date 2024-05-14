@@ -27,6 +27,9 @@ class Themes {
         ),
       ),
     ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: Colors.orange.shade100,
+    ),
     checkboxTheme: const CheckboxThemeData(
       shape: CircleBorder(),
     ),
@@ -84,6 +87,9 @@ class Themes {
           BorderSide(color: Colors.orange.shade800),
         ),
       ),
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: Colors.orange.shade800,
     ),
     checkboxTheme: const CheckboxThemeData(
       shape: CircleBorder(),

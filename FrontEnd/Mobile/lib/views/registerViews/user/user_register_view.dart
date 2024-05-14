@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/controllers/registerControllers/user_register_controller.dart';
 import 'package:jobera/customWidgets/code_picker.dart';
-import 'package:jobera/customWidgets/date_container.dart';
+import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_drop_down_button.dart';
 import 'package:jobera/classes/texts.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
@@ -103,6 +103,53 @@ class UserRegisterView extends StatelessWidget {
                   ],
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GetBuilder<UserRegisterController>(
+                    builder: (controller) => Column(
+                      children: [
+                        RadioMenuButton(
+                          value: 'male',
+                          groupValue: controller.selectedGender,
+                          onChanged: (value) => controller.changeGender(value!),
+                          trailingIcon: Icon(
+                            Icons.man,
+                            color: Colors.orange.shade800,
+                          ),
+                          child: const BodyText(text: "Male"),
+                        ),
+                        RadioMenuButton(
+                          value: 'female',
+                          groupValue: controller.selectedGender,
+                          onChanged: (value) => controller.changeGender(value!),
+                          trailingIcon: Icon(
+                            Icons.woman,
+                            color: Colors.orange.shade800,
+                          ),
+                          child: const BodyText(text: "Female"),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      const BodyText(text: 'Select Birth Date:'),
+                      DateContainer(
+                        widget: GetBuilder<UserRegisterController>(
+                          builder: (controller) => GestureDetector(
+                            onTap: () =>
+                                _userRegisterController.selectDate(context),
+                            child: BodyText(
+                              text: "${controller.selectedDate}".split(' ')[0],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
               GetBuilder<UserRegisterController>(
                 builder: (controller) => Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -138,53 +185,6 @@ class UserRegisterView extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Column(
-                    children: [
-                      DateContainer(
-                        widget: GetBuilder<UserRegisterController>(
-                          builder: (controller) => BodyText(
-                            text: "${controller.selectedDate}".split(' ')[0],
-                          ),
-                        ),
-                      ),
-                      OutlinedButton(
-                        onPressed: () =>
-                            _userRegisterController.selectDate(context),
-                        child: const BodyText(text: "Select Birthdate"),
-                      ),
-                    ],
-                  ),
-                  GetBuilder<UserRegisterController>(
-                    builder: (controller) => Column(
-                      children: [
-                        RadioMenuButton(
-                          value: 'male',
-                          groupValue: controller.selectedGender,
-                          onChanged: (value) => controller.changeGender(value!),
-                          trailingIcon: Icon(
-                            Icons.man,
-                            color: Colors.orange.shade800,
-                          ),
-                          child: const BodyText(text: "Male"),
-                        ),
-                        RadioMenuButton(
-                          value: 'female',
-                          groupValue: controller.selectedGender,
-                          onChanged: (value) => controller.changeGender(value!),
-                          trailingIcon: Icon(
-                            Icons.woman,
-                            color: Colors.orange.shade800,
-                          ),
-                          child: const BodyText(text: "Female"),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),

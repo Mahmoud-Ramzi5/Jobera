@@ -1,9 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/texts.dart';
 import 'package:jobera/classes/validation.dart';
 import 'package:jobera/controllers/registerControllers/company_register_controller.dart';
 import 'package:jobera/customWidgets/code_picker.dart';
+import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_drop_down_button.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
 import 'package:jobera/models/countries.dart';
@@ -113,6 +116,23 @@ class CompanyRegisterView extends StatelessWidget {
                   ],
                 ),
               ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  const BodyText(text: 'Select Founding Date:'),
+                  DateContainer(
+                    widget: GetBuilder<CompanyRegisterController>(
+                      builder: (controller) => GestureDetector(
+                        onTap: () =>
+                            _companyRegisterController.selectDate(context),
+                        child: BodyText(
+                          text: "${controller.selectedDate}".split(' ')[0],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               GetBuilder<CompanyRegisterController>(
                 builder: (controller) => Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -164,6 +184,7 @@ class CompanyRegisterView extends StatelessWidget {
                                   .confirmPasswordController.text,
                               _companyRegisterController.selectedState!.stateId,
                               '${_companyRegisterController.countryCode.dialCode}${_companyRegisterController.phoneNumberController.text}',
+                              '${_companyRegisterController.selectedDate.day}-${_companyRegisterController.selectedDate.month}-${_companyRegisterController.selectedDate.year}',
                             );
                           }
                         },

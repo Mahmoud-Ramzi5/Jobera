@@ -41,6 +41,7 @@ class HomeController extends GetxController {
             },
           ));
       if (response.statusCode == 200) {
+        print(response.data.toString());
         return User.fromJson(response.data['user']);
       }
     } on DioException catch (e) {

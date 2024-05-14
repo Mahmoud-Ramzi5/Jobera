@@ -1,0 +1,105 @@
+import 'package:flutter/material.dart';
+
+class DateContainer extends StatelessWidget {
+  final Widget widget;
+
+  const DateContainer({super.key, required this.widget});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.center,
+      width: 170,
+      height: 40,
+      padding: const EdgeInsets.all(5),
+      margin: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+      decoration: ShapeDecoration(
+        shape: StadiumBorder(
+          side: BorderSide(
+            color: Colors.orange.shade800,
+          ),
+        ),
+      ),
+      child: widget,
+    );
+  }
+}
+
+class LogoContainer extends StatelessWidget {
+  final String imagePath;
+
+  const LogoContainer({super.key, required this.imagePath});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 250,
+      decoration: ShapeDecoration(
+          shape: const StadiumBorder(),
+          gradient: LinearGradient(
+            colors: [
+              Colors.lightBlue.shade900,
+              Colors.orange.shade800,
+              Colors.cyan,
+            ],
+          ),
+          shadows: const [
+            BoxShadow(
+              color: Colors.cyan,
+              blurRadius: 20,
+              blurStyle: BlurStyle.outer,
+            )
+          ]),
+      child: Image.asset(imagePath),
+    );
+  }
+}
+
+class ProfilePhotoContainer extends StatelessWidget {
+  const ProfilePhotoContainer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 150,
+      height: 150,
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              color: Colors.black,
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80')),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ProfileBackgroundContainer extends StatelessWidget {
+  const ProfileBackgroundContainer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 50),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.bottomCenter,
+          end: Alignment.topCenter,
+          colors: [Colors.lightBlue.shade900, Colors.lightBlue],
+        ),
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(50),
+          bottomRight: Radius.circular(50),
+        ),
+      ),
+    );
+  }
+}
