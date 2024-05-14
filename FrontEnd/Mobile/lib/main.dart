@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/controllers/auth_controller.dart';
-import 'package:jobera/controllers/settings_controller.dart';
+import 'package:jobera/controllers/loginControllers/auth_controller.dart';
+import 'package:jobera/controllers/homeControllers/settings_controller.dart';
 import 'package:jobera/middleware/middleware.dart';
-import 'package:jobera/views/forgot_password_view.dart';
-import 'package:jobera/views/home_view.dart';
-import 'package:jobera/views/login_view.dart';
+import 'package:jobera/views/homeViews/profile_view.dart';
+import 'package:jobera/views/loginViews/forgot_password_view.dart';
+import 'package:jobera/views/homeViews/home_view.dart';
+import 'package:jobera/views/loginViews/login_view.dart';
 import 'package:jobera/views/registerViews/register_view.dart';
-import 'package:jobera/views/settings_view.dart';
-import 'package:jobera/views/splash_screen.dart';
+import 'package:jobera/views/homeViews/settings_view.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 SharedPreferences? sharedPreferences;
@@ -28,16 +28,12 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final SettingsController settingsController = Get.put(SettingsController());
     return GetMaterialApp(
-      initialRoute: '/splashScreen',
+      initialRoute: '/login',
       getPages: [
-        GetPage(
-          name: '/splashScreen',
-          page: () => const SplashScreen(),
-          middlewares: [Middleware()],
-        ),
         GetPage(
           name: '/login',
           page: () => LoginView(),
+          middlewares: [Middleware()],
         ),
         GetPage(
           name: '/register',
@@ -48,12 +44,16 @@ class MainApp extends StatelessWidget {
           page: () => ForgotPasswordView(),
         ),
         GetPage(
+          name: '/home',
+          page: () => HomeView(),
+        ),
+        GetPage(
           name: '/settings',
           page: () => const SettingsView(),
         ),
         GetPage(
-          name: '/home',
-          page: () => HomeView(),
+          name: '/profile',
+          page: () => const ProfileView(),
         ),
       ],
       debugShowCheckedModeBanner: false,

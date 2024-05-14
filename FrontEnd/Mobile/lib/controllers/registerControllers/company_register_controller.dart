@@ -3,11 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/classes/texts.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
-import 'package:jobera/views/home_view.dart';
+import 'package:jobera/views/homeViews/home_view.dart';
 
 class CompanyRegisterController extends GetxController {
   late GlobalKey<FormState> formField;
@@ -103,18 +102,9 @@ class CompanyRegisterController extends GetxController {
         update();
       }
     } on DioException catch (e) {
-      Get.defaultDialog(
-        title: 'Error',
-        backgroundColor: Colors.orange.shade100,
-        content: Column(
-          children: [
-            const Icon(
-              Icons.cancel_outlined,
-              color: Colors.red,
-            ),
-            BodyText(text: e.response!.data["errors"].toString()),
-          ],
-        ),
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response!.data["errors"].toString(),
       );
     }
   }
@@ -140,18 +130,9 @@ class CompanyRegisterController extends GetxController {
         update();
       }
     } on DioException catch (e) {
-      Get.defaultDialog(
-        title: 'Error',
-        backgroundColor: Colors.orange.shade100,
-        content: Column(
-          children: [
-            const Icon(
-              Icons.cancel_outlined,
-              color: Colors.red,
-            ),
-            BodyText(text: e.response!.data["errors"].toString()),
-          ],
-        ),
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response!.data["errors"].toString(),
       );
     }
   }

@@ -11,7 +11,7 @@ class Themes {
     ),
     textTheme: TextTheme(
       titleLarge: const TextStyle(color: Colors.white),
-      headlineSmall: TextStyle(color: Colors.orange.shade800),
+      headlineSmall: TextStyle(color: Colors.lightBlue.shade900),
       labelLarge: TextStyle(color: Colors.orange.shade800),
       bodyLarge: TextStyle(color: Colors.lightBlue.shade900),
     ),
@@ -55,6 +55,10 @@ class Themes {
       color: Colors.orange.shade800,
       linearMinHeight: 8,
     ),
+    dividerTheme: DividerThemeData(
+      thickness: 1,
+      color: Colors.lightBlue.shade900,
+    ),
   );
 
   static final darkTheme = ThemeData.dark().copyWith(
@@ -65,8 +69,8 @@ class Themes {
     ),
     textTheme: TextTheme(
       titleLarge: const TextStyle(color: Colors.white),
-      headlineSmall: TextStyle(color: Colors.orange.shade800),
-      labelLarge: TextStyle(color: Colors.lightBlue.shade900),
+      headlineSmall: TextStyle(color: Colors.lightBlue.shade900),
+      labelLarge: TextStyle(color: Colors.orange.shade800),
       bodyLarge: const TextStyle(color: Colors.white),
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
@@ -113,6 +117,10 @@ class Themes {
     progressIndicatorTheme: ProgressIndicatorThemeData(
       color: Colors.orange.shade800,
       linearMinHeight: 8,
+    ),
+    dividerTheme: DividerThemeData(
+      thickness: 1,
+      color: Colors.lightBlue.shade900,
     ),
   );
 }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/texts.dart';
 import 'package:jobera/classes/validation.dart';
-import 'package:jobera/controllers/company_register_controller.dart';
+import 'package:jobera/controllers/registerControllers/company_register_controller.dart';
 import 'package:jobera/customWidgets/code_picker.dart';
 import 'package:jobera/customWidgets/custom_drop_down_button.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';

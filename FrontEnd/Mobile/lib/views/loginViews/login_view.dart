@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:jobera/controllers/login_controller.dart';
+import 'package:jobera/controllers/loginControllers/login_controller.dart';
 import 'package:jobera/customWidgets/logo_container.dart';
 import 'package:jobera/classes/texts.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';

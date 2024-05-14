@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/controllers/user_register_controller.dart';
+import 'package:jobera/controllers/registerControllers/user_register_controller.dart';
 import 'package:jobera/customWidgets/code_picker.dart';
 import 'package:jobera/customWidgets/date_container.dart';
 import 'package:jobera/customWidgets/custom_drop_down_button.dart';

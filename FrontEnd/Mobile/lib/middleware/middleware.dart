@@ -7,9 +7,7 @@ class Middleware extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
     String? token = sharedPreferences?.getString('access_token');
-    if (token == null) {
-      return const RouteSettings(name: '/login');
-    } else {
+    if (token != null) {
       if (isTokenValid) {
         return const RouteSettings(name: '/home');
       } else if (!isTokenValid) {
