@@ -28,9 +28,16 @@ class HomeView extends StatelessWidget {
                         const ProfilePhotoContainer(),
                         GetBuilder<HomeController>(
                           builder: (controller) => Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              HeadlineText(text: controller.user.name),
-                              LabelText(text: controller.user.email),
+                              HeadlineText(
+                                  text: controller.isCompany
+                                      ? controller.company!.name
+                                      : controller.user!.name),
+                              LabelText(
+                                  text: controller.isCompany
+                                      ? controller.company!.email
+                                      : controller.user!.email),
                             ],
                           ),
                         ),

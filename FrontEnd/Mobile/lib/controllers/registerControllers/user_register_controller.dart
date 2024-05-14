@@ -186,6 +186,7 @@ class UserRegisterController extends GetxController {
             },
           ));
       if (response.statusCode == 201) {
+        print(stateId);
         sharedPreferences?.setString(
           "access_token",
           response.data["access_token"].toString(),
