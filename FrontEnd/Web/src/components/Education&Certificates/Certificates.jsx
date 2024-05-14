@@ -41,16 +41,21 @@ const Certificates = ({ step }) => {
 
   const handleEdit = (event) => {
     event.preventDefault();
+    AdvanceRegisterStep(accessToken).then((response) => {
+      if (response.status != 200) {
+        console.log(response);
+      }
+    });
     navigate('/profile');
   };
 
   const handleStep3 = (event) => {
     event.preventDefault();
-    localStorage.setItem('register_step', 'PORTFOLIO');
-    AdvanceRegisterStep(accessToken).then((response)=>{
-      if(response.status!=201)
+    AdvanceRegisterStep(accessToken).then((response) => {
+      if (response.status != 200) {
         console.log(response);
-    })
+      }
+    });
     step('PORTFOLIO');
   }
 

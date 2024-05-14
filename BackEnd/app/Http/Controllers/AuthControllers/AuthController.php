@@ -257,16 +257,41 @@ class AuthController extends Controller
         // Get User
         $user = auth()->user();
 
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+
+        // Check individual
         $individual = Individual::where('user_id', $user->id)->first();
+        if ($individual == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+
+        if ($individual->register_step == 'DONE') {
+            // Response
+            return response()->json([
+                "step" => $individual->register_step
+            ], 200);
+        }
+
         $steps = ['SKILLS', 'EDUCATION', 'CERTIFICATE', 'PORTFOLIO', 'DONE'];
         for($step = 0; $step < count($steps); $step++){
             if($steps[$step] == $individual->register_step) {
                 $individual->register_step = $steps[++$step];
+                $individual->save();
+                // Response
                 return response()->json([
                     "step" => $individual->register_step
                 ], 200);
             }
         }
+
+        // Response
         return response()->json([
             "message" => "error",
             "step" => $individual->register_step

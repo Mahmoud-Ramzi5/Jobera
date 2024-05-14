@@ -2,7 +2,7 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MortarboardFill, ChevronDown } from 'react-bootstrap-icons';
 import { LoginContext } from '../../utils/Contexts.jsx';
-import { AddEducation, AdvanceRegisterStep, EditEducation } from '../../apis/ProfileApis.jsx';
+import { AddEducation, EditEducation, AdvanceRegisterStep } from '../../apis/ProfileApis.jsx';
 import styles from './education.module.css';
 
 const EducationForm = ({ step }) => {
@@ -69,16 +69,11 @@ const EducationForm = ({ step }) => {
       if (response.status === 200) {
         console.log(response.data);
 
-        // Reset the form fields
-        setEducationData({
-          level: "",
-          field: "",
-          school: "",
-          start_date: "",
-          end_date: "",
-          certificate_file: null,
+        AdvanceRegisterStep(accessToken).then((response) => {
+          if (response.status != 200) {
+            console.log(response);
+          }
         });
-
         navigate('/profile');
       }
       else {
@@ -101,6 +96,12 @@ const EducationForm = ({ step }) => {
       if (response.status === 201) {
         console.log(response.data);
 
+        AdvanceRegisterStep(accessToken).then((response) => {
+          if (response.status != 200) {
+            console.log(response);
+          }
+        });
+
         // Reset the form fields
         setEducationData({
           level: "",
@@ -111,11 +112,6 @@ const EducationForm = ({ step }) => {
           certificate_file: null,
         });
 
-        localStorage.setItem('register_step', 'CERTIFICATES');
-        AdvanceRegisterStep(accessToken).then((response)=>{
-          if(response.status!=201)
-            console.log(response);
-        })
         step('CERTIFICATES');
       }
       else {

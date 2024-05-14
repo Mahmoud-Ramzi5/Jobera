@@ -34,6 +34,7 @@ const SetUpCard = ({ ProfileData, token }) => {
                 education: ProfileData.education,
                 certificates: ProfileData.certificates,
                 Portfolios: ProfileData.Portfolios,
+                step: ProfileData.register_step
               }
             }
             )}>

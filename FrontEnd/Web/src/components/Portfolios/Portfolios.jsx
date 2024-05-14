@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { LoginContext } from '../../utils/Contexts.jsx';
-import { AdvanceRegisterStep, ShowPortfoliosAPI } from '../../apis/ProfileApis.jsx';
+import { ShowPortfoliosAPI, AdvanceRegisterStep } from '../../apis/ProfileApis.jsx';
 import Portfolio from './Portfolio.jsx';
 import styles from './portfolios.module.css';
 
@@ -65,13 +65,13 @@ const Portfolios = ({ step }) => {
           className={styles.back_button}
           onClick={() => {
             if (!edit) {
-              localStorage.removeItem('register_step');
-              AdvanceRegisterStep(accessToken).then((response)=>{
-                if(response.status!=201)
-                  console.log(response);
-              })
               step('DONE');
             }
+            AdvanceRegisterStep(accessToken).then((response) => {
+              if (response.status != 200) {
+                console.log(response);
+              }
+            });
             navigate('/profile');
           }}
         >
