@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -11,14 +10,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jobs', function (Blueprint $table) {
+        Schema::create('regJobs', function (Blueprint $table) {
             $table->id();
             $table->string("title");
-            $table->foreignId("company_id");
+            $table->foreignId("company_id")->constrained('companies');
             $table->text("description");
             $table->integer("salary");
-            $table->enum("type",['part','full']);
+            $table->enum("type", ['part', 'full']);
             $table->boolean("isDone");
+            $table->foreignId('accepted_individual')->nullable()->constrained('individuals');
             $table->timestamps();
         });
     }
