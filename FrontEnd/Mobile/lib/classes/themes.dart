@@ -62,6 +62,11 @@ class Themes {
       thickness: 1,
       color: Colors.lightBlue.shade900,
     ),
+    chipTheme: ChipThemeData(
+      shape: StadiumBorder(
+        side: BorderSide(color: Colors.lightBlue.shade900),
+      ),
+    ),
   );
 
   static final darkTheme = ThemeData.dark().copyWith(
@@ -127,6 +132,11 @@ class Themes {
     dividerTheme: DividerThemeData(
       thickness: 1,
       color: Colors.lightBlue.shade900,
+    ),
+    chipTheme: ChipThemeData(
+      shape: StadiumBorder(
+        side: BorderSide(color: Colors.lightBlue.shade900),
+      ),
     ),
   );
 }

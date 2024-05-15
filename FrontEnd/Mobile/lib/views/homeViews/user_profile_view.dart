@@ -29,30 +29,63 @@ class UserProfileView extends StatelessWidget {
                 children: [
                   HeadlineText(text: controller.user!.name),
                   const HeadlineText(text: 'Rating:'),
+                  Row(
+                    children: [
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(
+                          Icons.edit,
+                          color: Colors.orange.shade800,
+                        ),
+                      ),
+                      HeadlineText(
+                          text: 'Bio: ${controller.user!.description}'),
+                    ],
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(10),
                     child: InfoWithEditContainer(
                       name: 'Basic Info',
-                      height: 170,
+                      height: 160,
                       widget: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          BodyText(text: 'Email: ${controller.user!.email}'),
-                          BodyText(
-                              text:
-                                  'Location: ${controller.user!.state}-${controller.user!.country}'),
-                          BodyText(
-                              text:
-                                  'Phone Number: ${controller.user!.phoneNumber}'),
                           Row(
                             children: [
-                              BodyText(
-                                  text: 'Gender: ${controller.user!.gender}'),
+                              const BodyText(text: 'Email: '),
+                              LabelText(text: controller.user!.email),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const BodyText(text: 'Location: '),
+                              LabelText(
+                                  text:
+                                      '${controller.user!.state}-${controller.user!.country}'),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const BodyText(text: 'Phone Number: '),
+                              LabelText(text: controller.user!.phoneNumber),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Row(
+                                children: [
+                                  const BodyText(text: 'Gender: '),
+                                  LabelText(text: controller.user!.gender),
+                                ],
+                              ),
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                child: BodyText(
-                                    text:
-                                        'Birthdate: ${controller.user!.birthDate}'),
+                                child: Row(
+                                  children: [
+                                    const BodyText(text: 'Birthdate: '),
+                                    LabelText(text: controller.user!.birthDate)
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -64,29 +97,48 @@ class UserProfileView extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     child: InfoWithEditContainer(
                       name: 'Education',
-                      height: 170,
+                      height: 160,
                       widget: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          BodyText(
-                              text:
-                                  'Level: ${controller.user!.education.level}'),
-                          BodyText(
-                              text:
-                                  'Field: ${controller.user!.education.field}'),
-                          BodyText(
-                              text:
-                                  'School: ${controller.user!.education.school}'),
                           Row(
                             children: [
-                              BodyText(
-                                  text:
-                                      'Start Date: ${controller.user!.education.startDate}'),
+                              const BodyText(text: 'Level: '),
+                              LabelText(text: controller.user!.education.level)
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const BodyText(text: 'Field: '),
+                              LabelText(text: controller.user!.education.field)
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const BodyText(text: 'School: '),
+                              LabelText(text: controller.user!.education.school)
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Row(
+                                children: [
+                                  const BodyText(text: 'Start Date: '),
+                                  LabelText(
+                                      text:
+                                          controller.user!.education.startDate)
+                                ],
+                              ),
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                child: BodyText(
-                                    text:
-                                        'End Date: ${controller.user!.education.endDate}'),
+                                child: Row(
+                                  children: [
+                                    const BodyText(text: 'End Date: '),
+                                    LabelText(
+                                        text:
+                                            controller.user!.education.endDate)
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -98,36 +150,45 @@ class UserProfileView extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     child: InfoWithEditContainer(
                       name: 'Skills',
-                      height: 140,
-                      widget: SingleChildScrollView(
-                        child: Column(
+                      height: null,
+                      widget: GridView.builder(
+                        itemCount: controller.user!.skills.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          mainAxisSpacing: 5,
+                          crossAxisSpacing: 5,
+                          childAspectRatio: 1.0,
+                        ),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ListView.builder(
-                              itemCount: controller.user!.skills.length,
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) => Row(
-                                children: [
-                                  BodyText(
-                                    text:
-                                        'skill: ${controller.user!.skills[index].name}',
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                    child: BodyText(
-                                      text:
-                                          'Type: ${controller.user!.skills[index].type}',
-                                    ),
-                                  ),
-                                ],
-                              ),
+                            Chip(
+                              label: LabelText(
+                                  text: controller.user!.skills[index].name),
                             ),
                           ],
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(10),
+                    child: InfoWithEditContainer(
+                      name: 'Certificates',
+                      height: 160,
+                      widget: Column(),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.all(10),
+                    child: InfoWithEditContainer(
+                      name: 'Portofolios',
+                      height: 160,
+                      widget: Column(),
+                    ),
+                  ),
                 ],
               ),
             ),
