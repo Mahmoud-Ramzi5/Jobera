@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('regJobs', function (Blueprint $table) {
+        Schema::create('freelancing_job_competetors', function (Blueprint $table) {
             $table->id();
-            $table->string("title");
-            $table->foreignId("company_id");
-            $table->text("description");
+            $table->foreignId('individual_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('job_id')->constrained('freelancing_jobs')->cascadeOnDelete();
+            $table->string("description");
             $table->integer("salary");
-            $table->enum("type", ['part', 'full']);
-            $table->boolean("isDone");
-            $table->foreignId('accepted_individual')->nullable()->constrained('individuals');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jobs');
+        Schema::dropIfExists('freelancing_job_competetors');
     }
 };

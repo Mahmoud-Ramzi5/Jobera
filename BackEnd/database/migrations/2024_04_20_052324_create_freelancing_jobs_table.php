@@ -15,15 +15,19 @@ return new class extends Migration
             $table->id();
             $table->dateTime("deadline");
             $table->string("title");
-            $table->foreignId("company_id")->nullable();
             $table->foreignId("user_id")->nullable();
             $table->text("description");
             $table->integer("max_salary");
             $table->integer("min_salary");
             $table->boolean("isDone");
+            $table->float("avgSalary")->default(0);
+            $table->foreignId('accepted_individual')->nullable()->constrained('individuals');
             $table->timestamps();
         });
+        // Set the default value of avgSalary to max_salary
+       // DB::statement("ALTER TABLE freelancing_jobs ALTER COLUMN avgSalary SET DEFAULT max_salary");
     }
+    
 
     /**
      * Reverse the migrations.
