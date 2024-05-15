@@ -1,3 +1,6 @@
+import 'package:jobera/models/education.dart';
+import 'package:jobera/models/skills.dart';
+
 class User {
   final String name;
   final String email;
@@ -9,6 +12,8 @@ class User {
   final String type;
   final String? description;
   final String? photo;
+  final Education education;
+  final List<Skills> skills;
 
   User({
     required this.name,
@@ -21,6 +26,8 @@ class User {
     required this.type,
     this.description,
     this.photo,
+    required this.education,
+    required this.skills,
   });
 
   User.fromJson(Map<String, dynamic> json)
@@ -33,5 +40,9 @@ class User {
         gender = json['gender'] as String,
         type = json['type'] as String,
         description = json['description'] as String?,
-        photo = json['avatar_photo'] as String?;
+        photo = json['avatar_photo'] as String?,
+        education = Education.fromJson(json['education']),
+        skills = [
+          for (var skill in json['skills']) (Skills.fromJson(skill)),
+        ];
 }

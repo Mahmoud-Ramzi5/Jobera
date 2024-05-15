@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jobera/classes/texts.dart';
 
 class DateContainer extends StatelessWidget {
   final Widget widget;
@@ -88,7 +89,7 @@ class ProfileBackgroundContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 50),
+      height: 200,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.bottomCenter,
@@ -98,6 +99,61 @@ class ProfileBackgroundContainer extends StatelessWidget {
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(50),
           bottomRight: Radius.circular(50),
+        ),
+      ),
+    );
+  }
+}
+
+class InfoWithEditContainer extends StatelessWidget {
+  final String name;
+  final double? height;
+  final Widget widget;
+
+  const InfoWithEditContainer({
+    super.key,
+    required this.name,
+    required this.height,
+    required this.widget,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      decoration: ShapeDecoration(
+        shape: ContinuousRectangleBorder(
+          side: BorderSide(color: Colors.orange.shade800),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                BodyText(text: '$name:'),
+                TextButton(
+                  onPressed: () {},
+                  child: Row(
+                    children: [
+                      const LabelText(text: "edit"),
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Icon(
+                          Icons.edit,
+                          color: Colors.orange.shade800,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            widget
+          ],
         ),
       ),
     );

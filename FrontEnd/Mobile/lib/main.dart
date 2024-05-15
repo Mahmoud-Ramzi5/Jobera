@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:jobera/controllers/loginControllers/auth_controller.dart';
 import 'package:jobera/controllers/homeControllers/settings_controller.dart';
 import 'package:jobera/middleware/middleware.dart';
-import 'package:jobera/views/homeViews/profile_view.dart';
+import 'package:jobera/views/homeViews/user_profile_view.dart';
 import 'package:jobera/views/loginViews/forgot_password_view.dart';
 import 'package:jobera/views/homeViews/home_view.dart';
 import 'package:jobera/views/loginViews/login_view.dart';
@@ -53,7 +53,7 @@ class MainApp extends StatelessWidget {
         ),
         GetPage(
           name: '/profile',
-          page: () => const ProfileView(),
+          page: () => UserProfileView(),
         ),
       ],
       debugShowCheckedModeBanner: false,
