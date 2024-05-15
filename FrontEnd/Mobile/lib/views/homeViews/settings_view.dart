@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/texts.dart';
-import 'package:jobera/controllers/settings_controller.dart';
+import 'package:jobera/controllers/homeControllers/settings_controller.dart';
 import 'package:jobera/customWidgets/list_tiles.dart';
 import 'package:jobera/customWidgets/settings_single_section.dart';
 
 class SettingsView extends StatelessWidget {
-  // final SettingsController _settingsController = Get.find();
-
   const SettingsView({super.key});
 
   @override

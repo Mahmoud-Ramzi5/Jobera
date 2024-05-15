@@ -3,11 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/classes/texts.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
-import 'package:jobera/views/home_view.dart';
+import 'package:jobera/views/homeViews/home_view.dart';
 
 class CompanyRegisterController extends GetxController {
   late GlobalKey<FormState> formField;
@@ -19,6 +18,7 @@ class CompanyRegisterController extends GetxController {
   late TextEditingController confirmPasswordController;
   late bool passwordToggle;
   late CountryCode countryCode;
+  late DateTime selectedDate;
   late Dio dio;
   late Countries? selectedCountry;
   late List<Countries> countryOptions = [];
@@ -35,6 +35,7 @@ class CompanyRegisterController extends GetxController {
     passwordController = TextEditingController();
     confirmPasswordController = TextEditingController();
     passwordToggle = true;
+    selectedDate = DateTime.now();
     countryCode = CountryCode(dialCode: '+963');
     dio = Dio();
     selectedCountry = null;
@@ -83,6 +84,19 @@ class CompanyRegisterController extends GetxController {
     );
   }
 
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+        context: context,
+        firstDate: DateTime(1900),
+        lastDate: DateTime(2100),
+        currentDate: DateTime.now(),
+        initialEntryMode: DatePickerEntryMode.calendarOnly);
+    if (picked != null && picked != selectedDate) {
+      selectedDate = picked;
+      update();
+    }
+  }
+
   Future<dynamic> getCountries() async {
     try {
       var response = await dio.get(
@@ -103,18 +117,9 @@ class CompanyRegisterController extends GetxController {
         update();
       }
     } on DioException catch (e) {
-      Get.defaultDialog(
-        title: 'Error',
-        backgroundColor: Colors.orange.shade100,
-        content: Column(
-          children: [
-            const Icon(
-              Icons.cancel_outlined,
-              color: Colors.red,
-            ),
-            BodyText(text: e.response!.data["errors"].toString()),
-          ],
-        ),
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response!.data["errors"].toString(),
       );
     }
   }
@@ -140,18 +145,9 @@ class CompanyRegisterController extends GetxController {
         update();
       }
     } on DioException catch (e) {
-      Get.defaultDialog(
-        title: 'Error',
-        backgroundColor: Colors.orange.shade100,
-        content: Column(
-          children: [
-            const Icon(
-              Icons.cancel_outlined,
-              color: Colors.red,
-            ),
-            BodyText(text: e.response!.data["errors"].toString()),
-          ],
-        ),
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response!.data["errors"].toString(),
       );
     }
   }
@@ -164,6 +160,7 @@ class CompanyRegisterController extends GetxController {
     String confirmPassword,
     int state,
     String phoneNumber,
+    String date,
   ) async {
     try {
       var response = await dio.post('http://10.0.2.2:8000/api/company/register',
@@ -175,6 +172,7 @@ class CompanyRegisterController extends GetxController {
             "confirm_password": confirmPassword,
             "state_id": state,
             "phone_number": phoneNumber,
+            "founding_date": date,
             "type": "company",
           },
           options: Options(

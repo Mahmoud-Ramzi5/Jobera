@@ -3,8 +3,15 @@ import 'package:get/get.dart';
 import 'package:jobera/main.dart';
 
 class AuthController extends GetxController {
+  late Dio dio;
+
+  @override
+  onInit() {
+    dio = Dio();
+    super.onInit();
+  }
+
   Future<bool> checkToken() async {
-    Dio dio = Dio();
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get('http://10.0.2.2:8000/api/isExpired',

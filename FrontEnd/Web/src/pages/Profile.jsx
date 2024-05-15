@@ -1,5 +1,7 @@
-import { useContext } from 'react'
-import { ProfileContext } from '../utils/Contexts.jsx';
+import { useEffect, useContext } from 'react';
+import { useLocation } from 'react-router-dom';
+import { LoginContext, ProfileContext } from '../utils/Contexts.jsx';
+import { FetchUserProfile } from '../apis/ProfileApis.jsx';
 import UserInfo from '../components/Profile/UserInfo';
 import Wallet from '../components/Profile/Wallet.jsx';
 import SetUpCard from '../components/Profile/SetUpCard.jsx';
@@ -11,8 +13,24 @@ import styles from '../styles/profile.module.css';
 
 
 const Profile = () => {
-  // Context    
+  // Context
+  const { loggedIn, accessToken } = useContext(LoginContext);
   const { profile, setProfile } = useContext(ProfileContext);
+  // Define states
+  const location = useLocation();
+
+  useEffect(() => {
+    if (loggedIn && accessToken) {
+      FetchUserProfile(accessToken).then((response) => {
+        if (response.status === 200) {
+          setProfile(response.data.user);
+        }
+        else {
+          console.log(response.statusText);
+        }
+      });
+    }
+  }, [location.pathname]);
 
   if (profile.type === 'individual') {
     return (

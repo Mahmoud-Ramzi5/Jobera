@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/controllers/forgot_password_controller.dart';
+import 'package:jobera/controllers/loginControllers/forgot_password_controller.dart';
 import 'package:jobera/classes/texts.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
 import 'package:jobera/classes/validation.dart';

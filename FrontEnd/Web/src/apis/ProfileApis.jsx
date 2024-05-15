@@ -69,7 +69,7 @@ export const AddEducation = async (
       'certificate_file': certificate
     }, {
       headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
+        'Content-Type': 'multipart/form-data; charset=UTF-8',
         'Accept': "application/json",
         'Authorization': `Bearer ${token}`
       }
@@ -99,7 +99,7 @@ export const EditEducation = async (
       'certificate_file': certificate
     }, {
       headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
+        'Content-Type': 'multipart/form-data;charset=UTF-8',
         'Accept': "application/json",
         'Authorization': `Bearer ${token}`
       }
@@ -160,7 +160,7 @@ export const AddCertificateAPI = async (
       'file': file,
     }, {
       headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
+        'Content-Type': 'multipart/form-data; charset=UTF-8',
         'Accept': "application/json",
         'Authorization': `Bearer ${token}`
       }
@@ -187,7 +187,7 @@ export const EditCertificateAPI = async (
       'file': file,
     }, {
       headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
+        'Content-Type': 'multipart/form-data; charset=UTF-8',
         'Accept': "application/json",
         'Authorization': `Bearer ${token}`
       }
@@ -267,7 +267,7 @@ export const AddPortfolioAPI = async (
       'skills': SkillIds,
     }, {
       headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
+        'Content-Type': 'multipart/form-data; charset=UTF-8',
         'Accept': "application/json",
         'Authorization': `Bearer ${token}`
       }
@@ -298,7 +298,7 @@ export const EditPortfolioAPI = async (
       'skills': SkillIds,
     }, {
       headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
+        'Content-Type': 'multipart/form-data; charset=UTF-8',
         'Accept': "application/json",
         'Authorization': `Bearer ${token}`
       }
@@ -341,7 +341,7 @@ export const EditProfile = async (
       "gender": gender
     }, {
       headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
+        'Content-Type': 'multipart/form-data; charset=UTF-8',
         'Accept': "application/json",
         'Authorization': `Bearer ${token}`
       }
