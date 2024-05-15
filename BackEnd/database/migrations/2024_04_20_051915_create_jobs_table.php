@@ -13,7 +13,7 @@ return new class extends Migration
         Schema::create('regJobs', function (Blueprint $table) {
             $table->id();
             $table->string("title");
-            $table->foreignId("company_id");
+            $table->foreignId("company_id")->constrained('companies');
             $table->text("description");
             $table->integer("salary");
             $table->enum("type", ['part', 'full']);

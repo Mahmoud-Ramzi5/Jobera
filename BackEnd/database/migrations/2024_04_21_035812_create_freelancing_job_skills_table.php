@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('freelancing_job_skills', function (Blueprint $table) {
             $table->id();
             $table->foreignId("skill_id")->constrained()->cascadeOnDelete();
-            $table->foreignId("job_id")->constrained()->cascadeOnDelete();
+            $table->foreignId("job_id")->constrained("freelancing_jobs")->cascadeOnDelete();
             $table->timestamps();
         });
     }
