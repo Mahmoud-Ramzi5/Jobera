@@ -26,6 +26,7 @@ import ForgotPassword from './pages/ForgotPassword.jsx';
 import EmailVerificationMessage from './pages/EmailVerification.jsx';
 
 import FileDisplay from './components/FileDisplay.jsx';
+import FileInputTest from './components/FileInputTest.jsx';
 
 function App() {
   const initialized = useRef(false);
@@ -131,6 +132,7 @@ function App() {
                 <Route path="/edit-portfolio" element={<EditPortfolio />} />
                 <Route path="/dashboard" element={<></>} />
                 <Route path="/logout" element={<Logout />} />
+                <Route path="/FileTest" element={<FileInputTest/>}/>
               </Route>
             </Route>
 
