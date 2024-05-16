@@ -42,7 +42,7 @@ class IndividualResource extends JsonResource
             'description' => $this->description,
             'avatar_photo' => $this->avatar_photo,
             'skills' => new SkillCollection($user->skills),
-            'education' => $user->education,
+            'education' => new EducationResource($user->education),
             'certificates' => new CertificateCollection($user->certificates),
             'portfolios' => new PortfolioCollection($user->portfolios),
             'is_verifed' => $is_verified,
