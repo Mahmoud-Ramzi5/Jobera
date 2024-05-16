@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('portfolio_files', function (Blueprint $table) {
             $table->id();
             $table->string("file");
-            $table->foreignId('potfolio_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('portfolio_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

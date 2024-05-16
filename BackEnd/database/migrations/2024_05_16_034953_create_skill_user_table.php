@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('portfolio_skills', function (Blueprint $table) {
+        Schema::create('skill_user', function (Blueprint $table) {
             $table->id();
-            $table->integer('portfolio_id');
-            $table->integer('skill_id');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('skill_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
-
-            $table->foreign('portfolio_id')->references('id')->on('portfolios')->onDelete('cascade');
-            $table->foreign('skill_id')->references('id')->on('skills')->onDelete('cascade');
         });
     }
 
@@ -27,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('portfolio_skills');
+        Schema::dropIfExists('skill_user');
     }
 };

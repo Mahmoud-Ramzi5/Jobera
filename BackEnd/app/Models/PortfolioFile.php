@@ -8,10 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class PortfolioFile extends Model
 {
     use HasFactory;
-    protected $fillable=[
-        'potfolio_id','file'
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'portfolio_id',
+        'file'
     ];
-    public function portfolio(){
+
+    public function portfolio() {
         return $this->belongsTo(Portfolio::class);
     }
 }

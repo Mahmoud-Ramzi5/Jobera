@@ -15,13 +15,6 @@ class PortfolioResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // Get portfolio skills
-        $skills = [];
-        foreach($this->skills as $skill) {
-            $Skill = Skill::find($skill->skill_id);
-            array_push($skills, $Skill);
-        }
-
         return [
             "id" => $this->id,
             "title" => $this->title,
@@ -29,7 +22,7 @@ class PortfolioResource extends JsonResource
             "link" => $this->link,
             "photo" => $this->photo,
             "files" => $this->files,
-            "skills" => new SkillCollection($skills),
+            "skills" => new SkillCollection($this->skills),
             "user_id" => $this->user_id,
         ];
     }

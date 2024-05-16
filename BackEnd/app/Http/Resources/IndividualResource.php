@@ -24,15 +24,9 @@ class IndividualResource extends JsonResource
             $is_verified = true;
         }
 
-        // Get user skills
-        $skills = [];
-        foreach($user->skills as $skill) {
-            $Skill = Skill::find($skill->skill_id);
-            array_push($skills, $Skill);
-        }
-
+        // Check user register status
         $is_registered = false;
-        if(count($skills) != 0 && $user->education != null) {
+        if(count($user->skills) != 0 && $user->education != null) {
             $is_registered = true;
         }
 
@@ -47,7 +41,7 @@ class IndividualResource extends JsonResource
             'type' => 'individual',
             'description' => $this->description,
             'avatar_photo' => $this->avatar_photo,
-            'skills' => new SkillCollection($skills),
+            'skills' => new SkillCollection($user->skills),
             'education' => $user->education,
             'certificates' => new CertificateCollection($user->certificates),
             'portfolios' => new PortfolioCollection($user->portfolios),

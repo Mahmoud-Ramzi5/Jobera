@@ -61,19 +61,15 @@ class PortfolioController extends Controller
             $Path = $request->file('photo')->store('avatars', 'public');
             $validated['photo'] = $Path;
         }
+
         $data = $validated;
         $data['user_id'] = $user->id;
-        $data = Arr::except($data, 'skills');
         $data = Arr::except($data, 'files');
+        $data = Arr::except($data, 'skills');
         $portfolio = Portfolio::create($data);
 
         // Save the associated skills
-        foreach ($validated['skills'] as $skillData) {
-            $skill = PortfolioSkills::create([
-                'portfolio_id' => $portfolio->id,
-                'skill_id' => $skillData
-            ]);
-        }
+        $portfolio->skills()->attach($validated['skills']);
 
         // Handle file uploads if present in the request
         if ($request->hasFile('files')) {
@@ -83,21 +79,25 @@ class PortfolioController extends Controller
                 $filePath = $file->store('portfolio_files');
 
                 // Create and associate a new file instance with the portfolio
-                $portfolioFile = new PortfolioFile();
-                $portfolioFile->file = $filePath;
-                $portfolio->files()->save($portfolioFile);
+                $portfolioFile = PortfolioFile::create([
+                    'file' => $filePath,
+                    'portfolio_id' => $portfolio->id
+                ]);
             }
         }
 
         // Response
         return response()->json([
             "message" => "Portfolio created sucessfully",
-            "data" => new PortfolioResource($portfolio),
+            "data" => new PortfolioCollection($portfolio)
         ], 201);
     }
 
     public function EditPortfolio(EditPortfolioRequest $request, Portfolio $portfolio)
     {
+        return response()->json([
+            "data" => $request
+        ], 400);
         // Validate request
         $validated = $request->validated();
 
@@ -106,28 +106,36 @@ class PortfolioController extends Controller
             $Path = $request->file('photo')->store('avatars', 'public');
             $validated['photo'] = $Path;
         }
-        $portfolio->update($validated);
+
+        $data = $validated;
+        $data = Arr::except($data, 'files');
+        $data = Arr::except($data, 'skills');
+        $portfolio->update($data);
 
         // Save the associated skills
         $skills = $validated['skills'];
-        $portfolioSkills = $portfolio->skills()->get();
-        foreach($skills as $skill){
-            if(!in_array($portfolioSkills,$skill)) {
+        $currentSkills = $portfolio->skills;
+        foreach($skills as $skill) {
+            if(!in_array($currentSkills, $skill)) {
                 $portfolio->skills()->attach($skill);
             }
         }
 
-        // Handle files
+        // Handle file uploads if present in the request
         if ($request->hasFile('files')) {
             $files = $request->file('files');
 
+            $currentFiles = $portfolio->files;
             foreach ($files as $file) {
-                $filePath = $file->store('portfolio_files');
+                if (!in_array($currentFiles, $file)) {
+                    $filePath = $file->store('portfolio_files');
 
-                // Create and associate a new file instance with the portfolio
-                $portfolioFile = new PortfolioFile();
-                $portfolioFile->file_path = $filePath;
-                $portfolio->files()->save($portfolioFile);
+                    // Create and associate a new file instance with the portfolio
+                    $portfolioFile = PortfolioFile::create([
+                        'file' => $filePath,
+                        'portfolio_id' => $portfolio->id
+                    ]);
+                }
             }
         }
 

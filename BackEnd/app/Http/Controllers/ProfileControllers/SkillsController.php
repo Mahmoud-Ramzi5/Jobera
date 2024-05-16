@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\ProfileControllers;
 
 use App\Models\Skill;
-use App\Models\UserSkills;
 use App\Enums\SkillTypes;
 use App\Filters\SkillFilter;
 use Illuminate\Http\Request;
@@ -11,7 +10,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\SkillResource;
 use App\Http\Resources\SkillCollection;
 use App\Http\Requests\StoreSkillsRequest;
-use App\Http\Requests\StoreUserSkillsRequest;
 
 
 class SkillsController extends Controller
@@ -60,26 +58,19 @@ class SkillsController extends Controller
             ], 401);
         }
 
-        // Get user's skills
-        $userSkills = UserSkills::where('user_id', $user->id)->get()->all();
-
-        // Send only skills
-        $skills = [];
-        foreach ($userSkills as $relation) {
-            $skills[] = $relation->skill;
-        }
-
         // Response
         return response()->json([
             'user' => $user,
-            'skills' => $skills
+            'skills' => new SkillCollection($user->skills)
         ]);
     }
 
-    public function AddUserSkills(StoreUserSkillsRequest $request)
+    public function AddUserSkills(Request $request)
     {
         // Validate request
-        $validatedData = $request->validated();
+        $validated = $request->validate([
+            'skills' => 'required|array'
+        ]);
 
         // Get user
         $user = auth()->user();
@@ -91,26 +82,21 @@ class SkillsController extends Controller
             ], 401);
         }
 
-        $skills = [];
-        foreach ($validatedData['skills'] as $skillData) {
-            $skill = UserSkills::create([
-                'user_id' => $user->id,
-                'skill_id' => $skillData
-            ]);
-            $skills[] = $skill;
-        }
+        $user->skills()->attach($validated['skills']);
 
         // Response
         return response()->json([
             "message" => "Skills added successfully",
-            "skills" => $skills
+            "skills" => new SkillCollection($user->skills)
         ], 200);
     }
 
-    public function EditUserSkills(StoreUserSkillsRequest $request)
+    public function EditUserSkills(Request $request)
     {
         // Validate request
-        $validated = $request->validated();
+        $validated = $request->validate([
+            'skills' => 'required|array'
+        ]);
 
         // Get user
         $user = auth()->user();
@@ -122,11 +108,11 @@ class SkillsController extends Controller
             ], 401);
         }
 
-        // Get user's existing skills
-        $existingSkills = $user->skills()->pluck('skill_id')->toArray();
+        // Get user's current skills
+        $currentSkills = $user->skills()->pluck('skill_id')->toArray();
 
         // Determine the skills to remove
-        $skillsToRemove = array_diff($existingSkills, $validated['skills']);
+        $skillsToRemove = array_diff($currentSkills, $validated['skills']);
 
         // Remove the skills that are not in the validated skills
         $user->skills()->whereIn('skill_id', $skillsToRemove)->delete();
@@ -134,24 +120,20 @@ class SkillsController extends Controller
         // Add the new skills
         foreach ($validated['skills'] as $skill) {
             // Check if the skill is already associated with the user
-            if (!in_array($skill, $existingSkills)) {
+            if (!in_array($skill, $currentSkills)) {
                 // Create a new skill if it's not already associated
-                $user->skills()->create([
-                    'skill_id' => $skill
-                ]);
+                $user->skills()->attach($skill);
             }
         }
-
-        // Get the updated list of skills
-        $updatedSkills = $user->skills()->get();
 
         // Response
         return response()->json([
             "message" => "Skills updated successfully",
-            "skills" => $updatedSkills
+            "skills" => new SkillCollection($user->skills)
         ], 200);
     }
 
+    /* Admin Only */
     public function AddSkill(StoreSkillsRequest $request)
     {
         // Get user
