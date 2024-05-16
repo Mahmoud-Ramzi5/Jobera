@@ -30,14 +30,8 @@ class HomeView extends StatelessWidget {
                           builder: (controller) => Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              HeadlineText(
-                                  text: controller.isCompany
-                                      ? controller.company!.name
-                                      : controller.user!.name),
-                              LabelText(
-                                  text: controller.isCompany
-                                      ? controller.company!.email
-                                      : controller.user!.email),
+                              HeadlineText(text: controller.name),
+                              LabelText(text: controller.email),
                             ],
                           ),
                         ),
@@ -53,7 +47,11 @@ class HomeView extends StatelessWidget {
                 title: "Profile",
                 icon: Icons.person,
                 onTap: () {
-                  Get.toNamed('/profile');
+                  if (_homeController.isCompany) {
+                    Get.toNamed('/companyProfile');
+                  } else {
+                    Get.toNamed('/userProfile');
+                  }
                 },
               ),
               MenuListTile(

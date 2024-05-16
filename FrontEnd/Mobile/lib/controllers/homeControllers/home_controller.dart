@@ -2,19 +2,19 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/main.dart';
-import 'package:jobera/models/company.dart';
-import 'package:jobera/models/user.dart';
 
 class HomeController extends GetxController {
   late Dio dio;
   late bool isCompany;
-  User? user;
-  Company? company;
+  late String name;
+  late String email;
 
   @override
   Future<void> onInit() async {
     dio = Dio();
-    await fetchUser();
+    name = '';
+    email = '';
+    await fetchUserType();
     super.onInit();
   }
 
@@ -23,7 +23,7 @@ class HomeController extends GetxController {
   //   super.onClose();
   // }
 
-  Future<void> fetchUser() async {
+  Future<void> fetchUserType() async {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get('http://10.0.2.2:8000/api/profile',
@@ -36,12 +36,12 @@ class HomeController extends GetxController {
           ));
       if (response.statusCode == 200) {
         if (response.data['user']['type'] == 'company') {
-          company = Company.fromJson(response.data['user']);
-          user = null;
+          name = response.data['user']['name'];
+          email = response.data['user']['email'];
           isCompany = true;
         } else if (response.data['user']['type'] == 'individual') {
-          user = User.fromJson(response.data['user']);
-          company = null;
+          name = response.data['user']['full_name'];
+          email = response.data['user']['email'];
           isCompany = false;
         }
       }
