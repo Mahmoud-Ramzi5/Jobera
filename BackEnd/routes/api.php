@@ -1,16 +1,16 @@
 <?php
 
-use App\Http\Controllers\ProfileControllers\EducationController;
-use App\Http\Controllers\ProfileControllers\PortfolioController;
-use App\Http\Controllers\ProfileControllers\SkillsController;
 use App\Models\State;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProfileControllers\ProfileController;
 use App\Http\Controllers\AuthControllers\AuthController;
 use App\Http\Controllers\AuthControllers\SocialAuthController;
 use App\Http\Controllers\AuthControllers\ForgetPasswordController;
+use App\Http\Controllers\ProfileControllers\ProfileController;
+use App\Http\Controllers\ProfileControllers\SkillsController;
+use App\Http\Controllers\ProfileControllers\EducationController;
+use App\Http\Controllers\ProfileControllers\PortfolioController;
 
 
 Route::controller(AuthController::class)->group(function () {
@@ -72,8 +72,7 @@ Route::controller(SkillsController::class)->group(function() {
 });
 
 Route::controller(EducationController::class)->group(function() {
-    Route::post('/education/add', 'AddEducation')->middleware('auth:api');
-    Route::post('/education/edit', 'EditEducation')->middleware('auth:api');
+    Route::post('/education', 'EditEducation')->middleware('auth:api');
 
     Route::get('/certificates', 'ShowUserCertificates')->middleware('auth:api');
     Route::get('/certificates/{certificate}', 'ShowCertificate')->middleware('auth:api');

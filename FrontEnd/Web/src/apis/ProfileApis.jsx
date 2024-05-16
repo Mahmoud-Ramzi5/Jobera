@@ -50,36 +50,6 @@ export const EditSkillsAPI = async (token, SkillIds) => {
   }
 };
 
-export const AddEducation = async (
-  token,
-  level,
-  field,
-  school,
-  StartDate,
-  EndDate,
-  certificate
-) => {
-  try {
-    const response = await axios.post('http://127.0.0.1:8000/api/education/add', {
-      'level': level,
-      'field': field,
-      'school': school,
-      'start_date': StartDate,
-      'end_date': EndDate,
-      'certificate_file': certificate
-    }, {
-      headers: {
-        'Content-Type': 'multipart/form-data; charset=UTF-8',
-        'Accept': "application/json",
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    return response;
-  } catch (error) {
-    return error.response;
-  }
-};
-
 export const EditEducation = async (
   token,
   level,
@@ -90,7 +60,7 @@ export const EditEducation = async (
   certificate
 ) => {
   try {
-    const response = await axios.post('http://127.0.0.1:8000/api/education/edit', {
+    const response = await axios.post('http://127.0.0.1:8000/api/education', {
       'level': level,
       'field': field,
       'school': school,

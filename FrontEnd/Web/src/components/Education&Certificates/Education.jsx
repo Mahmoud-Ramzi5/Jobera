@@ -2,7 +2,7 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MortarboardFill, ChevronDown } from 'react-bootstrap-icons';
 import { LoginContext } from '../../utils/Contexts.jsx';
-import { AddEducation, EditEducation, AdvanceRegisterStep } from '../../apis/ProfileApis.jsx';
+import { EditEducation, AdvanceRegisterStep } from '../../apis/ProfileApis.jsx';
 import styles from './education.module.css';
 
 const EducationForm = ({ step }) => {
@@ -84,7 +84,7 @@ const EducationForm = ({ step }) => {
 
   const handleStep2 = (event) => {
     event.preventDefault();
-    AddEducation(
+    EditEducation(
       accessToken,
       educationData.level,
       educationData.field,
