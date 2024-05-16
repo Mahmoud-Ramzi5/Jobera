@@ -18,9 +18,9 @@ class EducationController extends Controller
 {
     public function AddEducation(AddEducationRequest $request)
     {
+        
         // Validate request
         $validated = $request->validated();
-
         // Get User
         $user = auth()->user();
 
@@ -35,7 +35,6 @@ class EducationController extends Controller
                 "message" => "User Education already exists"
             ], 400);
         }
-
         // Handle certificate file
         if ($request->hasFile('certificate_file')) {
             $avatarPath = $request->file('certificate_file')->store('files', 'public');

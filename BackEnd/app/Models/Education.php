@@ -20,7 +20,8 @@ class Education extends Model
         "field",
         "school",
         "start_date",
-        "end_date"
+        "end_date",
+        "certificate_file"
     ];
 
     public function user()

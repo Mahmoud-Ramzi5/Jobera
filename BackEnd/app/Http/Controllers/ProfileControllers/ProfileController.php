@@ -95,12 +95,13 @@ class ProfileController extends Controller
 
         // Store photo
         $avatarPath = $request->file('avatar_photo')->store('avatars', 'public');
-        $user->avatarPhoto = $avatarPath;
-        $user->save();
-
+        $individual=Individual::where('user_id',$user->id)->first();
+        $individual->avatar_photo = $avatarPath;
+        $individual->save();
         // Response
         return response()->json([
-            "message"=>"Profile photo has been add successfully"
+            "message"=>"Profile photo has been add successfully",
+            "data"=>new IndividualResource($individual)
         ], 200);
     }
 }
