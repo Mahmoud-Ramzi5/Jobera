@@ -139,7 +139,7 @@ class InfoWithEditContainer extends StatelessWidget {
                   onPressed: () {},
                   child: Row(
                     children: [
-                      const LabelText(text: "edit"),
+                      const LabelText(text: "Edit"),
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: Icon(

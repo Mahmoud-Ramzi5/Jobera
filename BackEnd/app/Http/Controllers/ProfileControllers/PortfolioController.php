@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\ProfileControllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Portfolio;
+use App\Models\PortfolioSkills;
+use App\Models\PortfolioFile;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
-use App\Models\PortfolioFile;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\PortfolioResource;
 use App\Http\Requests\AddPortfolioRequest;
 use App\Http\Requests\EditPortfolioRequest;
-use App\Http\Resources\CertificateResource;
+use App\Http\Resources\PortfolioResource;
 use App\Http\Resources\PortfolioCollection;
 
 class PortfolioController extends Controller
@@ -61,13 +61,19 @@ class PortfolioController extends Controller
             $Path = $request->file('photo')->store('avatars', 'public');
             $validated['photo'] = $Path;
         }
-
-        $validated['user_id'] = $user->id;
-        $portfolio = Portfolio::create($validated);
+        $data = $validated;
+        $data['user_id'] = $user->id;
+        $data = Arr::except($data, 'skills');
+        $data = Arr::except($data, 'files');
+        $portfolio = Portfolio::create($data);
 
         // Save the associated skills
-        $skills = $validated['skills'];
-        $portfolio->skills()->attach($skills);
+        foreach ($validated['skills'] as $skillData) {
+            $skill = PortfolioSkills::create([
+                'portfolio_id' => $portfolio->id,
+                'skill_id' => $skillData
+            ]);
+        }
 
         // Handle file uploads if present in the request
         if ($request->hasFile('files')) {
@@ -78,7 +84,7 @@ class PortfolioController extends Controller
 
                 // Create and associate a new file instance with the portfolio
                 $portfolioFile = new PortfolioFile();
-                $portfolioFile->file_path = $filePath;
+                $portfolioFile->file = $filePath;
                 $portfolio->files()->save($portfolioFile);
             }
         }
