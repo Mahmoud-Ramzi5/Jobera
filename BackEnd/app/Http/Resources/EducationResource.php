@@ -21,7 +21,7 @@ class EducationResource extends JsonResource
             "school" => $this->school,
             "start_date" => $this->start_date,
             "end_date" => $this->end_date,
-            "certificate_file" => mb_convert_encoding(File::get(storage_path('app/'.$this->certificate_file)), 'UTF-8', 'UTF-8'),
+            //"certificate_file" => mb_convert_encoding(File::get(storage_path('app/'.$this->certificate_file)), 'UTF-8', 'UTF-8'),
         ];
     }
 }

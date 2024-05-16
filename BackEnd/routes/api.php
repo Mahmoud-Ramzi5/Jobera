@@ -85,6 +85,6 @@ Route::controller(PortfolioController::class)->group(function() {
     Route::get('/portfolios', 'ShowUserPortfolios')->middleware('auth:api');
     Route::get('/portfolio/{portfolio}', 'ShowPortfolio')->middleware('auth:api');
     Route::post('/portfolio/add', 'AddPortfolio')->middleware('auth:api');
-    Route::put('/portfolio/edit/{portfolio}', 'EditPortfolio')->middleware('auth:api');
+    Route::post('/portfolio/edit/{portfolio}', 'EditPortfolio')->middleware('auth:api');
     Route::delete('/portfolios/{portfolio}', 'DeletePortfolio')->middleware('auth:api');
 });

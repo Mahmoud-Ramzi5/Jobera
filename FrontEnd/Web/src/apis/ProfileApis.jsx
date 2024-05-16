@@ -259,7 +259,7 @@ export const EditPortfolioAPI = async (
   SkillIds
 ) => {
   try {
-    const response = await axios.put(`http://127.0.0.1:8000/api/portfolio/edit/${id}`, {
+    const response = await axios.post(`http://127.0.0.1:8000/api/portfolio/edit/${id}`, {
       'title': title,
       'description': description,
       'photo': photo,

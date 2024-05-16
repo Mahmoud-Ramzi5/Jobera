@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class EditPortfolioRequest extends FormRequest
+class PortfolioRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,12 @@ class EditPortfolioRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['sometimes', 'required'],
-            'description' => ['sometimes', 'required'],
+            'title' => ['required'],
+            'description' => ['required'],
             'link' => ['sometimes'],
             'photo' => ['sometimes', 'image', 'max:4096'],
             'files' => ['sometimes', 'array', 'max:5'],
-            'skills' => ['sometimes','required', 'array', 'max:5'],
+            'skills' => ['required', 'array', 'max:5'],
         ];
     }
 
