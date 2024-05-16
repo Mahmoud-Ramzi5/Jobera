@@ -95,12 +95,8 @@ class PortfolioController extends Controller
 
     public function EditPortfolio(EditPortfolioRequest $request, Portfolio $portfolio)
     {
-        return response()->json([
-            "data" => $request
-        ], 400);
         // Validate request
         $validated = $request->validated();
-
         // Handle photo file
         if ($request->hasFile('photo')) {
             $Path = $request->file('photo')->store('avatars', 'public');
@@ -108,16 +104,25 @@ class PortfolioController extends Controller
         }
 
         $data = $validated;
-        $data = Arr::except($data, 'files');
+        
+       // $data = Arr::except($data, 'files');
         $data = Arr::except($data, 'skills');
         $portfolio->update($data);
 
         // Save the associated skills
         $skills = $validated['skills'];
-        $currentSkills = $portfolio->skills;
+        $currentSkills = $portfolio->skills()->pluck('skill_id')->toArray();
+
+        // Determine the skills to remove
+        $skillsToRemove = array_diff($currentSkills, $validated['skills']);
+
+        // Remove the skills that are not in the validated skills
+        $portfolio->skills()->whereIn('skill_id', $skillsToRemove)->delete();
+
         foreach($skills as $skill) {
-            if(!in_array($currentSkills, $skill)) {
+            if(!in_array($skill, $currentSkills)) {
                 $portfolio->skills()->attach($skill);
+                $portfolio->save();
             }
         }
 
