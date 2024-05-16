@@ -34,4 +34,15 @@ class Company {
         type = json['type'] as String,
         description = json['description'] as String?,
         photo = json['avatar_photo'] as String?;
+  Company.empty()
+      : name = '',
+        email = '',
+        phoneNumber = '',
+        country = '',
+        state = '',
+        field = '',
+        foundingDate = '',
+        type = '',
+        description = null,
+        photo = null;
 }

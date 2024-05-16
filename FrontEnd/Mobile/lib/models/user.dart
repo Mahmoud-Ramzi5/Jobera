@@ -45,4 +45,18 @@ class User {
         skills = [
           for (var skill in json['skills']) (Skills.fromJson(skill)),
         ];
+
+  User.empty()
+      : name = '',
+        email = '',
+        phoneNumber = '',
+        country = '',
+        state = '',
+        birthDate = '',
+        gender = '',
+        type = '',
+        description = null,
+        photo = null,
+        education = Education.empty(),
+        skills = [];
 }

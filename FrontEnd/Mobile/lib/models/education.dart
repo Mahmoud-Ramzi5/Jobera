@@ -28,4 +28,14 @@ class Education {
         endDate = json['end_date'] as String,
         userId = json['user_id'] as int,
         certificateFile = json['certificate_file'] as String?;
+
+  Education.empty()
+      : id = 0,
+        level = '',
+        field = '',
+        school = '',
+        startDate = '',
+        endDate = '',
+        userId = 0,
+        certificateFile = null;
 }

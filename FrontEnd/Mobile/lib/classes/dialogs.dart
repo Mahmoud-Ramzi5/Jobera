@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/texts.dart';
+import 'package:jobera/customWidgets/custom_text_field.dart';
 
 class Dialogs {
   Future<void> showErrorDialog(String title, String content) async {
@@ -81,7 +82,50 @@ class Dialogs {
   Future<void> showSesionExpiredDialog() async {
     Get.defaultDialog(
       title: 'Session expired',
-      content: const BodyText(text: 'Please Login again'),
+      titleStyle: const TextStyle(
+        color: Colors.red,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+      content: const Column(
+        children: [
+          Icon(
+            Icons.timer_off,
+            color: Colors.red,
+            size: 40,
+          ),
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: BodyText(text: 'Please Login again'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> addBioDialog(String? bio, void Function()? onPressed) async {
+    Get.defaultDialog(
+      title: "Add bio",
+      titleStyle: TextStyle(
+        color: Colors.orange.shade800,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+      content: CustomTextField(
+        controller: TextEditingController(text: bio),
+        textInputType: TextInputType.text,
+        obsecureText: false,
+        labelText: 'Bio',
+        icon: const Icon(Icons.description),
+      ),
+      cancel: OutlinedButton(
+        onPressed: () => Get.back(),
+        child: const LabelText(text: 'Cancel'),
+      ),
+      confirm: OutlinedButton(
+        onPressed: () => onPressed,
+        child: const LabelText(text: 'Submit'),
+      ),
     );
   }
 }
