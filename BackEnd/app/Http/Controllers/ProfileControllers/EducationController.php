@@ -200,6 +200,7 @@ class EducationController extends Controller
         // Delete certificate
         $certificate->delete();
 
+        // Response
         return response()->json([
             "message" => "Certificate deleted",
         ], 202);

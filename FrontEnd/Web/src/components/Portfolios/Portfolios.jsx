@@ -1,9 +1,10 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { Card } from 'react-bootstrap';
 import { LoginContext } from '../../utils/Contexts.jsx';
 import { ShowPortfoliosAPI, AdvanceRegisterStep } from '../../apis/ProfileApis.jsx';
-import Portfolio from './Portfolio.jsx';
 import styles from './portfolios.module.css';
+import portfolio_style from './portfolio.module.css';
 
 
 const Portfolios = ({ step }) => {
@@ -81,5 +82,19 @@ const Portfolios = ({ step }) => {
     </div>
   );
 }
+
+const Portfolio = ({ title, photo }) => {
+
+  return (
+      <Card>
+          <div className={portfolio_style.portfolio_background}>
+              <Card.Img variant="top" src={photo} alt={title + "picture"} />
+              <Card.Body>
+                  <Card.Title>{title}</Card.Title>
+              </Card.Body>
+          </div>
+      </Card>
+  );
+};
 
 export default Portfolios;

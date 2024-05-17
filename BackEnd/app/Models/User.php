@@ -52,6 +52,7 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
+    /* Relations */
     public function providers(): HasMany
     {
         return $this->hasMany(Provider::class, 'user_id', 'id');
@@ -72,12 +73,12 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasOne(Education::class);
     }
 
-    public function certificates()
+    public function certificates(): HasMany
     {
         return $this->hasMany(Certificate::class);
     }
 
-    public function portfolios()
+    public function portfolios(): HasMany
     {
         return $this->hasMany(Portfolio::class);
     }
