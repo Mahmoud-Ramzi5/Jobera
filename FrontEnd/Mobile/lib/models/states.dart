@@ -7,4 +7,8 @@ class States {
   States.fromJson(Map<String, dynamic> json)
       : stateId = json['state_id'] as int,
         stateName = json['state_name'] as String;
+
+  static List<States> fromJsonList(List<dynamic> jsonList) {
+    return jsonList.map((json) => States.fromJson(json)).toList();
+  }
 }

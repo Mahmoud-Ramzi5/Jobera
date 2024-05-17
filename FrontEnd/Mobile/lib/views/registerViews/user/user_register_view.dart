@@ -156,7 +156,7 @@ class UserRegisterView extends StatelessWidget {
                   children: [
                     CustomDropDownButton(
                       value: controller.selectedCountry,
-                      items: controller.countryOptions
+                      items: controller.countries
                           .map<DropdownMenuItem<Countries>>(
                             (country) => DropdownMenuItem<Countries>(
                               value: country,
@@ -172,7 +172,7 @@ class UserRegisterView extends StatelessWidget {
                     ),
                     CustomDropDownButton(
                       value: controller.selectedState,
-                      items: controller.stateOptions
+                      items: controller.states
                           .map<DropdownMenuItem<States>>(
                             (state) => DropdownMenuItem<States>(
                               value: state,
