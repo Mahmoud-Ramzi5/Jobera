@@ -2,6 +2,7 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Eye, Pencil, Trash } from 'react-bootstrap-icons';
 import { LoginContext } from '../../utils/Contexts';
+import { FetchFile } from '../../apis/FileApi';
 import { ShowCertificatesAPI, DeleteCertificateAPI, AdvanceRegisterStep } from '../../apis/ProfileApis';
 import styles from './certificates.module.css';
 
@@ -85,7 +86,7 @@ const Certificates = ({ step }) => {
         <td>{certificate.release_date}</td>
         <td>
           <button
-            onClick={() => navigate(`/certificates/${certificate.id}`)}
+            onClick={async () => { FetchFile("", certificate.file); }}
             className={styles.view_button}
           >
             <Eye />

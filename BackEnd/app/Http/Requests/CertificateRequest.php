@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class EditCertificateRequest extends FormRequest
+class CertificateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,14 +21,13 @@ class EditCertificateRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-
     public function rules(): array
     {
         return [
-            'name' => ['sometimes'],
-            'organization' => ['sometimes'],
-            'release_date' => ['sometimes', 'date'],
-            'file' => ['sometimes']
+            'name' => ['required'],
+            'organization' => ['required'],
+            'release_date' => ['required', 'date'],
+            'file' => ['required', 'file'],
         ];
     }
 

@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class EducationResource extends JsonResource
