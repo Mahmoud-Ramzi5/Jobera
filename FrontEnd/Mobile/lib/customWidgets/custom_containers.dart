@@ -109,12 +109,14 @@ class InfoWithEditContainer extends StatelessWidget {
   final String name;
   final double? height;
   final Widget widget;
+  final void Function()? onPressed;
 
   const InfoWithEditContainer({
     super.key,
     required this.name,
     required this.height,
     required this.widget,
+    required this.onPressed,
   });
 
   @override
@@ -136,7 +138,7 @@ class InfoWithEditContainer extends StatelessWidget {
               children: [
                 BodyText(text: '$name:'),
                 TextButton(
-                  onPressed: () {},
+                  onPressed: onPressed,
                   child: Row(
                     children: [
                       const LabelText(text: "Edit"),

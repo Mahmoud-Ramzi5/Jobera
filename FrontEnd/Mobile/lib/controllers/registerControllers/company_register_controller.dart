@@ -21,8 +21,8 @@ class CompanyRegisterController extends GetxController {
   late DateTime selectedDate;
   late Dio dio;
   late Countries? selectedCountry;
-  late List<Countries> countryOptions = [];
-  List<States> stateOptions = [];
+  late List<Countries> countries = [];
+  List<States> states = [];
   States? selectedState;
 
   @override
@@ -56,7 +56,7 @@ class CompanyRegisterController extends GetxController {
 
   void resetStates() {
     selectedState = null;
-    stateOptions = [];
+    states = [];
   }
 
   void selectCountryCode(CountryCode code) {
@@ -109,11 +109,9 @@ class CompanyRegisterController extends GetxController {
         ),
       );
       if (response.statusCode == 200) {
-        for (var country in response.data['countries']) {
-          final countryMap =
-              Countries.fromJson(country as Map<String, dynamic>);
-          countryOptions.add(countryMap);
-        }
+        countries = Countries.fromJsonList(
+          response.data['countries'],
+        );
         update();
       }
     } on DioException catch (e) {
@@ -138,10 +136,9 @@ class CompanyRegisterController extends GetxController {
       );
       if (response.statusCode == 200) {
         resetStates();
-        for (var state in response.data['states']) {
-          final stateMap = States.fromJson(state as Map<String, dynamic>);
-          stateOptions.add(stateMap);
-        }
+        states = States.fromJsonList(
+          response.data['states'],
+        );
         update();
       }
     } on DioException catch (e) {
