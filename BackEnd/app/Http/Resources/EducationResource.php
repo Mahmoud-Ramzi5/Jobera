@@ -21,7 +21,7 @@ class EducationResource extends JsonResource
             "school" => $this->school,
             "start_date" => $this->start_date,
             "end_date" => $this->end_date,
-            "certificate_file" => 'storage/'.$this->certificate_file,
+            "certificate_file" => $this->certificate_file,
         ];
     }
 }

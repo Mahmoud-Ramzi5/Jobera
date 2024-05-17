@@ -88,3 +88,7 @@ Route::controller(PortfolioController::class)->group(function() {
     Route::post('/portfolio/edit/{portfolio}', 'EditPortfolio')->middleware('auth:api');
     Route::delete('/portfolios/{portfolio}', 'DeletePortfolio')->middleware('auth:api');
 });
+
+Route::get('/file/{folder}/{file}', function(Request $request, $folder, $file) {
+    return response()->file(storage_path('app/'.$folder.'/'.$file));
+});

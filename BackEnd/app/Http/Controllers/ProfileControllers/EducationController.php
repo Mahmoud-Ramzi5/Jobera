@@ -32,8 +32,9 @@ class EducationController extends Controller
 
         // Handle certificate file
         if ($request->hasFile('certificate_file')) {
-            $avatarPath = $request->file('certificate_file')->store('education_files');
-            $validated['certificate_file'] = $avatarPath;
+            $file = $request->file('certificate_file');
+            $path = $file->storeAs('education_files', $file->getClientOriginalName());
+            $validated['certificate_file'] = $path;
         }
 
         // Check education
@@ -42,6 +43,7 @@ class EducationController extends Controller
             // Create user's education
             $validated['user_id'] = $user->id;
             $education = Education::create($validated);
+
             // Response
             return response()->json([
                 "message" => "Education added",
@@ -49,7 +51,15 @@ class EducationController extends Controller
             ], 201);
         }
         else {
+            // Delete old certificate_file (if found)
+            $oldPath = $education->certificate_file;
+            if ($oldPath != null) {
+                unlink(storage_path('app/'.$oldPath));
+            }
+
+            // Update user's education
             $education->update($validated);
+
             // Response
             return response()->json([
                 "message" => "Education updated",
