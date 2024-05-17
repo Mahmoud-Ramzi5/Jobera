@@ -36,6 +36,9 @@ const EducationCard = ({ ProfileData }) => {
           >
             Edit education
           </button>
+          <a href={`http://127.0.0.1:8000/${ProfileData.education.certificate_file}`}>
+            <br />Show Education Certificate
+          </a>
         </Card.Body>
       </div>
     </Card>
