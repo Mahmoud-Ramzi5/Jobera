@@ -8,8 +8,8 @@ use App\Models\Certificate;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Http\Requests\EducationRequest;
-use App\Http\Requests\AddCertificateRequest;
-use App\Http\Requests\EditCertificateRequest;
+use App\Http\Requests\CertificateRequest;
+use App\Http\Resources\EducationResource;
 use App\Http\Resources\CertificateResource;
 use App\Http\Resources\CertificateCollection;
 
@@ -30,18 +30,30 @@ class EducationController extends Controller
             ], 401);
         }
 
+        // Get education
+        $education = $user->education;
+
         // Handle certificate file
         if ($request->hasFile('certificate_file')) {
-            $avatarPath = $request->file('certificate_file')->store('education_files');
-            $validated['certificate_file'] = $avatarPath;
+            // Check education
+            if($education != null) {
+                // Delete old certificate_file (if found)
+                $oldPath = $education->certificate_file;
+                if ($oldPath != null) {
+                    unlink(storage_path('app/'.$oldPath));
+                }
+            }
+            $file = $request->file('certificate_file');
+            $path = $file->storeAs($user->id.'/education', $file->getClientOriginalName());
+            $validated['certificate_file'] = $path;
         }
 
         // Check education
-        $education = $user->education;
         if($education == null) {
             // Create user's education
             $validated['user_id'] = $user->id;
             $education = Education::create($validated);
+
             // Response
             return response()->json([
                 "message" => "Education added",
@@ -49,11 +61,13 @@ class EducationController extends Controller
             ], 201);
         }
         else {
+            // Update user's education
             $education->update($validated);
+
             // Response
             return response()->json([
                 "message" => "Education updated",
-                "data" => $education,
+                "data" => new EducationResource($education),
             ], 200);
         }
     }
@@ -79,15 +93,7 @@ class EducationController extends Controller
         ], 200);
     }
 
-    public function ShowCertificate(Request $request, Certificate $certificate)
-    {
-        //response
-        return response()->json([
-            "data" => new CertificateResource($certificate)
-        ], 200);
-    }
-
-    public function AddCertificate(AddCertificateRequest $request)
+    public function AddCertificate(CertificateRequest $request)
     {
         // Validate request
         $validated = $request->validated();
@@ -104,10 +110,12 @@ class EducationController extends Controller
 
         // Handle certificate file
         if ($request->hasFile('file')) {
-            $avatarPath = $request->file('file')->store('files', 'public');
-            $validated['file'] = $avatarPath;
+            $file = $request->file('file');
+            $path = $file->storeAs($user->id.'/certificates', $file->getClientOriginalName());
+            $validated['file'] = $path;
         }
 
+        // Create certificate
         $validated['user_id'] = $user->id;
         $certificate = Certificate::create($validated);
 
@@ -118,7 +126,7 @@ class EducationController extends Controller
         ], 201);
     }
 
-    public function EditCertificate(EditCertificateRequest $request, Certificate $certificate)
+    public function EditCertificate(CertificateRequest $request, Certificate $certificate)
     {
         // Validate request
         $validated = $request->validated();
@@ -133,11 +141,28 @@ class EducationController extends Controller
             ], 401);
         }
 
+        // Check if certificate belongs to user
+        if($user->id != $certificate->user_id) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+
         // Handle certificate file
         if ($request->hasFile('file')) {
-            $avatarPath = $request->file('file')->store('files', 'public');
-            $validated['file'] = $avatarPath;
+            // Delete old certificate_file (if found)
+            $oldPath = $certificate->file;
+            if ($oldPath != null) {
+                unlink(storage_path('app/'.$oldPath));
+            }
+
+            // Add new certificate_file
+            $file = $request->file('file');
+            $path = $file->storeAs($user->id.'/certificates', $file->getClientOriginalName());
+            $validated['file'] = $path;
         }
+
+        // Update user's certificate
         $certificate->update($validated);
 
         // Response
@@ -149,8 +174,33 @@ class EducationController extends Controller
 
     public function DeleteCertificate(Request $request, Certificate $certificate)
     {
+        // Get User
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+
+        // Check if certificate belongs to user
+        if($user->id != $certificate->user_id) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+
+        // Delete old certificate_file (if found)
+        $oldPath = $certificate->file;
+        if ($oldPath != null) {
+            unlink(storage_path('app/'.$oldPath));
+        }
+
+        // Delete certificate
         $certificate->delete();
 
+        // Response
         return response()->json([
             "message" => "Certificate deleted",
         ], 202);

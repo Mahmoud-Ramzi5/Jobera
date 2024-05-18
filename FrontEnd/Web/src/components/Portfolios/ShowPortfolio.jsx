@@ -1,6 +1,7 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { LoginContext } from '../../utils/Contexts';
+import { FetchFile } from '../../apis/FileApi';
 import { DeletePortfolioAPI } from '../../apis/ProfileApis';
 import img_holder from '../../assets/upload.png';
 import styles from './portfolio.module.css';
@@ -100,7 +101,7 @@ const ShowPortfolio = () => {
               <div className={styles.data_field}>
                 <div className={styles.img_holder}>
                   {portfolio.photo ? (
-                    <img src={URL.createObjectURL(portfolio.photo)} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} />
+                    <img src={<>/*URL.createObjectURL(portfolio.photo)*/</>} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} />
                   ) : (
                     <img src={img_holder} alt="Photo Placeholder" style={{ pointerEvents: 'none' }} />
                   )}
@@ -108,14 +109,18 @@ const ShowPortfolio = () => {
               </div>
               <h4 className={styles.heading}>Files:</h4>
               <div className={Inputstyles.field}>
-                {/*portfolio.files.map((file) => (
-                  <div className={styles.files}>
+                {portfolio.files.map((file) => (
+                  <div className={styles.files} key={file.id}>
                     <div className={styles.file}>
                       <span>{file.name}</span>
-                      <button>Browse</button>
+                      <button
+                      onClick={async () => { FetchFile("", file.path); }}
+                      >
+                        Browse
+                      </button>
                     </div>
                   </div>
-                ))*/}
+                ))}
               </div>
             </div>
           </div>

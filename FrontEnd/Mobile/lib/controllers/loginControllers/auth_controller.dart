@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:jobera/classes/dialogs.dart';
+import 'package:jobera/classes/enums.dart';
 import 'package:jobera/main.dart';
 
 class AuthController extends GetxController {
@@ -11,23 +13,33 @@ class AuthController extends GetxController {
     super.onInit();
   }
 
-  Future<bool> checkToken() async {
+  Future<MiddlewareCases> checkToken() async {
     String? token = sharedPreferences?.getString('access_token');
-    try {
-      var response = await dio.get('http://10.0.2.2:8000/api/isExpired',
-          options: Options(
-            headers: {
-              'Content-Type': 'application/json; charset=UTF-8',
-              'Accept': 'application/json',
-              'Authorization': 'Bearer $token'
-            },
-          ));
-      if (response.statusCode == 200) {
-        return true;
+    if (token != null) {
+      try {
+        var response = await dio.get('http://10.0.2.2:8000/api/isExpired',
+            options: Options(
+              headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Accept': 'application/json',
+                'Authorization': 'Bearer $token'
+              },
+            ));
+        if (response.statusCode == 200) {
+          return MiddlewareCases.validToken;
+        }
+      } on DioException catch (e) {
+        Future.delayed(
+          const Duration(seconds: 1),
+          () {
+            Dialogs().showSesionExpiredDialog(
+              e.response!.statusMessage.toString(),
+            );
+          },
+        );
+        return MiddlewareCases.invalidToken;
       }
-    } on DioException {
-      return false;
     }
-    return false;
+    return MiddlewareCases.noToken;
   }
 }

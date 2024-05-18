@@ -75,9 +75,8 @@ Route::controller(EducationController::class)->group(function() {
     Route::post('/education', 'EditEducation')->middleware('auth:api');
 
     Route::get('/certificates', 'ShowUserCertificates')->middleware('auth:api');
-    Route::get('/certificates/{certificate}', 'ShowCertificate')->middleware('auth:api');
     Route::post('/certificate/add', 'AddCertificate')->middleware('auth:api');
-    Route::put('/certificate/edit/{certificate}', 'EditCertificate')->middleware('auth:api');
+    Route::post('/certificate/edit/{certificate}', 'EditCertificate')->middleware('auth:api');
     Route::delete('/certificates/{certificate}', 'DeleteCertificate')->middleware('auth:api');
 });
 
@@ -85,6 +84,10 @@ Route::controller(PortfolioController::class)->group(function() {
     Route::get('/portfolios', 'ShowUserPortfolios')->middleware('auth:api');
     Route::get('/portfolio/{portfolio}', 'ShowPortfolio')->middleware('auth:api');
     Route::post('/portfolio/add', 'AddPortfolio')->middleware('auth:api');
-    Route::put('/portfolio/edit/{portfolio}', 'EditPortfolio')->middleware('auth:api');
+    Route::post('/portfolio/edit/{portfolio}', 'EditPortfolio')->middleware('auth:api');
     Route::delete('/portfolios/{portfolio}', 'DeletePortfolio')->middleware('auth:api');
+});
+
+Route::get('/file/{user_id}/{folder}/{file}', function(Request $request, $user_id ,$folder, $file) {
+    return response()->file(storage_path('app/'.$user_id.'/'.$folder.'/'.$file));
 });

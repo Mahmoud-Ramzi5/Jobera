@@ -69,7 +69,7 @@ export const EditEducation = async (
       'certificate_file': certificate
     }, {
       headers: {
-        'Content-Type': 'multipart/form-data;charset=UTF-8',
+        'Content-Type': 'multipart/form-data; charset=UTF-8',
         'Accept': "application/json",
         'Authorization': `Bearer ${token}`
       }
@@ -85,24 +85,6 @@ export const ShowCertificatesAPI = async (
 ) => {
   try {
     const response = await axios.get('http://127.0.0.1:8000/api/certificates', {
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': "application/json",
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    return response;
-  } catch (error) {
-    return error.response;
-  }
-};
-
-export const ShowCertificateAPI = async (
-  token,
-  id
-) => {
-  try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/certificates/${id}`, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",
@@ -150,7 +132,7 @@ export const EditCertificateAPI = async (
   file,
 ) => {
   try {
-    const response = await axios.put(`http://127.0.0.1:8000/api/certificate/edit/${id}`, {
+    const response = await axios.post(`http://127.0.0.1:8000/api/certificate/edit/${id}`, {
       'name': name,
       'organization': organization,
       'release_date': ReleaseDate,
@@ -259,7 +241,7 @@ export const EditPortfolioAPI = async (
   SkillIds
 ) => {
   try {
-    const response = await axios.put(`http://127.0.0.1:8000/api/portfolio/edit/${id}`, {
+    const response = await axios.post(`http://127.0.0.1:8000/api/portfolio/edit/${id}`, {
       'title': title,
       'description': description,
       'photo': photo,

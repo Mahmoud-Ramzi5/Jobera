@@ -1,25 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/dialogs.dart';
+import 'package:jobera/classes/enums.dart';
 import 'package:jobera/main.dart';
 
 class Middleware extends GetMiddleware {
   @override
   RouteSettings? redirect(String? route) {
-    String? token = sharedPreferences?.getString('access_token');
-    if (token != null) {
-      if (isTokenValid) {
+    switch (middlewareCase) {
+      case MiddlewareCases.noToken:
+        return const RouteSettings(name: '/login');
+      case MiddlewareCases.validToken:
         return const RouteSettings(name: '/home');
-      } else if (!isTokenValid) {
-        Dialogs().showSesionExpiredDialog();
-        Future.delayed(
-          const Duration(seconds: 1),
-          () {
-            return const RouteSettings(name: '/login');
-          },
-        );
-      }
+      case MiddlewareCases.invalidToken:
+        return const RouteSettings(name: '/login');
+      default:
+        return super.redirect(route);
     }
-    return super.redirect(route);
   }
 }

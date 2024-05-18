@@ -60,8 +60,7 @@ class Dialogs {
         fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
-      middleText: "Are you sure you want to logout?",
-      middleTextStyle: const TextStyle(fontSize: 18),
+      content: const BodyText(text: "Are you sure you want to logout?"),
       confirm: GestureDetector(
         onTap: onTap,
         child: const Padding(
@@ -79,7 +78,7 @@ class Dialogs {
     );
   }
 
-  Future<void> showSesionExpiredDialog() async {
+  Future<void> showSesionExpiredDialog(String error) async {
     Get.defaultDialog(
       title: 'Session expired',
       titleStyle: const TextStyle(
@@ -87,16 +86,20 @@ class Dialogs {
         fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
-      content: const Column(
+      content: Column(
         children: [
-          Icon(
+          const Icon(
             Icons.timer_off,
             color: Colors.red,
             size: 40,
           ),
-          Padding(
-            padding: EdgeInsets.all(10),
+          const Padding(
+            padding: EdgeInsets.all(5),
             child: BodyText(text: 'Please Login again'),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(5),
+            child: BodyText(text: error),
           ),
         ],
       ),

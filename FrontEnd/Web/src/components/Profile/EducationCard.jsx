@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import { ThemeContext } from '../../utils/Contexts';
+import { FetchFile } from '../../apis/FileApi';
 import styles from './cards.module.css';
 
 
@@ -36,6 +37,17 @@ const EducationCard = ({ ProfileData }) => {
           >
             Edit education
           </button>
+          {ProfileData.education.certificate_file &&
+            <button
+              type="button"
+              className={(theme === "theme-light") ? "btn btn-outline-dark" : "btn btn-outline-light"}
+              onClick={async () => {
+                FetchFile("", ProfileData.education.certificate_file);
+              }}
+            >
+              Show certificate
+            </button>
+          }
         </Card.Body>
       </div>
     </Card>
