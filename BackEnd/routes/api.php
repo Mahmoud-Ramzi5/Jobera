@@ -55,6 +55,7 @@ Route::controller(ForgetPasswordController::class)->group(function () {
 });
 
 Route::controller(ProfileController::class)->group(function () {
+    Route::post('/profile/description','EditDescription')->middleware('auth:api');
     Route::get('/profile', 'ShowProfile')->middleware('auth:api');
     Route::put('/profile/edit', 'EditProfile')->middleware('auth:api');
     Route::post('/profilePhoto', 'AddProfilePhoto')->middleware('auth:api');
