@@ -200,7 +200,7 @@ const EditPortfolio = () => {
                 <div className={Inputstyles.field}>
                   <label htmlFor='photo' className={styles.img_holder}>
                     {photo ? (
-                      <img src={<>/*URL.createObjectURL(photo)*/</>} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} />
+                      <img src={photo} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} />
                     ) : (
                       <img src={img_holder} alt="Photo Placeholder" style={{ pointerEvents: 'none' }} />
                     )}
@@ -220,7 +220,7 @@ const EditPortfolio = () => {
                     id='files'
                     type='file'
                     placeholder='Files'
-                    accept='.pdf,.doc,.docx,.png,.jpg,.jpeg'
+                    accept='.pdf'
                     onChange={(event) => {
                       if (event.target.files.length <= 5) {
                         setFiles(event.target.files);

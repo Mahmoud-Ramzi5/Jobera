@@ -27,3 +27,32 @@ export const FetchFile = async (token, filePath) => {
     return error.response;
   }
 };
+
+
+export const FetchImage = async (token, imagePath) => {
+  try {
+    const response = await axios({
+      url: `http://127.0.0.1:8000/api/image/${imagePath}`,
+      method: 'GET',
+      responseType: 'blob', // important
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Content-Type': 'image/*; charset=UTF-8',
+        'Accept': 'image/*'
+      }
+    }).then((response) => {
+      // Create file from response data
+      const image = new Blob(
+        [response.data],
+        { type:'image/*' }
+      );
+      // Build a URL from the file
+      const imageURL = URL.createObjectURL(image);
+      // Return file URL
+      return(imageURL);
+    });
+    return(response);
+  } catch (error) {
+    return error.response;
+  }
+};

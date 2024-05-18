@@ -101,7 +101,7 @@ const ShowPortfolio = () => {
               <div className={styles.data_field}>
                 <div className={styles.img_holder}>
                   {portfolio.photo ? (
-                    <img src={<>/*URL.createObjectURL(portfolio.photo)*/</>} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} />
+                    <img src={portfolio.photo} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} />
                   ) : (
                     <img src={img_holder} alt="Photo Placeholder" style={{ pointerEvents: 'none' }} />
                   )}
@@ -114,7 +114,7 @@ const ShowPortfolio = () => {
                     <div className={styles.file}>
                       <span>{file.name}</span>
                       <button
-                      onClick={async () => { FetchFile("", file.path); }}
+                        onClick={async () => { FetchFile("", file.path); }}
                       >
                         Browse
                       </button>

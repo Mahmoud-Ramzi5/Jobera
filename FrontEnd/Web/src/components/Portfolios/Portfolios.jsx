@@ -2,6 +2,7 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import { LoginContext } from '../../utils/Contexts.jsx';
+import { FetchImage } from '../../apis/FileApi.jsx';
 import { ShowPortfoliosAPI, AdvanceRegisterStep } from '../../apis/ProfileApis.jsx';
 import styles from './portfolios.module.css';
 import portfolio_style from './portfolio.module.css';
@@ -15,7 +16,7 @@ const Portfolios = ({ step }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [edit, setEdit] = useState(true);
-  const [portfolios, SetPortfolios] = useState([]);
+  const [portfolios, setPortfolios] = useState([]);
 
   useEffect(() => {
     if (!initialized.current) {
@@ -23,7 +24,12 @@ const Portfolios = ({ step }) => {
 
       ShowPortfoliosAPI(accessToken).then((response) => {
         if (response.status === 200) {
-          SetPortfolios(response.data.portfolios);
+          response.data.portfolios.map((portfolio) => {
+            FetchImage("", portfolio.photo).then((response) => {
+              portfolio.photo = response;
+              setPortfolios((prevState) => ([...prevState, portfolio]));
+            });
+          });
         }
         else {
           console.log(response.statusText);
@@ -35,7 +41,6 @@ const Portfolios = ({ step }) => {
       }
     }
   });
-
 
   return (
     <div className={styles.screen}>
@@ -86,14 +91,14 @@ const Portfolios = ({ step }) => {
 const Portfolio = ({ title, photo }) => {
 
   return (
-      <Card>
-          <div className={portfolio_style.portfolio_background}>
-              <Card.Img variant="top" src={photo} alt={title + "picture"} />
-              <Card.Body>
-                  <Card.Title>{title}</Card.Title>
-              </Card.Body>
-          </div>
-      </Card>
+    <Card>
+      <div className={portfolio_style.portfolio_background}>
+        <Card.Img variant="top" src={photo} alt={title + "picture"} />
+        <Card.Body>
+          <Card.Title>{title}</Card.Title>
+        </Card.Body>
+      </div>
+    </Card>
   );
 };
 

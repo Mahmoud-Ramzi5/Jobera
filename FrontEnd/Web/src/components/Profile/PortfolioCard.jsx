@@ -1,12 +1,27 @@
-import React from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Card, Button } from 'react-bootstrap';
+import { FetchImage } from '../../apis/FileApi';
 import styles from './cards.module.css';
 
 const PortfolioCard = ({ ProfileData }) => {
   // Define states
+  const initialized = useRef(false);
   const navigate = useNavigate();
-  const portfolios = ProfileData.portfolios.slice(0, 3);
+  const [portfolios, setPortfolios] = useState([]);
+
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+
+      ProfileData.portfolios.slice(0, 3).map((portfolio) => {
+        FetchImage("", portfolio.photo).then((response) => {
+          portfolio.photo = response;
+          setPortfolios((prevState) => ([...prevState, portfolio]));
+        });
+      });
+    }
+  });
 
   return (
     <Card className={styles.cards}>

@@ -55,10 +55,10 @@ Route::controller(ForgetPasswordController::class)->group(function () {
 });
 
 Route::controller(ProfileController::class)->group(function () {
-    Route::post('/profile/description','EditDescription')->middleware('auth:api');
     Route::get('/profile', 'ShowProfile')->middleware('auth:api');
-    Route::put('/profile/edit', 'EditProfile')->middleware('auth:api');
-    Route::post('/profilePhoto', 'AddProfilePhoto')->middleware('auth:api');
+    Route::post('/profile/edit', 'EditProfile')->middleware('auth:api');
+    Route::post('/profile/photo', 'AddProfilePhoto')->middleware('auth:api');
+    Route::post('/profile/description', 'EditDescription')->middleware('auth:api');
 });
 
 Route::controller(SkillsController::class)->group(function() {
@@ -91,4 +91,8 @@ Route::controller(PortfolioController::class)->group(function() {
 
 Route::get('/file/{user_id}/{folder}/{file}', function(Request $request, $user_id ,$folder, $file) {
     return response()->file(storage_path('app/'.$user_id.'/'.$folder.'/'.$file));
+});
+
+Route::get('/image/{user_id}/{folder}/{image}', function(Request $request, $user_id ,$folder, $image) {
+    return response()->file(storage_path('app/'.$user_id.'/'.$folder.'/'.$image));
 });
