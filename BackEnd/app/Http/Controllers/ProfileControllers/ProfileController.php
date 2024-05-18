@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\ProfileControllers;
 
+use App\Http\Requests\EditDescriptionRequest;
 use App\Models\Individual;
 use App\Models\Company;
 use Illuminate\Http\Request;
@@ -103,5 +104,23 @@ class ProfileController extends Controller
             "message"=>"Profile photo has been add successfully",
             "data"=>new IndividualResource($individual)
         ], 200);
+    }
+    public function EditDescription(EditDescriptionRequest $request){
+        $validated=$request->validated();
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+        $individual=Individual::where('user_id',$user->id)->first();
+        $individual->update($validated);
+        return response()->json([
+            "message"=>"description updated",
+            "data"=>new IndividualResource($individual)
+        ]);
     }
 }
