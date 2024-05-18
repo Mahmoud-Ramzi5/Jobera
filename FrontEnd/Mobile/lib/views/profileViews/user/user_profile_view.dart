@@ -75,6 +75,8 @@ class UserProfileView extends StatelessWidget {
                           padding: const EdgeInsets.all(10),
                           child: InfoWithEditContainer(
                             name: 'Basic Info',
+                            buttonText: 'Edit',
+                            icon: Icons.edit,
                             height: 160,
                             widget: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -129,7 +131,7 @@ class UserProfileView extends StatelessWidget {
                               ],
                             ),
                             onPressed: () {
-                              Get.toNamed('/editUserBasicInfo');
+                              Get.toNamed('/userEditInfo');
                             },
                           ),
                         ),
@@ -137,6 +139,8 @@ class UserProfileView extends StatelessWidget {
                           padding: const EdgeInsets.all(10),
                           child: InfoWithEditContainer(
                             name: 'Education',
+                            buttonText: 'Edit',
+                            icon: Icons.edit,
                             height: 160,
                             widget: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -198,6 +202,8 @@ class UserProfileView extends StatelessWidget {
                           padding: const EdgeInsets.all(10),
                           child: InfoWithEditContainer(
                             name: 'Skills',
+                            buttonText: 'Edit',
+                            icon: Icons.edit,
                             height: null,
                             widget: GridView.builder(
                               itemCount: _profileController.user.skills.length,
@@ -223,20 +229,26 @@ class UserProfileView extends StatelessWidget {
                             onPressed: () {},
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: InfoContainer(
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: InfoWithEditContainer(
                             name: 'Certificates',
+                            buttonText: 'Add',
+                            icon: Icons.add,
                             height: 160,
-                            widget: Column(),
+                            widget: const Column(),
+                            onPressed: () {},
                           ),
                         ),
-                        const Padding(
-                          padding: EdgeInsets.all(10),
-                          child: InfoContainer(
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: InfoWithEditContainer(
                             name: 'Portofolios',
+                            buttonText: 'Add',
+                            icon: Icons.add,
                             height: 160,
-                            widget: Column(),
+                            widget: const Column(),
+                            onPressed: () {},
                           ),
                         ),
                       ],

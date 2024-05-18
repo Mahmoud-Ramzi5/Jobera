@@ -2,18 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/texts.dart';
 import 'package:jobera/classes/validation.dart';
-import 'package:jobera/controllers/profileControllers/user/user_edit_info_controller.dart';
+import 'package:jobera/controllers/profileControllers/company/company_edit_info_controller.dart';
 import 'package:jobera/customWidgets/code_picker.dart';
 import 'package:jobera/customWidgets/custom_drop_down_button.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
 import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
 
-class EditUserBasicInfoView extends StatelessWidget {
-  final UserEditInfoController _editController =
-      Get.put(UserEditInfoController());
+class CompanyEditInfoView extends StatelessWidget {
+  final CompanyEditInfoController _editController =
+      Get.put(CompanyEditInfoController());
 
-  EditUserBasicInfoView({super.key});
+  CompanyEditInfoView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +29,18 @@ class EditUserBasicInfoView extends StatelessWidget {
               obsecureText: false,
               labelText: 'Name',
               icon: const Icon(Icons.abc),
+              validator: (p0) => Validation().validateRequiredField(p0),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: CustomTextField(
+              controller: _editController.editFieldController,
+              textInputType: TextInputType.name,
+              obsecureText: false,
+              labelText: 'Field of Work',
+              icon: const Icon(Icons.work),
+              validator: (p0) => Validation().validateRequiredField(p0),
             ),
           ),
           Padding(
@@ -40,7 +52,7 @@ class EditUserBasicInfoView extends StatelessWidget {
                 CodePicker(
                   onChange: (p0) {},
                   initialSelection: _editController
-                      .profileController.user.phoneNumber
+                      .profileController.company.phoneNumber
                       .substring(0, 4),
                 ),
                 SizedBox(
@@ -52,13 +64,13 @@ class EditUserBasicInfoView extends StatelessWidget {
                     labelText: 'Phone Number',
                     icon: const Icon(Icons.phone),
                     maxLength: 9,
-                    validator: (p0) => Validation().validatePhineNumber(p0),
+                    validator: (p0) => Validation().validatePhoneNumber(p0),
                   ),
                 ),
               ],
             ),
           ),
-          GetBuilder<UserEditInfoController>(
+          GetBuilder<CompanyEditInfoController>(
             builder: (controller) => Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [

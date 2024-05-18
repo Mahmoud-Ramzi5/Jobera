@@ -5,7 +5,8 @@ import 'package:jobera/controllers/loginControllers/auth_controller.dart';
 import 'package:jobera/controllers/settings_controller.dart';
 import 'package:jobera/middleware/middleware.dart';
 import 'package:jobera/views/profileViews/company/company_profile_view.dart';
-import 'package:jobera/views/profileViews/user/edit_user_basic_info_view.dart';
+import 'package:jobera/views/profileViews/company/company_edit_info_view.dart';
+import 'package:jobera/views/profileViews/user/user_edit_info_view.dart';
 import 'package:jobera/views/profileViews/user/user_profile_view.dart';
 import 'package:jobera/views/loginViews/forgot_password_view.dart';
 import 'package:jobera/views/home_view.dart';
@@ -68,8 +69,12 @@ class MainApp extends StatelessWidget {
           page: () => CompanyProfileView(),
         ),
         GetPage(
-          name: '/editUserBasicInfo',
-          page: () => EditUserBasicInfoView(),
+          name: '/userEditInfo',
+          page: () => UserEditInfoView(),
+        ),
+        GetPage(
+          name: '/companyEditInfo',
+          page: () => CompanyEditInfoView(),
         )
       ],
       debugShowCheckedModeBanner: false,

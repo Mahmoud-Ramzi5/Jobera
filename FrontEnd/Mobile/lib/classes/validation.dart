@@ -26,7 +26,7 @@ class Validation {
     return null;
   }
 
-  String? validatePhineNumber(String? value) {
+  String? validatePhoneNumber(String? value) {
     if (value!.isEmpty) {
       return "Required Field";
     } else if (value.length != 9) {

@@ -45,7 +45,7 @@ class ForgotPasswordController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Failed',
-        e.response!.data["errors"].toString(),
+        e.response!.data.toString(),
       );
     }
   }

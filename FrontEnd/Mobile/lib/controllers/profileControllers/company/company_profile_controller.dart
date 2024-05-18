@@ -46,7 +46,7 @@ class CompanyProfileController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.data["errors"].toString(),
+        e.response!.data.toString(),
       );
     }
   }
@@ -71,7 +71,7 @@ class CompanyProfileController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.statusMessage.toString(),
+        e.response!.data.toString(),
       );
     }
   }

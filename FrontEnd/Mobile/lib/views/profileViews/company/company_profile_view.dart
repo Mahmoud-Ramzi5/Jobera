@@ -76,6 +76,8 @@ class CompanyProfileView extends StatelessWidget {
                           padding: const EdgeInsets.all(10),
                           child: InfoWithEditContainer(
                             name: 'Basic Info',
+                            buttonText: 'Edit',
+                            icon: Icons.edit,
                             height: 200,
                             widget: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,13 +122,17 @@ class CompanyProfileView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.toNamed('/companyEditInfo');
+                            },
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10),
                           child: InfoWithEditContainer(
                             name: 'Portofolios',
+                            buttonText: 'Add',
+                            icon: Icons.add,
                             height: 160,
                             widget: const Column(),
                             onPressed: () {},

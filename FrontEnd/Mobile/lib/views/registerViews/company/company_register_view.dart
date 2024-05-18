@@ -109,7 +109,7 @@ class CompanyRegisterView extends StatelessWidget {
                         labelText: 'Phone Number',
                         icon: const Icon(Icons.phone),
                         maxLength: 9,
-                        validator: (p0) => Validation().validatePhineNumber(p0),
+                        validator: (p0) => Validation().validatePhoneNumber(p0),
                       ),
                     ),
                   ],
