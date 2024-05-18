@@ -92,9 +92,11 @@ class ProfileBackgroundContainer extends StatelessWidget {
       height: 200,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          begin: Alignment.bottomCenter,
-          end: Alignment.topCenter,
-          colors: [Colors.lightBlue.shade900, Colors.lightBlue],
+          colors: [
+            Colors.lightBlue.shade900,
+            Colors.white,
+            Colors.orange.shade800,
+          ],
         ),
         borderRadius: const BorderRadius.only(
           bottomLeft: Radius.circular(50),
@@ -124,7 +126,8 @@ class InfoWithEditContainer extends StatelessWidget {
     return Container(
       height: height,
       decoration: ShapeDecoration(
-        shape: ContinuousRectangleBorder(
+        shape: BeveledRectangleBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
           side: BorderSide(color: Colors.orange.shade800),
         ),
       ),
@@ -157,6 +160,47 @@ class InfoWithEditContainer extends StatelessWidget {
             widget
           ],
         ),
+      ),
+    );
+  }
+}
+
+class InfoContainer extends StatelessWidget {
+  final String name;
+  final double? height;
+  final Widget widget;
+
+  const InfoContainer({
+    super.key,
+    required this.name,
+    required this.height,
+    required this.widget,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      decoration: ShapeDecoration(
+        shape: BeveledRectangleBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          side: BorderSide(color: Colors.orange.shade800),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                BodyText(text: '$name:'),
+              ],
+            ),
+          ),
+          widget
+        ],
       ),
     );
   }

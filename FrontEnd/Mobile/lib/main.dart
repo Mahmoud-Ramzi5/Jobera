@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/enums.dart';
 import 'package:jobera/controllers/loginControllers/auth_controller.dart';
-import 'package:jobera/controllers/homeControllers/settings_controller.dart';
+import 'package:jobera/controllers/settings_controller.dart';
 import 'package:jobera/middleware/middleware.dart';
-import 'package:jobera/views/homeViews/company_profile_view.dart';
-import 'package:jobera/views/homeViews/user_profile_view.dart';
+import 'package:jobera/views/profileViews/company/company_profile_view.dart';
+import 'package:jobera/views/profileViews/user/edit_user_basic_info_view.dart';
+import 'package:jobera/views/profileViews/user/user_profile_view.dart';
 import 'package:jobera/views/loginViews/forgot_password_view.dart';
-import 'package:jobera/views/homeViews/home_view.dart';
+import 'package:jobera/views/home_view.dart';
 import 'package:jobera/views/loginViews/login_view.dart';
 import 'package:jobera/views/registerViews/register_view.dart';
-import 'package:jobera/views/homeViews/settings_view.dart';
+import 'package:jobera/views/settings_view.dart';
 import 'package:jobera/views/splash_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -65,6 +66,10 @@ class MainApp extends StatelessWidget {
         GetPage(
           name: '/companyProfile',
           page: () => CompanyProfileView(),
+        ),
+        GetPage(
+          name: '/editUserBasicInfo',
+          page: () => EditUserBasicInfoView(),
         )
       ],
       debugShowCheckedModeBanner: false,

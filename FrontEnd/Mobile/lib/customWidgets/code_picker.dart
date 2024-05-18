@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 
 class CodePicker extends StatelessWidget {
   final void Function(CountryCode)? onChange;
+  final String? initialSelection;
 
-  const CodePicker({super.key, required this.onChange});
+  const CodePicker({super.key, required this.onChange, this.initialSelection});
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,7 @@ class CodePicker extends StatelessWidget {
       dialogSize: const Size(400, 300),
       hideSearch: false,
       textStyle: Theme.of(context).textTheme.labelLarge,
-      initialSelection: '+963',
+      initialSelection: initialSelection,
       onChanged: onChange,
     );
   }

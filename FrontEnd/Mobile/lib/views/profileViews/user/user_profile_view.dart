@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/classes/texts.dart';
-import 'package:jobera/controllers/homeControllers/profile_controller.dart';
+import 'package:jobera/controllers/profileControllers/user/user_profile_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 
 class UserProfileView extends StatelessWidget {
-  final ProfileController _profileController = Get.put(ProfileController());
+  final UserProfileController _profileController =
+      Get.put(UserProfileController());
 
   UserProfileView({super.key});
 
@@ -18,52 +19,58 @@ class UserProfileView extends StatelessWidget {
         future: _profileController.fetchProfile(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            // While the future is still loading
             return const Center(
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasError) {
-            // If an error occurred during the future execution
             return Center(
               child: HeadlineText(text: 'Error: ${snapshot.error}'),
             );
           } else {
-            // If the future completed successfully
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  const Stack(
-                    alignment: Alignment.center,
-                    children: [
-                      ProfileBackgroundContainer(),
-                      ProfilePhotoContainer(),
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
+            return RefreshIndicator(
+              key: _profileController.refreshIndicatorKey,
+              onRefresh: () async => await _profileController.fetchProfile(),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const Stack(
+                      alignment: Alignment.center,
                       children: [
-                        HeadlineText(text: _profileController.user.name),
-                        const HeadlineText(text: 'Rating:'),
-                        Row(
-                          children: [
-                            IconButton(
-                              onPressed: () {
-                                Dialogs().addBioDialog(
-                                  _profileController.company.description,
-                                  () {},
-                                );
+                        ProfileBackgroundContainer(),
+                        ProfilePhotoContainer(),
+                      ],
+                    ),
+                    HeadlineText(text: _profileController.user.name),
+                    const HeadlineText(text: 'Rating:'),
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Dialogs().addBioDialog(
+                              _profileController.editBioController,
+                              () {
+                                _profileController.editBio(
+                                    _profileController.editBioController.text);
+                                _profileController
+                                    .refreshIndicatorKey.currentState!
+                                    .show();
                               },
-                              icon: Icon(
-                                Icons.edit,
-                                color: Colors.orange.shade800,
-                              ),
-                            ),
-                            HeadlineText(
-                                text:
-                                    'Bio: ${_profileController.user.description}'),
-                          ],
+                            );
+                          },
+                          icon: Icon(
+                            Icons.edit,
+                            color: Colors.orange.shade800,
+                          ),
                         ),
+                        GetBuilder<UserProfileController>(
+                          builder: (controller) => HeadlineText(
+                            text: 'Bio: ${controller.user.description}',
+                          ),
+                        )
+                      ],
+                    ),
+                    Column(
+                      children: [
                         Padding(
                           padding: const EdgeInsets.all(10),
                           child: InfoWithEditContainer(
@@ -121,7 +128,9 @@ class UserProfileView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.toNamed('/editUserBasicInfo');
+                            },
                           ),
                         ),
                         Padding(
@@ -214,28 +223,26 @@ class UserProfileView extends StatelessWidget {
                             onPressed: () {},
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: InfoWithEditContainer(
+                        const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: InfoContainer(
                             name: 'Certificates',
                             height: 160,
-                            widget: const Column(),
-                            onPressed: () {},
+                            widget: Column(),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: InfoWithEditContainer(
+                        const Padding(
+                          padding: EdgeInsets.all(10),
+                          child: InfoContainer(
                             name: 'Portofolios',
                             height: 160,
-                            widget: const Column(),
-                            onPressed: () {},
+                            widget: Column(),
                           ),
                         ),
                       ],
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             );
           }

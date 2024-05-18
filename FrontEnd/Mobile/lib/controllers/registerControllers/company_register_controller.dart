@@ -6,7 +6,7 @@ import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
-import 'package:jobera/views/homeViews/home_view.dart';
+import 'package:jobera/views/home_view.dart';
 
 class CompanyRegisterController extends GetxController {
   late GlobalKey<FormState> formField;

@@ -97,6 +97,7 @@ class CompanyRegisterView extends StatelessWidget {
                     CodePicker(
                       onChange: (p0) =>
                           _companyRegisterController.selectCountryCode(p0),
+                      initialSelection: '+963',
                     ),
                     SizedBox(
                       width: 200,

@@ -106,7 +106,10 @@ class Dialogs {
     );
   }
 
-  Future<void> addBioDialog(String? bio, void Function()? onPressed) async {
+  Future<void> addBioDialog(
+    TextEditingController controller,
+    void Function()? onPressed,
+  ) async {
     Get.defaultDialog(
       title: "Add bio",
       titleStyle: TextStyle(
@@ -115,7 +118,7 @@ class Dialogs {
         fontWeight: FontWeight.bold,
       ),
       content: CustomTextField(
-        controller: TextEditingController(text: bio),
+        controller: controller,
         textInputType: TextInputType.text,
         obsecureText: false,
         labelText: 'Bio',
@@ -126,7 +129,7 @@ class Dialogs {
         child: const LabelText(text: 'Cancel'),
       ),
       confirm: OutlinedButton(
-        onPressed: () => onPressed,
+        onPressed: onPressed,
         child: const LabelText(text: 'Submit'),
       ),
     );

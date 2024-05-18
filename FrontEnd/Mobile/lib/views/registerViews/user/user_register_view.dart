@@ -86,6 +86,7 @@ class UserRegisterView extends StatelessWidget {
                     CodePicker(
                       onChange: (p0) =>
                           _userRegisterController.selectCountryCode(p0),
+                      initialSelection: '+963',
                     ),
                     SizedBox(
                       width: 200,
