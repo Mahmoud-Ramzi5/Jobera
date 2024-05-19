@@ -105,10 +105,29 @@ class UserRegisterView extends StatelessWidget {
                 ),
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const BodyText(text: 'Select Birth Date:'),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: DateContainer(
+                      widget: GetBuilder<UserRegisterController>(
+                        builder: (controller) => GestureDetector(
+                          onTap: () => controller.selectDate(context),
+                          child: BodyText(
+                            text: "${controller.selectedDate}".split(' ')[0],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   GetBuilder<UserRegisterController>(
-                    builder: (controller) => Column(
+                    builder: (controller) => Row(
                       children: [
                         RadioMenuButton(
                           value: 'male',
@@ -132,22 +151,6 @@ class UserRegisterView extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
-                  Column(
-                    children: [
-                      const BodyText(text: 'Select Birth Date:'),
-                      DateContainer(
-                        widget: GetBuilder<UserRegisterController>(
-                          builder: (controller) => GestureDetector(
-                            onTap: () =>
-                                _userRegisterController.selectDate(context),
-                            child: BodyText(
-                              text: "${controller.selectedDate}".split(' ')[0],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
                 ],
               ),

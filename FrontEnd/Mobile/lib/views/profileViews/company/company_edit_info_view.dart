@@ -18,7 +18,9 @@ class CompanyEditInfoView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const TitleText(text: 'Edit Info'),
+      ),
       body: Column(
         children: [
           Padding(

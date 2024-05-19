@@ -130,9 +130,7 @@ class UserProfileView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            onPressed: () {
-                              Get.toNamed('/userEditInfo');
-                            },
+                            onPressed: () => Get.toNamed('/userEditInfo'),
                           ),
                         ),
                         Padding(
@@ -195,7 +193,7 @@ class UserProfileView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            onPressed: () {},
+                            onPressed: () => Get.toNamed('/userEditEducation'),
                           ),
                         ),
                         Padding(

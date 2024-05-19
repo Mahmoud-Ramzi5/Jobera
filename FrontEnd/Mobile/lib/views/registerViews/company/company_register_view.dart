@@ -122,8 +122,7 @@ class CompanyRegisterView extends StatelessWidget {
                   DateContainer(
                     widget: GetBuilder<CompanyRegisterController>(
                       builder: (controller) => GestureDetector(
-                        onTap: () =>
-                            _companyRegisterController.selectDate(context),
+                        onTap: () => controller.selectDate(context),
                         child: BodyText(
                           text: "${controller.selectedDate}".split(' ')[0],
                         ),
