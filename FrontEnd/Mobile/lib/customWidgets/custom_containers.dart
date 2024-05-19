@@ -109,6 +109,8 @@ class ProfileBackgroundContainer extends StatelessWidget {
 
 class InfoWithEditContainer extends StatelessWidget {
   final String name;
+  final String buttonText;
+  final IconData? icon;
   final double? height;
   final Widget widget;
   final void Function()? onPressed;
@@ -116,9 +118,11 @@ class InfoWithEditContainer extends StatelessWidget {
   const InfoWithEditContainer({
     super.key,
     required this.name,
+    required this.buttonText,
     required this.height,
     required this.widget,
     required this.onPressed,
+    this.icon,
   });
 
   @override
@@ -144,11 +148,11 @@ class InfoWithEditContainer extends StatelessWidget {
                   onPressed: onPressed,
                   child: Row(
                     children: [
-                      const LabelText(text: "Edit"),
+                      LabelText(text: buttonText),
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: Icon(
-                          Icons.edit,
+                          icon,
                           color: Colors.orange.shade800,
                         ),
                       )
@@ -160,47 +164,6 @@ class InfoWithEditContainer extends StatelessWidget {
             widget
           ],
         ),
-      ),
-    );
-  }
-}
-
-class InfoContainer extends StatelessWidget {
-  final String name;
-  final double? height;
-  final Widget widget;
-
-  const InfoContainer({
-    super.key,
-    required this.name,
-    required this.height,
-    required this.widget,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: height,
-      decoration: ShapeDecoration(
-        shape: BeveledRectangleBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          side: BorderSide(color: Colors.orange.shade800),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                BodyText(text: '$name:'),
-              ],
-            ),
-          ),
-          widget
-        ],
       ),
     );
   }

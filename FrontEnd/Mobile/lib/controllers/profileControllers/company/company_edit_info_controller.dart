@@ -1,17 +1,18 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/controllers/profileControllers/user/user_profile_controller.dart';
+import 'package:jobera/controllers/profileControllers/company/company_profile_controller.dart';
 import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
 
-class UserEditInfoController extends GetxController {
-  late UserProfileController profileController;
+class CompanyEditInfoController extends GetxController {
+  late CompanyProfileController profileController;
   late Dio dio;
   late TextEditingController editNameController;
   late TextEditingController editPhoneNumberController;
+  late TextEditingController editFieldController;
   late CountryCode countryCode;
   Countries? selectedCountry;
   late List<Countries> countries = [];
@@ -20,20 +21,22 @@ class UserEditInfoController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    profileController = Get.find<UserProfileController>();
+    profileController = Get.find<CompanyProfileController>();
     dio = Dio();
     editNameController =
-        TextEditingController(text: profileController.user.name);
+        TextEditingController(text: profileController.company.name);
+    editFieldController =
+        TextEditingController(text: profileController.company.field);
     countryCode = CountryCode();
     editPhoneNumberController = TextEditingController(
-        text: profileController.user.phoneNumber
-            .substring(profileController.user.phoneNumber.length - 9));
+        text: profileController.company.phoneNumber
+            .substring(profileController.company.phoneNumber.length - 9));
     await getCountries();
     selectedCountry = countries.firstWhere(
-        (element) => element.countryName == profileController.user.country);
+        (element) => element.countryName == profileController.company.country);
     await getStates(selectedCountry!.countryId);
     selectedState = states.firstWhere(
-        (element) => element.stateName == profileController.user.state);
+        (element) => element.stateName == profileController.company.state);
     super.onInit();
   }
 

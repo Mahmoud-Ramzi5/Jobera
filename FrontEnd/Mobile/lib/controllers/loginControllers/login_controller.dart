@@ -75,7 +75,7 @@ class LoginController extends GetxController {
     } on DioException catch (e) {
       await Dialogs().showErrorDialog(
         'Login Failed',
-        e.response!.data["errors"].toString(),
+        e.response!.data.toString(),
       );
     }
   }
