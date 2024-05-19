@@ -41,14 +41,15 @@ Route::controller(AuthController::class)->group(function () {
         $validated = $request->validate([
             'country_name' => 'required'
         ]);
-        $country_name = $request->input('country_name');
-        $country = Country::where('country_name', $country_name)->get()->first();
+        $country = Country::where('country_name', $validated['country_name'])->get()->first();
 
         return Response()->json([
             'states' => State::where('country_id', $country->country_id)->get()->all(),
         ], 200);
     });
-    Route::get('/regStep','AdvanceRegisterStep')->middleware('auth:api');
+
+    Route::get('/regStep', 'GetRegisterStep')->middleware('auth:api');
+    Route::post('/regStep', 'AdvanceRegisterStep')->middleware('auth:api');
 });
 
 Route::controller(SocialAuthController::class)->group(function () {
@@ -102,9 +103,4 @@ Route::get('/file/{user_id}/{folder}/{file}', function(Request $request, $user_i
 
 Route::get('/image/{user_id}/{folder}/{image}', function(Request $request, $user_id ,$folder, $image) {
     return response()->file(storage_path('app/'.$user_id.'/'.$folder.'/'.$image));
-});
-
-
-Route::get('/gg', function() {
-    return Response()->json(["GG" =>Rule::in(IndividualGender::names())]);
 });

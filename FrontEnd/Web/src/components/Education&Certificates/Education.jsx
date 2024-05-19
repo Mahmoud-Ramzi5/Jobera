@@ -112,7 +112,7 @@ const EducationForm = ({ step }) => {
           certificate_file: null,
         });
 
-        step('CERTIFICATES');
+        step('CERTIFICATE');
       }
       else {
         console.log(response.statusText);

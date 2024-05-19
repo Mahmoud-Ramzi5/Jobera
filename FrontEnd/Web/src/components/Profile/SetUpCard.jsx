@@ -8,7 +8,6 @@ import styles from './cards.module.css';
 const SetUpCard = ({ ProfileData, token }) => {
   // Context    
   const { theme } = useContext(ThemeContext);
-  const { accessToken } = useContext(LoginContext);
   // Define states
   const navigate = useNavigate();
 
@@ -29,12 +28,10 @@ const SetUpCard = ({ ProfileData, token }) => {
             onClick={() => navigate('/complete-register', {
               state: {
                 edit: false,
-                token: accessToken,
                 skills: ProfileData.skills,
                 education: ProfileData.education,
                 certificates: ProfileData.certificates,
                 Portfolios: ProfileData.Portfolios,
-                step: ProfileData.register_step
               }
             }
             )}>

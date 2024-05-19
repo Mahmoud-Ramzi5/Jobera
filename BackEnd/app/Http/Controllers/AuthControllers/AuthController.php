@@ -253,6 +253,33 @@ class AuthController extends Controller
         ], 401);
     }
 
+    public function GetRegisterStep(Request $request) {
+        // Get User
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+
+        // Get individual
+        $individual = Individual::find($user->id);
+
+        // Check individual
+        if ($individual == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+
+        // Response
+        return response()->json([
+            "step" => $individual->register_step
+        ], 200);
+    }
+
     public function AdvanceRegisterStep(Request $request)
     {
         // Get User

@@ -27,7 +27,7 @@ class CertificateRequest extends FormRequest
             'name' => ['required'],
             'organization' => ['required'],
             'release_date' => ['required', 'date'],
-            'file' => ['required', 'file'],
+            'file' => ['required'],
         ];
     }
 

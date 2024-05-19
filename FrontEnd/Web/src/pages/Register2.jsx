@@ -1,5 +1,7 @@
 import { useEffect, useState, useContext, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { LoginContext, ProfileContext } from '../utils/Contexts.jsx';
+import { GetRegisterStep } from '../apis/ProfileApis.jsx';
 import ProgressBar from '../components/Register/ProgressBar.jsx';
 import SkillsForm from '../components/SkillsForm.jsx';
 import EducationForm from '../components/Education&Certificates/Education.jsx';
@@ -9,23 +11,41 @@ import styles from '../styles/register2.module.css';
 
 
 const Register2 = () => {
+  // Context    
+  const { accessToken } = useContext(LoginContext);
+  const { profile } = useContext(ProfileContext);
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
-  const location = useLocation();
+  const [loading, setLoading] = useState(true);
   const [step, setStep] = useState('SKILLS');
 
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
-      if (location.state !== null) {
-        setStep(location.state.step);
+
+      if (profile.is_registered) {
+        navigate('/profile');
       }
       else {
-        navigate('/profile');
+        GetRegisterStep(accessToken).then((response) => {
+          if (response.status == 200) {
+            setStep(response.data.step);
+          }
+          else {
+            console.log(response.statusText);
+          }
+        }).then(() => {
+          setLoading(false);
+        });
       }
     }
   }, []);
+
+  console.log(loading);
+  if(loading) {
+    return <></>;
+  }
 
   return (
     <div className={styles.container}>
@@ -43,7 +63,7 @@ const Register2 = () => {
               return (
                 <EducationForm step={setStep} />
               );
-            case 'CERTIFICATES':
+            case 'CERTIFICATE':
               return (
                 <Certificates step={setStep} />
               );
