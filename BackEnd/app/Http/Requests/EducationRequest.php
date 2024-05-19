@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Enums\EducationLevel;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
@@ -24,7 +26,7 @@ class EducationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "level" => ["required", "in:Bachelor,Master,PHD,High School Diploma,High Institute"],
+            "level" => ["required", Rule::in(EducationLevel::names())],
             "field" => ["required"],
             "school" => ["required"],
             "start_date" => ["required", "date"],

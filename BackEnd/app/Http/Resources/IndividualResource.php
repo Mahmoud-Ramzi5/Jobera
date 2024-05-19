@@ -26,7 +26,7 @@ class IndividualResource extends JsonResource
 
         // Check user register status
         $is_registered = false;
-        if(count($user->skills) != 0 && $user->education != null) {
+        if(count($this->skills) != 0 && $this->education != null) {
             $is_registered = true;
         }
 
@@ -39,11 +39,11 @@ class IndividualResource extends JsonResource
             'birth_date' => $this->birth_date,
             'gender' => $this->gender,
             'type' => 'individual',
-            'description' => $this->description,
+            'description' => $user->description,
             'avatar_photo' => $this->avatar_photo,
-            'skills' => new SkillCollection($user->skills),
-            'education' => new EducationResource($user->education),
-            'certificates' => new CertificateCollection($user->certificates),
+            'skills' => new SkillCollection($this->skills),
+            'education' => new EducationResource($this->education),
+            'certificates' => new CertificateCollection($this->certificates),
             'portfolios' => new PortfolioCollection($user->portfolios),
             'is_verifed' => $is_verified,
             'is_registered' => $is_registered,

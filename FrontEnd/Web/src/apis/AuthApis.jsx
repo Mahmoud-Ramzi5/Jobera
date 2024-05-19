@@ -228,10 +228,10 @@ export const FetchCountries = async () => {
     }
 };
 
-export const FetchStates = async (country_id) => {
+export const FetchStates = async (country_name) => {
     try {
         const response = await axios.post('http://127.0.0.1:8000/api/states', {
-            'country_id': country_id
+            'country_name': country_name
         }, {
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',

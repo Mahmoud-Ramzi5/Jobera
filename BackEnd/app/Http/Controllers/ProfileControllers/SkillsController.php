@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\ProfileControllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\Individual;
 use App\Models\Skill;
 use App\Enums\SkillTypes;
 use App\Filters\SkillFilter;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreSkillsRequest;
+use App\Http\Resources\IndividualResource;
 use App\Http\Resources\SkillResource;
 use App\Http\Resources\SkillCollection;
-use App\Http\Requests\StoreSkillsRequest;
-
 
 class SkillsController extends Controller
 {
@@ -58,10 +59,20 @@ class SkillsController extends Controller
             ], 401);
         }
 
+        // Get individual
+        $individual = Individual::find($user->id);
+
+        // Check individual
+        if ($individual == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+
         // Response
         return response()->json([
-            'user' => $user,
-            'skills' => new SkillCollection($user->skills)
+            'user' => new IndividualResource($individual),
+            'skills' => new SkillCollection($individual->skills)
         ]);
     }
 
@@ -82,12 +93,23 @@ class SkillsController extends Controller
             ], 401);
         }
 
-        $user->skills()->attach($validated['skills']);
+        // Get individual
+        $individual = Individual::find($user->id);
+
+        // Check individual
+        if ($individual == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+
+        // Add skills to individual
+        $individual->skills()->attach($validated['skills']);
 
         // Response
         return response()->json([
             "message" => "Skills added successfully",
-            "skills" => new SkillCollection($user->skills)
+            "skills" => new SkillCollection($individual->skills)
         ], 200);
     }
 
@@ -108,28 +130,38 @@ class SkillsController extends Controller
             ], 401);
         }
 
+        // Get individual
+        $individual = Individual::find($user->id);
+
+        // Check individual
+        if ($individual == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+
         // Get user's current skills
-        $currentSkills = $user->skills()->pluck('skill_id')->toArray();
+        $currentSkills = $individual->skills()->pluck('skill_id')->toArray();
 
         // Determine the skills to remove
         $skillsToRemove = array_diff($currentSkills, $validated['skills']);
 
         // Remove the skills that are not in the validated skills
-        $user->skills()->whereIn('skill_id', $skillsToRemove)->delete();
+        $individual->skills()->whereIn('skill_id', $skillsToRemove)->delete();
 
         // Add the new skills
         foreach ($validated['skills'] as $skill) {
             // Check if the skill is already associated with the user
             if (!in_array($skill, $currentSkills)) {
                 // Create a new skill if it's not already associated
-                $user->skills()->attach($skill);
+                $individual->skills()->attach($skill);
             }
         }
 
         // Response
         return response()->json([
             "message" => "Skills updated successfully",
-            "skills" => new SkillCollection($user->skills)
+            "skills" => new SkillCollection($individual->skills)
         ], 200);
     }
 
@@ -140,11 +172,32 @@ class SkillsController extends Controller
         $user = auth()->user();
 
         // Check user
-        if ($user->type == 'admin') {
+        if ($user == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+
+        // Get individual
+        $individual = Individual::find($user->id);
+
+        // Check individual
+        if ($individual == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+
+        if ($individual->type == 'admin') {
             // Validate request
             $validatedData = $request->validated();
             $skill = Skill::create($validatedData);
-            return new SkillResource($skill);
+
+            // Response
+            return response()->json([
+                "message" => "Skill added successfully",
+                "skill" => new SkillResource($skill)
+            ], 200);
         }
 
         // Response

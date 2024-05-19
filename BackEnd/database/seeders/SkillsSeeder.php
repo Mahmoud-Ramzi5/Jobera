@@ -16,147 +16,147 @@ class SkillsSeeder extends Seeder
         DB::table('skills')->insert(array(
             array(
                 'type' => 'IT',
-                'name' =>'Data science'
+                'name' => 'Data science'
             ),
             array(
                 'type' => 'IT',
-                'name' =>'Machine Learning'
+                'name' => 'Machine Learning'
             ),
             array(
                 'type' => 'IT',
-                'name' =>'Frontend Web'
+                'name' => 'Frontend Web'
             ),
             array(
                 'type' => 'IT',
-                'name' =>'FrontEnd Mobile'
+                'name' => 'FrontEnd Mobile'
             ),
             array(
                 'type' => 'IT',
-                'name' =>'Backend'
+                'name' => 'Backend'
             ),
             array(
                 'type' => 'IT',
-                'name' =>'Database'
+                'name' => 'Database'
             ),
             array(
                 'type' => 'IT',
-                'name' =>'Network Administration'
+                'name' => 'Network Administration'
             ),
             array(
                 'type' => 'IT',
-                'name' =>'Cyber security'
+                'name' => 'Cyber security'
             ),
             array(
                 'type' => 'IT',
-                'name' =>'Cloud Computing'
+                'name' => 'Cloud Computing'
             ),
             array(
                 'type' => 'IT',
-                'name' =>'Data Analysis'
+                'name' => 'Data Analysis'
             ),
             array(
-                'type' => 'Design',
-                'name' =>'Adobe Photoshop, Illustrator'
+                'type' => 'DESIGN',
+                'name' => 'Adobe Photoshop, Illustrator'
             ),
             array(
-                'type' => 'Design',
-                'name' =>'Video Editing and Production'
+                'type' => 'DESIGN',
+                'name' => 'Video Editing and Production'
             ),
             array(
-                'type' => 'Design',
-                'name' =>'Video Animation and Motion Graphics'
+                'type' => 'DESIGN',
+                'name' => 'Video Animation and Motion Graphics'
             ),
             array(
-                'type' => 'Design',
-                'name' =>'UI'
+                'type' => 'DESIGN',
+                'name' => 'UI'
             ),
             array(
-                'type' => 'Design',
-                'name' =>'Illustration and Digital Art'
+                'type' => 'DESIGN',
+                'name' => 'Illustration and Digital Art'
             ),
             array(
-                'type' => 'Design',
-                'name' =>'UX'
+                'type' => 'DESIGN',
+                'name' => 'UX'
             ),
             array(
-                'type' => 'Business',
-                'name' =>'HR'
+                'type' => 'BUSINESS',
+                'name' => 'HR'
             ),
             array(
-                'type' => 'Business',
-                'name' =>'Finance'
+                'type' => 'BUSINESS',
+                'name' => 'Finance'
             ),
             array(
-                'type' => 'Business',
-                'name' =>'sales'
+                'type' => 'BUSINESS',
+                'name' => 'sales'
             ),
             array(
-                'type' => 'Business',
-                'name' =>'Digital Marketing'
+                'type' => 'BUSINESS',
+                'name' => 'Digital Marketing'
             ),
             array(
-                'type' => 'Business',
-                'name' =>'Content Writing and Copywriting'
+                'type' => 'BUSINESS',
+                'name' => 'Content Writing and Copywriting'
             ),
             array(
-                'type' => 'Business',
-                'name' =>'E-commerce'
+                'type' => 'BUSINESS',
+                'name' => 'E-commerce'
             ),
             array(
-                'type' => 'Languages',
-                'name' =>'Translation'
+                'type' => 'LANGUAGES',
+                'name' => 'Translation'
             ),
             array(
-                'type' => 'Languages',
-                'name' =>'English'
+                'type' => 'LANGUAGES',
+                'name' => 'English'
             ),
             array(
-                'type' => 'Languages',
-                'name' =>'French'
+                'type' => 'LANGUAGES',
+                'name' => 'French'
             ),
             array(
-                'type' => 'Languages',
-                'name' =>'Arabic'
+                'type' => 'LANGUAGES',
+                'name' => 'Arabic'
             ),
             array(
-                'type' => 'Languages',
-                'name' =>'Spanish'
+                'type' => 'LANGUAGES',
+                'name' => 'Spanish'
             ),
             array(
-                'type' => 'Languages',
-                'name' =>'Dutch'
+                'type' => 'LANGUAGES',
+                'name' => 'Dutch'
             ),
             array(
-                'type' => 'Engineering',
-                'name' =>'Electrical engineering'
+                'type' => 'ENGINEERING',
+                'name' => 'Electrical ENGINEERING'
             ),
             array(
-                'type' => 'Engineering',
-                'name' =>'Mechanical engineering'
+                'type' => 'ENGINEERING',
+                'name' => 'Mechanical ENGINEERING'
             ),
             array(
-                'type' => 'Engineering',
-                'name' =>'Civil engineering'
+                'type' => 'ENGINEERING',
+                'name' => 'Civil ENGINEERING'
             ),
             array(
-                'type' => 'Engineering',
-                'name' =>'Architecture engineering'
+                'type' => 'ENGINEERING',
+                'name' => 'Architecture ENGINEERING'
             ),
             array(
-                'type' => 'Engineering',
-                'name' =>'Petrol engineering'
+                'type' => 'ENGINEERING',
+                'name' => 'Petrol ENGINEERING'
             ),
             array(
-                'type' => 'Worker',
-                'name' =>'plumber'
+                'type' => 'WORKER',
+                'name' => 'plumber'
             ),
             array(
-                'type' => 'Worker',
-                'name' =>'electrical'
+                'type' => 'WORKER',
+                'name' => 'electrical'
             ),
             array(
-                'type' => 'Worker',
-                'name' =>'carpenter'
+                'type' => 'WORKER',
+                'name' => 'carpenter'
             ),
         ));
     }

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('field');
             $table->dateTime('founding_date');
-            $table->text('description')->nullable();
             $table->string('avatar_photo')->nullable();
             $table->float('rating')->default(0.0)->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();

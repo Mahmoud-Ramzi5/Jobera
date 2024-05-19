@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string("organization");
             $table->dateTime("release_date");
             $table->string("file")->nullable();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('individual_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }

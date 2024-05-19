@@ -139,11 +139,11 @@ const EducationForm = ({ step }) => {
                   className={styles.dropdown_select}
                 >
                   <option value="">Select Level</option>
-                  <option value="Bachelor">Bachelor</option>
-                  <option value="Master">Master</option>
+                  <option value="BACHELOR">Bachelor</option>
+                  <option value="MASTER">Master</option>
                   <option value="PHD">PHD</option>
-                  <option value="High School Diploma">High School Diploma</option>
-                  <option value="High Institute">High Institute</option>
+                  <option value="HIGH_SCHOOL_DIPLOMA">High School Diploma</option>
+                  <option value="HIGH_INSTITUTE">High Institute</option>
                 </select>
               </div>
             </div>

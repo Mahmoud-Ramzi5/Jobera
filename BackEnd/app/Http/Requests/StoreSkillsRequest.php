@@ -25,7 +25,7 @@ class StoreSkillsRequest extends FormRequest
     {
         return [
             "name" => ['required'],
-            "type" => ['required', Rule::enum(SkillTypes::class)]
+            "type" => ['required', Rule::in(SkillTypes::names())]
         ];
     }
 }

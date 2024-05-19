@@ -32,7 +32,7 @@ class CompanyResource extends JsonResource
             'field' => $this->field,
             'founding_date' => $this->founding_date,
             'type' => 'company',
-            'description' => $this->description,
+            'description' => $user->description,
             'avatar_photo' => $this->avatar_photo,
             'portfolios' => new PortfolioCollection($user->portfolios),
             'is_verifed' => $is_verified,

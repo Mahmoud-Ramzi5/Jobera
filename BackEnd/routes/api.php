@@ -3,14 +3,16 @@
 use App\Models\State;
 use App\Models\Country;
 use Illuminate\Http\Request;
+use App\Enums\IndividualGender;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthControllers\AuthController;
-use App\Http\Controllers\AuthControllers\SocialAuthController;
-use App\Http\Controllers\AuthControllers\ForgetPasswordController;
-use App\Http\Controllers\ProfileControllers\ProfileController;
 use App\Http\Controllers\ProfileControllers\SkillsController;
+use App\Http\Controllers\AuthControllers\SocialAuthController;
+use App\Http\Controllers\ProfileControllers\ProfileController;
 use App\Http\Controllers\ProfileControllers\EducationController;
 use App\Http\Controllers\ProfileControllers\PortfolioController;
+use App\Http\Controllers\AuthControllers\ForgetPasswordController;
 
 
 Route::controller(AuthController::class)->group(function () {
@@ -36,9 +38,14 @@ Route::controller(AuthController::class)->group(function () {
     });
 
     Route::post('/states', function (Request $request) {
-        $country_id = $request->input('country_id');
+        $validated = $request->validate([
+            'country_name' => 'required'
+        ]);
+        $country_name = $request->input('country_name');
+        $country = Country::where('country_name', $country_name)->get()->first();
+
         return Response()->json([
-            'states' => State::where('country_id', $country_id)->get()->all(),
+            'states' => State::where('country_id', $country->country_id)->get()->all(),
         ], 200);
     });
     Route::get('/regStep','AdvanceRegisterStep')->middleware('auth:api');
@@ -95,4 +102,9 @@ Route::get('/file/{user_id}/{folder}/{file}', function(Request $request, $user_i
 
 Route::get('/image/{user_id}/{folder}/{image}', function(Request $request, $user_id ,$folder, $image) {
     return response()->file(storage_path('app/'.$user_id.'/'.$folder.'/'.$image));
+});
+
+
+Route::get('/gg', function() {
+    return Response()->json(["GG" =>Rule::in(IndividualGender::names())]);
 });

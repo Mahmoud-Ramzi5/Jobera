@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
 class Certificate extends Model
@@ -19,10 +20,22 @@ class Certificate extends Model
         'organization',
         'release_date',
         'file',
-        'user_id',
+        'individual_id',
     ];
 
-    public function user() {
-        return $this->belongsTo(User::class);
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
+    /* Relations */
+    public function individual(): BelongsTo
+    {
+        return $this->belongsTo(Individual::class);
     }
 }

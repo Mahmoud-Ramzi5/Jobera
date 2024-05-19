@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('freelancing_job_skills', function (Blueprint $table) {
+        Schema::create('freelancing_job_skill', function (Blueprint $table) {
             $table->id();
             $table->foreignId("skill_id")->constrained()->cascadeOnDelete();
             $table->foreignId("job_id")->constrained("freelancing_jobs")->cascadeOnDelete();
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('freelancing_job_skills');
+        Schema::dropIfExists('freelancing_job_skill');
     }
 };

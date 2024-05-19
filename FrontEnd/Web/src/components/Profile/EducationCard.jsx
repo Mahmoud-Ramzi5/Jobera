@@ -37,7 +37,7 @@ const EducationCard = ({ ProfileData }) => {
           >
             Edit education
           </button>
-          {ProfileData.education.certificate_file &&
+          {ProfileData.education !== null && ProfileData.education.certificate_file &&
             <button
               type="button"
               className={(theme === "theme-light") ? "btn btn-outline-dark" : "btn btn-outline-light"}

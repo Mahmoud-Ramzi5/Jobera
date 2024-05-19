@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 
 class State extends Model
@@ -30,15 +32,14 @@ class State extends Model
         'updated_at'
     ];
 
-    public function country() {
-        return $this->belongsTo(Country::class, 'country_id', 'id');
+    /* Relations */
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class, 'country_id', 'country_id');
     }
 
-    public function users() {
+    public function users(): HasMany
+    {
         return $this->hasMany(User::class, 'state_id', 'state_id');
-    }
-
-    public function companies() {
-        return $this->hasMany(Company::class, 'state_id', 'state_id');
     }
 }

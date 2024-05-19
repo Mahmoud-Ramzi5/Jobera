@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Model;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
@@ -23,7 +25,6 @@ class Individual extends User
         'birth_date',
         'gender',
         'type',
-        'description',
         'avatar_photo',
         'user_id'
     ];
@@ -34,7 +35,8 @@ class Individual extends User
      * @var array<int, string>
      */
     protected $hidden = [
-
+        'created_at',
+        'updated_at'
     ];
 
     /**
@@ -49,7 +51,24 @@ class Individual extends User
         ];
     }
 
-    public function User() {
-        return $this->belongsTo(User::class);
+    /* Relations */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function skills(): BelongsToMany
+    {
+        return $this->belongsToMany(Skill::class, 'individual_skill', 'individual_id', 'skill_id')->withTimestamps();
+    }
+
+    public function education(): HasOne
+    {
+        return $this->hasOne(Education::class, 'individual_id', 'id');
+    }
+
+    public function certificates(): HasMany
+    {
+        return $this->hasMany(Certificate::class, 'individual_id', 'id');
     }
 }

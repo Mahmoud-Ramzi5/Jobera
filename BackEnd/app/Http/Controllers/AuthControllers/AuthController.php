@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Individual;
 use App\Models\company;
+use App\Enums\RegisterStep;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -140,7 +141,7 @@ class AuthController extends Controller
         $token->token->save();
 
         // Check individual
-        $individual = Individual::where("user_id", $user->id)->first();
+        $individual = Individual::find($user->id);
         if ($individual != null) {
             // Response
             return response()->json([
@@ -152,7 +153,7 @@ class AuthController extends Controller
         }
 
         // Check company
-        $company = Company::where("user_id", $user->id)->first();
+        $company = Company::find($user->id);
         if ($company != null) {
             // Response
             return response()->json([
@@ -264,8 +265,10 @@ class AuthController extends Controller
             ], 401);
         }
 
+        // Get individual
+        $individual = Individual::find($user->id);
+
         // Check individual
-        $individual = Individual::where('user_id', $user->id)->first();
         if ($individual == null) {
             return response()->json([
                 'user' => 'Invalid user'
@@ -279,7 +282,7 @@ class AuthController extends Controller
             ], 200);
         }
 
-        $steps = ['SKILLS', 'EDUCATION', 'CERTIFICATE', 'PORTFOLIO', 'DONE'];
+        $steps = RegisterStep::names();
         for($step = 0; $step < count($steps); $step++){
             if($steps[$step] == $individual->register_step) {
                 $individual->register_step = $steps[++$step];

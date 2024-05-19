@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
 class Education extends Model
@@ -15,17 +16,28 @@ class Education extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        "user_id",
         "level",
         "field",
         "school",
         "start_date",
         "end_date",
+        "individual_id",
         "certificate_file"
     ];
 
-    public function user()
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
+    /* Relations */
+    public function individual(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Individual::class);
     }
 }

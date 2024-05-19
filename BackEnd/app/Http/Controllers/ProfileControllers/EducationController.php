@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ProfileControllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Individual;
 use App\Models\Education;
 use App\Models\Certificate;
 use Illuminate\Support\Arr;
@@ -30,8 +31,18 @@ class EducationController extends Controller
             ], 401);
         }
 
+        // Get individual
+        $individual = Individual::find($user->id);
+
+        // Check individual
+        if ($individual == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+
         // Get education
-        $education = $user->education;
+        $education = $individual->education;
 
         // Handle certificate file
         if ($request->hasFile('certificate_file')) {
@@ -51,13 +62,13 @@ class EducationController extends Controller
         // Check education
         if($education == null) {
             // Create user's education
-            $validated['user_id'] = $user->id;
+            $validated['individual_id'] = $individual->id;
             $education = Education::create($validated);
 
             // Response
             return response()->json([
                 "message" => "Education added",
-                "data" => $education,
+                "data" => new EducationResource($education),
             ], 201);
         }
         else {
@@ -84,8 +95,18 @@ class EducationController extends Controller
             ], 401);
         }
 
-        // Get user's certificates
-        $certificates = $user->certificates;
+        // Get individual
+        $individual = Individual::find($user->id);
+
+        // Check individual
+        if ($individual == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+
+        // Get individual's certificates
+        $certificates = $individual->certificates;
 
         // Response
         return response()->json([
@@ -108,6 +129,16 @@ class EducationController extends Controller
             ], 401);
         }
 
+        // Get individual
+        $individual = Individual::find($user->id);
+
+        // Check individual
+        if ($individual == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+
         // Handle certificate file
         if ($request->hasFile('file')) {
             $file = $request->file('file');
@@ -116,7 +147,7 @@ class EducationController extends Controller
         }
 
         // Create certificate
-        $validated['user_id'] = $user->id;
+        $validated['individual_id'] = $individual->id;
         $certificate = Certificate::create($validated);
 
         // Response
@@ -141,8 +172,18 @@ class EducationController extends Controller
             ], 401);
         }
 
-        // Check if certificate belongs to user
-        if($user->id != $certificate->user_id) {
+        // Get individual
+        $individual = Individual::find($user->id);
+
+        // Check individual
+        if ($individual == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+
+        // Check if certificate belongs to individual
+        if($individual->id != $certificate->individual_id) {
             return response()->json([
                 'user' => 'Invalid user'
             ], 401);
@@ -184,8 +225,18 @@ class EducationController extends Controller
             ], 401);
         }
 
-        // Check if certificate belongs to user
-        if($user->id != $certificate->user_id) {
+        // Get individual
+        $individual = Individual::find($user->id);
+
+        // Check individual
+        if ($individual == null) {
+            return response()->json([
+                'user' => 'Invalid user'
+            ], 401);
+        }
+
+        // Check if certificate belongs to individual
+        if($individual->id != $certificate->individual_id) {
             return response()->json([
                 'user' => 'Invalid user'
             ], 401);

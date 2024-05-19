@@ -34,8 +34,8 @@ const IndividualForm = () => {
   const [date, setDate] = useState('');
   const [gender, setGender] = useState('');
   const genders = [
-    { value: 'male', label: 'Male', icon: <PersonStanding /> },
-    { value: 'female', label: 'Female', icon: <PersonStandingDress /> },
+    { value: 'MALE', label: 'Male', icon: <PersonStanding /> },
+    { value: 'FEMALE', label: 'Female', icon: <PersonStandingDress /> },
   ];
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const IndividualForm = () => {
     setCountry(event.target.value);
 
     // Api Call
-    FetchStates(event.target.options.selectedIndex).then((response) => {
+    FetchStates(event.target.value).then((response) => {
       if (response.status === 200) {
         setStates(response.data.states);
       }
@@ -97,7 +97,7 @@ const IndividualForm = () => {
           Cookies.set('access_token', token, { secure: true, expires: 1 / 24 });
         }
         else {
-          console.log(response.statusText);
+          console.log(response);
         }
       }).then(() => {
         // Reset the form fields

@@ -4,14 +4,11 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
-
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -63,23 +60,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(State::class, 'state_id', 'state_id');
     }
 
-    public function skills(): BelongsToMany
-    {
-        return $this->belongsToMany(Skill::class, 'skill_user', 'user_id', 'skill_id')->withTimestamps();
-    }
-
-    public function education(): HasOne
-    {
-        return $this->hasOne(Education::class);
-    }
-
-    public function certificates(): HasMany
-    {
-        return $this->hasMany(Certificate::class);
-    }
-
     public function portfolios(): HasMany
     {
-        return $this->hasMany(Portfolio::class);
+        return $this->hasMany(Portfolio::class, 'user_id', 'id');
     }
 }

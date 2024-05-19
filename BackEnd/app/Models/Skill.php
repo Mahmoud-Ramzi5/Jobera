@@ -2,10 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-
+use Illuminate\Database\Eloquent\Model;
 
 class Skill extends Model
 {
@@ -21,9 +20,20 @@ class Skill extends Model
         'type',
     ];
 
-    public function users(): BelongsToMany
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
+    /* Relations */
+    public function individuals(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'skill_user', 'skill_id', 'user_id')->withTimestamps();
+        return $this->belongsToMany(Individual::class, 'individual_skill', 'skill_id', 'individual_id')->withTimestamps();
     }
 
     public function portfolios(): BelongsToMany

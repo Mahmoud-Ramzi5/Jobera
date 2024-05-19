@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text("description");
             $table->integer("salary");
             $table->enum("type", ['part', 'full']);
-            $table->boolean("isDone");
+            $table->boolean("is_done");
             $table->foreignId('accepted_individual')->nullable()->constrained('individuals');
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jobs');
+        Schema::dropIfExists('regJobs');
     }
 };

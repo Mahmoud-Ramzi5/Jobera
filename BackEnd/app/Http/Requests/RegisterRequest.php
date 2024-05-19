@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Enums\IndividualGender;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
@@ -31,7 +33,7 @@ class RegisterRequest extends FormRequest
             'confirm_password' => ['required', 'same:password'],
             'state_id' => ['required'],
             'birth_date' => ['required', 'date'],
-            'gender' => ['required', 'in:male,female'],
+            'gender' => ['required', Rule::in(IndividualGender::names())],
             'type' => ['required', 'in:admin,indvidual'],
             'avatar_photo' => ['sometimes', 'image', 'max:4096'],
         ];
