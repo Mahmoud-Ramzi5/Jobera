@@ -27,8 +27,6 @@ class EditProfileRequest extends FormRequest
             'full_name' => ['sometimes'],
             'phone_number' => ['sometimes', 'unique:users', 'min:11', 'max:13', 'regex:/^\+/'],
             'state_id' => ['sometimes'],
-            'birth_date' => ['sometimes', 'date'],
-            'gender' => ['sometimes', 'in:male,female'],
         ];
     }
 

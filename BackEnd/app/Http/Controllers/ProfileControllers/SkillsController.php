@@ -148,7 +148,7 @@ class SkillsController extends Controller
         $skillsToRemove = array_diff($currentSkills, $validated['skills']);
 
         // Remove the skills that are not in the validated skills
-        $individual->skills()->whereIn('skill_id', $skillsToRemove)->delete();
+        $individual->skills()->detach($skillsToRemove);
 
         // Add the new skills
         foreach ($validated['skills'] as $skill) {

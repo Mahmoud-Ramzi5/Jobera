@@ -162,7 +162,7 @@ class PortfolioController extends Controller
         $skillsToRemove = array_diff($currentSkills, $validated['skills']);
 
         // Remove the skills that are not in the validated skills
-        $portfolio->skills()->whereIn('skill_id', $skillsToRemove)->delete();
+        $portfolio->skills()->detach($skillsToRemove);
 
         // Add the new skills
         foreach($skills as $skill) {
@@ -170,9 +170,6 @@ class PortfolioController extends Controller
                 $portfolio->skills()->attach($skill);
             }
         }
-
-        // Save skills
-        $portfolio->save();
 
         // Response
         return response()->json([
