@@ -17,7 +17,7 @@ class CompanyProfileController extends GetxController {
     dio = Dio();
     company = Company.empty();
     await fetchProfile();
-    editBioController = TextEditingController();
+    editBioController = TextEditingController(text: company.description);
     super.onInit();
   }
 

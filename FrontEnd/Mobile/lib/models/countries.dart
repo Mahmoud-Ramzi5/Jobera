@@ -5,7 +5,7 @@ class Countries {
   Countries({required this.countryId, required this.countryName});
 
   Countries.fromJson(Map<String, dynamic> json)
-      : countryId = json['id'] as int,
+      : countryId = json['country_id'] as int,
         countryName = json['country_name'] as String;
 
   static List<Countries> fromJsonList(List<dynamic> jsonList) {

@@ -130,7 +130,7 @@ class UserRegisterView extends StatelessWidget {
                     builder: (controller) => Row(
                       children: [
                         RadioMenuButton(
-                          value: 'male',
+                          value: 'MALE',
                           groupValue: controller.selectedGender,
                           onChanged: (value) => controller.changeGender(value!),
                           trailingIcon: Icon(
@@ -140,7 +140,7 @@ class UserRegisterView extends StatelessWidget {
                           child: const BodyText(text: "Male"),
                         ),
                         RadioMenuButton(
-                          value: 'female',
+                          value: 'FEMALE',
                           groupValue: controller.selectedGender,
                           onChanged: (value) => controller.changeGender(value!),
                           trailingIcon: Icon(
@@ -170,7 +170,7 @@ class UserRegisterView extends StatelessWidget {
                           .toList(),
                       onChanged: (p0) {
                         controller.selectCountry(p0!);
-                        controller.getStates(p0.countryId);
+                        controller.getStates(p0.countryName);
                       },
                       text: 'Select Country',
                     ),

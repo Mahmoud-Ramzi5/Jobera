@@ -66,6 +66,7 @@ class Themes {
       shape: StadiumBorder(
         side: BorderSide(color: Colors.lightBlue.shade900),
       ),
+      deleteIconColor: Colors.red,
     ),
   );
 
@@ -137,6 +138,7 @@ class Themes {
       shape: StadiumBorder(
         side: BorderSide(color: Colors.lightBlue.shade900),
       ),
+      deleteIconColor: Colors.red,
     ),
   );
 }
