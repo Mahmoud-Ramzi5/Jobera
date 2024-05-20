@@ -26,10 +26,15 @@ const Portfolios = ({ step }) => {
       ShowPortfoliosAPI(accessToken).then((response) => {
         if (response.status === 200) {
           response.data.portfolios.map((portfolio) => {
-            FetchImage("", portfolio.photo).then((response) => {
-              portfolio.photo = response;
+            if (portfolio.photo) {
+              FetchImage("", portfolio.photo).then((response) => {
+                portfolio.photo = response;
+                setPortfolios((prevState) => ([...prevState, portfolio]));
+              });
+            }
+            else {
               setPortfolios((prevState) => ([...prevState, portfolio]));
-            });
+            }
           });
         }
         else {
@@ -95,9 +100,19 @@ const Portfolio = ({ title, photo }) => {
     <Card>
       <div className={portfolio_style.portfolio_background}>
         {photo ? (
-          <Card.Img variant="top" src={URL.createObjectURL(photo)} alt={title + "picture"} />
+          <Card.Img
+            className={portfolio_style.Card_Img}
+            variant="top"
+            src={URL.createObjectURL(photo)}
+            alt={title + "picture"}
+          />
         ) : (
-          <Card.Img variant="top" src={img_holder} alt={title + "picture"} />
+          <Card.Img
+            className={portfolio_style.Card_Img}
+            variant="top"
+            src={img_holder}
+            alt={title + "picture"}
+          />
         )}
         <Card.Body>
           <Card.Title>{title}</Card.Title>
