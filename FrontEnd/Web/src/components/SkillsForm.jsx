@@ -189,10 +189,10 @@ const SkillsForm = ({ step }) => {
                 <option
                   className={styles.available_types}
                   key={type.id}
-                  value={type.name['en']}
+                  value={type.name}
                   onClick={handleTypeSelect}
                 >
-                  {type.name['en']}
+                  {type.value['en']}
                 </option>
               ))
             )}

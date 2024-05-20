@@ -9,7 +9,6 @@ use App\Enums\SkillTypes;
 use App\Filters\SkillFilter;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreSkillsRequest;
-use App\Http\Resources\IndividualResource;
 use App\Http\Resources\SkillResource;
 use App\Http\Resources\SkillCollection;
 
@@ -27,6 +26,8 @@ class SkillsController extends Controller
                 'skills' => new SkillCollection(Skill::all()),
             ], 200);
         }
+
+        // Response
         return response()->json([
             'skills' => new SkillCollection(Skill::where($queryItems)->get()->all()),
         ], 200);
@@ -35,10 +36,11 @@ class SkillsController extends Controller
     public function GetSkillTypes()
     {
         // Get SkillTypes
-        $enumValues = SkillTypes::cases();
+        $enumNames = SkillTypes::names();
+        $enumValues = SkillTypes::values();
         $response = [];
-        for($i = 0; $i<count($enumValues); $i++) {
-            array_push($response, ['id' => $i+1, 'name' => $enumValues[$i]]);
+        for($i = 0; $i < count($enumValues); $i++) {
+            array_push($response, ['id' => $i + 1, 'name' => $enumNames[$i], 'value' => $enumValues[$i]]);
         }
 
         // Response
@@ -71,7 +73,6 @@ class SkillsController extends Controller
 
         // Response
         return response()->json([
-            'user' => new IndividualResource($individual),
             'skills' => new SkillCollection($individual->skills)
         ]);
     }
@@ -190,8 +191,8 @@ class SkillsController extends Controller
 
         if ($individual->type == 'admin') {
             // Validate request
-            $validatedData = $request->validated();
-            $skill = Skill::create($validatedData);
+            $validated = $request->validated();
+            $skill = Skill::create($validated);
 
             // Response
             return response()->json([
