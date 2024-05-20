@@ -30,7 +30,7 @@ const Profile = () => {
         }
       });
     }
-  }, []);
+  }, [location.pathname]);
 
   if (profile.type === 'individual') {
     return (

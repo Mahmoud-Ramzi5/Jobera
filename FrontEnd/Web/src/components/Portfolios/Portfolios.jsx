@@ -4,6 +4,7 @@ import { Card } from 'react-bootstrap';
 import { LoginContext } from '../../utils/Contexts.jsx';
 import { FetchImage } from '../../apis/FileApi.jsx';
 import { ShowPortfoliosAPI, AdvanceRegisterStep } from '../../apis/ProfileApis.jsx';
+import img_holder from '../../assets/upload.png';
 import styles from './portfolios.module.css';
 import portfolio_style from './portfolio.module.css';
 
@@ -93,7 +94,11 @@ const Portfolio = ({ title, photo }) => {
   return (
     <Card>
       <div className={portfolio_style.portfolio_background}>
-        <Card.Img variant="top" src={photo} alt={title + "picture"} />
+        {photo ? (
+          <Card.Img variant="top" src={URL.createObjectURL(photo)} alt={title + "picture"} />
+        ) : (
+          <Card.Img variant="top" src={img_holder} alt={title + "picture"} />
+        )}
         <Card.Body>
           <Card.Title>{title}</Card.Title>
         </Card.Body>

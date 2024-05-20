@@ -44,7 +44,7 @@ const PortfolioCard = ({ ProfileData }) => {
               portfolios.map((portfolio) => (
                 <div key={portfolio.id} className={styles.portfolio_div}>
                   <Link to={`/portfolio/${portfolio.id}`}>
-                    <Portfolio title={portfolio.title} photo={portfolio.photo} />
+                    <Portfolio title={portfolio.title} photo={URL.createObjectURL(portfolio.photo)} />
                   </Link>
                 </div>
               ))}

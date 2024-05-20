@@ -102,5 +102,9 @@ Route::get('/file/{user_id}/{folder}/{file}', function(Request $request, $user_i
 });
 
 Route::get('/image/{user_id}/{folder}/{image}', function(Request $request, $user_id ,$folder, $image) {
-    return response()->file(storage_path('app/'.$user_id.'/'.$folder.'/'.$image));
+    $path = storage_path('app/'.$user_id.'/'.$folder.'/'.$image);
+    if ($path == null) {
+        return null;
+    }
+    return response()->file($path);
 });
