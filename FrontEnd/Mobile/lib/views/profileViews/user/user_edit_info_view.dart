@@ -78,7 +78,7 @@ class UserEditInfoView extends StatelessWidget {
                       .toList(),
                   onChanged: (p0) {
                     controller.selectCountry(p0);
-                    controller.getStates(p0.countryId);
+                    controller.getStates(p0.countryName);
                   },
                   text: 'Select Country',
                 ),

@@ -54,6 +54,13 @@ class UserEditEducationController extends GetxController {
     super.onInit();
   }
 
+  @override
+  void onClose() {
+    editFieldController.dispose();
+    editSchoolController.dispose();
+    super.onClose();
+  }
+
   void selectLevel(String level) {
     selectedLevel = level;
     update();

@@ -26,7 +26,7 @@ class CompanyRegisterController extends GetxController {
   States? selectedState;
 
   @override
-  Future<void> onInit() async {
+  void onInit() {
     formField = GlobalKey<FormState>();
     nameController = TextEditingController();
     workFieldController = TextEditingController();
@@ -39,8 +39,13 @@ class CompanyRegisterController extends GetxController {
     countryCode = CountryCode(dialCode: '+963');
     dio = Dio();
     selectedCountry = null;
-    await getCountries();
     super.onInit();
+  }
+
+  @override
+  Future<void> onReady() async {
+    await getCountries();
+    super.onReady();
   }
 
   @override
@@ -122,11 +127,11 @@ class CompanyRegisterController extends GetxController {
     }
   }
 
-  Future<dynamic> getStates(int countryId) async {
+  Future<dynamic> getStates(String countryName) async {
     try {
       var response = await dio.post(
         'http://10.0.2.2:8000/api/states',
-        data: {"country_id": countryId},
+        data: {"country_name": countryName},
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

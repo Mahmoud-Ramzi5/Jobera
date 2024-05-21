@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/texts.dart';
 import 'package:jobera/classes/validation.dart';
-import 'package:jobera/controllers/profileControllers/user/user_edit_education_view.dart';
+import 'package:jobera/controllers/profileControllers/user/user_edit_education_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_drop_down_button.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
@@ -31,7 +31,7 @@ class UserEditEducationView extends StatelessWidget {
                   items: controller.levels
                       .map<DropdownMenuItem<String>>(
                         (level) => DropdownMenuItem<String>(
-                          value: level,
+                          value: level.toUpperCase(),
                           child: BodyText(text: level),
                         ),
                       )

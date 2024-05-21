@@ -203,36 +203,52 @@ class UserProfileView extends StatelessWidget {
                             buttonText: 'Edit',
                             icon: Icons.edit,
                             height: null,
-                            widget: GridView.builder(
-                              itemCount: _profileController.user.skills.length,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                                mainAxisSpacing: 5,
-                                crossAxisSpacing: 5,
-                                childAspectRatio: 1.0,
-                              ),
+                            widget: ListView.builder(
+                              itemCount:
+                                  (_profileController.user.skills.length / 2)
+                                      .ceil(),
                               shrinkWrap: true,
-                              itemBuilder: (context, index) => Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Chip(
-                                    label: LabelText(
-                                        text: _profileController
-                                            .user.skills[index].name),
-                                  ),
-                                ],
-                              ),
+                              itemBuilder: (context, index) {
+                                final firstIndex = index * 2;
+                                final secondIndex = firstIndex + 1;
+                                return Row(
+                                  children: [
+                                    if (firstIndex <
+                                        _profileController.user.skills.length)
+                                      Padding(
+                                        padding: const EdgeInsets.all(5),
+                                        child: Chip(
+                                          label: LabelText(
+                                            text: _profileController
+                                                .user.skills[firstIndex].name,
+                                          ),
+                                        ),
+                                      ),
+                                    if (secondIndex <
+                                        _profileController.user.skills.length)
+                                      Padding(
+                                        padding: const EdgeInsets.all(5),
+                                        child: Chip(
+                                          label: LabelText(
+                                            text: _profileController
+                                                .user.skills[secondIndex].name,
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                );
+                              },
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.toNamed('/userEditSkills');
+                            },
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10),
                           child: InfoWithEditContainer(
                             name: 'Certificates',
-                            buttonText: 'Add',
-                            icon: Icons.add,
+                            buttonText: 'View',
                             height: 160,
                             widget: const Column(),
                             onPressed: () {},
@@ -242,8 +258,7 @@ class UserProfileView extends StatelessWidget {
                           padding: const EdgeInsets.all(10),
                           child: InfoWithEditContainer(
                             name: 'Portofolios',
-                            buttonText: 'Add',
-                            icon: Icons.add,
+                            buttonText: 'View',
                             height: 160,
                             widget: const Column(),
                             onPressed: () {},
