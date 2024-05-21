@@ -115,7 +115,7 @@ class ProfileController extends Controller
             return response()->json([
                 "message" => "Profile photo has been add successfully",
                 "user" => new IndividualResource($individual),
-            ], 200);
+            ], 201);
         }
 
         // Check company
