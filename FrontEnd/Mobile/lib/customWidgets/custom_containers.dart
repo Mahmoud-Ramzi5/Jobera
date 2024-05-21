@@ -233,7 +233,7 @@ class TypesContainer extends StatelessWidget {
         child: Container(
           decoration: ShapeDecoration(
             shape: BeveledRectangleBorder(
-              side: BorderSide(color: Colors.lightBlue.shade900),
+              side: BorderSide(color: Colors.orange.shade800),
             ),
           ),
           child: Center(

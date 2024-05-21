@@ -16,74 +16,118 @@ class UserEditSkillsView extends StatelessWidget {
       appBar: AppBar(
         title: const TitleText(text: 'Edit Skills'),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: SkillsContainer(
-              name: 'My Skills',
-              widget: ListView.builder(
-                itemCount: (_editController.myskills.length / 2).ceil(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  final firstIndex = index * 2;
-                  final secondIndex = firstIndex + 1;
-                  return GetBuilder<UserEditSkillsController>(
-                    builder: (controller) => Row(
-                      children: [
-                        if (firstIndex < controller.myskills.length)
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: InputChip(
-                              deleteIcon: const Icon(Icons.cancel),
-                              onDeleted: () {
-                                controller.deleteSkill(
-                                    controller.myskills[firstIndex]);
-                              },
-                              label: LabelText(
-                                text: controller.myskills[firstIndex].name,
-                              ),
-                            ),
-                          ),
-                        if (secondIndex < controller.myskills.length)
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: InputChip(
-                              deleteIcon: const Icon(Icons.cancel),
-                              onDeleted: () {
-                                controller.deleteSkill(
-                                    controller.myskills[secondIndex]);
-                              },
-                              label: LabelText(
-                                text: controller.myskills[secondIndex].name,
-                              ),
-                            ),
-                          ),
-                      ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            GetBuilder<UserEditSkillsController>(
+              builder: (controller) => Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: SkillsContainer(
+                      name: 'My Skills',
+                      widget: ListView.builder(
+                        itemCount: (controller.myskills.length / 2).ceil(),
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          final firstIndex = index * 2;
+                          final secondIndex = firstIndex + 1;
+                          return Row(
+                            children: [
+                              if (firstIndex < controller.myskills.length)
+                                Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: InputChip(
+                                    deleteIcon: const Icon(Icons.cancel),
+                                    onDeleted: () {
+                                      controller.deleteSkill(
+                                          controller.myskills[firstIndex]);
+                                    },
+                                    label: BodyText(
+                                      text:
+                                          controller.myskills[firstIndex].name,
+                                    ),
+                                  ),
+                                ),
+                              if (secondIndex < controller.myskills.length)
+                                Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: InputChip(
+                                    deleteIcon: const Icon(Icons.cancel),
+                                    onDeleted: () {
+                                      controller.deleteSkill(
+                                          controller.myskills[secondIndex]);
+                                    },
+                                    label: BodyText(
+                                      text:
+                                          controller.myskills[secondIndex].name,
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          );
+                        },
+                      ),
                     ),
-                  );
-                },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: SkillsContainer(
+                      name: 'Skill Types:',
+                      widget: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: controller.skillTypes.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return TypesContainer(
+                            text: controller.skillTypes[index].value['en']!,
+                            onTap: () {
+                              controller
+                                  .getSkills(controller.skillTypes[index].name);
+                            },
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: SkillsContainer(
+                      name: 'Skills:',
+                      widget: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: controller.skills.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: InputChip(
+                              label: BodyText(
+                                text: controller.skills[index].name,
+                              ),
+                              onPressed: () {
+                                controller.addToOMySkills(
+                                  controller.skills[index],
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
-          GetBuilder<UserEditSkillsController>(
-            builder: (controller) => Padding(
+            Padding(
               padding: const EdgeInsets.all(10),
-              child: SkillsContainer(
-                  name: 'Skill Types:',
-                  widget: ListView.builder(
-                    itemCount: controller.skillTypes.length,
-                    shrinkWrap: true,
-                    itemBuilder: (context, index) {
-                      return TypesContainer(
-                        text: controller.skillTypes[index].value['en']!,
-                        onTap: () {},
-                      );
-                    },
-                  )),
-            ),
-          ),
-        ],
+              child: ElevatedButton(
+                onPressed: () {},
+                child: const BodyText(text: 'Submit'),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
