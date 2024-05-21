@@ -280,17 +280,13 @@ export const EditProfile = async (
   token,
   FullName,
   PhoneNumber,
-  StateId,
-  date,
-  gender
+  state_id,
 ) => {
   try {
-    const response = await axios.put('http://127.0.0.1:8000/api/profile/edit', {
+    const response = await axios.post('http://127.0.0.1:8000/api/profile/edit', {
       "full_name": FullName,
       "phone_number": PhoneNumber,
-      "state_id": StateId,
-      "birth_date": date,
-      "gender": gender
+      "state_id": state_id,
     }, {
       headers: {
         'Content-Type': 'multipart/form-data; charset=UTF-8',

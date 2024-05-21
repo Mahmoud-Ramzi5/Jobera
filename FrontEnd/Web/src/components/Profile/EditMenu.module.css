@@ -46,3 +46,12 @@
     display: flex;
     position: relative;   
 }
+.successMessage {
+  color: green;
+  margin-bottom: 10px;
+}
+
+.failMessage {
+  color: red;
+  margin-bottom: 10px;
+}

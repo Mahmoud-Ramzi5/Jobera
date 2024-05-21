@@ -21,12 +21,9 @@ const EditMenu = ({ data, onSave, onCancel }) => {
   const [country, setCountry] = useState(formData.country);
   const [states, setStates] = useState([]);
   const [state, setState] = useState(formData.state);
-  const [date, setDate] = useState(formData.birth_date);
-  const [gender, setGender] = useState(formData.gender);
-  const genders = [
-    { value: 'male', label: 'Male', icon: <PersonStanding /> },
-    { value: 'female', label: 'Female', icon: <PersonStandingDress /> },
-  ];
+  const [successMessage, setSuccessMessage] = useState("");
+  const [failMessage, setFailMessage] = useState("");
+
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
@@ -44,16 +41,18 @@ const EditMenu = ({ data, onSave, onCancel }) => {
             setCountry(selectedCountry.country_name);
 
             // Api Call to fetch states for the selected country
-            FetchStates(selectedCountry.country_id).then((response) => {
+            FetchStates(selectedCountry.country_name).then((response) => {
               if (response.status === 200) {
                 setStates(response.data.states);
-
+                console.log(formData.state)
                 // Set the selected state from the data
                 const selectedState = response.data.states.find(
                   (s) => s.state_name === formData.state
                 );
+                console.log(selectedState)
                 if (selectedState) {
                   setState(selectedState.state_name);
+                  console.log(state)
                 }
               } else {
                 console.log(response.statusText);
@@ -93,14 +92,14 @@ const EditMenu = ({ data, onSave, onCancel }) => {
       Full_name,
       PhoneNumber,
       state_id,
-      date,
-      gender
     ).then((response) => {
       if (response.status === 201) {   
         console.log(response);
+        setSuccessMessage("user info updated successfully");
       }
       else {
         console.log(response.statusText);
+        setFailMessage("Error in user info update");
       }
     })
   }
@@ -136,32 +135,13 @@ const EditMenu = ({ data, onSave, onCancel }) => {
           <select onChange={(event) => setState(event.target.value)} value={state} className={Inputstyles.input} required>
             <option key={0} value='' disabled>City</option>
             {(states.length === 0) ? <></> : states.map((state) => {
-              return <option key={state.state_id} value={state.state_id} className={Inputstyles.option}>{state.state_name}</option>
+              return <option key={state.state_id} value={state.state_name} className={Inputstyles.option}>{state.state_name}</option>
             })}
           </select>
         </div>
       </div>
-      <NormalInput
-          type='date'
-          placeholder='Birthdate'
-          icon={<Calendar3 />}
-          value={date}
-          setChange={setDate}
-        />
-       <div className={styles.register__field__radio}>
-          {genders.map((G) => (
-            <div className={styles.register__input__radio} key={G.value}>
-              <input
-                type="radio"
-                value={G.value}
-                checked={gender === G.value}
-                onChange={(event) => setGender(event.target.value)}
-              />
-              <i>{G.icon}</i>
-              <label>{G.label}</label>
-            </div>
-          ))}
-        </div>
+      {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
+      {failMessage && <p className={styles.failMessage}>{failMessage}</p>}
         <Button className={styles.submitButton} variant="primary" type="submit">Submit</Button>
         </form>
       <Button className={styles.saveButton} variant="primary"  onClick={onSave}>Save</Button>
