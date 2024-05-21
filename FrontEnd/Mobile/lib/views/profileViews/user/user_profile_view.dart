@@ -204,38 +204,19 @@ class UserProfileView extends StatelessWidget {
                             icon: Icons.edit,
                             height: null,
                             widget: ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
                               itemCount:
-                                  (_profileController.user.skills.length / 2)
-                                      .ceil(),
+                                  (_profileController.user.skills.length),
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
-                                final firstIndex = index * 2;
-                                final secondIndex = firstIndex + 1;
-                                return Row(
-                                  children: [
-                                    if (firstIndex <
-                                        _profileController.user.skills.length)
-                                      Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: Chip(
-                                          label: LabelText(
-                                            text: _profileController
-                                                .user.skills[firstIndex].name,
-                                          ),
-                                        ),
-                                      ),
-                                    if (secondIndex <
-                                        _profileController.user.skills.length)
-                                      Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: Chip(
-                                          label: LabelText(
-                                            text: _profileController
-                                                .user.skills[secondIndex].name,
-                                          ),
-                                        ),
-                                      ),
-                                  ],
+                                return Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: Chip(
+                                    label: BodyText(
+                                      text: _profileController
+                                          .user.skills[index].name,
+                                    ),
+                                  ),
                                 );
                               },
                             ),

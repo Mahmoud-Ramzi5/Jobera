@@ -64,7 +64,7 @@ class Themes {
     ),
     chipTheme: ChipThemeData(
       shape: StadiumBorder(
-        side: BorderSide(color: Colors.lightBlue.shade900),
+        side: BorderSide(color: Colors.orange.shade800),
       ),
       deleteIconColor: Colors.red,
     ),
@@ -136,7 +136,7 @@ class Themes {
     ),
     chipTheme: ChipThemeData(
       shape: StadiumBorder(
-        side: BorderSide(color: Colors.lightBlue.shade900),
+        side: BorderSide(color: Colors.orange.shade800),
       ),
       deleteIconColor: Colors.red,
     ),
