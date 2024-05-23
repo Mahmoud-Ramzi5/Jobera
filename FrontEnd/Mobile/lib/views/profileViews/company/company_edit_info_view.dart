@@ -52,10 +52,15 @@ class CompanyEditInfoView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CodePicker(
-                  onChange: (p0) {},
                   initialSelection: _editController
                       .profileController.company.phoneNumber
-                      .substring(0, 4),
+                      .substring(
+                    0,
+                    _editController
+                            .profileController.company.phoneNumber.length -
+                        9,
+                  ),
+                  onChange: (p0) => _editController.selectCountryCode(p0),
                 ),
                 SizedBox(
                   width: 200,

@@ -134,4 +134,30 @@ class Dialogs {
       ),
     );
   }
+
+  Future<void> addPhotoDialog(
+    void Function()? onPressed1,
+    void Function()? onPressed2,
+    void Function()? onPressed3,
+  ) async {
+    Get.defaultDialog(
+      title: 'Profile Photo:',
+      content: Column(
+        children: [
+          TextButton(
+            onPressed: onPressed1,
+            child: const LabelText(text: 'Take Photo'),
+          ),
+          TextButton(
+            onPressed: onPressed2,
+            child: const LabelText(text: 'Upload Photo'),
+          ),
+          TextButton(
+            onPressed: onPressed3,
+            child: const LabelText(text: 'Remove Photo'),
+          ),
+        ],
+      ),
+    );
+  }
 }

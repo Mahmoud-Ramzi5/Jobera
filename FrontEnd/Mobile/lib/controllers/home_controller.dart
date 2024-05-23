@@ -14,6 +14,7 @@ class HomeController extends GetxController {
     dio = Dio();
     name = '';
     email = '';
+    isCompany = false;
     super.onInit();
   }
 

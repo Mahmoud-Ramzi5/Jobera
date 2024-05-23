@@ -15,137 +15,134 @@ class CompanyProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: FutureBuilder(
-        future: _profileController.fetchProfile(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: HeadlineText(text: 'Error: ${snapshot.error}'),
-            );
-          } else {
-            return RefreshIndicator(
-              key: _profileController.refreshIndicatorKey,
-              onRefresh: () async => await _profileController.fetchProfile(),
-              child: SingleChildScrollView(
-                child: Column(
+      body: RefreshIndicator(
+        key: _profileController.refreshIndicatorKey,
+        onRefresh: () async => await _profileController.fetchProfile(),
+        child: GetBuilder<CompanyProfileController>(
+          builder: (controller) => SingleChildScrollView(
+            child: Column(
+              children: [
+                Stack(
+                  alignment: Alignment.center,
                   children: [
-                    const Stack(
-                      alignment: Alignment.center,
+                    const ProfileBackgroundContainer(),
+                    ProfilePhotoContainer(
+                      child: controller.company.photo == null
+                          ? Icon(
+                              Icons.add_a_photo,
+                              size: 50,
+                              color: Colors.lightBlue.shade900,
+                            )
+                          : null,
+                      onTap: () => Dialogs().addPhotoDialog(
+                        () {
+                          controller.takePhotoFromCamera();
+                          controller.addPhoto();
+                        },
+                        () {
+                          controller.pickPhotoFromGallery();
+                          controller.addPhoto();
+                        },
+                        () {},
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    HeadlineText(text: controller.company.name),
+                    const HeadlineText(text: 'Rating:'),
+                    Row(
                       children: [
-                        ProfileBackgroundContainer(),
-                        ProfilePhotoContainer(),
+                        IconButton(
+                          onPressed: () {
+                            Dialogs().addBioDialog(
+                              controller.editBioController,
+                              () {
+                                controller
+                                    .editBio(controller.editBioController.text);
+                                controller.refreshIndicatorKey.currentState!
+                                    .show();
+                              },
+                            );
+                          },
+                          icon: Icon(
+                            Icons.edit,
+                            color: Colors.orange.shade800,
+                          ),
+                        ),
+                        HeadlineText(
+                          text: 'Bio: ${controller.company.description}',
+                        ),
                       ],
                     ),
-                    Column(
-                      children: [
-                        HeadlineText(text: _profileController.company.name),
-                        const HeadlineText(text: 'Rating:'),
-                        Row(
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: InfoWithEditContainer(
+                        name: 'Basic Info',
+                        buttonText: 'Edit',
+                        icon: Icons.edit,
+                        height: 200,
+                        widget: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            IconButton(
-                              onPressed: () {
-                                Dialogs().addBioDialog(
-                                  _profileController.editBioController,
-                                  () {
-                                    _profileController.editBio(
-                                        _profileController
-                                            .editBioController.text);
-                                    _profileController
-                                        .refreshIndicatorKey.currentState!
-                                        .show();
-                                  },
-                                );
-                              },
-                              icon: Icon(
-                                Icons.edit,
-                                color: Colors.orange.shade800,
-                              ),
+                            Row(
+                              children: [
+                                const BodyText(text: 'Field: '),
+                                LabelText(text: controller.company.field),
+                              ],
                             ),
-                            GetBuilder<CompanyProfileController>(
-                              builder: (controller) => HeadlineText(
-                                  text:
-                                      'Bio: ${controller.company.description}'),
+                            Row(
+                              children: [
+                                const BodyText(text: 'Email: '),
+                                LabelText(text: controller.company.email),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const BodyText(text: 'Phone Number: '),
+                                LabelText(text: controller.company.phoneNumber),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const BodyText(text: 'Location: '),
+                                LabelText(
+                                    text:
+                                        '${controller.company.state} - ${controller.company.country}'),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const BodyText(text: 'Founding Date: '),
+                                LabelText(
+                                    text: controller.company.foundingDate),
+                              ],
                             ),
                           ],
                         ),
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: InfoWithEditContainer(
-                            name: 'Basic Info',
-                            buttonText: 'Edit',
-                            icon: Icons.edit,
-                            height: 200,
-                            widget: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    const BodyText(text: 'Field: '),
-                                    LabelText(
-                                        text: _profileController.company.field),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    const BodyText(text: 'Email: '),
-                                    LabelText(
-                                        text: _profileController.company.email),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    const BodyText(text: 'Phone Number: '),
-                                    LabelText(
-                                        text: _profileController
-                                            .company.phoneNumber),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    const BodyText(text: 'Location: '),
-                                    LabelText(
-                                        text:
-                                            '${_profileController.company.state} - ${_profileController.company.country}'),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    const BodyText(text: 'Founding Date: '),
-                                    LabelText(
-                                        text: _profileController
-                                            .company.foundingDate)
-                                  ],
-                                ),
-                              ],
-                            ),
-                            onPressed: () {
-                              Get.toNamed('/companyEditInfo');
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: InfoWithEditContainer(
-                            name: 'Portofolios',
-                            buttonText: 'Add',
-                            icon: Icons.add,
-                            height: 160,
-                            widget: const Column(),
-                            onPressed: () {},
-                          ),
-                        ),
-                      ],
-                    )
+                        onPressed: () {
+                          Get.toNamed('/companyEditInfo');
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: InfoWithEditContainer(
+                        name: 'Portofolios',
+                        buttonText: 'Add',
+                        icon: Icons.add,
+                        height: 160,
+                        widget: const Column(),
+                        onPressed: () {},
+                      ),
+                    ),
                   ],
-                ),
-              ),
-            );
-          }
-        },
+                )
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

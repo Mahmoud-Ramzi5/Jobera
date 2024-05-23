@@ -57,7 +57,10 @@ class LogoContainer extends StatelessWidget {
 }
 
 class ProfilePhotoContainer extends StatelessWidget {
-  const ProfilePhotoContainer({super.key});
+  final void Function()? onTap;
+  final Widget? child;
+
+  const ProfilePhotoContainer({super.key, this.onTap, this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -67,14 +70,14 @@ class ProfilePhotoContainer extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.add_a_photo,
-              color: Colors.lightBlue.shade900,
+          GestureDetector(
+            onTap: onTap,
+            child: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: Colors.orange.shade800),
+              ),
+              child: child,
             ),
           ),
         ],
