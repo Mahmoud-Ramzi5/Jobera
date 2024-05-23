@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
-import { LoginContext } from '../../utils/Contexts.jsx';
+import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { FetchImage } from '../../apis/FileApi.jsx';
 import { ShowPortfoliosAPI, AdvanceRegisterStep } from '../../apis/ProfileApis.jsx';
 import img_holder from '../../assets/upload.png';
@@ -12,17 +12,19 @@ import portfolio_style from './portfolio.module.css';
 const Portfolios = ({ step }) => {
   // Context
   const { accessToken } = useContext(LoginContext);
+  const { profile } = useContext(ProfileContext);
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(true);
   const [edit, setEdit] = useState(true);
   const [portfolios, setPortfolios] = useState([]);
 
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
-
+      setIsLoading(true);
       ShowPortfoliosAPI(accessToken).then((response) => {
         if (response.status === 200) {
           response.data.portfolios.map((portfolio) => {
@@ -40,6 +42,8 @@ const Portfolios = ({ step }) => {
         else {
           console.log(response.statusText);
         }
+      }).then(() => {
+        setIsLoading(false);
       });
 
       if (location.state !== null) {
@@ -48,6 +52,9 @@ const Portfolios = ({ step }) => {
     }
   }, [location.pathname]);
 
+  if (isLoading) {
+    return <div id='loader'><div className="clock-loader"></div></div>
+  }
   return (
     <div className={styles.screen}>
       <div className={styles.container}>
@@ -79,11 +86,13 @@ const Portfolios = ({ step }) => {
             if (!edit) {
               step('DONE');
             }
-            AdvanceRegisterStep(accessToken).then((response) => {
-              if (response.status != 200) {
-                console.log(response);
-              }
-            });
+            if (profile.type === 'individual') {
+              AdvanceRegisterStep(accessToken).then((response) => {
+                if (response.status != 200) {
+                  console.log(response);
+                }
+              });
+            }
             navigate('/profile');
           }}
         >

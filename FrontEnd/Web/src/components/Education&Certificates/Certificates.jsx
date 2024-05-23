@@ -13,6 +13,7 @@ const Certificates = ({ step }) => {
   const initialized = useRef(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(true);
   const [edit, setEdit] = useState(true);
   const [certificates, setCertificates] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,7 +21,7 @@ const Certificates = ({ step }) => {
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
-
+      setIsLoading(true);
       ShowCertificatesAPI(accessToken).then((response) => {
         if (response.status === 200) {
           setCertificates(response.data.certificates);
@@ -28,6 +29,8 @@ const Certificates = ({ step }) => {
         else {
           console.log(response.statusText);
         }
+      }).then(() => {
+        setIsLoading(false);
       });
 
       if (location.state !== null) {
@@ -79,6 +82,9 @@ const Certificates = ({ step }) => {
       });
     };
 
+    if (isLoading) {
+      return <div id='loader'><div className="clock-loader"></div></div>
+    }
     return (
       <tr key={certificate.id}>
         <td>{certificate.name}</td>
