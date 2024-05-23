@@ -32,7 +32,7 @@ class EducationController extends Controller
         }
 
         // Get individual
-        $individual = Individual::find($user->id);
+        $individual = Individual::where('user_id', $user->id)->first();
 
         // Check individual
         if ($individual == null) {
@@ -96,7 +96,7 @@ class EducationController extends Controller
         }
 
         // Get individual
-        $individual = Individual::find($user->id);
+        $individual = Individual::where('user_id', $user->id)->first();
 
         // Check individual
         if ($individual == null) {
@@ -130,7 +130,7 @@ class EducationController extends Controller
         }
 
         // Get individual
-        $individual = Individual::find($user->id);
+        $individual = Individual::where('user_id', $user->id)->first();
 
         // Check individual
         if ($individual == null) {
@@ -174,7 +174,7 @@ class EducationController extends Controller
         }
 
         // Get individual
-        $individual = Individual::find($user->id);
+        $individual = Individual::where('user_id', $user->id)->first();
 
         // Check individual
         if ($individual == null) {
@@ -227,7 +227,7 @@ class EducationController extends Controller
         }
 
         // Get individual
-        $individual = Individual::find($user->id);
+        $individual = Individual::where('user_id', $user->id)->first();
 
         // Check individual
         if ($individual == null) {

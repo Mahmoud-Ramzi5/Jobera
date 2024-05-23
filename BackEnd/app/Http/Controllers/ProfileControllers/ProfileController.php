@@ -25,7 +25,7 @@ class ProfileController extends Controller
         }
 
         // Check individual
-        $individual = Individual::find($user->id);
+        $individual = Individual::where('user_id', $user->id)->first();
         if ($individual != null) {
             // Response
             return response()->json([
@@ -34,7 +34,7 @@ class ProfileController extends Controller
         }
 
         // Check company
-        $company = Company::find($user->id);
+        $company = Company::where('user_id', $user->id)->first();
         if ($company != null) {
             // Response
             return response()->json([
@@ -64,7 +64,7 @@ class ProfileController extends Controller
         }
 
         // Check individual
-        $individual = Individual::find($user->id);
+        $individual = Individual::where('user_id', $user->id)->first();
         if ($individual != null) {
             // Edit user
             $user->fill($validated);
@@ -80,7 +80,7 @@ class ProfileController extends Controller
         }
 
         // Check company
-        $company = Company::find($user->id);
+        $company = Company::where('user_id', $user->id)->first();
         if ($company != null) {
             // Edit user
             $user->fill($validated);
@@ -119,7 +119,7 @@ class ProfileController extends Controller
         }
 
         // Check individual
-        $individual = Individual::find($user->id);
+        $individual = Individual::where('user_id', $user->id)->first();
         if ($individual != null) {
             // Delete old avatar_photo (if found)
             $oldPath = $individual->avatar_photo;
@@ -141,7 +141,7 @@ class ProfileController extends Controller
         }
 
         // Check company
-        $company = Company::find($user->id);
+        $company = Company::where('user_id', $user->id)->first();
         if ($company != null) {
             // Delete old avatar_photo (if found)
             $oldPath = $company->avatar_photo;

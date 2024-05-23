@@ -86,7 +86,7 @@ class AuthController extends Controller
         $validated['user_id'] = $user->id;
         $company = Company::create($validated);
 
-        $token = $company->createToken("api_token")->accessToken;
+        $token = $user->createToken("api_token")->accessToken;
         $this->SendEmailVerification($request);
 
         // Response
@@ -129,7 +129,7 @@ class AuthController extends Controller
         $token->token->save();
 
         // Check individual
-        $individual = Individual::find($user->id);
+        $individual = Individual::where('user_id', $user->id)->first();
         if ($individual != null) {
             // Response
             return response()->json([
@@ -141,7 +141,7 @@ class AuthController extends Controller
         }
 
         // Check company
-        $company = Company::find($user->id);
+        $company = Company::where('user_id', $user->id)->first();
         if ($company != null) {
             // Response
             return response()->json([
@@ -253,7 +253,7 @@ class AuthController extends Controller
         }
 
         // Get individual
-        $individual = Individual::find($user->id);
+        $individual = Individual::where('user_id', $user->id)->first();
 
         // Check individual
         if ($individual == null) {
@@ -281,7 +281,7 @@ class AuthController extends Controller
         }
 
         // Get individual
-        $individual = Individual::find($user->id);
+        $individual = Individual::where('user_id', $user->id)->first();
 
         // Check individual
         if ($individual == null) {
