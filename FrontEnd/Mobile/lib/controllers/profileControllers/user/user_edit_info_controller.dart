@@ -31,7 +31,7 @@ class UserEditInfoController extends GetxController {
     await getCountries();
     selectedCountry = countries.firstWhere(
         (element) => element.countryName == profileController.user.country);
-    await getStates(selectedCountry!.countryId);
+    await getStates(selectedCountry!.countryName);
     selectedState = states.firstWhere(
         (element) => element.stateName == profileController.user.state);
     super.onInit();
@@ -89,11 +89,11 @@ class UserEditInfoController extends GetxController {
     }
   }
 
-  Future<dynamic> getStates(int countryId) async {
+  Future<dynamic> getStates(String countryName) async {
     try {
       var response = await dio.post(
         'http://10.0.2.2:8000/api/states',
-        data: {"country_id": countryId},
+        data: {"country_name": countryName},
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

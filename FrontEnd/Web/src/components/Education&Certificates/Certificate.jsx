@@ -12,6 +12,7 @@ const CertificateForm = () => {
   const initialized = useRef(false);
   const location = useLocation();
   const [edit, setEdit] = useState(true);
+  const [add, setAdd] = useState(false);
   const [CertificateData, setCertificateData] = useState({
     name: "",
     organization: "",
@@ -24,12 +25,10 @@ const CertificateForm = () => {
       initialized.current = true;
 
       if (location.state !== null) {
-        if (location.state.edit) {
-          setEdit(location.state.edit);
+        setEdit(location.state.edit);
+        setAdd(location.state.add);
+        if (!location.state.add) {
           setCertificateData(location.state.certificate);
-        }
-        else {
-          setEdit(false);
         }
       }
       else {
@@ -50,27 +49,7 @@ const CertificateForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (edit) {
-      EditCertificateAPI(
-        accessToken,
-        CertificateData.id,
-        CertificateData.name,
-        CertificateData.organization,
-        CertificateData.release_date,
-        CertificateData.file
-      ).then((response) => {
-        if (response.status === 200) {
-          console.log(response.data);
-
-          navigate('/certificates', {
-            state: { edit: true }
-          })
-        } else {
-          console.log(response.statusText);
-        }
-      });
-    }
-    else {
+    if (add) {
       AddCertificateAPI(
         accessToken,
         CertificateData.name,
@@ -88,13 +67,36 @@ const CertificateForm = () => {
             release_date: "",
             file: null,
           });
-
-          navigate('/certificates', {
-            state: { edit: true }
-          })
         } else {
           console.log(response.statusText);
         }
+      });
+    }
+    else {
+      EditCertificateAPI(
+        accessToken,
+        CertificateData.id,
+        CertificateData.name,
+        CertificateData.organization,
+        CertificateData.release_date,
+        CertificateData.file
+      ).then((response) => {
+        if (response.status === 200) {
+          console.log(response.data);
+
+        } else {
+          console.log(response.statusText);
+        }
+      });
+    }
+
+    if(edit) {
+      navigate('/certificates', {
+        state: { edit: edit }
+      });
+    } else {
+      navigate('/complete-register', {
+        state: { edit: edit }
       });
     }
   };
@@ -103,7 +105,7 @@ const CertificateForm = () => {
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen_content}>
-          <h3 className={styles.heading}>{edit ? 'Edit Certficate' : 'Add Certificate'}</h3>
+          <h3 className={styles.heading}>{add ? 'Add Certficate' : 'Edit Certificate'}</h3>
           <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.row}>
               <label htmlFor="name">
@@ -162,7 +164,7 @@ const CertificateForm = () => {
               />
             </div>
             <button type="submit" className={styles.submit_button}>
-              {edit ? 'Edit Certficate' : 'Add Certificate'}
+              {add ? 'Add Certficate' : 'Edit Certificate'}
             </button>
           </form>
         </div>

@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Card, Button } from 'react-bootstrap';
 import { FetchImage } from '../../apis/FileApi';
+import img_holder from '../../assets/upload.png';
 import styles from './cards.module.css';
 
 const PortfolioCard = ({ ProfileData }) => {
@@ -15,10 +16,15 @@ const PortfolioCard = ({ ProfileData }) => {
       initialized.current = true;
 
       ProfileData.portfolios.slice(0, 3).map((portfolio) => {
-        FetchImage("", portfolio.photo).then((response) => {
-          portfolio.photo = response;
+        if (portfolio.photo) {
+          FetchImage("", portfolio.photo).then((response) => {
+            portfolio.photo = response;
+            setPortfolios((prevState) => ([...prevState, portfolio]));
+          });
+        }
+        else {
           setPortfolios((prevState) => ([...prevState, portfolio]));
-        });
+        }
       });
     }
   });
@@ -43,7 +49,7 @@ const PortfolioCard = ({ ProfileData }) => {
             {portfolios === null || portfolios.length === 0 ? <p className={styles.no_data}>No portfolio to display</p> :
               portfolios.map((portfolio) => (
                 <div key={portfolio.id} className={styles.portfolio_div}>
-                  <Link to={`/portfolio/${portfolio.id}`}>
+                  <Link to={`/portfolio/${portfolio.id}`} state={{ portfolio }}>
                     <Portfolio title={portfolio.title} photo={portfolio.photo} />
                   </Link>
                 </div>
@@ -59,7 +65,21 @@ const Portfolio = ({ title, photo }) => {
   return (
     <Card className={styles.portfolio_card}>
       <div className={styles.portfolio_background}>
-        <Card.Img variant="top" src={photo} alt={title} />
+        {photo ? (
+          <Card.Img
+            className={styles.Card_Img}
+            variant="top"
+            src={URL.createObjectURL(photo)}
+            alt={title + "picture"}
+          />
+        ) : (
+          <Card.Img
+            className={styles.Card_Img}
+            variant="top"
+            src={img_holder}
+            alt={title + "picture"}
+          />
+        )}
         <Card.Body>
           <Card.Title>{title}</Card.Title>
         </Card.Body>

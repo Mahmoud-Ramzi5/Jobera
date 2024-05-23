@@ -101,7 +101,7 @@ const ShowPortfolio = () => {
               <div className={styles.data_field}>
                 <div className={styles.img_holder}>
                   {portfolio.photo ? (
-                    <img src={portfolio.photo} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} />
+                    <img src={URL.createObjectURL(portfolio.photo)} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} />
                   ) : (
                     <img src={img_holder} alt="Photo Placeholder" style={{ pointerEvents: 'none' }} />
                   )}

@@ -200,7 +200,7 @@ const EditPortfolio = () => {
                 <div className={Inputstyles.field}>
                   <label htmlFor='photo' className={styles.img_holder}>
                     {photo ? (
-                      <img src={photo} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} />
+                      <img src={URL.createObjectURL(photo)} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} />
                     ) : (
                       <img src={img_holder} alt="Photo Placeholder" style={{ pointerEvents: 'none' }} />
                     )}

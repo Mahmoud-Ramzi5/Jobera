@@ -271,8 +271,8 @@
   opacity: 1;
 }
 
-.portfolio_background img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
+.Card_Img {
+  width: 150px;
+  height: 200px;
+  object-fit: fill;
 }

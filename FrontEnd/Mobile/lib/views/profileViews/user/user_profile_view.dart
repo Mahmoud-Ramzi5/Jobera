@@ -130,9 +130,7 @@ class UserProfileView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            onPressed: () {
-                              Get.toNamed('/userEditInfo');
-                            },
+                            onPressed: () => Get.toNamed('/userEditInfo'),
                           ),
                         ),
                         Padding(
@@ -195,7 +193,7 @@ class UserProfileView extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            onPressed: () {},
+                            onPressed: () => Get.toNamed('/userEditEducation'),
                           ),
                         ),
                         Padding(
@@ -205,36 +203,33 @@ class UserProfileView extends StatelessWidget {
                             buttonText: 'Edit',
                             icon: Icons.edit,
                             height: null,
-                            widget: GridView.builder(
-                              itemCount: _profileController.user.skills.length,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3,
-                                mainAxisSpacing: 5,
-                                crossAxisSpacing: 5,
-                                childAspectRatio: 1.0,
-                              ),
+                            widget: ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount:
+                                  (_profileController.user.skills.length),
                               shrinkWrap: true,
-                              itemBuilder: (context, index) => Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Chip(
-                                    label: LabelText(
-                                        text: _profileController
-                                            .user.skills[index].name),
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: Chip(
+                                    label: BodyText(
+                                      text: _profileController
+                                          .user.skills[index].name,
+                                    ),
                                   ),
-                                ],
-                              ),
+                                );
+                              },
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Get.toNamed('/userEditSkills');
+                            },
                           ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10),
                           child: InfoWithEditContainer(
                             name: 'Certificates',
-                            buttonText: 'Add',
-                            icon: Icons.add,
+                            buttonText: 'View',
                             height: 160,
                             widget: const Column(),
                             onPressed: () {},
@@ -244,8 +239,7 @@ class UserProfileView extends StatelessWidget {
                           padding: const EdgeInsets.all(10),
                           child: InfoWithEditContainer(
                             name: 'Portofolios',
-                            buttonText: 'Add',
-                            icon: Icons.add,
+                            buttonText: 'View',
                             height: 160,
                             widget: const Column(),
                             onPressed: () {},

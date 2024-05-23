@@ -4,6 +4,7 @@ import { Card } from 'react-bootstrap';
 import { LoginContext } from '../../utils/Contexts.jsx';
 import { FetchImage } from '../../apis/FileApi.jsx';
 import { ShowPortfoliosAPI, AdvanceRegisterStep } from '../../apis/ProfileApis.jsx';
+import img_holder from '../../assets/upload.png';
 import styles from './portfolios.module.css';
 import portfolio_style from './portfolio.module.css';
 
@@ -25,10 +26,15 @@ const Portfolios = ({ step }) => {
       ShowPortfoliosAPI(accessToken).then((response) => {
         if (response.status === 200) {
           response.data.portfolios.map((portfolio) => {
-            FetchImage("", portfolio.photo).then((response) => {
-              portfolio.photo = response;
+            if (portfolio.photo) {
+              FetchImage("", portfolio.photo).then((response) => {
+                portfolio.photo = response;
+                setPortfolios((prevState) => ([...prevState, portfolio]));
+              });
+            }
+            else {
               setPortfolios((prevState) => ([...prevState, portfolio]));
-            });
+            }
           });
         }
         else {
@@ -93,7 +99,21 @@ const Portfolio = ({ title, photo }) => {
   return (
     <Card>
       <div className={portfolio_style.portfolio_background}>
-        <Card.Img variant="top" src={photo} alt={title + "picture"} />
+        {photo ? (
+          <Card.Img
+            className={portfolio_style.Card_Img}
+            variant="top"
+            src={URL.createObjectURL(photo)}
+            alt={title + "picture"}
+          />
+        ) : (
+          <Card.Img
+            className={portfolio_style.Card_Img}
+            variant="top"
+            src={img_holder}
+            alt={title + "picture"}
+          />
+        )}
         <Card.Body>
           <Card.Title>{title}</Card.Title>
         </Card.Body>

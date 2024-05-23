@@ -69,12 +69,12 @@ class ProfilePhotoContainer extends StatelessWidget {
         children: [
           Container(
             decoration: const BoxDecoration(
-              color: Colors.black,
+              color: Colors.white,
               shape: BoxShape.circle,
-              image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                      'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80')),
+            ),
+            child: Icon(
+              Icons.add_a_photo,
+              color: Colors.lightBlue.shade900,
             ),
           ),
         ],
@@ -88,19 +88,23 @@ class ProfileBackgroundContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 200,
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Colors.lightBlue.shade900,
-            Colors.white,
-            Colors.orange.shade800,
-          ],
-        ),
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(50),
-          bottomRight: Radius.circular(50),
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Container(
+        height: 200,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.orange.shade800,
+              Colors.lightBlue.shade900,
+            ],
+          ),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(50),
+            topRight: Radius.circular(50),
+            bottomLeft: Radius.circular(50),
+            bottomRight: Radius.circular(50),
+          ),
         ),
       ),
     );
@@ -148,14 +152,14 @@ class InfoWithEditContainer extends StatelessWidget {
                   onPressed: onPressed,
                   child: Row(
                     children: [
-                      LabelText(text: buttonText),
                       Padding(
-                        padding: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(5),
                         child: Icon(
                           icon,
                           color: Colors.orange.shade800,
                         ),
-                      )
+                      ),
+                      LabelText(text: buttonText),
                     ],
                   ),
                 ),
@@ -163,6 +167,80 @@ class InfoWithEditContainer extends StatelessWidget {
             ),
             widget
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class SkillsContainer extends StatelessWidget {
+  final String name;
+  final Widget widget;
+
+  const SkillsContainer({
+    super.key,
+    required this.name,
+    required this.widget,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: ShapeDecoration(
+        shape: BeveledRectangleBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+          side: BorderSide(color: Colors.orange.shade800),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  BodyText(text: '$name:'),
+                ],
+              ),
+            ),
+            widget
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class TypesContainer extends StatelessWidget {
+  final String text;
+  final void Function()? onTap;
+
+  const TypesContainer({
+    super.key,
+    required this.text,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Container(
+          decoration: ShapeDecoration(
+            shape: BeveledRectangleBorder(
+              side: BorderSide(color: Colors.orange.shade800),
+            ),
+          ),
+          child: Center(
+            child: BodyText(
+              text: text,
+            ),
+          ),
         ),
       ),
     );

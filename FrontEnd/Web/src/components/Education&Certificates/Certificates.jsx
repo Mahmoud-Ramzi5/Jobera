@@ -63,7 +63,7 @@ const Certificates = ({ step }) => {
   const RenderCertificate = (certificate) => {
     const handleEdit = (event) => {
       navigate('/edit-certificate', {
-        state: { edit: true, certificate }
+        state: { edit: edit, add: false, certificate }
       })
     };
 
@@ -128,7 +128,7 @@ const Certificates = ({ step }) => {
             <button
               className={styles.create_button}
               onClick={() => navigate('/edit-certificate', {
-                state: { edit: false }
+                state: { edit: edit, add: true }
               })}
             >
               Create

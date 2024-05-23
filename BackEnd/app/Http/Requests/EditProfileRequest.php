@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -25,10 +26,8 @@ class EditProfileRequest extends FormRequest
     {
         return [
             'full_name' => ['sometimes'],
-            'phone_number' => ['sometimes', 'unique:users', 'min:11', 'max:13', 'regex:/^\+/'],
+            'phone_number' => ['sometimes', Rule::unique('users')->ignore($this->user()->id), 'min:11', 'max:13', 'regex:/^\+/'],
             'state_id' => ['sometimes'],
-            'birth_date' => ['sometimes', 'date'],
-            'gender' => ['sometimes', 'in:male,female'],
         ];
     }
 

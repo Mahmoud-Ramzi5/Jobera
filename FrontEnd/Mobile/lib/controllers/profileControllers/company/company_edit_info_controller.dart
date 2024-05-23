@@ -34,7 +34,7 @@ class CompanyEditInfoController extends GetxController {
     await getCountries();
     selectedCountry = countries.firstWhere(
         (element) => element.countryName == profileController.company.country);
-    await getStates(selectedCountry!.countryId);
+    await getStates(selectedCountry!.countryName);
     selectedState = states.firstWhere(
         (element) => element.stateName == profileController.company.state);
     super.onInit();
@@ -43,6 +43,7 @@ class CompanyEditInfoController extends GetxController {
   @override
   void onClose() {
     editNameController.dispose();
+    editPhoneNumberController.dispose();
     editPhoneNumberController.dispose();
     super.onClose();
   }
@@ -92,11 +93,11 @@ class CompanyEditInfoController extends GetxController {
     }
   }
 
-  Future<dynamic> getStates(int countryId) async {
+  Future<dynamic> getStates(String countryName) async {
     try {
       var response = await dio.post(
         'http://10.0.2.2:8000/api/states',
-        data: {"country_id": countryId},
+        data: {"country_name": countryName},
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

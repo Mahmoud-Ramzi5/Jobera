@@ -280,17 +280,13 @@ export const EditProfile = async (
   token,
   FullName,
   PhoneNumber,
-  StateId,
-  date,
-  gender
+  state_id,
 ) => {
   try {
-    const response = await axios.put('http://127.0.0.1:8000/api/profile/edit', {
+    const response = await axios.post('http://127.0.0.1:8000/api/profile/edit', {
       "full_name": FullName,
       "phone_number": PhoneNumber,
-      "state_id": StateId,
-      "birth_date": date,
-      "gender": gender
+      "state_id": state_id,
     }, {
       headers: {
         'Content-Type': 'multipart/form-data; charset=UTF-8',
@@ -304,11 +300,42 @@ export const EditProfile = async (
   }
 };
 
-export const AdvanceRegisterStep = async (token) => {
+export const GetRegisterStep = async (token) => {
   try {
     const response = await axios.get(`http://127.0.0.1:8000/api/regStep`, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const AdvanceRegisterStep = async (token) => {
+  try {
+    const response = await axios.post(`http://127.0.0.1:8000/api/regStep`, {}, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+export const UpdateProfilePicture=async(token,avatarPhoto)=>{
+  try {
+    const response = await axios.post(`http://127.0.0.1:8000/api/profile/photo`, {
+     "avatar_photo": avatarPhoto
+    }, {
+      headers: {
+        'Content-Type': 'multipart/form-data; charset=UTF-8',
         'Accept': "application/json",
         'Authorization': `Bearer ${token}`
       }

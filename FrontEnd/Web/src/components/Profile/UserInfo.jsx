@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Card, Button } from "react-bootstrap";
 import { StarFill, StarHalf } from "react-bootstrap-icons";
 import styles from "./userinfo.module.css";
@@ -6,7 +6,8 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import EditMenu from "./EditMenu";
 import { LoginContext } from "../../utils/Contexts";
-import { EditProfile } from "../../apis/ProfileApis";
+import { UpdateProfilePicture } from "../../apis/ProfileApis";
+import { FetchImage } from "../../apis/FileApi";
 
 const UserInfo = ({ ProfileData }) => {
   // Context
@@ -14,13 +15,27 @@ const UserInfo = ({ ProfileData }) => {
   const [description, setDescription] = useState(ProfileData.description);
   const [isEditing, setIsEditing] = useState(false);
   const [isEditingProfile, setIsEditingProfile] = useState(false);
+  const [avatarPhotoPath, setAvatarPhotoPath] = useState(
+    ProfileData.avatar_photo
+  );
+  const [avatarPhoto, setAvatarPhoto] = useState(null);
+  const [isAddingPhoto, setIsAddingPhoto] = useState(false);
+  useEffect(() => {
+    if (avatarPhotoPath) {
+      FetchImage(accessToken, avatarPhotoPath).then((response) => {
+        console.log(response)
+        setAvatarPhoto(response);
+      });
+      setAvatarPhotoPath(null)
+    }
+  });
   const handleEditClick = () => {
     setIsEditingProfile(true);
-    console.log(ProfileData)
+    console.log(ProfileData);
   };
 
   const handleSaveClick = () => {
-    window.location.reload(); // Refresh the page after deletion 
+    window.location.reload(); // Refresh the page after deletion
     setIsEditingProfile(false);
   };
 
@@ -31,6 +46,34 @@ const UserInfo = ({ ProfileData }) => {
 
   const handleShareProfile = () => {
     // Handle share profile logic
+  };
+  const handleEditPhoto=()=>{
+    setIsAddingPhoto(true);
+  }
+  const handlePhotoChange = (event) => {
+    console.log(event.target.files[0])
+    setAvatarPhoto(event.target.files[0]);
+    console.log(avatarPhoto)
+  };
+
+  const handleProfilePictureChange = (event) => {
+    event.preventDefault(); // Prevent the default form submission behavior
+
+    if (avatarPhoto) {
+      UpdateProfilePicture(accessToken, avatarPhoto)
+        .then((response) => {
+          console.log(response);
+          if (response.status === 201) {
+            console.log("Profile picture updated successfully");
+            setIsAddingPhoto(false);
+            window.location.reload(); // Refresh the page
+          }
+        })
+        .catch((error) => {
+          // Handle error response, e.g. display an error message or log the error
+          console.error("Error updating profile picture:", error);
+        });
+    }
   };
 
   const handleEditorChange = (event, editor) => {
@@ -78,21 +121,51 @@ const UserInfo = ({ ProfileData }) => {
     <Card className={styles.user_info_card}>
       <div className={styles.user_info_inside}>
         <div className={styles.profile_picture_container}>
-          <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s"
-            className={styles.profile_picture}
-            alt="Profile Image"
-          />
-          <div className={styles.profile_picture_overlay}>
-            <div className={styles.profile_picture_text}>Change Photo</div>
-          </div>
+          {!isAddingPhoto ? (
+            avatarPhoto ? (        
+              <Card.Img
+                className={styles.Card_Img}
+                variant="top"
+                src={URL.createObjectURL(avatarPhoto)}
+                alt={"picture"}
+                onClick={ handleEditPhoto}
+              />
+            ) : (
+              <Card.Img
+                className={styles.Card_Img}
+                variant="top"
+                src={
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s"
+                }
+                alt={"picture"}
+                onClick={ handleEditPhoto}
+              />
+            )
+          ) : (
+            <form onSubmit={handleProfilePictureChange}>
+              <input
+                id="photo"
+                type="file"
+                placeholder="Photo"
+                accept=".png,.jpg,.jpeg"
+                onChange={handlePhotoChange} // Call handlePhotoChange when a file is selected
+              />
+              <Button variant="primary" type="submit">
+                Submit
+              </Button>
+            </form>
+          )}
         </div>
         <div className={styles.info_in_profile}>
           <div className={styles.user_info_title}>
             <h3 className="card-title">
-              {ProfileData.type === 'individual' ? ProfileData.full_name
-                : ProfileData.type === 'company' ? ProfileData.name
-                  : <></>}
+              {ProfileData.type === "individual" ? (
+                ProfileData.full_name
+              ) : ProfileData.type === "company" ? (
+                ProfileData.name
+              ) : (
+                <></>
+              )}
             </h3>
             <h4 className={styles.specification}>
               {ProfileData.specification}
@@ -124,7 +197,9 @@ const UserInfo = ({ ProfileData }) => {
                 onCancel={handleCancelClick}
               />
             ) : (
-              <Button variant="primary" onClick={handleEditClick}>Edit Profile</Button>
+              <Button variant="primary" onClick={handleEditClick}>
+                Edit Profile
+              </Button>
             )}{" "}
             <Button variant="secondary" onClick={handleShareProfile}>
               Share

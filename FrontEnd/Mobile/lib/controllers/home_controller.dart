@@ -10,20 +10,19 @@ class HomeController extends GetxController {
   late String email;
 
   @override
-  Future<void> onInit() async {
+  void onInit() {
     dio = Dio();
     name = '';
     email = '';
-    await fetchUserType();
     super.onInit();
   }
 
-  // @override
-  // void onClose() {
-  //   super.onClose();
-  // }
+  @override
+  onReady() async {
+    await fetchUser();
+  }
 
-  Future<void> fetchUserType() async {
+  Future<void> fetchUser() async {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get('http://10.0.2.2:8000/api/profile',
@@ -48,7 +47,7 @@ class HomeController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.data["errors"].toString(),
+        e.response!.data.toString(),
       );
     }
   }
@@ -77,7 +76,7 @@ class HomeController extends GetxController {
     } on DioException catch (e) {
       await Dialogs().showErrorDialog(
         'Logout Failed',
-        e.response!.data["errors"].toString(),
+        e.response!.data.toString(),
       );
     }
   }

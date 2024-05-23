@@ -46,10 +46,8 @@ export const FetchImage = async (token, imagePath) => {
         [response.data],
         { type:'image/*' }
       );
-      // Build a URL from the file
-      const imageURL = URL.createObjectURL(image);
-      // Return file URL
-      return(imageURL);
+      // Return file
+      return(image);
     });
     return(response);
   } catch (error) {
