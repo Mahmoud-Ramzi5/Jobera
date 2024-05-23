@@ -34,7 +34,7 @@ const Certificates = ({ step }) => {
         setEdit(location.state.edit);
       }
     }
-  }, []);
+  }, [location.pathname]);
 
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);

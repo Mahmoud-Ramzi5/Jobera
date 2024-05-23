@@ -19,17 +19,23 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'Register');
     Route::post('/company/register', 'CompanyRegister');
     Route::post('/login', 'Login');
-    Route::post('/logout', 'Logout')->middleware('auth:api');
 
-    Route::get('/auth/email', function() {
-        return response()->json([
-            "email" => auth()->user()->email
-        ], 200);
-    })->middleware('auth:api');
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/logout', 'Logout');
 
-    Route::get('/verifyEmail', 'VerifyEmail')->middleware('auth:api');
-    Route::get('/isExpired', 'IsExpired')->middleware('auth:api');
-    Route::get('/isVerified', 'IsVerified')->middleware('auth:api');
+        Route::get('/auth/email', function() {
+            return response()->json([
+                "email" => auth()->user()->email
+            ], 200);
+        })->middleware('auth:api');
+
+        Route::get('/verifyEmail', 'VerifyEmail');
+        Route::get('/isExpired', 'IsExpired');
+        Route::get('/isVerified', 'IsVerified');
+
+        Route::get('/regStep', 'GetRegisterStep');
+        Route::post('/regStep', 'AdvanceRegisterStep');
+    });
 
     Route::get('/countries', function () {
         return Response()->json([
@@ -41,15 +47,12 @@ Route::controller(AuthController::class)->group(function () {
         $validated = $request->validate([
             'country_name' => 'required'
         ]);
-        $country = Country::where('country_name', $validated['country_name'])->get()->first();
+        $country = Country::where('country_name', $validated['country_name'])->first();
 
         return Response()->json([
             'states' => State::where('country_id', $country->country_id)->get()->all(),
         ], 200);
     });
-
-    Route::get('/regStep', 'GetRegisterStep')->middleware('auth:api');
-    Route::post('/regStep', 'AdvanceRegisterStep')->middleware('auth:api');
 });
 
 Route::controller(SocialAuthController::class)->group(function () {
@@ -63,42 +66,52 @@ Route::controller(ForgetPasswordController::class)->group(function () {
 });
 
 Route::controller(ProfileController::class)->group(function () {
-    Route::get('/profile', 'ShowProfile')->middleware('auth:api');
-    Route::post('/profile/edit', 'EditProfile')->middleware('auth:api');
-    Route::post('/profile/photo', 'AddProfilePhoto')->middleware('auth:api');
-    Route::post('/profile/description', 'EditDescription')->middleware('auth:api');
+    Route::middleware('auth:api')->group(function () {
+        Route::get('/profile', 'ShowProfile');
+        Route::post('/profile/edit', 'EditProfile');
+        Route::post('/profile/photo', 'EditProfilePhoto');
+        Route::post('/profile/description', 'EditDescription');
+    });
 });
 
 Route::controller(SkillsController::class)->group(function() {
     Route::get('/skills', 'GetSkills');
     Route::get('/skills/types', 'GetSkillTypes');
-
-    Route::get('/user/skills', 'GetUserSkills')->middleware('auth:api');
-    Route::post('/user/skills/add', 'AddUserSkills')->middleware('auth:api');
-    Route::post('/user/skills/edit', 'EditUserSkills')->middleware('auth:api');
-
+    Route::middleware('auth:api')->group(function () {
+        Route::get('/user/skills', 'GetUserSkills');
+        Route::post('/user/skills/add', 'AddUserSkills');
+        Route::post('/user/skills/edit', 'EditUserSkills');
+    });
     Route::post('/skills', 'AddSkill');
 });
 
 Route::controller(EducationController::class)->group(function() {
-    Route::post('/education', 'EditEducation')->middleware('auth:api');
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/education', 'EditEducation');
 
-    Route::get('/certificates', 'ShowUserCertificates')->middleware('auth:api');
-    Route::post('/certificate/add', 'AddCertificate')->middleware('auth:api');
-    Route::post('/certificate/edit/{certificate}', 'EditCertificate')->middleware('auth:api');
-    Route::delete('/certificates/{certificate}', 'DeleteCertificate')->middleware('auth:api');
+        Route::get('/certificates', 'ShowUserCertificates');
+        Route::post('/certificate/add', 'AddCertificate');
+        Route::post('/certificate/edit/{certificate}', 'EditCertificate');
+        Route::delete('/certificates/{certificate}', 'DeleteCertificate');
+    });
 });
 
 Route::controller(PortfolioController::class)->group(function() {
-    Route::get('/portfolios', 'ShowUserPortfolios')->middleware('auth:api');
-    Route::get('/portfolio/{portfolio}', 'ShowPortfolio')->middleware('auth:api');
-    Route::post('/portfolio/add', 'AddPortfolio')->middleware('auth:api');
-    Route::post('/portfolio/edit/{portfolio}', 'EditPortfolio')->middleware('auth:api');
-    Route::delete('/portfolios/{portfolio}', 'DeletePortfolio')->middleware('auth:api');
+    Route::middleware('auth:api')->group(function () {
+        Route::get('/portfolios', 'ShowUserPortfolios');
+        Route::get('/portfolio/{portfolio}', 'ShowPortfolio');
+        Route::post('/portfolio/add', 'AddPortfolio');
+        Route::post('/portfolio/edit/{portfolio}', 'EditPortfolio');
+        Route::delete('/portfolios/{portfolio}', 'DeletePortfolio');
+    });
 });
 
 Route::get('/file/{user_id}/{folder}/{file}', function(Request $request, $user_id ,$folder, $file) {
-    return response()->file(storage_path('app/'.$user_id.'/'.$folder.'/'.$file));
+    $path = storage_path('app/'.$user_id.'/'.$folder.'/'.$file);
+    if ($path == null) {
+        return null;
+    }
+    return response()->file($path);
 });
 
 Route::get('/image/{user_id}/{folder}/{image}', function(Request $request, $user_id ,$folder, $image) {

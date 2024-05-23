@@ -45,7 +45,7 @@ class IndividualResource extends JsonResource
             'education' => new EducationResource($this->education),
             'certificates' => new CertificateCollection($this->certificates),
             'portfolios' => new PortfolioCollection($user->portfolios),
-            'is_verifed' => $is_verified,
+            'is_verified' => $is_verified,
             'is_registered' => $is_registered,
             'register_step' => $this->register_step
         ];

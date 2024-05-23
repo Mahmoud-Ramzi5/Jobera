@@ -23,6 +23,7 @@ const EditPortfolio = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [photo, setPhoto] = useState(null);
+  const [newPhoto, setNewPhoto] = useState(null);
   const [link, setLink] = useState('');
   const [files, setFiles] = useState([]);
   const [skills, setSkills] = useState([]);
@@ -111,6 +112,30 @@ const EditPortfolio = () => {
     setSkillCount((prevState) => (prevState >= 0 ? ++prevState : prevState));
   };
 
+  const handleFileChange = (event) => {
+    setFiles([]);
+    event.preventDefault();
+    const allowedFileTypes = ["application/pdf"];
+    if (event.target.files.length <= 5) {
+      Array.from(event.target.files).forEach((file) => {
+        if (file && allowedFileTypes.includes(file.type)) {
+          setFiles((prevState) => [...prevState, file]);
+        } else {
+          console.log("Invalid file type. Please select a PDF document.");
+        }
+      });
+    }
+    else {
+      for (let i = 0; i < 5; i++) {
+        if (event.target.files[i] && allowedFileTypes.includes(event.target.files[i].type)) {
+          setFiles((prevState) => [...prevState, event.target.files[i]]);
+        } else {
+          console.log("Invalid file type. Please select a PDF document.");
+        }
+      }
+    }
+  };
+
   const handleEdit = (event) => {
     event.preventDefault();
     EditPortfolioAPI(
@@ -118,7 +143,7 @@ const EditPortfolio = () => {
       location.state.portfolio.id,
       title,
       description,
-      photo,
+      newPhoto,
       link,
       files,
       SkillIds
@@ -210,7 +235,10 @@ const EditPortfolio = () => {
                     type='file'
                     placeholder='Photo'
                     accept='.png,.jpg,.jpeg'
-                    onChange={(event) => setPhoto(event.target.files[0])}
+                    onChange={(event) => {
+                      setPhoto(event.target.files[0]);
+                      setNewPhoto(event.target.files[0]);
+                    }}
                     style={{ visibility: 'hidden' }}
                   />
                 </div>
@@ -221,17 +249,7 @@ const EditPortfolio = () => {
                     type='file'
                     placeholder='Files'
                     accept='.pdf'
-                    onChange={(event) => {
-                      if (event.target.files.length <= 5) {
-                        setFiles(event.target.files);
-                      }
-                      else {
-                        for (let i = 0; i < 5; i++) {
-                          setFiles((prevState) => [...prevState, event.target.files[i]]);
-                        }
-                        event.preventDefault();
-                      }
-                    }}
+                    onChange={handleFileChange}
                     multiple
                     className={Inputstyles.input}
                   />

@@ -34,8 +34,7 @@ class RegisterRequest extends FormRequest
             'state_id' => ['required'],
             'birth_date' => ['required', 'date'],
             'gender' => ['required', Rule::in(IndividualGender::names())],
-            'type' => ['required', 'in:admin,indvidual'],
-            'avatar_photo' => ['sometimes', 'image', 'max:4096'],
+            'type' => ['required', 'in:admin,individual'],
         ];
     }
 

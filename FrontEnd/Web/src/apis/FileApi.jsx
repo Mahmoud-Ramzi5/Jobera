@@ -44,7 +44,7 @@ export const FetchImage = async (token, imagePath) => {
       // Create file from response data
       const image = new Blob(
         [response.data],
-        { type:'image/*' }
+        { type: response.data.type }
       );
       // Return file
       return(image);

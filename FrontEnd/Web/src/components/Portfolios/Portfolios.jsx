@@ -46,7 +46,7 @@ const Portfolios = ({ step }) => {
         setEdit(location.state.edit);
       }
     }
-  });
+  }, [location.pathname]);
 
   return (
     <div className={styles.screen}>

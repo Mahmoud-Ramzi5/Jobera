@@ -43,8 +43,13 @@ const CertificateForm = () => {
   };
 
   const handleFileChange = (event) => {
-    const uplodedfile = event.target.files[0];
-    setCertificateData({ ...CertificateData, file: uplodedfile });
+    const file = event.target.files[0];
+    const allowedFileTypes = ["application/pdf"];
+    if (file && allowedFileTypes.includes(file.type)) {
+      setCertificateData({ ...CertificateData, file: file });
+    } else {
+      console.log("Invalid file type. Please select a PDF document.");
+    }
   };
 
   const handleSubmit = (event) => {
@@ -60,6 +65,15 @@ const CertificateForm = () => {
         if (response.status === 201) {
           console.log(response.data);
 
+          if(edit) {
+            navigate('/certificates', {
+              state: { edit: edit }
+            });
+          } else {
+            navigate('/complete-register', {
+              state: { edit: edit }
+            });
+          }
           // Reset the form fields
           setCertificateData({
             name: "",
@@ -84,19 +98,18 @@ const CertificateForm = () => {
         if (response.status === 200) {
           console.log(response.data);
 
+          if(edit) {
+            navigate('/certificates', {
+              state: { edit: edit }
+            });
+          } else {
+            navigate('/complete-register', {
+              state: { edit: edit }
+            });
+          }
         } else {
           console.log(response.statusText);
         }
-      });
-    }
-
-    if(edit) {
-      navigate('/certificates', {
-        state: { edit: edit }
-      });
-    } else {
-      navigate('/complete-register', {
-        state: { edit: edit }
       });
     }
   };
@@ -105,7 +118,7 @@ const CertificateForm = () => {
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen_content}>
-          <h3 className={styles.heading}>{add ? 'Add Certficate' : 'Edit Certificate'}</h3>
+          <h3 className={styles.heading}>{add ? 'Add Certificate' : 'Edit Certificate'}</h3>
           <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.row}>
               <label htmlFor="name">
@@ -159,12 +172,12 @@ const CertificateForm = () => {
                 type="file"
                 id="certificate"
                 name="certificate"
-                accept=".pdf,.doc,.docx"
+                accept=".pdf"
                 onChange={handleFileChange}
               />
             </div>
             <button type="submit" className={styles.submit_button}>
-              {add ? 'Add Certficate' : 'Edit Certificate'}
+              {add ? 'Add Certificate' : 'Edit Certificate'}
             </button>
           </form>
         </div>
