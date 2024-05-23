@@ -51,7 +51,7 @@ const EducationForm = ({ step }) => {
     if (file && allowedFileTypes.includes(file.type)) {
       setEducationData({ ...educationData, certificate_file: file });
     } else {
-      console.log("Invalid file type. Please select a PDF or Word document.");
+      console.log("Invalid file type. Please select a PDF document.");
     }
   };
 
@@ -210,7 +210,7 @@ const EducationForm = ({ step }) => {
                 type="file"
                 id="certificate"
                 name="certificate"
-                accept=".pdf,.doc,.docx"
+                accept=".pdf"
                 onChange={handleFileChange}
               />
             </div>

@@ -53,7 +53,7 @@ const CompanyForm = () => {
     setCountry(event.target.value);
 
     // Api Call
-    FetchStates(event.target.options.selectedIndex).then((response) => {
+    FetchStates(event.target.value).then((response) => {
       if (response.status === 200) {
         setStates(response.data.states);
       }

@@ -32,7 +32,7 @@ class EducationController extends Controller
         }
 
         // Get individual
-        $individual = Individual::find($user->id);
+        $individual = Individual::where('user_id', $user->id)->first();
 
         // Check individual
         if ($individual == null) {
@@ -96,7 +96,7 @@ class EducationController extends Controller
         }
 
         // Get individual
-        $individual = Individual::find($user->id);
+        $individual = Individual::where('user_id', $user->id)->first();
 
         // Check individual
         if ($individual == null) {
@@ -130,7 +130,7 @@ class EducationController extends Controller
         }
 
         // Get individual
-        $individual = Individual::find($user->id);
+        $individual = Individual::where('user_id', $user->id)->first();
 
         // Check individual
         if ($individual == null) {
@@ -139,16 +139,17 @@ class EducationController extends Controller
             ], 401);
         }
 
-        // Handle certificate file
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $path = $file->storeAs($user->id.'/certificates', $file->getClientOriginalName());
-            $validated['file'] = $path;
-        }
-
         // Create certificate
         $validated['individual_id'] = $individual->id;
         $certificate = Certificate::create($validated);
+
+        // Handle certificate file
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $path = $file->storeAs($user->id.'/certificate-'.$certificate->id, $file->getClientOriginalName());
+            $certificate->file = $path;
+            $certificate->save();
+        }
 
         // Response
         return response()->json([
@@ -173,7 +174,7 @@ class EducationController extends Controller
         }
 
         // Get individual
-        $individual = Individual::find($user->id);
+        $individual = Individual::where('user_id', $user->id)->first();
 
         // Check individual
         if ($individual == null) {
@@ -199,7 +200,7 @@ class EducationController extends Controller
 
             // Add new certificate_file
             $file = $request->file('file');
-            $path = $file->storeAs($user->id.'/certificates', $file->getClientOriginalName());
+            $path = $file->storeAs($user->id.'/certificate-'.$certificate->id, $file->getClientOriginalName());
             $validated['file'] = $path;
         }
 
@@ -226,7 +227,7 @@ class EducationController extends Controller
         }
 
         // Get individual
-        $individual = Individual::find($user->id);
+        $individual = Individual::where('user_id', $user->id)->first();
 
         // Check individual
         if ($individual == null) {

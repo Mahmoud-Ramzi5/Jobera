@@ -68,6 +68,22 @@ class Themes {
       ),
       deleteIconColor: Colors.red,
     ),
+    searchBarTheme: SearchBarThemeData(
+      shape: const MaterialStatePropertyAll(
+        StadiumBorder(),
+      ),
+      hintStyle: MaterialStatePropertyAll(
+        const TextTheme().bodyLarge?.copyWith(color: Colors.lightBlue.shade900),
+      ),
+      textStyle: MaterialStatePropertyAll(
+        const TextTheme().bodyLarge?.copyWith(color: Colors.lightBlue.shade900),
+      ),
+      side: MaterialStatePropertyAll(
+        BorderSide(
+          color: Colors.orange.shade800,
+        ),
+      ),
+    ),
   );
 
   static final darkTheme = ThemeData.dark().copyWith(
@@ -139,6 +155,22 @@ class Themes {
         side: BorderSide(color: Colors.orange.shade800),
       ),
       deleteIconColor: Colors.red,
+    ),
+    searchBarTheme: SearchBarThemeData(
+      shape: const MaterialStatePropertyAll(
+        StadiumBorder(),
+      ),
+      hintStyle: MaterialStatePropertyAll(
+        const TextTheme().bodyLarge?.copyWith(color: Colors.white),
+      ),
+      textStyle: MaterialStatePropertyAll(
+        const TextTheme().bodyLarge?.copyWith(color: Colors.white),
+      ),
+      side: MaterialStatePropertyAll(
+        BorderSide(
+          color: Colors.orange.shade800,
+        ),
+      ),
     ),
   );
 }

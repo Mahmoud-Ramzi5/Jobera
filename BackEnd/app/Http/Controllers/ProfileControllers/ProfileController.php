@@ -25,7 +25,7 @@ class ProfileController extends Controller
         }
 
         // Check individual
-        $individual = Individual::find($user->id);
+        $individual = Individual::where('user_id', $user->id)->first();
         if ($individual != null) {
             // Response
             return response()->json([
@@ -34,7 +34,7 @@ class ProfileController extends Controller
         }
 
         // Check company
-        $company = Company::find($user->id);
+        $company = Company::where('user_id', $user->id)->first();
         if ($company != null) {
             // Response
             return response()->json([
@@ -64,7 +64,7 @@ class ProfileController extends Controller
         }
 
         // Check individual
-        $individual = Individual::where("user_id", $user->id)->first();
+        $individual = Individual::where('user_id', $user->id)->first();
         if ($individual != null) {
             // Edit user
             $user->fill($validated);
@@ -75,7 +75,23 @@ class ProfileController extends Controller
             // Response
             return response()->json([
                 "message" => "User data updated successfully",
-                'user' => new IndividualResource($individual),
+                'user' => new IndividualResource($individual)
+            ], 201);
+        }
+
+        // Check company
+        $company = Company::where('user_id', $user->id)->first();
+        if ($company != null) {
+            // Edit user
+            $user->fill($validated);
+            $user->save();
+            $company->fill($validated);
+            $company->save();
+
+            // Response
+            return response()->json([
+                "message" => "User data updated successfully",
+                'user' => new CompanyResource($company)
             ], 201);
         }
 
@@ -85,7 +101,7 @@ class ProfileController extends Controller
         ], 401);
     }
 
-    public function AddProfilePhoto(Request $request)
+    public function EditProfilePhoto(Request $request)
     {
         // Validate request
         $validated = $request->validate([
@@ -103,11 +119,17 @@ class ProfileController extends Controller
         }
 
         // Check individual
-        $individual = Individual::find($user->id);
+        $individual = Individual::where('user_id', $user->id)->first();
         if ($individual != null) {
-            // Store photo
+            // Delete old avatar_photo (if found)
+            $oldPath = $individual->avatar_photo;
+            if ($oldPath != null) {
+                unlink(storage_path('app/'.$oldPath));
+            }
+
+            // Store new avatar_photo
             $file = $request->file('avatar_photo');
-            $path = $file->storeAs($user->id.'/certificates', $file->getClientOriginalName());
+            $path = $file->storeAs($user->id.'/avatar', $file->getClientOriginalName());
             $individual->avatar_photo = $path;
             $individual->save();
 
@@ -119,11 +141,17 @@ class ProfileController extends Controller
         }
 
         // Check company
-        $company = Company::find($user->id);
+        $company = Company::where('user_id', $user->id)->first();
         if ($company != null) {
+            // Delete old avatar_photo (if found)
+            $oldPath = $company->avatar_photo;
+            if ($oldPath != null) {
+                unlink(storage_path('app/'.$oldPath));
+            }
+
             // Store photo
             $file = $request->file('avatar_photo');
-            $path = $file->storeAs($user->id.'/certificates', $file->getClientOriginalName());
+            $path = $file->storeAs($user->id.'/avatar', $file->getClientOriginalName());
             $company->avatar_photo = $path;
             $company->save();
 

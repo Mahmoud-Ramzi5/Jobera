@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { LoginContext, ProfileContext } from '../utils/Contexts.jsx';
 import { FetchUserProfile } from '../apis/ProfileApis.jsx';
@@ -18,9 +18,11 @@ const Profile = () => {
   const { profile, setProfile } = useContext(ProfileContext);
   // Define states
   const location = useLocation();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (loggedIn && accessToken) {
+      setIsLoading(true);
       FetchUserProfile(accessToken).then((response) => {
         if (response.status === 200) {
           setProfile(response.data.user);
@@ -28,10 +30,15 @@ const Profile = () => {
         else {
           console.log(response.statusText);
         }
+      }).then(() => {
+        setIsLoading(false);
       });
     }
   }, [location.pathname]);
 
+  if (isLoading) {
+    return <div id='loader'><div className="clock-loader"></div></div>
+  }
   if (profile.type === 'individual') {
     return (
       <div className={styles.Profile}>

@@ -42,10 +42,14 @@ class UserEditInfoView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CodePicker(
-                  onChange: (p0) {},
                   initialSelection: _editController
                       .profileController.user.phoneNumber
-                      .substring(0, 4),
+                      .substring(
+                          0,
+                          _editController
+                                  .profileController.user.phoneNumber.length -
+                              9),
+                  onChange: (p0) => _editController.selectCountryCode(p0),
                 ),
                 SizedBox(
                   width: 200,
@@ -96,7 +100,12 @@ class UserEditInfoView extends StatelessWidget {
                   text: 'Select City',
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    _editController.editBasicInfo(
+                        _editController.editNameController.text,
+                        '${_editController.countryCode.dialCode}${_editController.editPhoneNumberController.text}',
+                        _editController.selectedState!.stateId);
+                  },
                   child: const BodyText(text: 'Submit'),
                 )
               ],

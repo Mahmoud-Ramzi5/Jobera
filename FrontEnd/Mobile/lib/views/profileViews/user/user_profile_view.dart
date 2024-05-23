@@ -15,244 +15,234 @@ class UserProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      body: FutureBuilder(
-        future: _profileController.fetchProfile(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: HeadlineText(text: 'Error: ${snapshot.error}'),
-            );
-          } else {
-            return RefreshIndicator(
-              key: _profileController.refreshIndicatorKey,
-              onRefresh: () async => await _profileController.fetchProfile(),
-              child: SingleChildScrollView(
-                child: Column(
+      body: RefreshIndicator(
+        key: _profileController.refreshIndicatorKey,
+        onRefresh: () async => await _profileController.fetchProfile(),
+        child: GetBuilder<UserProfileController>(
+          builder: (controller) => SingleChildScrollView(
+            child: Column(
+              children: [
+                Stack(
+                  alignment: Alignment.center,
                   children: [
-                    const Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        ProfileBackgroundContainer(),
-                        ProfilePhotoContainer(),
-                      ],
-                    ),
-                    HeadlineText(text: _profileController.user.name),
-                    const HeadlineText(text: 'Rating:'),
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Dialogs().addBioDialog(
-                              _profileController.editBioController,
-                              () {
-                                _profileController.editBio(
-                                    _profileController.editBioController.text);
-                                _profileController
-                                    .refreshIndicatorKey.currentState!
-                                    .show();
-                              },
-                            );
-                          },
-                          icon: Icon(
-                            Icons.edit,
-                            color: Colors.orange.shade800,
-                          ),
-                        ),
-                        GetBuilder<UserProfileController>(
-                          builder: (controller) => HeadlineText(
-                            text: 'Bio: ${controller.user.description}',
-                          ),
-                        )
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: InfoWithEditContainer(
-                            name: 'Basic Info',
-                            buttonText: 'Edit',
-                            icon: Icons.edit,
-                            height: 160,
-                            widget: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    const BodyText(text: 'Email: '),
-                                    LabelText(
-                                        text: _profileController.user.email),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    const BodyText(text: 'Phone Number: '),
-                                    LabelText(
-                                        text: _profileController
-                                            .user.phoneNumber),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    const BodyText(text: 'Location: '),
-                                    LabelText(
-                                        text:
-                                            '${_profileController.user.state} - ${_profileController.user.country}'),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const BodyText(text: 'Gender: '),
-                                        LabelText(
-                                            text:
-                                                _profileController.user.gender),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10, 0, 0, 0),
-                                      child: Row(
-                                        children: [
-                                          const BodyText(text: 'Birthdate: '),
-                                          LabelText(
-                                              text: _profileController
-                                                  .user.birthDate)
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            onPressed: () => Get.toNamed('/userEditInfo'),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: InfoWithEditContainer(
-                            name: 'Education',
-                            buttonText: 'Edit',
-                            icon: Icons.edit,
-                            height: 160,
-                            widget: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    const BodyText(text: 'Level: '),
-                                    LabelText(
-                                        text: _profileController
-                                            .user.education.level)
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    const BodyText(text: 'Field: '),
-                                    LabelText(
-                                        text: _profileController
-                                            .user.education.field)
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    const BodyText(text: 'School: '),
-                                    LabelText(
-                                        text: _profileController
-                                            .user.education.school)
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const BodyText(text: 'Start Date: '),
-                                        LabelText(
-                                            text: _profileController
-                                                .user.education.startDate),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10, 0, 0, 0),
-                                      child: Row(
-                                        children: [
-                                          const BodyText(text: 'End Date: '),
-                                          LabelText(
-                                              text: _profileController
-                                                  .user.education.endDate),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            onPressed: () => Get.toNamed('/userEditEducation'),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: InfoWithEditContainer(
-                            name: 'Skills',
-                            buttonText: 'Edit',
-                            icon: Icons.edit,
-                            height: null,
-                            widget: ListView.builder(
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount:
-                                  (_profileController.user.skills.length),
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: const EdgeInsets.all(5),
-                                  child: Chip(
-                                    label: BodyText(
-                                      text: _profileController
-                                          .user.skills[index].name,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                            onPressed: () {
-                              Get.toNamed('/userEditSkills');
-                            },
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: InfoWithEditContainer(
-                            name: 'Certificates',
-                            buttonText: 'View',
-                            height: 160,
-                            widget: const Column(),
-                            onPressed: () {},
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: InfoWithEditContainer(
-                            name: 'Portofolios',
-                            buttonText: 'View',
-                            height: 160,
-                            widget: const Column(),
-                            onPressed: () {},
-                          ),
-                        ),
-                      ],
+                    const ProfileBackgroundContainer(),
+                    ProfilePhotoContainer(
+                      child: controller.user.photo == null
+                          ? Icon(
+                              Icons.add_a_photo,
+                              size: 50,
+                              color: Colors.lightBlue.shade900,
+                            )
+                          : null,
+                      onTap: () => Dialogs().addPhotoDialog(
+                        () {
+                          controller.takePhotoFromCamera();
+                          controller.addPhoto();
+                        },
+                        () {
+                          controller.pickPhotoFromGallery();
+                          controller.addPhoto();
+                        },
+                        () {},
+                      ),
                     ),
                   ],
                 ),
-              ),
-            );
-          }
-        },
+                HeadlineText(text: controller.user.name),
+                const HeadlineText(text: 'Rating:'),
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Dialogs().addBioDialog(
+                          controller.editBioController,
+                          () {
+                            controller
+                                .editBio(controller.editBioController.text);
+                            controller.refreshIndicatorKey.currentState!.show();
+                          },
+                        );
+                      },
+                      icon: Icon(
+                        Icons.edit,
+                        color: Colors.orange.shade800,
+                      ),
+                    ),
+                    HeadlineText(
+                      text: 'Bio: ${controller.user.description}',
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: InfoWithEditContainer(
+                        name: 'Basic Info',
+                        buttonText: 'Edit',
+                        icon: Icons.edit,
+                        height: 160,
+                        widget: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const BodyText(text: 'Email: '),
+                                LabelText(text: controller.user.email),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const BodyText(text: 'Phone Number: '),
+                                LabelText(text: controller.user.phoneNumber),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const BodyText(text: 'Location: '),
+                                LabelText(
+                                    text:
+                                        '${controller.user.state} - ${controller.user.country}'),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Row(
+                                  children: [
+                                    const BodyText(text: 'Gender: '),
+                                    LabelText(text: controller.user.gender),
+                                  ],
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                  child: Row(
+                                    children: [
+                                      const BodyText(text: 'Birthdate: '),
+                                      LabelText(
+                                        text: controller.user.birthDate,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        onPressed: () => Get.toNamed('/userEditInfo'),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: InfoWithEditContainer(
+                        name: 'Education',
+                        buttonText: 'Edit',
+                        icon: Icons.edit,
+                        height: 160,
+                        widget: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                const BodyText(text: 'Level: '),
+                                LabelText(text: controller.user.education.level)
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const BodyText(text: 'Field: '),
+                                LabelText(text: controller.user.education.field)
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const BodyText(text: 'School: '),
+                                LabelText(
+                                    text: controller.user.education.school)
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Row(
+                                  children: [
+                                    const BodyText(text: 'Start Date: '),
+                                    LabelText(
+                                        text:
+                                            controller.user.education.startDate)
+                                  ],
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                  child: Row(
+                                    children: [
+                                      const BodyText(text: 'End Date: '),
+                                      LabelText(
+                                          text:
+                                              controller.user.education.endDate)
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        onPressed: () => Get.toNamed('/userEditEducation'),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: InfoWithEditContainer(
+                        name: 'Skills',
+                        buttonText: 'Edit',
+                        icon: Icons.edit,
+                        height: null,
+                        widget: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: (controller.user.skills.length),
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: Chip(
+                                label: BodyText(
+                                  text: controller.user.skills[index].name,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        onPressed: () {
+                          Get.toNamed('/userEditSkills');
+                        },
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: InfoWithEditContainer(
+                        name: 'Certificates',
+                        buttonText: 'View',
+                        height: 160,
+                        widget: const Column(),
+                        onPressed: () {},
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: InfoWithEditContainer(
+                        name: 'Portofolios',
+                        buttonText: 'View',
+                        height: 160,
+                        widget: const Column(),
+                        onPressed: () {},
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

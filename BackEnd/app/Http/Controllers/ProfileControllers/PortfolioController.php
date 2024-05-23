@@ -49,19 +49,21 @@ class PortfolioController extends Controller
             ], 401);
         }
 
-        // Handle photo file
-        if ($request->hasFile('photo')) {
-            $file = $request->file('photo');
-            $path = $file->storeAs($user->id.'/portfolios', $file->getClientOriginalName());
-            $validated['photo'] = $path;
-        }
-
         // Create user's portfolio
         $data = $validated;
         $data['user_id'] = $user->id;
+        $data = Arr::except($data, 'photo');
         $data = Arr::except($data, 'files');
         $data = Arr::except($data, 'skills');
         $portfolio = Portfolio::create($data);
+
+        // Handle photo file
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $path = $file->storeAs($user->id.'/portfolio-'.$portfolio->id, $file->getClientOriginalName());
+            $portfolio->photo = $path;
+            $portfolio->save();
+        }
 
         // Save the associated skills
         $portfolio->skills()->attach($validated['skills']);
@@ -71,7 +73,7 @@ class PortfolioController extends Controller
             $files = $request->file('files');
 
             foreach ($files as $file) {
-                $path = $file->storeAs($user->id.'/portfolios', $file->getClientOriginalName());
+                $path = $file->storeAs($user->id.'/portfolio-'.$portfolio->id, $file->getClientOriginalName());
 
                 // Create and associate a new file instance with the portfolio
                 PortfolioFile::create([
@@ -83,7 +85,7 @@ class PortfolioController extends Controller
 
         // Response
         return response()->json([
-            "message" => "Portfolio created sucessfully",
+            "message" => "Portfolio created successfully",
             "data" => new PortfolioResource($portfolio)
         ], 201);
     }
@@ -120,7 +122,7 @@ class PortfolioController extends Controller
 
             // Add new portfolio photo
             $file = $request->file('photo');
-            $path = $file->storeAs($user->id.'/portfolios', $file->getClientOriginalName());
+            $path = $file->storeAs($user->id.'/portfolio-'.$portfolio->id, $file->getClientOriginalName());
             $validated['photo'] = $path;
         }
 
@@ -133,12 +135,13 @@ class PortfolioController extends Controller
                 if ($oldPath != null) {
                     unlink(storage_path('app/'.$oldPath));
                 }
+                $File->delete();
             }
 
             // Add new portfolio files
             $files = $request->file('files');
             foreach ($files as $file) {
-                $path = $file->storeAs($user->id.'/portfolios', $file->getClientOriginalName());
+                $path = $file->storeAs($user->id.'/portfolio-'.$portfolio->id, $file->getClientOriginalName());
 
                 // Create and associate a new file instance with the portfolio
                 PortfolioFile::create([
@@ -173,7 +176,7 @@ class PortfolioController extends Controller
 
         // Response
         return response()->json([
-            "message" => "Portfolio updated sucessfully",
+            "message" => "Portfolio updated successfully",
             "data" => new PortfolioResource($portfolio)
         ], 200);
     }

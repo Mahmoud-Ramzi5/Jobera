@@ -25,11 +25,23 @@ class HomeView extends StatelessWidget {
                   children: [
                     Column(
                       children: [
-                        const ProfilePhotoContainer(),
                         GetBuilder<HomeController>(
                           builder: (controller) => Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              ProfilePhotoContainer(
+                                child: controller.isCompany
+                                    ? Icon(
+                                        Icons.business,
+                                        size: 50,
+                                        color: Colors.lightBlue.shade900,
+                                      )
+                                    : Icon(
+                                        Icons.person,
+                                        size: 50,
+                                        color: Colors.lightBlue.shade900,
+                                      ),
+                              ),
                               HeadlineText(text: controller.name),
                               LabelText(text: controller.email),
                             ],

@@ -32,7 +32,6 @@ class CompanyRegisterRequest extends FormRequest
             'confirm_password' => ['required', 'same:password'],
             'state_id' => ['required'],
             'founding_date' => ['required', 'date'],
-            'avatar_photo' => ['sometimes', 'image', 'max:4096'],
         ];
     }
 

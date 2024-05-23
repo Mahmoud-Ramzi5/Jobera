@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/controllers/profileControllers/company/company_profile_controller.dart';
+import 'package:jobera/main.dart';
 import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
 
@@ -27,10 +28,16 @@ class CompanyEditInfoController extends GetxController {
         TextEditingController(text: profileController.company.name);
     editFieldController =
         TextEditingController(text: profileController.company.field);
-    countryCode = CountryCode();
+    countryCode = CountryCode(
+      dialCode: profileController.company.phoneNumber.substring(
+        0,
+        profileController.company.phoneNumber.length - 9,
+      ),
+    );
     editPhoneNumberController = TextEditingController(
-        text: profileController.company.phoneNumber
-            .substring(profileController.company.phoneNumber.length - 9));
+      text: profileController.company.phoneNumber
+          .substring(profileController.company.phoneNumber.length - 9),
+    );
     await getCountries();
     selectedCountry = countries.firstWhere(
         (element) => element.countryName == profileController.company.country);
@@ -44,7 +51,7 @@ class CompanyEditInfoController extends GetxController {
   void onClose() {
     editNameController.dispose();
     editPhoneNumberController.dispose();
-    editPhoneNumberController.dispose();
+    editFieldController.dispose();
     super.onClose();
   }
 
@@ -111,6 +118,33 @@ class CompanyEditInfoController extends GetxController {
           response.data['states'],
         );
         update();
+      }
+    } on DioException catch (e) {
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response!.data.toString(),
+      );
+    }
+  }
+
+//toDo:implement
+  Future<dynamic> editBasicInfo() async {
+    String? token = sharedPreferences?.getString('access_token');
+    try {
+      var response = await dio.post(
+        'http://10.0.2.2:8000/api/profile/edit',
+        data: {},
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+        ),
+      );
+      if (response.statusCode == 201) {
+        Get.back();
+        profileController.refreshIndicatorKey.currentState!.show();
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(

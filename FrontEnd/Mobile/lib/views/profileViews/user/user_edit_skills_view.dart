@@ -92,6 +92,17 @@ class UserEditSkillsView extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10),
+                    child: SearchBar(
+                      hintText: 'Search',
+                      leading: Icon(
+                        Icons.search,
+                        color: Colors.lightBlue.shade900,
+                      ),
+                      onChanged: (value) => _editController.searchSkills(value),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
                     child: SkillsContainer(
                       name: 'Skills:',
                       widget: ListView.builder(
