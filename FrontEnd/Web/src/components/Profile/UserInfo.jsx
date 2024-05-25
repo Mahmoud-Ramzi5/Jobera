@@ -63,7 +63,7 @@ const UserInfo = ({ ProfileData }) => {
       UpdateProfilePicture(accessToken, avatarPhoto)
         .then((response) => {
           console.log(response);
-          if (response.status === 201) {
+          if (response.status === 200) {
             console.log("Profile picture updated successfully");
             setIsAddingPhoto(false);
             window.location.reload(); // Refresh the page

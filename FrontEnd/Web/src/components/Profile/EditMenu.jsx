@@ -1,6 +1,6 @@
-import { useState,useEffect,useRef, useContext } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import styles from "./EditMenu.module.css";
-import {  Button } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { FetchCountries, FetchStates } from '../../apis/AuthApis.jsx';
 import { EditProfile } from '../../apis/ProfileApis.jsx';
 import NormalInput from '../NormalInput';
@@ -8,7 +8,7 @@ import Inputstyles from '../../styles/Input.module.css';
 import CustomPhoneInput from '../CustomPhoneInput';
 import {
   Globe, GeoAltFill,
-  Calendar3,  PersonStanding, PersonStandingDress
+  Calendar3, PersonStanding, PersonStandingDress
 } from 'react-bootstrap-icons';
 import { LoginContext } from '../../utils/Contexts.jsx';
 const EditMenu = ({ data, onSave, onCancel }) => {
@@ -16,6 +16,7 @@ const EditMenu = ({ data, onSave, onCancel }) => {
   const initialized = useRef(false);
   const [formData, setFormData] = useState(data);
   const [Full_name, setFullName] = useState(formData.full_name);
+  const [name, setName] = useState(formData.name);
   const [PhoneNumber, setPhoneNumber] = useState(formData.phone_number);
   const [countries, setCountries] = useState([]);
   const [country, setCountry] = useState(formData.country);
@@ -69,7 +70,7 @@ const EditMenu = ({ data, onSave, onCancel }) => {
     setCountry(event.target.value);
 
     // Api Call
-    FetchStates(event.target.options.selectedIndex).then((response) => {
+    FetchStates(event.target.value).then((response) => {
       if (response.status === 200) {
         setStates(response.data.states);
       }
@@ -79,73 +80,108 @@ const EditMenu = ({ data, onSave, onCancel }) => {
     });
   }
 
-  const handleSubmit=(event)=>{
+  const handleSubmit = (event) => {
     event.preventDefault();
     var state_id;
-    states.forEach((stat,index)=>{
-      if(stat.state_name==state){
-        state_id=stat.state_id;
+    states.forEach((stat, index) => {
+      if (stat.state_name == state) {
+        state_id = stat.state_id;
       }
     });
-    EditProfile(
-      accessToken,
-      Full_name,
-      PhoneNumber,
-      state_id,
-    ).then((response) => {
-      if (response.status === 201) {   
-        console.log(response);
-        setSuccessMessage("user info updated successfully");
-      }
-      else {
-        console.log(response.statusText);
-        setFailMessage("Error in user info update");
-      }
-    })
+    {data.type === "individual" ? (
+      EditProfile(
+        accessToken,
+        Full_name,
+        PhoneNumber,
+        state_id,
+      ).then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          setSuccessMessage("user info updated successfully");
+        }
+        else {
+          console.log(response.statusText);
+          setFailMessage("Error in user info update");
+        }
+      })
+
+    ) : data.type === "company" ? (
+      EditProfile(
+        accessToken,
+        name,
+        PhoneNumber,
+        state_id,
+      ).then((response) => {
+        if (response.status === 200) {
+          console.log(response);
+          setSuccessMessage("user info updated successfully");
+        }
+        else {
+          console.log(response.statusText);
+          setFailMessage("Error in user info update");
+        }
+      })
+
+    ) : (
+      <></>
+    )}
+    
   }
 
   return (
     <div className={styles.edit_menu}>
       <form onSubmit={handleSubmit}>
-      <div className={styles.edit__row}>
-      <NormalInput
-        type="text"
-        value={Full_name}
-        setChange={setFullName}
-        placeholder="Full Name"
-      />
-      <CustomPhoneInput
-        defaultCountry='us'
-        value={PhoneNumber}
-        setChange={setPhoneNumber}
-      />
-      </div>
-      <div className={styles.edit__row}>
-      <div className={Inputstyles.field}>
-          <i className={Inputstyles.icon}><Globe /></i>
-          <select onChange={handleCountrySelect} value={country} className={Inputstyles.input} required>
-            <option key={0} value='' disabled>Country</option>
-            {(countries.length === 0) ? <></> : countries.map((country) => {
-              return <option key={country.country_id} value={country.country_name} className={Inputstyles.option}>{country.country_name}</option>
-            })}
-          </select>
+        <div className={styles.edit__row}>
+          {data.type === "individual" ? (
+            <NormalInput
+              type="text"
+              value={Full_name}
+              setChange={setFullName}
+              placeholder="Full Name"
+            />
+          ) : data.type === "company" ? (
+            <NormalInput
+              type="text"
+              value={name}
+              setChange={setName}
+              placeholder="Name"
+            />
+          ) : (
+            <></>
+          )}
+
+          <CustomPhoneInput
+            defaultCountry='us'
+            value={PhoneNumber}
+            setChange={setPhoneNumber}
+          />
         </div>
-        <div className={Inputstyles.field}>
-          <i className={Inputstyles.icon}><GeoAltFill /></i>
-          <select onChange={(event) => setState(event.target.value)} value={state} className={Inputstyles.input} required>
-            <option key={0} value='' disabled>City</option>
-            {(states.length === 0) ? <></> : states.map((state) => {
-              return <option key={state.state_id} value={state.state_name} className={Inputstyles.option}>{state.state_name}</option>
-            })}
-          </select>
+        <div className={styles.edit__row}>
+          <div className={Inputstyles.field}>
+            <i className={Inputstyles.icon}><Globe /></i>
+            <select onChange={handleCountrySelect} value={country} className={Inputstyles.input} required>
+              <option key={0} value='' disabled>Country</option>
+              {(countries.length === 0) ? <></> : countries.map((country) => {
+                return <option key={country.country_id} value={country.country_name} className={Inputstyles.option}>{country.country_name}</option>
+              })}
+            </select>
+          </div>
+          <div className={Inputstyles.field}>
+            <i className={Inputstyles.icon}><GeoAltFill /></i>
+            <select onChange={(event) => setState(event.target.value)} value={state} className={Inputstyles.input} required>
+              <option key={0} value='' disabled>City</option>
+              {(states.length === 0) ? <></> : states.map((state) => {
+                return <option key={state.state_id} value={state.state_name} className={Inputstyles.option}>{state.state_name}</option>
+              })}
+            </select>
+          </div>
         </div>
-      </div>
-      {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
-      {failMessage && <p className={styles.failMessage}>{failMessage}</p>}
+        {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
+        {failMessage && <p className={styles.failMessage}>{failMessage}</p>}
         <Button className={styles.submitButton} variant="primary" type="submit">Submit</Button>
-        </form>
-      <Button className={styles.saveButton} variant="primary"  onClick={onSave}>Save</Button>
-      <Button className={styles.cansleButton} variant="secondary"  onClick={onCancel}>Cancel</Button>
+      </form>
+      <Button className={styles.saveButton} variant="primary" onClick={onSave}>Save</Button>
+      <Button className={styles.cansleButton} variant="secondary" onClick={onCancel}>Cancel</Button>
     </div>
   );
 };

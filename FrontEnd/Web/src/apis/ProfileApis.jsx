@@ -278,13 +278,14 @@ export const DeletePortfolioAPI = async (token, id) => {
 
 export const EditProfile = async (
   token,
-  FullName,
+  Name,
   PhoneNumber,
   state_id,
 ) => {
   try {
     const response = await axios.post('http://127.0.0.1:8000/api/profile/edit', {
-      "full_name": FullName,
+      "name": Name,
+      "full_name": Name,
       "phone_number": PhoneNumber,
       "state_id": state_id,
     }, {
@@ -332,7 +333,7 @@ export const AdvanceRegisterStep = async (token) => {
 export const UpdateProfilePicture=async(token,avatarPhoto)=>{
   try {
     const response = await axios.post(`http://127.0.0.1:8000/api/profile/photo`, {
-     "avatar_photo": avatarPhoto
+    "avatar_photo": avatarPhoto
     }, {
       headers: {
         'Content-Type': 'multipart/form-data; charset=UTF-8',
