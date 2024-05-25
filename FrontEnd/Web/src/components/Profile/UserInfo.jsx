@@ -105,6 +105,11 @@ const UserInfo = ({ ProfileData }) => {
     return stars;
   };
 
+  const handleDescriptionChange = () => {
+    setIsEditing(false);
+    //need an api to send description to the back
+  };
+
   const toggleEdit = () => {
     setIsEditing(!isEditing);
   };
@@ -188,7 +193,7 @@ const UserInfo = ({ ProfileData }) => {
                 />
               </div>
             ) : (
-              <p className={styles.description}>{formattedDescription}</p>
+              <p className={styles.description}><b><strong>Description:</strong></b> {formattedDescription}</p>
             )}
             {isEditingProfile ? (
               <EditMenu
@@ -204,6 +209,7 @@ const UserInfo = ({ ProfileData }) => {
             <Button variant="secondary" onClick={handleShareProfile}>
               Share
             </Button>{" "}
+            {isEditing ? <Button className = {styles.descriptionEdit} variant="success" onClick={handleDescriptionChange}>Save Description</Button> : <></>}
             <Button variant="info" onClick={toggleEdit}>
               {isEditing ? "Cancel" : "Edit Description"}
             </Button>

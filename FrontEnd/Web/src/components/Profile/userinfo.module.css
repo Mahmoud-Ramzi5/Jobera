@@ -88,3 +88,13 @@
     width: 100%;
   }
 }
+
+.Card_Img {
+  width: 150px;
+  height: 200px;
+  object-fit: fill;
+}
+
+.descriptionEdit{
+  margin-right:5px;
+}
