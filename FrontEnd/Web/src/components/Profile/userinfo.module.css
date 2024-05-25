@@ -24,7 +24,7 @@
   transition: filter 300ms;
 }
 
-.info_in_profile{
+.info_in_profile {
   width: 50%;
   padding: 10px 10px;
 }
@@ -50,6 +50,8 @@
 .profile_picture_container {
   position: relative;
   display: inline-block;
+  width: 250px;
+  height: 250px;
 }
 
 .profile_picture_overlay {
@@ -83,18 +85,20 @@
     display: block;
     text-align: center;
   }
-  
+
   .info_in_profile {
     width: 100%;
   }
 }
 
 .Card_Img {
-  width: 150px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
   object-fit: fill;
+  padding-top: 10px;
+  padding-left: 10px;
 }
 
-.descriptionEdit{
-  margin-right:5px;
+.descriptionEdit {
+  margin-right: 5px;
 }

@@ -6,7 +6,7 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import EditMenu from "./EditMenu";
 import { LoginContext } from "../../utils/Contexts";
-import { UpdateProfilePicture } from "../../apis/ProfileApis";
+import { UpdateProfilePicture, EditDescription } from "../../apis/ProfileApis";
 import { FetchImage } from "../../apis/FileApi";
 
 const UserInfo = ({ ProfileData }) => {
@@ -47,33 +47,24 @@ const UserInfo = ({ ProfileData }) => {
   const handleShareProfile = () => {
     // Handle share profile logic
   };
-  const handleEditPhoto=()=>{
+  const handleEditPhoto = () => {
     setIsAddingPhoto(true);
   }
   const handlePhotoChange = (event) => {
     console.log(event.target.files[0])
     setAvatarPhoto(event.target.files[0]);
-    console.log(avatarPhoto)
-  };
-
-  const handleProfilePictureChange = (event) => {
-    event.preventDefault(); // Prevent the default form submission behavior
-
-    if (avatarPhoto) {
-      UpdateProfilePicture(accessToken, avatarPhoto)
-        .then((response) => {
-          console.log(response);
-          if (response.status === 200) {
-            console.log("Profile picture updated successfully");
-            setIsAddingPhoto(false);
-            window.location.reload(); // Refresh the page
-          }
-        })
-        .catch((error) => {
-          // Handle error response, e.g. display an error message or log the error
-          console.error("Error updating profile picture:", error);
-        });
-    }
+    UpdateProfilePicture(accessToken, event.target.files[0])
+    .then((response) => {
+      console.log(response);
+      if (response.status === 200) {
+        console.log("Profile picture updated successfully");
+        setIsAddingPhoto(false);
+      }
+    })
+    .catch((error) => {
+      // Handle error response, e.g. display an error message or log the error
+      console.error("Error updating profile picture:", error);
+    });
   };
 
   const handleEditorChange = (event, editor) => {
@@ -106,8 +97,15 @@ const UserInfo = ({ ProfileData }) => {
   };
 
   const handleDescriptionChange = () => {
-    setIsEditing(false);
-    //need an api to send description to the back
+    EditDescription(accessToken, formattedDescription).then((response) => {
+      if (response.status === 200) {
+        console.log("Description updated successfully");
+        setIsEditing(false);
+      }
+      else {
+        console.log(response);
+      }
+    });
   };
 
   const toggleEdit = () => {
@@ -126,40 +124,42 @@ const UserInfo = ({ ProfileData }) => {
     <Card className={styles.user_info_card}>
       <div className={styles.user_info_inside}>
         <div className={styles.profile_picture_container}>
-          {!isAddingPhoto ? (
-            avatarPhoto ? (        
-              <Card.Img
-                className={styles.Card_Img}
-                variant="top"
-                src={URL.createObjectURL(avatarPhoto)}
-                alt={"picture"}
-                onClick={ handleEditPhoto}
-              />
-            ) : (
-              <Card.Img
-                className={styles.Card_Img}
-                variant="top"
-                src={
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s"
-                }
-                alt={"picture"}
-                onClick={ handleEditPhoto}
-              />
-            )
-          ) : (
-            <form onSubmit={handleProfilePictureChange}>
-              <input
-                id="photo"
-                type="file"
-                placeholder="Photo"
-                accept=".png,.jpg,.jpeg"
-                onChange={handlePhotoChange} // Call handlePhotoChange when a file is selected
-              />
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
-            </form>
-          )}
+          <form className={styles.profile_picture_container}>
+            <label htmlFor='photo' className={styles.img_holder}>
+              {avatarPhoto ? (
+                <Card.Img
+                  className={styles.Card_Img}
+                  variant="top"
+                  src={URL.createObjectURL(avatarPhoto)}
+                  alt={"picture"}
+                  onClick={handleEditPhoto}
+                  style={{ pointerEvents: 'none' }}
+                />
+              ) : (
+                <Card.Img
+                  className={styles.Card_Img}
+                  variant="top"
+                  src={
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s"
+                  }
+                  alt={"picture"}
+                  onClick={handleEditPhoto}
+                  style={{ pointerEvents: 'none' }}
+                />
+              )}
+              <div className={styles.profile_picture_overlay}>
+                <div className={styles.profile_picture_text}>Change Photo</div>
+              </div>
+            </label>
+            <input
+              id="photo"
+              type="file"
+              placeholder="Photo"
+              accept=".png,.jpg,.jpeg"
+              onChange={handlePhotoChange} // Call handlePhotoChange when a file is selected
+              style={{ visibility: 'hidden' }}
+            />
+          </form>
         </div>
         <div className={styles.info_in_profile}>
           <div className={styles.user_info_title}>
@@ -209,7 +209,7 @@ const UserInfo = ({ ProfileData }) => {
             <Button variant="secondary" onClick={handleShareProfile}>
               Share
             </Button>{" "}
-            {isEditing ? <Button className = {styles.descriptionEdit} variant="success" onClick={handleDescriptionChange}>Save Description</Button> : <></>}
+            {isEditing ? <Button className={styles.descriptionEdit} variant="success" onClick={handleDescriptionChange}>Save Description</Button> : <></>}
             <Button variant="info" onClick={toggleEdit}>
               {isEditing ? "Cancel" : "Edit Description"}
             </Button>

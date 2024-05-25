@@ -176,12 +176,12 @@ const EditMenu = ({ data, onSave, onCancel }) => {
             </select>
           </div>
         </div>
-        {successMessage && <p className={styles.successMessage}>{successMessage}</p>}
-        {failMessage && <p className={styles.failMessage}>{failMessage}</p>}
-        <Button className={styles.submitButton} variant="primary" type="submit">Submit</Button>
+        {successMessage && <p className={styles.success_message}>{successMessage}</p>}
+        {failMessage && <p className={styles.fail_message}>{failMessage}</p>}
+        <Button className={styles.submit_button} variant="primary" type="submit">Submit</Button>
       </form>
-      <Button className={styles.saveButton} variant="primary" onClick={onSave}>Save</Button>
-      <Button className={styles.cansleButton} variant="secondary" onClick={onCancel}>Cancel</Button>
+      <Button className={styles.save_button} variant="primary" onClick={onSave}>Save</Button>
+      <Button className={styles.cancel_button} variant="secondary" onClick={onCancel}>Cancel</Button>
     </div>
   );
 };

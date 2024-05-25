@@ -330,13 +330,29 @@ export const AdvanceRegisterStep = async (token) => {
     return error.response;
   }
 };
-export const UpdateProfilePicture=async(token,avatarPhoto)=>{
+export const UpdateProfilePicture = async (token, avatarPhoto) => {
   try {
     const response = await axios.post(`http://127.0.0.1:8000/api/profile/photo`, {
-    "avatar_photo": avatarPhoto
+      "avatar_photo": avatarPhoto
     }, {
       headers: {
         'Content-Type': 'multipart/form-data; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+export const EditDescription = async (token, description) => {
+  try {
+    const response = await axios.post(`http://127.0.0.1:8000/api/profile/description`, {
+      "description": description
+    }, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",
         'Authorization': `Bearer ${token}`
       }
