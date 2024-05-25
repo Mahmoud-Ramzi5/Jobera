@@ -76,7 +76,7 @@ class ProfileController extends Controller
             return response()->json([
                 "message" => "User data updated successfully",
                 'user' => new IndividualResource($individual)
-            ], 201);
+            ], 200);
         }
 
         // Check company
@@ -92,7 +92,7 @@ class ProfileController extends Controller
             return response()->json([
                 "message" => "User data updated successfully",
                 'user' => new CompanyResource($company)
-            ], 201);
+            ], 200);
         }
 
         // Response
