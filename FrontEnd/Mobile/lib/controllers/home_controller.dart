@@ -8,6 +8,7 @@ class HomeController extends GetxController {
   late bool isCompany;
   late String name;
   late String email;
+  late String? photo;
 
   @override
   void onInit() {
@@ -38,17 +39,19 @@ class HomeController extends GetxController {
         if (response.data['user']['type'] == 'company') {
           name = response.data['user']['name'];
           email = response.data['user']['email'];
+          photo = response.data['user']['avatar_photo'];
           isCompany = true;
         } else if (response.data['user']['type'] == 'individual') {
           name = response.data['user']['full_name'];
           email = response.data['user']['email'];
+          photo = response.data['user']['avatar_photo'];
           isCompany = false;
         }
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.data.toString(),
+        e.response.toString(),
       );
     }
   }
@@ -77,7 +80,7 @@ class HomeController extends GetxController {
     } on DioException catch (e) {
       await Dialogs().showErrorDialog(
         'Logout Failed',
-        e.response!.data.toString(),
+        e.response.toString(),
       );
     }
   }

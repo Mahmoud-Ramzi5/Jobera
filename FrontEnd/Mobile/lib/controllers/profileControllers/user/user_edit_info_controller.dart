@@ -26,12 +26,10 @@ class UserEditInfoController extends GetxController {
     editNameController =
         TextEditingController(text: profileController.user.name);
     countryCode = CountryCode(
-      dialCode: profileController.user.phoneNumber
-          .substring(0, profileController.user.phoneNumber.length - 9),
+      dialCode: profileController.user.phoneNumber,
     );
     editPhoneNumberController = TextEditingController(
-      text: profileController.user.phoneNumber
-          .substring(profileController.user.phoneNumber.length - 9),
+      text: profileController.user.phoneNumber,
     );
     await getCountries();
     selectedCountry = countries.firstWhere(
@@ -51,6 +49,7 @@ class UserEditInfoController extends GetxController {
 
   void selectCountryCode(CountryCode code) {
     countryCode = code;
+    editPhoneNumberController.text = code.dialCode!;
     update();
   }
 
@@ -89,7 +88,7 @@ class UserEditInfoController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.data.toString(),
+        e.response.toString(),
       );
     }
   }
@@ -116,7 +115,7 @@ class UserEditInfoController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.data.toString(),
+        e.response.toString(),
       );
     }
   }
@@ -143,14 +142,14 @@ class UserEditInfoController extends GetxController {
           },
         ),
       );
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         Get.back();
         profileController.refreshIndicatorKey.currentState!.show();
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.data.toString(),
+        e.response.toString(),
       );
     }
   }

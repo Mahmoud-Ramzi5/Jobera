@@ -108,7 +108,6 @@ class CompanyRegisterView extends StatelessWidget {
                         obsecureText: false,
                         labelText: 'Phone Number',
                         icon: const Icon(Icons.phone),
-                        maxLength: 9,
                         validator: (p0) => Validation().validatePhoneNumber(p0),
                       ),
                     ),
@@ -181,7 +180,8 @@ class CompanyRegisterView extends StatelessWidget {
                               _companyRegisterController
                                   .confirmPasswordController.text,
                               _companyRegisterController.selectedState!.stateId,
-                              '${_companyRegisterController.countryCode.dialCode}${_companyRegisterController.phoneNumberController.text}',
+                              _companyRegisterController
+                                  .phoneNumberController.text,
                               '${_companyRegisterController.selectedDate.day}-${_companyRegisterController.selectedDate.month}-${_companyRegisterController.selectedDate.year}',
                             );
                           }

@@ -30,16 +30,25 @@ class HomeView extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               ProfilePhotoContainer(
-                                child: controller.isCompany
-                                    ? Icon(
-                                        Icons.business,
-                                        size: 50,
-                                        color: Colors.lightBlue.shade900,
-                                      )
-                                    : Icon(
-                                        Icons.person,
-                                        size: 50,
-                                        color: Colors.lightBlue.shade900,
+                                child: controller.photo == null
+                                    ? controller.isCompany
+                                        ? Icon(
+                                            Icons.business,
+                                            size: 50,
+                                            color: Colors.lightBlue.shade900,
+                                          )
+                                        : Icon(
+                                            Icons.person,
+                                            size: 50,
+                                            color: Colors.lightBlue.shade900,
+                                          )
+                                    : Image.network(
+                                        'http://10.0.2.2:8000/api/image/${controller.photo}',
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                Text(error.toString()),
+                                        fit: BoxFit.contain,
+                                        height: 5,
                                       ),
                               ),
                               HeadlineText(text: controller.name),
