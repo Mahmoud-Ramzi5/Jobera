@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:image_picker/image_picker.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/main.dart';
@@ -52,7 +52,7 @@ class CompanyProfileController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.data.toString(),
+        e.response.toString(),
       );
     }
   }
@@ -77,7 +77,7 @@ class CompanyProfileController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.data.toString(),
+        e.response.toString(),
       );
     }
   }
@@ -116,17 +116,24 @@ class CompanyProfileController extends GetxController {
 
   Future<void> addPhoto() async {
     String? token = sharedPreferences?.getString('access_token');
+    FormData formData = FormData();
+    formData.files.add(
+      MapEntry(
+        'avatar_photo',
+        await MultipartFile.fromFile(image!.path),
+      ),
+    );
     try {
       var response = await dio.post(
         'http://10.0.2.2:8000/api/profile/photo',
+        data: formData,
         options: Options(
           headers: {
             'Content-Type': 'multipart/form-data; charset=UTF-8',
-            'Accept': "application/json",
-            'Authorization': 'Bearer $token'
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
           },
         ),
-        data: {"avatar_photo": image},
       );
       if (response.statusCode == 200) {
         Dialogs().showSuccessDialog('Photo added successfully', '');
@@ -134,7 +141,7 @@ class CompanyProfileController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.statusMessage.toString(),
+        e.response!.statusCode.toString(),
       );
     }
   }

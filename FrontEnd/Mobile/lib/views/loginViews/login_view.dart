@@ -70,7 +70,7 @@ class LoginView extends StatelessWidget {
                             padding: const EdgeInsets.all(10),
                             child: Row(
                               children: [
-                                const LabelText(text: "Remember Me ?"),
+                                const LabelText(text: "Remember Me?"),
                                 GetBuilder<LoginController>(
                                   builder: (controller) => Checkbox(
                                     activeColor: Colors.orange.shade800,
@@ -129,7 +129,7 @@ class LoginView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const LabelText(text: "New Around Here ?"),
+                      const LabelText(text: "New Around Here?"),
                       TextButton(
                           onPressed: () => Get.toNamed('/register'),
                           child: const BodyText(text: "Register")),

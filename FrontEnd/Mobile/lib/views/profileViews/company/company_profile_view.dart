@@ -25,23 +25,26 @@ class CompanyProfileView extends StatelessWidget {
                 Stack(
                   alignment: Alignment.center,
                   children: [
-                    const ProfileBackgroundContainer(),
-                    ProfilePhotoContainer(
+                    ProfileBackgroundContainer(
                       child: controller.company.photo == null
                           ? Icon(
-                              Icons.add_a_photo,
+                              Icons.business,
                               size: 50,
                               color: Colors.lightBlue.shade900,
                             )
-                          : null,
-                      onTap: () => Dialogs().addPhotoDialog(
-                        () {
-                          controller.takePhotoFromCamera();
-                          controller.addPhoto();
+                          : Image.network(
+                              'http://10.0.2.2:8000/api/image/${controller.company.photo}',
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Text(error.toString()),
+                            ),
+                      onPressed: () => Dialogs().addPhotoDialog(
+                        () async {
+                          await controller.takePhotoFromCamera();
+                          await controller.addPhoto();
                         },
-                        () {
-                          controller.pickPhotoFromGallery();
-                          controller.addPhoto();
+                        () async {
+                          await controller.pickPhotoFromGallery();
+                          await controller.addPhoto();
                         },
                         () {},
                       ),
@@ -52,29 +55,25 @@ class CompanyProfileView extends StatelessWidget {
                   children: [
                     HeadlineText(text: controller.company.name),
                     const HeadlineText(text: 'Rating:'),
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Dialogs().addBioDialog(
-                              controller.editBioController,
-                              () {
-                                controller
-                                    .editBio(controller.editBioController.text);
-                                controller.refreshIndicatorKey.currentState!
-                                    .show();
-                              },
-                            );
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: InfoWithEditContainer(
+                        name: 'Bio:',
+                        buttonText: 'Edit',
+                        icon: Icons.edit,
+                        height: 100,
+                        widget: BodyText(
+                          text: '${controller.company.description}',
+                        ),
+                        onPressed: () => Dialogs().addBioDialog(
+                          controller.editBioController,
+                          () {
+                            controller
+                                .editBio(controller.editBioController.text);
+                            controller.refreshIndicatorKey.currentState!.show();
                           },
-                          icon: Icon(
-                            Icons.edit,
-                            color: Colors.orange.shade800,
-                          ),
                         ),
-                        HeadlineText(
-                          text: 'Bio: ${controller.company.description}',
-                        ),
-                      ],
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10),

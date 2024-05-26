@@ -29,14 +29,10 @@ class CompanyEditInfoController extends GetxController {
     editFieldController =
         TextEditingController(text: profileController.company.field);
     countryCode = CountryCode(
-      dialCode: profileController.company.phoneNumber.substring(
-        0,
-        profileController.company.phoneNumber.length - 9,
-      ),
+      dialCode: profileController.company.phoneNumber,
     );
     editPhoneNumberController = TextEditingController(
-      text: profileController.company.phoneNumber
-          .substring(profileController.company.phoneNumber.length - 9),
+      text: profileController.company.phoneNumber,
     );
     await getCountries();
     selectedCountry = countries.firstWhere(
@@ -57,6 +53,7 @@ class CompanyEditInfoController extends GetxController {
 
   void selectCountryCode(CountryCode code) {
     countryCode = code;
+    editPhoneNumberController.text = code.dialCode!;
     update();
   }
 
@@ -95,7 +92,7 @@ class CompanyEditInfoController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.data.toString(),
+        e.response.toString(),
       );
     }
   }
@@ -122,18 +119,28 @@ class CompanyEditInfoController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.data.toString(),
+        e.response.toString(),
       );
     }
   }
 
 //toDo:implement
-  Future<dynamic> editBasicInfo() async {
+  Future<dynamic> editBasicInfo(
+    String name,
+    String field,
+    String phoneNumber,
+    int stateId,
+  ) async {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
         'http://10.0.2.2:8000/api/profile/edit',
-        data: {},
+        data: {
+          "name": name,
+          "field": field,
+          "phone_number": phoneNumber,
+          "state_id": stateId,
+        },
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -142,14 +149,14 @@ class CompanyEditInfoController extends GetxController {
           },
         ),
       );
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         Get.back();
         profileController.refreshIndicatorKey.currentState!.show();
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.data.toString(),
+        e.response.toString(),
       );
     }
   }

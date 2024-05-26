@@ -29,7 +29,7 @@ class Validation {
   String? validatePhoneNumber(String? value) {
     if (value!.isEmpty) {
       return "Required Field";
-    } else if (value.length != 9) {
+    } else if (!value.isNum) {
       return "Invalid Phone Number";
     }
     return null;

@@ -133,7 +133,7 @@ class UserEditSkillsView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(10),
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () => _editController.editSkills(),
                 child: const BodyText(text: 'Submit'),
               ),
             )

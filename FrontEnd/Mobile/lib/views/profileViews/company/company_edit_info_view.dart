@@ -52,14 +52,6 @@ class CompanyEditInfoView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CodePicker(
-                  initialSelection: _editController
-                      .profileController.company.phoneNumber
-                      .substring(
-                    0,
-                    _editController
-                            .profileController.company.phoneNumber.length -
-                        9,
-                  ),
                   onChange: (p0) => _editController.selectCountryCode(p0),
                 ),
                 SizedBox(
@@ -70,7 +62,6 @@ class CompanyEditInfoView extends StatelessWidget {
                     obsecureText: false,
                     labelText: 'Phone Number',
                     icon: const Icon(Icons.phone),
-                    maxLength: 9,
                     validator: (p0) => Validation().validatePhoneNumber(p0),
                   ),
                 ),
@@ -111,7 +102,11 @@ class CompanyEditInfoView extends StatelessWidget {
                   text: 'Select City',
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => _editController.editBasicInfo(
+                      _editController.editNameController.text,
+                      _editController.editFieldController.text,
+                      _editController.editPhoneNumberController.text,
+                      _editController.selectedState!.stateId),
                   child: const BodyText(text: 'Submit'),
                 )
               ],

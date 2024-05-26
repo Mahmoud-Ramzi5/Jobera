@@ -28,15 +28,16 @@ class CompanyRegisterController extends GetxController {
   @override
   void onInit() {
     formField = GlobalKey<FormState>();
+    countryCode = CountryCode(dialCode: '+963');
     nameController = TextEditingController();
     workFieldController = TextEditingController();
     emailController = TextEditingController();
-    phoneNumberController = TextEditingController();
+    phoneNumberController = TextEditingController(text: countryCode.dialCode);
     passwordController = TextEditingController();
     confirmPasswordController = TextEditingController();
     passwordToggle = true;
     selectedDate = DateTime.now();
-    countryCode = CountryCode(dialCode: '+963');
+
     dio = Dio();
     selectedCountry = null;
     super.onInit();
@@ -66,6 +67,7 @@ class CompanyRegisterController extends GetxController {
 
   void selectCountryCode(CountryCode code) {
     countryCode = code;
+    phoneNumberController.text = code.dialCode!;
     update();
   }
 
@@ -122,7 +124,7 @@ class CompanyRegisterController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.data.toString(),
+        e.response.toString(),
       );
     }
   }
@@ -149,7 +151,7 @@ class CompanyRegisterController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.data.toString(),
+        e.response.toString(),
       );
     }
   }
@@ -199,7 +201,7 @@ class CompanyRegisterController extends GetxController {
     } on DioException catch (e) {
       await Dialogs().showErrorDialog(
         'Register Failed',
-        e.response!.data.toString(),
+        e.response.toString(),
       );
     }
   }

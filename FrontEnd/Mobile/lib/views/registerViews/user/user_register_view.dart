@@ -97,7 +97,6 @@ class UserRegisterView extends StatelessWidget {
                         obsecureText: false,
                         labelText: 'Phone Number',
                         icon: const Icon(Icons.phone),
-                        maxLength: 9,
                         validator: (p0) => Validation().validatePhoneNumber(p0),
                       ),
                     ),
@@ -203,7 +202,7 @@ class UserRegisterView extends StatelessWidget {
                         _userRegisterController.passwordController.text,
                         _userRegisterController.confirmPasswordController.text,
                         _userRegisterController.selectedState!.stateId,
-                        '${_userRegisterController.countryCode.dialCode}${_userRegisterController.phoneNumberController.text}',
+                        _userRegisterController.phoneNumberController.text,
                         _userRegisterController.selectedGender,
                         '${_userRegisterController.selectedDate.day}-${_userRegisterController.selectedDate.month}-${_userRegisterController.selectedDate.year}',
                       );

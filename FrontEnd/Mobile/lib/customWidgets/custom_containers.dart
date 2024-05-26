@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:jobera/classes/texts.dart';
 
 class DateContainer extends StatelessWidget {
@@ -64,51 +66,85 @@ class ProfilePhotoContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 150,
-      height: 150,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          GestureDetector(
-            onTap: onTap,
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.orange.shade800),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(10),
+        height: 150,
+        width: 150,
+        decoration: ShapeDecoration(
+          shape: BeveledRectangleBorder(
+              borderRadius: const BorderRadius.all(
+                Radius.circular(10),
               ),
-              child: child,
-            ),
-          ),
-        ],
+              side: BorderSide(color: Colors.orange.shade800)),
+        ),
+        child: child,
       ),
     );
   }
 }
 
 class ProfileBackgroundContainer extends StatelessWidget {
-  const ProfileBackgroundContainer({super.key});
+  final Widget child;
+  final void Function()? onPressed;
+
+  const ProfileBackgroundContainer(
+      {super.key, required this.child, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(10),
-      child: Container(
-        height: 200,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Colors.orange.shade800,
-              Colors.lightBlue.shade900,
-            ],
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Container(
+            height: 200,
+            decoration: ShapeDecoration(
+              shape: const BeveledRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
+                ),
+              ),
+              gradient: LinearGradient(
+                colors: [
+                  Colors.orange.shade800,
+                  Colors.lightBlue.shade900,
+                ],
+              ),
+            ),
           ),
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(50),
-            topRight: Radius.circular(50),
-            bottomLeft: Radius.circular(50),
-            bottomRight: Radius.circular(50),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: IconButton(
+              onPressed: onPressed,
+              icon: const Icon(
+                Icons.add_a_photo,
+                color: Colors.cyan,
+              ),
+            ),
           ),
-        ),
+          Container(
+            // padding: const EdgeInsets.all(10),
+            decoration: const ShapeDecoration(
+              shape: BeveledRectangleBorder(
+                side: BorderSide(color: Colors.cyan),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(10),
+                ),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: SizedBox(
+                height: 150,
+                width: 150,
+                child: child,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
