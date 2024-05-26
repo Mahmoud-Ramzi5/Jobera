@@ -1,7 +1,8 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import ReactSwitch from 'react-switch';
 import { BriefcaseFill, EnvelopeAtFill, BellFill, List, X } from 'react-bootstrap-icons';
 import { ThemeContext, LoginContext, ProfileContext } from '../utils/Contexts.jsx';
+import { FetchImage } from '../apis/FileApi.jsx';
 import Logo from '../assets/JoberaLogo.png';
 import styles from '../styles/navbar.module.css';
 
@@ -71,10 +72,30 @@ const NavBar = () => {
 };
 
 const NavUser = ({ ProfileData }) => {
+  const [avatarPhotoPath, setAvatarPhotoPath] = useState(
+    ProfileData.avatar_photo
+  );
+  const [avatarPhoto, setAvatarPhoto] = useState(null);
+  const { accessToken } = useContext(LoginContext);
+
+  useEffect(() => {
+    if (avatarPhotoPath) {
+      FetchImage(accessToken, avatarPhotoPath).then((response) => {
+        setAvatarPhoto(response);
+      });
+      setAvatarPhotoPath(null);
+    }
+  });
+
   return (
     <div className={styles.profile}>
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s"
-        className={styles.profile_image}></img>
+      {avatarPhoto ? (
+        <img src={URL.createObjectURL(avatarPhoto)}
+          className={styles.profile_image}></img>
+      ) : (
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s"
+          className={styles.profile_image}></img>
+      )}
       <div className={styles.profile_details}>
         <div>
           {ProfileData.type === 'individual' ? ProfileData.full_name
