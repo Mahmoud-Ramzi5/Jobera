@@ -27,6 +27,8 @@ import EmailVerificationMessage from './pages/EmailVerification.jsx';
 
 import FileDisplay from './components/FileDisplay.jsx';
 import FileInputTest from './components/FileInputTest.jsx';
+import PostJob from './components/Jobs/PostJob.jsx';
+import PostFreelancing from './components/Jobs/PostFreelancing.jsx';
 
 function App() {
   const initialized = useRef(false);
@@ -144,6 +146,8 @@ function App() {
               <Route path="/ForgetPassword" element={<ForgotPassword />} />
               <Route path="/emailVerify" element={<EmailVerificationMessage />} />
               <Route path='/file' element={< FileDisplay />} />
+              <Route path='/job' element={<PostJob/>}/>
+              <Route path='/freelancing' element={<PostFreelancing/>}/>
             </Route>
           </Routes>
         </BrowserRouter>
