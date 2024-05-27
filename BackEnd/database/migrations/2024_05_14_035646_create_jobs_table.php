@@ -12,12 +12,12 @@ return new class extends Migration
     {
         Schema::create('regJobs', function (Blueprint $table) {
             $table->id();
-            $table->string("title");
-            $table->foreignId("company_id")->constrained('companies');
-            $table->text("description");
-            $table->integer("salary");
-            $table->enum("type", ['part', 'full']);
-            $table->boolean("is_done");
+            $table->string('title');
+            $table->text('description');
+            $table->float('salary');
+            $table->enum('type', ['PartTime', 'FullTime']);
+            $table->boolean('is_done');
+            $table->foreignId('company_id')->constrained('companies');
             $table->foreignId('accepted_individual')->nullable()->constrained('individuals');
             $table->timestamps();
         });
