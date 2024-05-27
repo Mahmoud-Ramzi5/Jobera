@@ -27,44 +27,22 @@ class UserEditSkillsView extends StatelessWidget {
                     child: SkillsContainer(
                       name: 'My Skills',
                       widget: ListView.builder(
-                        itemCount: (controller.myskills.length / 2).ceil(),
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: (controller.myskills.length),
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          final firstIndex = index * 2;
-                          final secondIndex = firstIndex + 1;
-                          return Row(
-                            children: [
-                              if (firstIndex < controller.myskills.length)
-                                Padding(
-                                  padding: const EdgeInsets.all(5),
-                                  child: InputChip(
-                                    deleteIcon: const Icon(Icons.cancel),
-                                    onDeleted: () {
-                                      controller.deleteSkill(
-                                          controller.myskills[firstIndex]);
-                                    },
-                                    label: BodyText(
-                                      text:
-                                          controller.myskills[firstIndex].name,
-                                    ),
-                                  ),
-                                ),
-                              if (secondIndex < controller.myskills.length)
-                                Padding(
-                                  padding: const EdgeInsets.all(5),
-                                  child: InputChip(
-                                    deleteIcon: const Icon(Icons.cancel),
-                                    onDeleted: () {
-                                      controller.deleteSkill(
-                                          controller.myskills[secondIndex]);
-                                    },
-                                    label: BodyText(
-                                      text:
-                                          controller.myskills[secondIndex].name,
-                                    ),
-                                  ),
-                                ),
-                            ],
+                          return Padding(
+                            padding: const EdgeInsets.all(5),
+                            child: InputChip(
+                              deleteIcon: const Icon(Icons.cancel),
+                              onDeleted: () {
+                                controller
+                                    .deleteSkill(controller.myskills[index]);
+                              },
+                              label: BodyText(
+                                text: controller.myskills[index].name,
+                              ),
+                            ),
                           );
                         },
                       ),
@@ -79,12 +57,15 @@ class UserEditSkillsView extends StatelessWidget {
                         itemCount: controller.skillTypes.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          return TypesContainer(
-                            text: controller.skillTypes[index].value['en']!,
-                            onTap: () {
-                              controller
-                                  .getSkills(controller.skillTypes[index].name);
-                            },
+                          return Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: ListContainer(
+                              text: controller.skillTypes[index].value['en']!,
+                              onTap: () {
+                                controller.getSkills(
+                                    controller.skillTypes[index].name);
+                              },
+                            ),
                           );
                         },
                       ),

@@ -223,7 +223,20 @@ class UserProfileView extends StatelessWidget {
                         name: 'Certificates',
                         buttonText: 'View',
                         height: 160,
-                        widget: const Column(),
+                        widget: ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: controller.user.certificates!.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: ListContainer(
+                                text: controller.user.certificates![index].name,
+                                onTap: () {},
+                              ),
+                            );
+                          },
+                        ),
                         onPressed: () {},
                       ),
                     ),

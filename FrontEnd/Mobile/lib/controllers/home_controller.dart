@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/main.dart';
@@ -9,20 +10,23 @@ class HomeController extends GetxController {
   late String name;
   late String email;
   late String? photo;
+  late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     dio = Dio();
+    refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
     name = '';
     email = '';
     isCompany = false;
+    await fetchUser();
     super.onInit();
   }
 
-  @override
-  onReady() async {
-    await fetchUser();
-  }
+  // @override
+  // onReady() async {
+  //   await fetchUser();
+  // }
 
   Future<void> fetchUser() async {
     String? token = sharedPreferences?.getString('access_token');

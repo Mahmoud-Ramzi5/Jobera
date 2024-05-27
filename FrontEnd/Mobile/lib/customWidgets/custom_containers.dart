@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:jobera/classes/texts.dart';
 
 class DateContainer extends StatelessWidget {
@@ -253,11 +251,11 @@ class SkillsContainer extends StatelessWidget {
   }
 }
 
-class TypesContainer extends StatelessWidget {
+class ListContainer extends StatelessWidget {
   final String text;
   final void Function()? onTap;
 
-  const TypesContainer({
+  const ListContainer({
     super.key,
     required this.text,
     required this.onTap,

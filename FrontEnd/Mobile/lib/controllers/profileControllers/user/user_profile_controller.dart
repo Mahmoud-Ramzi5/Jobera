@@ -94,7 +94,6 @@ class UserProfileController extends GetxController {
       image = await picker.pickImage(
         source: ImageSource.gallery,
       );
-      await addPhoto();
     }
   }
 
@@ -111,7 +110,6 @@ class UserProfileController extends GetxController {
       image = await picker.pickImage(
         source: ImageSource.camera,
       );
-      await addPhoto();
     }
   }
 

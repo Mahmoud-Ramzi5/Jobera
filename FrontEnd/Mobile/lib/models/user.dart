@@ -1,3 +1,4 @@
+import 'package:jobera/models/certificate.dart';
 import 'package:jobera/models/education.dart';
 import 'package:jobera/models/skills.dart';
 
@@ -14,21 +15,22 @@ class User {
   final String? photo;
   final Education education;
   final List<Skills> skills;
+  final List<Certificate>? certificates;
 
-  User({
-    required this.name,
-    required this.email,
-    required this.phoneNumber,
-    required this.country,
-    required this.state,
-    required this.birthDate,
-    required this.gender,
-    required this.type,
-    this.description,
-    this.photo,
-    required this.education,
-    required this.skills,
-  });
+  User(
+      {required this.name,
+      required this.email,
+      required this.phoneNumber,
+      required this.country,
+      required this.state,
+      required this.birthDate,
+      required this.gender,
+      required this.type,
+      this.description,
+      this.photo,
+      required this.education,
+      required this.skills,
+      this.certificates});
 
   User.fromJson(Map<String, dynamic> json)
       : name = json['full_name'] as String,
@@ -44,6 +46,10 @@ class User {
         education = Education.fromJson(json['education']),
         skills = [
           for (var skill in json['skills']) (Skills.fromJson(skill)),
+        ],
+        certificates = [
+          for (var certificate in json['certificates'])
+            (Certificate.fromJson(certificate)),
         ];
 
   User.empty()
@@ -58,5 +64,6 @@ class User {
         description = null,
         photo = null,
         education = Education.empty(),
-        skills = [];
+        skills = [],
+        certificates = [];
 }
