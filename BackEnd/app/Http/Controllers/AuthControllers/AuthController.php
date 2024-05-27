@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 
 use App\Models\User;
 use App\Models\Individual;
-use App\Models\company;
+use App\Models\Company;
+use App\Models\Wallet;
 use App\Enums\RegisterStep;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
@@ -48,6 +49,14 @@ class AuthController extends Controller
         $validated['register_step'] = "SKILLS";
         $individual = Individual::create($validated);
 
+        Wallet::create([
+            'id'=> $user->id,
+            'user_id' => $user->id,
+            'current_balance' => 0.0,
+            'available_balance' => 0.0,
+            'reserved_balance' => 0.0,
+        ]);
+
         $token = $user->createToken("api_token")->accessToken;
         $this->SendEmailVerification($request);
 
@@ -85,6 +94,14 @@ class AuthController extends Controller
 
         $validated['user_id'] = $user->id;
         $company = Company::create($validated);
+
+        Wallet::create([
+            'id'=> $user->id,
+            'user_id' => $user->id,
+            'current_balance' => 0.0,
+            'available_balance' => 0.0,
+            'reserved_balance' => 0.0,
+        ]);
 
         $token = $user->createToken("api_token")->accessToken;
         $this->SendEmailVerification($request);

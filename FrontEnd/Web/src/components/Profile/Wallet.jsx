@@ -6,7 +6,7 @@ import wallet from '../../assets/wallet.png';
 import styles from './wallet.module.css';
 
 
-const Wallet = ({ profileData }) => {
+const Wallet = ({ ProfileData }) => {
   // Define states
   const [redeemCode, SetRedeemCode] = useState('');
   const money = 6000;
@@ -43,7 +43,7 @@ const Wallet = ({ profileData }) => {
             </div>
           </form>
           <div className={styles.wallet_body}>
-            <h3>Current balance: {money}</h3>
+            <h3>Current balance: ${ProfileData.wallet.available_balance}</h3>
           </div>
         </div>
       </div>

@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
-class FreelancingJob extends Model
+class Review extends Model
 {
     use HasFactory;
 
@@ -15,15 +16,9 @@ class FreelancingJob extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'title',
-        'description',
-        'min_salary',
-        'max_salary',
-        'deadline',
-        'is_done',
-        'avg_salary',
-        'avg_salary',
-        'accepted_individual'
+        'reviewer_id',
+        'reviewed_id',
+        'review'
     ];
 
     /**
@@ -46,5 +41,16 @@ class FreelancingJob extends Model
         return [
 
         ];
+    }
+
+    /* Relations */
+    public function reviewer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'reviewer_id', 'id');
+    }
+
+    public function reviewed(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'reviewed_id', 'id');
     }
 }

@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 
-class FreelancingJob extends Model
+class Wallet extends Model
 {
     use HasFactory;
 
@@ -15,15 +17,11 @@ class FreelancingJob extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'title',
-        'description',
-        'min_salary',
-        'max_salary',
-        'deadline',
-        'is_done',
-        'avg_salary',
-        'avg_salary',
-        'accepted_individual'
+        'id',
+        'user_id',
+        'current_balance',
+        'available_balance',
+        'reserved_balance',
     ];
 
     /**
@@ -46,5 +44,21 @@ class FreelancingJob extends Model
         return [
 
         ];
+    }
+
+    /* Relations */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function sentTransactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'sender_id', 'user_id');
+    }
+
+    public function receivedTransactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'receiver_id', 'user_id');
     }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->float('salary');
+            $table->double('salary');
             $table->enum('type', ['PartTime', 'FullTime']);
             $table->boolean('is_done');
             $table->foreignId('company_id')->constrained('companies');

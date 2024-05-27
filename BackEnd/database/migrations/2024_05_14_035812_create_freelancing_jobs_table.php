@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->float('min_salary');
-            $table->float('max_salary');
+            $table->double('min_salary');
+            $table->double('max_salary');
             $table->dateTime('deadline');
             $table->boolean('is_done');
-            $table->float('avg_salary')->default(0.0);
+            $table->double('avg_salary')->default(0.0);
             $table->foreignId('user_id')->nullable();
             $table->foreignId('accepted_individual')->nullable()->constrained('individuals');
             $table->timestamps();

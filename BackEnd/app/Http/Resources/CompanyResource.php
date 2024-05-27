@@ -35,6 +35,7 @@ class CompanyResource extends JsonResource
             'description' => $user->description,
             'avatar_photo' => $this->avatar_photo,
             'rating' => $this->rating,
+            'wallet' => $user->wallet,
             'portfolios' => new PortfolioCollection($user->portfolios),
             'is_verified' => $is_verified,
         ];

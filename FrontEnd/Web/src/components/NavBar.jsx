@@ -102,7 +102,7 @@ const NavUser = ({ ProfileData }) => {
             : ProfileData.type === 'company' ? ProfileData.name
               : <></>}
         </div>
-        <div>$GG</div>
+        <div>${ProfileData.wallet.available_balance}</div>
       </div>
     </div>
   );

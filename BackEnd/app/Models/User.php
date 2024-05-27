@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -50,6 +51,11 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     /* Relations */
+    public function wallet(): HasOne
+    {
+        return $this->hasOne(Wallet::class, 'user_id', 'id');
+    }
+
     public function providers(): HasMany
     {
         return $this->hasMany(Provider::class, 'user_id', 'id');
@@ -63,5 +69,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function portfolios(): HasMany
     {
         return $this->hasMany(Portfolio::class, 'user_id', 'id');
+    }
+
+    public function reviewed(): HasMany
+    {
+        return $this->hasMany(Review::class, 'reviewer_id', 'id');
+    }
+
+    public function reviewedBy(): HasMany
+    {
+        return $this->hasMany(Review::class, 'reviewed_id', 'id');
     }
 }
