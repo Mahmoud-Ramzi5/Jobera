@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Fonts, PencilSquare, Link45deg } from 'react-bootstrap-icons';
+import { Fonts, PencilSquare, CurrencyDollar } from 'react-bootstrap-icons';
 import { LoginContext } from '../../utils/Contexts.jsx';
 // import { AddJobAPI } from '../../apis/ProfileApis.jsx';
 import NormalInput from '../NormalInput.jsx';
@@ -19,10 +19,8 @@ const PostJob = () => {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [photo, setPhoto] = useState(null);
-    const [salary, setSalary] = useState(0);
+    const [salary, setSalary] = useState('');
     const [type, setType] = useState(null);
-    const [is_done, setIs_done] = useState(false);
-    const [accepted_individual, setAccepted_individual] = useState(null);
     const types = [
         { value: 'FULL_TIME', label: 'Full_Time' },
         { value: 'PART_TIME', label: 'Part_Time' },
@@ -35,9 +33,8 @@ const PostJob = () => {
             description,
             photo,
             salary,
-            type,
-            is_done,
-            accepted_individual);
+            type
+        );
 
         // AddJobAPI(
         //     accessToken,
@@ -45,9 +42,7 @@ const PostJob = () => {
         //     description,
         //     photo,
         //     salary,
-        //     type,
-        //     is_done,
-        //     accepted_individual
+        //     type
         // ).then((response) => {
         //     if (response.status === 201) {
         //         console.log(response.data);
@@ -58,8 +53,6 @@ const PostJob = () => {
         setPhoto("");
         setSalary("");
         setType("");
-        setIs_done("");
-        setAccepted_individual("");
 
         navigate('/');
         //     } else {
@@ -94,9 +87,9 @@ const PostJob = () => {
                                     />
                                 </div>
                                 <NormalInput
-                                    type='text'
+                                    type='number'
                                     placeholder='salary'
-                                    icon={<Link45deg />}
+                                    icon={<CurrencyDollar />}
                                     value={salary}
                                     setChange={setSalary}
                                 />

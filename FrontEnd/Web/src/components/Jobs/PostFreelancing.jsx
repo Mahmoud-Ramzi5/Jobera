@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Fonts, PencilSquare, Link45deg, Calendar3 } from 'react-bootstrap-icons';
+import { Fonts, PencilSquare, CurrencyDollar, Calendar3 } from 'react-bootstrap-icons';
 import { LoginContext } from '../../utils/Contexts.jsx';
 // import { AddJobAPI } from '../../apis/ProfileApis.jsx';
 import NormalInput from '../NormalInput.jsx';
@@ -18,12 +18,10 @@ const PostFreelancing = () => {
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [deadline, setDeadline] = useState('');
     const [photo, setPhoto] = useState(null);
     const [minSalary, setMinSalary] = useState('');
     const [maxSalary, setMaxSalary] = useState('');
-    const [is_done, setIs_done] = useState(false);
-    const [accepted_individual, setAccepted_individual] = useState(null);
+    const [deadline, setDeadline] = useState('');
 
     const handleCreate = (event) => {
         event.preventDefault();
@@ -31,23 +29,20 @@ const PostFreelancing = () => {
             accessToken,
             title,
             description,
-            deadline,
             photo,
             minSalary,
             maxSalary,
-            is_done,
-            accepted_individual);
+            deadline,
+        );
 
         // AddJobAPI(
         //     accessToken,
         //     title,
         //     description,
-        //     deadline,
         //     photo,
         //     minSalary,
-        //     maxSalary,
-        //     is_done,
-        //     accepted_individual
+        //     maxSalary
+        //     deadline,
         // ).then((response) => {
         //     if (response.status === 201) {
         //         console.log(response.data);
@@ -55,12 +50,10 @@ const PostFreelancing = () => {
         // Reset the form fields
         setTitle("");
         setDescription("");
-        setDeadline("");
         setPhoto("");
         setMinSalary("");
         setMaxSalary("");
-        setIs_done("");
-        setAccepted_individual("");
+        setDeadline("");
 
         navigate('/');
         //     } else {
@@ -95,25 +88,25 @@ const PostFreelancing = () => {
                                     />
                                 </div>
                                 <NormalInput
+                                    type='number'
+                                    placeholder='Min Salary'
+                                    icon={<CurrencyDollar />}
+                                    value={minSalary}
+                                    setChange={setMinSalary}
+                                />
+                                <NormalInput
+                                    type='number'
+                                    placeholder='Max Salary'
+                                    icon={<CurrencyDollar />}
+                                    value={maxSalary}
+                                    setChange={setMaxSalary}
+                                />
+                                <NormalInput
                                     type='date'
                                     placeholder='Deadline'
                                     icon={<Calendar3 />}
                                     value={deadline}
                                     setChange={setDeadline}
-                                />
-                                <NormalInput
-                                    type='text'
-                                    placeholder='Min Salary'
-                                    icon={<Link45deg />}
-                                    value={minSalary}
-                                    setChange={setMinSalary}
-                                />
-                                <NormalInput
-                                    type='text'
-                                    placeholder='Max Salary'
-                                    icon={<Link45deg />}
-                                    value={maxSalary}
-                                    setChange={setMaxSalary}
                                 />
                             </div>
                             <div className={styles.column}>
