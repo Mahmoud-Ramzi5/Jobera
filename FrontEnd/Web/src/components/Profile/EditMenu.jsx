@@ -30,36 +30,19 @@ const EditMenu = ({ data, onSave, onCancel }) => {
     if (!initialized.current) {
       initialized.current = true;
 
-      // Api Call
+      // Api Call to fetch countries
       FetchCountries().then((response) => {
         if (response.status === 200) {
           setCountries(response.data.countries);
+        } else {
+          console.log(response.statusText);
+        }
+      });
 
-          // Set the selected country from the data
-          const selectedCountry = response.data.countries.find(
-            (c) => c.country_name === data.country
-          );
-          if (selectedCountry) {
-            setCountry(selectedCountry.country_name);
-
-            // Api Call to fetch states for the selected country
-            FetchStates(selectedCountry.country_name).then((response) => {
-              if (response.status === 200) {
-                setStates(response.data.states);
-
-                // Set the selected state from the data
-                const selectedState = response.data.states.find(
-                  (s) => s.state_name === data.state
-                );
-
-                if (selectedState) {
-                  setState(selectedState.state_name);
-                }
-              } else {
-                console.log(response.statusText);
-              }
-            });
-          }
+      // Api Call to fetch states for user's country
+      FetchStates(country).then((response) => {
+        if (response.status === 200) {
+          setStates(response.data.states);
         } else {
           console.log(response.statusText);
         }
@@ -179,9 +162,9 @@ const EditMenu = ({ data, onSave, onCancel }) => {
         {successMessage && <p className={styles.success_message}>{successMessage}</p>}
         {failMessage && <p className={styles.fail_message}>{failMessage}</p>}
         <Button className={styles.submit_button} variant="primary" type="submit">Submit</Button>
+        <Button className={styles.save_button} variant="secondary" onClick={onSave}>Save</Button>
       </form>
-      <Button className={styles.save_button} variant="primary" onClick={onSave}>Save</Button>
-      <Button className={styles.cancel_button} variant="secondary" onClick={onCancel}>Cancel</Button>
+      {/*<Button className={styles.cancel_button} variant="secondary" onClick={onCancel}>Cancel</Button>*/}
     </div>
   );
 };

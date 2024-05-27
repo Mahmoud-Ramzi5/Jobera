@@ -9,6 +9,7 @@ import { FetchImage } from '../../apis/FileApi';
 import EditMenu from './EditMenu';
 import styles from './userinfo.module.css';
 
+
 const UserInfo = ({ ProfileData }) => {
   // Context
   const { accessToken } = useContext(LoginContext);
@@ -178,7 +179,7 @@ const UserInfo = ({ ProfileData }) => {
             <EditMenu
               data={ProfileData}
               onSave={() => setIsEditingProfile(false)}
-              onCancel={() => setIsEditingProfile(false)}
+              //onCancel={() => setIsEditingProfile(false)}
             />
           ) : (
             <Button variant="primary" onClick={() => setIsEditingProfile(true)}>
@@ -192,7 +193,7 @@ const UserInfo = ({ ProfileData }) => {
             <><Button variant="success" onClick={handleDescriptionChange}>
               Save Description
             </Button>{" "}
-              <Button variant="secondary" onClick={() => setIsEditingDescription(!isEditingDescription)}>
+              <Button variant="danger" onClick={() => setIsEditingDescription(!isEditingDescription)}>
                 Cancel
               </Button></>
           ) : (

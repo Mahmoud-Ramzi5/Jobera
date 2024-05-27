@@ -1,16 +1,16 @@
 .edit_menu {
-  display: flex;
-  flex-direction: column;
+  position: relative;
 }
 
 .edit__row {
   display: flex;
   position: relative;   
+  text-align: center;
 }
 
 .submit_button,
-.save_button,
-.cancel_button {
+.save_button {
+  width: 110px;
   margin: 5px 1px;
   padding: 5px 10px;
 }
@@ -23,4 +23,10 @@
 .fail_message {
   color: red;
   margin-bottom: 10px;
+}
+
+@media screen and (max-width: 970px) {
+  .edit_menu {
+    text-align: center;
+  }
 }
