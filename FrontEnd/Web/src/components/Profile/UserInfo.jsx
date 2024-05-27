@@ -160,7 +160,7 @@ const UserInfo = ({ ProfileData }) => {
             Location: {ProfileData.state}, {ProfileData.country}
           </h6>
           <h6 className={styles.rating}>
-            Rating: {RenderStars(ProfileData.rating)} (0
+            Rating: {RenderStars(ProfileData.rating)} (
             {ProfileData.reviews} reviews){" "}
           </h6>
           <div className={styles.description}>
