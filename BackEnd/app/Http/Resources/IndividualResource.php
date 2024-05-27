@@ -41,6 +41,7 @@ class IndividualResource extends JsonResource
             'type' => 'individual',
             'description' => $user->description,
             'avatar_photo' => $this->avatar_photo,
+            'rating' => $this->rating,
             'skills' => new SkillCollection($this->skills),
             'education' => new EducationResource($this->education),
             'certificates' => new CertificateCollection($this->certificates),

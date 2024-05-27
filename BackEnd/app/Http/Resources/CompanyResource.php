@@ -34,8 +34,9 @@ class CompanyResource extends JsonResource
             'type' => 'company',
             'description' => $user->description,
             'avatar_photo' => $this->avatar_photo,
+            'rating' => $this->rating,
             'portfolios' => new PortfolioCollection($user->portfolios),
-            'is_verifed' => $is_verified,
+            'is_verified' => $is_verified,
         ];
     }
 }

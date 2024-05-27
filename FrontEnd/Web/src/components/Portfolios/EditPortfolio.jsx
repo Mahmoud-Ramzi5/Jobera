@@ -112,6 +112,17 @@ const EditPortfolio = () => {
     setSkillCount((prevState) => (prevState >= 0 ? ++prevState : prevState));
   };
 
+  const handlePhotoChange = (event) => {
+    const image = event.target.files[0];
+    const allowedImageTypes = ["image/png", "image/jpg", "image/jpeg"];
+    if (image && allowedImageTypes.includes(image.type)) {
+      setPhoto(image);
+      setNewPhoto(image);
+    } else {
+      console.log("Invalid Image type. Please select a PNG, JPG, JPEG image.");
+    }
+  };
+
   const handleFileChange = (event) => {
     setFiles([]);
     event.preventDefault();
@@ -235,10 +246,7 @@ const EditPortfolio = () => {
                     type='file'
                     placeholder='Photo'
                     accept='.png,.jpg,.jpeg'
-                    onChange={(event) => {
-                      setPhoto(event.target.files[0]);
-                      setNewPhoto(event.target.files[0]);
-                    }}
+                    onChange={handlePhotoChange}
                     style={{ visibility: 'hidden' }}
                   />
                 </div>

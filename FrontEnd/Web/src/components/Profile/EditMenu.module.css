@@ -11,16 +11,16 @@
 .submit_button,
 .save_button,
 .cancel_button {
-  margin: 5px 0px;
+  margin: 5px 1px;
   padding: 5px 10px;
 }
 
 .success_message {
-color: green;
-margin-bottom: 10px;
+  color: green;
+  margin-bottom: 10px;
 }
 
 .fail_message {
-color: red;
-margin-bottom: 10px;
+  color: red;
+  margin-bottom: 10px;
 }

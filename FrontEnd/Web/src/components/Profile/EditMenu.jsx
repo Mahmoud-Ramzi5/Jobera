@@ -1,27 +1,28 @@
 import { useState, useEffect, useRef, useContext } from 'react';
-import styles from "./EditMenu.module.css";
 import { Button } from "react-bootstrap";
+import { PersonFill, BuildingFill, Globe, GeoAltFill } from 'react-bootstrap-icons';
+import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { FetchCountries, FetchStates } from '../../apis/AuthApis.jsx';
 import { EditProfile } from '../../apis/ProfileApis.jsx';
 import NormalInput from '../NormalInput';
-import Inputstyles from '../../styles/Input.module.css';
 import CustomPhoneInput from '../CustomPhoneInput';
-import {
-  Globe, GeoAltFill,
-  Calendar3, PersonStanding, PersonStandingDress
-} from 'react-bootstrap-icons';
-import { LoginContext } from '../../utils/Contexts.jsx';
+import styles from "./EditMenu.module.css";
+import Inputstyles from '../../styles/Input.module.css';
+
+
 const EditMenu = ({ data, onSave, onCancel }) => {
+  // Context
   const { accessToken } = useContext(LoginContext);
+  const { setProfile } = useContext(ProfileContext);
+  // Define states
   const initialized = useRef(false);
-  const [formData, setFormData] = useState(data);
-  const [Full_name, setFullName] = useState(formData.full_name);
-  const [name, setName] = useState(formData.name);
-  const [PhoneNumber, setPhoneNumber] = useState(formData.phone_number);
+  const [name, setName] = useState(data.name);
+  const [FullName, setFullName] = useState(data.full_name);
+  const [PhoneNumber, setPhoneNumber] = useState(data.phone_number);
   const [countries, setCountries] = useState([]);
-  const [country, setCountry] = useState(formData.country);
+  const [country, setCountry] = useState(data.country);
   const [states, setStates] = useState([]);
-  const [state, setState] = useState(formData.state);
+  const [state, setState] = useState(data.state);
   const [successMessage, setSuccessMessage] = useState("");
   const [failMessage, setFailMessage] = useState("");
 
@@ -36,7 +37,7 @@ const EditMenu = ({ data, onSave, onCancel }) => {
 
           // Set the selected country from the data
           const selectedCountry = response.data.countries.find(
-            (c) => c.country_name === formData.country
+            (c) => c.country_name === data.country
           );
           if (selectedCountry) {
             setCountry(selectedCountry.country_name);
@@ -45,15 +46,14 @@ const EditMenu = ({ data, onSave, onCancel }) => {
             FetchStates(selectedCountry.country_name).then((response) => {
               if (response.status === 200) {
                 setStates(response.data.states);
-                console.log(formData.state)
+
                 // Set the selected state from the data
                 const selectedState = response.data.states.find(
-                  (s) => s.state_name === formData.state
+                  (s) => s.state_name === data.state
                 );
-                console.log(selectedState)
+
                 if (selectedState) {
                   setState(selectedState.state_name);
-                  console.log(state)
                 }
               } else {
                 console.log(response.statusText);
@@ -66,6 +66,7 @@ const EditMenu = ({ data, onSave, onCancel }) => {
       });
     }
   }, [data]);
+
   const handleCountrySelect = (event) => {
     setCountry(event.target.value);
 
@@ -83,29 +84,28 @@ const EditMenu = ({ data, onSave, onCancel }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     var state_id;
-    states.forEach((stat, index) => {
+    states.forEach((stat) => {
       if (stat.state_name == state) {
         state_id = stat.state_id;
       }
     });
-    {data.type === "individual" ? (
+    if (data.type === "individual") {
       EditProfile(
         accessToken,
-        Full_name,
+        FullName,
         PhoneNumber,
         state_id,
       ).then((response) => {
         if (response.status === 200) {
-          console.log(response);
-          setSuccessMessage("user info updated successfully");
+          setProfile(response.data.user);
+          setSuccessMessage(response.data.message);
         }
         else {
           console.log(response.statusText);
           setFailMessage("Error in user info update");
         }
-      })
-
-    ) : data.type === "company" ? (
+      });
+    } else if (data.type === "company") {
       EditProfile(
         accessToken,
         name,
@@ -113,20 +113,19 @@ const EditMenu = ({ data, onSave, onCancel }) => {
         state_id,
       ).then((response) => {
         if (response.status === 200) {
-          console.log(response);
-          setSuccessMessage("user info updated successfully");
+          setProfile(response.data.user);
+          setSuccessMessage(response.data.message);
         }
         else {
           console.log(response.statusText);
           setFailMessage("Error in user info update");
         }
-      })
-
-    ) : (
-      <></>
-    )}
-    
+      });
+    } else {
+      setFailMessage("Error in user info update");
+    }
   }
+
 
   return (
     <div className={styles.edit_menu}>
@@ -135,21 +134,22 @@ const EditMenu = ({ data, onSave, onCancel }) => {
           {data.type === "individual" ? (
             <NormalInput
               type="text"
-              value={Full_name}
-              setChange={setFullName}
               placeholder="Full Name"
+              icon={<PersonFill />}
+              value={FullName}
+              setChange={setFullName}
             />
           ) : data.type === "company" ? (
             <NormalInput
               type="text"
+              placeholder="Name"
+              icon={<BuildingFill />}
               value={name}
               setChange={setName}
-              placeholder="Name"
             />
           ) : (
             <></>
           )}
-
           <CustomPhoneInput
             defaultCountry='us'
             value={PhoneNumber}
