@@ -33,19 +33,25 @@ class UserProfileView extends StatelessWidget {
                               color: Colors.lightBlue.shade900,
                             )
                           : Image.network(
-                              'http://10.0.2.2:8000/api/image/${controller.user.photo}',
-                              errorBuilder: (context, error, stackTrace) =>
-                                  Text(error.toString()),
-                              fit: BoxFit.contain,
+                              'http://192.168.0.101:8000/api/image/${controller.user.photo}',
+                              errorBuilder: (context, error, stackTrace) {
+                                return Text(error.toString());
+                              },
+                              height: 100,
+                              width: 100,
+                              headers: const {
+                                'Access-Control-Allow-Origin': '*',
+                                'Content-Type': 'image/*; charset=UTF-8',
+                                'Accept': 'image/*',
+                                'Connection': 'Keep-Alive',
+                              },
                             ),
                       onPressed: () => Dialogs().addPhotoDialog(
                         () async {
                           await controller.takePhotoFromCamera();
-                          await controller.addPhoto();
                         },
                         () async {
                           await controller.pickPhotoFromGallery();
-                          await controller.addPhoto();
                         },
                         () {},
                       ),
@@ -60,7 +66,6 @@ class UserProfileView extends StatelessWidget {
                     name: 'Bio:',
                     buttonText: 'Edit',
                     icon: Icons.edit,
-                    height: 100,
                     widget: BodyText(
                       text: '${controller.user.description}',
                     ),
@@ -81,7 +86,6 @@ class UserProfileView extends StatelessWidget {
                         name: 'Basic Info',
                         buttonText: 'Edit',
                         icon: Icons.edit,
-                        height: 160,
                         widget: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -138,7 +142,6 @@ class UserProfileView extends StatelessWidget {
                         name: 'Education',
                         buttonText: 'Edit',
                         icon: Icons.edit,
-                        height: 160,
                         widget: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -163,26 +166,16 @@ class UserProfileView extends StatelessWidget {
                             ),
                             Row(
                               children: [
-                                Row(
-                                  children: [
-                                    const BodyText(text: 'Start Date: '),
-                                    LabelText(
-                                        text:
-                                            controller.user.education.startDate)
-                                  ],
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                  child: Row(
-                                    children: [
-                                      const BodyText(text: 'End Date: '),
-                                      LabelText(
-                                          text:
-                                              controller.user.education.endDate)
-                                    ],
-                                  ),
-                                ),
+                                const BodyText(text: 'Start Date: '),
+                                LabelText(
+                                    text: controller.user.education.startDate)
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                const BodyText(text: 'End Date: '),
+                                LabelText(
+                                    text: controller.user.education.endDate)
                               ],
                             ),
                           ],
@@ -196,19 +189,45 @@ class UserProfileView extends StatelessWidget {
                         name: 'Skills',
                         buttonText: 'Edit',
                         icon: Icons.edit,
-                        height: null,
                         widget: ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: (controller.user.skills.length),
+                          itemCount: (_profileController.user.skills.length / 2)
+                              .ceil(),
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(5),
-                              child: Chip(
-                                label: BodyText(
-                                  text: controller.user.skills[index].name,
-                                ),
-                              ),
+                            final firstIndex = index * 2;
+                            final secondIndex = firstIndex + 1;
+                            return Row(
+                              children: [
+                                if (firstIndex <
+                                    _profileController.user.skills.length)
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: Chip(
+                                        label: BodyText(
+                                          text: _profileController
+                                              .user.skills[firstIndex].name,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                if (secondIndex <
+                                    _profileController.user.skills.length)
+                                  Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: Chip(
+                                        label: BodyText(
+                                          text: _profileController
+                                              .user.skills[secondIndex].name,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                              ],
                             );
                           },
                         ),
@@ -222,7 +241,6 @@ class UserProfileView extends StatelessWidget {
                       child: InfoWithEditContainer(
                         name: 'Certificates',
                         buttonText: 'View',
-                        height: 160,
                         widget: ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           itemCount: controller.user.certificates!.length,
@@ -231,13 +249,17 @@ class UserProfileView extends StatelessWidget {
                             return Padding(
                               padding: const EdgeInsets.all(10),
                               child: ListContainer(
-                                text: controller.user.certificates![index].name,
-                                onTap: () {},
+                                child: BodyText(
+                                  text:
+                                      controller.user.certificates![index].name,
+                                ),
+                                onTap: () => controller.fetchFile(
+                                    controller.user.certificates![index].file),
                               ),
                             );
                           },
                         ),
-                        onPressed: () {},
+                        onPressed: () => Get.toNamed('/userEditCertificates'),
                       ),
                     ),
                     Padding(
@@ -245,7 +267,6 @@ class UserProfileView extends StatelessWidget {
                       child: InfoWithEditContainer(
                         name: 'Portofolios',
                         buttonText: 'View',
-                        height: 160,
                         widget: const Column(),
                         onPressed: () {},
                       ),

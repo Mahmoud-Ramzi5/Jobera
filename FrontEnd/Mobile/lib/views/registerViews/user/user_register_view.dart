@@ -88,8 +88,8 @@ class UserRegisterView extends StatelessWidget {
                           _userRegisterController.selectCountryCode(p0),
                       initialSelection: '+963',
                     ),
-                    SizedBox(
-                      width: 200,
+                    Expanded(
+                      flex: 1,
                       child: CustomTextField(
                         controller:
                             _userRegisterController.phoneNumberController,

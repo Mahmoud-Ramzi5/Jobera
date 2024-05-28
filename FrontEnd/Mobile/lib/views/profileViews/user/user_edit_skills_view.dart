@@ -15,6 +15,12 @@ class UserEditSkillsView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const TitleText(text: 'Edit Skills'),
+        actions: [
+          TextButton(
+            onPressed: () => _editController.editSkills(),
+            child: const LabelText(text: 'Submit'),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -28,21 +34,49 @@ class UserEditSkillsView extends StatelessWidget {
                       name: 'My Skills',
                       widget: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: (controller.myskills.length),
+                        itemCount: (controller.myskills.length / 2).ceil(),
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(5),
-                            child: InputChip(
-                              deleteIcon: const Icon(Icons.cancel),
-                              onDeleted: () {
-                                controller
-                                    .deleteSkill(controller.myskills[index]);
-                              },
-                              label: BodyText(
-                                text: controller.myskills[index].name,
-                              ),
-                            ),
+                          final firstIndex = index * 2;
+                          final secondIndex = firstIndex + 1;
+                          return Row(
+                            children: [
+                              if (firstIndex < controller.myskills.length)
+                                Expanded(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: InputChip(
+                                      deleteIcon: const Icon(Icons.cancel),
+                                      onDeleted: () {
+                                        controller.deleteSkill(
+                                            controller.myskills[firstIndex]);
+                                      },
+                                      label: BodyText(
+                                        text: controller
+                                            .myskills[firstIndex].name,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              if (secondIndex < controller.myskills.length)
+                                Expanded(
+                                    flex: 1,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: InputChip(
+                                        deleteIcon: const Icon(Icons.cancel),
+                                        onDeleted: () {
+                                          controller.deleteSkill(
+                                              controller.myskills[secondIndex]);
+                                        },
+                                        label: BodyText(
+                                          text: controller
+                                              .myskills[secondIndex].name,
+                                        ),
+                                      ),
+                                    )),
+                            ],
                           );
                         },
                       ),
@@ -60,7 +94,9 @@ class UserEditSkillsView extends StatelessWidget {
                           return Padding(
                             padding: const EdgeInsets.all(10),
                             child: ListContainer(
-                              text: controller.skillTypes[index].value['en']!,
+                              child: BodyText(
+                                  text: controller
+                                      .skillTypes[index].value['en']!),
                               onTap: () {
                                 controller.getSkills(
                                     controller.skillTypes[index].name);
@@ -88,21 +124,50 @@ class UserEditSkillsView extends StatelessWidget {
                       name: 'Skills:',
                       widget: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: controller.skills.length,
+                        itemCount: (controller.skills.length / 2).ceil(),
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(5),
-                            child: InputChip(
-                              label: BodyText(
-                                text: controller.skills[index].name,
-                              ),
-                              onPressed: () {
-                                controller.addToOMySkills(
-                                  controller.skills[index],
-                                );
-                              },
-                            ),
+                          final firstIndex = index * 2;
+                          final secondIndex = firstIndex + 1;
+                          return Row(
+                            children: [
+                              if (firstIndex < controller.skills.length)
+                                Expanded(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: InputChip(
+                                      label: BodyText(
+                                        text:
+                                            controller.skills[firstIndex].name,
+                                      ),
+                                      onPressed: () {
+                                        controller.addToOMySkills(
+                                          controller.skills[firstIndex],
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                              if (secondIndex < controller.skills.length)
+                                Expanded(
+                                  flex: 1,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(5),
+                                    child: InputChip(
+                                      label: BodyText(
+                                        text:
+                                            controller.skills[secondIndex].name,
+                                      ),
+                                      onPressed: () {
+                                        controller.addToOMySkills(
+                                          controller.skills[secondIndex],
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                            ],
                           );
                         },
                       ),
@@ -111,13 +176,6 @@ class UserEditSkillsView extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: ElevatedButton(
-                onPressed: () => _editController.editSkills(),
-                child: const BodyText(text: 'Submit'),
-              ),
-            )
           ],
         ),
       ),

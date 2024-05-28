@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jobera/classes/texts.dart';
 
 class CustomDropDownButton extends StatelessWidget {
@@ -17,13 +18,17 @@ class CustomDropDownButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<dynamic>(
-      value: value,
-      onChanged: onChanged,
-      iconEnabledColor: Colors.lightBlue.shade900,
-      items: items,
-      hint: BodyText(text: text),
-      menuMaxHeight: 300,
+    return SizedBox(
+      width: Get.width - 100,
+      child: DropdownButton<dynamic>(
+        value: value,
+        onChanged: onChanged,
+        iconEnabledColor: Colors.lightBlue.shade900,
+        items: items,
+        hint: BodyText(text: text),
+        menuMaxHeight: 300,
+        isExpanded: true,
+      ),
     );
   }
 }

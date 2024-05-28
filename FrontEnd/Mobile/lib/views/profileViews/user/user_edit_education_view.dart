@@ -18,6 +18,12 @@ class UserEditEducationView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const TitleText(text: 'Edit Education'),
+        actions: [
+          TextButton(
+            onPressed: () {},
+            child: const LabelText(text: 'Submit'),
+          )
+        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -113,16 +119,11 @@ class UserEditEducationView extends StatelessWidget {
             child: InfoWithEditContainer(
               name: 'Certificate',
               buttonText: 'Edit',
-              height: 100,
               icon: Icons.edit,
               widget: const Column(),
               onPressed: () {},
             ),
           ),
-          ElevatedButton(
-            onPressed: () {},
-            child: const BodyText(text: 'Submit'),
-          )
         ],
       ),
     );

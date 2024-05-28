@@ -110,7 +110,7 @@ class UserRegisterController extends GetxController {
   Future<dynamic> getCountries() async {
     try {
       var response = await dio.get(
-        'http://10.0.2.2:8000/api/countries',
+        'http://192.168.0.101:8000/api/countries',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -135,7 +135,7 @@ class UserRegisterController extends GetxController {
   Future<dynamic> getStates(String countryName) async {
     try {
       var response = await dio.post(
-        'http://10.0.2.2:8000/api/states',
+        'http://192.168.0.101:8000/api/states',
         data: {"country_name": countryName},
         options: Options(
           headers: {
@@ -170,7 +170,7 @@ class UserRegisterController extends GetxController {
     String birthDate,
   ) async {
     try {
-      var response = await dio.post('http://10.0.2.2:8000/api/register',
+      var response = await dio.post('http://192.168.0.101:8000/api/register',
           data: {
             "full_name": fullName,
             "email": email,

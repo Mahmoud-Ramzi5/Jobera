@@ -41,7 +41,7 @@ class UserEditSkillsController extends GetxController {
   Future<dynamic> getSkillTypes() async {
     try {
       var response = await dio.get(
-        'http://10.0.2.2:8000/api/skills/types',
+        'http://192.168.0.101:8000/api/skills/types',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -65,7 +65,7 @@ class UserEditSkillsController extends GetxController {
   Future<dynamic> getSkills(String type) async {
     try {
       var response = await dio.get(
-        'http://10.0.2.2:8000/api/skills?type[eq]=$type',
+        'http://192.168.0.101:8000/api/skills?type[eq]=$type',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -90,7 +90,7 @@ class UserEditSkillsController extends GetxController {
   Future<dynamic> searchSkills(String name) async {
     try {
       var response = await dio.get(
-        'http://10.0.2.2:8000/api/skills?name[like]=$name',
+        'http://192.168.0.101:8000/api/skills?name[like]=$name',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -121,7 +121,7 @@ class UserEditSkillsController extends GetxController {
     }
     try {
       var response = await dio.post(
-        'http://10.0.2.2:8000/api/user/skills/edit',
+        'http://192.168.0.101:8000/api/user/skills/edit',
         data: {
           'skills': skillIds,
         },

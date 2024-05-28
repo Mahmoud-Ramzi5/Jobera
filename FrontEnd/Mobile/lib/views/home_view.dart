@@ -42,7 +42,7 @@ class HomeView extends StatelessWidget {
                                           color: Colors.lightBlue.shade900,
                                         )
                                   : Image.network(
-                                      'http://10.0.2.2:8000/api/image/${controller.photo}',
+                                      'http://192.168.0.101:8000/api/image/${controller.photo}',
                                       errorBuilder:
                                           (context, error, stackTrace) =>
                                               Text(error.toString()),
@@ -91,24 +91,6 @@ class HomeView extends StatelessWidget {
           ],
         ),
       ),
-      // body: RefreshIndicator(
-      //   key: _homeController.refreshIndicatorKey,
-      //   onRefresh: () async => await _homeController.fetchUser(),
-      //   child: SingleChildScrollView(
-      //     child: Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       children: [
-      //         ListView.builder(
-      //           itemCount: 100,
-      //           shrinkWrap: true,
-      //           itemBuilder: (context, index) {
-      //             return const Text('test');
-      //           },
-      //         )
-      //       ],
-      //     ),
-      //   ),
-      // ),
     );
   }
 }

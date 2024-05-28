@@ -5,6 +5,7 @@ import 'package:jobera/views/loginViews/forgot_password_view.dart';
 import 'package:jobera/views/loginViews/login_view.dart';
 import 'package:jobera/views/profileViews/company/company_edit_info_view.dart';
 import 'package:jobera/views/profileViews/company/company_profile_view.dart';
+import 'package:jobera/views/profileViews/user/user_edit_certificates_view.dart';
 import 'package:jobera/views/profileViews/user/user_edit_education_view.dart';
 import 'package:jobera/views/profileViews/user/user_edit_info_view.dart';
 import 'package:jobera/views/profileViews/user/user_edit_skills_view.dart';
@@ -62,5 +63,9 @@ List<GetPage<dynamic>>? getPages = [
   GetPage(
     name: '/userEditSkills',
     page: () => UserEditSkillsView(),
+  ),
+  GetPage(
+    name: '/userEditCertificates',
+    page: () => UserEditCertificatesView(),
   ),
 ];
