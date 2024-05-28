@@ -29,6 +29,7 @@ class MainApp extends StatelessWidget {
       getPages: getPages,
       debugShowCheckedModeBanner: false,
       theme: settingsController.theme,
+      themeMode: ThemeMode.light,
     );
   }
 }

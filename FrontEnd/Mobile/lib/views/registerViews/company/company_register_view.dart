@@ -99,8 +99,8 @@ class CompanyRegisterView extends StatelessWidget {
                           _companyRegisterController.selectCountryCode(p0),
                       initialSelection: '+963',
                     ),
-                    SizedBox(
-                      width: 200,
+                    Expanded(
+                      flex: 1,
                       child: CustomTextField(
                         controller:
                             _companyRegisterController.phoneNumberController,
@@ -117,13 +117,16 @@ class CompanyRegisterView extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  const BodyText(text: 'Select Founding Date:'),
-                  DateContainer(
-                    widget: GetBuilder<CompanyRegisterController>(
-                      builder: (controller) => GestureDetector(
-                        onTap: () => controller.selectDate(context),
-                        child: BodyText(
-                          text: "${controller.selectedDate}".split(' ')[0],
+                  const BodyText(text: 'Select Founding Date: '),
+                  Expanded(
+                    flex: 1,
+                    child: DateContainer(
+                      widget: GetBuilder<CompanyRegisterController>(
+                        builder: (controller) => GestureDetector(
+                          onTap: () => controller.selectDate(context),
+                          child: BodyText(
+                            text: "${controller.selectedDate}".split(' ')[0],
+                          ),
                         ),
                       ),
                     ),

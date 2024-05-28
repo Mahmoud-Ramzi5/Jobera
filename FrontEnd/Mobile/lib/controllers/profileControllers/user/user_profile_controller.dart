@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
@@ -14,6 +15,7 @@ class UserProfileController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   late ImagePicker picker;
   late XFile? image;
+  late File file;
 
   @override
   Future<void> onInit() async {
@@ -24,6 +26,7 @@ class UserProfileController extends GetxController {
     editBioController = TextEditingController(text: user.description);
     picker = ImagePicker();
     image = null;
+    file = File('D:/projects/Jobera/FrontEnd/Mobile/assets/Files');
     super.onInit();
   }
 
@@ -36,7 +39,7 @@ class UserProfileController extends GetxController {
   Future<void> fetchProfile() async {
     String? token = sharedPreferences?.getString('access_token');
     try {
-      var response = await dio.get('http://10.0.2.2:8000/api/profile',
+      var response = await dio.get('http://192.168.0.101:8000/api/profile',
           options: Options(
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',
@@ -60,7 +63,7 @@ class UserProfileController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://10.0.2.2:8000/api/profile/description',
+        'http://192.168.0.101:8000/api/profile/description',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -95,6 +98,7 @@ class UserProfileController extends GetxController {
         source: ImageSource.gallery,
       );
     }
+    addPhoto();
   }
 
   Future<void> takePhotoFromCamera() async {
@@ -111,36 +115,68 @@ class UserProfileController extends GetxController {
         source: ImageSource.camera,
       );
     }
+    addPhoto();
   }
 
   Future<void> addPhoto() async {
     String? token = sharedPreferences?.getString('access_token');
-    FormData formData = FormData();
-    formData.files.add(
-      MapEntry(
-        'avatar_photo',
-        await MultipartFile.fromFile(image!.path),
-      ),
-    );
+    if (image != null) {
+      FormData formData = FormData();
+      formData.files.add(
+        MapEntry(
+          'avatar_photo',
+          await MultipartFile.fromFile(image!.path),
+        ),
+      );
+      try {
+        var response = await dio.post(
+          'http://192.168.0.101:8000/api/profile/photo',
+          data: formData,
+          options: Options(
+            headers: {
+              'Content-Type': 'multipart/form-data; charset=UTF-8',
+              'Accept': 'application/json',
+              'Authorization': 'Bearer $token',
+            },
+          ),
+        );
+        if (response.statusCode == 200) {
+          Dialogs().showSuccessDialog('Photo added successfully', '');
+        }
+      } on DioException catch (e) {
+        Dialogs().showErrorDialog(
+          'Error',
+          e.response!.statusCode.toString(),
+        );
+      }
+    } else {
+      return;
+    }
+  }
+
+  Future<void> fetchFile(String filePath) async {
     try {
-      var response = await dio.post(
-        'http://10.0.2.2:8000/api/profile/photo',
-        data: formData,
+      final response = await dio.get(
+        'http://192.168.0.101:8000/api/file/$filePath',
         options: Options(
+          responseType: ResponseType.bytes, // important
           headers: {
-            'Content-Type': 'multipart/form-data; charset=UTF-8',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
+            'Access-Control-Allow-Origin': '*',
+            'Content-Type': 'application/pdf; charset=UTF-8',
+            'Accept': 'application/pdf',
+            'Connection': 'Keep-Alive',
           },
         ),
       );
       if (response.statusCode == 200) {
-        Dialogs().showSuccessDialog('Photo added successfully', '');
+        print('GGGGGGGGGGGG');
+        // Write the response data to the file
+        await file.writeAsBytes(response.data);
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.statusCode.toString(),
+        e.toString(),
       );
     }
   }

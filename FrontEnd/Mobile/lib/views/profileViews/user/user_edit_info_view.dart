@@ -20,6 +20,14 @@ class UserEditInfoView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const TitleText(text: 'Edit Info'),
+        actions: [
+          TextButton(
+              onPressed: () => _editController.editBasicInfo(
+                  _editController.editNameController.text,
+                  _editController.editPhoneNumberController.text,
+                  _editController.selectedState!.stateId),
+              child: const LabelText(text: 'Submit'))
+        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -91,13 +99,6 @@ class UserEditInfoView extends StatelessWidget {
                   onChanged: (p0) => controller.selectState(p0!),
                   text: 'Select City',
                 ),
-                ElevatedButton(
-                  onPressed: () => _editController.editBasicInfo(
-                      _editController.editNameController.text,
-                      _editController.editPhoneNumberController.text,
-                      _editController.selectedState!.stateId),
-                  child: const BodyText(text: 'Submit'),
-                )
               ],
             ),
           ),

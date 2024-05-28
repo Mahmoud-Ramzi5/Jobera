@@ -33,7 +33,7 @@ class CompanyProfileView extends StatelessWidget {
                               color: Colors.lightBlue.shade900,
                             )
                           : Image.network(
-                              'http://10.0.2.2:8000/api/image/${controller.company.photo}',
+                              'http://192.168.0.101/api/image/${controller.company.photo}',
                               errorBuilder: (context, error, stackTrace) =>
                                   Text(error.toString()),
                             ),
@@ -61,7 +61,6 @@ class CompanyProfileView extends StatelessWidget {
                         name: 'Bio:',
                         buttonText: 'Edit',
                         icon: Icons.edit,
-                        height: 100,
                         widget: BodyText(
                           text: '${controller.company.description}',
                         ),
@@ -81,7 +80,6 @@ class CompanyProfileView extends StatelessWidget {
                         name: 'Basic Info',
                         buttonText: 'Edit',
                         icon: Icons.edit,
-                        height: 200,
                         widget: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -131,7 +129,6 @@ class CompanyProfileView extends StatelessWidget {
                         name: 'Portofolios',
                         buttonText: 'Add',
                         icon: Icons.add,
-                        height: 160,
                         widget: const Column(),
                         onPressed: () {},
                       ),

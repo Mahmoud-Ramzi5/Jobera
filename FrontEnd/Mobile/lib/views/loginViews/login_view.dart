@@ -6,6 +6,7 @@ import 'package:jobera/classes/texts.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
 import 'package:jobera/classes/validation.dart';
+import 'package:jobera/main.dart';
 
 class LoginView extends StatelessWidget {
   final LoginController _loginController = Get.put(LoginController());
@@ -114,7 +115,10 @@ class LoginView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          sharedPreferences!.clear();
+                          print('ll');
+                        },
                         child: Padding(
                           padding: const EdgeInsets.all(10),
                           child: FaIcon(
