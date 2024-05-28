@@ -124,9 +124,9 @@
   border-radius: 5px;
   border-style: inset;
   cursor: pointer;
-  color: var(--color-titles);
+  color: var(--color-button);
   border-color: var(--color-title);
-  background-color: var(--color-types);
+  background-color: var(--color-title);
   margin-bottom: 10px;
 }
 
@@ -155,9 +155,8 @@ div.scroll {
   border-radius: 10px;
   border-style: inset;
   cursor: pointer;
-  color: var(--color-background);
-  border-color: var(--color-title);
-  background-color: var(--color-available);
+  border-style: outset;
+  border-color: #302f2f;
   margin-bottom: 10px;
 }
 

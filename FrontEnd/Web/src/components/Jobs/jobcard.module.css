@@ -1,0 +1,45 @@
+.container{
+    height:150px;
+    background-color: cadetblue;
+}
+
+.row{
+    width: 100%;
+    padding-top: 5px;
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+}
+
+.info{
+    width:66%;
+    margin-left:0.5%;
+    color:black;
+}
+
+.title{
+
+}
+
+.description{
+
+}
+
+.salary{
+    
+}
+
+.imageholder{
+    width:33%;
+    position:relative;
+    margin-right:0.5%;
+}
+
+.image{
+        width: 100px;
+        height: 100px;
+        object-fit: fill;
+        border-radius: 10px;
+        margin-left:70%;
+        margin-bottom: 1%;
+}
