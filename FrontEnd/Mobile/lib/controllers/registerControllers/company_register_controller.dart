@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
+import 'package:jobera/controllers/service_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
@@ -10,6 +11,7 @@ import 'package:jobera/views/home_view.dart';
 
 class CompanyRegisterController extends GetxController {
   late GlobalKey<FormState> formField;
+  late ServiceController serviceController;
   late TextEditingController nameController;
   late TextEditingController workFieldController;
   late TextEditingController emailController;
@@ -26,8 +28,9 @@ class CompanyRegisterController extends GetxController {
   States? selectedState;
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     formField = GlobalKey<FormState>();
+    serviceController = Get.find<ServiceController>();
     countryCode = CountryCode(dialCode: '+963');
     nameController = TextEditingController();
     workFieldController = TextEditingController();
@@ -37,16 +40,11 @@ class CompanyRegisterController extends GetxController {
     confirmPasswordController = TextEditingController();
     passwordToggle = true;
     selectedDate = DateTime.now();
-
     dio = Dio();
     selectedCountry = null;
+    countries = await serviceController.getCountries();
+    update();
     super.onInit();
-  }
-
-  @override
-  Future<void> onReady() async {
-    await getCountries();
-    super.onReady();
   }
 
   @override
@@ -60,19 +58,17 @@ class CompanyRegisterController extends GetxController {
     super.onClose();
   }
 
-  void resetStates() {
-    selectedState = null;
-    states = [];
-  }
-
   void selectCountryCode(CountryCode code) {
     countryCode = code;
     phoneNumberController.text = code.dialCode!;
     update();
   }
 
-  void selectCountry(Countries country) {
+  Future<void> selectCountry(Countries country) async {
     selectedCountry = country;
+    selectedState = null;
+    states = [];
+    states = await serviceController.getStates(country.countryName);
     update();
   }
 
@@ -104,58 +100,6 @@ class CompanyRegisterController extends GetxController {
     }
   }
 
-  Future<dynamic> getCountries() async {
-    try {
-      var response = await dio.get(
-        'http://192.168.0.101:8000/api/countries',
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-      if (response.statusCode == 200) {
-        countries = Countries.fromJsonList(
-          response.data['countries'],
-        );
-        update();
-      }
-    } on DioException catch (e) {
-      Dialogs().showErrorDialog(
-        'Error',
-        e.response.toString(),
-      );
-    }
-  }
-
-  Future<dynamic> getStates(String countryName) async {
-    try {
-      var response = await dio.post(
-        'http://192.168.0.101:8000/api/states',
-        data: {"country_name": countryName},
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-      if (response.statusCode == 200) {
-        resetStates();
-        states = States.fromJsonList(
-          response.data['states'],
-        );
-        update();
-      }
-    } on DioException catch (e) {
-      Dialogs().showErrorDialog(
-        'Error',
-        e.response.toString(),
-      );
-    }
-  }
-
   Future<dynamic> companyRegister(
     String name,
     String workField,
@@ -167,25 +111,24 @@ class CompanyRegisterController extends GetxController {
     String date,
   ) async {
     try {
-      var response =
-          await dio.post('http://192.168.0.101:8000/api/company/register',
-              data: {
-                "name": name,
-                "field": workField,
-                "email": email,
-                "password": password,
-                "confirm_password": confirmPassword,
-                "state_id": state,
-                "phone_number": phoneNumber,
-                "founding_date": date,
-                "type": "company",
-              },
-              options: Options(
-                headers: {
-                  'Content-Type': 'application/json; charset=UTF-8',
-                  'Accept': 'application/json',
-                },
-              ));
+      var response = await dio.post('http://10.0.2.2:8000/api/company/register',
+          data: {
+            "name": name,
+            "field": workField,
+            "email": email,
+            "password": password,
+            "confirm_password": confirmPassword,
+            "state_id": state,
+            "phone_number": phoneNumber,
+            "founding_date": date,
+            "type": "company",
+          },
+          options: Options(
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Accept': 'application/json',
+            },
+          ));
       if (response.statusCode == 201) {
         sharedPreferences?.setString(
           "access_token",

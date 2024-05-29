@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
@@ -15,7 +14,6 @@ class UserProfileController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   late ImagePicker picker;
   late XFile? image;
-  late File file;
 
   @override
   Future<void> onInit() async {
@@ -26,7 +24,6 @@ class UserProfileController extends GetxController {
     editBioController = TextEditingController(text: user.description);
     picker = ImagePicker();
     image = null;
-    file = File('D:/projects/Jobera/FrontEnd/Mobile/assets/Files');
     super.onInit();
   }
 
@@ -39,7 +36,7 @@ class UserProfileController extends GetxController {
   Future<void> fetchProfile() async {
     String? token = sharedPreferences?.getString('access_token');
     try {
-      var response = await dio.get('http://192.168.0.101:8000/api/profile',
+      var response = await dio.get('http://10.0.2.2:8000/api/profile',
           options: Options(
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',
@@ -63,7 +60,7 @@ class UserProfileController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.101:8000/api/profile/description',
+        'http://10.0.2.2:8000/api/profile/description',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -79,7 +76,7 @@ class UserProfileController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response.toString(),
+        e.response!.data['message'].toString(),
       );
     }
   }
@@ -130,7 +127,7 @@ class UserProfileController extends GetxController {
       );
       try {
         var response = await dio.post(
-          'http://192.168.0.101:8000/api/profile/photo',
+          'http://10.0.2.2:8000/api/profile/photo',
           data: formData,
           options: Options(
             headers: {
@@ -146,7 +143,7 @@ class UserProfileController extends GetxController {
       } on DioException catch (e) {
         Dialogs().showErrorDialog(
           'Error',
-          e.response!.statusCode.toString(),
+          e.response.toString(),
         );
       }
     } else {
@@ -157,7 +154,7 @@ class UserProfileController extends GetxController {
   Future<void> fetchFile(String filePath) async {
     try {
       final response = await dio.get(
-        'http://192.168.0.101:8000/api/file/$filePath',
+        'http://10.0.2.2:8000/api/file/$filePath',
         options: Options(
           responseType: ResponseType.bytes, // important
           headers: {
@@ -169,9 +166,8 @@ class UserProfileController extends GetxController {
         ),
       );
       if (response.statusCode == 200) {
-        print('GGGGGGGGGGGG');
         // Write the response data to the file
-        await file.writeAsBytes(response.data);
+        //await file.writeAsBytes(response.data);
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(

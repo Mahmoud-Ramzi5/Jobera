@@ -2,29 +2,35 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/controllers/profileControllers/user/user_profile_controller.dart';
+import 'package:jobera/controllers/service_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/skill_types.dart';
 import 'package:jobera/models/skills.dart';
 
 class UserEditSkillsController extends GetxController {
   late UserProfileController profileController;
+  late ServiceController serviceController;
   late Dio dio;
-  late List<Skills> myskills;
+  late List<Skills> myskills = [];
   late List<SkillTypes> skillTypes = [];
   late List<Skills> skills = [];
 
   @override
   void onInit() async {
     profileController = Get.find<UserProfileController>();
+    serviceController = Get.find<ServiceController>();
     dio = Dio();
     myskills = profileController.user.skills;
+    skillTypes = await serviceController.getSkillTypes();
+    update();
     super.onInit();
   }
 
   @override
-  Future<void> onReady() async {
-    await getSkillTypes();
-    super.onReady();
+  void onClose() {
+    myskills = [];
+    update();
+    super.onClose();
   }
 
   void deleteSkill(Skills skill) {
@@ -38,79 +44,19 @@ class UserEditSkillsController extends GetxController {
     update();
   }
 
-  Future<dynamic> getSkillTypes() async {
-    try {
-      var response = await dio.get(
-        'http://192.168.0.101:8000/api/skills/types',
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-      if (response.statusCode == 200) {
-        skillTypes = SkillTypes.fromJsonList(response.data['types']);
-
-        update();
-      }
-    } on DioException catch (e) {
-      Dialogs().showErrorDialog(
-        'Error',
-        e.response.toString(),
-      );
-    }
+  Future<void> getSkills(String type) async {
+    skills = await serviceController.getSkills(type);
+    skills.removeWhere(
+        (item) => myskills.any((mySkill) => item.name == mySkill.name));
+    update();
   }
 
-  Future<dynamic> getSkills(String type) async {
-    try {
-      var response = await dio.get(
-        'http://192.168.0.101:8000/api/skills?type[eq]=$type',
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-      if (response.statusCode == 200) {
-        skills = Skills.fromJsonList(response.data['skills']);
-        skills.removeWhere(
-            (item) => myskills.any((mySkill) => item.name == mySkill.name));
-        update();
-      }
-    } on DioException catch (e) {
-      Dialogs().showErrorDialog(
-        'Error',
-        e.response.toString(),
-      );
-    }
-  }
-
-  Future<dynamic> searchSkills(String name) async {
-    try {
-      var response = await dio.get(
-        'http://192.168.0.101:8000/api/skills?name[like]=$name',
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-      if (response.statusCode == 200) {
-        skills.clear();
-        skills = Skills.fromJsonList(response.data['skills']);
-        skills.removeWhere(
-            (item) => myskills.any((mySkill) => item.name == mySkill.name));
-        update();
-      }
-    } on DioException catch (e) {
-      Dialogs().showErrorDialog(
-        'Error',
-        e.response.toString(),
-      );
-    }
+  Future<void> searchSkills(String value) async {
+    skills.clear();
+    skills = await serviceController.searchSkills(value);
+    skills.removeWhere(
+        (item) => myskills.any((mySkill) => item.name == mySkill.name));
+    update();
   }
 
   Future<dynamic> editSkills() async {
@@ -121,7 +67,7 @@ class UserEditSkillsController extends GetxController {
     }
     try {
       var response = await dio.post(
-        'http://192.168.0.101:8000/api/user/skills/edit',
+        'http://10.0.2.2:8000/api/user/skills/edit',
         data: {
           'skills': skillIds,
         },

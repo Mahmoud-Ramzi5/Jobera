@@ -4,12 +4,15 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/controllers/profileControllers/user/user_profile_controller.dart';
+import 'package:jobera/controllers/service_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
 
 class UserEditInfoController extends GetxController {
   late UserProfileController profileController;
+  late ServiceController serviceController;
+  late GlobalKey<FormState> formField;
   late Dio dio;
   late TextEditingController editNameController;
   late TextEditingController editPhoneNumberController;
@@ -22,6 +25,8 @@ class UserEditInfoController extends GetxController {
   @override
   Future<void> onInit() async {
     profileController = Get.find<UserProfileController>();
+    serviceController = Get.find<ServiceController>();
+    formField = GlobalKey<FormState>();
     dio = Dio();
     editNameController =
         TextEditingController(text: profileController.user.name);
@@ -31,12 +36,13 @@ class UserEditInfoController extends GetxController {
     editPhoneNumberController = TextEditingController(
       text: profileController.user.phoneNumber,
     );
-    await getCountries();
+    countries = await serviceController.getCountries();
     selectedCountry = countries.firstWhere(
         (element) => element.countryName == profileController.user.country);
-    await getStates(selectedCountry!.countryName);
+    states = await serviceController.getStates(selectedCountry!.countryName);
     selectedState = states.firstWhere(
         (element) => element.stateName == profileController.user.state);
+    update();
     super.onInit();
   }
 
@@ -53,71 +59,17 @@ class UserEditInfoController extends GetxController {
     update();
   }
 
-  void selectCountry(Countries country) {
+  Future<void> selectCountry(Countries country) async {
     selectedCountry = country;
+    selectedState = null;
+    states = [];
+    states = await serviceController.getStates(country.countryName);
     update();
   }
 
   void selectState(States state) {
     selectedState = state;
     update();
-  }
-
-  void resetStates() {
-    selectedState = null;
-    states = [];
-  }
-
-  Future<dynamic> getCountries() async {
-    try {
-      var response = await dio.get(
-        'http://192.168.0.101:8000/api/countries',
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-      if (response.statusCode == 200) {
-        countries = Countries.fromJsonList(
-          response.data['countries'],
-        );
-        update();
-      }
-    } on DioException catch (e) {
-      Dialogs().showErrorDialog(
-        'Error',
-        e.response.toString(),
-      );
-    }
-  }
-
-  Future<dynamic> getStates(String countryName) async {
-    try {
-      var response = await dio.post(
-        'http://192.168.0.101:8000/api/states',
-        data: {"country_name": countryName},
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-      if (response.statusCode == 200) {
-        resetStates();
-        states = States.fromJsonList(
-          response.data['states'],
-        );
-        update();
-      }
-    } on DioException catch (e) {
-      Dialogs().showErrorDialog(
-        'Error',
-        e.response.toString(),
-      );
-    }
   }
 
   Future<dynamic> editBasicInfo(
@@ -128,7 +80,7 @@ class UserEditInfoController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.101:8000/api/profile/edit',
+        'http://10.0.2.2:8000/api/profile/edit',
         data: {
           "full_name": name,
           "phone_number": phoneNumber,
@@ -149,7 +101,7 @@ class UserEditInfoController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response.toString(),
+        e.response!.data['message'].toString(),
       );
     }
   }

@@ -3,12 +3,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
+import 'package:jobera/controllers/service_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
 
 class UserRegisterController extends GetxController {
   late GlobalKey<FormState> formField;
+  late ServiceController serviceController;
   late TabController tabController;
   late TextEditingController fullNameController;
   late TextEditingController emailController;
@@ -26,8 +28,9 @@ class UserRegisterController extends GetxController {
   States? selectedState;
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     formField = GlobalKey<FormState>();
+    serviceController = Get.find<ServiceController>();
     countryCode = CountryCode(dialCode: '+963');
     fullNameController = TextEditingController();
     emailController = TextEditingController();
@@ -39,13 +42,9 @@ class UserRegisterController extends GetxController {
     selectedGender = 'MALE';
     dio = Dio();
     selectedCountry = null;
+    countries = await serviceController.getCountries();
+    update();
     super.onInit();
-  }
-
-  @override
-  Future<void> onReady() async {
-    await getCountries();
-    super.onReady();
   }
 
   @override
@@ -82,19 +81,17 @@ class UserRegisterController extends GetxController {
     update();
   }
 
-  void selectCountry(Countries country) {
+  Future<void> selectCountry(Countries country) async {
     selectedCountry = country;
+    selectedState = null;
+    states = [];
+    states = await serviceController.getStates(country.countryName);
     update();
   }
 
   void selectState(States state) {
     selectedState = state;
     update();
-  }
-
-  void resetStates() {
-    selectedState = null;
-    states = [];
   }
 
   InkWell passwordInkwell() {
@@ -105,58 +102,6 @@ class UserRegisterController extends GetxController {
       },
       child: Icon(passwordToggle ? Icons.visibility_off : Icons.visibility),
     );
-  }
-
-  Future<dynamic> getCountries() async {
-    try {
-      var response = await dio.get(
-        'http://192.168.0.101:8000/api/countries',
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-      if (response.statusCode == 200) {
-        countries = Countries.fromJsonList(
-          response.data['countries'],
-        );
-        update();
-      }
-    } on DioException catch (e) {
-      Dialogs().showErrorDialog(
-        'Error',
-        e.response.toString(),
-      );
-    }
-  }
-
-  Future<dynamic> getStates(String countryName) async {
-    try {
-      var response = await dio.post(
-        'http://192.168.0.101:8000/api/states',
-        data: {"country_name": countryName},
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-      if (response.statusCode == 200) {
-        resetStates();
-        states = States.fromJsonList(
-          response.data['states'],
-        );
-        update();
-      }
-    } on DioException catch (e) {
-      Dialogs().showErrorDialog(
-        'Error',
-        e.response.toString(),
-      );
-    }
   }
 
   Future<dynamic> userRegister(
@@ -170,7 +115,7 @@ class UserRegisterController extends GetxController {
     String birthDate,
   ) async {
     try {
-      var response = await dio.post('http://192.168.0.101:8000/api/register',
+      var response = await dio.post('http://10.0.2.2:8000/api/register',
           data: {
             "full_name": fullName,
             "email": email,

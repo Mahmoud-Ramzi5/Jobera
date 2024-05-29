@@ -147,9 +147,9 @@ class CompanyRegisterView extends StatelessWidget {
                             ),
                           )
                           .toList(),
-                      onChanged: (p0) {
-                        controller.selectCountry(p0);
-                        controller.getStates(p0.countryName);
+                      onChanged: (p0) async {
+                        await controller.selectCountry(p0);
+                        controller.update();
                       },
                       text: 'Select Country',
                     ),

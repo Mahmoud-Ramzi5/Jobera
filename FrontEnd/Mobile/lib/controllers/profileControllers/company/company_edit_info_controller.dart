@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/controllers/profileControllers/company/company_profile_controller.dart';
+import 'package:jobera/controllers/service_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
 
 class CompanyEditInfoController extends GetxController {
   late CompanyProfileController profileController;
+  late ServiceController serviceController;
+  late GlobalKey<FormState> formField;
   late Dio dio;
   late TextEditingController editNameController;
   late TextEditingController editPhoneNumberController;
@@ -23,6 +26,8 @@ class CompanyEditInfoController extends GetxController {
   @override
   Future<void> onInit() async {
     profileController = Get.find<CompanyProfileController>();
+    serviceController = Get.find<ServiceController>();
+    formField = GlobalKey<FormState>();
     dio = Dio();
     editNameController =
         TextEditingController(text: profileController.company.name);
@@ -34,12 +39,13 @@ class CompanyEditInfoController extends GetxController {
     editPhoneNumberController = TextEditingController(
       text: profileController.company.phoneNumber,
     );
-    await getCountries();
+    countries = await serviceController.getCountries();
     selectedCountry = countries.firstWhere(
         (element) => element.countryName == profileController.company.country);
-    await getStates(selectedCountry!.countryName);
+    states = await serviceController.getStates(selectedCountry!.countryName);
     selectedState = states.firstWhere(
         (element) => element.stateName == profileController.company.state);
+    update();
     super.onInit();
   }
 
@@ -57,8 +63,11 @@ class CompanyEditInfoController extends GetxController {
     update();
   }
 
-  void selectCountry(Countries country) {
+  Future<void> selectCountry(Countries country) async {
     selectedCountry = country;
+    selectedState = null;
+    states = [];
+    states = await serviceController.getStates(country.countryName);
     update();
   }
 
@@ -67,64 +76,6 @@ class CompanyEditInfoController extends GetxController {
     update();
   }
 
-  void resetStates() {
-    selectedState = null;
-    states = [];
-  }
-
-  Future<dynamic> getCountries() async {
-    try {
-      var response = await dio.get(
-        'http://192.168.0.101:8000/api/countries',
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-      if (response.statusCode == 200) {
-        countries = Countries.fromJsonList(
-          response.data['countries'],
-        );
-        update();
-      }
-    } on DioException catch (e) {
-      Dialogs().showErrorDialog(
-        'Error',
-        e.response.toString(),
-      );
-    }
-  }
-
-  Future<dynamic> getStates(String countryName) async {
-    try {
-      var response = await dio.post(
-        'http://192.168.0.101:8000/api/states',
-        data: {"country_name": countryName},
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-          },
-        ),
-      );
-      if (response.statusCode == 200) {
-        resetStates();
-        states = States.fromJsonList(
-          response.data['states'],
-        );
-        update();
-      }
-    } on DioException catch (e) {
-      Dialogs().showErrorDialog(
-        'Error',
-        e.response.toString(),
-      );
-    }
-  }
-
-//toDo:implement
   Future<dynamic> editBasicInfo(
     String name,
     String field,
@@ -134,7 +85,7 @@ class CompanyEditInfoController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.101:8000/api/profile/edit',
+        'http://10.0.2.2:8000/api/profile/edit',
         data: {
           "name": name,
           "field": field,
@@ -156,7 +107,7 @@ class CompanyEditInfoController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response.toString(),
+        e.response!.data['message'].toString(),
       );
     }
   }

@@ -84,6 +84,17 @@ class UserEditSkillsView extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(10),
+                    child: SearchBar(
+                      hintText: 'Search',
+                      leading: Icon(
+                        Icons.search,
+                        color: Colors.lightBlue.shade900,
+                      ),
+                      onChanged: (value) => controller.searchSkills(value),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
                     child: SkillsContainer(
                       name: 'Skill Types:',
                       widget: ListView.builder(
@@ -97,25 +108,12 @@ class UserEditSkillsView extends StatelessWidget {
                               child: BodyText(
                                   text: controller
                                       .skillTypes[index].value['en']!),
-                              onTap: () {
-                                controller.getSkills(
-                                    controller.skillTypes[index].name);
-                              },
+                              onTap: () => controller
+                                  .getSkills(controller.skillTypes[index].name),
                             ),
                           );
                         },
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: SearchBar(
-                      hintText: 'Search',
-                      leading: Icon(
-                        Icons.search,
-                        color: Colors.lightBlue.shade900,
-                      ),
-                      onChanged: (value) => _editController.searchSkills(value),
                     ),
                   ),
                   Padding(

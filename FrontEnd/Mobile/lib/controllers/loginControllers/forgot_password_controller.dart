@@ -27,7 +27,7 @@ class ForgotPasswordController extends GetxController {
   ) async {
     try {
       var response = await dio.post(
-        'http://192.168.0.101:8000/api/password/reset-link',
+        'http://10.0.2.2:8000/api/password/reset-link',
         data: {"email": email},
         options: Options(
           contentType: 'application/json; charset=UTF-8',
@@ -45,7 +45,7 @@ class ForgotPasswordController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Failed',
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }

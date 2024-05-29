@@ -5,6 +5,7 @@ import 'package:jobera/controllers/profileControllers/user/user_profile_controll
 
 class UserEditEducationController extends GetxController {
   late UserProfileController profileController;
+  late GlobalKey<FormState> formField;
   late Dio dio;
   late List<String> levels;
   late String selectedLevel;
@@ -16,6 +17,7 @@ class UserEditEducationController extends GetxController {
   @override
   void onInit() {
     profileController = Get.find<UserProfileController>();
+    formField = GlobalKey<FormState>();
     dio = Dio();
     levels = [
       'Bachelor',

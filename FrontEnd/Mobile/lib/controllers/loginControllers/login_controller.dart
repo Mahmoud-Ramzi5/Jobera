@@ -51,7 +51,7 @@ class LoginController extends GetxController {
     bool rememberMe,
   ) async {
     try {
-      var response = await dio.post('http://192.168.0.101:8000/api/login',
+      var response = await dio.post('http://10.0.2.2:8000/api/login',
           data: {"email": email, "password": password, "remember": remeberMe},
           options: Options(
             headers: {
@@ -75,7 +75,7 @@ class LoginController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Login Failed',
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
