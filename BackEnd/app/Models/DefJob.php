@@ -5,23 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Job extends Model
+class DefJob extends Model
 {
     use HasFactory;
-
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'salary',
-        'type',
-        'company_id',
-        'accepted_individual'
+        'title',
+        'description',
+        'photo',
+        'is_done',
     ];
-
-    /**
+        /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>

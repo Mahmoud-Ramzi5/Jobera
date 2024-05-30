@@ -15,15 +15,12 @@ class FreelancingJob extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'title',
-        'description',
         'min_salary',
         'max_salary',
         'deadline',
-        'is_done',
         'avg_salary',
-        'avg_salary',
-        'accepted_individual'
+        'user_id',
+        'accepted_user'
     ];
 
     /**

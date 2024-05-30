@@ -10,14 +10,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('regJobs', function (Blueprint $table) {
+        Schema::create('reg_jobs', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description');
             $table->double('salary');
             $table->enum('type', ['PartTime', 'FullTime']);
-            $table->boolean('is_done');
             $table->foreignId('company_id')->constrained('companies');
+            $table->foreignId('defJob_id')->constrained('defJobs')->cascadeOnDelete();
             $table->foreignId('accepted_individual')->nullable()->constrained('individuals');
             $table->timestamps();
         });

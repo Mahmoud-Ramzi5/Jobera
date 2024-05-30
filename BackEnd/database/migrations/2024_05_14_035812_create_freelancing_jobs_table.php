@@ -13,15 +13,13 @@ return new class extends Migration
     {
         Schema::create('freelancing_jobs', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description');
             $table->double('min_salary');
             $table->double('max_salary');
             $table->dateTime('deadline');
-            $table->boolean('is_done');
             $table->double('avg_salary')->default(0.0);
             $table->foreignId('user_id')->nullable();
-            $table->foreignId('accepted_individual')->nullable()->constrained('individuals');
+            $table->foreignId('defJob_id')->constrained('defJobs')->cascadeOnDelete();
+            $table->foreignId('accepted_user')->nullable()->constrained('users');
             $table->timestamps();
         });
         // Set the default value of avgSalary to max_salary
