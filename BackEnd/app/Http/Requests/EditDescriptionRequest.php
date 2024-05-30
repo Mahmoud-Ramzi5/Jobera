@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class AddJobRequest extends FormRequest
+class EditDescriptionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,7 @@ class AddJobRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "title"=>["required"],
-            "description"=>["required"],
-            "salray"=>["required"],
-            "type"=>["required","in:part,full"],
-            "isDone"=>["required","boolean"],
+            'description' => 'required'
         ];
     }
     protected function failedValidation(Validator $validator)

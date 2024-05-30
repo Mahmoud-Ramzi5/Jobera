@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 use App\Enums\SkillTypes;
+use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class StoreSkillsRequest extends FormRequest
 {
@@ -27,5 +29,11 @@ class StoreSkillsRequest extends FormRequest
             "name" => ['required'],
             "type" => ['required', Rule::in(SkillTypes::names())]
         ];
+    }
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'error' => $validator->errors()
+        ], 422));
     }
 }

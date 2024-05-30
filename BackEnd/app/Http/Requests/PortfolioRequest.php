@@ -36,7 +36,7 @@ class PortfolioRequest extends FormRequest
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'errors' => $validator->errors()
+            'error' => $validator->errors()
         ], 422));
     }
 }
