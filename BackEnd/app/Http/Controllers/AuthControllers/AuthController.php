@@ -41,7 +41,7 @@ class AuthController extends Controller
 
         if($user == null) {
             return response()->json([
-                "message" => "Invalid data",
+                "error" => "Invalid data",
             ], 401);
         }
 
@@ -88,7 +88,7 @@ class AuthController extends Controller
 
         if($user == null) {
             return response()->json([
-                "message" => "Invalid data",
+                "error" => "Invalid data",
             ], 401);
         }
 
@@ -125,7 +125,7 @@ class AuthController extends Controller
         if (!Auth::attempt($validated)) {
             // Invalid email or password
             return response()->json([
-                "errors" => "Invalid email or password"
+                "error" => "Invalid email or password"
             ], 401);
         }
 
@@ -209,7 +209,7 @@ class AuthController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'errors' => 'Invalid token',
+                'error' => 'Invalid token',
             ], 404);
         }
 
@@ -229,7 +229,7 @@ class AuthController extends Controller
 
         // Response
         return response()->json([
-            'errors' => 'Email verification failed',
+            'error' => 'Email verification failed',
         ], 500);
     }
 
@@ -275,7 +275,7 @@ class AuthController extends Controller
         // Check individual
         if ($individual == null) {
             return response()->json([
-                'user' => 'Invalid user'
+                'error' => 'Invalid user'
             ], 401);
         }
 
@@ -303,7 +303,7 @@ class AuthController extends Controller
         // Check individual
         if ($individual == null) {
             return response()->json([
-                'user' => 'Invalid user'
+                'error' => 'Invalid user'
             ], 401);
         }
 
@@ -329,7 +329,7 @@ class AuthController extends Controller
 
         // Response
         return response()->json([
-            "message" => "error",
+            "error" => "error",
             "step" => $individual->register_step
         ], 400);
     }

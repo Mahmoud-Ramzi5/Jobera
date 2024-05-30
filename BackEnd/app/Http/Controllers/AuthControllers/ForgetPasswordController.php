@@ -22,7 +22,7 @@ class ForgetPasswordController extends Controller
         // Check user
         if($user == null){
             return response()->json([
-                "errors" => "email was not found"
+                "error" => "email was not found"
             ], 404);
         }
 

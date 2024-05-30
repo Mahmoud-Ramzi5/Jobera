@@ -57,7 +57,7 @@ class SkillsController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'user' => 'Invalid user'
+                'error' => 'Invalid user'
             ], 401);
         }
 
@@ -67,7 +67,7 @@ class SkillsController extends Controller
         // Check individual
         if ($individual == null) {
             return response()->json([
-                'user' => 'Invalid user'
+                'error' => 'Invalid user'
             ], 401);
         }
 
@@ -90,7 +90,7 @@ class SkillsController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'user' => 'Invalid user'
+                'error' => 'Invalid user'
             ], 401);
         }
 
@@ -100,7 +100,7 @@ class SkillsController extends Controller
         // Check individual
         if ($individual == null) {
             return response()->json([
-                'user' => 'Invalid user'
+                'error' => 'Invalid user'
             ], 401);
         }
 
@@ -127,7 +127,7 @@ class SkillsController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'user' => 'Invalid user'
+                'error' => 'Invalid user'
             ], 401);
         }
 
@@ -175,7 +175,7 @@ class SkillsController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'user' => 'Invalid user'
+                'error' => 'Invalid user'
             ], 401);
         }
 
@@ -185,7 +185,7 @@ class SkillsController extends Controller
         // Check individual
         if ($individual == null) {
             return response()->json([
-                'user' => 'Invalid user'
+                'error' => 'Invalid user'
             ], 401);
         }
 
@@ -203,7 +203,7 @@ class SkillsController extends Controller
 
         // Response
         return response()->json([
-            "message" => "Not Authorized"
+            "error" => "Not Authorized"
         ], 401);
     }
 }
