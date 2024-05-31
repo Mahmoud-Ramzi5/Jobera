@@ -33,7 +33,7 @@ class UserProfileView extends StatelessWidget {
                               color: Colors.lightBlue.shade900,
                             )
                           : Image.network(
-                              'http://192.168.0.103:8000/api/image/${controller.user.photo}',
+                              'http://192.168.0.105:8000/api/image/${controller.user.photo}',
                               errorBuilder: (context, error, stackTrace) {
                                 return Text(error.toString());
                               },
@@ -48,10 +48,14 @@ class UserProfileView extends StatelessWidget {
                             ),
                       onPressed: () => Dialogs().addPhotoDialog(
                         () async {
-                          await controller.takePhotoFromCamera();
+                          controller.image = await controller.generalController
+                              .takePhotoFromCamera();
+                          controller.addPhoto();
                         },
                         () async {
-                          await controller.pickPhotoFromGallery();
+                          controller.image = await controller.generalController
+                              .pickPhotoFromGallery();
+                          controller.addPhoto();
                         },
                         () {},
                       ),
@@ -63,7 +67,7 @@ class UserProfileView extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: InfoWithEditContainer(
-                    name: 'Bio:',
+                    name: 'Bio',
                     buttonText: 'Edit',
                     icon: Icons.edit,
                     widget: BodyText(
@@ -114,7 +118,10 @@ class UserProfileView extends StatelessWidget {
                                 Row(
                                   children: [
                                     const BodyText(text: 'Gender: '),
-                                    LabelText(text: controller.user.gender),
+                                    LabelText(
+                                      text:
+                                          controller.user.gender.toLowerCase(),
+                                    ),
                                   ],
                                 ),
                                 Padding(
@@ -178,6 +185,17 @@ class UserProfileView extends StatelessWidget {
                                     text: controller.user.education.endDate)
                               ],
                             ),
+                            Row(
+                              children: [
+                                const BodyText(text: 'Certificate: '),
+                                LabelText(
+                                    text: Uri.file(controller
+                                            .user.education.certificateFile
+                                            .toString())
+                                        .pathSegments
+                                        .last)
+                              ],
+                            )
                           ],
                         ),
                         onPressed: () => Get.toNamed('/userEditEducation'),
@@ -250,18 +268,13 @@ class UserProfileView extends StatelessWidget {
                               padding: const EdgeInsets.all(10),
                               child: ListContainer(
                                 child: BodyText(
-                                  text:
-                                      controller.user.certificates![index].name,
-                                ),
-                                onTap: () async {
-                                  controller.fetchFile(controller
-                                      .user.certificates![index].file);
-                                },
+                                    text:
+                                        '${index + 1}-${controller.user.certificates![index].name}'),
                               ),
                             );
                           },
                         ),
-                        onPressed: () => Get.toNamed('/userEditCertificates'),
+                        onPressed: () => Get.toNamed('/userViewCertificates'),
                       ),
                     ),
                     Padding(

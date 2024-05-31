@@ -14,14 +14,22 @@ class UserEditCertificatesView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Edit Certificates'),
+        title: const TitleText(text: 'View Certificates'),
+        actions: [
+          IconButton(
+            onPressed: () => Get.toNamed('/userAddCertificate'),
+            icon: const Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+          )
+        ],
       ),
       body: SingleChildScrollView(
           child: Column(
         children: [
           ListView.builder(
-            itemCount:
-                _editController.profileController.user.certificates!.length,
+            itemCount: _editController.user.certificates!.length,
             shrinkWrap: true,
             itemBuilder: (context, index) {
               return Padding(
@@ -38,8 +46,8 @@ class UserEditCertificatesView extends StatelessWidget {
                               children: [
                                 const BodyText(text: 'Name: '),
                                 LabelText(
-                                  text: _editController.profileController.user
-                                      .certificates![index].name,
+                                  text: _editController
+                                      .user.certificates![index].name,
                                 ),
                               ],
                             ),
@@ -47,8 +55,8 @@ class UserEditCertificatesView extends StatelessWidget {
                               children: [
                                 const BodyText(text: 'Organization: '),
                                 LabelText(
-                                  text: _editController.profileController.user
-                                      .certificates![index].organization,
+                                  text: _editController
+                                      .user.certificates![index].organization,
                                 ),
                               ],
                             ),
@@ -56,8 +64,8 @@ class UserEditCertificatesView extends StatelessWidget {
                               children: [
                                 const BodyText(text: 'Date: '),
                                 LabelText(
-                                  text: _editController.profileController.user
-                                      .certificates![index].date,
+                                  text: _editController
+                                      .user.certificates![index].date,
                                 ),
                               ],
                             ),
@@ -67,6 +75,16 @@ class UserEditCertificatesView extends StatelessWidget {
                       Row(
                         children: [
                           IconButton(
+                            onPressed: () => _editController.fetchFile(
+                              _editController.user.certificates![index].name,
+                              'certificate',
+                            ),
+                            icon: Icon(
+                              Icons.file_open,
+                              color: Colors.lightBlue.shade900,
+                            ),
+                          ),
+                          IconButton(
                             onPressed: () {},
                             icon: Icon(
                               Icons.edit,
@@ -74,7 +92,9 @@ class UserEditCertificatesView extends StatelessWidget {
                             ),
                           ),
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () => _editController.deleteCertificate(
+                              _editController.user.certificates![index].id,
+                            ),
                             icon: const Icon(
                               Icons.cancel,
                               color: Colors.red,

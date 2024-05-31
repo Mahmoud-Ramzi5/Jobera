@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/controllers/service_controller.dart';
+import 'package:jobera/controllers/general_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
@@ -11,7 +11,7 @@ import 'package:jobera/views/home_view.dart';
 
 class CompanyRegisterController extends GetxController {
   late GlobalKey<FormState> formField;
-  late ServiceController serviceController;
+  late GeneralController generalController;
   late TextEditingController nameController;
   late TextEditingController workFieldController;
   late TextEditingController emailController;
@@ -30,7 +30,7 @@ class CompanyRegisterController extends GetxController {
   @override
   Future<void> onInit() async {
     formField = GlobalKey<FormState>();
-    serviceController = Get.find<ServiceController>();
+    generalController = Get.find<GeneralController>();
     countryCode = CountryCode(dialCode: '+963');
     nameController = TextEditingController();
     workFieldController = TextEditingController();
@@ -42,7 +42,7 @@ class CompanyRegisterController extends GetxController {
     selectedDate = DateTime.now();
     dio = Dio();
     selectedCountry = null;
-    countries = await serviceController.getCountries();
+    countries = await generalController.getCountries();
     update();
     super.onInit();
   }
@@ -68,7 +68,7 @@ class CompanyRegisterController extends GetxController {
     selectedCountry = country;
     selectedState = null;
     states = [];
-    states = await serviceController.getStates(country.countryName);
+    states = await generalController.getStates(country.countryName);
     update();
   }
 
@@ -112,7 +112,7 @@ class CompanyRegisterController extends GetxController {
   ) async {
     try {
       var response =
-          await dio.post('http://192.168.0.103:8000/api/company/register',
+          await dio.post('http://192.168.0.105:8000/api/company/register',
               data: {
                 "name": name,
                 "field": workField,

@@ -3,14 +3,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/controllers/service_controller.dart';
+import 'package:jobera/controllers/general_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
 
 class UserRegisterController extends GetxController {
   late GlobalKey<FormState> formField;
-  late ServiceController serviceController;
+  late GeneralController generalController;
   late TabController tabController;
   late TextEditingController fullNameController;
   late TextEditingController emailController;
@@ -30,7 +30,7 @@ class UserRegisterController extends GetxController {
   @override
   Future<void> onInit() async {
     formField = GlobalKey<FormState>();
-    serviceController = Get.find<ServiceController>();
+    generalController = Get.find<GeneralController>();
     countryCode = CountryCode(dialCode: '+963');
     fullNameController = TextEditingController();
     emailController = TextEditingController();
@@ -42,7 +42,7 @@ class UserRegisterController extends GetxController {
     selectedGender = 'MALE';
     dio = Dio();
     selectedCountry = null;
-    countries = await serviceController.getCountries();
+    countries = await generalController.getCountries();
     update();
     super.onInit();
   }
@@ -85,7 +85,7 @@ class UserRegisterController extends GetxController {
     selectedCountry = country;
     selectedState = null;
     states = [];
-    states = await serviceController.getStates(country.countryName);
+    states = await generalController.getStates(country.countryName);
     update();
   }
 
@@ -115,7 +115,7 @@ class UserRegisterController extends GetxController {
     String birthDate,
   ) async {
     try {
-      var response = await dio.post('http://192.168.0.103:8000/api/register',
+      var response = await dio.post('http://192.168.0.105:8000/api/register',
           data: {
             "full_name": fullName,
             "email": email,

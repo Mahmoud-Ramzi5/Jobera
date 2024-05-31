@@ -42,7 +42,7 @@ class HomeView extends StatelessWidget {
                                           color: Colors.lightBlue.shade900,
                                         )
                                   : Image.network(
-                                      'http://192.168.0.103:8000/api/image/${controller.photo}',
+                                      'http://192.168.0.105:8000/api/image/${controller.photo}',
                                       errorBuilder:
                                           (context, error, stackTrace) =>
                                               Text(error.toString()),

@@ -4,14 +4,16 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/controllers/profileControllers/user/user_profile_controller.dart';
-import 'package:jobera/controllers/service_controller.dart';
+import 'package:jobera/controllers/general_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/states.dart';
+import 'package:jobera/models/user.dart';
 
 class UserEditInfoController extends GetxController {
   late UserProfileController profileController;
-  late ServiceController serviceController;
+  late User user;
+  late GeneralController generalController;
   late GlobalKey<FormState> formField;
   late Dio dio;
   late TextEditingController editNameController;
@@ -25,23 +27,23 @@ class UserEditInfoController extends GetxController {
   @override
   Future<void> onInit() async {
     profileController = Get.find<UserProfileController>();
-    serviceController = Get.find<ServiceController>();
+    user = profileController.user;
+    generalController = Get.find<GeneralController>();
     formField = GlobalKey<FormState>();
     dio = Dio();
-    editNameController =
-        TextEditingController(text: profileController.user.name);
+    editNameController = TextEditingController(text: user.name);
     countryCode = CountryCode(
-      dialCode: profileController.user.phoneNumber,
+      dialCode: user.phoneNumber,
     );
     editPhoneNumberController = TextEditingController(
-      text: profileController.user.phoneNumber,
+      text: user.phoneNumber,
     );
-    countries = await serviceController.getCountries();
-    selectedCountry = countries.firstWhere(
-        (element) => element.countryName == profileController.user.country);
-    states = await serviceController.getStates(selectedCountry!.countryName);
-    selectedState = states.firstWhere(
-        (element) => element.stateName == profileController.user.state);
+    countries = await generalController.getCountries();
+    selectedCountry =
+        countries.firstWhere((element) => element.countryName == user.country);
+    states = await generalController.getStates(selectedCountry!.countryName);
+    selectedState =
+        states.firstWhere((element) => element.stateName == user.state);
     update();
     super.onInit();
   }
@@ -63,7 +65,7 @@ class UserEditInfoController extends GetxController {
     selectedCountry = country;
     selectedState = null;
     states = [];
-    states = await serviceController.getStates(country.countryName);
+    states = await generalController.getStates(country.countryName);
     update();
   }
 
@@ -80,7 +82,7 @@ class UserEditInfoController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.103:8000/api/profile/edit',
+        'http://192.168.0.105:8000/api/profile/edit',
         data: {
           "full_name": name,
           "phone_number": phoneNumber,

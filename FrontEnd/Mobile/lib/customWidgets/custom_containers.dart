@@ -256,7 +256,7 @@ class ListContainer extends StatelessWidget {
   const ListContainer({
     super.key,
     required this.child,
-    required this.onTap,
+    this.onTap,
   });
 
   @override
@@ -271,8 +271,11 @@ class ListContainer extends StatelessWidget {
               side: BorderSide(color: Colors.orange.shade800),
             ),
           ),
-          child: Center(
-            child: child,
+          child: Padding(
+            padding: const EdgeInsets.all(5),
+            child: Center(
+              child: child,
+            ),
           ),
         ),
       ),

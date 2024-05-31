@@ -2,14 +2,16 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/controllers/profileControllers/user/user_profile_controller.dart';
-import 'package:jobera/controllers/service_controller.dart';
+import 'package:jobera/controllers/general_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/skill_types.dart';
 import 'package:jobera/models/skills.dart';
+import 'package:jobera/models/user.dart';
 
 class UserEditSkillsController extends GetxController {
   late UserProfileController profileController;
-  late ServiceController serviceController;
+  late User user;
+  late GeneralController generalController;
   late Dio dio;
   late List<Skills> myskills = [];
   late List<SkillTypes> skillTypes = [];
@@ -18,10 +20,11 @@ class UserEditSkillsController extends GetxController {
   @override
   void onInit() async {
     profileController = Get.find<UserProfileController>();
-    serviceController = Get.find<ServiceController>();
+    user = profileController.user;
+    generalController = Get.find<GeneralController>();
     dio = Dio();
-    myskills = profileController.user.skills;
-    skillTypes = await serviceController.getSkillTypes();
+    myskills = user.skills;
+    skillTypes = await generalController.getSkillTypes();
     update();
     super.onInit();
   }
@@ -45,7 +48,7 @@ class UserEditSkillsController extends GetxController {
   }
 
   Future<void> getSkills(String type) async {
-    skills = await serviceController.getSkills(type);
+    skills = await generalController.getSkills(type);
     skills.removeWhere(
         (item) => myskills.any((mySkill) => item.name == mySkill.name));
     update();
@@ -53,7 +56,7 @@ class UserEditSkillsController extends GetxController {
 
   Future<void> searchSkills(String value) async {
     skills.clear();
-    skills = await serviceController.searchSkills(value);
+    skills = await generalController.searchSkills(value);
     skills.removeWhere(
         (item) => myskills.any((mySkill) => item.name == mySkill.name));
     update();
@@ -67,7 +70,7 @@ class UserEditSkillsController extends GetxController {
     }
     try {
       var response = await dio.post(
-        'http://192.168.0.103:8000/api/user/skills/edit',
+        'http://192.168.0.105:8000/api/user/skills/edit',
         data: {
           'skills': skillIds,
         },

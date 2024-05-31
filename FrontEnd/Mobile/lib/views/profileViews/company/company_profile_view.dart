@@ -33,18 +33,20 @@ class CompanyProfileView extends StatelessWidget {
                               color: Colors.lightBlue.shade900,
                             )
                           : Image.network(
-                              'http://192.168.0.103/api/image/${controller.company.photo}',
+                              'http://192.168.0.105/api/image/${controller.company.photo}',
                               errorBuilder: (context, error, stackTrace) =>
                                   Text(error.toString()),
                             ),
                       onPressed: () => Dialogs().addPhotoDialog(
                         () async {
-                          await controller.takePhotoFromCamera();
-                          await controller.addPhoto();
+                          controller.image = await controller.generalController
+                              .takePhotoFromCamera();
+                          controller.addPhoto();
                         },
                         () async {
-                          await controller.pickPhotoFromGallery();
-                          await controller.addPhoto();
+                          controller.image = await controller.generalController
+                              .pickPhotoFromGallery();
+                          controller.addPhoto();
                         },
                         () {},
                       ),
@@ -58,7 +60,7 @@ class CompanyProfileView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(10),
                       child: InfoWithEditContainer(
-                        name: 'Bio:',
+                        name: 'Bio',
                         buttonText: 'Edit',
                         icon: Icons.edit,
                         widget: BodyText(

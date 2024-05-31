@@ -36,80 +36,81 @@ class UserEditInfoView extends StatelessWidget {
       ),
       body: Form(
         key: _editController.formField,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: CustomTextField(
-                controller: _editController.editNameController,
-                textInputType: TextInputType.name,
-                obsecureText: false,
-                labelText: 'Name',
-                icon: const Icon(Icons.abc),
-                validator: (p0) => Validation().validateRequiredField(p0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: CustomTextField(
+                  controller: _editController.editNameController,
+                  textInputType: TextInputType.name,
+                  obsecureText: false,
+                  labelText: 'Name',
+                  icon: const Icon(Icons.abc),
+                  validator: (p0) => Validation().validateRequiredField(p0),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CodePicker(
-                    onChange: (p0) => _editController.selectCountryCode(p0),
-                  ),
-                  SizedBox(
-                    width: 200,
-                    child: CustomTextField(
-                      controller: _editController.editPhoneNumberController,
-                      textInputType: TextInputType.phone,
-                      obsecureText: false,
-                      labelText: 'Phone Number',
-                      icon: const Icon(Icons.phone),
-                      validator: (p0) => Validation().validatePhoneNumber(p0),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CodePicker(
+                      onChange: (p0) => _editController.selectCountryCode(p0),
                     ),
-                  ),
-                ],
+                    SizedBox(
+                      width: 200,
+                      child: CustomTextField(
+                        controller: _editController.editPhoneNumberController,
+                        textInputType: TextInputType.phone,
+                        obsecureText: false,
+                        labelText: 'Phone Number',
+                        icon: const Icon(Icons.phone),
+                        validator: (p0) => Validation().validatePhoneNumber(p0),
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            GetBuilder<UserEditInfoController>(
-              builder: (controller) => Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CustomDropDownButton(
-                    value: controller.selectedCountry,
-                    items: controller.countries
-                        .map<DropdownMenuItem<Countries>>(
-                          (country) => DropdownMenuItem<Countries>(
-                            value: country,
-                            child: BodyText(text: country.countryName),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (p0) async {
-                      await controller.selectCountry(p0);
-                      controller.update();
-                    },
-                    text: 'Select Country',
-                  ),
-                  CustomDropDownButton(
-                    value: controller.selectedState,
-                    items: controller.states
-                        .map<DropdownMenuItem<States>>(
-                          (state) => DropdownMenuItem<States>(
-                            value: state,
-                            child: BodyText(text: state.stateName),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (p0) => controller.selectState(p0!),
-                    text: 'Select City',
-                  ),
-                ],
+              GetBuilder<UserEditInfoController>(
+                builder: (controller) => Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CustomDropDownButton(
+                      value: controller.selectedCountry,
+                      items: controller.countries
+                          .map<DropdownMenuItem<Countries>>(
+                            (country) => DropdownMenuItem<Countries>(
+                              value: country,
+                              child: BodyText(text: country.countryName),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (p0) async {
+                        await controller.selectCountry(p0);
+                        controller.update();
+                      },
+                      text: 'Select Country',
+                    ),
+                    CustomDropDownButton(
+                      value: controller.selectedState,
+                      items: controller.states
+                          .map<DropdownMenuItem<States>>(
+                            (state) => DropdownMenuItem<States>(
+                              value: state,
+                              child: BodyText(text: state.stateName),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (p0) => controller.selectState(p0!),
+                      text: 'Select City',
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
