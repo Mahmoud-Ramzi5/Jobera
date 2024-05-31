@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('individual_id')->constrained()->cascadeOnDelete();
             $table->foreignId('job_id')->constrained('reg_jobs')->cascadeOnDelete();
-            $table->string("description");
+            $table->text("description");
             $table->timestamps();
         });
     }

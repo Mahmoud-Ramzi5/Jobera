@@ -42,4 +42,10 @@ class RegJob extends Model
 
         ];
     }
+    public function Job() {
+        return $this->belongsTo(DefJob::class);
+    }
+    public function company(){
+        return $this->belongsTo(Company::class);
+    }
 }

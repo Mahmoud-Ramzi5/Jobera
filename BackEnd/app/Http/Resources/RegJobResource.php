@@ -3,11 +3,11 @@
 namespace App\Http\Resources;
 
 use App\Models\Company;
-use App\Models\JobCompetetor;
 use Illuminate\Http\Request;
+use App\Models\RegJobCompetetor;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class JobResource extends JsonResource
+class RegJobResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,18 +16,19 @@ class JobResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $user = auth()->user();
-        $company=Company::where('user_id',$user->id)->get();
-        $competetors=JobCompetetor::where('job_id',$this->id)->get();
+        $company=$this->company()->first();
+        $competetors=RegJobCompetetor::where('job_id',$this->id)->get();
+        $job=$this->job()->first();
         return [
             "id"=>$this->id,
-            "title"=>$this->title,
+            "title"=>$job->title,
             "company"=>new CompanyResource($company),
-            "description"=>$this->description,
+            "description"=>$job->description,
             "salary"=>$this->salary,
             "type"=>$this->type,
-            "isDone"=>$this->isDone,
-            "accepted_individual"=>$this->accepted_individual,
+            "isDone"=>$job->isDone,
+            'photo'=>$job->photo,
+            "accepted_individual"=>new IndividualResource($this->accepted_individual),
             "competetors"=>new JobCompetetorsResource($competetors)
         ];
     }

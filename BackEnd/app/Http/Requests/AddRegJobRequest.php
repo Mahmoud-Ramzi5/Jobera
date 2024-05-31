@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class AddJobRequest extends FormRequest
+class AddRegJobRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,6 +27,7 @@ class AddJobRequest extends FormRequest
             "title"=>["required"],
             "description"=>["required"],
             "salray"=>["required"],
+            'photo' => ['sometimes', 'image', 'max:4096'],
             "type"=>["required","in:part,full"],
             "isDone"=>["required","boolean"],
         ];

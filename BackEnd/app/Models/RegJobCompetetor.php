@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class RegJobCompetetor extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'individual_id','job_id',
+        "description"
+    ];
 }

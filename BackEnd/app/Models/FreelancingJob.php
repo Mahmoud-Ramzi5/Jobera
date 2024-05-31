@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class FreelancingJob extends Model
 {
@@ -43,5 +44,11 @@ class FreelancingJob extends Model
         return [
 
         ];
+    }
+    public function Job() {
+        return $this->belongsTo(DefJob::class);
+    }
+    public function user(){
+        return $this->belongsTo(user::class);
     }
 }
