@@ -24,17 +24,18 @@ class AddJobRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "title"=>["required"],
-            "description"=>["required"],
-            "salray"=>["required"],
-            "type"=>["required","in:part,full"],
-            "isDone"=>["required","boolean"],
+            "title" => ["required"],
+            "description" => ["required"],
+            "salray" => ["required"],
+            "type" => ["required", "in:part,full"],
+            "is_done" => ["required", "boolean"],
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'error' => $validator->errors()
+            'errors' => $validator->errors()
         ], 422));
     }
 }

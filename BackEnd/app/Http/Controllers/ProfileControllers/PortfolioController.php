@@ -21,7 +21,7 @@ class PortfolioController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -45,7 +45,7 @@ class PortfolioController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -101,14 +101,14 @@ class PortfolioController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
         // Check if portfolio belongs to user
         if($user->id != $portfolio->user_id) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -189,14 +189,14 @@ class PortfolioController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
         // Check if portfolio belongs to user
         if($user->id != $portfolio->user_id) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
