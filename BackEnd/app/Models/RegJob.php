@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 
 class RegJob extends Model
@@ -42,10 +44,25 @@ class RegJob extends Model
 
         ];
     }
-    public function Job() {
-        return $this->belongsTo(DefJob::class);
+
+    /* Relations */
+    public function defJob(): BelongsTo
+    {
+        return $this->belongsTo(DefJob::class, 'defJob_id', 'id');
     }
-    public function company(){
-        return $this->belongsTo(Company::class);
+
+    public function company(): BelongsTo
+    {
+        return $this->belongsTo(Company::class, 'company_id', 'id');
+    }
+
+    public function acceptedIndividual(): BelongsTo
+    {
+        return $this->belongsTo(Individual::class, 'accepted_individual', 'id');
+    }
+
+    public function competetors(): HasMany
+    {
+        return $this->hasMany(RegJobCompetetor::class, 'job_id', 'id');
     }
 }
