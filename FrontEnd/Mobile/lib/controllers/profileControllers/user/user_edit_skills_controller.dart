@@ -67,7 +67,7 @@ class UserEditSkillsController extends GetxController {
     }
     try {
       var response = await dio.post(
-        'http://10.0.2.2:8000/api/user/skills/edit',
+        'http://192.168.0.103:8000/api/user/skills/edit',
         data: {
           'skills': skillIds,
         },
@@ -86,7 +86,7 @@ class UserEditSkillsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }

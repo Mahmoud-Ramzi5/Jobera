@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
@@ -5,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/user.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class UserProfileController extends GetxController {
@@ -36,7 +38,7 @@ class UserProfileController extends GetxController {
   Future<void> fetchProfile() async {
     String? token = sharedPreferences?.getString('access_token');
     try {
-      var response = await dio.get('http://10.0.2.2:8000/api/profile',
+      var response = await dio.get('http://192.168.0.103:8000/api/profile',
           options: Options(
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',
@@ -51,7 +53,7 @@ class UserProfileController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
@@ -60,7 +62,7 @@ class UserProfileController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://10.0.2.2:8000/api/profile/description',
+        'http://192.168.0.103:8000/api/profile/description',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -76,7 +78,7 @@ class UserProfileController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.data['message'].toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
@@ -127,7 +129,7 @@ class UserProfileController extends GetxController {
       );
       try {
         var response = await dio.post(
-          'http://10.0.2.2:8000/api/profile/photo',
+          'http://192.168.0.103:8000/api/profile/photo',
           data: formData,
           options: Options(
             headers: {
@@ -143,7 +145,7 @@ class UserProfileController extends GetxController {
       } on DioException catch (e) {
         Dialogs().showErrorDialog(
           'Error',
-          e.response.toString(),
+          e.response!.data['errors'].toString(),
         );
       }
     } else {
@@ -151,10 +153,10 @@ class UserProfileController extends GetxController {
     }
   }
 
-  Future<void> fetchFile(String filePath) async {
+  Future<dynamic> downloadFile(String fileName) async {
     try {
       final response = await dio.get(
-        'http://10.0.2.2:8000/api/file/$filePath',
+        'http://192.168.0.103:8000/api/file/$fileName',
         options: Options(
           responseType: ResponseType.bytes, // important
           headers: {
@@ -166,14 +168,46 @@ class UserProfileController extends GetxController {
         ),
       );
       if (response.statusCode == 200) {
-        // Write the response data to the file
-        //await file.writeAsBytes(response.data);
+        return response.data;
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.toString(),
+        e.response!.data['errors'].toString(),
       );
+    }
+  }
+
+  Future<void> fetchFile(String fileName) async {
+    const permission = Permission.manageExternalStorage;
+    if (await permission.isDenied) {
+      final result = await permission.request();
+      if (result.isPermanentlyDenied) {
+        // Permission is granted
+        openAppSettings();
+      }
+    } else if (await permission.isGranted) {
+      // Permission is granted
+      if (Platform.isIOS) {
+        return;
+      } else {
+        Directory directory =
+            Directory('/storage/emulated/0/Download/jobera/certificates');
+        bool directoryExists = await directory.exists();
+        if (!directoryExists) {
+          await directory.create(recursive: true);
+        }
+        File file =
+            File('${directory.path}/${Uri.file(fileName).pathSegments.last}');
+        bool fileExists = await file.exists();
+        if (fileExists) {
+          await OpenFilex.open(file.path);
+        } else {
+          dynamic fileData = await downloadFile(fileName);
+          await file.writeAsBytes(fileData, flush: true);
+          await OpenFilex.open(file.path);
+        }
+      }
     }
   }
 }

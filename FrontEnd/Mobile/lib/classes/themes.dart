@@ -42,12 +42,10 @@ class Themes {
       unselectedLabelColor: Colors.black,
       indicatorSize: TabBarIndicatorSize.tab,
       dividerColor: Colors.transparent,
-      indicator: ShapeDecoration(
-        shape: CircleBorder(
-          side: BorderSide(
-            strokeAlign: 10,
-            color: Colors.orange.shade800,
-          ),
+      indicator: UnderlineTabIndicator(
+        borderSide: BorderSide(
+          color: Colors.orange.shade800,
+          width: 2,
         ),
       ),
     ),
@@ -126,12 +124,10 @@ class Themes {
       unselectedLabelColor: Colors.white,
       indicatorSize: TabBarIndicatorSize.tab,
       dividerColor: Colors.transparent,
-      indicator: ShapeDecoration(
-        shape: CircleBorder(
-          side: BorderSide(
-            strokeAlign: 10,
-            color: Colors.orange.shade800,
-          ),
+      indicator: UnderlineTabIndicator(
+        borderSide: BorderSide(
+          color: Colors.orange.shade800,
+          width: 2,
         ),
       ),
     ),

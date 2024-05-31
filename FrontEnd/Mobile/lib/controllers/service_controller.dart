@@ -18,7 +18,7 @@ class ServiceController extends GetxController {
   Future<dynamic> getCountries() async {
     try {
       var response = await dio.get(
-        'http://10.0.2.2:8000/api/countries',
+        'http://192.168.0.103:8000/api/countries',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -34,7 +34,7 @@ class ServiceController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.data['message'].toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
@@ -42,7 +42,7 @@ class ServiceController extends GetxController {
   Future<dynamic> getStates(String countryName) async {
     try {
       var response = await dio.post(
-        'http://10.0.2.2:8000/api/states',
+        'http://192.168.0.103:8000/api/states',
         data: {"country_name": countryName},
         options: Options(
           headers: {
@@ -59,7 +59,7 @@ class ServiceController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.data['message'].toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
@@ -67,7 +67,7 @@ class ServiceController extends GetxController {
   Future<dynamic> getSkillTypes() async {
     try {
       var response = await dio.get(
-        'http://10.0.2.2:8000/api/skills/types',
+        'http://192.168.0.103:8000/api/skills/types',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -81,7 +81,7 @@ class ServiceController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
@@ -89,7 +89,7 @@ class ServiceController extends GetxController {
   Future<dynamic> getSkills(String type) async {
     try {
       var response = await dio.get(
-        'http://10.0.2.2:8000/api/skills?type[eq]=$type',
+        'http://192.168.0.103:8000/api/skills?type[eq]=$type',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -103,7 +103,7 @@ class ServiceController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response.toString(),
+        e.response!.data['error'].toString(),
       );
     }
   }
@@ -111,7 +111,7 @@ class ServiceController extends GetxController {
   Future<dynamic> searchSkills(String name) async {
     try {
       var response = await dio.get(
-        'http://10.0.2.2:8000/api/skills?name[like]=$name',
+        'http://192.168.0.103:8000/api/skills?name[like]=$name',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -125,7 +125,7 @@ class ServiceController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response.toString(),
+        e.response!.data['erros'].toString(),
       );
     }
   }

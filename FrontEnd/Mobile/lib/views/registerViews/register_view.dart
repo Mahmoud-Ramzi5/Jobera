@@ -10,34 +10,31 @@ class RegisterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const TitleText(text: 'Register')),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-        child: DefaultTabController(
-          length: 2,
-          initialIndex: 0,
-          child: Scaffold(
-            appBar: const TabBar(
-              tabs: <Widget>[
-                Tab(
-                  icon: Icon(
-                    Icons.person,
-                  ),
-                  text: "User",
+      body: DefaultTabController(
+        length: 2,
+        initialIndex: 0,
+        child: Scaffold(
+          appBar: const TabBar(
+            tabs: <Widget>[
+              Tab(
+                icon: Icon(
+                  Icons.person,
                 ),
-                Tab(
-                  icon: Icon(
-                    Icons.business,
-                  ),
-                  text: "Company",
+                text: "User",
+              ),
+              Tab(
+                icon: Icon(
+                  Icons.business,
                 ),
-              ],
-            ),
-            body: TabBarView(
-              children: [
-                UserRegisterView(),
-                CompanyRegisterView(),
-              ],
-            ),
+                text: "Company",
+              ),
+            ],
+          ),
+          body: TabBarView(
+            children: [
+              UserRegisterView(),
+              CompanyRegisterView(),
+            ],
           ),
         ),
       ),

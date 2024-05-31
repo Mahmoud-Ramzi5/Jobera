@@ -111,24 +111,25 @@ class CompanyRegisterController extends GetxController {
     String date,
   ) async {
     try {
-      var response = await dio.post('http://10.0.2.2:8000/api/company/register',
-          data: {
-            "name": name,
-            "field": workField,
-            "email": email,
-            "password": password,
-            "confirm_password": confirmPassword,
-            "state_id": state,
-            "phone_number": phoneNumber,
-            "founding_date": date,
-            "type": "company",
-          },
-          options: Options(
-            headers: {
-              'Content-Type': 'application/json; charset=UTF-8',
-              'Accept': 'application/json',
-            },
-          ));
+      var response =
+          await dio.post('http://192.168.0.103:8000/api/company/register',
+              data: {
+                "name": name,
+                "field": workField,
+                "email": email,
+                "password": password,
+                "confirm_password": confirmPassword,
+                "state_id": state,
+                "phone_number": phoneNumber,
+                "founding_date": date,
+                "type": "company",
+              },
+              options: Options(
+                headers: {
+                  'Content-Type': 'application/json; charset=UTF-8',
+                  'Accept': 'application/json',
+                },
+              ));
       if (response.statusCode == 201) {
         sharedPreferences?.setString(
           "access_token",
@@ -145,7 +146,7 @@ class CompanyRegisterController extends GetxController {
     } on DioException catch (e) {
       await Dialogs().showErrorDialog(
         'Register Failed',
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }

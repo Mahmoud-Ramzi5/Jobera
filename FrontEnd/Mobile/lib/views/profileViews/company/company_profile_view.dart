@@ -33,7 +33,7 @@ class CompanyProfileView extends StatelessWidget {
                               color: Colors.lightBlue.shade900,
                             )
                           : Image.network(
-                              'http://10.0.2.2/api/image/${controller.company.photo}',
+                              'http://192.168.0.103/api/image/${controller.company.photo}',
                               errorBuilder: (context, error, stackTrace) =>
                                   Text(error.toString()),
                             ),

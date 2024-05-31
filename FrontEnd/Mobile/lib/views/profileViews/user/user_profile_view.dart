@@ -1,5 +1,3 @@
-import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
@@ -35,7 +33,7 @@ class UserProfileView extends StatelessWidget {
                               color: Colors.lightBlue.shade900,
                             )
                           : Image.network(
-                              'http://10.0.2.2:8000/api/image/${controller.user.photo}',
+                              'http://192.168.0.103:8000/api/image/${controller.user.photo}',
                               errorBuilder: (context, error, stackTrace) {
                                 return Text(error.toString());
                               },
@@ -251,34 +249,15 @@ class UserProfileView extends StatelessWidget {
                             return Padding(
                               padding: const EdgeInsets.all(10),
                               child: ListContainer(
-                                  child: BodyText(
-                                    text: controller
-                                        .user.certificates![index].name,
-                                  ),
-                                  onTap: () async {
-                                    FilePickerResult? result =
-                                        await FilePicker.platform.pickFiles();
-
-                                    if (result != null) {
-                                      File file =
-                                          File(result.files.single.path!);
-                                      String fileName =
-                                          result.files.single.name;
-                                      String filePath =
-                                          result.files.single.path!;
-
-                                      // Do something with the file, such as reading or uploading it
-                                      // Example: Print the file path and name
-                                      print('Picked file: $filePath');
-                                      print('File name: $fileName');
-                                    } else {
-                                      // User canceled the file picker
-                                      print('gg');
-                                    }
-                                  }
-                                  // controller.fetchFile(
-                                  //     controller.user.certificates![index].file),
-                                  ),
+                                child: BodyText(
+                                  text:
+                                      controller.user.certificates![index].name,
+                                ),
+                                onTap: () async {
+                                  controller.fetchFile(controller
+                                      .user.certificates![index].file);
+                                },
+                              ),
                             );
                           },
                         ),
