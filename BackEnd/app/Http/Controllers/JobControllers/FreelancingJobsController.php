@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\JobControllers;
 
+use App\Models\User;
 use App\Filters\JobFilter;
-use App\Http\Resources\FreelancingJobCompetetorCollection;
 use Illuminate\Http\Request;
 use App\Models\FreelancingJob;
 use App\Http\Controllers\Controller;
+use App\Policies\FreelancingjobPolicy;
 use App\Models\FreelancingJobCompetetor;
 use App\Http\Resources\FreelancingJobResource;
 use App\Http\Requests\AddFreelancingJobRequest;
 use App\Http\Resources\FreelancingJobCollection;
 use App\Http\Requests\ApplyFreelancingJobRequest;
 use App\Http\Resources\FreelancingJobCompetetorResource;
+use App\Http\Resources\FreelancingJobCompetetorCollection;
 
 class FreelancingJobsController extends Controller{
     public function PostFreelancingJob(AddFreelancingJobRequest $request)
@@ -58,6 +60,14 @@ class FreelancingJobsController extends Controller{
     }
     public function DeleteFreelancingJob(Request $request,FreelancingJob $freelancingJob)
     {
+        $user=auth()->user();
+        $policy = new FreelancingJobPolicy();
+
+        if (!$policy->DeleteFreelancingJob(User::find($user->id),$freelancingJob)) {
+            return response()->json([
+                'errors' => ['user' => 'Unauthorized']
+            ], 401);
+        }
         $freelancingJob->delete();
 
         return response()->json([

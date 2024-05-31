@@ -3,16 +3,19 @@
 use App\Models\State;
 use App\Models\Country;
 use Illuminate\Http\Request;
+use App\Models\FreelancingJob;
 use App\Enums\IndividualGender;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthControllers\AuthController;
+use App\Http\Controllers\JobControllers\RegJobsController;
 use App\Http\Controllers\ProfileControllers\SkillsController;
 use App\Http\Controllers\AuthControllers\SocialAuthController;
 use App\Http\Controllers\ProfileControllers\ProfileController;
 use App\Http\Controllers\ProfileControllers\EducationController;
 use App\Http\Controllers\ProfileControllers\PortfolioController;
 use App\Http\Controllers\AuthControllers\ForgetPasswordController;
+use App\Http\Controllers\JobControllers\FreelancingJobsController;
 
 
 Route::controller(AuthController::class)->group(function () {
@@ -105,6 +108,27 @@ Route::controller(PortfolioController::class)->group(function() {
         Route::delete('/portfolios/{portfolio}', 'DeletePortfolio');
     });
 });
+Route::controller(RegJobsController::class)->group(function() {
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/regJob/add','PostRegJob');
+        Route::get('/regJobs','ViewRegJobs');
+        Route::get('regJobs/{regJob}','ShowRegJob');
+        Route::delete('regJobs/{regJob}','DeleteRegJob');
+        Route::post('/regJob/apply','ApplyRegJob');
+        Route::get('regJobs/{regJob}/competetors','ViewRegJobCompetetors');
+    });
+});
+Route::controller(FreelancingJobsController::class)->group(function() {
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/FreelancingJob/add','PostFreelancingJob');
+        Route::get('/FreelancingJobs','ViewFreelancingJobs');
+        Route::get('FreelancingJobs/{FreelancingJob}','ShowFreelancingJob');
+        Route::delete('FreelancingJobs/{FreelancingJob}','DeleteFreelancingJob');
+        Route::post('/FreelancingJob/apply','ApplyFreelancingJob');
+        Route::get('FreelancingJobs/{FreelancingJob}/competetors','ViewFreelancingJobCompetetors');
+    });
+});
+
 
 Route::get('/file/{user_id}/{folder}/{file}', function(Request $request, $user_id ,$folder, $file) {
     $path = storage_path('app/'.$user_id.'/'.$folder.'/'.$file);
