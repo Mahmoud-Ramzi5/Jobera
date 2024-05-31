@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\FreelancingJobResource;
-use App\Models\FreelancingJob;
+use App\Filters\JobFilter;
 use App\Models\RegJob;
 use App\Models\Company;
 use Illuminate\Http\Request;
+use App\Models\FreelancingJob;
 use App\Http\Resources\JobResource;
 use App\Http\Requests\AddJobRequest;
 use App\Http\Resources\RegJobResource;
 use App\Http\Requests\AddRegJobRequest;
 use App\Http\Resources\RegJobCollection;
+use App\Http\Resources\FreelancingJobResource;
 use App\Http\Requests\AddFreelancingJobRequest;
+use App\Http\Resources\FreelancingJobCollection;
 
 class JobsController extends Controller
 {
@@ -63,12 +65,37 @@ class JobsController extends Controller
         ]);
     }
 
-    public function ViewFullTime(){
-        $jobs=RegJob::where("type","full")->get();
-        return new RegJobCollection($jobs);
+    public function ViewRegJobs(Request $request){
+        $filter = new JobFilter();
+        $queryItems = $filter->transform($request);
+
+        // Response
+        if (empty($queryItems)) {
+            return response()->json([
+                'Jobs' => new RegJobCollection(RegJob::all()),
+            ], 200);
+        }
+
+        // Response
+        return response()->json([
+            'Jobs' => new RegJobCollection(RegJob::where($queryItems)->get()->all()),
+        ], 200);
     }
-    public function ViewPartTime(){
-        $jobs=RegJob::where("type","part")->get();
-        return new RegJobCollection($jobs);
+    public function ViewFreelancingJobs(Request $request){
+        $filter = new JobFilter();
+        $queryItems = $filter->transform($request);
+
+        // Response
+        if (empty($queryItems)) {
+            return response()->json([
+                'Jobs' => new FreelancingJobCollection(FreelancingJob::all()),
+            ], 200);
+        }
+
+        // Response
+        return response()->json([
+            'Jobs' => new FreelancingJobCollection(FreelancingJob::where($queryItems)->get()->all()),
+        ], 200);
     }
+    
 }
