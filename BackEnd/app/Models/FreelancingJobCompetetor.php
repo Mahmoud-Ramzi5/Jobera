@@ -16,7 +16,7 @@ class FreelancingJobCompetetor extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'individual_id',
+        'user_id',
         'job_id',
         'description',
         'salary'
@@ -50,8 +50,8 @@ class FreelancingJobCompetetor extends Model
         return $this->belongsTo(FreelancingJob::class, 'job_id', 'id');
     }
 
-    public function individual(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Individual::class, 'individual_id', 'id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }
