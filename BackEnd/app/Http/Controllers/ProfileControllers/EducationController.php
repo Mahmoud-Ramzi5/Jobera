@@ -27,7 +27,7 @@ class EducationController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -37,7 +37,7 @@ class EducationController extends Controller
         // Check individual
         if ($individual == null) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -91,7 +91,7 @@ class EducationController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -101,7 +101,7 @@ class EducationController extends Controller
         // Check individual
         if ($individual == null) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -125,7 +125,7 @@ class EducationController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -135,7 +135,7 @@ class EducationController extends Controller
         // Check individual
         if ($individual == null) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -169,7 +169,7 @@ class EducationController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -179,14 +179,14 @@ class EducationController extends Controller
         // Check individual
         if ($individual == null) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
         // Check if certificate belongs to individual
         if($individual->id != $certificate->individual_id) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -222,7 +222,7 @@ class EducationController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -232,14 +232,14 @@ class EducationController extends Controller
         // Check individual
         if ($individual == null) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
         // Check if certificate belongs to individual
         if($individual->id != $certificate->individual_id) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 

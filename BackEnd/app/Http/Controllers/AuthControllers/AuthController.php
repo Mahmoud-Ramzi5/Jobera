@@ -41,7 +41,7 @@ class AuthController extends Controller
 
         if($user == null) {
             return response()->json([
-                "error" => "Invalid data",
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -88,7 +88,7 @@ class AuthController extends Controller
 
         if($user == null) {
             return response()->json([
-                "error" => "Invalid data",
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -125,7 +125,7 @@ class AuthController extends Controller
         if (!Auth::attempt($validated)) {
             // Invalid email or password
             return response()->json([
-                "error" => "Invalid email or password"
+                'errors' => ['data' => 'Invalid email or password']
             ], 401);
         }
 
@@ -209,7 +209,7 @@ class AuthController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'error' => 'Invalid token',
+                'errors' => ['user' => 'Invalid user']
             ], 404);
         }
 
@@ -229,7 +229,7 @@ class AuthController extends Controller
 
         // Response
         return response()->json([
-            'error' => 'Email verification failed',
+            'message' => 'Email verification failed',
         ], 500);
     }
 
@@ -275,7 +275,7 @@ class AuthController extends Controller
         // Check individual
         if ($individual == null) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -303,7 +303,7 @@ class AuthController extends Controller
         // Check individual
         if ($individual == null) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -329,7 +329,7 @@ class AuthController extends Controller
 
         // Response
         return response()->json([
-            "error" => "error",
+            "message" => "error",
             "step" => $individual->register_step
         ], 400);
     }

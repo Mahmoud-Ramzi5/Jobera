@@ -15,7 +15,7 @@ class TransactionsController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'user' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -25,7 +25,7 @@ class TransactionsController extends Controller
         // Check user's wallet
         if ($wallet == null) {
             return response()->json([
-                'user' => 'Error'
+                'message' => 'Error'
             ], 401);
         }
 
@@ -57,13 +57,13 @@ class TransactionsController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'user' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
         if ($user->id != $validated['sender_id']) {
             return response()->json([
-                'user' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -74,7 +74,7 @@ class TransactionsController extends Controller
         // Check wallets
         if ($senderWallet == null || $receiverWallet == null) {
             return response()->json([
-                'user' => 'Error'
+                'message' => 'Error'
             ], 401);
         }
 

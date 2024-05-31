@@ -20,7 +20,7 @@ class ProfileController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -44,7 +44,7 @@ class ProfileController extends Controller
 
         // Response
         return response()->json([
-            'error' => 'Invalid user'
+            'errors' => ['user' => 'Invalid user']
         ], 401);
     }
 
@@ -59,7 +59,7 @@ class ProfileController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -97,7 +97,7 @@ class ProfileController extends Controller
 
         // Response
         return response()->json([
-            'error' => 'Invalid user'
+            'errors' => ['user' => 'Invalid user']
         ], 401);
     }
 
@@ -114,7 +114,7 @@ class ProfileController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
@@ -164,7 +164,7 @@ class ProfileController extends Controller
 
         // Response
         return response()->json([
-            'error' => 'Invalid user'
+            'errors' => ['user' => 'Invalid user']
         ], 401);
     }
 
@@ -181,7 +181,7 @@ class ProfileController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'error' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 

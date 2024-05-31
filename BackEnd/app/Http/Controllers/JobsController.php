@@ -27,7 +27,7 @@ class JobsController extends Controller
         // Check user
         if ($company == null) {
             return response()->json([
-                'user' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 

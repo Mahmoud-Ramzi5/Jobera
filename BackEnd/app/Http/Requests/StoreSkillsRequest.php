@@ -30,10 +30,11 @@ class StoreSkillsRequest extends FormRequest
             "type" => ['required', Rule::in(SkillTypes::names())]
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
-            'error' => $validator->errors()
+            'errors' => $validator->errors()
         ], 422));
     }
 }
