@@ -23,7 +23,7 @@ export const RegisterAPI = async (
             "state_id": StateId,
             "birth_date": date,
             "gender": gender,
-            "type": "indvidual"
+            "type": "individual"
         }, {
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',

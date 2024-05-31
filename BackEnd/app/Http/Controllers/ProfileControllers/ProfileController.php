@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\ProfileControllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\EditDescriptionRequest;
 use App\Models\Individual;
 use App\Models\Company;
 use Illuminate\Http\Request;
@@ -169,9 +168,12 @@ class ProfileController extends Controller
         ], 401);
     }
 
-    public function EditDescription(EditDescriptionRequest $request)
+    public function EditDescription(Request $request)
     {
-        $validated=$request->validated();
+        // Validate request
+        $validated = $request->validate([
+            'description' => 'required'
+        ]);
 
         // Get user
         $user = auth()->user();

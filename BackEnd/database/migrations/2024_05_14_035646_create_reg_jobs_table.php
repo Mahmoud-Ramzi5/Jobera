@@ -15,7 +15,7 @@ return new class extends Migration
             $table->double('salary');
             $table->enum('type', ['PartTime', 'FullTime']);
             $table->foreignId('company_id')->constrained('companies');
-            $table->foreignId('defJob_id')->constrained('defJobs')->cascadeOnDelete();
+            $table->foreignId('defJob_id')->constrained('def_jobs')->cascadeOnDelete();
             $table->foreignId('accepted_individual')->nullable()->constrained('individuals');
             $table->timestamps();
         });
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('regJobs');
+        Schema::dropIfExists('reg_jobs');
     }
 };

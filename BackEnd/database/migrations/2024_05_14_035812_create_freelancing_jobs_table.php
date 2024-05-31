@@ -18,7 +18,7 @@ return new class extends Migration
             $table->dateTime('deadline');
             $table->double('avg_salary')->default(0.0);
             $table->foreignId('user_id')->nullable();
-            $table->foreignId('defJob_id')->constrained('defJobs')->cascadeOnDelete();
+            $table->foreignId('defJob_id')->constrained('def_jobs')->cascadeOnDelete();
             $table->foreignId('accepted_user')->nullable()->constrained('users');
             $table->timestamps();
         });
