@@ -22,8 +22,8 @@ class ApplyRegJobRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'job_id'=>['required'],
-            'description'=>['required']
+            'job_id' => ['required'],
+            'description' => ['required']
         ];
     }
 }

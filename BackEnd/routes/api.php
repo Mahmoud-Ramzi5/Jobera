@@ -3,18 +3,15 @@
 use App\Models\State;
 use App\Models\Country;
 use Illuminate\Http\Request;
-use App\Models\FreelancingJob;
-use App\Enums\IndividualGender;
-use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthControllers\AuthController;
-use App\Http\Controllers\JobControllers\RegJobsController;
-use App\Http\Controllers\ProfileControllers\SkillsController;
 use App\Http\Controllers\AuthControllers\SocialAuthController;
+use App\Http\Controllers\AuthControllers\ForgetPasswordController;
 use App\Http\Controllers\ProfileControllers\ProfileController;
+use App\Http\Controllers\ProfileControllers\SkillsController;
 use App\Http\Controllers\ProfileControllers\EducationController;
 use App\Http\Controllers\ProfileControllers\PortfolioController;
-use App\Http\Controllers\AuthControllers\ForgetPasswordController;
+use App\Http\Controllers\JobControllers\RegJobsController;
 use App\Http\Controllers\JobControllers\FreelancingJobsController;
 
 
@@ -26,7 +23,7 @@ Route::controller(AuthController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::post('/logout', 'Logout');
 
-        Route::get('/auth/email', function() {
+        Route::get('/auth/email', function () {
             return response()->json([
                 "email" => auth()->user()->email
             ], 200);
@@ -77,7 +74,7 @@ Route::controller(ProfileController::class)->group(function () {
     });
 });
 
-Route::controller(SkillsController::class)->group(function() {
+Route::controller(SkillsController::class)->group(function () {
     Route::get('/skills', 'GetSkills');
     Route::get('/skills/types', 'GetSkillTypes');
     Route::middleware('auth:api')->group(function () {
@@ -88,7 +85,7 @@ Route::controller(SkillsController::class)->group(function() {
     Route::post('/skills', 'AddSkill');
 });
 
-Route::controller(EducationController::class)->group(function() {
+Route::controller(EducationController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::post('/education', 'EditEducation');
 
@@ -99,7 +96,7 @@ Route::controller(EducationController::class)->group(function() {
     });
 });
 
-Route::controller(PortfolioController::class)->group(function() {
+Route::controller(PortfolioController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('/portfolios', 'ShowUserPortfolios');
         Route::get('/portfolio/{portfolio}', 'ShowPortfolio');
@@ -108,38 +105,40 @@ Route::controller(PortfolioController::class)->group(function() {
         Route::delete('/portfolios/{portfolio}', 'DeletePortfolio');
     });
 });
-Route::controller(RegJobsController::class)->group(function() {
+
+Route::controller(RegJobsController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
-        Route::post('/regJob/add','PostRegJob');
-        Route::get('/regJobs','ViewRegJobs');
-        Route::get('regJobs/{regJob}','ShowRegJob');
-        Route::delete('regJobs/{regJob}','DeleteRegJob');
-        Route::post('/regJob/apply','ApplyRegJob');
-        Route::get('regJobs/{regJob}/competetors','ViewRegJobCompetetors');
+        Route::post('/regJob/add', 'PostRegJob');
+        Route::get('/regJobs', 'ViewRegJobs');
+        Route::get('regJobs/{regJob}', 'ShowRegJob');
+        Route::get('regJobs/{regJob}/competetors', 'ViewRegJobCompetetors');
+        Route::post('/regJob/apply', 'ApplyRegJob');
+        Route::delete('regJobs/{regJob}', 'DeleteRegJob');
     });
 });
-Route::controller(FreelancingJobsController::class)->group(function() {
+
+Route::controller(FreelancingJobsController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
-        Route::post('/FreelancingJob/add','PostFreelancingJob');
-        Route::get('/FreelancingJobs','ViewFreelancingJobs');
-        Route::get('FreelancingJobs/{FreelancingJob}','ShowFreelancingJob');
-        Route::delete('FreelancingJobs/{FreelancingJob}','DeleteFreelancingJob');
-        Route::post('/FreelancingJob/apply','ApplyFreelancingJob');
-        Route::get('FreelancingJobs/{FreelancingJob}/competetors','ViewFreelancingJobCompetetors');
+        Route::post('/FreelancingJob/add', 'PostFreelancingJob');
+        Route::get('/FreelancingJobs', 'ViewFreelancingJobs');
+        Route::get('FreelancingJobs/{FreelancingJob}', 'ShowFreelancingJob');
+        Route::get('FreelancingJobs/{FreelancingJob}/competetors', 'ViewFreelancingJobCompetetors');
+        Route::post('/FreelancingJob/apply', 'ApplyFreelancingJob');
+        Route::delete('FreelancingJobs/{FreelancingJob}', 'DeleteFreelancingJob');
     });
 });
 
 
-Route::get('/file/{user_id}/{folder}/{file}', function(Request $request, $user_id ,$folder, $file) {
-    $path = storage_path('app/'.$user_id.'/'.$folder.'/'.$file);
+Route::get('/file/{user_id}/{folder}/{file}', function (Request $request, $user_id, $folder, $file) {
+    $path = storage_path('app/' . $user_id . '/' . $folder . '/' . $file);
     if ($path == null) {
         return null;
     }
     return response()->file($path);
 });
 
-Route::get('/image/{user_id}/{folder}/{image}', function(Request $request, $user_id ,$folder, $image) {
-    $path = storage_path('app/'.$user_id.'/'.$folder.'/'.$image);
+Route::get('/image/{user_id}/{folder}/{image}', function (Request $request, $user_id, $folder, $image) {
+    $path = storage_path('app/' . $user_id . '/' . $folder . '/' . $image);
     if ($path == null) {
         return null;
     }

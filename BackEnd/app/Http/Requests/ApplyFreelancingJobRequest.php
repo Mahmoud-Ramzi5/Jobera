@@ -11,7 +11,7 @@ class ApplyFreelancingJobRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class ApplyFreelancingJobRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'job_id' => ['required'],
+            'description' => ['required'],
+            'salary' => ['required', 'numeric']
         ];
     }
 }

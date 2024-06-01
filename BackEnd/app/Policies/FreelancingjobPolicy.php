@@ -14,25 +14,37 @@ class FreelancingJobPolicy
     {
         //
     }
-    public function PostFreelancingJob(User $user){
+
+    public function PostFreelancingJob(User $user)
+    {
         return true;
     }
-    public function ViewFreelancingJobs(User $user){
+
+    public function ViewFreelancingJobs(User $user)
+    {
         return true;
     }
-    public function ShowFreelancingJob(User $user,FreelancingJob $FreelancingJob){
+
+    public function ShowFreelancingJob(User $user, FreelancingJob $FreelancingJob)
+    {
         return true;
     }
-    public function DeleteFreelancingJob(User $user,FreelancingJob $FreelancingJob){
-        if($user->id==$FreelancingJob->user_id){
+
+    public function ViewFreelancingJobCompetetors(User $user)
+    {
+        return true;
+    }
+
+    public function ApplyFreelancingJob(User $user)
+    {
+        return true;
+    }
+
+    public function DeleteFreelancingJob(User $user, FreelancingJob $FreelancingJob)
+    {
+        if ($user->id == $FreelancingJob->user_id) {
             return true;
         }
         return false;
-    }
-    public function ApplyFreelancingJob(User $user){
-        return true;
-    }
-    public function ViewFreelancingJobCompetetors(User $user){
-        return true;
     }
 }

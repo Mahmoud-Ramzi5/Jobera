@@ -2,10 +2,10 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Company;
+use App\Models\Individual;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Models\Individual;
-use App\Models\Company;
 
 class FreelancingJobResource extends JsonResource
 {
@@ -18,20 +18,20 @@ class FreelancingJobResource extends JsonResource
     {
         $defJob = $this->defJob;
 
-        $company = Company::where('user_id', $this->user->id)->first();
-        $individual = Individual::where('user_id', $this->user->id)->first();
+        $company = Company::where('user_id', $this->user_id)->first();
+        $individual = Individual::where('user_id', $this->user_id)->first();
         if ($company == null) {
             $posterResource = new IndividualResource($individual);
         } else {
             $posterResource = new CompanyResource($company);
         }
 
-        $acceptedCompany = Company::where('user_id', $this->acceptedUser)->first();
-        $acceptedIndividual = Individual::where('user_id', $this->acceptedUser)->first();
+        $acceptedCompany = Company::where('user_id', $this->accepted_user)->first();
+        $acceptedIndividual = Individual::where('user_id', $this->accepted_user)->first();
         if ($acceptedCompany == null) {
             $acceptedResource = new IndividualResource($acceptedIndividual);
         } else {
-            $acceptedResource = new CompanyResource($acceptedIndividual);
+            $acceptedResource = new CompanyResource($acceptedCompany);
         }
 
         return [

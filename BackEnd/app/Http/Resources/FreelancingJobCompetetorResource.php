@@ -16,13 +16,14 @@ class FreelancingJobCompetetorResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $company = Company::where('user_id', $this->user->id)->first();
-        $individual = Individual::where('user_id', $this->user->id)->first();
+        $company = Company::where('user_id', $this->user_id)->first();
+        $individual = Individual::where('user_id', $this->user_id)->first();
         if ($company == null) {
             $applierResource = new IndividualResource($individual);
         } else {
             $applierResource = new CompanyResource($company);
         }
+
         return [
             "id" => $this->id,
             "user" => $applierResource,

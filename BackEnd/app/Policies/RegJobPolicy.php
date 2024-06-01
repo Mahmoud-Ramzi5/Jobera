@@ -16,37 +16,49 @@ class RegJobPolicy
     {
         //
     }
-    public function PostRegJob(User $user){
-        $company= Company::where('user_id',$user->id)->first();
-        if($company==null){
+
+    public function PostRegJob(User $user)
+    {
+        $company = Company::where('user_id', $user->id)->first();
+        if ($company == null) {
             return false;
         }
         return true;
     }
-    public function ViewRegJobs(User $user){
+
+    public function ViewRegJobs(User $user)
+    {
         return true;
     }
-    public function ShowRegJob(User $user,RegJob $regJob){
+
+    public function ShowRegJob(User $user, RegJob $regJob)
+    {
         return true;
     }
-    public function DeleteRegJob(User $user,RegJob $regJob){
-        $company= Company::where('user_id',$user->id)->first();
-        if($company==null){
+
+    public function ViewRegJobCompetetors(User $user)
+    {
+        return true;
+    }
+
+    public function ApplyRegJob(User $user)
+    {
+        $individual = Individual::where('user_id', $user->id)->first();
+        if ($individual == null) {
             return false;
         }
-        if($company->id==$regJob->company_id){
+        return true;
+    }
+
+    public function DeleteRegJob(User $user, RegJob $regJob)
+    {
+        $company = Company::where('user_id', $user->id)->first();
+        if ($company == null) {
+            return false;
+        }
+        if ($company->id == $regJob->company_id) {
             return true;
         }
         return false;
-    }
-    public function ApplyRegJob(User $user){
-        $individual= Individual::where('user_id',$user->id)->first();
-        if($individual==null){
-            return false;
-        }
-        return true;
-    }
-    public function ViewRegJobCompetetors(User $user){
-        return true;
     }
 }

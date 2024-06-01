@@ -7,11 +7,11 @@ class JobFilter
 {
     protected $safeParms = [
         'company' => ['eq', 'like'],
-        'is_done'=>['eq'],
-        'max_salary'=>['lte','gte','lt','gt'],
-        'min_salary'=>['lte','gte','lt','gt'],
-        'deadline'=>['lte','gte','lt','gt','eq'],
-        'type'=>['eq']
+        'is_done' => ['eq'],
+        'max_salary' => ['lte', 'gte', 'lt', 'gt'],
+        'min_salary' => ['lte', 'gte', 'lt', 'gt'],
+        'deadline' => ['lte', 'gte', 'lt', 'gt', 'eq'],
+        'type' => ['eq']
     ];
 
     protected $operatorMap = [

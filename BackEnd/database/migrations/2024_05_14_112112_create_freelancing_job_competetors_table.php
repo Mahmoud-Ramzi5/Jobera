@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('job_id')->constrained('freelancing_jobs')->cascadeOnDelete();
             $table->text("description");
-            $table->float("salary");
+            $table->double("salary");
             $table->timestamps();
         });
     }
