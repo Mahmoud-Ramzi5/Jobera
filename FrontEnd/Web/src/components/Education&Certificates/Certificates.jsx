@@ -72,7 +72,7 @@ const Certificates = ({ step }) => {
 
     const handleDelete = (event) => {
       DeleteCertificateAPI(accessToken, certificate.id).then((response) => {
-        if (response.status == 202) {
+        if (response.status == 204) {
           console.log(response);
           window.location.reload(); // Refresh the page after deletion
         }

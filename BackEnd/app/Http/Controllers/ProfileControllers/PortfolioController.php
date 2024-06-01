@@ -219,7 +219,7 @@ class PortfolioController extends Controller
 
         // Response
         return response()->json([
-            "message" => "Portfolio deleted",
-        ], 202);
+            "message" => "Portfolio has been deleted successfully",
+        ], 204);
     }
 }

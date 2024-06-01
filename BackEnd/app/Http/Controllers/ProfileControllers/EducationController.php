@@ -254,7 +254,7 @@ class EducationController extends Controller
 
         // Response
         return response()->json([
-            "message" => "Certificate deleted",
-        ], 202);
+            "message" => "Certificate has been deleted successfully",
+        ], 204);
     }
 }

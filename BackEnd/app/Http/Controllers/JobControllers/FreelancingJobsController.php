@@ -128,7 +128,7 @@ class FreelancingJobsController extends Controller
 
         // Response
         return response()->json([
-            "message" => "Job deleted successfully"
-        ], 200);
+            "message" => "Job has been deleted successfully"
+        ], 204);
     }
 }

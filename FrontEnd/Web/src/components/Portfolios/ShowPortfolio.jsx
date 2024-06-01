@@ -59,7 +59,7 @@ const ShowPortfolio = () => {
               className={styles.submit_button}
               onClick={() => {
                 DeletePortfolioAPI(accessToken, portfolio.id).then((response) => {
-                  if (response.status == 202) {
+                  if (response.status == 204) {
                     console.log(response);
 
                     navigate('/portfolios', {

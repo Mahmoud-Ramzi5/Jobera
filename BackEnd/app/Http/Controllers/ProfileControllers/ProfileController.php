@@ -157,7 +157,63 @@ class ProfileController extends Controller
 
             // Response
             return response()->json([
-                "message" => "Profile photo has been add successfully",
+                "message" => "Profile photo has been added successfully",
+                "user" => new CompanyResource($company),
+            ], 200);
+        }
+
+        // Response
+        return response()->json([
+            'errors' => ['user' => 'Invalid user']
+        ], 401);
+    }
+
+    public function DeleteProfilePhoto(Request $request)
+    {
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+
+        // Check individual
+        $individual = Individual::where('user_id', $user->id)->first();
+        if ($individual != null) {
+            // Delete old avatar_photo (if found)
+            $oldPath = $individual->avatar_photo;
+            if ($oldPath != null) {
+                unlink(storage_path('app/'.$oldPath));
+            }
+
+            $individual->avatar_photo = null;
+            $individual->save();
+
+            // Response
+            return response()->json([
+                "message" => "Profile photo has been Deleted successfully",
+                "user" => new IndividualResource($individual),
+            ], 200);
+        }
+
+        // Check company
+        $company = Company::where('user_id', $user->id)->first();
+        if ($company != null) {
+            // Delete old avatar_photo (if found)
+            $oldPath = $company->avatar_photo;
+            if ($oldPath != null) {
+                unlink(storage_path('app/'.$oldPath));
+            }
+
+            $company->avatar_photo = null;
+            $company->save();
+
+            // Response
+            return response()->json([
+                "message" => "Profile photo has been deleted successfully",
                 "user" => new CompanyResource($company),
             ], 200);
         }
