@@ -155,7 +155,10 @@ class UserProfileView extends StatelessWidget {
                             Row(
                               children: [
                                 const BodyText(text: 'Level: '),
-                                LabelText(text: controller.user.education.level)
+                                LabelText(
+                                  text: controller.user.education.level
+                                      .replaceAllMapped('_', (match) => ' '),
+                                )
                               ],
                             ),
                             Row(
@@ -188,12 +191,38 @@ class UserProfileView extends StatelessWidget {
                             Row(
                               children: [
                                 const BodyText(text: 'Certificate: '),
-                                LabelText(
-                                    text: Uri.file(controller
+                                Flexible(
+                                  flex: 1,
+                                  child: LabelText(
+                                    text: controller.user.education
+                                                .certificateFile ==
+                                            null
+                                        ? 'No File'
+                                        : Uri.file(
+                                            controller
+                                                .user.education.certificateFile
+                                                .toString(),
+                                          ).pathSegments.last,
+                                  ),
+                                ),
+                                IconButton(
+                                  onPressed: () {
+                                    if (controller
+                                            .user.education.certificateFile !=
+                                        null) {
+                                      controller.generalController.fetchFile(
+                                        controller
                                             .user.education.certificateFile
-                                            .toString())
-                                        .pathSegments
-                                        .last)
+                                            .toString(),
+                                        'education',
+                                      );
+                                    }
+                                  },
+                                  icon: Icon(
+                                    Icons.file_open,
+                                    color: Colors.lightBlue.shade900,
+                                  ),
+                                )
                               ],
                             )
                           ],

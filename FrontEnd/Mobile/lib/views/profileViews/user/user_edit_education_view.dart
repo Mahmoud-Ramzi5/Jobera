@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/classes/texts.dart';
 import 'package:jobera/classes/validation.dart';
 import 'package:jobera/controllers/profileControllers/user/user_edit_education_controller.dart';
@@ -26,8 +27,8 @@ class UserEditEducationView extends StatelessWidget {
                   _editController.selectedLevel,
                   _editController.editFieldController.text,
                   _editController.editSchoolController.text,
-                  _editController.startDate.toString(),
-                  _editController.endDate.toString(),
+                  '${_editController.startDate.day}-${_editController.startDate.month}-${_editController.startDate.year}',
+                  '${_editController.endDate.day}-${_editController.endDate.month}-${_editController.endDate.year}',
                   _editController.file,
                 );
               }
@@ -47,14 +48,14 @@ class UserEditEducationView extends StatelessWidget {
                   builder: (controller) => Center(
                     child: CustomDropDownButton(
                       value: controller.selectedLevel,
-                      items: controller.levels
-                          .map<DropdownMenuItem<String>>(
-                            (level) => DropdownMenuItem<String>(
-                              value: level.toUpperCase(),
-                              child: BodyText(text: level),
-                            ),
-                          )
-                          .toList(),
+                      items: controller.levels.entries.map((entry) {
+                        return DropdownMenuItem<String>(
+                          value: entry.value,
+                          child: BodyText(
+                            text: entry.key,
+                          ),
+                        );
+                      }).toList(),
                       onChanged: (p0) => controller.selectLevel(p0.toString()),
                       text: 'Level',
                     ),
@@ -134,32 +135,44 @@ class UserEditEducationView extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        BodyText(
-                            text: 'File: ${_editController.certficateName}'),
-                        Icon(
-                          Icons.file_open,
-                          color: Colors.lightBlue.shade900,
-                        )
+                        Flexible(
+                          flex: 1,
+                          child: BodyText(
+                              text: 'File: ${_editController.certficateName}'),
+                        ),
+                        if (_editController.certficateName != null)
+                          IconButton(
+                            onPressed: () {
+                              Dialogs().confirmDialog(
+                                'Notice:',
+                                'Are you sure you want to delete File?',
+                                () {
+                                  _editController.removeFile();
+                                  Get.back();
+                                },
+                              );
+                            },
+                            icon: const Icon(
+                              Icons.cancel,
+                              color: Colors.red,
+                            ),
+                          )
+                        else
+                          IconButton(
+                            onPressed: () async {
+                              _editController.file = await _editController
+                                  .generalController
+                                  .pickFile();
+                              _editController.changeFileName();
+                            },
+                            icon: Icon(
+                              Icons.add,
+                              color: Colors.lightBlue.shade900,
+                            ),
+                          ),
                       ],
                     ),
-                    onTap: () => _editController.fetchFile(
-                      _editController.user.education.certificateFile.toString(),
-                      'education',
-                    ),
                   ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: OutlinedButton(
-                  child: const BodyText(text: 'Choose new file'),
-                  onPressed: () async {
-                    _editController.file =
-                        await _editController.generalController.pickFile();
-                    _editController.certficateName =
-                        _editController.file!.files[0].name;
-                    _editController.update();
-                  },
                 ),
               ),
             ],

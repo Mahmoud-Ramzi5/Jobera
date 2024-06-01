@@ -1,22 +1,19 @@
-import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/controllers/general_controller.dart';
 import 'package:jobera/controllers/profileControllers/user/user_profile_controller.dart';
 import 'package:jobera/main.dart';
-import 'package:jobera/models/user.dart';
-import 'package:open_filex/open_filex.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:jobera/models/education.dart';
 
 class UserEditEducationController extends GetxController {
   late UserProfileController profileController;
-  late User user;
+  late Education education;
   late GlobalKey<FormState> formField;
   late Dio dio;
-  late List<String> levels;
+  late Map<String, String> levels;
   late String selectedLevel;
   late TextEditingController editFieldController;
   late TextEditingController editSchoolController;
@@ -29,44 +26,35 @@ class UserEditEducationController extends GetxController {
   @override
   void onInit() {
     profileController = Get.find<UserProfileController>();
-    user = profileController.user;
+    education = profileController.user.education;
     formField = GlobalKey<FormState>();
     dio = Dio();
-    levels = [
-      'Bachelor',
-      'Master',
-      'PHD',
-      'High School Diploma',
-      'High Institute',
-    ];
-    selectedLevel = user.education.level;
-    editFieldController = TextEditingController(text: user.education.field);
-    editSchoolController = TextEditingController(text: user.education.school);
-    startDate = DateTime(
-      int.parse(
-        user.education.startDate.substring(0, 4),
-      ),
-      int.parse(
-        user.education.startDate.substring(8, 10),
-      ),
-      int.parse(
-        user.education.startDate.substring(6, 7),
-      ),
-    );
-    endDate = DateTime(
-      int.parse(
-        user.education.endDate.substring(0, 4),
-      ),
-      int.parse(
-        user.education.endDate.substring(6, 7),
-      ),
-      int.parse(
-        user.education.endDate.substring(8, 10),
-      ),
-    );
-    certficateName = Uri.file(
-      user.education.certificateFile.toString(),
-    ).pathSegments.last;
+    levels = {
+      'Bachelor': 'BACHELOR',
+      'Master': 'MASTER',
+      'PHD': 'PHD',
+      'High School Diploma': 'HIGH_SCHOOL_DIPLOMA',
+      'High Institute': 'HIGH_INSTITUTE',
+    };
+
+    selectedLevel = education.level;
+    editFieldController = TextEditingController(text: education.field);
+    editSchoolController = TextEditingController(text: education.school);
+    List<String> parts1 = education.startDate.split('-');
+    int day1 = int.parse(parts1[0]);
+    int month1 = int.parse(parts1[1]);
+    int year1 = int.parse(parts1[2]);
+    startDate = DateTime(year1, month1, day1);
+    List<String> parts2 = education.endDate.split('-');
+    int day2 = int.parse(parts2[0]);
+    int month2 = int.parse(parts2[1]);
+    int year2 = int.parse(parts2[2]);
+    endDate = DateTime(year2, month2, day2);
+    certficateName = education.certificateFile == null
+        ? 'No file'
+        : Uri.file(
+            education.certificateFile.toString(),
+          ).pathSegments.last;
     file = null;
     generalController = Get.find<GeneralController>();
     super.onInit();
@@ -101,37 +89,17 @@ class UserEditEducationController extends GetxController {
     }
   }
 
-  Future<void> fetchFile(String fileName, String type) async {
-    const permission = Permission.manageExternalStorage;
-    if (await permission.isDenied) {
-      final result = await permission.request();
-      if (result.isPermanentlyDenied) {
-        // Permission is granted
-        openAppSettings();
-      }
-    } else if (await permission.isGranted) {
-      // Permission is granted
-      if (Platform.isIOS) {
-        return;
-      } else {
-        Directory directory =
-            Directory('/storage/emulated/0/Download/jobera/$type');
-        bool directoryExists = await directory.exists();
-        if (!directoryExists) {
-          await directory.create(recursive: true);
-        }
-        File file =
-            File('${directory.path}/${Uri.file(fileName).pathSegments.last}');
-        bool fileExists = await file.exists();
-        if (fileExists) {
-          await OpenFilex.open(file.path);
-        } else {
-          dynamic fileData = await generalController.downloadFile(fileName);
-          await file.writeAsBytes(fileData, flush: true);
-          await OpenFilex.open(file.path);
-        }
-      }
+  void changeFileName() {
+    if (file != null) {
+      certficateName = file!.files[0].name;
     }
+    update();
+  }
+
+  void removeFile() {
+    file = null;
+    certficateName = 'No file';
+    update();
   }
 
   Future<void> editEducation(
@@ -143,22 +111,30 @@ class UserEditEducationController extends GetxController {
     FilePickerResult? file,
   ) async {
     String? token = sharedPreferences?.getString('access_token');
+    final data = FormData.fromMap(
+      {
+        "certificate_file": file != null
+            ? await MultipartFile.fromFile(
+                file.files[0].path.toString(),
+              )
+            : null,
+        'level': level,
+        'field': field,
+        'school': school,
+        'start_date': startDate,
+        'end_date': endDate,
+      },
+    );
     try {
       var response = await dio.post(
         'http://192.168.0.105:8000/api/education',
-        data: {
-          'level': level,
-          'field': field,
-          'school': school,
-          'start_date': startDate,
-          'end_date': endDate,
-          'certificate_file': file,
-        },
+        data: data,
         options: Options(
           headers: {
-            'Content-Type': 'multipart/form-data; charset=UTF-8',
+            'Content-Type':
+                'multipart/form-data; application/json; charset=UTF-8',
             'Accept': "application/json",
-            'Authorization': '$token',
+            'Authorization': 'Bearer $token',
           },
         ),
       );
@@ -169,7 +145,7 @@ class UserEditEducationController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.statusCode.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }

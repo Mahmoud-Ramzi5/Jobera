@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/classes/texts.dart';
 import 'package:jobera/controllers/profileControllers/user/user_edit_certificates_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
@@ -25,11 +26,12 @@ class UserEditCertificatesView extends StatelessWidget {
           )
         ],
       ),
-      body: SingleChildScrollView(
-          child: Column(
-        children: [
-          ListView.builder(
-            itemCount: _editController.user.certificates!.length,
+      body: RefreshIndicator(
+        key: _editController.refreshIndicatorKey,
+        onRefresh: () => _editController.fetchCertificates(),
+        child: GetBuilder<UserEditCertificatesController>(
+          builder: (controller) => ListView.builder(
+            itemCount: controller.certificates.length,
             shrinkWrap: true,
             itemBuilder: (context, index) {
               return Padding(
@@ -46,8 +48,7 @@ class UserEditCertificatesView extends StatelessWidget {
                               children: [
                                 const BodyText(text: 'Name: '),
                                 LabelText(
-                                  text: _editController
-                                      .user.certificates![index].name,
+                                  text: controller.certificates[index].name,
                                 ),
                               ],
                             ),
@@ -55,8 +56,8 @@ class UserEditCertificatesView extends StatelessWidget {
                               children: [
                                 const BodyText(text: 'Organization: '),
                                 LabelText(
-                                  text: _editController
-                                      .user.certificates![index].organization,
+                                  text: controller
+                                      .certificates[index].organization,
                                 ),
                               ],
                             ),
@@ -64,8 +65,7 @@ class UserEditCertificatesView extends StatelessWidget {
                               children: [
                                 const BodyText(text: 'Date: '),
                                 LabelText(
-                                  text: _editController
-                                      .user.certificates![index].date,
+                                  text: controller.certificates[index].date,
                                 ),
                               ],
                             ),
@@ -75,8 +75,9 @@ class UserEditCertificatesView extends StatelessWidget {
                       Row(
                         children: [
                           IconButton(
-                            onPressed: () => _editController.fetchFile(
-                              _editController.user.certificates![index].name,
+                            onPressed: () =>
+                                controller.generalController.fetchFile(
+                              controller.certificates[index].name,
                               'certificate',
                             ),
                             icon: Icon(
@@ -92,8 +93,15 @@ class UserEditCertificatesView extends StatelessWidget {
                             ),
                           ),
                           IconButton(
-                            onPressed: () => _editController.deleteCertificate(
-                              _editController.user.certificates![index].id,
+                            onPressed: () => Dialogs().confirmDialog(
+                              'Notice:',
+                              'Are you sure you want to delete File?',
+                              () {
+                                controller.deleteCertificate(
+                                  controller.certificates[index].id,
+                                );
+                                Get.back();
+                              },
                             ),
                             icon: const Icon(
                               Icons.cancel,
@@ -104,13 +112,12 @@ class UserEditCertificatesView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  onTap: () {},
                 ),
               );
             },
-          )
-        ],
-      )),
+          ),
+        ),
+      ),
     );
   }
 }

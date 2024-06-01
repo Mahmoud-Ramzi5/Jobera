@@ -19,7 +19,14 @@ class UserAddCertificateView extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () {
-              if (_editController.formField.currentState?.validate() == true) {}
+              if (_editController.formField.currentState?.validate() == true) {
+                _editController.addCertificate(
+                  _editController.newNameController.text,
+                  _editController.newOrganizationController.text,
+                  '${_editController.newDate.day}-${_editController.newDate.month}-${_editController.newDate.year}',
+                  _editController.file,
+                );
+              }
             },
             child: const LabelText(text: "Submit"),
           ),
@@ -44,7 +51,7 @@ class UserAddCertificateView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: CustomTextField(
-                  controller: _editController.newNameController,
+                  controller: _editController.newOrganizationController,
                   textInputType: TextInputType.name,
                   obsecureText: false,
                   labelText: 'Organization',
@@ -52,7 +59,7 @@ class UserAddCertificateView extends StatelessWidget {
                   validator: (p0) => Validation().validateRequiredField(p0),
                 ),
               ),
-              const BodyText(text: 'Select Birth Date:'),
+              const BodyText(text: 'Select release Date:'),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: DateContainer(
@@ -70,8 +77,10 @@ class UserAddCertificateView extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: GetBuilder<UserEditCertificatesController>(
                   builder: (controller) => ListContainer(
-                    child:
-                        BodyText(text: 'File: ${_editController.newFileName}'),
+                    child: BodyText(
+                        text: _editController.newFileName == null
+                            ? 'File:'
+                            : 'File: ${_editController.newFileName}'),
                   ),
                 ),
               ),

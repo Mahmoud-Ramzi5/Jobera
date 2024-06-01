@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
@@ -7,6 +8,7 @@ import 'package:jobera/models/countries.dart';
 import 'package:jobera/models/skill_types.dart';
 import 'package:jobera/models/skills.dart';
 import 'package:jobera/models/states.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class GeneralController extends GetxController {
@@ -172,6 +174,39 @@ class GeneralController extends GetxController {
         'Error',
         e.response!.data['errors'].toString(),
       );
+    }
+  }
+
+  Future<void> fetchFile(String fileName, String type) async {
+    const permission = Permission.manageExternalStorage;
+    if (await permission.isDenied) {
+      final result = await permission.request();
+      if (result.isPermanentlyDenied) {
+        // Permission is granted
+        openAppSettings();
+      }
+    } else if (await permission.isGranted) {
+      // Permission is granted
+      if (Platform.isIOS) {
+        return;
+      } else {
+        Directory directory =
+            Directory('/storage/emulated/0/Download/jobera/$type');
+        bool directoryExists = await directory.exists();
+        if (!directoryExists) {
+          await directory.create(recursive: true);
+        }
+        File file =
+            File('${directory.path}/${Uri.file(fileName).pathSegments.last}');
+        bool fileExists = await file.exists();
+        if (fileExists) {
+          await OpenFilex.open(file.path);
+        } else {
+          dynamic fileData = await downloadFile(fileName);
+          await file.writeAsBytes(fileData, flush: true);
+          await OpenFilex.open(file.path);
+        }
+      }
     }
   }
 

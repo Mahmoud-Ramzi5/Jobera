@@ -160,4 +160,28 @@ class Dialogs {
       ),
     );
   }
+
+  Future<void> confirmDialog(
+    String title,
+    String text,
+    void Function()? onPressed,
+  ) async {
+    Get.defaultDialog(
+      title: title,
+      titleStyle: TextStyle(
+        color: Colors.orange.shade800,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+      content: BodyText(text: text),
+      cancel: OutlinedButton(
+        onPressed: () => Get.back(),
+        child: const LabelText(text: 'No'),
+      ),
+      confirm: OutlinedButton(
+        onPressed: onPressed,
+        child: const LabelText(text: 'Yes'),
+      ),
+    );
+  }
 }
