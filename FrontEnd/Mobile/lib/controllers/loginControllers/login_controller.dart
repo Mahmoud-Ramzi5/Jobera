@@ -51,7 +51,7 @@ class LoginController extends GetxController {
     bool rememberMe,
   ) async {
     try {
-      var response = await dio.post('http://192.168.0.105:8000/api/login',
+      var response = await dio.post('http://192.168.1.105:8000/api/login',
           data: {"email": email, "password": password, "remember": remeberMe},
           options: Options(
             headers: {

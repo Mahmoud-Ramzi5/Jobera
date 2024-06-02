@@ -40,7 +40,7 @@ class GeneralController extends GetxController {
   Future<dynamic> getCountries() async {
     try {
       var response = await dio.get(
-        'http://192.168.0.105:8000/api/countries',
+        'http://192.168.1.105:8000/api/countries',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -64,7 +64,7 @@ class GeneralController extends GetxController {
   Future<dynamic> getStates(String countryName) async {
     try {
       var response = await dio.post(
-        'http://192.168.0.105:8000/api/states',
+        'http://192.168.1.105:8000/api/states',
         data: {"country_name": countryName},
         options: Options(
           headers: {
@@ -89,7 +89,7 @@ class GeneralController extends GetxController {
   Future<dynamic> getSkillTypes() async {
     try {
       var response = await dio.get(
-        'http://192.168.0.105:8000/api/skills/types',
+        'http://192.168.1.105:8000/api/skills/types',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -111,7 +111,7 @@ class GeneralController extends GetxController {
   Future<dynamic> getSkills(String type) async {
     try {
       var response = await dio.get(
-        'http://192.168.0.105:8000/api/skills?type[eq]=$type',
+        'http://192.168.1.105:8000/api/skills?type[eq]=$type',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -133,7 +133,7 @@ class GeneralController extends GetxController {
   Future<dynamic> searchSkills(String name) async {
     try {
       var response = await dio.get(
-        'http://192.168.0.105:8000/api/skills?name[like]=$name',
+        'http://192.168.1.105:8000/api/skills?name[like]=$name',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -155,7 +155,7 @@ class GeneralController extends GetxController {
   Future<dynamic> downloadFile(String fileName) async {
     try {
       final response = await dio.get(
-        'http://192.168.0.105:8000/api/file/$fileName',
+        'http://192.168.1.105:8000/api/file/$fileName',
         options: Options(
           responseType: ResponseType.bytes, // important
           headers: {
@@ -182,11 +182,9 @@ class GeneralController extends GetxController {
     if (await permission.isDenied) {
       final result = await permission.request();
       if (result.isPermanentlyDenied) {
-        // Permission is granted
         openAppSettings();
       }
     } else if (await permission.isGranted) {
-      // Permission is granted
       if (Platform.isIOS) {
         return;
       } else {
@@ -224,11 +222,9 @@ class GeneralController extends GetxController {
     if (await permission.isDenied) {
       final result = await permission.request();
       if (result.isPermanentlyDenied) {
-        // Permission is granted
         openAppSettings();
       }
     } else if (await permission.isGranted) {
-      // Permission is granted
       XFile? image;
       image = await picker.pickImage(
         source: ImageSource.gallery,
@@ -243,11 +239,9 @@ class GeneralController extends GetxController {
     if (await permission.isDenied) {
       final result = await permission.request();
       if (result.isPermanentlyDenied) {
-        // Permission is granted
         openAppSettings();
       }
     } else if (await permission.isGranted) {
-      // Permission is granted
       XFile? image;
       image = await picker.pickImage(
         source: ImageSource.camera,

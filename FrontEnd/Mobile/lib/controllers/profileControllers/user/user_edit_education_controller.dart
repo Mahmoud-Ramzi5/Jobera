@@ -106,10 +106,13 @@ class UserEditEducationController extends GetxController {
     String level,
     String field,
     String school,
-    String startDate,
-    String endDate,
+    DateTime startDate,
+    DateTime endDate,
     FilePickerResult? file,
   ) async {
+    String newStartDate =
+        '${startDate.day}-${startDate.month}-${startDate.year}';
+    String newEndDate = '${endDate.day}-${endDate.month}-${endDate.year}';
     String? token = sharedPreferences?.getString('access_token');
     final data = FormData.fromMap(
       {
@@ -121,13 +124,13 @@ class UserEditEducationController extends GetxController {
         'level': level,
         'field': field,
         'school': school,
-        'start_date': startDate,
-        'end_date': endDate,
+        'start_date': newStartDate,
+        'end_date': newEndDate,
       },
     );
     try {
       var response = await dio.post(
-        'http://192.168.0.105:8000/api/education',
+        'http://192.168.1.105:8000/api/education',
         data: data,
         options: Options(
           headers: {

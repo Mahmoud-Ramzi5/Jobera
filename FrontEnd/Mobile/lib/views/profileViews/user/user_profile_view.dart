@@ -4,6 +4,7 @@ import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/classes/texts.dart';
 import 'package:jobera/controllers/profileControllers/user/user_profile_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
+import 'package:jobera/customWidgets/custom_image.dart';
 
 class UserProfileView extends StatelessWidget {
   final UserProfileController _profileController =
@@ -32,19 +33,9 @@ class UserProfileView extends StatelessWidget {
                               size: 50,
                               color: Colors.lightBlue.shade900,
                             )
-                          : Image.network(
-                              'http://192.168.0.105:8000/api/image/${controller.user.photo}',
-                              errorBuilder: (context, error, stackTrace) {
-                                return Text(error.toString());
-                              },
-                              height: 100,
-                              width: 100,
-                              headers: const {
-                                'Access-Control-Allow-Origin': '*',
-                                'Content-Type': 'image/*; charset=UTF-8',
-                                'Accept': 'image/*',
-                                'Connection': 'Keep-Alive',
-                              },
+                          : CustomImage(
+                              path:
+                                  'http://192.168.1.105:8000/api/image/${controller.user.photo}',
                             ),
                       onPressed: () => Dialogs().addPhotoDialog(
                         () async {
@@ -57,7 +48,7 @@ class UserProfileView extends StatelessWidget {
                               .pickPhotoFromGallery();
                           controller.addPhoto();
                         },
-                        () {},
+                        () => controller.removePhoto(),
                       ),
                     ),
                   ],

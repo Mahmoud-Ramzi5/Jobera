@@ -27,8 +27,8 @@ class UserEditEducationView extends StatelessWidget {
                   _editController.selectedLevel,
                   _editController.editFieldController.text,
                   _editController.editSchoolController.text,
-                  '${_editController.startDate.day}-${_editController.startDate.month}-${_editController.startDate.year}',
-                  '${_editController.endDate.day}-${_editController.endDate.month}-${_editController.endDate.year}',
+                  _editController.startDate,
+                  _editController.endDate,
                   _editController.file,
                 );
               }

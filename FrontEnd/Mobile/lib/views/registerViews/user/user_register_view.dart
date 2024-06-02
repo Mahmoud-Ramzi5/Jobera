@@ -197,15 +197,15 @@ class UserRegisterView extends StatelessWidget {
                             ?.validate() ==
                         true) {
                       await _userRegisterController.userRegister(
-                        _userRegisterController.fullNameController.text,
-                        _userRegisterController.emailController.text,
-                        _userRegisterController.passwordController.text,
-                        _userRegisterController.confirmPasswordController.text,
-                        _userRegisterController.selectedState!.stateId,
-                        _userRegisterController.phoneNumberController.text,
-                        _userRegisterController.selectedGender,
-                        '${_userRegisterController.selectedDate.day}-${_userRegisterController.selectedDate.month}-${_userRegisterController.selectedDate.year}',
-                      );
+                          _userRegisterController.fullNameController.text,
+                          _userRegisterController.emailController.text,
+                          _userRegisterController.passwordController.text,
+                          _userRegisterController
+                              .confirmPasswordController.text,
+                          _userRegisterController.selectedState!.stateId,
+                          _userRegisterController.phoneNumberController.text,
+                          _userRegisterController.selectedGender,
+                          _userRegisterController.selectedDate);
                     }
                   },
                   child: Row(

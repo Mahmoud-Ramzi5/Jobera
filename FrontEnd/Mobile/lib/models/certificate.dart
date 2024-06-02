@@ -19,4 +19,11 @@ class Certificate {
         organization = json['organization'] as String,
         date = json['release_date'] as String,
         file = json['file'] as String;
+
+  Certificate.empty()
+      : id = 0,
+        name = '',
+        organization = '',
+        date = '',
+        file = '';
 }

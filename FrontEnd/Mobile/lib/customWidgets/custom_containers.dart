@@ -72,10 +72,11 @@ class ProfilePhotoContainer extends StatelessWidget {
         width: 150,
         decoration: ShapeDecoration(
           shape: BeveledRectangleBorder(
-              borderRadius: const BorderRadius.all(
-                Radius.circular(10),
-              ),
-              side: BorderSide(color: Colors.orange.shade800)),
+            borderRadius: const BorderRadius.all(
+              Radius.circular(10),
+            ),
+            side: BorderSide(color: Colors.orange.shade800),
+          ),
         ),
         child: child,
       ),
@@ -124,7 +125,7 @@ class ProfileBackgroundContainer extends StatelessWidget {
             ),
           ),
           Container(
-            // padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(6),
             decoration: const ShapeDecoration(
               shape: BeveledRectangleBorder(
                 side: BorderSide(color: Colors.cyan),
@@ -133,13 +134,10 @@ class ProfileBackgroundContainer extends StatelessWidget {
                 ),
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: SizedBox(
-                height: 150,
-                width: 150,
-                child: child,
-              ),
+            child: SizedBox(
+              height: 150,
+              width: 150,
+              child: child,
             ),
           ),
         ],
