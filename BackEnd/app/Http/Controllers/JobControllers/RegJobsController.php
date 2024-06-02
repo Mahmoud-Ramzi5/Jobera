@@ -118,8 +118,8 @@ class RegJobsController extends Controller
             ], 401);
         }
 
-        $individual = Individual::where('user_id', $user->id);
-        $validated['individal_id'] = $individual->id;
+        $individual = Individual::where('user_id', $user->id)->first();
+        $validated['individual_id'] = $individual->id;
         $RegJobCompetetor = RegJobCompetetor::create($validated);
 
         // Response

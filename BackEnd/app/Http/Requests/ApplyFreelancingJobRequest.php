@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\FreelancingJob;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ApplyFreelancingJobRequest extends FormRequest
 {
@@ -21,10 +24,17 @@ class ApplyFreelancingJobRequest extends FormRequest
      */
     public function rules(): array
     {
+        $job = FreelancingJob::find($this->input('job_id'));
         return [
             'job_id' => ['required'],
             'description' => ['required'],
-            'salary' => ['required', 'numeric']
+            'salary' => ['required', 'numeric',"between:{$job->min_salary},{$job->max_salary}"]
         ];
+    }
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'errors' => $validator->errors()
+        ], 422));
     }
 }
