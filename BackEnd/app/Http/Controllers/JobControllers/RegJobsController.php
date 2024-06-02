@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\JobControllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\DefJob;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\Individual;
@@ -47,12 +48,15 @@ class RegJobsController extends Controller
         $company = Company::where('user_id', $user->id)->first();
 
         $validated['company_id'] = $company->id;
-        $job = RegJob::create($validated);
+        $job=DefJob::create($validated);
+        $validated['defJob_id']=$job->id;
+        $Regjob = RegJob::create($validated);
+        $Regjob->skills()->attach($validated['skills']);
 
         // Response
         return response()->json([
             "message" => "Job created successfully",
-            "job" => new RegJobResource($job)
+            "job" => new RegJobResource($Regjob)
         ], 201);
     }
 

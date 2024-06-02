@@ -122,7 +122,7 @@ Route::controller(FreelancingJobsController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::post('/FreelancingJob/add', 'PostFreelancingJob');
         Route::get('/FreelancingJobs', 'ViewFreelancingJobs');
-        Route::get('FreelancingJobs/{FreelancingJob}', 'ShowFreelancingJob');
+        Route::get('FreelancingJobs/{freelancingJob}', 'ShowFreelancingJob');
         Route::get('FreelancingJobs/{FreelancingJob}/competetors', 'ViewFreelancingJobCompetetors');
         Route::post('/FreelancingJob/apply', 'ApplyFreelancingJob');
         Route::delete('FreelancingJobs/{FreelancingJob}', 'DeleteFreelancingJob');

@@ -26,7 +26,8 @@ class RegJobResource extends JsonResource
             "type" => $this->type,
             "company" => new CompanyResource($this->company),
             "accepted_individual" => new IndividualResource($this->acceptedIndividual),
-            "competetors" => new RegJobCompetetorCollection($this->competetors)
+            "competetors" => new RegJobCompetetorCollection($this->competetors),
+            "skills"=>new SkillCollection($this->skills)
         ];
     }
 }

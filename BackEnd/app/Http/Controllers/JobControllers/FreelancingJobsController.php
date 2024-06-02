@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\JobControllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\DefJob;
 use App\Models\User;
 use App\Models\FreelancingJob;
 use App\Models\FreelancingJobCompetetor;
@@ -34,12 +35,15 @@ class FreelancingJobsController extends Controller
         }
 
         $validated['user_id'] = $user->id;
-        $job = FreelancingJob::create($validated);
+        $job=DefJob::create($validated);
+        $validated['defJob_id']=$job->id;
+        $Freelancingjob = FreelancingJob::create($validated);
+        $Freelancingjob->skills()->attach($validated['skills']);
 
         // Response
         return response()->json([
             "message" => "Job created successfully",
-            "job" => new FreelancingJobResource($job)
+            "job" => new FreelancingJobResource($Freelancingjob)
         ], 201);
     }
 

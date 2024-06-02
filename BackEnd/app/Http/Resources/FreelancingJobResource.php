@@ -35,7 +35,7 @@ class FreelancingJobResource extends JsonResource
         }
 
         return [
-            "id" => $defJob->id,
+            "id" => $this->id,
             "title" => $defJob->title,
             "description" => $defJob->description,
             "photo" => $defJob->photo,
@@ -46,7 +46,8 @@ class FreelancingJobResource extends JsonResource
             "avg_salary" => $this->avg_salary,
             "job_user" => $posterResource,
             "accepted_user" => $acceptedResource,
-            "competetors" => new FreelancingJobCompetetorCollection($this->competetors)
+            "competetors" => new FreelancingJobCompetetorCollection($this->competetors),
+            "skills"=>new SkillCollection($this->skills)
         ];
     }
 }
