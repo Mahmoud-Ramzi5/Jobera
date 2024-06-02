@@ -39,7 +39,7 @@ class CompanyProfileController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     Dio dio = Dio();
     try {
-      var response = await dio.get('http://192.168.0.105:8000/api/profile',
+      var response = await dio.get('http://192.168.1.105:8000/api/profile',
           options: Options(
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',
@@ -63,7 +63,7 @@ class CompanyProfileController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.105:8000/api/profile/description',
+        'http://192.168.1.105:8000/api/profile/description',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -95,7 +95,7 @@ class CompanyProfileController extends GetxController {
     );
     try {
       var response = await dio.post(
-        'http://192.168.0.105:8000/api/profile/photo',
+        'http://192.168.1.105:8000/api/profile/photo',
         data: formData,
         options: Options(
           headers: {
@@ -106,8 +106,52 @@ class CompanyProfileController extends GetxController {
         ),
       );
       if (response.statusCode == 200) {
-        Dialogs().showSuccessDialog('Photo added successfully', '');
+        Future.delayed(
+          const Duration(seconds: 1),
+          () {
+            Dialogs().showSuccessDialog(
+              'Photo added successfully',
+              '',
+            );
+          },
+        );
         refreshIndicatorKey.currentState!.show();
+        Get.back();
+      }
+    } on DioException catch (e) {
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response!.data['errors'].toString(),
+      );
+    }
+  }
+
+  Future<void> removePhoto() async {
+    String? token = sharedPreferences?.getString('access_token');
+    try {
+      final response = await dio.delete(
+        'http://192.168.1.105:8000/api//profile/photo',
+        options: Options(
+          responseType: ResponseType.bytes, // important
+          headers: {
+            'Content-Type': 'application/pdf; charset=UTF-8',
+            'Accept': 'application/pdf',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        Future.delayed(
+          const Duration(seconds: 1),
+          () {
+            Dialogs().showSuccessDialog(
+              'Success',
+              response.data['message'],
+            );
+          },
+        );
+        refreshIndicatorKey.currentState!.show();
+        Get.back();
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(

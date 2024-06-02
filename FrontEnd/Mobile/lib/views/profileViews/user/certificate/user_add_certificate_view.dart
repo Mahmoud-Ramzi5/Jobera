@@ -7,7 +7,7 @@ import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
 
 class UserAddCertificateView extends StatelessWidget {
-  final UserEditCertificatesController _editController =
+  final UserEditCertificatesController _addController =
       Get.find<UserEditCertificatesController>();
   UserAddCertificateView({super.key});
 
@@ -19,12 +19,12 @@ class UserAddCertificateView extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () {
-              if (_editController.formField.currentState?.validate() == true) {
-                _editController.addCertificate(
-                  _editController.newNameController.text,
-                  _editController.newOrganizationController.text,
-                  '${_editController.newDate.day}-${_editController.newDate.month}-${_editController.newDate.year}',
-                  _editController.file,
+              if (_addController.formField.currentState?.validate() == true) {
+                _addController.addCertificate(
+                  _addController.newNameController.text,
+                  _addController.newOrganizationController.text,
+                  _addController.newDate,
+                  _addController.file,
                 );
               }
             },
@@ -33,14 +33,14 @@ class UserAddCertificateView extends StatelessWidget {
         ],
       ),
       body: Form(
-        key: _editController.formField,
+        key: _addController.formField,
         child: SingleChildScrollView(
           child: Column(
             children: [
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: CustomTextField(
-                  controller: _editController.newNameController,
+                  controller: _addController.newNameController,
                   textInputType: TextInputType.name,
                   obsecureText: false,
                   labelText: 'Name',
@@ -51,7 +51,7 @@ class UserAddCertificateView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: CustomTextField(
-                  controller: _editController.newOrganizationController,
+                  controller: _addController.newOrganizationController,
                   textInputType: TextInputType.name,
                   obsecureText: false,
                   labelText: 'Organization',
@@ -59,28 +59,36 @@ class UserAddCertificateView extends StatelessWidget {
                   validator: (p0) => Validation().validateRequiredField(p0),
                 ),
               ),
-              const BodyText(text: 'Select release Date:'),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: DateContainer(
-                  widget: GetBuilder<UserEditCertificatesController>(
-                    builder: (controller) => GestureDetector(
-                      onTap: () => controller.selectDate(context),
-                      child: BodyText(
-                        text: "${controller.newDate}".split(' ')[0],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const BodyText(text: 'Select release Date:'),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: DateContainer(
+                      widget: GetBuilder<UserEditCertificatesController>(
+                        builder: (controller) => GestureDetector(
+                          onTap: () => controller.selectDate(
+                            context,
+                            controller.newDate,
+                          ),
+                          child: BodyText(
+                            text: "${controller.newDate}".split(' ')[0],
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: GetBuilder<UserEditCertificatesController>(
                   builder: (controller) => ListContainer(
                     child: BodyText(
-                        text: _editController.newFileName == null
+                        text: _addController.newFileName == null
                             ? 'File:'
-                            : 'File: ${_editController.newFileName}'),
+                            : 'File: ${_addController.newFileName}'),
                   ),
                 ),
               ),
@@ -89,13 +97,13 @@ class UserAddCertificateView extends StatelessWidget {
                 child: OutlinedButton(
                   child: const BodyText(text: 'Choose new file'),
                   onPressed: () async {
-                    _editController.file =
-                        await _editController.generalController.pickFile();
-                    if (_editController.file != null) {
-                      _editController.newFileName =
-                          _editController.file!.files[0].name;
+                    _addController.file =
+                        await _addController.generalController.pickFile();
+                    if (_addController.file != null) {
+                      _addController.newFileName =
+                          _addController.file!.files[0].name;
                     }
-                    _editController.update();
+                    _addController.update();
                   },
                 ),
               ),

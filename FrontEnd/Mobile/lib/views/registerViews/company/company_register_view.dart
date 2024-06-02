@@ -185,7 +185,7 @@ class CompanyRegisterView extends StatelessWidget {
                               _companyRegisterController.selectedState!.stateId,
                               _companyRegisterController
                                   .phoneNumberController.text,
-                              '${_companyRegisterController.selectedDate.day}-${_companyRegisterController.selectedDate.month}-${_companyRegisterController.selectedDate.year}',
+                              _companyRegisterController.selectedDate,
                             );
                           }
                         },

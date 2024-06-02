@@ -9,6 +9,7 @@ class CustomTextField extends StatelessWidget {
   final Icon icon;
   final InkWell? inkWell;
   final int? maxLength;
+  final String? initialValue;
 
   const CustomTextField({
     super.key,
@@ -20,11 +21,13 @@ class CustomTextField extends StatelessWidget {
     this.validator,
     this.inkWell,
     this.maxLength,
+    this.initialValue,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initialValue,
       autocorrect: false,
       obscureText: obsecureText,
       controller: controller,

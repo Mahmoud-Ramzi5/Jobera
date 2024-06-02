@@ -4,6 +4,7 @@ import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/classes/texts.dart';
 import 'package:jobera/controllers/home_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
+import 'package:jobera/customWidgets/custom_image.dart';
 import 'package:jobera/customWidgets/list_tiles.dart';
 
 class HomeView extends StatelessWidget {
@@ -41,13 +42,9 @@ class HomeView extends StatelessWidget {
                                           size: 50,
                                           color: Colors.lightBlue.shade900,
                                         )
-                                  : Image.network(
-                                      'http://192.168.0.105:8000/api/image/${controller.photo}',
-                                      errorBuilder:
-                                          (context, error, stackTrace) =>
-                                              Text(error.toString()),
-                                      fit: BoxFit.contain,
-                                      height: 50,
+                                  : CustomImage(
+                                      path:
+                                          'http://192.168.1.105:8000/api/image/${controller.photo}',
                                     ),
                             ),
                             HeadlineText(text: controller.name),

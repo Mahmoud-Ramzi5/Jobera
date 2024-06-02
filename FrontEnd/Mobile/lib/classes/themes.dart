@@ -85,6 +85,10 @@ class Themes {
         ),
       ),
     ),
+    cardTheme: const CardTheme(
+      shape: BeveledRectangleBorder(),
+      elevation: 5,
+    ),
   );
 
   static final darkTheme = ThemeData.dark().copyWith(
@@ -170,6 +174,10 @@ class Themes {
           color: Colors.orange.shade800,
         ),
       ),
+    ),
+    cardTheme: const CardTheme(
+      shape: BeveledRectangleBorder(),
+      elevation: 5,
     ),
   );
 }

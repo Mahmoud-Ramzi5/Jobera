@@ -108,11 +108,12 @@ class CompanyRegisterController extends GetxController {
     String confirmPassword,
     int state,
     String phoneNumber,
-    String date,
+    DateTime date,
   ) async {
+    String newDate = '${date.day}-${date.month}-${date.year}';
     try {
       var response =
-          await dio.post('http://192.168.0.105:8000/api/company/register',
+          await dio.post('http://192.168.1.105:8000/api/company/register',
               data: {
                 "name": name,
                 "field": workField,
@@ -121,7 +122,7 @@ class CompanyRegisterController extends GetxController {
                 "confirm_password": confirmPassword,
                 "state_id": state,
                 "phone_number": phoneNumber,
-                "founding_date": date,
+                "founding_date": newDate,
                 "type": "company",
               },
               options: Options(
