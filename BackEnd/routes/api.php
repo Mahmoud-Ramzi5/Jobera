@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileControllers\ProfileController;
 use App\Http\Controllers\ProfileControllers\SkillsController;
 use App\Http\Controllers\ProfileControllers\EducationController;
 use App\Http\Controllers\ProfileControllers\PortfolioController;
+use App\Http\Controllers\JobControllers\DefJobsController;
 use App\Http\Controllers\JobControllers\RegJobsController;
 use App\Http\Controllers\JobControllers\FreelancingJobsController;
 
@@ -104,6 +105,13 @@ Route::controller(PortfolioController::class)->group(function () {
         Route::post('/portfolio/add', 'AddPortfolio');
         Route::post('/portfolio/edit/{portfolio}', 'EditPortfolio');
         Route::delete('/portfolios/{portfolio}', 'DeletePortfolio');
+    });
+});
+
+Route::controller(DefJobsController::class)->group(function () {
+    Route::middleware('auth:api')->group(function () {
+        Route::get('/defJobs', 'ShowAllJobs');
+        Route::get('/jobs', 'ShowSpecificJobs');
     });
 });
 
