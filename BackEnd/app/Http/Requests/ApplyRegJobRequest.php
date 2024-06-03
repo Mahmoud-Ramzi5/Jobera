@@ -28,6 +28,7 @@ class ApplyRegJobRequest extends FormRequest
             'description' => ['required']
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
