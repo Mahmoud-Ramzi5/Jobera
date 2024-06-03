@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/controllers/general_controller.dart';
 import 'package:jobera/main.dart';
-import 'package:jobera/models/countries.dart';
-import 'package:jobera/models/states.dart';
+import 'package:jobera/models/country.dart';
+import 'package:jobera/models/state.dart';
 
 class UserRegisterController extends GetxController {
   late GlobalKey<FormState> formField;
@@ -22,8 +22,8 @@ class UserRegisterController extends GetxController {
   late String selectedGender;
   late CountryCode countryCode;
   late Dio dio;
-  late Countries? selectedCountry;
-  late List<Countries> countries = [];
+  late Country? selectedCountry;
+  late List<Country> countries = [];
   List<States> states = [];
   States? selectedState;
 
@@ -81,7 +81,7 @@ class UserRegisterController extends GetxController {
     update();
   }
 
-  Future<void> selectCountry(Countries country) async {
+  Future<void> selectCountry(Country country) async {
     selectedCountry = country;
     selectedState = null;
     states = [];
@@ -116,7 +116,7 @@ class UserRegisterController extends GetxController {
   ) async {
     String newDate = '$date.day}-${date.month}-${date.year}';
     try {
-      var response = await dio.post('http://192.168.1.105:8000/api/register',
+      var response = await dio.post('http://192.168.0.100:8000/api/register',
           data: {
             "full_name": fullName,
             "email": email,

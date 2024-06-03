@@ -141,7 +141,7 @@ class Dialogs {
     void Function()? onPressed3,
   ) async {
     Get.defaultDialog(
-      title: 'Profile Photo:',
+      title: 'Photo:',
       content: Column(
         children: [
           TextButton(

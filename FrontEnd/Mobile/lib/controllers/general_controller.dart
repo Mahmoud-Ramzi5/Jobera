@@ -4,10 +4,10 @@ import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:image_picker/image_picker.dart';
 import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/models/countries.dart';
-import 'package:jobera/models/skill_types.dart';
-import 'package:jobera/models/skills.dart';
-import 'package:jobera/models/states.dart';
+import 'package:jobera/models/country.dart';
+import 'package:jobera/models/skill_type.dart';
+import 'package:jobera/models/skill.dart';
+import 'package:jobera/models/state.dart';
 import 'package:open_filex/open_filex.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -40,7 +40,7 @@ class GeneralController extends GetxController {
   Future<dynamic> getCountries() async {
     try {
       var response = await dio.get(
-        'http://192.168.1.105:8000/api/countries',
+        'http://192.168.0.100:8000/api/countries',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -49,7 +49,7 @@ class GeneralController extends GetxController {
         ),
       );
       if (response.statusCode == 200) {
-        return Countries.fromJsonList(
+        return Country.fromJsonList(
           response.data['countries'],
         );
       }
@@ -64,7 +64,7 @@ class GeneralController extends GetxController {
   Future<dynamic> getStates(String countryName) async {
     try {
       var response = await dio.post(
-        'http://192.168.1.105:8000/api/states',
+        'http://192.168.0.100:8000/api/states',
         data: {"country_name": countryName},
         options: Options(
           headers: {
@@ -89,7 +89,7 @@ class GeneralController extends GetxController {
   Future<dynamic> getSkillTypes() async {
     try {
       var response = await dio.get(
-        'http://192.168.1.105:8000/api/skills/types',
+        'http://192.168.0.100:8000/api/skills/types',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -98,7 +98,7 @@ class GeneralController extends GetxController {
         ),
       );
       if (response.statusCode == 200) {
-        return SkillTypes.fromJsonList(response.data['types']);
+        return SkillType.fromJsonList(response.data['types']);
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
@@ -111,7 +111,7 @@ class GeneralController extends GetxController {
   Future<dynamic> getSkills(String type) async {
     try {
       var response = await dio.get(
-        'http://192.168.1.105:8000/api/skills?type[eq]=$type',
+        'http://192.168.0.100:8000/api/skills?type[eq]=$type',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -120,12 +120,38 @@ class GeneralController extends GetxController {
         ),
       );
       if (response.statusCode == 200) {
-        return Skills.fromJsonList(response.data['skills']);
+        return Skill.fromJsonList(response.data['skills']);
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.data['error'].toString(),
+        e.response!.data['errors'].toString(),
+      );
+    }
+  }
+
+  Future<dynamic> getAllSkills() async {
+    try {
+      var response = await dio.get(
+        'http://192.168.0.100:8000/api/skills',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        List<Skill> skills = [];
+        for (var skill in response.data['skills']) {
+          skills.add(Skill.fromJson(skill));
+        }
+        return skills;
+      }
+    } on DioException catch (e) {
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response!.data['errors'].toString(),
       );
     }
   }
@@ -133,7 +159,7 @@ class GeneralController extends GetxController {
   Future<dynamic> searchSkills(String name) async {
     try {
       var response = await dio.get(
-        'http://192.168.1.105:8000/api/skills?name[like]=$name',
+        'http://192.168.0.100:8000/api/skills?name[like]=$name',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -142,7 +168,7 @@ class GeneralController extends GetxController {
         ),
       );
       if (response.statusCode == 200) {
-        return Skills.fromJsonList(response.data['skills']);
+        return Skill.fromJsonList(response.data['skills']);
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
@@ -155,7 +181,7 @@ class GeneralController extends GetxController {
   Future<dynamic> downloadFile(String fileName) async {
     try {
       final response = await dio.get(
-        'http://192.168.1.105:8000/api/file/$fileName',
+        'http://192.168.0.100:8000/api/file/$fileName',
         options: Options(
           responseType: ResponseType.bytes, // important
           headers: {
@@ -211,6 +237,15 @@ class GeneralController extends GetxController {
   Future<FilePickerResult?> pickFile() async {
     FilePickerResult? file = await FilePicker.platform.pickFiles(
       allowMultiple: false,
+      allowedExtensions: ['pdf'],
+      type: FileType.custom,
+    );
+    return file;
+  }
+
+  Future<FilePickerResult?> pickFiles() async {
+    FilePickerResult? file = await FilePicker.platform.pickFiles(
+      allowMultiple: true,
       allowedExtensions: ['pdf'],
       type: FileType.custom,
     );

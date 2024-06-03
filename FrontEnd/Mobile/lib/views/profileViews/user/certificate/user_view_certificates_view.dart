@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/classes/texts.dart';
 import 'package:jobera/classes/validation.dart';
-import 'package:jobera/controllers/profileControllers/user/user_edit_certificates_controller.dart';
+import 'package:jobera/controllers/profileControllers/user/certificate/user_edit_certificates_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
 
@@ -115,7 +115,7 @@ class UserEditCertificatesView extends StatelessWidget {
                     },
                     children: [
                       Form(
-                        key: _controller.formField1,
+                        key: _controller.formField,
                         child: Column(
                           children: [
                             Padding(
@@ -155,7 +155,6 @@ class UserEditCertificatesView extends StatelessWidget {
                                       builder: (controller) => GestureDetector(
                                         onTap: () => controller.selectDate(
                                           context,
-                                          controller.editDate,
                                         ),
                                         child: BodyText(
                                           text: "${controller.editDate}"
@@ -172,9 +171,10 @@ class UserEditCertificatesView extends StatelessWidget {
                               child: GetBuilder<UserEditCertificatesController>(
                                 builder: (controller) => ListContainer(
                                   child: BodyText(
-                                      text: controller.editFileName == null
-                                          ? 'File:${controller.certificates[index].file}'
-                                          : 'File: ${controller.editFileName}'),
+                                    text: controller.editFileName == null
+                                        ? 'File:${controller.certificates[index].file}'
+                                        : 'File: ${controller.editFileName}',
+                                  ),
                                 ),
                               ),
                             ),
@@ -189,11 +189,7 @@ class UserEditCertificatesView extends StatelessWidget {
                                       controller.editfile = await controller
                                           .generalController
                                           .pickFile();
-                                      if (controller.editfile != null) {
-                                        controller.editFileName =
-                                            controller.editfile!.files[0].name;
-                                      }
-                                      controller.update();
+                                      controller.updateName();
                                     },
                                   ),
                                 ),
@@ -202,7 +198,7 @@ class UserEditCertificatesView extends StatelessWidget {
                                   child: ElevatedButton(
                                     child: const BodyText(text: 'Submit'),
                                     onPressed: () {
-                                      if (controller.formField1.currentState
+                                      if (controller.formField.currentState
                                               ?.validate() ==
                                           true) {
                                         controller.editCertificate(

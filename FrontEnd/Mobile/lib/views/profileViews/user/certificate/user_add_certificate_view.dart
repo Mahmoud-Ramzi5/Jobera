@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/texts.dart';
 import 'package:jobera/classes/validation.dart';
-import 'package:jobera/controllers/profileControllers/user/user_edit_certificates_controller.dart';
+import 'package:jobera/controllers/profileControllers/user/certificate/user_add_certificate_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
 
 class UserAddCertificateView extends StatelessWidget {
-  final UserEditCertificatesController _addController =
-      Get.find<UserEditCertificatesController>();
+  final UserAddCertificateController _addController =
+      Get.put(UserAddCertificateController());
   UserAddCertificateView({super.key});
 
   @override
@@ -21,9 +21,9 @@ class UserAddCertificateView extends StatelessWidget {
             onPressed: () {
               if (_addController.formField.currentState?.validate() == true) {
                 _addController.addCertificate(
-                  _addController.newNameController.text,
-                  _addController.newOrganizationController.text,
-                  _addController.newDate,
+                  _addController.nameController.text,
+                  _addController.organizationController.text,
+                  _addController.date,
                   _addController.file,
                 );
               }
@@ -40,7 +40,7 @@ class UserAddCertificateView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: CustomTextField(
-                  controller: _addController.newNameController,
+                  controller: _addController.nameController,
                   textInputType: TextInputType.name,
                   obsecureText: false,
                   labelText: 'Name',
@@ -51,7 +51,7 @@ class UserAddCertificateView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: CustomTextField(
-                  controller: _addController.newOrganizationController,
+                  controller: _addController.organizationController,
                   textInputType: TextInputType.name,
                   obsecureText: false,
                   labelText: 'Organization',
@@ -66,14 +66,13 @@ class UserAddCertificateView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(10),
                     child: DateContainer(
-                      widget: GetBuilder<UserEditCertificatesController>(
+                      widget: GetBuilder<UserAddCertificateController>(
                         builder: (controller) => GestureDetector(
                           onTap: () => controller.selectDate(
                             context,
-                            controller.newDate,
                           ),
                           child: BodyText(
-                            text: "${controller.newDate}".split(' ')[0],
+                            text: "${controller.date}".split(' ')[0],
                           ),
                         ),
                       ),
@@ -83,27 +82,23 @@ class UserAddCertificateView extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(10),
-                child: GetBuilder<UserEditCertificatesController>(
+                child: GetBuilder<UserAddCertificateController>(
                   builder: (controller) => ListContainer(
                     child: BodyText(
-                        text: _addController.newFileName == null
+                        text: _addController.fileName == null
                             ? 'File:'
-                            : 'File: ${_addController.newFileName}'),
+                            : 'File: ${_addController.fileName}'),
                   ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: OutlinedButton(
-                  child: const BodyText(text: 'Choose new file'),
+                  child: const BodyText(text: 'Choose file'),
                   onPressed: () async {
                     _addController.file =
                         await _addController.generalController.pickFile();
-                    if (_addController.file != null) {
-                      _addController.newFileName =
-                          _addController.file!.files[0].name;
-                    }
-                    _addController.update();
+                    _addController.updateName();
                   },
                 ),
               ),

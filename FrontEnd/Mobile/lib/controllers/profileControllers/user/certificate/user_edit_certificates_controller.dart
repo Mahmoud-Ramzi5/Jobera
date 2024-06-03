@@ -11,14 +11,8 @@ class UserEditCertificatesController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   late Dio dio;
   late GlobalKey<FormState> formField;
-  late GlobalKey<FormState> formField1;
   List<Certificate> certificates = [];
   late GeneralController generalController;
-  late TextEditingController newNameController;
-  late TextEditingController newOrganizationController;
-  late DateTime newDate;
-  late String? newFileName;
-  late FilePickerResult? file;
   late TextEditingController editNameController;
   late TextEditingController editOrganizationController;
   late DateTime editDate;
@@ -30,13 +24,7 @@ class UserEditCertificatesController extends GetxController {
     refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
     dio = Dio();
     formField = GlobalKey<FormState>();
-    formField1 = GlobalKey<FormState>();
     generalController = Get.find<GeneralController>();
-    newNameController = TextEditingController();
-    newOrganizationController = TextEditingController();
-    newDate = DateTime.now();
-    file = const FilePickerResult([]);
-    newFileName = null;
     await fetchCertificates();
     editNameController = TextEditingController();
     editOrganizationController = TextEditingController();
@@ -57,9 +45,9 @@ class UserEditCertificatesController extends GetxController {
     ).pathSegments.last;
   }
 
-  void updateName(FilePickerResult? file, String? fileName) {
-    if (file != null) {
-      fileName = file.files[0].name;
+  void updateName() {
+    if (editfile != null) {
+      editFileName = editfile!.files[0].name;
     }
     update();
   }
@@ -68,7 +56,7 @@ class UserEditCertificatesController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.105:8000/api/certificates',
+        'http://192.168.0.100:8000/api/certificates',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -92,18 +80,14 @@ class UserEditCertificatesController extends GetxController {
     }
   }
 
-  Future<void> selectDate(BuildContext context, DateTime date) async {
+  Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,
         firstDate: DateTime(1900),
         lastDate: DateTime(2100),
         currentDate: DateTime.now(),
         initialEntryMode: DatePickerEntryMode.calendarOnly);
-    if (picked != null && picked != newDate && date == newDate) {
-      newDate = picked;
-      update();
-    }
-    if (picked != null && picked != editDate && date == editDate) {
+    if (picked != null && picked != editDate) {
       editDate = picked;
       update();
     }
@@ -113,7 +97,7 @@ class UserEditCertificatesController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.delete(
-        'http://192.168.1.105:8000/api/certificates/$id',
+        'http://192.168.0.100:8000/api/certificates/$id',
         options: Options(
           headers: {
             'Content-Type': 'multipart/form-data; charset=UTF-8',
@@ -130,53 +114,6 @@ class UserEditCertificatesController extends GetxController {
         'Error',
         e.response.toString(),
       );
-    }
-  }
-
-  Future<void> addCertificate(
-    String name,
-    String organization,
-    DateTime date,
-    FilePickerResult? file,
-  ) async {
-    String newDate = '${date.day}-${date.month}-$date.year}';
-    String? token = sharedPreferences?.getString('access_token');
-    if (file!.files.isEmpty) {
-      Dialogs().showErrorDialog('Error', 'File is Required');
-    } else {
-      final data = FormData.fromMap(
-        {
-          "file": await MultipartFile.fromFile(
-            file.files[0].path.toString(),
-          ),
-          'name': name,
-          'organization': organization,
-          'release_date': newDate,
-        },
-      );
-      try {
-        var response = await dio.post(
-          'http://192.168.1.105:8000/api/certificate/add',
-          data: data,
-          options: Options(
-            headers: {
-              'Content-Type':
-                  'multipart/form-data; application/json; charset=UTF-8',
-              'Accept': "application/json",
-              'Authorization': 'Bearer $token',
-            },
-          ),
-        );
-        if (response.statusCode == 201) {
-          refreshIndicatorKey.currentState!.show();
-          Get.back();
-        }
-      } on DioException catch (e) {
-        Dialogs().showErrorDialog(
-          'Error',
-          e.response.toString(),
-        );
-      }
     }
   }
 
@@ -206,7 +143,7 @@ class UserEditCertificatesController extends GetxController {
     );
     try {
       var response = await dio.post(
-        'http://192.168.1.105:8000/api/certificate/edit/$id',
+        'http://192.168.0.100:8000/api/certificate/edit/$id',
         data: data,
         options: Options(
           headers: {

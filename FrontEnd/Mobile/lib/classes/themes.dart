@@ -74,10 +74,10 @@ class Themes {
         StadiumBorder(),
       ),
       hintStyle: MaterialStatePropertyAll(
-        const TextTheme().bodyLarge?.copyWith(color: Colors.lightBlue.shade900),
+        TextStyle(color: Colors.lightBlue.shade900),
       ),
       textStyle: MaterialStatePropertyAll(
-        const TextTheme().bodyLarge?.copyWith(color: Colors.lightBlue.shade900),
+        TextStyle(color: Colors.lightBlue.shade900),
       ),
       side: MaterialStatePropertyAll(
         BorderSide(
@@ -163,11 +163,11 @@ class Themes {
       shape: const MaterialStatePropertyAll(
         StadiumBorder(),
       ),
-      hintStyle: MaterialStatePropertyAll(
-        const TextTheme().bodyLarge?.copyWith(color: Colors.white),
+      hintStyle: const MaterialStatePropertyAll(
+        TextStyle(color: Colors.white),
       ),
-      textStyle: MaterialStatePropertyAll(
-        const TextTheme().bodyLarge?.copyWith(color: Colors.white),
+      textStyle: const MaterialStatePropertyAll(
+        TextStyle(color: Colors.white),
       ),
       side: MaterialStatePropertyAll(
         BorderSide(

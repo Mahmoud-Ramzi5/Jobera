@@ -6,8 +6,8 @@ import 'package:jobera/controllers/profileControllers/company/company_edit_info_
 import 'package:jobera/customWidgets/code_picker.dart';
 import 'package:jobera/customWidgets/custom_drop_down_button.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
-import 'package:jobera/models/countries.dart';
-import 'package:jobera/models/states.dart';
+import 'package:jobera/models/country.dart';
+import 'package:jobera/models/state.dart';
 
 class CompanyEditInfoView extends StatelessWidget {
   final CompanyEditInfoController _editController =
@@ -91,8 +91,8 @@ class CompanyEditInfoView extends StatelessWidget {
                   CustomDropDownButton(
                     value: controller.selectedCountry,
                     items: controller.countries
-                        .map<DropdownMenuItem<Countries>>(
-                          (country) => DropdownMenuItem<Countries>(
+                        .map<DropdownMenuItem<Country>>(
+                          (country) => DropdownMenuItem<Country>(
                             value: country,
                             child: BodyText(text: country.countryName),
                           ),

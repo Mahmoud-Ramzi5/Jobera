@@ -1,22 +1,22 @@
-class Skills {
+class Skill {
   final int id;
   final String name;
   final String type;
 
-  Skills({
+  Skill({
     required this.id,
     required this.name,
     required this.type,
   });
 
-  Skills.fromJson(Map<String, dynamic> json)
+  Skill.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,
         name = json['name'] as String,
         type = json['type'] as String;
 
-  static List<Skills> fromJsonList(List<dynamic> jsonList) {
+  static List<Skill> fromJsonList(List<dynamic> jsonList) {
     return jsonList
-        .map((json) => Skills.fromJson(json as Map<String, dynamic>))
+        .map((json) => Skill.fromJson(json as Map<String, dynamic>))
         .toList();
   }
 }

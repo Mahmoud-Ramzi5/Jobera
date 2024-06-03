@@ -17,7 +17,7 @@ class AuthController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     if (token != null) {
       try {
-        var response = await dio.get('http://192.168.1.105:8000/api/isExpired',
+        var response = await dio.get('http://192.168.0.100:8000/api/isExpired',
             options: Options(
               headers: {
                 'Content-Type': 'application/json; charset=UTF-8',

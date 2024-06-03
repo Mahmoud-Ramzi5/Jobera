@@ -34,8 +34,7 @@ class CompanyProfileView extends StatelessWidget {
                               color: Colors.lightBlue.shade900,
                             )
                           : CustomImage(
-                              path:
-                                  'http://192.168.1.105/api/image/${controller.company.photo}',
+                              path: controller.company.photo.toString(),
                             ),
                       onPressed: () => Dialogs().addPhotoDialog(
                         () async {

@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/controllers/general_controller.dart';
 import 'package:jobera/main.dart';
-import 'package:jobera/models/countries.dart';
-import 'package:jobera/models/states.dart';
+import 'package:jobera/models/country.dart';
+import 'package:jobera/models/state.dart';
 import 'package:jobera/views/home_view.dart';
 
 class CompanyRegisterController extends GetxController {
@@ -22,8 +22,8 @@ class CompanyRegisterController extends GetxController {
   late CountryCode countryCode;
   late DateTime selectedDate;
   late Dio dio;
-  late Countries? selectedCountry;
-  late List<Countries> countries = [];
+  late Country? selectedCountry;
+  late List<Country> countries = [];
   List<States> states = [];
   States? selectedState;
 
@@ -64,7 +64,7 @@ class CompanyRegisterController extends GetxController {
     update();
   }
 
-  Future<void> selectCountry(Countries country) async {
+  Future<void> selectCountry(Country country) async {
     selectedCountry = country;
     selectedState = null;
     states = [];
@@ -113,7 +113,7 @@ class CompanyRegisterController extends GetxController {
     String newDate = '${date.day}-${date.month}-${date.year}';
     try {
       var response =
-          await dio.post('http://192.168.1.105:8000/api/company/register',
+          await dio.post('http://192.168.0.100:8000/api/company/register',
               data: {
                 "name": name,
                 "field": workField,

@@ -43,8 +43,7 @@ class HomeView extends StatelessWidget {
                                           color: Colors.lightBlue.shade900,
                                         )
                                   : CustomImage(
-                                      path:
-                                          'http://192.168.1.105:8000/api/image/${controller.photo}',
+                                      path: controller.photo.toString(),
                                     ),
                             ),
                             HeadlineText(text: controller.name),

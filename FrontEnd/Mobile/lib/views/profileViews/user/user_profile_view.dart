@@ -34,8 +34,7 @@ class UserProfileView extends StatelessWidget {
                               color: Colors.lightBlue.shade900,
                             )
                           : CustomImage(
-                              path:
-                                  'http://192.168.1.105:8000/api/image/${controller.user.photo}',
+                              path: controller.user.photo.toString(),
                             ),
                       onPressed: () => Dialogs().addPhotoDialog(
                         () async {
@@ -288,8 +287,9 @@ class UserProfileView extends StatelessWidget {
                               padding: const EdgeInsets.all(10),
                               child: ListContainer(
                                 child: BodyText(
-                                    text:
-                                        '${index + 1}-${controller.user.certificates![index].name}'),
+                                  text:
+                                      controller.user.certificates![index].name,
+                                ),
                               ),
                             );
                           },
@@ -302,8 +302,37 @@ class UserProfileView extends StatelessWidget {
                       child: InfoWithEditContainer(
                         name: 'Portofolios',
                         buttonText: 'View',
-                        widget: const Column(),
-                        onPressed: () {},
+                        widget: SizedBox(
+                          height: 150,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: controller.user.portofolios!.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: ListContainer(
+                                  width: 100,
+                                  child: Column(
+                                    children: [
+                                      CustomImage(
+                                        path: controller
+                                            .user.portofolios![index].photo,
+                                      ),
+                                      LabelText(
+                                        text: controller
+                                            .user.portofolios![index].title,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        onPressed: () {
+                          Get.toNamed('/userViewPortofolios');
+                        },
                       ),
                     ),
                   ],

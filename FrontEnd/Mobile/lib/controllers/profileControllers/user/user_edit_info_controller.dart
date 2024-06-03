@@ -6,8 +6,8 @@ import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/controllers/profileControllers/user/user_profile_controller.dart';
 import 'package:jobera/controllers/general_controller.dart';
 import 'package:jobera/main.dart';
-import 'package:jobera/models/countries.dart';
-import 'package:jobera/models/states.dart';
+import 'package:jobera/models/country.dart';
+import 'package:jobera/models/state.dart';
 import 'package:jobera/models/user.dart';
 
 class UserEditInfoController extends GetxController {
@@ -19,8 +19,8 @@ class UserEditInfoController extends GetxController {
   late TextEditingController editNameController;
   late TextEditingController editPhoneNumberController;
   late CountryCode countryCode;
-  Countries? selectedCountry;
-  late List<Countries> countries = [];
+  Country? selectedCountry;
+  late List<Country> countries = [];
   late List<States> states = [];
   States? selectedState;
 
@@ -61,7 +61,7 @@ class UserEditInfoController extends GetxController {
     update();
   }
 
-  Future<void> selectCountry(Countries country) async {
+  Future<void> selectCountry(Country country) async {
     selectedCountry = country;
     selectedState = null;
     states = [];
@@ -82,7 +82,7 @@ class UserEditInfoController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.1.105:8000/api/profile/edit',
+        'http://192.168.0.100:8000/api/profile/edit',
         data: {
           "full_name": name,
           "phone_number": phoneNumber,

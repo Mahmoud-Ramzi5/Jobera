@@ -4,16 +4,16 @@ import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/controllers/profileControllers/user/user_profile_controller.dart';
 import 'package:jobera/controllers/general_controller.dart';
 import 'package:jobera/main.dart';
-import 'package:jobera/models/skill_types.dart';
-import 'package:jobera/models/skills.dart';
+import 'package:jobera/models/skill_type.dart';
+import 'package:jobera/models/skill.dart';
 
 class UserEditSkillsController extends GetxController {
   late UserProfileController profileController;
   late GeneralController generalController;
   late Dio dio;
-  late List<Skills> myskills = [];
-  late List<SkillTypes> skillTypes = [];
-  late List<Skills> skills = [];
+  late List<Skill> myskills = [];
+  late List<SkillType> skillTypes = [];
+  late List<Skill> skills = [];
 
   @override
   void onInit() async {
@@ -34,12 +34,12 @@ class UserEditSkillsController extends GetxController {
     super.onClose();
   }
 
-  void deleteSkill(Skills skill) {
+  void deleteSkill(Skill skill) {
     myskills.remove(skill);
     update();
   }
 
-  void addToOMySkills(Skills skill) {
+  void addToOMySkills(Skill skill) {
     myskills.add(skill);
     skills.remove(skill);
     update();
@@ -71,7 +71,7 @@ class UserEditSkillsController extends GetxController {
       }
       try {
         var response = await dio.post(
-          'http://192.168.1.105:8000/api/user/skills/edit',
+          'http://192.168.0.100:8000/api/user/skills/edit',
           data: {
             'skills': skillIds,
           },

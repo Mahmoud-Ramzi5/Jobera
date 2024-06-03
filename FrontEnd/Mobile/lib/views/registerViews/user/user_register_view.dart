@@ -7,8 +7,8 @@ import 'package:jobera/customWidgets/custom_drop_down_button.dart';
 import 'package:jobera/classes/texts.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
 import 'package:jobera/classes/validation.dart';
-import 'package:jobera/models/countries.dart';
-import 'package:jobera/models/states.dart';
+import 'package:jobera/models/country.dart';
+import 'package:jobera/models/state.dart';
 
 class UserRegisterView extends StatelessWidget {
   final UserRegisterController _userRegisterController =
@@ -160,8 +160,8 @@ class UserRegisterView extends StatelessWidget {
                     CustomDropDownButton(
                       value: controller.selectedCountry,
                       items: controller.countries
-                          .map<DropdownMenuItem<Countries>>(
-                            (country) => DropdownMenuItem<Countries>(
+                          .map<DropdownMenuItem<Country>>(
+                            (country) => DropdownMenuItem<Country>(
                               value: country,
                               child: BodyText(text: country.countryName),
                             ),

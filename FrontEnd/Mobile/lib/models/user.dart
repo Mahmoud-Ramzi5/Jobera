@@ -1,6 +1,7 @@
 import 'package:jobera/models/certificate.dart';
 import 'package:jobera/models/education.dart';
-import 'package:jobera/models/skills.dart';
+import 'package:jobera/models/portofolio.dart';
+import 'package:jobera/models/skill.dart';
 
 class User {
   final String name;
@@ -14,23 +15,26 @@ class User {
   final String? description;
   final String? photo;
   final Education education;
-  final List<Skills> skills;
+  final List<Skill> skills;
   final List<Certificate>? certificates;
+  final List<Portofolio>? portofolios;
 
-  User(
-      {required this.name,
-      required this.email,
-      required this.phoneNumber,
-      required this.country,
-      required this.state,
-      required this.birthDate,
-      required this.gender,
-      required this.type,
-      this.description,
-      this.photo,
-      required this.education,
-      required this.skills,
-      this.certificates});
+  User({
+    required this.name,
+    required this.email,
+    required this.phoneNumber,
+    required this.country,
+    required this.state,
+    required this.birthDate,
+    required this.gender,
+    required this.type,
+    required this.education,
+    required this.skills,
+    this.description,
+    this.photo,
+    this.portofolios,
+    this.certificates,
+  });
 
   User.fromJson(Map<String, dynamic> json)
       : name = json['full_name'] as String,
@@ -45,11 +49,15 @@ class User {
         photo = json['avatar_photo'] as String?,
         education = Education.fromJson(json['education']),
         skills = [
-          for (var skill in json['skills']) (Skills.fromJson(skill)),
+          for (var skill in json['skills']) (Skill.fromJson(skill)),
         ],
         certificates = [
           for (var certificate in json['certificates'])
             (Certificate.fromJson(certificate)),
+        ],
+        portofolios = [
+          for (var portofolio in json['portfolios'])
+            (Portofolio.fromJson(portofolio)),
         ];
 
   User.empty()
@@ -65,5 +73,6 @@ class User {
         photo = null,
         education = Education.empty(),
         skills = [],
-        certificates = [];
+        certificates = [],
+        portofolios = [];
 }

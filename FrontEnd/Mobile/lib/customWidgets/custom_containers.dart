@@ -150,9 +150,10 @@ class InfoWithEditContainer extends StatelessWidget {
   final String name;
   final String buttonText;
   final IconData? icon;
-
   final Widget widget;
   final void Function()? onPressed;
+  final double? width;
+  final double? height;
 
   const InfoWithEditContainer({
     super.key,
@@ -161,11 +162,15 @@ class InfoWithEditContainer extends StatelessWidget {
     required this.widget,
     required this.onPressed,
     this.icon,
+    this.width,
+    this.height,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: height,
+      width: width,
       decoration: ShapeDecoration(
         shape: BeveledRectangleBorder(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -250,11 +255,15 @@ class SkillsContainer extends StatelessWidget {
 class ListContainer extends StatelessWidget {
   final Widget? child;
   final void Function()? onTap;
+  final double? width;
+  final double? height;
 
   const ListContainer({
     super.key,
     required this.child,
     this.onTap,
+    this.width,
+    this.height,
   });
 
   @override
@@ -264,6 +273,8 @@ class ListContainer extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Container(
+          width: width,
+          height: height,
           decoration: ShapeDecoration(
             shape: BeveledRectangleBorder(
               side: BorderSide(color: Colors.orange.shade800),
