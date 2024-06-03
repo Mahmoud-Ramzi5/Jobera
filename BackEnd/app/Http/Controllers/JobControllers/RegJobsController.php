@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\JobControllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\DefJob;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\Individual;
+use App\Models\DefJob;
 use App\Models\RegJob;
 use App\Models\RegJobCompetetor;
 use App\Filters\JobFilter;
@@ -48,8 +48,8 @@ class RegJobsController extends Controller
         $company = Company::where('user_id', $user->id)->first();
 
         $validated['company_id'] = $company->id;
-        $job=DefJob::create($validated);
-        $validated['defJob_id']=$job->id;
+        $job = DefJob::create($validated);
+        $validated['defJob_id'] = $job->id;
         $Regjob = RegJob::create($validated);
         $Regjob->skills()->attach($validated['skills']);
 

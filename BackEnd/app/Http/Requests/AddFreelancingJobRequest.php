@@ -31,7 +31,7 @@ class AddFreelancingJobRequest extends FormRequest
             'min_salary' => ["required", "numeric"],
             'max_salary' => ["required", "numeric", "gt:min_salary"],
             'deadline' => ["required"],
-            'skills' => ['required','array']
+            'skills' => ['required', 'array']
         ];
     }
     protected function failedValidation(Validator $validator)
