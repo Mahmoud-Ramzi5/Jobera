@@ -42,4 +42,9 @@ class State extends Model
     {
         return $this->hasMany(User::class, 'state_id', 'state_id');
     }
+
+    public function defJobs(): HasMany
+    {
+        return $this->hasMany(DefJob::class, 'state_id', 'state_id');
+    }
 }

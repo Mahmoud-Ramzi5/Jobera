@@ -26,10 +26,10 @@ class AddRegJobRequest extends FormRequest
         return [
             "title" => ["required"],
             "description" => ["required"],
+            'state_id' => ['required'],
             "salary" => ["required", "numeric"],
             'photo' => ["sometimes", "image", "max:4096"],
             "type" => ["required", "in:PartTime,FullTime"],
-            "is_done" => ["required", "boolean"],
             'skills' => ['required', 'array']
         ];
     }

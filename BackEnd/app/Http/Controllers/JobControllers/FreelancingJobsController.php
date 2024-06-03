@@ -35,6 +35,7 @@ class FreelancingJobsController extends Controller
         }
 
         $validated['user_id'] = $user->id;
+        $validated['is_done'] = false;
         $job = DefJob::create($validated);
         $validated['defJob_id'] = $job->id;
         $Freelancingjob = FreelancingJob::create($validated);

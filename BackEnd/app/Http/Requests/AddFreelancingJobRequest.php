@@ -24,14 +24,14 @@ class AddFreelancingJobRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "is_done" => ["required", "boolean"],
             "title" => ["required"],
             "description" => ["required"],
+            'state_id' => ['required'],
             'photo' => ["sometimes", "image", "max:4096"],
             'min_salary' => ["required", "numeric"],
             'max_salary' => ["required", "numeric", "gt:min_salary"],
             'deadline' => ["required"],
-            'skills' => ['required', 'array']
+            'skills' => ['required', 'array'],
         ];
     }
 

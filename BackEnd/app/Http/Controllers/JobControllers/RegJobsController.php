@@ -48,6 +48,7 @@ class RegJobsController extends Controller
         $company = Company::where('user_id', $user->id)->first();
 
         $validated['company_id'] = $company->id;
+        $validated['is_done'] = false;
         $job = DefJob::create($validated);
         $validated['defJob_id'] = $job->id;
         $Regjob = RegJob::create($validated);

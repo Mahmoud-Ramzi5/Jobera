@@ -15,9 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
+            $table->bigInteger('state_id')->unsigned();
             $table->string('photo')->nullable();
             $table->boolean('is_done');
             $table->timestamps();
+
+            $table->foreign('state_id')->references('state_id')->on('states')->onDelete('cascade');
         });
     }
 

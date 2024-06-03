@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
 class DefJob extends Model
@@ -16,6 +17,7 @@ class DefJob extends Model
     protected $fillable = [
         'title',
         'description',
+        'location',
         'photo',
         'is_done',
     ];
@@ -40,4 +42,11 @@ class DefJob extends Model
 
         ];
     }
+
+    /* Relations */
+    public function state(): BelongsTo
+    {
+        return $this->belongsTo(State::class, 'state_id', 'state_id');
+    }
+
 }
