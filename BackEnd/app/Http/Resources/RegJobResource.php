@@ -15,7 +15,6 @@ class RegJobResource extends JsonResource
     public function toArray(Request $request): array
     {
         $defJob = $this->defJob;
-
         return [
             "id" => $this->id,
             "title" => $defJob->title,
@@ -27,7 +26,8 @@ class RegJobResource extends JsonResource
             "company" => new CompanyResource($this->company),
             "accepted_individual" => new IndividualResource($this->acceptedIndividual),
             "competetors" => new RegJobCompetetorCollection($this->competetors),
-            "skills" => new SkillCollection($this->skills)
+            "skills" => new SkillCollection($this->skills),
+            "state_id"=>$this->$this->state_id
         ];
     }
 }
