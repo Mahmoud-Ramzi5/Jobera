@@ -40,9 +40,9 @@ class FreelancingJobPolicy
         return true;
     }
 
-    public function DeleteFreelancingJob(User $user, FreelancingJob $FreelancingJob)
+    public function DeleteFreelancingJob(User $user, FreelancingJob $freelancingJob)
     {
-        if ($user->id == $FreelancingJob->user_id) {
+        if ($user->id == $freelancingJob->user_id) {
             return true;
         }
         return false;
