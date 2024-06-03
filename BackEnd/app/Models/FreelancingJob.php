@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Model;
 
 class FreelancingJob extends Model
 {
@@ -23,8 +23,8 @@ class FreelancingJob extends Model
         'deadline',
         'avg_salary',
         'user_id',
-        'accepted_user',
-        'defJob_id'
+        'defJob_id',
+        'accepted_user'
     ];
 
     /**
@@ -44,9 +44,7 @@ class FreelancingJob extends Model
      */
     protected function casts(): array
     {
-        return [
-
-        ];
+        return [];
     }
 
     /* Relations */
@@ -69,8 +67,8 @@ class FreelancingJob extends Model
     {
         return $this->hasMany(FreelancingJobCompetetor::class, 'job_id', 'id');
     }
-    
-    public function skills():BelongsToMany
+
+    public function skills(): BelongsToMany
     {
         return $this->belongsToMany(Skill::class, 'freelancing_job_skill', 'job_id', 'skill_id')->withTimestamps();
     }

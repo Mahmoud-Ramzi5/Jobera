@@ -28,9 +28,10 @@ class ApplyFreelancingJobRequest extends FormRequest
         return [
             'job_id' => ['required'],
             'description' => ['required'],
-            'salary' => ['required', 'numeric',"between:{$job->min_salary},{$job->max_salary}"]
+            'salary' => ['required', 'numeric', "between:{$job->min_salary},{$job->max_salary}"]
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([

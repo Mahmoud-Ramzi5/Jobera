@@ -123,9 +123,9 @@ Route::controller(FreelancingJobsController::class)->group(function () {
         Route::post('/FreelancingJob/add', 'PostFreelancingJob');
         Route::get('/FreelancingJobs', 'ViewFreelancingJobs');
         Route::get('FreelancingJobs/{freelancingJob}', 'ShowFreelancingJob');
-        Route::get('FreelancingJobs/{FreelancingJob}/competetors', 'ViewFreelancingJobCompetetors');
+        Route::get('FreelancingJobs/{freelancingJob}/competetors', 'ViewFreelancingJobCompetetors');
         Route::post('/FreelancingJob/apply', 'ApplyFreelancingJob');
-        Route::delete('FreelancingJobs/{FreelancingJob}', 'DeleteFreelancingJob');
+        Route::delete('FreelancingJobs/{freelancingJob}', 'DeleteFreelancingJob');
     });
 });
 
