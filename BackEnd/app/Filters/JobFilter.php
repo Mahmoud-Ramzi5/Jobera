@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 class JobFilter
 {
     protected $safeParms = [
-        'company' => ['eq', 'like'],
+        'company_id' => ['eq'],
         'is_done' => ['eq'],
         'max_salary' => ['lte', 'gte', 'lt', 'gt'],
         'min_salary' => ['lte', 'gte', 'lt', 'gt'],

@@ -20,6 +20,7 @@ class DefJob extends Model
         'location',
         'photo',
         'is_done',
+        'state_id'
     ];
         /**
      * The attributes that should be hidden for serialization.
