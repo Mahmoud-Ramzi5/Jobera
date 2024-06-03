@@ -47,7 +47,7 @@ class FreelancingJobResource extends JsonResource
             "accepted_user" => $acceptedResource,
             "competetors" => new FreelancingJobCompetetorCollection($this->competetors),
             "skills" => new SkillCollection($this->skills),
-            "state_id"=>$this->$this->state_id
+            "state" => $defJob->state
         ];
     }
 }

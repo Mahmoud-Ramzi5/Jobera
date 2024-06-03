@@ -59,20 +59,23 @@ class DefJobsController extends Controller
             ], 401);
         }
 
-        // Get all jobs
+        // Get paginated jobs
         $count = 0;
         $jobs = [];
-        $defJobs = DefJob::where('id', '>=', $startIndex);
+        $defJobs = DefJob::where('id', '>=', $startIndex)->get();
         foreach ($defJobs as $defjob) {
-            while ($count < $dataSize) {
-                $regJob = RegJob::where('defJob_id', $defjob->id)->first();
-                $freelancingJob = FreelancingJob::where('defJob_id', $defjob->id)->first();
-                if ($regJob == null) {
-                    array_push($jobs, new FreelancingJobResource($freelancingJob));
-                } else {
-                    array_push($jobs, new RegJobResource($regJob));
-                }
-                $count += 1;
+            $regJob = RegJob::where('defJob_id', $defjob->id)->first();
+            $freelancingJob = FreelancingJob::where('defJob_id', $defjob->id)->first();
+            if ($regJob == null) {
+                array_push($jobs, new FreelancingJobResource($freelancingJob));
+            } else {
+                array_push($jobs, new RegJobResource($regJob));
+            }
+
+            // Break when reached what was requested
+            $count += 1;
+            if ($count >= $dataSize) {
+                break;
             }
         }
 
@@ -81,5 +84,4 @@ class DefJobsController extends Controller
             'jobs' => $jobs
         ], 200);
     }
-
 }

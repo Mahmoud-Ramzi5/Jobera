@@ -4,7 +4,7 @@ import { Card } from 'react-bootstrap';
 import img_holder from '../../assets/upload.png';
 import styles from './jobcard.module.css';
 
-const JobCard = () => {
+const JobCard = ({ JobData }) => {
     // Context
     //const { accessToken } = useContext(LoginContext);
     const [title, setTitle] = useState('');
@@ -41,8 +41,8 @@ const JobCard = () => {
         <div className={styles.container}>
             <div className={styles.row}>
                 <div className={styles.info}>
-                    <h5 className={styles.title}>the great job{title}</h5>
-                    <p className={styles.type}>Type: {type}</p>
+                    <h5 className={styles.title}>the great job{JobData.title}</h5>
+                    <p className={styles.type}>Type: {JobData.type}</p>
                     <p>Salary: ${salary}</p>
                     <p> Published by: { } </p>
                 </div>
