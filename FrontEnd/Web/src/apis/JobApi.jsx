@@ -1,8 +1,36 @@
 import axios from 'axios';
 
-export const FetchAllRegJobs = async (token) => {
+export const FetchFullTimeJobs = async (token) => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/api/regJobs', {
+      const response = await axios.get('http://127.0.0.1:8000/api/regJobs?type[eq]=FullTime', {
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': "application/json",
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      return response;
+    } catch (error) {
+      return error.response;
+    }
+  };
+  export const FetchPartTimeJobs = async (token) => {
+    try {
+      const response = await axios.get('http://127.0.0.1:8000/api/regJobs?type[eq]=PartTime', {
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': "application/json",
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      return response;
+    } catch (error) {
+      return error.response;
+    }
+  };
+  export const FetchRegJobsByCompany = async (token,type,company_id) => {
+    try {
+      const response = await axios.get(`http://127.0.0.1:8000/api/regJobs?type[eq]=${type}&company_id[eq]=${company_id}`, {
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'Accept': "application/json",

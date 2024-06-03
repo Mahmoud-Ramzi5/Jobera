@@ -27,7 +27,7 @@ class RegJobResource extends JsonResource
             "accepted_individual" => new IndividualResource($this->acceptedIndividual),
             "competetors" => new RegJobCompetetorCollection($this->competetors),
             "skills" => new SkillCollection($this->skills),
-            "state_id"=>$this->$this->state_id
+            "state_id"=>$this->state_id
         ];
     }
 }
