@@ -8,7 +8,7 @@ use App\Models\DefJob;
 use App\Models\FreelancingJob;
 use App\Models\FreelancingJobCompetetor;
 use App\Filters\JobFilter;
-use App\Policies\FreelancingjobPolicy;
+use App\Policies\FreelancingJobPolicy;
 use Illuminate\Http\Request;
 use App\Http\Requests\AddFreelancingJobRequest;
 use App\Http\Requests\ApplyFreelancingJobRequest;
