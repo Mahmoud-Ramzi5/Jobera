@@ -1,4 +1,6 @@
 .container {
+    top:75px;
+    margin-bottom: 100px;
     display: flex;
     text-align: center;
     align-items: center;
@@ -8,7 +10,7 @@
 
 .screen {
     position: relative;
-    height: 960px;
+    height: 1280px;
     width: 960px;
     border-radius: 10px;
     background-color: var(--color-scrollbar-track2);
@@ -130,11 +132,11 @@
     object-fit: fill;
 }
 
-.register__field__radio {    
+.register__field__radio {
     padding: 20px 0px;
     width: 100%;
     display: flex;
-    position: relative;  
+    position: relative;
 }
 
 .register__input__radio {
@@ -143,6 +145,93 @@
     font-weight: 500;
     width: 35%;
     color: var(--color-foreground);
-    text-decoration: inherit;  
+    text-decoration: inherit;
     accent-color: #4F6E95;
+}
+
+.register__row {
+    display: flex;
+    position: relative;   
+}
+
+.date{
+    padding-top: 20px;
+}
+
+.heading {
+    display: flex;
+    position: relative;
+    width: 100%;
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.skills {
+    width: 100%;
+    position: relative;
+    padding-top: 30px;
+    padding-bottom: 10px;
+}
+
+.skills input {
+    border: none;
+    background: none;
+    color: var(--color-foreground);
+    padding-left: 24px;
+    padding-bottom: 8px;
+    width: 80%;
+    font-size: 15px;
+    font-weight: 700;
+    transition: .2s;
+}
+
+.skills p {
+    border: none;
+    background: none;
+    border-bottom: 1px dotted #A5A5A8;
+    color: var(--color-foreground);
+    margin-left: 69px;
+    margin-bottom: 23px;
+    width: 69%;
+}
+
+.skills select {
+    border: none;
+    border-bottom: 2px solid #A5A5A8;
+    background: none;
+    color: var(--color-foreground);
+    padding-left: 24px;
+    padding-bottom: 8px;
+    width: 80%;
+    height: 200px;
+    font-size: 15px;
+    font-weight: 700;
+    transition: .2s;
+}
+
+.skills input:active,
+.skills select:active,
+.skills input:focus,
+.skills select:focus,
+.skills input:hover,
+.skills select:hover {
+    outline: none;
+    border-bottom-color: #4F6E95;
+}
+
+.choosed_skills {
+    width: 100%;
+    position: relative;
+    padding-top: 15px;
+    padding-bottom: 10px;
+}
+
+.choosed_skill {
+    width: 80%;
+    border: 1px;
+    border-radius: 10px;
+    border-style: dashed;
+    border-color: #302f2f;
+    margin: 5px 1px;
 }

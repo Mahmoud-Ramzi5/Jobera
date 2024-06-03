@@ -93,19 +93,19 @@ function App() {
   }, []);
 
   useEffect(() => {
-      if (loggedIn && accessToken) {
-        setIsLoading(true);
-        FetchUserProfile(accessToken).then((response) => {
-          if (response.status === 200) {
-            setProfile(response.data.user);
-          }
-          else {
-            console.log(response.statusText);
-          }
-        }).then(() => {
-          setIsLoading(false);
-        });
-      }
+    if (loggedIn && accessToken) {
+      setIsLoading(true);
+      FetchUserProfile(accessToken).then((response) => {
+        if (response.status === 200) {
+          setProfile(response.data.user);
+        }
+        else {
+          console.log(response.statusText);
+        }
+      }).then(() => {
+        setIsLoading(false);
+      });
+    }
   }, [loggedIn]);
 
   useEffect(() => {
@@ -120,41 +120,41 @@ function App() {
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
       <LoginContext.Provider value={{ loggedIn, setLoggedIn, accessToken, setAccessToken }}>
         <ProfileContext.Provider value={{ profile, setProfile }}>
-        <BrowserRouter>
-          <Routes>
-            <Route element={<Layout />}>
-              <Route path="/" element={<Index />} />
-              <Route element={<PrivateRoutes />}>
-                <Route path="/complete-register" element={<Register2 />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/edit-skills" element={<SkillsForm />} />
-                <Route path="/education" element={<EducationForm />} />
-                <Route path="/certificates" element={<Certificates />} />
-                <Route path="/edit-certificate" element={<CertificateForm />} />
-                <Route path="/portfolios" element={<Portfolios />} />
-                <Route path="/portfolio/:id" element={<ShowPortfolio />} />
-                <Route path="/edit-portfolio" element={<EditPortfolio />} />
-                <Route path="/dashboard" element={<></>} />
-                <Route path="/logout" element={<Logout />} />
-                <Route path="/FileTest" element={<FileInputTest/>}/>
-                <Route path='/Test' element={<JobCard/>}/>
-                <Route path='/Test2' element={<ShowJob/>}/>
+          <BrowserRouter>
+            <Routes>
+              <Route element={<Layout />}>
+                <Route path="/" element={<Index />} />
+                <Route element={<PrivateRoutes />}>
+                  <Route path="/complete-register" element={<Register2 />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/edit-skills" element={<SkillsForm />} />
+                  <Route path="/education" element={<EducationForm />} />
+                  <Route path="/certificates" element={<Certificates />} />
+                  <Route path="/edit-certificate" element={<CertificateForm />} />
+                  <Route path="/portfolios" element={<Portfolios />} />
+                  <Route path="/portfolio/:id" element={<ShowPortfolio />} />
+                  <Route path="/edit-portfolio" element={<EditPortfolio />} />
+                  <Route path="/dashboard" element={<></>} />
+                  <Route path="/logout" element={<Logout />} />
+                  <Route path="/FileTest" element={<FileInputTest />} />
+                  <Route path='/job' element={<PostJob />} />
+                  <Route path='/freelancing' element={<PostFreelancing />} />
+                  <Route path='/Test' element={<JobCard />} />
+                  <Route path='/Test2' element={<ShowJob />} />
+                </Route>
               </Route>
-            </Route>
 
-            <Route element={<AnonymousRoutes />}>
-              <Route path="/register" element={<Register />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/auth/:provider/call-back" element={<CallBack />} />
-              <Route path="/reset-password" element={<ResetPassword />} />
-              <Route path="/ForgetPassword" element={<ForgotPassword />} />
-              <Route path="/emailVerify" element={<EmailVerificationMessage />} />
-              <Route path='/file' element={< FileDisplay />} />
-              <Route path='/job' element={<PostJob/>}/>
-              <Route path='/freelancing' element={<PostFreelancing/>}/>
-            </Route>
-          </Routes>
-        </BrowserRouter>
+              <Route element={<AnonymousRoutes />}>
+                <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/auth/:provider/call-back" element={<CallBack />} />
+                <Route path="/reset-password" element={<ResetPassword />} />
+                <Route path="/ForgetPassword" element={<ForgotPassword />} />
+                <Route path="/emailVerify" element={<EmailVerificationMessage />} />
+                <Route path='/file' element={< FileDisplay />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
         </ProfileContext.Provider>
       </LoginContext.Provider>
     </ThemeContext.Provider>
