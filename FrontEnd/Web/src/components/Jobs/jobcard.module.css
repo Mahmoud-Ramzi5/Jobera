@@ -1,9 +1,9 @@
-.container{
-    height:150px;
-    background-color: cadetblue;
+.container {
+    height: 150px;
+    background: blueviolet;
 }
 
-.row{
+.row {
     width: 100%;
     padding-top: 5px;
     display: flex;
@@ -11,35 +11,23 @@
     justify-content: space-between;
 }
 
-.info{
-    width:66%;
-    margin-left:0.5%;
-    color:black;
+.info {
+    padding-left: 25px;
+    width: 75%;
+    color: black;
 }
 
-.title{
-
+.imageholder {
+    width: 25%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center ;
 }
 
-.description{
-
-}
-
-.salary{
-    
-}
-
-.imageholder{
-    width:33%;
-    position:relative;
-    margin-right:0.5%;
-}
-
-.image{
-        width: 100px;
-        height: 100px;
-        object-fit: fill;
-        border-radius: 10px;
-        margin-left:70%;
-        margin-bottom: 1%;
+.image {
+    width: 100px;
+    height: 100px;
+    object-fit: fill;
+    border-radius: 10px;
 }

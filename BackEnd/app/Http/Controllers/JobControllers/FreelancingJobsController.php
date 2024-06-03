@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\JobControllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\DefJob;
 use App\Models\User;
+use App\Models\DefJob;
 use App\Models\FreelancingJob;
 use App\Models\FreelancingJobCompetetor;
 use App\Filters\JobFilter;
@@ -35,8 +35,8 @@ class FreelancingJobsController extends Controller
         }
 
         $validated['user_id'] = $user->id;
-        $job=DefJob::create($validated);
-        $validated['defJob_id']=$job->id;
+        $job = DefJob::create($validated);
+        $validated['defJob_id'] = $job->id;
         $Freelancingjob = FreelancingJob::create($validated);
         $Freelancingjob->skills()->attach($validated['skills']);
 

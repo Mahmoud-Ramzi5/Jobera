@@ -17,7 +17,7 @@ class RegJobResource extends JsonResource
         $defJob = $this->defJob;
 
         return [
-            "id" => $defJob->id,
+            "id" => $this->id,
             "title" => $defJob->title,
             "description" => $defJob->description,
             "photo" => $defJob->photo,
@@ -27,7 +27,7 @@ class RegJobResource extends JsonResource
             "company" => new CompanyResource($this->company),
             "accepted_individual" => new IndividualResource($this->acceptedIndividual),
             "competetors" => new RegJobCompetetorCollection($this->competetors),
-            "skills"=>new SkillCollection($this->skills)
+            "skills" => new SkillCollection($this->skills)
         ];
     }
 }

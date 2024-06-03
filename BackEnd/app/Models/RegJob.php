@@ -21,8 +21,8 @@ class RegJob extends Model
         'salary',
         'type',
         'company_id',
-        'accepted_individual',
-        'defJob_id'
+        'defJob_id',
+        'accepted_individual'
     ];
 
     /**
@@ -42,9 +42,7 @@ class RegJob extends Model
      */
     protected function casts(): array
     {
-        return [
-
-        ];
+        return [];
     }
 
     /* Relations */
@@ -68,7 +66,7 @@ class RegJob extends Model
         return $this->hasMany(RegJobCompetetor::class, 'job_id', 'id');
     }
 
-    public function skills():BelongsToMany
+    public function skills(): BelongsToMany
     {
         return $this->belongsToMany(Skill::class, 'reg_job_skill', 'job_id', 'skill_id')->withTimestamps();
     }

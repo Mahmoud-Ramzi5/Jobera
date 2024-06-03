@@ -30,6 +30,7 @@ import FileInputTest from './components/FileInputTest.jsx';
 import PostJob from './components/Jobs/PostJob.jsx';
 import PostFreelancing from './components/Jobs/PostFreelancing.jsx';
 import JobCard from './components/Jobs/JobCard.jsx';
+import ShowJob from './components/Jobs/ShowJob.jsx';
 
 function App() {
   const initialized = useRef(false);
@@ -136,6 +137,8 @@ function App() {
                 <Route path="/dashboard" element={<></>} />
                 <Route path="/logout" element={<Logout />} />
                 <Route path="/FileTest" element={<FileInputTest/>}/>
+                <Route path='/Test' element={<JobCard/>}/>
+                <Route path='/Test2' element={<ShowJob/>}/>
               </Route>
             </Route>
 
@@ -149,7 +152,6 @@ function App() {
               <Route path='/file' element={< FileDisplay />} />
               <Route path='/job' element={<PostJob/>}/>
               <Route path='/freelancing' element={<PostFreelancing/>}/>
-              <Route path='/Test' element={<JobCard/>}/>
             </Route>
           </Routes>
         </BrowserRouter>
