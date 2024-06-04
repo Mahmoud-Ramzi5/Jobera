@@ -36,6 +36,8 @@ class UserAddPortofolioView extends StatelessWidget {
                 builder: (controller) => Padding(
                   padding: const EdgeInsets.all(10),
                   child: ProfilePhotoContainer(
+                    height: 150,
+                    width: 150,
                     child: controller.image == null
                         ? GestureDetector(
                             onTap: () => Dialogs().addPhotoDialog(

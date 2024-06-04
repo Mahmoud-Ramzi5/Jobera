@@ -59,8 +59,16 @@ class LogoContainer extends StatelessWidget {
 class ProfilePhotoContainer extends StatelessWidget {
   final void Function()? onTap;
   final Widget? child;
+  final double? height;
+  final double? width;
 
-  const ProfilePhotoContainer({super.key, this.onTap, this.child});
+  const ProfilePhotoContainer({
+    super.key,
+    this.onTap,
+    this.child,
+    this.height,
+    this.width,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -68,8 +76,8 @@ class ProfilePhotoContainer extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(10),
-        height: 150,
-        width: 150,
+        height: height,
+        width: width,
         decoration: ShapeDecoration(
           shape: BeveledRectangleBorder(
             borderRadius: const BorderRadius.all(
@@ -212,12 +220,12 @@ class InfoWithEditContainer extends StatelessWidget {
 }
 
 class SkillsContainer extends StatelessWidget {
-  final String name;
+  final String? name;
   final Widget widget;
 
   const SkillsContainer({
     super.key,
-    required this.name,
+    this.name,
     required this.widget,
   });
 
@@ -240,7 +248,7 @@ class SkillsContainer extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  BodyText(text: '$name:'),
+                  BodyText(text: name.toString()),
                 ],
               ),
             ),

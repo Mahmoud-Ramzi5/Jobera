@@ -56,12 +56,12 @@ class UserEditCertificatesController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.0.100:8000/api/certificates',
+        'http://192.168.43.23:8000/api/certificates',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
+            'Accept': "application/json",
+            'Authorization': 'Bearer $token'
           },
         ),
       );
@@ -97,12 +97,12 @@ class UserEditCertificatesController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.delete(
-        'http://192.168.0.100:8000/api/certificates/$id',
+        'http://192.168.43.23:8000/api/certificates/$id',
         options: Options(
           headers: {
-            'Content-Type': 'multipart/form-data; charset=UTF-8',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': "application/json",
+            'Authorization': 'Bearer $token'
           },
         ),
       );
@@ -143,7 +143,7 @@ class UserEditCertificatesController extends GetxController {
     );
     try {
       var response = await dio.post(
-        'http://192.168.0.100:8000/api/certificate/edit/$id',
+        'http://192.168.43.23:8000/api/certificate/edit/$id',
         data: data,
         options: Options(
           headers: {

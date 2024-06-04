@@ -8,7 +8,7 @@ import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
 
 class UserEditCertificatesView extends StatelessWidget {
-  final UserEditCertificatesController _controller =
+  final UserEditCertificatesController _editController =
       Get.put(UserEditCertificatesController());
 
   UserEditCertificatesView({super.key});
@@ -29,8 +29,8 @@ class UserEditCertificatesView extends StatelessWidget {
         ],
       ),
       body: RefreshIndicator(
-        key: _controller.refreshIndicatorKey,
-        onRefresh: () => _controller.fetchCertificates(),
+        key: _editController.refreshIndicatorKey,
+        onRefresh: () => _editController.fetchCertificates(),
         child: GetBuilder<UserEditCertificatesController>(
           builder: (controller) => ListView.builder(
             itemCount: controller.certificates.length,
@@ -91,7 +91,7 @@ class UserEditCertificatesView extends StatelessWidget {
                             IconButton(
                               onPressed: () => Dialogs().confirmDialog(
                                 'Notice:',
-                                'Are you sure you want to delete File?',
+                                'Are you sure you want to delete Certificate?',
                                 () {
                                   controller.deleteCertificate(
                                     controller.certificates[index].id,
@@ -100,7 +100,7 @@ class UserEditCertificatesView extends StatelessWidget {
                                 },
                               ),
                               icon: const Icon(
-                                Icons.cancel,
+                                Icons.delete,
                                 color: Colors.red,
                               ),
                             ),
@@ -115,7 +115,7 @@ class UserEditCertificatesView extends StatelessWidget {
                     },
                     children: [
                       Form(
-                        key: _controller.formField,
+                        key: _editController.formField,
                         child: Column(
                           children: [
                             Padding(
