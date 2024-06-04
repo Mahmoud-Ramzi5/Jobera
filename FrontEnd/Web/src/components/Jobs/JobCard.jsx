@@ -2,7 +2,7 @@
 import { useState, useContext } from 'react';
 import { Card } from 'react-bootstrap';
 import img_holder from '../../assets/upload.png';
-import styles from './jobcard.module.css';
+import styles from './css/jobcard.module.css';
 
 const JobCard = ({ JobData }) => {
     // Context
