@@ -31,6 +31,7 @@ import PostJob from './components/Jobs/PostJob.jsx';
 import PostFreelancing from './components/Jobs/PostFreelancing.jsx';
 import JobCard from './components/Jobs/JobCard.jsx';
 import ShowJob from './components/Jobs/ShowJob.jsx';
+import Jobs from './components/Jobs/Jobs.jsx';
 
 function App() {
   const initialized = useRef(false);
@@ -141,6 +142,7 @@ function App() {
                   <Route path='/freelancing' element={<PostFreelancing />} />
                   <Route path='/Test' element={<JobCard />} />
                   <Route path='/Test2' element={<ShowJob />} />
+                  <Route path='/Test3' element={<Jobs />} />
                 </Route>
               </Route>
 

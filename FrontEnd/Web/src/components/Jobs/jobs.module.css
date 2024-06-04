@@ -1,0 +1,10 @@
+.screen {
+    top: 75px;
+    position: relative;
+    margin-bottom: 100px;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
