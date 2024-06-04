@@ -35,6 +35,7 @@ class FreelancingJobResource extends JsonResource
         }
         return [
             "id" => $this->id,
+            "defJob_id"=>$defJob->id,
             "title" => $defJob->title,
             "description" => $defJob->description,
             "photo" => $defJob->photo,

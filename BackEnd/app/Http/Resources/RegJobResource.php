@@ -17,6 +17,7 @@ class RegJobResource extends JsonResource
         $defJob = $this->defJob;
         return [
             "id" => $this->id,
+            "defJob_id"=>$defJob->id,
             "title" => $defJob->title,
             "description" => $defJob->description,
             "photo" => $defJob->photo,
