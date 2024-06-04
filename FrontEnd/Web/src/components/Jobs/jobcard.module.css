@@ -1,11 +1,17 @@
 .container {
-    height: 150px;
-    background: blueviolet;
+    height: 180px;
+    width:90%;
+    margin-left: 5%;
+    border:3px;
+    border-radius: 20px;
+    border-style: outset;
+    border-color: var(--color-rating);
+    margin-top: 3px;
 }
 
 .row {
     width: 100%;
-    padding-top: 5px;
+    padding-top: 30px;
     display: flex;
     position: relative;
     justify-content: space-between;
@@ -13,8 +19,30 @@
 
 .info {
     padding-left: 25px;
-    width: 75%;
-    color: black;
+    padding-top: 5px;
+    width: 30%;
+    color: var(--color-button);
+}
+
+.secondcolumn{
+    width: 45%;
+    padding-top: 5px;
+    color: var(--color-button);
+}
+
+.title{
+    padding: 5px;
+    font-weight: 500;
+    font-size: 1.4em;
+    margin-bottom: 10px;
+    color: var(--color-title);
+}
+
+.salary{
+    padding: 5px;
+    font-weight: 500;
+    font-size: 1.3em;
+
 }
 
 .imageholder {
