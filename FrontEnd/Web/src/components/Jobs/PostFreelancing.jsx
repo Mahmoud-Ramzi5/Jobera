@@ -8,7 +8,7 @@ import NormalInput from '../NormalInput.jsx';
 import img_holder from '../../assets/upload.png';
 import styles from './job.module.css';
 import Inputstyles from '../../styles/Input.module.css';
-
+import { AddFreelancingJobAPI } from '../../apis/JobsApis.jsx';
 
 const PostFreelancing = () => {
     // Context
@@ -27,7 +27,7 @@ const PostFreelancing = () => {
     const [deadline, setDeadline] = useState('');
     const [needLocation, setNeedLocation] = useState('Remotly');
     const locations = [
-        { value: 'Remottly', label: 'Remotly' },
+        { value: 'Remotly', label: 'Remotly' },
         { value: 'Location', label: 'Location' },
     ];
     const [countries, setCountries] = useState([]);
@@ -66,29 +66,21 @@ const PostFreelancing = () => {
 
     const handleCreate = (event) => {
         event.preventDefault();
-        console.log(
-            accessToken,
-            title,
-            description,
-            photo,
-            minSalary,
-            maxSalary,
-            deadline,
-            state,
-            SkillIds
-        );
 
-        // AddJobAPI(
-        //     accessToken,
-        //     title,
-        //     description,
-        //     photo,
-        //     minSalary,
-        //     maxSalary
-        //     deadline,
-        // ).then((response) => {
-        //     if (response.status === 201) {
-        //         console.log(response.data);
+         AddFreelancingJobAPI(
+             accessToken,
+             title,
+             description,
+             state,
+             minSalary,
+             maxSalary,
+             photo,
+             deadline,
+             SkillIds
+         ).then((response) => {
+            //console.log(response);
+             if (response.status === 201) {
+                 console.log(response.data);
 
         // Reset the form fields
         setTitle("");
@@ -103,10 +95,10 @@ const PostFreelancing = () => {
         setSkillIds([]);
 
         navigate('/');
-        //     } else {
-        //         console.log(response.statusText);
-        //     }
-        // });
+             } else {
+                 console.log(response.statusText);
+             }
+         });
     };
 
 
