@@ -1,0 +1,47 @@
+.CompetetorCard {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .CompetetorCardContent {
+    display: flex;
+  }
+  .namer{
+    display: flex;
+  }
+  .photoContainer {
+    width: 100px;
+    height: 100px;
+    margin-right: 16px;
+  }
+  
+  .photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
+  
+  .info_container {
+    flex: 1;
+  }
+  
+  .name {
+    position: relative;
+  }
+  
+  .salary {
+    margin-top: 8px;
+    margin-left: 80px;
+  }
+  
+  .CompetetorDescription {
+    margin-top: 8px;
+  }
+  
+  .CompetetorRating {
+    margin-top: 8px;
+    position: relative;
+    margin-left: 30px;
+  }

@@ -2,7 +2,7 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { LoginContext } from '../../utils/Contexts';
 import { GetSpecificJobs } from '../../apis/JobsApis';
 import JobCard from './JobCard.jsx';
-import styles from './jobs.module.css';
+import styles from './css/jobs.module.css';
 
 
 const Jobs = () => {

@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import { LoginContext } from '../../utils/Contexts';
 import img_holder from '../../assets/upload.png';
-import styles from './showjob.module.css';
+import styles from './css/showjob.module.css';
 
 const ShowJob = () => {
     const { accessToken } = useContext(LoginContext);
