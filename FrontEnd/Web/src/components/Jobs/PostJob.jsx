@@ -8,7 +8,7 @@ import NormalInput from '../NormalInput.jsx';
 import img_holder from '../../assets/upload.png';
 import styles from './job.module.css';
 import Inputstyles from '../../styles/Input.module.css';
-
+import {AddRegJobAPI} from '../../apis/JobsApis.jsx';
 
 const PostJob = () => {
     // Context
@@ -24,8 +24,8 @@ const PostJob = () => {
     const [salary, setSalary] = useState('');
     const [type, setType] = useState(null);
     const types = [
-        { value: 'FULL_TIME', label: 'Full_Time' },
-        { value: 'PART_TIME', label: 'Part_Time' },
+        { value: 'FullTime', label: 'Full_Time' },
+        { value: 'PartTime', label: 'Part_Time' },
     ];
     const [needLocation, setNeedLocation] = useState('Remotly');
     const locations = [
@@ -79,16 +79,18 @@ const PostJob = () => {
             SkillIds
         );
 
-        // AddJobAPI(
-        //     accessToken,
-        //     title,
-        //     description,
-        //     photo,
-        //     salary,
-        //     type
-        // ).then((response) => {
-        //     if (response.status === 201) {
-        //         console.log(response.data);
+         AddRegJobAPI(
+             accessToken,
+             title,
+             description,
+             state,  
+             salary,
+             photo,
+             type,
+             SkillIds
+         ).then((response) => {
+             if (response.status === 201) {
+                 console.log(response.data);
 
         // Reset the form fields
         setTitle("");
@@ -102,10 +104,10 @@ const PostJob = () => {
         setSkillIds([]);
 
         navigate('/');
-        //     } else {
-        //         console.log(response.statusText);
-        //     }
-        // });
+             } else {
+                 console.log(response.statusText);
+             }
+         });
     };
 
     const handleCountrySelect = (event) => {
