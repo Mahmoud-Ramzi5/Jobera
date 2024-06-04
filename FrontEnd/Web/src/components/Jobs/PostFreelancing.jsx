@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Fonts, PencilSquare, CurrencyDollar, Calendar3, GeoAltFill, Globe } from 'react-bootstrap-icons';
 import { LoginContext } from '../../utils/Contexts.jsx';
 import { FetchAllSkills, SearchSkills, FetchCountries, FetchStates } from '../../apis/AuthApis.jsx';
+import { AddFreelancingJobAPI } from '../../apis/JobsApis.jsx';
 // import { AddJobAPI } from '../../apis/ProfileApis.jsx';
 import NormalInput from '../NormalInput.jsx';
 import img_holder from '../../assets/upload.png';
@@ -27,7 +28,7 @@ const PostFreelancing = () => {
     const [deadline, setDeadline] = useState('');
     const [needLocation, setNeedLocation] = useState('Remotly');
     const locations = [
-        { value: 'Remottly', label: 'Remotly' },
+        { value: 'Remotly', label: 'Remotly' },
         { value: 'Location', label: 'Location' },
     ];
     const [countries, setCountries] = useState([]);
@@ -66,272 +67,281 @@ const PostFreelancing = () => {
 
     const handleCreate = (event) => {
         event.preventDefault();
-        console.log(
-            accessToken,
-            title,
-            description,
-            photo,
-            minSalary,
-            maxSalary,
-            deadline,
-            state,
-            SkillIds
-        );
-
-        // AddJobAPI(
+        let state_id;
+        if (needLocation == 'Remotly') {
+            state_id = 0;
+        } else {
+            state_id = state;
+        }
+        // console.log(
         //     accessToken,
         //     title,
         //     description,
         //     photo,
         //     minSalary,
-        //     maxSalary
+        //     maxSalary,
         //     deadline,
-        // ).then((response) => {
-        //     if (response.status === 201) {
-        //         console.log(response.data);
+        //     state_id,
+        //     SkillIds
+        // );
 
-        // Reset the form fields
-        setTitle("");
-        setDescription("");
-        setPhoto("");
-        setMinSalary("");
-        setMaxSalary("");
-        setDeadline("");
-        setCountry('');
-        setState('');
-        setJobSkills([]);
-        setSkillIds([]);
+        AddFreelancingJobAPI(
+            accessToken,
+            title,
+            description,
+            state_id,
+            minSalary,
+            maxSalary,
+            photo,
+            SkillIds,
+            deadline,
+        ).then((response) => {
+            console.log(response);
+            if (response.status === 201) {
+                console.log(response.data);
 
-        navigate('/');
-        //     } else {
-        //         console.log(response.statusText);
-        //     }
-        // });
-    };
+                // Reset the form fields
+                setTitle("");
+                setDescription("");
+                setPhoto("");
+                setMinSalary("");
+                setMaxSalary("");
+                setDeadline("");
+                setCountry('');
+                setState('');
+                setJobSkills([]);
+                setSkillIds([]);
 
-
-    const handleCountrySelect = (event) => {
-        setCountry(event.target.value);
-
-        // Api Call
-        FetchStates(event.target.value).then((response) => {
-            if (response.status === 200) {
-                setStates(response.data.states);
-            }
-            else {
-                console.log(response.statusText);
-            }
-        });
-    }
-
-    const SearchSkill = (skill) => {
-        setSearchSkill(skill);
-        SearchSkills(skill).then((response) => {
-            if (response.status === 200) {
-                setSkills(response.data.skills);
-                response.data.skills.forEach((skill) => {
-                    if (!checked[skill.id]) {
-                        setChecked((prevState) => ({ ...prevState, [skill.id]: false }));
+                navigate('/');
+                    } else {
+                        console.log(response);
                     }
                 });
-            } else {
-                console.log(response.statusText);
+            };
+
+
+            const handleCountrySelect = (event) => {
+                setCountry(event.target.value);
+
+                // Api Call
+                FetchStates(event.target.value).then((response) => {
+                    if (response.status === 200) {
+                        setStates(response.data.states);
+                    }
+                    else {
+                        console.log(response.statusText);
+                    }
+                });
             }
-        });
-    }
 
-    const AddSkill = (event, index) => {
-        event.persist();
-        setChecked((prevState) => ({ ...prevState, [index]: true }));
-        setSkillIds((prevState) => [...prevState, index]);
-        setJobSkills((prevState) => [...prevState,
-        {
-            id: index,
-            name: event.target.value,
-        }
-        ]);
-        setSkillCount((prevState) => (prevState > 0 ? --prevState : prevState));
-    };
+            const SearchSkill = (skill) => {
+                setSearchSkill(skill);
+                SearchSkills(skill).then((response) => {
+                    if (response.status === 200) {
+                        setSkills(response.data.skills);
+                        response.data.skills.forEach((skill) => {
+                            if (!checked[skill.id]) {
+                                setChecked((prevState) => ({ ...prevState, [skill.id]: false }));
+                            }
+                        });
+                    } else {
+                        console.log(response.statusText);
+                    }
+                });
+            }
 
-    const RemoveSkill = (event, index) => {
-        event.persist();
-        setChecked((prevState) => ({ ...prevState, [index]: false }));
-        setSkillIds((prevState) => prevState.filter((id) => id !== index));
-        setJobSkills((prevState) => prevState.filter((skill) => skill.name !== event.target.value));
-        setSkillCount((prevState) => (prevState >= 0 ? ++prevState : prevState));
-    };
+            const AddSkill = (event, index) => {
+                event.persist();
+                setChecked((prevState) => ({ ...prevState, [index]: true }));
+                setSkillIds((prevState) => [...prevState, index]);
+                setJobSkills((prevState) => [...prevState,
+                {
+                    id: index,
+                    name: event.target.value,
+                }
+                ]);
+                setSkillCount((prevState) => (prevState > 0 ? --prevState : prevState));
+            };
 
-    return (
-        <div className={styles.container}>
-            <div className={styles.screen}>
-                <div className={styles.screen_content}>
-                    <h2 className={styles.heading}>{'Add a job'}</h2>
-                    <form className={styles.form} onSubmit={handleCreate}>
-                        <div className={styles.row}>
-                            <div className={styles.column}>
-                                <NormalInput
-                                    type='text'
-                                    placeholder='Title'
-                                    icon={<Fonts />}
-                                    value={title}
-                                    setChange={setTitle}
-                                />
-                                <div className={Inputstyles.field}>
-                                    <i className={Inputstyles.icon}><PencilSquare /></i>
-                                    <textarea
-                                        placeholder='Description'
-                                        value={description}
-                                        onChange={(event) => setDescription(event.target.value)}
-                                        className={Inputstyles.input}
-                                        rows='10'
-                                    />
-                                </div>
-                                <NormalInput
-                                    type='number'
-                                    placeholder='Min Salary'
-                                    icon={<CurrencyDollar />}
-                                    value={minSalary}
-                                    setChange={setMinSalary}
-                                />
-                                <NormalInput
-                                    type='number'
-                                    placeholder='Max Salary'
-                                    icon={<CurrencyDollar />}
-                                    value={maxSalary}
-                                    setChange={setMaxSalary}
-                                />
-                                <div className={styles.date}>
-                                    <h6>Deadline</h6>
-                                    <NormalInput
-                                        type='date'
-                                        placeholder='Deadline'
-                                        icon={<Calendar3 />}
-                                        value={deadline}
-                                        setChange={setDeadline}
-                                    />
-                                </div>
-                            </div>
-                            <div className={styles.column}>
-                                <div className={Inputstyles.field}>
-                                    <label htmlFor='photo' className={styles.img_holder}>
-                                        {photo ? (
-                                            <img src={URL.createObjectURL(photo)} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} />
-                                        ) : (
-                                            <img src={img_holder} alt="Photo Placeholder" style={{ pointerEvents: 'none' }} />
-                                        )}
-                                    </label>
-                                    <input
-                                        id='photo'
-                                        type='file'
-                                        placeholder='Photo'
-                                        accept='.png,.jpg,.jpeg'
-                                        onChange={(event) => {
-                                            setPhoto(event.target.files[0]);
-                                        }}
-                                        style={{ visibility: 'hidden' }}
-                                    />
-                                </div>
-                            </div>
-                        </div>
-                        <div className={styles.register__field__radio}>
-                            {locations.map((T) => (
-                                <div className={styles.register__input__radio} key={T.value}>
-                                    <input
-                                        type="radio"
-                                        value={T.value}
-                                        checked={needLocation === T.value}
-                                        onChange={(event) => setNeedLocation(event.target.value)}
-                                    />
-                                    <label>{T.label}</label>
-                                </div>
-                            ))}
-                        </div>
-                        {needLocation == 'Location' ? (
-                            <div className={styles.register__row}>
-                                <div className={Inputstyles.field}>
-                                    <i className={Inputstyles.icon}><Globe /></i>
-                                    <select onChange={handleCountrySelect} value={country} className={Inputstyles.input} required>
-                                        <option key={0} value='' disabled>Country</option>
-                                        {(countries.length === 0) ? <></> : countries.map((country) => {
-                                            return <option key={country.country_id} value={country.country_name} className={Inputstyles.option}>{country.country_name}</option>
-                                        })}
-                                    </select>
-                                </div>
-                                <div className={Inputstyles.field}>
-                                    <i className={Inputstyles.icon}><GeoAltFill /></i>
-                                    <select onChange={(event) => setState(event.target.value)} value={state} className={Inputstyles.input} required>
-                                        <option key={0} value='' disabled>City</option>
-                                        {(states.length === 0) ? <></> : states.map((state) => {
-                                            return <option key={state.state_id} value={state.state_id} className={Inputstyles.option}>{state.state_name}</option>
-                                        })}
-                                    </select>
-                                </div>
-                            </div>) :
-                            (<></>)}
-                        <h4 className={styles.heading}>Skills wanted:</h4>
-                        <div className={styles.row}>
-                            <div className={styles.column}>
-                                <div className={styles.skills}>
-                                    <input
-                                        type="text"
-                                        placeholder="Search skill"
-                                        value={searchSkill}
-                                        onChange={(event) => SearchSkill(event.target.value)}
-                                    />
-                                    <p></p>
-                                    <select multiple disabled={skillCount === 0}>
-                                        {skills.length === 0 ? (
-                                            <option
-                                                key='0'
-                                                value=''
-                                                disabled={true}
-                                            >
-                                                Skill not found
-                                            </option>
-                                        ) : (
-                                            skills.map((skill) => (
-                                                <option
-                                                    key={skill.id}
-                                                    value={skill.name}
-                                                    onClick={(event) => AddSkill(event, skill.id)}
-                                                    hidden={checked[skill.id]}
-                                                    disabled={checked[skill.id] || skillCount === 0}
-                                                >
-                                                    {skill.name}
-                                                </option>
-                                            ))
-                                        )}
-                                    </select>
-                                </div>
-                            </div>
-                            <div className={styles.column}>
-                                <div className={styles.skills}>
-                                    <span> Skills left: {skillCount}</span>
-                                    {jobSkills.length === 0 ? <></> :
-                                        <div className={styles.choosed_skills}>
-                                            {jobSkills.map((skill) => (
-                                                <button
-                                                    className={styles.choosed_skill}
-                                                    key={skill.id}
-                                                    value={skill.name}
-                                                    onClick={(event) => RemoveSkill(event, skill.id)}
-                                                >
-                                                    {skill.name}
-                                                </button>
-                                            ))}
+            const RemoveSkill = (event, index) => {
+                event.persist();
+                setChecked((prevState) => ({ ...prevState, [index]: false }));
+                setSkillIds((prevState) => prevState.filter((id) => id !== index));
+                setJobSkills((prevState) => prevState.filter((skill) => skill.name !== event.target.value));
+                setSkillCount((prevState) => (prevState >= 0 ? ++prevState : prevState));
+            };
+
+            return (
+                <div className={styles.container}>
+                    <div className={styles.screen}>
+                        <div className={styles.screen_content}>
+                            <h2 className={styles.heading}>{'Add a job'}</h2>
+                            <form className={styles.form} onSubmit={handleCreate}>
+                                <div className={styles.row}>
+                                    <div className={styles.column}>
+                                        <NormalInput
+                                            type='text'
+                                            placeholder='Title'
+                                            icon={<Fonts />}
+                                            value={title}
+                                            setChange={setTitle}
+                                        />
+                                        <div className={Inputstyles.field}>
+                                            <i className={Inputstyles.icon}><PencilSquare /></i>
+                                            <textarea
+                                                placeholder='Description'
+                                                value={description}
+                                                onChange={(event) => setDescription(event.target.value)}
+                                                className={Inputstyles.input}
+                                                rows='10'
+                                            />
                                         </div>
-                                    }
+                                        <NormalInput
+                                            type='number'
+                                            placeholder='Min Salary'
+                                            icon={<CurrencyDollar />}
+                                            value={minSalary}
+                                            setChange={setMinSalary}
+                                        />
+                                        <NormalInput
+                                            type='number'
+                                            placeholder='Max Salary'
+                                            icon={<CurrencyDollar />}
+                                            value={maxSalary}
+                                            setChange={setMaxSalary}
+                                        />
+                                        <div className={styles.date}>
+                                            <h6>Deadline</h6>
+                                            <NormalInput
+                                                type='date'
+                                                placeholder='Deadline'
+                                                icon={<Calendar3 />}
+                                                value={deadline}
+                                                setChange={setDeadline}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className={styles.column}>
+                                        <div className={Inputstyles.field}>
+                                            <label htmlFor='photo' className={styles.img_holder}>
+                                                {photo ? (
+                                                    <img src={URL.createObjectURL(photo)} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} />
+                                                ) : (
+                                                    <img src={img_holder} alt="Photo Placeholder" style={{ pointerEvents: 'none' }} />
+                                                )}
+                                            </label>
+                                            <input
+                                                id='photo'
+                                                type='file'
+                                                placeholder='Photo'
+                                                accept='.png,.jpg,.jpeg'
+                                                onChange={(event) => {
+                                                    setPhoto(event.target.files[0]);
+                                                }}
+                                                style={{ visibility: 'hidden' }}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                                <div className={styles.register__field__radio}>
+                                    {locations.map((T) => (
+                                        <div className={styles.register__input__radio} key={T.value}>
+                                            <input
+                                                type="radio"
+                                                value={T.value}
+                                                checked={needLocation === T.value}
+                                                onChange={(event) => setNeedLocation(event.target.value)}
+                                            />
+                                            <label>{T.label}</label>
+                                        </div>
+                                    ))}
+                                </div>
+                                {needLocation == 'Location' ? (
+                                    <div className={styles.register__row}>
+                                        <div className={Inputstyles.field}>
+                                            <i className={Inputstyles.icon}><Globe /></i>
+                                            <select onChange={handleCountrySelect} value={country} className={Inputstyles.input} required>
+                                                <option key={0} value='' disabled>Country</option>
+                                                {(countries.length === 0) ? <></> : countries.map((country) => {
+                                                    return <option key={country.country_id} value={country.country_name} className={Inputstyles.option}>{country.country_name}</option>
+                                                })}
+                                            </select>
+                                        </div>
+                                        <div className={Inputstyles.field}>
+                                            <i className={Inputstyles.icon}><GeoAltFill /></i>
+                                            <select onChange={(event) => setState(event.target.value)} value={state} className={Inputstyles.input} required>
+                                                <option key={0} value='' disabled>City</option>
+                                                {(states.length === 0) ? <></> : states.map((state) => {
+                                                    return <option key={state.state_id} value={state.state_id} className={Inputstyles.option}>{state.state_name}</option>
+                                                })}
+                                            </select>
+                                        </div>
+                                    </div>) :
+                                    (<></>)}
+                                <h4 className={styles.heading}>Skills wanted:</h4>
+                                <div className={styles.row}>
+                                    <div className={styles.column}>
+                                        <div className={styles.skills}>
+                                            <input
+                                                type="text"
+                                                placeholder="Search skill"
+                                                value={searchSkill}
+                                                onChange={(event) => SearchSkill(event.target.value)}
+                                            />
+                                            <p></p>
+                                            <select multiple disabled={skillCount === 0}>
+                                                {skills.length === 0 ? (
+                                                    <option
+                                                        key='0'
+                                                        value=''
+                                                        disabled={true}
+                                                    >
+                                                        Skill not found
+                                                    </option>
+                                                ) : (
+                                                    skills.map((skill) => (
+                                                        <option
+                                                            key={skill.id}
+                                                            value={skill.name}
+                                                            onClick={(event) => AddSkill(event, skill.id)}
+                                                            hidden={checked[skill.id]}
+                                                            disabled={checked[skill.id] || skillCount === 0}
+                                                        >
+                                                            {skill.name}
+                                                        </option>
+                                                    ))
+                                                )}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div className={styles.column}>
+                                        <div className={styles.skills}>
+                                            <span> Skills left: {skillCount}</span>
+                                            {jobSkills.length === 0 ? <></> :
+                                                <div className={styles.choosed_skills}>
+                                                    {jobSkills.map((skill) => (
+                                                        <button
+                                                            className={styles.choosed_skill}
+                                                            key={skill.id}
+                                                            value={skill.name}
+                                                            onClick={(event) => RemoveSkill(event, skill.id)}
+                                                        >
+                                                            {skill.name}
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className={styles.submit_div}>
+                                    <button className={styles.submit_button}>Submit</button>
+                                </div>
+                            </form>
                         </div>
-                        <div className={styles.submit_div}>
-                            <button className={styles.submit_button}>Submit</button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
-        </div>
-    );
-};
+            );
+        };
 
-export default PostFreelancing;
+        export default PostFreelancing;

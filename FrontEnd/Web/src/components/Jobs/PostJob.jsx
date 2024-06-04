@@ -8,7 +8,7 @@ import NormalInput from '../NormalInput.jsx';
 import img_holder from '../../assets/upload.png';
 import styles from './job.module.css';
 import Inputstyles from '../../styles/Input.module.css';
-import {AddRegJobAPI} from '../../apis/JobsApis.jsx';
+import { AddRegJobAPI } from '../../apis/JobsApis.jsx';
 
 const PostJob = () => {
     // Context
@@ -29,7 +29,7 @@ const PostJob = () => {
     ];
     const [needLocation, setNeedLocation] = useState('Remotly');
     const locations = [
-        { value: 'Remottly', label: 'Remotly' },
+        { value: 'Remotly', label: 'Remotly' },
         { value: 'Location', label: 'Location' },
     ];
     const [countries, setCountries] = useState([]);
@@ -68,6 +68,12 @@ const PostJob = () => {
 
     const handleCreate = (event) => {
         event.preventDefault();
+        let state_id;
+        if (needLocation == 'Remotly') {
+            state_id = 0;
+        } else {
+            state_id = state;
+        }
         console.log(
             accessToken,
             title,
@@ -75,39 +81,40 @@ const PostJob = () => {
             photo,
             salary,
             type,
-            state,
+            state_id,
             SkillIds
         );
 
-         AddRegJobAPI(
-             accessToken,
-             title,
-             description,
-             state,  
-             salary,
-             photo,
-             type,
-             SkillIds
-         ).then((response) => {
-             if (response.status === 201) {
-                 console.log(response.data);
+        AddRegJobAPI(
+            accessToken,
+            title,
+            description,
+            state_id,
+            salary,
+            photo,
+            type,
+            SkillIds
+        ).then((response) => {
+            if (response.status === 201) {
+                console.log(response.data);
+                console.log('i woeked but the other not fuck you ')
 
-        // Reset the form fields
-        setTitle("");
-        setDescription("");
-        setPhoto("");
-        setSalary("");
-        setType("");
-        setCountry('');
-        setState('');
-        setJobSkills([]);
-        setSkillIds([]);
+                // Reset the form fields
+                setTitle("");
+                setDescription("");
+                setPhoto("");
+                setSalary("");
+                setType("");
+                setCountry('');
+                setState('');
+                setJobSkills([]);
+                setSkillIds([]);
 
-        navigate('/');
-             } else {
-                 console.log(response.statusText);
-             }
-         });
+                navigate('/');
+            } else {
+                console.log(response.statusText);
+            }
+        });
     };
 
     const handleCountrySelect = (event) => {
