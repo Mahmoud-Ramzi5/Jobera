@@ -2,24 +2,27 @@ import 'package:jobera/models/portofolio_file.dart';
 import 'package:jobera/models/skill.dart';
 
 class Portofolio {
+  final int id;
   final String title;
   final String description;
   final String link;
-  final String photo;
-  final List<PortoFolioFile> files;
+  final String? photo;
+  final List<PortoFolioFile>? files;
   final List<Skill> skills;
 
   Portofolio({
+    required this.id,
     required this.title,
     required this.description,
     required this.link,
-    required this.photo,
-    required this.files,
     required this.skills,
+    this.photo,
+    this.files,
   });
 
   Portofolio.fromJson(Map<String, dynamic> json)
-      : title = json['title'] as String,
+      : id = json['id'] as int,
+        title = json['title'] as String,
         description = json['description'] as String,
         link = json['link'] as String,
         photo = json['photo'] as String,

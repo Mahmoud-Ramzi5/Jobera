@@ -75,7 +75,7 @@ class UserAddCertificateController extends GetxController {
       );
       try {
         var response = await dio.post(
-          'http://192.168.0.100:8000/api/certificate/add',
+          'http://192.168.43.23:8000/api/certificate/add',
           data: data,
           options: Options(
             headers: {

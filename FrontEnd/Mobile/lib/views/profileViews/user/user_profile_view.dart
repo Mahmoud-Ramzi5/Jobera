@@ -315,10 +315,18 @@ class UserProfileView extends StatelessWidget {
                                   width: 100,
                                   child: Column(
                                     children: [
-                                      CustomImage(
-                                        path: controller
-                                            .user.portofolios![index].photo,
-                                      ),
+                                      controller.user.portofolios![index]
+                                                  .photo ==
+                                              null
+                                          ? Icon(
+                                              Icons.photo,
+                                              color: Colors.lightBlue.shade900,
+                                            )
+                                          : CustomImage(
+                                              path: controller.user
+                                                  .portofolios![index].photo
+                                                  .toString(),
+                                            ),
                                       LabelText(
                                         text: controller
                                             .user.portofolios![index].title,

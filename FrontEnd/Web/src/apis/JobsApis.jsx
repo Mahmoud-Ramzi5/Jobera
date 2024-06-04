@@ -155,9 +155,8 @@ export const AddFreelancingJobAPI = async (
       'min_salary': min_salary,
       'max_salary': max_salary,
       'photo': photo,
-      'type': type,
-      'skills': skills,
       'deadline': deadline,
+      'skills': skills
     }, {
       headers: {
         'Content-Type': 'multipart/form-data; charset=UTF-8',
@@ -170,7 +169,6 @@ export const AddFreelancingJobAPI = async (
     return error.response;
   }
 };
-
 export const ApplyRegJobAPI = async (
   token,
   job_id,

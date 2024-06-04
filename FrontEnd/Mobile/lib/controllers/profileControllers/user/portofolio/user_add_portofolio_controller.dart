@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +33,7 @@ class UserAddPortofolioController extends GetxController {
     files = const FilePickerResult([]);
     dio = Dio();
     skills = await generalController.getAllSkills();
+    update();
     super.onInit();
   }
 
@@ -110,7 +110,7 @@ class UserAddPortofolioController extends GetxController {
       );
       try {
         var response = await dio.post(
-          'http://192.168.0.100:8000/api/portfolio/add',
+          'http://192.168.43.23:8000/api/portfolio/add',
           data: data,
           options: Options(
             headers: {

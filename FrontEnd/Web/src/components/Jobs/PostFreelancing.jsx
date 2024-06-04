@@ -9,7 +9,7 @@ import NormalInput from '../NormalInput.jsx';
 import img_holder from '../../assets/upload.png';
 import styles from './job.module.css';
 import Inputstyles from '../../styles/Input.module.css';
-
+import { AddFreelancingJobAPI } from '../../apis/JobsApis.jsx';
 
 const PostFreelancing = () => {
     // Context
@@ -28,6 +28,7 @@ const PostFreelancing = () => {
     const [deadline, setDeadline] = useState('');
     const [needLocation, setNeedLocation] = useState('Remotly');
     const locations = [
+        { value: 'Remotly', label: 'Remotly' },
         { value: 'Remotly', label: 'Remotly' },
         { value: 'Location', label: 'Location' },
     ];

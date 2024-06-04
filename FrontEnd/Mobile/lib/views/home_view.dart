@@ -30,6 +30,8 @@ class HomeView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             ProfilePhotoContainer(
+                              height: 150,
+                              width: 150,
                               child: controller.photo == null
                                   ? controller.isCompany
                                       ? Icon(
