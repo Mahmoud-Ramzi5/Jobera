@@ -17,7 +17,8 @@ class RegJobCompetetorResource extends JsonResource
         return [
             "id" => $this->id,
             "individual" => new IndividualResource($this->individual),
-            "description" => $this->description
+            "description" => $this->description,
+            "jobType"=>$this->regJob->id
         ];
     }
 }

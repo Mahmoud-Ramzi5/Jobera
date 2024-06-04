@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { Card } from "react-bootstrap";
 import styles from "./css/JobCometetorCard.module.css";
 import img_holder from "../../assets/upload.png";
 import { Star, StarFill, StarHalf } from "react-bootstrap-icons";
@@ -20,7 +19,14 @@ const JobCompetetorCard = ({ CompetetorData }) => {
     photo: "",
     salary: "",
   });
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if(CompetetorData.jobType=="Freelancing"){
+      SetFreelanceCompetetor(CompetetorData);
+    }
+    else{
+      SetRegCompetetor(CompetetorData);
+    }
+  }, []);
   const RenderStars = (rating) => {
     const stars = [];
     const fullStars = Math.floor(rating);

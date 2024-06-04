@@ -23,12 +23,12 @@ class FreelancingJobCompetetorResource extends JsonResource
         } else {
             $applierResource = new CompanyResource($company);
         }
-
         return [
             "id" => $this->id,
             "user" => $applierResource,
             "description" => $this->description,
-            "salary" => $this->salary
+            "salary" => $this->salary,
+            "jobType"=>"Freelancing"
         ];
     }
 }
