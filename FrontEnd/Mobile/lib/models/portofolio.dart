@@ -25,7 +25,7 @@ class Portofolio {
         title = json['title'] as String,
         description = json['description'] as String,
         link = json['link'] as String,
-        photo = json['photo'] as String,
+        photo = json['photo'] as String?,
         files = [
           for (var portofolioFile in json['files'])
             (PortoFolioFile.fromJson(portofolioFile)),

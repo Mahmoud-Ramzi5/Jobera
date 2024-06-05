@@ -32,6 +32,13 @@ class UserAddCertificateController extends GetxController {
     super.onInit();
   }
 
+  @override
+  onClose() {
+    nameController.dispose();
+    organizationController.dispose();
+    super.onClose();
+  }
+
   Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
         context: context,

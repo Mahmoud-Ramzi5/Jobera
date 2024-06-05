@@ -1,3 +1,5 @@
+import 'package:jobera/models/portofolio.dart';
+
 class Company {
   final String name;
   final String email;
@@ -9,6 +11,7 @@ class Company {
   final String type;
   final String? description;
   final String? photo;
+  final List<Portofolio>? portofolios;
 
   Company({
     required this.name,
@@ -21,6 +24,7 @@ class Company {
     required this.type,
     this.description,
     this.photo,
+    this.portofolios,
   });
 
   Company.fromJson(Map<String, dynamic> json)
@@ -33,7 +37,12 @@ class Company {
         field = json['field'] as String,
         type = json['type'] as String,
         description = json['description'] as String?,
-        photo = json['avatar_photo'] as String?;
+        photo = json['avatar_photo'] as String?,
+        portofolios = [
+          for (var portofolio in json['portfolios'])
+            (Portofolio.fromJson(portofolio)),
+        ];
+
   Company.empty()
       : name = '',
         email = '',
@@ -44,5 +53,6 @@ class Company {
         foundingDate = '',
         type = '',
         description = null,
-        photo = null;
+        photo = null,
+        portofolios = [];
 }

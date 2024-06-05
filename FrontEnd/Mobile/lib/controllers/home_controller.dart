@@ -11,6 +11,7 @@ class HomeController extends GetxController {
   late String email;
   late String? photo;
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
+  late String step;
 
   @override
   Future<void> onInit() async {
@@ -40,12 +41,15 @@ class HomeController extends GetxController {
           name = response.data['user']['name'];
           email = response.data['user']['email'];
           photo = response.data['user']['avatar_photo'];
+          step = '';
           isCompany = true;
         } else if (response.data['user']['type'] == 'individual') {
           name = response.data['user']['full_name'];
           email = response.data['user']['email'];
           photo = response.data['user']['avatar_photo'];
+          step = response.data['user']['register_step'];
           isCompany = false;
+          continueRegister();
         }
       }
     } on DioException catch (e) {
@@ -82,6 +86,17 @@ class HomeController extends GetxController {
         'Logout Failed',
         e.response!.data['errors'].toString(),
       );
+    }
+  }
+
+  void continueRegister() {
+    switch (step) {
+      case 'SKILLS':
+        Get.offAllNamed('/userEditSkills');
+      case 'EDUCATION':
+        Get.offAllNamed('/userEditEducation');
+      default:
+        return;
     }
   }
 }

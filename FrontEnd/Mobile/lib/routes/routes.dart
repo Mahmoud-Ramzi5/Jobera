@@ -7,8 +7,8 @@ import 'package:jobera/views/profileViews/company/company_edit_info_view.dart';
 import 'package:jobera/views/profileViews/company/company_profile_view.dart';
 import 'package:jobera/views/profileViews/user/certificate/user_add_certificate_view.dart';
 import 'package:jobera/views/profileViews/user/certificate/user_view_certificates_view.dart';
-import 'package:jobera/views/profileViews/user/portofolio/user_add_portofolio_view.dart';
-import 'package:jobera/views/profileViews/user/portofolio/user_view_portofolios_view.dart';
+import 'package:jobera/views/profileViews/portofolio/add_portofolio_view.dart';
+import 'package:jobera/views/profileViews/portofolio/view_portofolios_view.dart';
 import 'package:jobera/views/profileViews/user/user_edit_education_view.dart';
 import 'package:jobera/views/profileViews/user/user_edit_info_view.dart';
 import 'package:jobera/views/profileViews/user/user_edit_skills_view.dart';
@@ -76,11 +76,11 @@ List<GetPage<dynamic>>? getPages = [
     page: () => UserAddCertificateView(),
   ),
   GetPage(
-    name: '/userViewPortofolios',
-    page: () => UserViewPortofoliosView(),
+    name: '/viewPortofolios',
+    page: () => ViewPortofoliosView(),
   ),
   GetPage(
-    name: '/userAddPortofolio',
-    page: () => UserAddPortofolioView(),
+    name: '/addPortofolio',
+    page: () => AddPortofolioView(),
   ),
 ];

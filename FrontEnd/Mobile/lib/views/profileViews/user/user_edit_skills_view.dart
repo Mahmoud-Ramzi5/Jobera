@@ -18,17 +18,17 @@ class UserEditSkillsView extends StatelessWidget {
         actions: [
           _editController.generalController.isInRegister
               ? TextButton(
-                  onPressed: () async {
-                    await _editController.addSkills();
+                  onPressed: () {
+                    _editController.advanceRegisterStep();
                   },
                   child: const LabelText(text: 'Next'),
                 )
               : TextButton(
                   onPressed: () {
-                    _editController.editSkills();
+                    _editController.addSkills();
                   },
                   child: const LabelText(text: 'Submit'),
-                )
+                ),
         ],
       ),
       body: SingleChildScrollView(

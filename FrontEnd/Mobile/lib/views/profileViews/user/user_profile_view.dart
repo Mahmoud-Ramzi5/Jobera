@@ -61,7 +61,9 @@ class UserProfileView extends StatelessWidget {
                     buttonText: 'Edit',
                     icon: Icons.edit,
                     widget: BodyText(
-                      text: '${controller.user.description}',
+                      text: controller.user.description != null
+                          ? '${controller.user.description}'
+                          : '',
                     ),
                     onPressed: () => Dialogs().addBioDialog(
                       controller.editBioController,
@@ -186,12 +188,13 @@ class UserProfileView extends StatelessWidget {
                                   flex: 1,
                                   child: LabelText(
                                     text: controller.user.education!
-                                                .certificateFile ==
+                                                .certificateFile !=
                                             null
-                                        ? 'No File'
-                                        : controller
-                                            .user.education!.certificateFile
-                                            .toString(),
+                                        ? controller
+                                            .user.education!.certificateFile!
+                                            .split('/')
+                                            .last
+                                        : 'No File',
                                   ),
                                 ),
                                 IconButton(
@@ -320,6 +323,7 @@ class UserProfileView extends StatelessWidget {
                                           ? Icon(
                                               Icons.photo,
                                               color: Colors.lightBlue.shade900,
+                                              size: 60,
                                             )
                                           : CustomImage(
                                               path: controller.user
@@ -339,7 +343,7 @@ class UserProfileView extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          Get.toNamed('/userViewPortofolios');
+                          Get.toNamed('/viewPortofolios');
                         },
                       ),
                     ),

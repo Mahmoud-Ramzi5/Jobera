@@ -25,14 +25,7 @@ class UserEditEducationView extends StatelessWidget {
                   onPressed: () async {
                     if (_editController.formField.currentState?.validate() ==
                         true) {
-                      await _editController.editEducation(
-                        _editController.selectedLevel.toString(),
-                        _editController.editFieldController.text,
-                        _editController.editSchoolController.text,
-                        _editController.startDate,
-                        _editController.endDate,
-                        _editController.file,
-                      );
+                      _editController.advanceRegisterStep();
                     }
                   },
                   child: const LabelText(text: 'Next'),
@@ -58,16 +51,16 @@ class UserEditEducationView extends StatelessWidget {
       body: Form(
         key: _editController.formField,
         child: SingleChildScrollView(
-          child: Column(
-            children: [
-              if (_editController.generalController.isInRegister)
-                const LinearProgressIndicator(
-                  value: 0.5,
-                ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: GetBuilder<UserEditEducationController>(
-                  builder: (controller) => Center(
+          child: GetBuilder<UserEditEducationController>(
+            builder: (controller) => Column(
+              children: [
+                if (controller.generalController.isInRegister)
+                  const LinearProgressIndicator(
+                    value: 0.5,
+                  ),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Center(
                     child: CustomDropDownButton(
                       value: controller.selectedLevel,
                       items: controller.levels.entries.map((entry) {
@@ -83,38 +76,36 @@ class UserEditEducationView extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: CustomTextField(
-                  controller: _editController.editFieldController,
-                  textInputType: TextInputType.name,
-                  obsecureText: false,
-                  labelText: 'Field',
-                  icon: const Icon(Icons.school),
-                  validator: (p0) => Validation().validateRequiredField(p0),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: CustomTextField(
+                    controller: controller.editFieldController,
+                    textInputType: TextInputType.name,
+                    obsecureText: false,
+                    labelText: 'Field',
+                    icon: const Icon(Icons.school),
+                    validator: (p0) => Validation().validateRequiredField(p0),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: CustomTextField(
-                  controller: _editController.editSchoolController,
-                  textInputType: TextInputType.name,
-                  obsecureText: false,
-                  labelText: 'School',
-                  icon: const Icon(Icons.account_balance),
-                  validator: (p0) => Validation().validateRequiredField(p0),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: CustomTextField(
+                    controller: controller.editSchoolController,
+                    textInputType: TextInputType.name,
+                    obsecureText: false,
+                    labelText: 'School',
+                    icon: const Icon(Icons.account_balance),
+                    validator: (p0) => Validation().validateRequiredField(p0),
+                  ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const BodyText(text: 'Start Date:'),
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: DateContainer(
-                      widget: GetBuilder<UserEditEducationController>(
-                        builder: (controller) => GestureDetector(
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const BodyText(text: 'Start Date:'),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: DateContainer(
+                        widget: GestureDetector(
                           onTap: () => controller.selectDate(
                             context,
                             controller.startDate,
@@ -125,18 +116,16 @@ class UserEditEducationView extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const BodyText(text: 'End Date:'),
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: DateContainer(
-                      widget: GetBuilder<UserEditEducationController>(
-                        builder: (controller) => GestureDetector(
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const BodyText(text: 'End Date:'),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: DateContainer(
+                        widget: GestureDetector(
                           onTap: () => controller.selectDate(
                             context,
                             controller.endDate,
@@ -147,13 +136,11 @@ class UserEditEducationView extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: GetBuilder<UserEditEducationController>(
-                  builder: (controller) => ListContainer(
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: ListContainer(
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -199,8 +186,8 @@ class UserEditEducationView extends StatelessWidget {
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

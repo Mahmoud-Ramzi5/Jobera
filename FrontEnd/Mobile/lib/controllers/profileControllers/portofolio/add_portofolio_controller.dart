@@ -6,13 +6,13 @@ import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:image_picker/image_picker.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/controllers/general_controller.dart';
-import 'package:jobera/controllers/profileControllers/user/portofolio/user_edit_portofolio_controller.dart';
+import 'package:jobera/controllers/profileControllers/portofolio/edit_portofolio_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/skill.dart';
 
-class UserAddPortofolioController extends GetxController {
+class AddPortofolioController extends GetxController {
   late GlobalKey<FormState> formField;
-  late UserEditPortofolioController portofolioController;
+  late EditPortofolioController portofolioController;
   late GeneralController generalController;
   late TextEditingController titleController;
   late TextEditingController descriptionController;
@@ -27,7 +27,7 @@ class UserAddPortofolioController extends GetxController {
   @override
   Future<void> onInit() async {
     formField = GlobalKey<FormState>();
-    portofolioController = Get.find<UserEditPortofolioController>();
+    portofolioController = Get.find<EditPortofolioController>();
     generalController = Get.find<GeneralController>();
     titleController = TextEditingController();
     descriptionController = TextEditingController();
@@ -102,26 +102,41 @@ class UserAddPortofolioController extends GetxController {
       if (files != null && files.count > 5) {
         files.files.removeRange(5, files.files.length);
       }
-      List<int> skillIds = [];
-      List<MultipartFile> fileList = [];
-      for (var skill in skills) {
-        skillIds.add(skill.id);
-      }
-      for (var file in files!.files) {
-        fileList.add(await MultipartFile.fromFile(file.path.toString()));
-      }
-      final data = FormData.fromMap({
-        'title': title,
-        'description': description,
-        'link': link,
-        'photo': await MultipartFile.fromFile(image!.path),
-      });
 
-      for (int i = 0; i < fileList.length; i++) {
-        data.files.add(MapEntry('files[$i]', fileList[i]));
+      final data = FormData.fromMap(
+        {
+          'title': title,
+          'description': description,
+          'link': link,
+        },
+      );
+
+      if (image != null) {
+        data.files.add(
+          MapEntry(
+            'photo',
+            await MultipartFile.fromFile(image.path),
+          ),
+        );
       }
-      for (int i = 0; i < skillIds.length; i++) {
-        data.fields.add(MapEntry('skills[$i]', skillIds[i].toString()));
+
+      for (int i = 0; i < files!.count; i++) {
+        data.files.add(
+          MapEntry(
+            'files[$i]',
+            await MultipartFile.fromFile(
+              files.files[i].path.toString(),
+            ),
+          ),
+        );
+      }
+      for (int i = 0; i < skills.length; i++) {
+        data.fields.add(
+          MapEntry(
+            'skills[$i]',
+            skills[i].id.toString(),
+          ),
+        );
       }
       try {
         var response = await dio.post(

@@ -17,22 +17,25 @@ class UserEditCertificatesView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const TitleText(text: 'Certificates'),
-          actions: [
-            IconButton(
-              onPressed: () => Get.toNamed('/userAddCertificate'),
-              icon: const Icon(
-                Icons.add,
-                color: Colors.white,
-              ),
-            )
-          ],
-          leading: _editController.generalController.isInRegister
-              ? IconButton(
-                  onPressed: () => Get.offAllNamed('/userViewPortofolios'),
-                  icon: const LabelText(text: 'Skip'),
-                )
-              : null),
+        title: const TitleText(text: 'Certificates'),
+        actions: [
+          IconButton(
+            onPressed: () => Get.toNamed('/userAddCertificate'),
+            icon: const Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+          ),
+        ],
+        leading: _editController.generalController.isInRegister
+            ? IconButton(
+                onPressed: () => _editController.advanceRegisterStep(),
+                icon: const LabelText(
+                  text: 'Next',
+                ),
+              )
+            : null,
+      ),
       body: RefreshIndicator(
         key: _editController.refreshIndicatorKey,
         onRefresh: () => _editController.fetchCertificates(),

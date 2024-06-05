@@ -26,13 +26,6 @@ class UserEditSkillsController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onClose() {
-    myskills = [];
-    update();
-    super.onClose();
-  }
-
   void deleteSkill(Skill skill) {
     myskills.remove(skill);
     update();
@@ -164,6 +157,30 @@ class UserEditSkillsController extends GetxController {
           e.response!.data['errors'].toString(),
         );
       }
+    }
+  }
+
+  Future<void> advanceRegisterStep() async {
+    String? token = sharedPreferences?.getString('access_token');
+    try {
+      final response = await dio.post(
+        'http://192.168.43.23:8000/api/regStep',
+        options: Options(
+            responseType: ResponseType.bytes, // important
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Accept': "application/json",
+              'Authorization': 'Bearer $token'
+            }),
+      );
+      if (response.statusCode == 200) {
+        addSkills();
+      }
+    } on DioException catch (e) {
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response!.data['errors'].toString(),
+      );
     }
   }
 }

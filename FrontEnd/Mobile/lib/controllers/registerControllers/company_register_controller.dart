@@ -7,7 +7,6 @@ import 'package:jobera/controllers/general_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/country.dart';
 import 'package:jobera/models/state.dart';
-import 'package:jobera/views/home_view.dart';
 
 class CompanyRegisterController extends GetxController {
   late GlobalKey<FormState> formField;
@@ -137,10 +136,11 @@ class CompanyRegisterController extends GetxController {
           response.data["access_token"].toString(),
         );
         await Dialogs().showSuccessDialog('Register Successful', '');
+        generalController.isInRegister = true;
         Future.delayed(
           const Duration(seconds: 1),
           () {
-            Get.offAll(() => HomeView());
+            Get.offAllNamed('/viewPortofolios');
           },
         );
       }

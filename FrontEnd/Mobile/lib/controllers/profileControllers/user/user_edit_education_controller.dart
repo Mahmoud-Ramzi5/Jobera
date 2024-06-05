@@ -37,7 +37,7 @@ class UserEditEducationController extends GetxController {
       'High Institute': 'HIGH_INSTITUTE',
     };
     if (!generalController.isInRegister) {
-      education = await fetchEducation();
+      await fetchEducation();
       selectedLevel = education!.level;
       editFieldController = TextEditingController(text: education!.field);
       editSchoolController = TextEditingController(text: education!.school);
@@ -119,7 +119,7 @@ class UserEditEducationController extends GetxController {
         ),
       );
       if (response.statusCode == 200) {
-        return education = Education.fromJson(
+        education = Education.fromJson(
           response.data['education'],
         );
       }
@@ -177,6 +177,38 @@ class UserEditEducationController extends GetxController {
           Get.back();
           profileController.refreshIndicatorKey.currentState!.show();
         }
+      }
+    } on DioException catch (e) {
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response!.data['errors'].toString(),
+      );
+    }
+  }
+
+  Future<void> advanceRegisterStep() async {
+    String? token = sharedPreferences?.getString('access_token');
+    try {
+      final response = await dio.post(
+        'http://192.168.43.23:8000/api/regStep',
+        options: Options(
+            responseType: ResponseType.bytes, // important
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Accept': "application/json",
+              'Authorization': 'Bearer $token'
+            }),
+      );
+      if (response.statusCode == 200) {
+        await editEducation(
+          selectedLevel.toString(),
+          editFieldController.text,
+          editSchoolController.text,
+          startDate,
+          endDate,
+          file,
+        );
+        Get.offAllNamed('/userViewCertificates');
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(

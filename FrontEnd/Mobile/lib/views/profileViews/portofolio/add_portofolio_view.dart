@@ -3,15 +3,15 @@ import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/classes/texts.dart';
 import 'package:jobera/classes/validation.dart';
-import 'package:jobera/controllers/profileControllers/user/portofolio/user_add_portofolio_controller.dart';
+import 'package:jobera/controllers/profileControllers/portofolio/add_portofolio_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
 
-class UserAddPortofolioView extends StatelessWidget {
-  final UserAddPortofolioController _addController =
-      Get.put(UserAddPortofolioController());
+class AddPortofolioView extends StatelessWidget {
+  final AddPortofolioController _addController =
+      Get.put(AddPortofolioController());
 
-  UserAddPortofolioView({super.key});
+  AddPortofolioView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class UserAddPortofolioView extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              GetBuilder<UserAddPortofolioController>(
+              GetBuilder<AddPortofolioController>(
                 builder: (controller) => Padding(
                   padding: const EdgeInsets.all(10),
                   child: ProfilePhotoContainer(
@@ -115,7 +115,7 @@ class UserAddPortofolioView extends StatelessWidget {
                   validator: (p0) => Validation().validateRequiredField(p0),
                 ),
               ),
-              GetBuilder<UserAddPortofolioController>(
+              GetBuilder<AddPortofolioController>(
                 builder: (controller) => Column(
                   children: [
                     Padding(
@@ -254,7 +254,7 @@ class UserAddPortofolioView extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(10),
-                child: GetBuilder<UserAddPortofolioController>(
+                child: GetBuilder<AddPortofolioController>(
                   builder: (controller) => ListContainer(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

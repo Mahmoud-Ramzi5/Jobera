@@ -63,7 +63,9 @@ class CompanyProfileView extends StatelessWidget {
                         buttonText: 'Edit',
                         icon: Icons.edit,
                         widget: BodyText(
-                          text: '${controller.company.description}',
+                          text: controller.company.description != null
+                              ? '${controller.company.description}'
+                              : '',
                         ),
                         onPressed: () => Dialogs().addBioDialog(
                           controller.editBioController,
@@ -128,10 +130,48 @@ class CompanyProfileView extends StatelessWidget {
                       padding: const EdgeInsets.all(10),
                       child: InfoWithEditContainer(
                         name: 'Portofolios',
-                        buttonText: 'Add',
-                        icon: Icons.add,
-                        widget: const Column(),
-                        onPressed: () {},
+                        buttonText: 'View',
+                        widget: SizedBox(
+                          height: 150,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: controller.company.portofolios!.length,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: ListContainer(
+                                  width: 100,
+                                  child: Column(
+                                    children: [
+                                      controller.company.portofolios![index]
+                                                  .photo ==
+                                              null
+                                          ? Icon(
+                                              Icons.photo,
+                                              color: Colors.lightBlue.shade900,
+                                              size: 60,
+                                            )
+                                          : CustomImage(
+                                              path: controller.company
+                                                  .portofolios![index].photo
+                                                  .toString(),
+                                              height: 60,
+                                            ),
+                                      LabelText(
+                                        text: controller
+                                            .company.portofolios![index].title,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                        onPressed: () {
+                          Get.toNamed('/userViewPortofolios');
+                        },
                       ),
                     ),
                   ],

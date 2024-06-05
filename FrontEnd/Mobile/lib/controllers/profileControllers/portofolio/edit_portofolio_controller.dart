@@ -6,7 +6,7 @@ import 'package:jobera/controllers/general_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/portofolio.dart';
 
-class UserEditPortofolioController extends GetxController {
+class EditPortofolioController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   late GeneralController generalController;
   late Dio dio;
@@ -77,6 +77,36 @@ class UserEditPortofolioController extends GetxController {
         'Error',
         e.response.toString(),
       );
+    }
+  }
+
+  Future<void> advanceRegisterStep() async {
+    String? token = sharedPreferences?.getString('access_token');
+    if (portofolios.isNotEmpty) {
+      try {
+        final response = await dio.post(
+          'http://192.168.43.23:8000/api/regStep',
+          options: Options(
+              responseType: ResponseType.bytes, // important
+              headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Accept': "application/json",
+                'Authorization': 'Bearer $token'
+              }),
+        );
+        if (response.statusCode == 200) {
+          Get.offAllNamed('/home');
+          generalController.isInRegister = false;
+        }
+      } on DioException catch (e) {
+        Dialogs().showErrorDialog(
+          'Error',
+          e.response!.data['errors'].toString(),
+        );
+      }
+    } else {
+      Get.offAllNamed('/home');
+      generalController.isInRegister = false;
     }
   }
 }

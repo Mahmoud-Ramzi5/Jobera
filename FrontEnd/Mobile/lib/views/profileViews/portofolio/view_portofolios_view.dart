@@ -2,43 +2,43 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/classes/texts.dart';
-import 'package:jobera/controllers/profileControllers/user/portofolio/user_edit_portofolio_controller.dart';
+import 'package:jobera/controllers/profileControllers/portofolio/edit_portofolio_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_image.dart';
 
-class UserViewPortofoliosView extends StatelessWidget {
-  final UserEditPortofolioController _editController =
-      Get.put(UserEditPortofolioController());
+class ViewPortofoliosView extends StatelessWidget {
+  final EditPortofolioController _editController =
+      Get.put(EditPortofolioController());
 
-  UserViewPortofoliosView({super.key});
+  ViewPortofoliosView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const TitleText(text: 'Portofolios'),
-          actions: [
-            IconButton(
-              onPressed: () => Get.toNamed('/userAddPortofolio'),
-              icon: const Icon(
-                Icons.add,
-                color: Colors.white,
-              ),
-            )
-          ],
-          leading: _editController.generalController.isInRegister
-              ? IconButton(
-                  onPressed: () {
-                    Get.offAllNamed('/home');
-                    _editController.generalController.isInRegister = false;
-                  },
-                  icon: const LabelText(text: 'Skip'),
-                )
-              : null),
+        title: const TitleText(text: 'Portofolios'),
+        actions: [
+          IconButton(
+            onPressed: () => Get.toNamed('/addPortofolio'),
+            icon: const Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+          )
+        ],
+        leading: _editController.generalController.isInRegister
+            ? IconButton(
+                onPressed: () => _editController.advanceRegisterStep(),
+                icon: const LabelText(
+                  text: 'Next',
+                ),
+              )
+            : null,
+      ),
       body: RefreshIndicator(
         key: _editController.refreshIndicatorKey,
         onRefresh: () => _editController.fetchPortofolios(),
-        child: GetBuilder<UserEditPortofolioController>(
+        child: GetBuilder<EditPortofolioController>(
           builder: (controller) => Column(
             children: [
               if (_editController.generalController.isInRegister)
@@ -65,6 +65,7 @@ class UserViewPortofoliosView extends StatelessWidget {
                                       ? Icon(
                                           Icons.photo,
                                           color: Colors.lightBlue.shade900,
+                                          size: 100,
                                         )
                                       : CustomImage(
                                           height: 100,

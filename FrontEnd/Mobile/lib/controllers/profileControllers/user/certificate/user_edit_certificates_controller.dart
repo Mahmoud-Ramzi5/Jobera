@@ -32,6 +32,13 @@ class UserEditCertificatesController extends GetxController {
     super.onInit();
   }
 
+  @override
+  void onClose() {
+    editNameController.dispose();
+    editOrganizationController.dispose();
+    super.onClose();
+  }
+
   void startEdit(Certificate certificate) {
     editNameController.text = certificate.name;
     editOrganizationController.text = certificate.organization;
@@ -162,6 +169,34 @@ class UserEditCertificatesController extends GetxController {
         'Error',
         e.response.toString(),
       );
+    }
+  }
+
+  Future<void> advanceRegisterStep() async {
+    String? token = sharedPreferences?.getString('access_token');
+    if (certificates.isNotEmpty) {
+      try {
+        final response = await dio.post(
+          'http://192.168.43.23:8000/api/regStep',
+          options: Options(
+              responseType: ResponseType.bytes, // important
+              headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Accept': "application/json",
+                'Authorization': 'Bearer $token'
+              }),
+        );
+        if (response.statusCode == 200) {
+          Get.offAllNamed('/viewPortofolios');
+        }
+      } on DioException catch (e) {
+        Dialogs().showErrorDialog(
+          'Error',
+          e.response!.data['errors'].toString(),
+        );
+      }
+    } else {
+      Get.offAllNamed('/viewPortofolios');
     }
   }
 }
