@@ -39,7 +39,7 @@ class CompanyProfileController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     Dio dio = Dio();
     try {
-      var response = await dio.get('http://192.168.43.23:8000/api/profile',
+      var response = await dio.get('http://10.0.2.2:8000/api/profile',
           options: Options(
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',
@@ -63,7 +63,7 @@ class CompanyProfileController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.43.23:8000/api/profile/description',
+        'http://10.0.2.2:8000/api/profile/description',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -86,43 +86,45 @@ class CompanyProfileController extends GetxController {
 
   Future<void> addPhoto() async {
     String? token = sharedPreferences?.getString('access_token');
-    FormData formData = FormData();
-    formData.files.add(
-      MapEntry(
-        'avatar_photo',
-        await MultipartFile.fromFile(image!.path),
-      ),
-    );
-    try {
-      var response = await dio.post(
-        'http://192.168.43.23:8000/api/profile/photo',
-        data: formData,
-        options: Options(
-          headers: {
-            'Content-Type': 'multipart/form-data; charset=UTF-8',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-        ),
+    if (image != null) {
+      final data = FormData.fromMap(
+        {
+          'avatar_photo': await MultipartFile.fromFile(image!.path),
+        },
       );
-      if (response.statusCode == 200) {
-        Future.delayed(
-          const Duration(seconds: 1),
-          () {
-            Dialogs().showSuccessDialog(
-              'Photo added successfully',
-              '',
-            );
-          },
+      try {
+        var response = await dio.post(
+          'http://10.0.2.2:8000/api/profile/photo',
+          data: data,
+          options: Options(
+            headers: {
+              'Content-Type': 'multipart/form-data; charset=UTF-8',
+              'Accept': 'application/json',
+              'Authorization': 'Bearer $token',
+            },
+          ),
         );
-        refreshIndicatorKey.currentState!.show();
-        Get.back();
+        if (response.statusCode == 200) {
+          Future.delayed(
+            const Duration(seconds: 1),
+            () {
+              Dialogs().showSuccessDialog(
+                'Photo added successfully',
+                '',
+              );
+            },
+          );
+          refreshIndicatorKey.currentState!.show();
+          Get.back();
+        }
+      } on DioException catch (e) {
+        Dialogs().showErrorDialog(
+          'Error',
+          e.response!.data['errors'].toString(),
+        );
       }
-    } on DioException catch (e) {
-      Dialogs().showErrorDialog(
-        'Error',
-        e.response!.data['errors'].toString(),
-      );
+    } else {
+      return;
     }
   }
 
@@ -130,7 +132,7 @@ class CompanyProfileController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       final response = await dio.delete(
-        'http://192.168.43.23:8000/api//profile/photo',
+        'http://10.0.2.2:8000/api//profile/photo',
         options: Options(
           responseType: ResponseType.bytes, // important
           headers: {

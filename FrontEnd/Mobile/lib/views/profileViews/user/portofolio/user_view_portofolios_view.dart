@@ -4,6 +4,7 @@ import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/classes/texts.dart';
 import 'package:jobera/controllers/profileControllers/user/portofolio/user_edit_portofolio_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
+import 'package:jobera/customWidgets/custom_image.dart';
 
 class UserViewPortofoliosView extends StatelessWidget {
   final UserEditPortofolioController _editController =
@@ -44,9 +45,18 @@ class UserViewPortofoliosView extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const ProfilePhotoContainer(
-                              height: 100,
-                              width: 150,
+                            ProfilePhotoContainer(
+                              child: controller.portofolios[index1].photo ==
+                                      null
+                                  ? Icon(
+                                      Icons.photo,
+                                      color: Colors.lightBlue.shade900,
+                                    )
+                                  : CustomImage(
+                                      height: 100,
+                                      width: 100,
+                                      path: controller.portofolios[index1].photo
+                                          .toString()),
                             ),
                             Column(
                               children: [
@@ -195,12 +205,32 @@ class UserViewPortofoliosView extends StatelessWidget {
                                               const NeverScrollableScrollPhysics(),
                                           shrinkWrap: true,
                                           itemBuilder: (context, index) {
-                                            return Flexible(
-                                              flex: 1,
-                                              child: BodyText(
-                                                text:
-                                                    'File ${index + 1}:${controller.portofolios[index1].files![index].name}',
-                                              ),
+                                            return Row(
+                                              children: [
+                                                Flexible(
+                                                  flex: 1,
+                                                  child: BodyText(
+                                                    text:
+                                                        'File ${index + 1}:${controller.portofolios[index1].files![index].name}',
+                                                  ),
+                                                ),
+                                                IconButton(
+                                                  onPressed: () => controller
+                                                      .generalController
+                                                      .fetchFile(
+                                                          controller
+                                                              .portofolios[
+                                                                  index1]
+                                                              .files![index]
+                                                              .path,
+                                                          'portofolios'),
+                                                  icon: Icon(
+                                                    Icons.file_open,
+                                                    color: Colors
+                                                        .lightBlue.shade900,
+                                                  ),
+                                                ),
+                                              ],
                                             );
                                           },
                                         ),

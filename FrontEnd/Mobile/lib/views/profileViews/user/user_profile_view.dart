@@ -326,6 +326,7 @@ class UserProfileView extends StatelessWidget {
                                               path: controller.user
                                                   .portofolios![index].photo
                                                   .toString(),
+                                              height: 60,
                                             ),
                                       LabelText(
                                         text: controller

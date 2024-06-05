@@ -2,11 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
+import 'package:jobera/controllers/general_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/portofolio.dart';
 
 class UserEditPortofolioController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
+  late GeneralController generalController;
   late Dio dio;
   late GlobalKey<FormState> formField;
   List<Portofolio> portofolios = [];
@@ -14,6 +16,7 @@ class UserEditPortofolioController extends GetxController {
   @override
   Future<void> onInit() async {
     refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+    generalController = Get.find<GeneralController>();
     dio = Dio();
     formField = GlobalKey<FormState>();
     await fetchPortofolios();
@@ -24,7 +27,7 @@ class UserEditPortofolioController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.43.23:8000/api/portfolios',
+        'http://10.0.2.2:8000/api/portfolios',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -57,7 +60,7 @@ class UserEditPortofolioController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.delete(
-        'http://192.168.43.23:8000/api/portfolios/$id',
+        'http://10.0.2.2:8000/api/portfolios/$id',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

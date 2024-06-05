@@ -71,7 +71,7 @@ class UserEditSkillsController extends GetxController {
       }
       try {
         var response = await dio.post(
-          'http://192.168.43.23:8000/api/user/skills/edit',
+          'http://10.0.2.2:8000/api/user/skills/edit',
           data: {
             'skills': skillIds,
           },

@@ -21,7 +21,16 @@ class UserAddPortofolioView extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () {
-              if (_addController.formField.currentState?.validate() == true) {}
+              if (_addController.formField.currentState?.validate() == true) {
+                _addController.addPortofolio(
+                  _addController.titleController.text,
+                  _addController.descriptionController.text,
+                  _addController.linkController.text,
+                  _addController.image,
+                  _addController.selectedSkills,
+                  _addController.files,
+                );
+              }
             },
             child: const LabelText(text: "Submit"),
           ),

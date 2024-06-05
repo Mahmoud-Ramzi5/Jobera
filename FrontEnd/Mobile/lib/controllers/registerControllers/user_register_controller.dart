@@ -116,7 +116,7 @@ class UserRegisterController extends GetxController {
   ) async {
     String newDate = '$date.day}-${date.month}-${date.year}';
     try {
-      var response = await dio.post('http://192.168.43.23:8000/api/register',
+      var response = await dio.post('http://10.0.2.2:8000/api/register',
           data: {
             "full_name": fullName,
             "email": email,
