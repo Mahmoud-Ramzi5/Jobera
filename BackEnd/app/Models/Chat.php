@@ -21,4 +21,7 @@ class Chat extends Model
         'created_at',
         'updated_at'
     ];
+    public function messages(){
+        return $this->hasMany(Message::class,'chat_id','id');
+    }
 }

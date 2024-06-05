@@ -22,4 +22,7 @@ class Message extends Model
         'created_at',
         'updated_at'
     ];
+    public function Chat(){
+        return $this->belongsTo(Chat::class,'chat_id','id');
+    }
 }
