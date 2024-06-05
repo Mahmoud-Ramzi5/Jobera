@@ -29,5 +29,5 @@ class Education {
         school = '',
         startDate = '',
         endDate = '',
-        certificateFile = null;
+        certificateFile = '';
 }

@@ -33,7 +33,7 @@ class AuthController extends GetxController {
           const Duration(seconds: 1),
           () {
             Dialogs().showSesionExpiredDialog(
-              e.response!.data['errors'].toString(),
+              e.response!.data['message'].toString(),
             );
           },
         );

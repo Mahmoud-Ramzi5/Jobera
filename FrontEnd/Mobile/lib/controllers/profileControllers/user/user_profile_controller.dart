@@ -84,17 +84,15 @@ class UserProfileController extends GetxController {
   Future<void> addPhoto() async {
     String? token = sharedPreferences?.getString('access_token');
     if (image != null) {
-      FormData formData = FormData();
-      formData.files.add(
-        MapEntry(
-          'avatar_photo',
-          await MultipartFile.fromFile(image!.path),
-        ),
+      final data = FormData.fromMap(
+        {
+          'avatar_photo': await MultipartFile.fromFile(image!.path),
+        },
       );
       try {
         var response = await dio.post(
           'http://192.168.43.23:8000/api/profile/photo',
-          data: formData,
+          data: data,
           options: Options(
             headers: {
               'Content-Type': 'multipart/form-data; charset=UTF-8',

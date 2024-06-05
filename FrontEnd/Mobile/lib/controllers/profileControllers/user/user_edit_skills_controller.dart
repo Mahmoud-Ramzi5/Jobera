@@ -11,17 +11,16 @@ class UserEditSkillsController extends GetxController {
   late UserProfileController profileController;
   late GeneralController generalController;
   late Dio dio;
-  late List<Skill> myskills = [];
+  List<Skill> myskills = [];
   late List<SkillType> skillTypes = [];
-  late List<Skill> skills = [];
+  List<Skill> skills = [];
 
   @override
   void onInit() async {
-    profileController = Get.find<UserProfileController>();
-
+    profileController = Get.put(UserProfileController());
     generalController = Get.find<GeneralController>();
     dio = Dio();
-    myskills = profileController.user.skills;
+    await fetchSkills();
     skillTypes = await generalController.getSkillTypes();
     update();
     super.onInit();
@@ -60,6 +59,34 @@ class UserEditSkillsController extends GetxController {
     update();
   }
 
+  Future<dynamic> fetchSkills() async {
+    String? token = sharedPreferences?.getString('access_token');
+
+    try {
+      var response = await dio.get(
+        'http://192.168.43.23:8000/api/user/skills',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        myskills = [
+          for (var skill in response.data['skills']) (Skill.fromJson(skill)),
+        ];
+        update();
+      }
+    } on DioException catch (e) {
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response!.data['errors'].toString(),
+      );
+    }
+  }
+
   Future<dynamic> editSkills() async {
     String? token = sharedPreferences?.getString('access_token');
     if (myskills.isEmpty) {
@@ -86,6 +113,50 @@ class UserEditSkillsController extends GetxController {
         if (response.statusCode == 200) {
           Get.back();
           profileController.refreshIndicatorKey.currentState!.show();
+        }
+      } on DioException catch (e) {
+        Dialogs().showErrorDialog(
+          'Error',
+          e.response!.data['errors'].toString(),
+        );
+      }
+    }
+  }
+
+  Future<dynamic> addSkills() async {
+    String? token = sharedPreferences?.getString('access_token');
+    if (myskills.isEmpty) {
+      Dialogs().showErrorDialog('Error', 'One or more skills required');
+    } else {
+      List<int> skillIds = [];
+      for (var i = 0; i < myskills.length; i++) {
+        skillIds.add(myskills[i].id);
+      }
+      try {
+        var response = await dio.post(
+          'http://192.168.43.23:8000/api/user/skills/add',
+          data: {
+            'skills': skillIds,
+          },
+          options: Options(
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Accept': 'application/json',
+              'Authorization': 'Bearer $token'
+            },
+          ),
+        );
+        if (response.statusCode == 200) {
+          Dialogs().showSuccessDialog(
+            'Success',
+            'Skills added successfully',
+          );
+          Future.delayed(
+            const Duration(seconds: 1),
+            () {
+              Get.offAllNamed('/userEditEducation');
+            },
+          );
         }
       } on DioException catch (e) {
         Dialogs().showErrorDialog(

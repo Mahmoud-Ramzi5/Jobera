@@ -10,25 +10,25 @@ import 'package:jobera/models/education.dart';
 
 class UserEditEducationController extends GetxController {
   late UserProfileController profileController;
-  late Education education;
-  late GlobalKey<FormState> formField;
-  late Dio dio;
-  late Map<String, String> levels;
-  late String selectedLevel;
-  late TextEditingController editFieldController;
-  late TextEditingController editSchoolController;
-  late DateTime startDate;
-  late DateTime endDate;
-  late String? certficateName;
-  late FilePickerResult? file;
   late GeneralController generalController;
+  late Dio dio;
+  late GlobalKey<FormState> formField;
+  late Map<String, String> levels;
+  Education? education;
+  String? selectedLevel;
+  TextEditingController editFieldController = TextEditingController();
+  TextEditingController editSchoolController = TextEditingController();
+  DateTime startDate = DateTime.now();
+  DateTime endDate = DateTime.now();
+  String? certficateName;
+  FilePickerResult? file;
 
   @override
-  void onInit() {
+  Future<void> onInit() async {
     profileController = Get.find<UserProfileController>();
-    education = profileController.user.education;
-    formField = GlobalKey<FormState>();
+    generalController = Get.find<GeneralController>();
     dio = Dio();
+    formField = GlobalKey<FormState>();
     levels = {
       'Bachelor': 'BACHELOR',
       'Master': 'MASTER',
@@ -36,27 +36,29 @@ class UserEditEducationController extends GetxController {
       'High School Diploma': 'HIGH_SCHOOL_DIPLOMA',
       'High Institute': 'HIGH_INSTITUTE',
     };
-
-    selectedLevel = education.level;
-    editFieldController = TextEditingController(text: education.field);
-    editSchoolController = TextEditingController(text: education.school);
-    List<String> parts1 = education.startDate.split('-');
-    int day1 = int.parse(parts1[0]);
-    int month1 = int.parse(parts1[1]);
-    int year1 = int.parse(parts1[2]);
-    startDate = DateTime(year1, month1, day1);
-    List<String> parts2 = education.endDate.split('-');
-    int day2 = int.parse(parts2[0]);
-    int month2 = int.parse(parts2[1]);
-    int year2 = int.parse(parts2[2]);
-    endDate = DateTime(year2, month2, day2);
-    certficateName = education.certificateFile == null
-        ? 'No file'
-        : Uri.file(
-            education.certificateFile.toString(),
-          ).pathSegments.last;
-    file = null;
-    generalController = Get.find<GeneralController>();
+    if (!generalController.isInRegister) {
+      education = await fetchEducation();
+      selectedLevel = education!.level;
+      editFieldController = TextEditingController(text: education!.field);
+      editSchoolController = TextEditingController(text: education!.school);
+      List<String> parts1 = education!.startDate.split('-');
+      int day1 = int.parse(parts1[0]);
+      int month1 = int.parse(parts1[1]);
+      int year1 = int.parse(parts1[2]);
+      startDate = DateTime(year1, month1, day1);
+      List<String> parts2 = education!.endDate.split('-');
+      int day2 = int.parse(parts2[0]);
+      int month2 = int.parse(parts2[1]);
+      int year2 = int.parse(parts2[2]);
+      endDate = DateTime(year2, month2, day2);
+      certficateName = education!.certificateFile == null
+          ? 'No file'
+          : Uri.file(
+              education!.certificateFile.toString(),
+            ).pathSegments.last;
+      file = null;
+      update();
+    }
     super.onInit();
   }
 
@@ -67,7 +69,7 @@ class UserEditEducationController extends GetxController {
     super.onClose();
   }
 
-  void selectLevel(String level) {
+  Future<void> selectLevel(String level) async {
     selectedLevel = level;
     update();
   }
@@ -100,6 +102,33 @@ class UserEditEducationController extends GetxController {
     file = null;
     certficateName = 'No file';
     update();
+  }
+
+  Future<dynamic> fetchEducation() async {
+    String? token = sharedPreferences?.getString('access_token');
+
+    try {
+      var response = await dio.get(
+        'http://192.168.43.23:8000/api/education',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        return education = Education.fromJson(
+          response.data['education'],
+        );
+      }
+    } on DioException catch (e) {
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response!.data['errors'].toString(),
+      );
+    }
   }
 
   Future<void> editEducation(
@@ -142,8 +171,12 @@ class UserEditEducationController extends GetxController {
         ),
       );
       if (response.statusCode == 200) {
-        Get.back();
-        profileController.refreshIndicatorKey.currentState!.show();
+        if (generalController.isInRegister) {
+          Get.offAllNamed('/userViewCertificates');
+        } else {
+          Get.back();
+          profileController.refreshIndicatorKey.currentState!.show();
+        }
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(

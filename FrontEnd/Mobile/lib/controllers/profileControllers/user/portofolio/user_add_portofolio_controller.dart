@@ -6,11 +6,13 @@ import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:image_picker/image_picker.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/controllers/general_controller.dart';
+import 'package:jobera/controllers/profileControllers/user/portofolio/user_edit_portofolio_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/skill.dart';
 
 class UserAddPortofolioController extends GetxController {
   late GlobalKey<FormState> formField;
+  late UserEditPortofolioController portofolioController;
   late GeneralController generalController;
   late TextEditingController titleController;
   late TextEditingController descriptionController;
@@ -25,6 +27,7 @@ class UserAddPortofolioController extends GetxController {
   @override
   Future<void> onInit() async {
     formField = GlobalKey<FormState>();
+    portofolioController = Get.find<UserEditPortofolioController>();
     generalController = Get.find<GeneralController>();
     titleController = TextEditingController();
     descriptionController = TextEditingController();
@@ -90,40 +93,50 @@ class UserAddPortofolioController extends GetxController {
     String title,
     String description,
     String link,
-    String photo,
-    List<int> skillIds,
+    XFile? image,
+    List<Skill> skills,
     FilePickerResult? files,
   ) async {
     String? token = sharedPreferences?.getString('access_token');
-    if (selectedSkills.isNotEmpty) {
-      final data = FormData.fromMap(
-        {
-          'title': title,
-          'description': description,
-          'photo': photo,
-          'link': link,
-          'files': await MultipartFile.fromFile(
-            files!.files.toString(),
-          ),
-          'skills': skillIds,
-        },
-      );
+    if (skills.isNotEmpty) {
+      if (files != null && files.count > 5) {
+        files.files.removeRange(5, files.files.length);
+      }
+      List<int> skillIds = [];
+      List<MultipartFile> fileList = [];
+      for (var skill in skills) {
+        skillIds.add(skill.id);
+      }
+      for (var file in files!.files) {
+        fileList.add(await MultipartFile.fromFile(file.path.toString()));
+      }
+      final data = FormData.fromMap({
+        'title': title,
+        'description': description,
+        'link': link,
+        'photo': await MultipartFile.fromFile(image!.path),
+      });
+
+      for (int i = 0; i < fileList.length; i++) {
+        data.files.add(MapEntry('files[$i]', fileList[i]));
+      }
+      for (int i = 0; i < skillIds.length; i++) {
+        data.fields.add(MapEntry('skills[$i]', skillIds[i].toString()));
+      }
       try {
         var response = await dio.post(
           'http://192.168.43.23:8000/api/portfolio/add',
           data: data,
           options: Options(
             headers: {
-              'Content-Type':
-                  'multipart/form-data; application/json; charset=UTF-8',
-              'Accept': "application/json",
+              'Content-Type': 'multipart/form-data',
+              'Accept': 'application/json',
               'Authorization': 'Bearer $token',
             },
           ),
         );
-        //TODO:
         if (response.statusCode == 201) {
-          //Controller.refreshIndicatorKey.currentState!.show();
+          portofolioController.refreshIndicatorKey.currentState!.show();
           Get.back();
         }
       } on DioException catch (e) {
@@ -135,7 +148,7 @@ class UserAddPortofolioController extends GetxController {
     } else {
       Dialogs().showErrorDialog(
         'Error',
-        'Must select at lesast 1 skill',
+        'Must select at least 1 skill',
       );
     }
   }

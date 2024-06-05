@@ -89,6 +89,7 @@ Route::controller(SkillsController::class)->group(function () {
 
 Route::controller(EducationController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
+        Route::get('/education', 'GetEducation');
         Route::post('/education', 'EditEducation');
 
         Route::get('/certificates', 'ShowUserCertificates');

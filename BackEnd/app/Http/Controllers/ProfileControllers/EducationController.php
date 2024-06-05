@@ -16,6 +16,37 @@ use App\Http\Resources\CertificateCollection;
 
 class EducationController extends Controller
 {
+    public function GetEducation()
+    {
+        // Get User
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+
+        // Get individual
+        $individual = Individual::where('user_id', $user->id)->first();
+
+        // Check individual
+        if ($individual == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+
+        // Get education
+        $education = $individual->education;
+
+        // Response
+        return response()->json([
+            "education" => new EducationResource($education)
+        ], 200);
+    }
+
     public function EditEducation(EducationRequest $request)
     {
         // Validate request

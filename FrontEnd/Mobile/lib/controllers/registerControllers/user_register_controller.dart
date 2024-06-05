@@ -114,7 +114,7 @@ class UserRegisterController extends GetxController {
     String gender,
     DateTime date,
   ) async {
-    String newDate = '$date.day}-${date.month}-${date.year}';
+    String newDate = '${date.day}-${date.month}-${date.year}';
     try {
       var response = await dio.post('http://192.168.43.23:8000/api/register',
           data: {
@@ -140,17 +140,18 @@ class UserRegisterController extends GetxController {
           response.data["access_token"].toString(),
         );
         await Dialogs().showSuccessDialog('Register Successful', '');
+        generalController.isInRegister = true;
         Future.delayed(
           const Duration(seconds: 1),
           () {
-            Get.offAllNamed('/home');
+            Get.offAllNamed('/userEditSkills');
           },
         );
       }
     } on DioException catch (e) {
       await Dialogs().showErrorDialog(
         'Register Failed',
-        e.response!.data['error'].toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }

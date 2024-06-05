@@ -14,6 +14,7 @@ import 'package:permission_handler/permission_handler.dart';
 class GeneralController extends GetxController {
   late Dio dio;
   late ImagePicker picker;
+  bool isInRegister = false;
 
   @override
   void onInit() {

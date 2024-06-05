@@ -146,7 +146,7 @@ class UserProfileView extends StatelessWidget {
                               children: [
                                 const BodyText(text: 'Level: '),
                                 LabelText(
-                                  text: controller.user.education.level
+                                  text: controller.user.education!.level
                                       .replaceAllMapped('_', (match) => ' '),
                                 )
                               ],
@@ -154,28 +154,29 @@ class UserProfileView extends StatelessWidget {
                             Row(
                               children: [
                                 const BodyText(text: 'Field: '),
-                                LabelText(text: controller.user.education.field)
+                                LabelText(
+                                    text: controller.user.education!.field)
                               ],
                             ),
                             Row(
                               children: [
                                 const BodyText(text: 'School: '),
                                 LabelText(
-                                    text: controller.user.education.school)
+                                    text: controller.user.education!.school)
                               ],
                             ),
                             Row(
                               children: [
                                 const BodyText(text: 'Start Date: '),
                                 LabelText(
-                                    text: controller.user.education.startDate)
+                                    text: controller.user.education!.startDate)
                               ],
                             ),
                             Row(
                               children: [
                                 const BodyText(text: 'End Date: '),
                                 LabelText(
-                                    text: controller.user.education.endDate)
+                                    text: controller.user.education!.endDate)
                               ],
                             ),
                             Row(
@@ -184,25 +185,23 @@ class UserProfileView extends StatelessWidget {
                                 Flexible(
                                   flex: 1,
                                   child: LabelText(
-                                    text: controller.user.education
+                                    text: controller.user.education!
                                                 .certificateFile ==
                                             null
                                         ? 'No File'
-                                        : Uri.file(
-                                            controller
-                                                .user.education.certificateFile
-                                                .toString(),
-                                          ).pathSegments.last,
+                                        : controller
+                                            .user.education!.certificateFile
+                                            .toString(),
                                   ),
                                 ),
                                 IconButton(
                                   onPressed: () {
                                     if (controller
-                                            .user.education.certificateFile !=
+                                            .user.education!.certificateFile !=
                                         null) {
                                       controller.generalController.fetchFile(
                                         controller
-                                            .user.education.certificateFile
+                                            .user.education!.certificateFile
                                             .toString(),
                                         'education',
                                       );
@@ -326,6 +325,7 @@ class UserProfileView extends StatelessWidget {
                                               path: controller.user
                                                   .portofolios![index].photo
                                                   .toString(),
+                                              height: 60,
                                             ),
                                       LabelText(
                                         text: controller

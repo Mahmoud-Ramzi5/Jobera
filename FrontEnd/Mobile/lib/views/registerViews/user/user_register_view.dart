@@ -11,8 +11,9 @@ import 'package:jobera/models/country.dart';
 import 'package:jobera/models/state.dart';
 
 class UserRegisterView extends StatelessWidget {
-  final UserRegisterController _userRegisterController =
-      Get.put(UserRegisterController());
+  final UserRegisterController _userRegisterController = Get.put(
+    UserRegisterController(),
+  );
   UserRegisterView({super.key});
 
   @override

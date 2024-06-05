@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 
 class CustomImage extends StatelessWidget {
   final String path;
+  final double? height;
+  final double? width;
 
-  const CustomImage({super.key, required this.path});
+  const CustomImage({
+    super.key,
+    required this.path,
+    this.height,
+    this.width,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,6 +19,8 @@ class CustomImage extends StatelessWidget {
       errorBuilder: (context, error, stackTrace) {
         return Text(error.toString());
       },
+      height: height,
+      width: width,
       headers: const {
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'image/*; charset=UTF-8',

@@ -2,11 +2,13 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
+import 'package:jobera/controllers/general_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/portofolio.dart';
 
 class UserEditPortofolioController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
+  late GeneralController generalController;
   late Dio dio;
   late GlobalKey<FormState> formField;
   List<Portofolio> portofolios = [];
@@ -14,6 +16,7 @@ class UserEditPortofolioController extends GetxController {
   @override
   Future<void> onInit() async {
     refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+    generalController = Get.find<GeneralController>();
     dio = Dio();
     formField = GlobalKey<FormState>();
     await fetchPortofolios();
