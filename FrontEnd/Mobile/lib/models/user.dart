@@ -14,7 +14,7 @@ class User {
   final String type;
   final String? description;
   final String? photo;
-  final Education education;
+  final Education? education;
   final List<Skill> skills;
   final List<Certificate>? certificates;
   final List<Portofolio>? portofolios;
@@ -28,8 +28,8 @@ class User {
     required this.birthDate,
     required this.gender,
     required this.type,
-    required this.education,
     required this.skills,
+    this.education,
     this.description,
     this.photo,
     this.portofolios,
@@ -47,7 +47,9 @@ class User {
         type = json['type'] as String,
         description = json['description'] as String?,
         photo = json['avatar_photo'] as String?,
-        education = Education.fromJson(json['education']),
+        education = json['education'] != null
+            ? Education.fromJson(json['education'])
+            : null,
         skills = [
           for (var skill in json['skills']) (Skill.fromJson(skill)),
         ],

@@ -27,7 +27,7 @@ class UserEditPortofolioController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://10.0.2.2:8000/api/portfolios',
+        'http://192.168.43.23:8000/api/portfolios',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -60,7 +60,7 @@ class UserEditPortofolioController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.delete(
-        'http://10.0.2.2:8000/api/portfolios/$id',
+        'http://192.168.43.23:8000/api/portfolios/$id',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

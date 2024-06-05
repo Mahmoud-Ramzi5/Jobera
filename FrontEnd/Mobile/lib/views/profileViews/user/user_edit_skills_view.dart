@@ -14,19 +14,30 @@ class UserEditSkillsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Edit Skills'),
+        title: const TitleText(text: 'Skills'),
         actions: [
-          TextButton(
-            onPressed: () {
-              _editController.editSkills();
-            },
-            child: const LabelText(text: 'Submit'),
-          )
+          _editController.generalController.isInRegister
+              ? TextButton(
+                  onPressed: () async {
+                    await _editController.addSkills();
+                  },
+                  child: const LabelText(text: 'Next'),
+                )
+              : TextButton(
+                  onPressed: () {
+                    _editController.editSkills();
+                  },
+                  child: const LabelText(text: 'Submit'),
+                )
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
+            if (_editController.generalController.isInRegister)
+              const LinearProgressIndicator(
+                value: 0.25,
+              ),
             GetBuilder<UserEditSkillsController>(
               builder: (controller) => Column(
                 children: [

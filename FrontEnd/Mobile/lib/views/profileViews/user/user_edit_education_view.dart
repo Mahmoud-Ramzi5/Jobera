@@ -18,23 +18,41 @@ class UserEditEducationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Edit Education'),
+        title: const TitleText(text: 'Education'),
         actions: [
-          TextButton(
-            onPressed: () {
-              if (_editController.formField.currentState?.validate() == true) {
-                _editController.editEducation(
-                  _editController.selectedLevel,
-                  _editController.editFieldController.text,
-                  _editController.editSchoolController.text,
-                  _editController.startDate,
-                  _editController.endDate,
-                  _editController.file,
-                );
-              }
-            },
-            child: const LabelText(text: 'Submit'),
-          )
+          _editController.generalController.isInRegister
+              ? TextButton(
+                  onPressed: () async {
+                    if (_editController.formField.currentState?.validate() ==
+                        true) {
+                      await _editController.editEducation(
+                        _editController.selectedLevel.toString(),
+                        _editController.editFieldController.text,
+                        _editController.editSchoolController.text,
+                        _editController.startDate,
+                        _editController.endDate,
+                        _editController.file,
+                      );
+                    }
+                  },
+                  child: const LabelText(text: 'Next'),
+                )
+              : TextButton(
+                  onPressed: () async {
+                    if (_editController.formField.currentState?.validate() ==
+                        true) {
+                      await _editController.editEducation(
+                        _editController.selectedLevel.toString(),
+                        _editController.editFieldController.text,
+                        _editController.editSchoolController.text,
+                        _editController.startDate,
+                        _editController.endDate,
+                        _editController.file,
+                      );
+                    }
+                  },
+                  child: const LabelText(text: 'Submit'),
+                )
         ],
       ),
       body: Form(
@@ -42,6 +60,10 @@ class UserEditEducationView extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              if (_editController.generalController.isInRegister)
+                const LinearProgressIndicator(
+                  value: 0.5,
+                ),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: GetBuilder<UserEditEducationController>(
@@ -138,7 +160,10 @@ class UserEditEducationView extends StatelessWidget {
                         Flexible(
                           flex: 1,
                           child: BodyText(
-                              text: 'File: ${_editController.certficateName}'),
+                            text: _editController.certficateName == null
+                                ? 'Add file'
+                                : 'File: ${_editController.certficateName}',
+                          ),
                         ),
                         if (_editController.certficateName != null)
                           IconButton(
