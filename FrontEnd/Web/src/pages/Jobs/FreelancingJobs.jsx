@@ -1,11 +1,11 @@
 import { useEffect, useState, useContext, useRef } from 'react';
-import { LoginContext } from '../../utils/Contexts';
-import { GetSpecificJobs } from '../../apis/JobsApis';
-import JobCard from './JobCard.jsx';
-import styles from './css/jobs.module.css';
+import { LoginContext } from '../../utils/Contexts.jsx';
+import { FetchAllFreelancingJobs } from '../../apis/JobsApis.jsx';
+import JobCard from '../../components/Jobs/JobCard.jsx';
+import styles from '../../styles/jobs.module.css';
 
 
-const Jobs = () => {
+const FreelancingJobs = () => {
   // Context
   const { accessToken } = useContext(LoginContext);
   // Define states
@@ -22,7 +22,7 @@ const Jobs = () => {
     }
     else {
       setIsLoading(true);
-      GetSpecificJobs(accessToken, startIndex, DataSize).then((response) => {
+      FetchAllFreelancingJobs(accessToken, startIndex, DataSize).then((response) => {
         if (response.status === 200) {
           if (response.data.jobs.length == 0) {
             setIsDone(true);
@@ -73,7 +73,7 @@ const Jobs = () => {
     <div className={styles.screen}>
       <div className={styles.container}>
         {jobs.map((job) => (
-          <JobCard JobData={job} />
+          <JobCard key={job.id} JobData={job} />
         ))}
       </div>
       {isLoading ? <div id='loader'><div className="clock-loader"></div></div>
@@ -83,4 +83,4 @@ const Jobs = () => {
   );
 }
 
-export default Jobs;
+export default FreelancingJobs;

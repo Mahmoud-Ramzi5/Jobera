@@ -25,15 +25,16 @@ const NavBar = () => {
 
         <ul className={styles.nav_links}>
           <div className={styles.nav_links_left}>
-            <li><a href='#'> Home </a></li>
+            <li><a href='/dashboard'> Home </a></li>
             <li>
-              <a href="#" className={styles.desktop_item}> Jobs </a>
+              <a href="/jobs" className={styles.desktop_item}> Jobs </a>
               <input type="checkbox" id="Jobs" className={styles.showDrop} />
               <label htmlFor="Jobs" className={styles.mobile_item}> Jobs </label>
               <ul className={styles.drop_menu}>
-                <li><a href="#">FullTime</a></li>
-                <li><a href="#">PartTime</a></li>
-                <li><a href="#">FreeLance</a></li>
+                <a className={styles.mobile_item} href="/jobs">All Jobs</a>
+                <li><a href="/fulltime-jobs">FullTime</a></li>
+                <li><a href="/parttime-jobs">PartTime</a></li>
+                <li><a href="/freelancing-jobs">FreeLance</a></li>
               </ul>
             </li>
           </div>

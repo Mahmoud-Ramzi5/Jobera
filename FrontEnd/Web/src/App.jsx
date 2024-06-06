@@ -24,6 +24,11 @@ import CertificateForm from './components/Education&Certificates/Certificate.jsx
 import ResetPassword from './pages/ResetPassword.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
 import EmailVerificationMessage from './pages/EmailVerification.jsx';
+import DefJobs from './pages/Jobs/DefJobs.jsx';
+import FullTimeRegJobs from './pages/Jobs/FullTimeRegJobs.jsx';
+import PartTimeRegJobs from './pages/Jobs/PartTimeRegJobs.jsx';
+import FreelancingJobs from './pages/Jobs/FreelancingJobs.jsx';
+
 
 import FileDisplay from './components/FileDisplay.jsx';
 import FileInputTest from './components/FileInputTest.jsx';
@@ -31,7 +36,7 @@ import PostJob from './components/Jobs/PostJob.jsx';
 import PostFreelancing from './components/Jobs/PostFreelancing.jsx';
 import JobCard from './components/Jobs/JobCard.jsx';
 import ShowJob from './components/Jobs/ShowJob.jsx';
-import Jobs from './components/Jobs/Jobs.jsx';
+
 import JobCompetetorCard from './components/Jobs/JobCompetetorCard.jsx';
 
 function App() {
@@ -127,6 +132,7 @@ function App() {
               <Route element={<Layout />}>
                 <Route path="/" element={<Index />} />
                 <Route element={<PrivateRoutes />}>
+                  <Route path="/dashboard" element={<></>} />
                   <Route path="/complete-register" element={<Register2 />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/edit-skills" element={<SkillsForm />} />
@@ -136,15 +142,17 @@ function App() {
                   <Route path="/portfolios" element={<Portfolios />} />
                   <Route path="/portfolio/:id" element={<ShowPortfolio />} />
                   <Route path="/edit-portfolio" element={<EditPortfolio />} />
-                  <Route path="/dashboard" element={<></>} />
+                  <Route path='/jobs' element={<DefJobs />} />
+                  <Route path='/fulltime-jobs' element={<FullTimeRegJobs />} />
+                  <Route path='/parttime-jobs' element={<PartTimeRegJobs />} />
+                  <Route path='/freelancing-jobs' element={<FreelancingJobs />} />
                   <Route path="/logout" element={<Logout />} />
+
                   <Route path="/FileTest" element={<FileInputTest />} />
                   <Route path='/job' element={<PostJob />} />
                   <Route path='/freelancing' element={<PostFreelancing />} />
-                  <Route path='/Test' element={<JobCard />} />
-                  <Route path='/Test2' element={<ShowJob />} />
-                  <Route path='/Test3' element={<Jobs />} />
-                  
+
+                  <Route path='/Test' element={<ShowJob />} />
                 </Route>
               </Route>
 
@@ -156,6 +164,7 @@ function App() {
                 <Route path="/ForgetPassword" element={<ForgotPassword />} />
                 <Route path="/emailVerify" element={<EmailVerificationMessage />} />
                 <Route path='/file' element={< FileDisplay />} />
+
                 <Route path='/Test4' element={<JobCompetetorCard />} />
               </Route>
             </Routes>

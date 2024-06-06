@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import img_holder from '../../assets/upload.png';
-import styles from './css/jobs.module.css';
+import styles from '../../styles/jobs.module.css';
 
 
 const JobCard = ({ JobData }) => {
