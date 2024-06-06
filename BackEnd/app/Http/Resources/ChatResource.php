@@ -23,6 +23,7 @@ class ChatResource extends JsonResource
         } else {
             $user1 = new CompanyResource($company);
         }
+
         $company = Company::where('user_id', $this->user2_id)->first();
         $individual = Individual::where('user_id', $this->user2_id)->first();
         if ($company == null) {
@@ -30,11 +31,12 @@ class ChatResource extends JsonResource
         } else {
             $user2 = new CompanyResource($company);
         }
+
         return [
-            "id"=>$this->id,
-            "user1"=>$user1,
-            "user2"=>$user2,
-            "messages"=>$this->messages
+            "id" => $this->id,
+            "user1" => $user1,
+            "user2" => $user2,
+            "messages" => $this->messages
         ];
     }
 }

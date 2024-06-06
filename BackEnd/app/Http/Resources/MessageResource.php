@@ -23,11 +23,12 @@ class MessageResource extends JsonResource
         } else {
             $SenderResource = new CompanyResource($company);
         }
+
         return [
-            "id"=>$this->id,
-            "chat_id"=>$this->chat_id,
-            "message"=>$this->message,
-            "user"=>$SenderResource
+            "id" => $this->id,
+            "chat_id" => $this->chat_id,
+            "message" => $this->message,
+            "user" => $SenderResource
         ];
     }
 }

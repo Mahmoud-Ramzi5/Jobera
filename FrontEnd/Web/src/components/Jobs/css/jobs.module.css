@@ -8,3 +8,72 @@
     display: flex;
     flex-direction: column;
 }
+
+.done {
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* JobCard CSS */
+.card {
+    height: 180px;
+    width: 90%;
+    border: 3px;
+    border-radius: 20px;
+    border-style: outset;
+    border-color: var(--color-rating);
+    margin-top: 3px;
+    margin-left: 5%;
+}
+
+.row {
+    width: 100%;
+    padding-top: 30px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+}
+
+.img_holder {
+    width: 25%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image {
+    width: 100px;
+    height: 100px;
+    object-fit: fill;
+    border-radius: 10px;
+}
+
+.info {
+    width: 30%;
+    padding-top: 5px;
+    padding-left: 25px;
+    color: var(--color-button);
+}
+
+.title {
+    padding: 5px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: var(--color-title);
+}
+
+.second_column {
+    width: 45%;
+    padding-top: 5px;
+    color: var(--color-button);
+}
+
+.salary {
+    padding: 5px;
+    font-weight: 500;
+
+}

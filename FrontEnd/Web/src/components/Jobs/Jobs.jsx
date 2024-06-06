@@ -11,17 +11,17 @@ const Jobs = () => {
   // Define states
   const initialized = useRef(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [startIndex, setStartIndex] = useState(1);
   const [isDone, setIsDone] = useState(false);
+  const [startIndex, setStartIndex] = useState(1);
   const DataSize = 10;
   const [jobs, setJobs] = useState([]);
 
-  console.log(jobs);
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
     }
     else {
+      setIsLoading(true);
       GetSpecificJobs(accessToken, startIndex, DataSize).then((response) => {
         if (response.status === 200) {
           if (response.data.jobs.length == 0) {
@@ -43,6 +43,8 @@ const Jobs = () => {
         else {
           console.log(response.statusText);
         }
+      }).then(() => {
+        setIsLoading(false);
       });
     }
   }, [startIndex]);
@@ -66,16 +68,17 @@ const Jobs = () => {
     };
   }, [startIndex]);
 
-  if (isLoading) {
-    return <div id='loader'><div className="clock-loader"></div></div>
-  }
+
   return (
     <div className={styles.screen}>
       <div className={styles.container}>
-        {jobs.map((job) => {
-          return <JobCard JobData={job} />
-        })}
+        {jobs.map((job) => (
+          <JobCard JobData={job} />
+        ))}
       </div>
+      {isLoading ? <div id='loader'><div className="clock-loader"></div></div>
+        : isDone && <h5 className={styles.done}>No more jobs to show</h5>
+      }
     </div>
   );
 }

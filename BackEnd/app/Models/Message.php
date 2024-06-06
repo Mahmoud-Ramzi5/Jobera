@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
 class Message extends Model
@@ -18,11 +19,20 @@ class Message extends Model
         'user_id',
         'chat_id'
     ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
     protected $hidden = [
         'created_at',
         'updated_at'
     ];
-    public function Chat(){
-        return $this->belongsTo(Chat::class,'chat_id','id');
+
+    /* Relations */
+    public function Chat(): BelongsTo
+    {
+        return $this->belongsTo(Chat::class, 'chat_id', 'id');
     }
 }

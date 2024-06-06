@@ -35,10 +35,10 @@ class FreelancingJobResource extends JsonResource
         }
         return [
             "id" => $this->id,
-            "defJob_id"=>$defJob->id,
+            "defJob_id" => $defJob->id,
             "title" => $defJob->title,
             "description" => $defJob->description,
-            "type"=> "Freelancing",
+            "type" => "Freelancing",
             "photo" => $defJob->photo,
             "is_done" => $defJob->is_done,
             "min_salary" => $this->min_salary,

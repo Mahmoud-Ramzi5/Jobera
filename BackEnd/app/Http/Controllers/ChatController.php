@@ -2,19 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\ChatCollection;
-use auth;
 use App\Models\Chat;
 use App\Models\Message;
 use Illuminate\Http\Request;
-use App\Http\Resources\ChatResource;
-use App\Http\Resources\MessageResource;
 use App\Http\Requests\SendMessageRequest;
+use App\Http\Resources\MessageResource;
+use App\Http\Resources\ChatResource;
+use App\Http\Resources\ChatCollection;
 
 class ChatController extends Controller
 {
-    public function SendMessage(SendMessageRequest $request){
-        $validated=$request->validated();
+    public function SendMessage(SendMessageRequest $request)
+    {
+        // Validate request
+        $validated = $request->validated();
+
+        // Get user
         $user = auth()->user();
 
         // Check user
@@ -24,36 +27,49 @@ class ChatController extends Controller
             ], 401);
         }
 
-        if($user->id==$validated->reciver_id){
+        if ($user->id == $validated->reciver_id) {
             return response()->json([
-                "message"=>"can not send message to your self"
-            ],400);
+                "message" => "can not send message to your self"
+            ], 400);
         }
 
+        // Get chat
         $chat = Chat::where(function ($query) use ($user, $validated) {
             $query->where('user1_id', $user->id)
-                  ->where('user2_id', $validated->receiver_id);
+                ->where('user2_id', $validated->receiver_id);
         })->orWhere(function ($query) use ($user, $validated) {
             $query->where('user1_id', $validated->receiver_id)
-                  ->where('user2_id', $user->id);
+                ->where('user2_id', $user->id);
         })->first();
-        
-        if ($chat==null) {
+
+        // Check chat
+        if ($chat == null) {
             $chat = new Chat();
             $chat->user1_id = $user->id;
             $chat->user2_id = $validated->receiver_id;
-            $chat->save();            
+            $chat->save();
         }
-        $validated['user_id']=$user->id;
-        $validated['chat_id']=$chat->id;
-        $message=Message::create($validated);
-        
-        return response()->json(new MessageResource($message));
+        $validated['user_id'] = $user->id;
+        $validated['chat_id'] = $chat->id;
+        $message = Message::create($validated);
+
+        // Response
+        return response()->json([
+            'message' => new MessageResource($message)
+        ], 200);
     }
-    public function GetChat(Chat $chat){
-        return response()->json(new ChatResource($chat));
+
+    public function GetChat(Chat $chat)
+    {
+        // Response
+        return response()->json([
+            'chat' => new ChatResource($chat)
+        ], 200);
     }
-    public function GetAllChats(){
+
+    public function GetAllChats()
+    {
+        // Get user
         $user = auth()->user();
 
         // Check user
@@ -62,8 +78,14 @@ class ChatController extends Controller
                 'errors' => ['user' => 'Invalid user']
             ], 401);
         }
-        $chats=Chat::where('user1_id', $user->id)
-                ->orWhere('user2_id',$user->id)->get();
-        return response()->json(new ChatCollection($chats));
+
+        // Get chats
+        $chats = Chat::where('user1_id', $user->id)
+            ->orWhere('user2_id', $user->id)->get();
+
+        // Response
+        return response()->json([
+            'chats' => new ChatCollection($chats)
+        ], 200);
     }
 }

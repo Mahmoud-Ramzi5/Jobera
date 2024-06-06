@@ -22,8 +22,8 @@ class SendMessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "message"=>["required","string"],
-            "reciver_id"=>["required","exists:users"]
+            "message" => ["required", "string"],
+            "reciver_id" => ["required", "exists:users"]
         ];
     }
 }

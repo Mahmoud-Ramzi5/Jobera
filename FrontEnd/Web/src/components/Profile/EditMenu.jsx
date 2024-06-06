@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef, useContext } from 'react';
-import { Button } from "react-bootstrap";
+import { Button } from 'react-bootstrap';
 import { PersonFill, BuildingFill, Globe, GeoAltFill } from 'react-bootstrap-icons';
 import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { FetchCountries, FetchStates } from '../../apis/AuthApis.jsx';
 import { EditProfile } from '../../apis/ProfileApis.jsx';
 import NormalInput from '../NormalInput';
 import CustomPhoneInput from '../CustomPhoneInput';
-import styles from "./EditMenu.module.css";
+import styles from './userinfo.module.css';
 import Inputstyles from '../../styles/Input.module.css';
 
 
