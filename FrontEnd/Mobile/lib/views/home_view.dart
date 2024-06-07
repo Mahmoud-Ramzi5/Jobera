@@ -36,19 +36,19 @@ class HomeView extends StatelessWidget {
                                   ? controller.isCompany
                                       ? Icon(
                                           Icons.business,
-                                          size: 50,
+                                          size: 100,
                                           color: Colors.lightBlue.shade900,
                                         )
                                       : Icon(
                                           Icons.person,
-                                          size: 50,
+                                          size: 100,
                                           color: Colors.lightBlue.shade900,
                                         )
                                   : CustomImage(
                                       path: controller.photo.toString(),
                                     ),
                             ),
-                            HeadlineText(text: controller.name),
+                            BodyText(text: controller.name),
                             LabelText(text: controller.email),
                           ],
                         ),
@@ -71,6 +71,11 @@ class HomeView extends StatelessWidget {
                   Get.toNamed('/userProfile');
                 }
               },
+            ),
+            MenuListTile(
+              title: "Wallet",
+              icon: Icons.wallet,
+              onTap: () {},
             ),
             MenuListTile(
               title: "Settings",

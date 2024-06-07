@@ -30,7 +30,7 @@ class UserProfileView extends StatelessWidget {
                       child: controller.user.photo == null
                           ? Icon(
                               Icons.person,
-                              size: 50,
+                              size: 100,
                               color: Colors.lightBlue.shade900,
                             )
                           : CustomImage(

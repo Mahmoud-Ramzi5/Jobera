@@ -29,7 +29,7 @@ class UserEditCertificatesView extends StatelessWidget {
         ],
         leading: _editController.generalController.isInRegister
             ? IconButton(
-                onPressed: () => _editController.advanceRegisterStep(),
+                onPressed: () => Get.offAllNamed('/viewPortofolios'),
                 icon: const LabelText(
                   text: 'Next',
                 ),

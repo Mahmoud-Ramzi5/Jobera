@@ -30,7 +30,7 @@ class CompanyProfileView extends StatelessWidget {
                       child: controller.company.photo == null
                           ? Icon(
                               Icons.business,
-                              size: 50,
+                              size: 100,
                               color: Colors.lightBlue.shade900,
                             )
                           : CustomImage(
@@ -170,7 +170,7 @@ class CompanyProfileView extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          Get.toNamed('/userViewPortofolios');
+                          Get.toNamed('/viewPortofolios');
                         },
                       ),
                     ),

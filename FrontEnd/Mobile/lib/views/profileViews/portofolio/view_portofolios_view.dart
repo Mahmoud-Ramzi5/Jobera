@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/classes/texts.dart';
@@ -28,7 +29,10 @@ class ViewPortofoliosView extends StatelessWidget {
         ],
         leading: _editController.generalController.isInRegister
             ? IconButton(
-                onPressed: () => _editController.advanceRegisterStep(),
+                onPressed: () {
+                  _editController.generalController.isInRegister = false;
+                  Get.offAllNamed('/home');
+                },
                 icon: const LabelText(
                   text: 'Next',
                 ),
@@ -72,7 +76,8 @@ class ViewPortofoliosView extends StatelessWidget {
                                           width: 100,
                                           path: controller
                                               .portofolios[index1].photo
-                                              .toString()),
+                                              .toString(),
+                                        ),
                                 ),
                                 Column(
                                   children: [
@@ -120,9 +125,12 @@ class ViewPortofoliosView extends StatelessWidget {
                                   Row(
                                     children: [
                                       const BodyText(text: 'Description: '),
-                                      LabelText(
-                                        text: controller
-                                            .portofolios[index1].description,
+                                      Flexible(
+                                        flex: 1,
+                                        child: LabelText(
+                                          text: controller
+                                              .portofolios[index1].description,
+                                        ),
                                       ),
                                     ],
                                   ),

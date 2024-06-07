@@ -152,7 +152,7 @@ class UserEditEducationView extends StatelessWidget {
                                 : 'File: ${_editController.certficateName}',
                           ),
                         ),
-                        if (_editController.certficateName != null)
+                        if (_editController.certficateName == null)
                           IconButton(
                             onPressed: () {
                               Dialogs().confirmDialog(

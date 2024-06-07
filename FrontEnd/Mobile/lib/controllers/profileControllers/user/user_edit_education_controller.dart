@@ -37,7 +37,8 @@ class UserEditEducationController extends GetxController {
       'High Institute': 'HIGH_INSTITUTE',
     };
     if (!generalController.isInRegister) {
-      await fetchEducation();
+      // await fetchEducation();
+      education = profileController.user.education;
       selectedLevel = education!.level;
       editFieldController = TextEditingController(text: education!.field);
       editSchoolController = TextEditingController(text: education!.school);
@@ -109,7 +110,7 @@ class UserEditEducationController extends GetxController {
 
     try {
       var response = await dio.get(
-        'http://192.168.43.23:8000/api/education',
+        'http://192.168.0.107:8000/api/education',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -159,7 +160,7 @@ class UserEditEducationController extends GetxController {
     );
     try {
       var response = await dio.post(
-        'http://192.168.43.23:8000/api/education',
+        'http://192.168.0.107:8000/api/education',
         data: data,
         options: Options(
           headers: {
@@ -190,7 +191,7 @@ class UserEditEducationController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       final response = await dio.post(
-        'http://192.168.43.23:8000/api/regStep',
+        'http://192.168.0.107:8000/api/regStep',
         options: Options(
             responseType: ResponseType.bytes, // important
             headers: {

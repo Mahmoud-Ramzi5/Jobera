@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
+import 'package:jobera/controllers/general_controller.dart';
 import 'package:jobera/main.dart';
 
 class HomeController extends GetxController {
@@ -12,6 +13,7 @@ class HomeController extends GetxController {
   late String? photo;
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   late String step;
+  late GeneralController generalController;
 
   @override
   Future<void> onInit() async {
@@ -21,6 +23,7 @@ class HomeController extends GetxController {
     email = '';
     photo = null;
     isCompany = false;
+    generalController = Get.find<GeneralController>();
     await fetchUser();
     super.onInit();
   }
@@ -28,7 +31,7 @@ class HomeController extends GetxController {
   Future<void> fetchUser() async {
     String? token = sharedPreferences?.getString('access_token');
     try {
-      var response = await dio.get('http://192.168.43.23:8000/api/profile',
+      var response = await dio.get('http://192.168.0.107:8000/api/profile',
           options: Options(
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',
@@ -63,7 +66,7 @@ class HomeController extends GetxController {
   Future<void> logout() async {
     String? token = sharedPreferences?.getString('access_token');
     try {
-      var response = await dio.post('http://192.168.43.23:8000/api/logout',
+      var response = await dio.post('http://192.168.0.107:8000/api/logout',
           options: Options(
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',
@@ -92,8 +95,10 @@ class HomeController extends GetxController {
   void continueRegister() {
     switch (step) {
       case 'SKILLS':
+        generalController.isInRegister = true;
         Get.offAllNamed('/userEditSkills');
       case 'EDUCATION':
+        generalController.isInRegister = true;
         Get.offAllNamed('/userEditEducation');
       default:
         return;
