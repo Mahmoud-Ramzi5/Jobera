@@ -26,8 +26,7 @@ class ChatController extends Controller
                 'errors' => ['user' => 'Invalid user']
             ], 401);
         }
-
-        if ($user->id == $validated->reciver_id) {
+        if ($user->id == $validated['reciver_id']) {
             return response()->json([
                 "message" => "can not send message to your self"
             ], 400);
@@ -36,9 +35,9 @@ class ChatController extends Controller
         // Get chat
         $chat = Chat::where(function ($query) use ($user, $validated) {
             $query->where('user1_id', $user->id)
-                ->where('user2_id', $validated->receiver_id);
+                ->where('user2_id', $validated['reciver_id']);
         })->orWhere(function ($query) use ($user, $validated) {
-            $query->where('user1_id', $validated->receiver_id)
+            $query->where('user1_id', $validated['reciver_id'])
                 ->where('user2_id', $user->id);
         })->first();
 
@@ -46,7 +45,7 @@ class ChatController extends Controller
         if ($chat == null) {
             $chat = new Chat();
             $chat->user1_id = $user->id;
-            $chat->user2_id = $validated->receiver_id;
+            $chat->user2_id = $validated['reciver_id'];
             $chat->save();
         }
         $validated['user_id'] = $user->id;
@@ -56,7 +55,7 @@ class ChatController extends Controller
         // Response
         return response()->json([
             'message' => new MessageResource($message)
-        ], 200);
+        ], 201);
     }
 
     public function GetChat(Chat $chat)

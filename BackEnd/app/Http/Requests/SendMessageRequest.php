@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class SendMessageRequest extends FormRequest
 {
@@ -23,7 +25,14 @@ class SendMessageRequest extends FormRequest
     {
         return [
             "message" => ["required", "string"],
-            "reciver_id" => ["required", "exists:users"]
+            "reciver_id" => ["required", "exists:users,id"]
         ];
     }
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'errors' => $validator->errors()
+        ], 422));
+    }
 }
+
