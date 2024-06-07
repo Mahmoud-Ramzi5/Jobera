@@ -34,6 +34,35 @@ class PortfolioController extends Controller
         ], 200);
     }
 
+    public function ShowPortfolio(Request $request, $id)
+    {
+        // Get User
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+
+        // Get portfolio
+        $portfolio = Portfolio::find($id);
+
+        // Check portfolio
+        if ($portfolio == null) {
+            // Response
+            return response()->json([
+                'errors' => ['portfolio' => 'Portfolio was not found']
+            ], 404);
+        }
+
+        // Response
+        return response()->json([
+            'portfolio' => $portfolio
+        ], 200);
+    }
+
     public function AddPortfolio(PortfolioRequest $request)
     {
         // Validate request
@@ -60,7 +89,7 @@ class PortfolioController extends Controller
         // Handle photo file
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
-            $path = $file->storeAs($user->id.'/portfolio-'.$portfolio->id, $file->getClientOriginalName());
+            $path = $file->storeAs($user->id . '/portfolio-' . $portfolio->id, $file->getClientOriginalName());
             $portfolio->photo = $path;
             $portfolio->save();
         }
@@ -73,7 +102,7 @@ class PortfolioController extends Controller
             $files = $request->file('files');
 
             foreach ($files as $file) {
-                $path = $file->storeAs($user->id.'/portfolio-'.$portfolio->id, $file->getClientOriginalName());
+                $path = $file->storeAs($user->id . '/portfolio-' . $portfolio->id, $file->getClientOriginalName());
 
                 // Create and associate a new file instance with the portfolio
                 PortfolioFile::create([
@@ -90,7 +119,7 @@ class PortfolioController extends Controller
         ], 201);
     }
 
-    public function EditPortfolio(PortfolioRequest $request, Portfolio $portfolio)
+    public function EditPortfolio(PortfolioRequest $request, $id)
     {
         // Validate request
         $validated = $request->validated();
@@ -105,8 +134,19 @@ class PortfolioController extends Controller
             ], 401);
         }
 
+        // Get portfolio
+        $portfolio = Portfolio::find($id);
+
+        // Check portfolio
+        if ($portfolio == null) {
+            // Response
+            return response()->json([
+                'errors' => ['portfolio' => 'Portfolio was not found']
+            ], 404);
+        }
+
         // Check if portfolio belongs to user
-        if($user->id != $portfolio->user_id) {
+        if ($user->id != $portfolio->user_id) {
             return response()->json([
                 'errors' => ['user' => 'Invalid user']
             ], 401);
@@ -117,12 +157,12 @@ class PortfolioController extends Controller
             // Delete old portfolio photo (if found)
             $oldPath = $portfolio->photo;
             if ($oldPath != null) {
-                unlink(storage_path('app/'.$oldPath));
+                unlink(storage_path('app/' . $oldPath));
             }
 
             // Add new portfolio photo
             $file = $request->file('photo');
-            $path = $file->storeAs($user->id.'/portfolio-'.$portfolio->id, $file->getClientOriginalName());
+            $path = $file->storeAs($user->id . '/portfolio-' . $portfolio->id, $file->getClientOriginalName());
             $validated['photo'] = $path;
         }
 
@@ -130,10 +170,10 @@ class PortfolioController extends Controller
         if ($request->hasFile('files')) {
             // Delete old portfolio files (if found)
             $currentFiles = $portfolio->files;
-            foreach($currentFiles as $File) {
+            foreach ($currentFiles as $File) {
                 $oldPath = $File->file;
                 if ($oldPath != null) {
-                    unlink(storage_path('app/'.$oldPath));
+                    unlink(storage_path('app/' . $oldPath));
                 }
                 $File->delete();
             }
@@ -141,7 +181,7 @@ class PortfolioController extends Controller
             // Add new portfolio files
             $files = $request->file('files');
             foreach ($files as $file) {
-                $path = $file->storeAs($user->id.'/portfolio-'.$portfolio->id, $file->getClientOriginalName());
+                $path = $file->storeAs($user->id . '/portfolio-' . $portfolio->id, $file->getClientOriginalName());
 
                 // Create and associate a new file instance with the portfolio
                 PortfolioFile::create([
@@ -168,8 +208,8 @@ class PortfolioController extends Controller
         $portfolio->skills()->detach($skillsToRemove);
 
         // Add the new skills
-        foreach($skills as $skill) {
-            if(!in_array($skill, $currentSkills)) {
+        foreach ($skills as $skill) {
+            if (!in_array($skill, $currentSkills)) {
                 $portfolio->skills()->attach($skill);
             }
         }
@@ -181,7 +221,7 @@ class PortfolioController extends Controller
         ], 200);
     }
 
-    public function DeletePortfolio(Request $request, Portfolio $portfolio)
+    public function DeletePortfolio(Request $request, $id)
     {
         // Get User
         $user = auth()->user();
@@ -193,8 +233,19 @@ class PortfolioController extends Controller
             ], 401);
         }
 
+        // Get portfolio
+        $portfolio = Portfolio::find($id);
+
+        // Check portfolio
+        if ($portfolio == null) {
+            // Response
+            return response()->json([
+                'errors' => ['portfolio' => 'Portfolio was not found']
+            ], 404);
+        }
+
         // Check if portfolio belongs to user
-        if($user->id != $portfolio->user_id) {
+        if ($user->id != $portfolio->user_id) {
             return response()->json([
                 'errors' => ['user' => 'Invalid user']
             ], 401);
@@ -203,14 +254,14 @@ class PortfolioController extends Controller
         // Delete old photo (if found)
         $oldPath = $portfolio->photo;
         if ($oldPath != null) {
-            unlink(storage_path('app/'.$oldPath));
+            unlink(storage_path('app/' . $oldPath));
         }
 
         // Delete old portfolio files (if found)
-        foreach($portfolio->files as $File) {
+        foreach ($portfolio->files as $File) {
             $oldPath = $File->file;
             if ($oldPath != null) {
-                unlink(storage_path('app/'.$oldPath));
+                unlink(storage_path('app/' . $oldPath));
             }
         }
 

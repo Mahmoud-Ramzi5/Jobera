@@ -103,10 +103,10 @@ Route::controller(EducationController::class)->group(function () {
 Route::controller(PortfolioController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('/portfolios', 'ShowUserPortfolios');
-        Route::get('/portfolio/{portfolio}', 'ShowPortfolio');
+        Route::get('/portfolio/{id}', 'ShowPortfolio');
         Route::post('/portfolio/add', 'AddPortfolio');
-        Route::post('/portfolio/edit/{portfolio}', 'EditPortfolio');
-        Route::delete('/portfolios/{portfolio}', 'DeletePortfolio');
+        Route::post('/portfolio/edit/{id}', 'EditPortfolio');
+        Route::delete('/portfolios/{id}', 'DeletePortfolio');
     });
 });
 
