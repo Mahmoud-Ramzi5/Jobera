@@ -21,6 +21,7 @@ const IndividualForm = () => {
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [FirstName, setFirstName] = useState('');
   const [LastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -75,6 +76,7 @@ const IndividualForm = () => {
     -> For example, this can be useful when:
       Clicking on a "Submit" button, prevent it from submitting a form*/
     event.preventDefault();
+    setIsLoading(true);
 
     // Perform Register logic (Call api)
     RegisterAPI(
@@ -100,6 +102,7 @@ const IndividualForm = () => {
           console.log(response);
         }
       }).then(() => {
+        setIsLoading(false);
         // Reset the form fields
         setFirstName('');
         setLastName('');
@@ -117,6 +120,9 @@ const IndividualForm = () => {
       });
   };
 
+  if (isLoading) {
+    return <div id='loader'><div className="clock-loader"></div></div>
+  }
   return (
     <form className={styles.register} onSubmit={handleSubmit}>
       <div className={styles.register__row}>

@@ -21,6 +21,7 @@ const CompanyForm = () => {
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [field, setField] = useState('');
@@ -70,6 +71,7 @@ const CompanyForm = () => {
     -> For example, this can be useful when:
       Clicking on a "Submit" button, prevent it from submitting a form*/
     event.preventDefault();
+    setIsLoading(true);
 
     // Perform Register logic (Call api)
     CompanyRegisterAPI(
@@ -94,6 +96,7 @@ const CompanyForm = () => {
           console.log(response.statusText);
         }
       }).then(() => {
+        setIsLoading(false);
         // Reset the form fields
         setName('');
         setField('');
@@ -110,6 +113,9 @@ const CompanyForm = () => {
       });
   };
 
+  if (isLoading) {
+    return <div id='loader'><div className="clock-loader"></div></div>
+  }
   return (
     <form className={styles.register} onSubmit={handleSubmit}>
       <div className={styles.register__row}>
