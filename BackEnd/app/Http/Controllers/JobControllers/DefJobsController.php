@@ -27,13 +27,15 @@ class DefJobsController extends Controller
         // Get all jobs
         $jobs = [];
         $defJobs = DefJob::paginate(10);
-        foreach ($defJobs as $defjob) {
-            $regJob = RegJob::where('defJob_id', $defjob->id)->first();
-            $freelancingJob = FreelancingJob::where('defJob_id', $defjob->id)->first();
-            if ($regJob == null) {
+        foreach ($defJobs as $defJob) {
+            $regJob = RegJob::where('defJob_id', $defJob->id)->first();
+            $freelancingJob = FreelancingJob::where('defJob_id', $defJob->id)->first();
+            if ($regJob != null) {
+                array_push($jobs, new RegJobResource($regJob));
+            } else if ($freelancingJob != null) {
                 array_push($jobs, new FreelancingJobResource($freelancingJob));
             } else {
-                array_push($jobs, new RegJobResource($regJob));
+                continue;
             }
         }
 
@@ -59,13 +61,8 @@ class DefJobsController extends Controller
         ], 200);
     }
 
-
-    public function ShowSpecificJobs(Request $request)
+    public function ShowSpecificJob(Request $request, $id)
     {
-        // Get queries
-        $startIndex = $request->query('startIndex');
-        $dataSize = $request->query('dataSize');
-
         // Get user
         $user = auth()->user();
 
@@ -76,29 +73,32 @@ class DefJobsController extends Controller
             ], 401);
         }
 
-        // Get paginated jobs
-        $count = 0;
-        $jobs = [];
-        $defJobs = DefJob::where('id', '>=', $startIndex)->get();
-        foreach ($defJobs as $defjob) {
-            $regJob = RegJob::where('defJob_id', $defjob->id)->first();
-            $freelancingJob = FreelancingJob::where('defJob_id', $defjob->id)->first();
-            if ($regJob == null) {
-                array_push($jobs, new FreelancingJobResource($freelancingJob));
-            } else {
-                array_push($jobs, new RegJobResource($regJob));
-            }
+        // Get job
+        $defJob = DefJob::find($id);
 
-            // Break when reached what was requested
-            $count += 1;
-            if ($count >= $dataSize) {
-                break;
-            }
+        // Check job
+        if ($defJob == null) {
+            return response()->json([
+                'errors' => ['job' => 'Job was not found']
+            ], 401);
+        }
+
+        $regJob = RegJob::where('defJob_id', $defJob->id)->first();
+        $freelancingJob = FreelancingJob::where('defJob_id', $defJob->id)->first();
+        if ($regJob != null) {
+            $job = new RegJobResource($regJob);
+        } else if ($freelancingJob != null) {
+            $job = new FreelancingJobResource($freelancingJob);
+        } else {
+            // Response
+            return response()->json([
+                'errors' => ['job' => 'Job was not found']
+            ], 404);
         }
 
         // Response
         return response()->json([
-            'jobs' => $jobs
+            'job' => $job
         ], 200);
     }
 }
