@@ -65,6 +65,7 @@ const JobCompetetorCard = ({ CompetetorData }) => {
     }
     return stars;
   };
+  console.log(CompetetorData);
   return (
     <div className={styles.CompetetorCard}>
       <div className={styles.CompetetorCardContent}>
@@ -87,7 +88,7 @@ const JobCompetetorCard = ({ CompetetorData }) => {
         </div>
         <div className={styles.info_container}>
           <div className={styles.namer}>
-            <h2 className={styles.name}>ff</h2>
+            <h2 className={styles.name}>{CompetetorData.individual?(CompetetorData.individual.full_name):(CompetetorData.company.name)}</h2>
             <div className={styles.CompetetorRating}>
               {CompetetorData.jobType == "Freelancing"
                 ? RenderStars(CompetetorData.user.rating)

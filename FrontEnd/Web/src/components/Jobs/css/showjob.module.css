@@ -2,60 +2,111 @@
     top: 75px;
     position: relative;
     margin-bottom: 100px;
+    min-height: 100vh;
 }
 
 .pagecontent {
-    width: 98%;
-    margin-left: 1%;
+    width: 100%;
+    padding-top: 10px;
     display: flex;
-    border: 2px;
-    border-radius: 20px;
-    border-style: outset;
-    border-color: var(--color-rating);
+    position: relative;
+    justify-content: space-between;
 }
 
 .leftSideContainer {
-    width: 70%;
+    width: 40%;
+    min-width: 280px;
     padding-left: 15px;
+    margin-left: 2%;
     display: flex;
     flex-direction: column;
+    border-right:1px;
+    border-right-style: outset;
+    border-right-color: var(--color-typeschecked);
 }
 
-.rightSideContainer {
-    width: 30%;
-    padding-left: 15px;
-    display: flex;
-    flex-direction: column;
-}
-
-.left {
+.imageholder {
     position: relative;
-    padding: 5px;
-    font-size: 1.1em;
-    color: var(--color-button);
+    display: flex;
+    align-self: center;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+    margin-bottom: 50px;
+}
+
+.image {
+    position: relative;
+    width: 250px;
+    height: 250px;
+    object-fit: fill;
+    border-radius: 10px;
+}
+
+.right_side_container {
+    width: 60%;
+    margin-right: 2%;
+    display: flex;
+    flex-direction: column;
+}
+
+.titleholder{
+    width: 100%;
+    align-items: center;
+    align-content: center;
+    align-self: center;
 }
 
 .title {
     position: relative;
     padding: 5px;
+    padding-left: 40px;
     font-weight: 500;
-    font-size: 1.4em;
+    font-size: 1.5em;
     color: var(--color-title);
+}
+
+.name {
+    position: relative;
+    margin-bottom: 20px;
+    margin-left: 40px;
+    margin-top: 20px;
+    font-weight: 600;
+    font-size: 1.1em;
+    color: var(--color-foreground)
+}
+
+.type{
+    width: 100%;
+    position: relative;
+    padding-left: 40px;
+    font-weight: 600;
+    font-size: 1.1em;
 }
 
 .description {
     position: relative;
+    min-height: 100px;
     font-weight: 400;
     font-size: 1.2em;
     color: var(--color-button);
     padding: 5px;
+    padding-left: 40px;
     margin-top: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.salary{
+    position: relative;
+    font-weight: 400;
+    font-size: 1.1em;
+    padding-left: 40px;
 }
 
 .heading {
     display: flex;
     position: relative;
+    margin-top: 20px;
     width: 100%;
     padding: 10px;
     align-items: center;
@@ -106,32 +157,7 @@
     transition: .2s;
 }
 
-.name {
-    position: relative;
-    margin-bottom: 20px;
-    font-weight: 600;
-    font-size: 1.1em;
-    color: var(--color-foreground)
-}
-
-.imageholder {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-top: 10px;
-    margin-bottom: 50px;
-}
-
-.image {
-    width: 250px;
-    height: 250px;
-    object-fit: fill;
-    border-radius: 10px;
-}
-
-.comments {
-    justify-self: center;
-    justify-content: center;
-    justify-items: center;
+.competetors {
+    margin-top: 40px;
+    margin-left: 20px;
 }
