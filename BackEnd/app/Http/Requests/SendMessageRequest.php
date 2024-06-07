@@ -28,6 +28,7 @@ class SendMessageRequest extends FormRequest
             "reciver_id" => ["required", "exists:users,id"]
         ];
     }
+
     protected function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(response()->json([
@@ -35,4 +36,3 @@ class SendMessageRequest extends FormRequest
         ], 422));
     }
 }
-

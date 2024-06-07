@@ -29,7 +29,7 @@ class MessageResource extends JsonResource
             "chat_id" => $this->chat_id,
             "message" => $this->message,
             "user" => $SenderResource,
-            "send_date"=>$this->created_at
+            "send_date" => $this->created_at
         ];
     }
 }

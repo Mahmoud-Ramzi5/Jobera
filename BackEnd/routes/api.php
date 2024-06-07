@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\ChatController;
 use App\Models\State;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\AuthControllers\AuthController;
 use App\Http\Controllers\AuthControllers\SocialAuthController;
 use App\Http\Controllers\AuthControllers\ForgetPasswordController;
@@ -112,8 +112,7 @@ Route::controller(PortfolioController::class)->group(function () {
 
 Route::controller(DefJobsController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
-        Route::get('/defJobs', 'ShowAllJobs');
-        Route::get('/jobs', 'ShowSpecificJobs');
+        Route::get('/jobs', 'ShowAllJobs');
     });
 });
 
@@ -138,11 +137,12 @@ Route::controller(FreelancingJobsController::class)->group(function () {
         Route::delete('FreelancingJobs/{freelancingJob}', 'DeleteFreelancingJob');
     });
 });
-Route::controller(ChatController::class)->group(function(){
-    Route::middleware('auth:api')->group(function(){
-        Route::post('chats/sendMessage','SendMessage');
-        Route::get('/chats','GetAllChats');
-        Route::get('/chats/{chat}','GetChat');
+
+Route::controller(ChatController::class)->group(function () {
+    Route::middleware('auth:api')->group(function () {
+        Route::post('chats/sendMessage', 'SendMessage');
+        Route::get('/chats/{chat}', 'GetChat');
+        Route::get('/chats', 'GetAllChats');
     });
 });
 

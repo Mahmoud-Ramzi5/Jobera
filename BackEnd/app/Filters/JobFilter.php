@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Filters;
 
 use Illuminate\Http\Request;
@@ -6,12 +7,20 @@ use Illuminate\Http\Request;
 class JobFilter
 {
     protected $safeParms = [
-        'company_id' => ['eq'],
+        // DefJobs
+        'type' => ['eq'],
         'is_done' => ['eq'],
+
+        // RegJobs
+        'company_id' => ['eq'],
+        'salary' => ['lte', 'gte', 'lt', 'gt'],
+
+        // FreelancingJobs
+        'user_id' => ['eq'],
         'max_salary' => ['lte', 'gte', 'lt', 'gt'],
         'min_salary' => ['lte', 'gte', 'lt', 'gt'],
-        'deadline' => ['lte', 'gte', 'lt', 'gt', 'eq'],
-        'type' => ['eq']
+        'avg_salary' => ['lte', 'gte', 'lt', 'gt'],
+        'deadline' => ['lte', 'gte', 'lt', 'gt', 'eq']
     ];
 
     protected $operatorMap = [
@@ -47,5 +56,4 @@ class JobFilter
 
         return $eleQuery;
     }
-
 }

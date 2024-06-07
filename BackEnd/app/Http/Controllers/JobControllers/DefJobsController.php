@@ -26,7 +26,7 @@ class DefJobsController extends Controller
 
         // Get all jobs
         $jobs = [];
-        $defJobs = DefJob::all();
+        $defJobs = DefJob::paginate(10);
         foreach ($defJobs as $defjob) {
             $regJob = RegJob::where('defJob_id', $defjob->id)->first();
             $freelancingJob = FreelancingJob::where('defJob_id', $defjob->id)->first();
@@ -39,9 +39,26 @@ class DefJobsController extends Controller
 
         // Response
         return response()->json([
-            'jobs' => $jobs
+            'jobs' => $jobs,
+            'pagination_data' => [
+                'from' => $defJobs->firstItem(),
+                'to' => $defJobs->lastItem(),
+                'per_page' => $defJobs->perPage(),
+                'total' => $defJobs->total(),
+                'first_page' => 1,
+                'current_page' => $defJobs->currentPage(),
+                'last_page' => $defJobs->lastPage(),
+                'has_more_pages' => $defJobs->hasMorePages(),
+                'first_page_url' => $defJobs->url(1),
+                'current_page_url' => $defJobs->url($defJobs->currentPage()),
+                'last_page_url' => $defJobs->url($defJobs->lastPage()),
+                'next_page' => $defJobs->nextPageUrl(),
+                'prev_page' => $defJobs->previousPageUrl(),
+                'path' => $defJobs->path()
+            ]
         ], 200);
     }
+
 
     public function ShowSpecificJobs(Request $request)
     {

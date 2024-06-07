@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { LoginContext } from '../../utils/Contexts.jsx';
-import { GetSpecificJobs } from '../../apis/JobsApis.jsx';
+import { FetchJobs } from '../../apis/JobsApis.jsx';
 import JobCard from '../../components/Jobs/JobCard.jsx';
 import styles from '../../styles/jobs.module.css';
 
@@ -12,21 +12,26 @@ const DefJobs = () => {
   const initialized = useRef(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isDone, setIsDone] = useState(false);
-  const [startIndex, setStartIndex] = useState(1);
+  const [nextPage, setNextPage] = useState(1);
   const DataSize = 10;
+
   const [jobs, setJobs] = useState([]);
+  const [data, setData] = useState([]);
 
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
     }
+    else if (isDone) {
+      return;
+    }
     else {
       setIsLoading(true);
-      GetSpecificJobs(accessToken, startIndex, DataSize).then((response) => {
+      FetchJobs(accessToken, nextPage).then((response) => {
         if (response.status === 200) {
-          if (response.data.jobs.length == 0) {
+          setData(response.data.pagination_data);
+          if (!response.data.pagination_data.has_more_pages) {
             setIsDone(true);
-            return;
           }
           response.data.jobs.map((job) => {
             if (job.photo) {
@@ -47,7 +52,7 @@ const DefJobs = () => {
         setIsLoading(false);
       });
     }
-  }, [startIndex]);
+  }, [nextPage]);
 
   const handleScroll = () => {
     const scrollY = window.scrollY;
@@ -57,7 +62,7 @@ const DefJobs = () => {
       return;
     }
     if (scrollY + windowHeight >= documentHeight - 100) {
-      setStartIndex(startIndex + DataSize);
+      setNextPage(nextPage + 1);
     }
   };
 
@@ -66,7 +71,7 @@ const DefJobs = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [startIndex]);
+  }, [nextPage]);
 
 
   return (

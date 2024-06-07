@@ -2,6 +2,7 @@
   top: 75px;
   position: relative;
   margin-bottom: 75px;
+  min-height: 100vh;
 }
 
 .header {

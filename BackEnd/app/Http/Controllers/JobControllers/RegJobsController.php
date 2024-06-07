@@ -68,14 +68,30 @@ class RegJobsController extends Controller
 
         // Response
         if (empty($queryItems)) {
-            return response()->json([
-                'jobs' => new RegJobCollection(RegJob::all()),
-            ], 200);
+            $jobs = RegJob::paginate(10);
+        } else {
+            $jobs = RegJob::where($queryItems)->paginate(10);
         }
 
         // Response
         return response()->json([
-            'jobs' => new RegJobCollection(RegJob::where($queryItems)->get()->all()),
+            'jobs' => new RegJobCollection($jobs->items()),
+            'pagination_data' => [
+                'from' => $jobs->firstItem(),
+                'to' => $jobs->lastItem(),
+                'per_page' => $jobs->perPage(),
+                'total' => $jobs->total(),
+                'first_page' => 1,
+                'current_page' => $jobs->currentPage(),
+                'last_page' => $jobs->lastPage(),
+                'has_more_pages' => $jobs->hasMorePages(),
+                'first_page_url' => $jobs->url(1),
+                'current_page_url' => $jobs->url($jobs->currentPage()),
+                'last_page_url' => $jobs->url($jobs->lastPage()),
+                'next_page' => $jobs->nextPageUrl(),
+                'prev_page' => $jobs->previousPageUrl(),
+                'path' => $jobs->path()
+            ]
         ], 200);
     }
 

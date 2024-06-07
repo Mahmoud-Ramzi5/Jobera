@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 
-export const GetSpecificJobs = async (token, startIndex, dataSize) => {
+export const FetchJobs = async (token, page) => {
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/jobs?startIndex=${startIndex}&dataSize=${dataSize}`, {
+    const response = await axios.get(`http://127.0.0.1:8000/api/jobs?page=${page}`, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",
@@ -16,9 +16,9 @@ export const GetSpecificJobs = async (token, startIndex, dataSize) => {
   }
 };
 
-export const FetchFullTimeJobs = async (token) => {
+export const FetchFullTimeJobs = async (token, page, queries) => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/regJobs?type[eq]=FullTime', {
+    const response = await axios.get(`http://127.0.0.1:8000/api/regJobs?page=${page}&type[eq]=FullTime`, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",
@@ -30,9 +30,10 @@ export const FetchFullTimeJobs = async (token) => {
     return error.response;
   }
 };
-export const FetchPartTimeJobs = async (token) => {
+
+export const FetchPartTimeJobs = async (token, page, queries) => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/regJobs?type[eq]=PartTime', {
+    const response = await axios.get(`http://127.0.0.1:8000/api/regJobs?page=${page}&type[eq]=PartTime`, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",
@@ -44,24 +45,28 @@ export const FetchPartTimeJobs = async (token) => {
     return error.response;
   }
 };
-export const FetchRegJobsByCompany = async (token,type,company_id) => {
+
+export const FetchFreelancingJobs = async (token, page, queries) => {
+  try {
+    const response = await axios.get(`http://127.0.0.1:8000/api/FreelancingJobs?page=${page}`, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+
+
+// TODO
+export const FetchRegJobsByCompany = async (token, type, company_id) => {
   try {
     const response = await axios.get(`http://127.0.0.1:8000/api/regJobs?type[eq]=${type}&company_id[eq]=${company_id}`, {
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': "application/json",
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    return response;
-  } catch (error) {
-    return error.response;
-  }
-};
-
-export const FetchAllFreelancingJobs = async (token) => {
-  try {
-    const response = await axios.get('http://127.0.0.1:8000/api/FreelancingJobs', {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",
