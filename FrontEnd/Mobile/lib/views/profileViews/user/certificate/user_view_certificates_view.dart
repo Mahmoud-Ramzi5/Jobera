@@ -29,7 +29,7 @@ class UserEditCertificatesView extends StatelessWidget {
         ],
         leading: _editController.generalController.isInRegister
             ? IconButton(
-                onPressed: () => Get.offAllNamed('/viewPortofolios'),
+                onPressed: () => Get.offAllNamed('/viewPortfolios'),
                 icon: const LabelText(
                   text: 'Next',
                 ),
@@ -54,6 +54,10 @@ class UserEditCertificatesView extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     child: Card(
                       child: ExpansionTile(
+                        trailing: Icon(
+                          Icons.edit,
+                          color: Colors.lightBlue.shade900,
+                        ),
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

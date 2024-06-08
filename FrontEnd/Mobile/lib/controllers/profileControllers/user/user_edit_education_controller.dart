@@ -37,7 +37,6 @@ class UserEditEducationController extends GetxController {
       'High Institute': 'HIGH_INSTITUTE',
     };
     if (!generalController.isInRegister) {
-      // await fetchEducation();
       education = profileController.user.education;
       selectedLevel = education!.level;
       editFieldController = TextEditingController(text: education!.field);
@@ -53,7 +52,7 @@ class UserEditEducationController extends GetxController {
       int year2 = int.parse(parts2[2]);
       endDate = DateTime(year2, month2, day2);
       certficateName = education!.certificateFile == null
-          ? 'No file'
+          ? null
           : Uri.file(
               education!.certificateFile.toString(),
             ).pathSegments.last;
@@ -105,33 +104,6 @@ class UserEditEducationController extends GetxController {
     update();
   }
 
-  Future<dynamic> fetchEducation() async {
-    String? token = sharedPreferences?.getString('access_token');
-
-    try {
-      var response = await dio.get(
-        'http://192.168.0.107:8000/api/education',
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token'
-          },
-        ),
-      );
-      if (response.statusCode == 200) {
-        education = Education.fromJson(
-          response.data['education'],
-        );
-      }
-    } on DioException catch (e) {
-      Dialogs().showErrorDialog(
-        'Error',
-        e.response!.data['errors'].toString(),
-      );
-    }
-  }
-
   Future<void> editEducation(
     String level,
     String field,
@@ -160,7 +132,7 @@ class UserEditEducationController extends GetxController {
     );
     try {
       var response = await dio.post(
-        'http://192.168.0.107:8000/api/education',
+        'http://192.168.1.2:8000/api/education',
         data: data,
         options: Options(
           headers: {
@@ -191,7 +163,7 @@ class UserEditEducationController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       final response = await dio.post(
-        'http://192.168.0.107:8000/api/regStep',
+        'http://192.168.1.2:8000/api/regStep',
         options: Options(
             responseType: ResponseType.bytes, // important
             headers: {

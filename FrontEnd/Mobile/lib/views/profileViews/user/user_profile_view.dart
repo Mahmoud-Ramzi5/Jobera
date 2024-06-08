@@ -343,7 +343,7 @@ class UserProfileView extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          Get.toNamed('/viewPortofolios');
+                          Get.toNamed('/viewPortfolios');
                         },
                       ),
                     ),

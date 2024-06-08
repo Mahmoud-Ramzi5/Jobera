@@ -1,6 +1,6 @@
 import 'package:jobera/models/certificate.dart';
 import 'package:jobera/models/education.dart';
-import 'package:jobera/models/portofolio.dart';
+import 'package:jobera/models/portfolio.dart';
 import 'package:jobera/models/skill.dart';
 
 class User {
@@ -17,7 +17,7 @@ class User {
   final Education? education;
   final List<Skill> skills;
   final List<Certificate>? certificates;
-  final List<Portofolio>? portofolios;
+  final List<Portfolio>? portofolios;
 
   User({
     required this.name,
@@ -59,7 +59,7 @@ class User {
         ],
         portofolios = [
           for (var portofolio in json['portfolios'])
-            (Portofolio.fromJson(portofolio)),
+            (Portfolio.fromJson(portofolio)),
         ];
 
   User.empty()

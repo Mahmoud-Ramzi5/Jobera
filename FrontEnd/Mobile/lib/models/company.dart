@@ -1,4 +1,4 @@
-import 'package:jobera/models/portofolio.dart';
+import 'package:jobera/models/portfolio.dart';
 
 class Company {
   final String name;
@@ -11,7 +11,7 @@ class Company {
   final String type;
   final String? description;
   final String? photo;
-  final List<Portofolio>? portofolios;
+  final List<Portfolio>? portofolios;
 
   Company({
     required this.name,
@@ -40,7 +40,7 @@ class Company {
         photo = json['avatar_photo'] as String?,
         portofolios = [
           for (var portofolio in json['portfolios'])
-            (Portofolio.fromJson(portofolio)),
+            (Portfolio.fromJson(portofolio)),
         ];
 
   Company.empty()

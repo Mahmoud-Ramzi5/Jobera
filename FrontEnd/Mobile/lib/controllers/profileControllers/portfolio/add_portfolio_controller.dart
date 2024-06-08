@@ -6,13 +6,13 @@ import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:image_picker/image_picker.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/controllers/general_controller.dart';
-import 'package:jobera/controllers/profileControllers/portofolio/edit_portofolio_controller.dart';
+import 'package:jobera/controllers/profileControllers/portfolio/edit_portfolio_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/skill.dart';
 
-class AddPortofolioController extends GetxController {
+class AddPortfolioController extends GetxController {
   late GlobalKey<FormState> formField;
-  late EditPortofolioController portofolioController;
+  late EditPortfolioController portfolioController;
   late GeneralController generalController;
   late TextEditingController titleController;
   late TextEditingController descriptionController;
@@ -27,7 +27,7 @@ class AddPortofolioController extends GetxController {
   @override
   Future<void> onInit() async {
     formField = GlobalKey<FormState>();
-    portofolioController = Get.find<EditPortofolioController>();
+    portfolioController = Get.find<EditPortfolioController>();
     generalController = Get.find<GeneralController>();
     titleController = TextEditingController();
     descriptionController = TextEditingController();
@@ -89,7 +89,7 @@ class AddPortofolioController extends GetxController {
     }
   }
 
-  Future<void> addPortofolio(
+  Future<void> addPortfolio(
     String title,
     String description,
     String link,
@@ -140,7 +140,7 @@ class AddPortofolioController extends GetxController {
       }
       try {
         var response = await dio.post(
-          'http://192.168.0.107:8000/api/portfolio/add',
+          'http://192.168.1.2:8000/api/portfolio/add',
           data: data,
           options: Options(
             headers: {
@@ -151,7 +151,7 @@ class AddPortofolioController extends GetxController {
           ),
         );
         if (response.statusCode == 201) {
-          portofolioController.refreshIndicatorKey.currentState!.show();
+          portfolioController.refreshIndicatorKey.currentState!.show();
           Get.back();
         }
       } on DioException catch (e) {

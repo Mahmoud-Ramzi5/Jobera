@@ -57,7 +57,7 @@ class UserEditSkillsController extends GetxController {
 
     try {
       var response = await dio.get(
-        'http://192.168.0.107:8000/api/user/skills',
+        'http://192.168.1.2:8000/api/user/skills',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -91,7 +91,7 @@ class UserEditSkillsController extends GetxController {
       }
       try {
         var response = await dio.post(
-          'http://192.168.0.107:8000/api/user/skills/edit',
+          'http://192.168.1.2:8000/api/user/skills/edit',
           data: {
             'skills': skillIds,
           },
@@ -127,7 +127,7 @@ class UserEditSkillsController extends GetxController {
       }
       try {
         var response = await dio.post(
-          'http://192.168.0.107:8000/api/user/skills/add',
+          'http://192.168.1.2:8000/api/user/skills/add',
           data: {
             'skills': skillIds,
           },
@@ -155,7 +155,7 @@ class UserEditSkillsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       final response = await dio.post(
-        'http://192.168.0.107:8000/api/regStep',
+        'http://192.168.1.2:8000/api/regStep',
         options: Options(
             responseType: ResponseType.bytes, // important
             headers: {

@@ -59,7 +59,7 @@ class PortfolioController extends Controller
 
         // Response
         return response()->json([
-            'portfolio' => $portfolio
+            'portfolio' => new PortfolioResource($portfolio)
         ], 200);
     }
 

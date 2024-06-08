@@ -3,26 +3,26 @@ import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/classes/texts.dart';
 import 'package:jobera/classes/validation.dart';
-import 'package:jobera/controllers/profileControllers/portofolio/add_portofolio_controller.dart';
+import 'package:jobera/controllers/profileControllers/portfolio/add_portfolio_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
 
-class AddPortofolioView extends StatelessWidget {
-  final AddPortofolioController _addController =
-      Get.put(AddPortofolioController());
+class AddPortfolioView extends StatelessWidget {
+  final AddPortfolioController _addController =
+      Get.put(AddPortfolioController());
 
-  AddPortofolioView({super.key});
+  AddPortfolioView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Add Portofolio'),
+        title: const TitleText(text: 'Add Portfolio'),
         actions: [
           TextButton(
             onPressed: () {
               if (_addController.formField.currentState?.validate() == true) {
-                _addController.addPortofolio(
+                _addController.addPortfolio(
                   _addController.titleController.text,
                   _addController.descriptionController.text,
                   _addController.linkController.text,
@@ -41,7 +41,7 @@ class AddPortofolioView extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              GetBuilder<AddPortofolioController>(
+              GetBuilder<AddPortfolioController>(
                 builder: (controller) => Padding(
                   padding: const EdgeInsets.all(10),
                   child: ProfilePhotoContainer(
@@ -115,7 +115,7 @@ class AddPortofolioView extends StatelessWidget {
                   validator: (p0) => Validation().validateRequiredField(p0),
                 ),
               ),
-              GetBuilder<AddPortofolioController>(
+              GetBuilder<AddPortfolioController>(
                 builder: (controller) => Column(
                   children: [
                     Padding(
@@ -254,7 +254,7 @@ class AddPortofolioView extends StatelessWidget {
               ),
               Padding(
                 padding: const EdgeInsets.all(10),
-                child: GetBuilder<AddPortofolioController>(
+                child: GetBuilder<AddPortfolioController>(
                   builder: (controller) => ListContainer(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
