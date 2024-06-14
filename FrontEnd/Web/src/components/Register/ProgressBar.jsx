@@ -3,7 +3,7 @@ import styles from './progressbar.module.css';
 
 const ProgressBar = ({ step }) => {
   const initialized = useRef(false);
-  const steps = ["SKILLS", "EDUCATION", "CERTIFICATE", "PORTFOLIO"];
+  const steps = ["SKILLS", "EDUCATION", "CERTIFICATES", "PORTFOLIO"];
 
   useEffect(() => {
     if (!initialized.current) {
