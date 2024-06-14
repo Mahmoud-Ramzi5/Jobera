@@ -42,11 +42,10 @@ const Register2 = () => {
     }
   }, []);
 
-  console.log(loading);
-  if(loading) {
+
+  if (loading) {
     return <></>;
   }
-
   return (
     <div className={styles.container}>
       <div className={styles.Bar}>
@@ -63,7 +62,7 @@ const Register2 = () => {
               return (
                 <EducationForm step={setStep} />
               );
-            case 'CERTIFICATE':
+            case 'CERTIFICATES':
               return (
                 <Certificates step={setStep} />
               );
