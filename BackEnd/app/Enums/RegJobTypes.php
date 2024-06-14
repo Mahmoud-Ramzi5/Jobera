@@ -2,10 +2,10 @@
 
 namespace App\Enums;
 
-enum IndividualGender: string
+enum RegJobTypes: string
 {
-    case MALE = 'MALE';
-    case FEMALE = 'FEMALE';
+    case FullTime = 'FullTime';
+    case PartTime = 'PartTime';
 
     public static function names(): array
     {
@@ -15,8 +15,8 @@ enum IndividualGender: string
     public static function values(): array
     {
         return [
-            ['en' => 'Male', 'ar' => 'ذكر'],
-            ['en' => 'Female', 'ar' => 'انثى'],
+            ['en' => 'FullTime', 'ar' => 'دوام كامل'],
+            ['en' => 'PartTime', 'ar' => 'دوام جزئي'],
         ];
     }
 }

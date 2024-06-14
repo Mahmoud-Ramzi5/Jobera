@@ -147,10 +147,8 @@ class CompanyRegisterView extends StatelessWidget {
                             ),
                           )
                           .toList(),
-                      onChanged: (p0) async {
-                        await controller.selectCountry(p0);
-                        controller.update();
-                      },
+                      onChanged: (p0) async =>
+                          await controller.selectCountry(p0),
                       text: 'Select Country',
                     ),
                     CustomDropDownButton(

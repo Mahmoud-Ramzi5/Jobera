@@ -2,21 +2,22 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:image_picker/image_picker.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/controllers/general_controller.dart';
+import 'package:jobera/controllers/profileControllers/portfolio/view_portfolio_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/portfolio.dart';
+import 'package:jobera/models/portfolio_file.dart';
 import 'package:jobera/models/skill.dart';
 
 class EditPortfolioController extends GetxController {
-  late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
-  late GeneralController generalController;
   late Dio dio;
+  late GeneralController generalController;
+  late ViewPortfolioController portfolioController;
   late GlobalKey<FormState> formField;
-  List<Portfolio> portoflios = [];
-  Portfolio? editPortfolio;
+  Portfolio portfolio = Portfolio.empty();
   TextEditingController editTitleController = TextEditingController();
   TextEditingController editDescriptionController = TextEditingController();
   TextEditingController editLinkController = TextEditingController();
@@ -24,83 +25,39 @@ class EditPortfolioController extends GetxController {
   bool hasImage = false;
   List<Skill> usedSkills = [];
   List<Skill> skills = [];
+  List<dynamic> files = [];
   XFile? image;
   Uint8List displayImage = Uint8List(0);
-  FilePickerResult? files;
+  FilePickerResult? pickedFiles;
 
   @override
   Future<void> onInit() async {
-    refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
-    generalController = Get.find<GeneralController>();
     dio = Dio();
+    generalController = Get.find<GeneralController>();
+    portfolioController = Get.find<ViewPortfolioController>();
     formField = GlobalKey<FormState>();
-
-    await fetchPortfolios();
+    portfolio = await fetchPortfolio(portfolioController.id);
+    editTitleController.text = portfolio.title;
+    editDescriptionController.text = portfolio.description;
+    editLinkController.text = portfolio.link;
+    imagePath = portfolio.photo;
+    if (imagePath != null) {
+      hasImage = true;
+    }
+    usedSkills = portfolio.skills;
+    skills = await generalController.getAllSkills();
+    for (var file in portfolio.files) {
+      files.add(file);
+    }
+    update();
     super.onInit();
   }
 
-  Future<dynamic> fetchPortfolios() async {
+  Future<dynamic> fetchPortfolio(int id) async {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.2:8000/api/portfolios',
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-        ),
-      );
-      if (response.statusCode == 200) {
-        portoflios = [
-          for (var portofolio in response.data['portfolios'])
-            Portfolio.fromJson(
-              {
-                ...portofolio,
-                'files': portofolio['files'] ?? [],
-              },
-            ),
-        ];
-        update();
-      }
-    } on DioException catch (e) {
-      Dialogs().showErrorDialog(
-        'Error',
-        e.response.toString(),
-      );
-    }
-  }
-
-  Future<void> deletePortfolio(int id) async {
-    String? token = sharedPreferences?.getString('access_token');
-    try {
-      var response = await dio.delete(
-        'http://192.168.1.2:8000/api/portfolios/$id',
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': "application/json",
-            'Authorization': 'Bearer $token'
-          },
-        ),
-      );
-      if (response.statusCode == 204) {
-        refreshIndicatorKey.currentState!.show();
-      }
-    } on DioException catch (e) {
-      Dialogs().showErrorDialog(
-        'Error',
-        e.response.toString(),
-      );
-    }
-  }
-
-  Future<void> fetchPortfolio(int id) async {
-    String? token = sharedPreferences?.getString('access_token');
-    try {
-      var response = await dio.get(
-        'http://192.168.1.2:8000/api/portfolio/$id',
+        'http://192.168.0.106:8000/api/portfolio/$id',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -110,7 +67,7 @@ class EditPortfolioController extends GetxController {
         ),
       );
       if (response.statusCode == 200) {
-        editPortfolio = Portfolio.fromJson(response.data['portfolio']);
+        return portfolio = Portfolio.fromJson(response.data['portfolio']);
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
@@ -118,19 +75,6 @@ class EditPortfolioController extends GetxController {
         e.response.toString(),
       );
     }
-  }
-
-  Future<void> startEdit(int id) async {
-    await fetchPortfolio(id);
-    if (editPortfolio?.photo != null) {
-      hasImage = true;
-    }
-    editTitleController.text = editPortfolio!.title;
-    editDescriptionController.text = editPortfolio!.description;
-    editLinkController.text = editPortfolio!.link;
-    usedSkills = editPortfolio!.skills;
-    skills = await generalController.getAllSkills();
-    update();
   }
 
   Future<void> searchSkills(String value) async {
@@ -158,16 +102,18 @@ class EditPortfolioController extends GetxController {
   }
 
   Future<void> addFiles() async {
-    files = await generalController.pickFiles();
+    pickedFiles = await generalController.pickFiles();
+    if (pickedFiles != null) {
+      for (var i = 0; i < pickedFiles!.count; i++) {
+        files.add(pickedFiles!.files[i]);
+      }
+    }
     update();
   }
 
   void removeFile(int index) {
-    editPortfolio?.files?.removeAt(index);
+    files.removeAt(index);
     update();
-    if (files?.files != null && files!.files.length > index) {
-      files!.files.removeAt(index);
-    }
   }
 
   Future<void> addPhoto() async {
@@ -199,5 +145,91 @@ class EditPortfolioController extends GetxController {
       image = null;
     }
     update();
+  }
+
+  Future<void> editPortfolio(
+    int id,
+    String title,
+    String description,
+    String link,
+    XFile? image,
+    List<Skill> skills,
+  ) async {
+    String? token = sharedPreferences?.getString('access_token');
+    if (skills.isNotEmpty) {
+      if (files.length > 5) {
+        files.removeRange(5, files.length);
+      }
+
+      final data = FormData.fromMap(
+        {
+          'title': title,
+          'description': description,
+          'link': link,
+        },
+      );
+
+      if (image != null) {
+        data.files.add(
+          MapEntry(
+            'photo',
+            await MultipartFile.fromFile(image.path),
+          ),
+        );
+      }
+
+      for (int i = 0; i < files.length; i++) {
+        if (files[i] is PortfolioFile) {
+          data.files.add(
+            MapEntry('files[$i]', files[i].path),
+          );
+        } else {
+          data.files.add(
+            MapEntry(
+              'files[$i]',
+              await MultipartFile.fromFile(
+                files[i].path.toString(),
+              ),
+            ),
+          );
+        }
+      }
+      for (int i = 0; i < skills.length; i++) {
+        data.fields.add(
+          MapEntry(
+            'skills[$i]',
+            skills[i].id.toString(),
+          ),
+        );
+      }
+
+      try {
+        var response = await dio.post(
+          'http://192.168.0.106:8000/api/certificate/edit/$id',
+          data: data,
+          options: Options(
+            headers: {
+              'Content-Type': 'multipart/form-data; charset=UTF-8',
+              'Accept': "application/json",
+              'Authorization': 'Bearer $token',
+            },
+          ),
+        );
+        if (response.statusCode == 200) {
+          Get.back();
+          portfolioController.refreshIndicatorKey.currentState!.show();
+        }
+      } on DioException catch (e) {
+        Dialogs().showErrorDialog(
+          'Error',
+          e.response.toString(),
+        );
+      }
+    } else {
+      Dialogs().showErrorDialog(
+        'Error',
+        'Must select at least 1 skill',
+      );
+    }
   }
 }

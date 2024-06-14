@@ -88,7 +88,9 @@ class HomeView extends StatelessWidget {
               title: "Logout",
               icon: Icons.logout,
               onTap: () {
-                Dialogs().showLogoutDialog(() => _homeController.logout());
+                Dialogs().showLogoutDialog(
+                  () => _homeController.logout(),
+                );
               },
             ),
           ],

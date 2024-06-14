@@ -7,7 +7,7 @@ class Portfolio {
   final String description;
   final String link;
   final String? photo;
-  final List<PortfolioFile>? files;
+  final List<PortfolioFile> files;
   final List<Skill> skills;
 
   Portfolio({
@@ -16,8 +16,8 @@ class Portfolio {
     required this.description,
     required this.link,
     required this.skills,
+    required this.files,
     this.photo,
-    this.files,
   });
 
   Portfolio.fromJson(Map<String, dynamic> json)
@@ -33,4 +33,13 @@ class Portfolio {
         skills = [
           for (var skill in json['skills']) (Skill.fromJson(skill)),
         ];
+
+  Portfolio.empty()
+      : id = 0,
+        title = '',
+        description = '',
+        link = '',
+        photo = '',
+        files = [],
+        skills = [];
 }

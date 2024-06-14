@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use App\Enums\RegisterStep;
 
 class Individual extends User
 {
@@ -49,6 +50,24 @@ class Individual extends User
         return [
 
         ];
+    }
+
+    /* Special Function */
+    public function register_step()
+    {
+        if (count($this->skills) == 0) {
+            $step = RegisterStep::SKILLS;
+        } else if ($this->education == null) {
+            $step = RegisterStep::EDUCATION;
+        } else if (count($this->certificates) == 0) {
+            $step = RegisterStep::CERTIFICATES;
+        } else if (count($this->portfolios) == 0) {
+            $step = RegisterStep::PORTFOLIO;
+        } else {
+            $step = RegisterStep::DONE;
+        }
+
+        return $step;
     }
 
     /* Relations */

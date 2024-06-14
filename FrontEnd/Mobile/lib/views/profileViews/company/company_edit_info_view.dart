@@ -25,10 +25,11 @@ class CompanyEditInfoView extends StatelessWidget {
             onPressed: () {
               if (_editController.formField.currentState?.validate() == true) {
                 _editController.editBasicInfo(
-                    _editController.editNameController.text,
-                    _editController.editFieldController.text,
-                    _editController.editPhoneNumberController.text,
-                    _editController.selectedState!.stateId);
+                  _editController.editNameController.text,
+                  _editController.editFieldController.text,
+                  _editController.editPhoneNumberController.text,
+                  _editController.selectedState!.stateId,
+                );
               }
             },
             child: const LabelText(text: 'Submit'),
@@ -100,7 +101,6 @@ class CompanyEditInfoView extends StatelessWidget {
                         .toList(),
                     onChanged: (p0) async {
                       await controller.selectCountry(p0);
-                      controller.update();
                     },
                     text: 'Select Country',
                   ),

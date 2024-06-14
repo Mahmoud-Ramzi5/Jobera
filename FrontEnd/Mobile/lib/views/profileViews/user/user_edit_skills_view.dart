@@ -18,15 +18,11 @@ class UserEditSkillsView extends StatelessWidget {
         actions: [
           _editController.generalController.isInRegister
               ? TextButton(
-                  onPressed: () {
-                    _editController.advanceRegisterStep();
-                  },
+                  onPressed: () => _editController.advanceRegisterStep(),
                   child: const LabelText(text: 'Next'),
                 )
               : TextButton(
-                  onPressed: () {
-                    _editController.addSkills();
-                  },
+                  onPressed: () => _editController.addSkills(),
                   child: const LabelText(text: 'Submit'),
                 ),
         ],
@@ -127,9 +123,9 @@ class UserEditSkillsView extends StatelessWidget {
                                     padding: const EdgeInsets.all(10),
                                     child: InputChip(
                                       label: BodyText(
-                                          text: controller
-                                              .skillTypes[firstIndex]
-                                              .value['en']!),
+                                        text: controller.skillTypes[firstIndex]
+                                            .value['en']!,
+                                      ),
                                       onPressed: () => controller.getSkills(
                                           controller
                                               .skillTypes[firstIndex].name),
@@ -147,8 +143,8 @@ class UserEditSkillsView extends StatelessWidget {
                                               .skillTypes[secondIndex]
                                               .value['en']!),
                                       onPressed: () => controller.getSkills(
-                                          controller
-                                              .skillTypes[secondIndex].name),
+                                        controller.skillTypes[secondIndex].name,
+                                      ),
                                     ),
                                   ),
                                 ),

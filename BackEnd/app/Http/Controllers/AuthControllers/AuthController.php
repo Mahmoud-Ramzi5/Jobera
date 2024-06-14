@@ -39,7 +39,7 @@ class AuthController extends Controller
             'state_id' => $validated['state_id'],
         ]);
 
-        if($user == null) {
+        if ($user == null) {
             return response()->json([
                 'errors' => ['user' => 'Invalid user']
             ], 401);
@@ -50,7 +50,7 @@ class AuthController extends Controller
         $individual = Individual::create($validated);
 
         Wallet::create([
-            'id'=> $user->id,
+            'id' => $user->id,
             'user_id' => $user->id,
             'current_balance' => 0.0,
             'available_balance' => 0.0,
@@ -86,7 +86,7 @@ class AuthController extends Controller
             'state_id' => $validated['state_id'],
         ]);
 
-        if($user == null) {
+        if ($user == null) {
             return response()->json([
                 'errors' => ['user' => 'Invalid user']
             ], 401);
@@ -96,7 +96,7 @@ class AuthController extends Controller
         $company = Company::create($validated);
 
         Wallet::create([
-            'id'=> $user->id,
+            'id' => $user->id,
             'user_id' => $user->id,
             'current_balance' => 0.0,
             'available_balance' => 0.0,
@@ -258,7 +258,8 @@ class AuthController extends Controller
         ], 401);
     }
 
-    public function GetRegisterStep(Request $request) {
+    public function GetRegisterStep(Request $request)
+    {
         // Get User
         $user = auth()->user();
 
@@ -281,7 +282,7 @@ class AuthController extends Controller
 
         // Response
         return response()->json([
-            "step" => $individual->register_step
+            'step' => $individual->register_step()
         ], 200);
     }
 
@@ -307,30 +308,33 @@ class AuthController extends Controller
             ], 401);
         }
 
-        if ($individual->register_step == 'DONE') {
+        // Get step
+        $register_step = $individual->register_step();
+
+        // Check step
+        if ($register_step == 'DONE') {
             // Response
             return response()->json([
-                "step" => $individual->register_step
+                'step' => $register_step
             ], 200);
         }
 
         $steps = RegisterStep::names();
-        for($step = 0; $step < count($steps); $step++){
-            if($steps[$step] == $individual->register_step) {
-                $individual->register_step = $steps[++$step];
-                $individual->save();
+        for ($step = 0; $step < count($steps); $step++) {
+            if ($steps[$step] == $register_step) {
+                $register_step = $steps[++$step];
 
                 // Response
                 return response()->json([
-                    "step" => $individual->register_step
+                    'step' => $register_step
                 ], 200);
             }
         }
 
         // Response
         return response()->json([
-            "message" => "error",
-            "step" => $individual->register_step
+            'message' => 'error',
+            'step' => $register_step
         ], 400);
     }
 }

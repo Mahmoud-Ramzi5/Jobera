@@ -52,6 +52,11 @@ class UserEditCertificatesController extends GetxController {
     ).pathSegments.last;
   }
 
+  Future<void> addFile() async {
+    editfile = await generalController.pickFile();
+    updateName();
+  }
+
   void updateName() {
     if (editfile != null) {
       editFileName = editfile!.files[0].name;
@@ -63,7 +68,7 @@ class UserEditCertificatesController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.2:8000/api/certificates',
+        'http://192.168.0.106:8000/api/certificates',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -104,7 +109,7 @@ class UserEditCertificatesController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.delete(
-        'http://192.168.1.2:8000/api/certificates/$id',
+        'http://192.168.0.106:8000/api/certificates/$id',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -150,7 +155,7 @@ class UserEditCertificatesController extends GetxController {
     );
     try {
       var response = await dio.post(
-        'http://192.168.1.2:8000/api/certificate/edit/$id',
+        'http://192.168.0.106:8000/api/certificate/edit/$id',
         data: data,
         options: Options(
           headers: {

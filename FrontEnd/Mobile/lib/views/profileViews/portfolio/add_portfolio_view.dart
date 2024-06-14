@@ -52,10 +52,7 @@ class AddPortfolioView extends StatelessWidget {
                             onTap: () => Dialogs().addPhotoDialog(
                               () => controller.takePhoto(),
                               () => controller.addPhoto(),
-                              () {
-                                controller.image = null;
-                                controller.update();
-                              },
+                              () => controller.removePhoto(),
                             ),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -73,10 +70,7 @@ class AddPortfolioView extends StatelessWidget {
                             onTap: () => Dialogs().addPhotoDialog(
                               () => controller.takePhoto(),
                               () => controller.addPhoto(),
-                              () {
-                                controller.image = null;
-                                controller.update();
-                              },
+                              () => controller.removePhoto(),
                             ),
                           ),
                   ),
@@ -178,75 +172,74 @@ class AddPortfolioView extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(10),
-                      child: SearchBar(
-                        hintText: 'Search',
-                        leading: Icon(
-                          Icons.search,
-                          color: Colors.lightBlue.shade900,
-                        ),
-                        onChanged: (value) => controller.searchSkills(value),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
                       child: SkillsContainer(
                         name: 'Skills',
                         widget: ExpansionTile(
-                            title: const BodyText(text: 'Expand'),
-                            children: [
-                              ListView.builder(
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemCount:
-                                    (controller.skills.length / 2).ceil(),
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  final firstIndex = index * 2;
-                                  final secondIndex = firstIndex + 1;
-                                  return Row(
-                                    children: [
-                                      if (firstIndex < controller.skills.length)
-                                        Expanded(
-                                          flex: 1,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(5),
-                                            child: InputChip(
-                                              label: BodyText(
-                                                text: controller
-                                                    .skills[firstIndex].name,
-                                              ),
-                                              onPressed: () {
-                                                controller.addToOMySkills(
-                                                  controller.skills[firstIndex],
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                      if (secondIndex <
-                                          controller.skills.length)
-                                        Expanded(
-                                          flex: 1,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(5),
-                                            child: InputChip(
-                                              label: BodyText(
-                                                text: controller
-                                                    .skills[secondIndex].name,
-                                              ),
-                                              onPressed: () {
-                                                controller.addToOMySkills(
-                                                  controller
-                                                      .skills[secondIndex],
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                        ),
-                                    ],
-                                  );
-                                },
+                          title: const BodyText(text: 'Expand'),
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: SearchBar(
+                                hintText: 'Search',
+                                leading: Icon(
+                                  Icons.search,
+                                  color: Colors.lightBlue.shade900,
+                                ),
+                                onChanged: (value) =>
+                                    controller.searchSkills(value),
                               ),
-                            ]),
+                            ),
+                            ListView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: (controller.skills.length / 2).ceil(),
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                final firstIndex = index * 2;
+                                final secondIndex = firstIndex + 1;
+                                return Row(
+                                  children: [
+                                    if (firstIndex < controller.skills.length)
+                                      Expanded(
+                                        flex: 1,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(5),
+                                          child: InputChip(
+                                            label: BodyText(
+                                              text: controller
+                                                  .skills[firstIndex].name,
+                                            ),
+                                            onPressed: () {
+                                              controller.addToOMySkills(
+                                                controller.skills[firstIndex],
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                    if (secondIndex < controller.skills.length)
+                                      Expanded(
+                                        flex: 1,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(5),
+                                          child: InputChip(
+                                            label: BodyText(
+                                              text: controller
+                                                  .skills[secondIndex].name,
+                                            ),
+                                            onPressed: () {
+                                              controller.addToOMySkills(
+                                                controller.skills[secondIndex],
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                  ],
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -295,11 +288,7 @@ class AddPortfolioView extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: OutlinedButton(
                   child: const BodyText(text: 'Choose files'),
-                  onPressed: () async {
-                    _addController.files =
-                        await _addController.generalController.pickFiles();
-                    _addController.update();
-                  },
+                  onPressed: () async => _addController.addFiles(),
                 ),
               ),
             ],

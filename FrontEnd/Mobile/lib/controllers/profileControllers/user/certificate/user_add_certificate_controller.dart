@@ -52,6 +52,11 @@ class UserAddCertificateController extends GetxController {
     }
   }
 
+  Future<void> addFile() async {
+    file = await generalController.pickFile();
+    updateName();
+  }
+
   void updateName() {
     if (file != null) {
       fileName = file!.files[0].name;
@@ -82,7 +87,7 @@ class UserAddCertificateController extends GetxController {
       );
       try {
         var response = await dio.post(
-          'http://192.168.1.2:8000/api/certificate/add',
+          'http://192.168.0.106:8000/api/certificate/add',
           data: data,
           options: Options(
             headers: {

@@ -41,7 +41,8 @@ class ForgotPasswordView extends StatelessWidget {
                             ?.validate() ==
                         true) {
                       await _forgotPasswordController.forgotPassword(
-                          _forgotPasswordController.emailController.text);
+                        _forgotPasswordController.emailController.text,
+                      );
                     }
                   },
                   child: const BodyText(text: "Submit"),

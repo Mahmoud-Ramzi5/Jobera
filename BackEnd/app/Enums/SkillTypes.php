@@ -4,12 +4,12 @@ namespace App\Enums;
 
 enum SkillTypes: string
 {
-    case IT = ['en' => 'IT', 'ar' => 'هندسة معلوماتية'];
-    case DESIGN = ['en' => 'Design', 'ar' => 'تصميم'];
-    case BUSINESS = ['en' => 'Business', 'ar' => 'أعمال'];
-    case LANGUAGES = ['en' => 'Languages', 'ar' => 'لغات'];
-    case ENGINEERING = ['en' => 'Engineering', 'ar' => 'هندسة'];
-    case WORKER = ['en' => 'Worker', 'ar' => 'عامل'];
+    case IT = 'IT';
+    case DESIGN = 'DESIGN';
+    case BUSINESS = 'BUSINESS';
+    case LANGUAGES = 'LANGUAGES';
+    case ENGINEERING = 'ENGINEERING';
+    case WORKER = 'WORKER';
 
     public static function names(): array
     {
@@ -18,6 +18,13 @@ enum SkillTypes: string
 
     public static function values(): array
     {
-        return array_column(self::cases(), 'value');
+        return [
+            ['en' => 'IT', 'ar' => 'هندسة معلوماتية'],
+            ['en' => 'Design', 'ar' => 'تصميم'],
+            ['en' => 'Business', 'ar' => 'أعمال'],
+            ['en' => 'Languages', 'ar' => 'لغات'],
+            ['en' => 'Engineering', 'ar' => 'هندسة'],
+            ['en' => 'Worker', 'ar' => 'عامل'],
+        ];
     }
 }

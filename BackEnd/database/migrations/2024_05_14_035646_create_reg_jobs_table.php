@@ -2,6 +2,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Enums\RegJobTypes;
 
 return new class extends Migration
 {
@@ -13,7 +14,7 @@ return new class extends Migration
         Schema::create('reg_jobs', function (Blueprint $table) {
             $table->id();
             $table->double('salary');
-            $table->enum('type', ['PartTime', 'FullTime']);
+            $table->enum('type', RegJobTypes::names());
             $table->foreignId('company_id')->constrained('companies');
             $table->foreignId('defJob_id')->constrained('def_jobs')->cascadeOnDelete();
             $table->foreignId('accepted_individual')->nullable()->constrained('individuals');

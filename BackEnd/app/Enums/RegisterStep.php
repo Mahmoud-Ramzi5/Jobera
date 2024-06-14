@@ -4,11 +4,11 @@ namespace App\Enums;
 
 enum RegisterStep: string
 {
-    case SKILLS = ['en' => 'SKILLS', 'ar' => 'المهارات'];
-    case EDUCATION = ['en' => 'EDUCATION', 'ar' => 'التعليم'];
-    case CERTIFICATE = ['en' => 'CERTIFICATE', 'ar' => 'الشهادات'];
-    case PORTFOLIO = ['en' => 'PORTFOLIO', 'ar' => 'معرض الأعمال'];
-    case DONE = ['en' => 'DONE', 'ar' => 'منته'];
+    case SKILLS = 'SKILLS';
+    case EDUCATION = 'EDUCATION';
+    case CERTIFICATES = 'CERTIFICATES';
+    case PORTFOLIO = 'PORTFOLIO';
+    case DONE = 'DONE';
 
     public static function names(): array
     {
@@ -17,6 +17,12 @@ enum RegisterStep: string
 
     public static function values(): array
     {
-        return array_column(self::cases(), 'value');
+        return [
+            ['en' => 'SKILLS', 'ar' => 'المهارات'],
+            ['en' => 'EDUCATION', 'ar' => 'التعليم'],
+            ['en' => 'CERTIFICATE', 'ar' => 'الشهادات'],
+            ['en' => 'PORTFOLIO', 'ar' => 'معرض الأعمال'],
+            ['en' => 'DONE', 'ar' => 'منته'],
+        ];
     }
 }

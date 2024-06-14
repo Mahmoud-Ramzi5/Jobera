@@ -131,8 +131,9 @@ class LoginView extends StatelessWidget {
                     children: [
                       const LabelText(text: "New Around Here?"),
                       TextButton(
-                          onPressed: () => Get.toNamed('/register'),
-                          child: const BodyText(text: "Register")),
+                        onPressed: () => Get.toNamed('/register'),
+                        child: const BodyText(text: "Register"),
+                      ),
                     ],
                   ),
                 ],
