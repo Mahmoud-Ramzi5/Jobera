@@ -1,18 +1,32 @@
-import { useContext, useState, useEffect } from 'react';
-import ReactSwitch from 'react-switch';
-import { BriefcaseFill, EnvelopeAtFill, BellFill, List, X } from 'react-bootstrap-icons';
-import { ThemeContext, LoginContext, ProfileContext } from '../utils/Contexts.jsx';
-import { FetchImage } from '../apis/FileApi.jsx';
-import Logo from '../assets/JoberaLogo.png';
-import styles from '../styles/navbar.module.css';
-
+import { useContext, useState, useEffect } from "react";
+import ReactSwitch from "react-switch";
+import {
+  BriefcaseFill,
+  EnvelopeAtFill,
+  BellFill,
+  List,
+  X,
+} from "react-bootstrap-icons";
+import {
+  ThemeContext,
+  LoginContext,
+  ProfileContext,
+} from "../utils/Contexts.jsx";
+import { FetchImage } from "../apis/FileApi.jsx";
+import Logo from "../assets/JoberaLogo.png";
+import styles from "../styles/navbar.module.css";
+import Chats from "./Chats/Chats.jsx";
 
 const NavBar = () => {
-  // Context    
+  // Context
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { loggedIn } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
+  const [showChatScreen, setShowChatScreen] = useState(false);
 
+  const handleShowChat=()=>{
+    setShowChatScreen(!showChatScreen)
+  }
   return (
     <nav>
       <div className={styles.wrapper}>
@@ -20,44 +34,111 @@ const NavBar = () => {
           <img src={Logo} alt="logo" />
           <a href="/">Jobera</a>
         </div>
-        <input type="radio" name="slider" id="menu_btn" className={styles.menu_btn} />
-        <input type="radio" name="slider" id="close_btn" className={styles.close_btn} />
+        <input
+          type="radio"
+          name="slider"
+          id="menu_btn"
+          className={styles.menu_btn}
+        />
+        <input
+          type="radio"
+          name="slider"
+          id="close_btn"
+          className={styles.close_btn}
+        />
 
         <ul className={styles.nav_links}>
           <div className={styles.nav_links_left}>
-            <li><a href='/dashboard'> Home </a></li>
             <li>
-              <a href="/jobs" className={styles.desktop_item}> Jobs </a>
+              <a href="/dashboard"> Home </a>
+            </li>
+            <li>
+              <a href="/jobs" className={styles.desktop_item}>
+                {" "}
+                Jobs{" "}
+              </a>
               <input type="checkbox" id="Jobs" className={styles.showDrop} />
-              <label htmlFor="Jobs" className={styles.mobile_item}> Jobs </label>
+              <label htmlFor="Jobs" className={styles.mobile_item}>
+                {" "}
+                Jobs{" "}
+              </label>
               <ul className={styles.drop_menu}>
-                <a className={styles.mobile_item} href="/jobs">All Jobs</a>
-                <li><a href="/fulltime-jobs">FullTime</a></li>
-                <li><a href="/parttime-jobs">PartTime</a></li>
-                <li><a href="/freelancing-jobs">FreeLance</a></li>
+                <a className={styles.mobile_item} href="/jobs">
+                  All Jobs
+                </a>
+                <li>
+                  <a href="/fulltime-jobs">FullTime</a>
+                </li>
+                <li>
+                  <a href="/parttime-jobs">PartTime</a>
+                </li>
+                <li>
+                  <a href="/freelancing-jobs">FreeLance</a>
+                </li>
               </ul>
             </li>
           </div>
 
           <div className={styles.nav_links_right}>
-            <label htmlFor="close_btn" className={`${styles.btn} ${styles.close_btn}`}><X size={31} /></label>
-            {(loggedIn) ? <><li><a href='/manage'><BriefcaseFill /> Manage </a></li>
-              <li><a href='#'><EnvelopeAtFill /></a></li>
-              <li><a href='#'><BellFill /></a></li>
-              <li>
-                <div className={styles.desktop_item}><NavUser ProfileData={profile} /></div>
-                <input type="checkbox" id="Profile" className={styles.showDrop} />
-                <label htmlFor="Profile" className={styles.mobile_item}><NavUser ProfileData={profile} /></label>
-                <ul className={styles.drop_menu}>
-                  <li><a href="/profile">My Profile</a></li>
-                  <li><a href="/logout">LogOut</a></li>
-                </ul>
-              </li></>
-              : <><li><a href='/login'> Login </a></li>
-                <li><a href='/register'> Register </a></li></>}
+            <label
+              htmlFor="close_btn"
+              className={`${styles.btn} ${styles.close_btn}`}
+            >
+              <X size={31} />
+            </label>
+            {loggedIn ? (
+              <>
+                <li>
+                  <a href="/manage">
+                    <BriefcaseFill /> Manage{" "}
+                  </a>
+                </li>
+                <li>
+                  <a href="#" onClick={handleShowChat}>
+                    <EnvelopeAtFill />
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <BellFill />
+                  </a>
+                </li>
+                <li>
+                  <div className={styles.desktop_item}>
+                    <NavUser ProfileData={profile} />
+                  </div>
+                  <input
+                    type="checkbox"
+                    id="Profile"
+                    className={styles.showDrop}
+                  />
+                  <label htmlFor="Profile" className={styles.mobile_item}>
+                    <NavUser ProfileData={profile} />
+                  </label>
+                  <ul className={styles.drop_menu}>
+                    <li>
+                      <a href="/profile">My Profile</a>
+                    </li>
+                    <li>
+                      <a href="/logout">LogOut</a>
+                    </li>
+                  </ul>
+                  {showChatScreen && <Chats className={styles.chats} />}
+                </li>
+              </>
+            ) : (
+              <>
+                <li>
+                  <a href="/login"> Login </a>
+                </li>
+                <li>
+                  <a href="/register"> Register </a>
+                </li>
+              </>
+            )}
             <li className={styles.theme_switch}>
               <ReactSwitch
-                checked={theme === 'theme-dark'}
+                checked={theme === "theme-dark"}
                 checkedIcon={<>🌙</>}
                 uncheckedIcon={<>🔆</>}
                 onChange={toggleTheme}
@@ -66,7 +147,12 @@ const NavBar = () => {
             </li>
           </div>
         </ul>
-        <label htmlFor="menu_btn" className={`${styles.btn} ${styles.menu_btn}`}><List size={29} /></label>
+        <label
+          htmlFor="menu_btn"
+          className={`${styles.btn} ${styles.menu_btn}`}
+        >
+          <List size={29} />
+        </label>
       </div>
     </nav>
   );
@@ -91,17 +177,25 @@ const NavUser = ({ ProfileData }) => {
   return (
     <div className={styles.profile}>
       {avatarPhoto ? (
-        <img src={URL.createObjectURL(avatarPhoto)}
-          className={styles.profile_image}></img>
+        <img
+          src={URL.createObjectURL(avatarPhoto)}
+          className={styles.profile_image}
+        ></img>
       ) : (
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s"
-          className={styles.profile_image}></img>
+        <img
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s"
+          className={styles.profile_image}
+        ></img>
       )}
       <div className={styles.profile_details}>
         <div>
-          {ProfileData.type === 'individual' ? ProfileData.full_name
-            : ProfileData.type === 'company' ? ProfileData.name
-              : <></>}
+          {ProfileData.type === "individual" ? (
+            ProfileData.full_name
+          ) : ProfileData.type === "company" ? (
+            ProfileData.name
+          ) : (
+            <></>
+          )}
         </div>
         <div>${ProfileData.wallet.available_balance}</div>
       </div>

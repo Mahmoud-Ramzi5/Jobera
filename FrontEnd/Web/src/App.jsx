@@ -38,6 +38,7 @@ import JobCard from './components/Jobs/JobCard.jsx';
 import ShowJob from './components/Jobs/ShowJob.jsx';
 
 import JobCompetetorCard from './components/Jobs/JobCompetetorCard.jsx';
+import ChatDetails from './components/Chats/ChatDetails.jsx';
 
 function App() {
   const initialized = useRef(false);
@@ -147,7 +148,7 @@ function App() {
                   <Route path='/parttime-jobs' element={<PartTimeRegJobs />} />
                   <Route path='/freelancing-jobs' element={<FreelancingJobs />} />
                   <Route path="/logout" element={<Logout />} />
-
+                  <Route path='/Chat' element={<ChatDetails/>}/>
                   <Route path="/FileTest" element={<FileInputTest />} />
                   <Route path='/job' element={<PostJob />} />
                   <Route path='/freelancing' element={<PostFreelancing />} />
@@ -164,7 +165,7 @@ function App() {
                 <Route path="/ForgetPassword" element={<ForgotPassword />} />
                 <Route path="/emailVerify" element={<EmailVerificationMessage />} />
                 <Route path='/file' element={< FileDisplay />} />
-
+                
                 <Route path='/Test4' element={<JobCompetetorCard />} />
               </Route>
             </Routes>

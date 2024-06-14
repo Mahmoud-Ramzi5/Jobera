@@ -205,6 +205,14 @@ nav {
   object-fit: cover;
 }
 
+.chats{
+  display: flex,;
+  align-items: center;
+  margin-right: 40px;
+  color: #f2f2f2;
+  font-size: 18px;
+  font-weight: '500';
+}
 
 
 @media screen and (max-width: 970px) {
