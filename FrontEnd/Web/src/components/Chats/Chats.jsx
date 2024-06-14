@@ -1,5 +1,8 @@
-import React from "react";
-import styles from './Chats.module.css';
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+import styles from "./Chats.module.css";
+import { ThemeContext } from "../../utils/Contexts";
+import { ChevronRight } from "react-bootstrap-icons";
 import {
   MDBContainer,
   MDBRow,
@@ -10,7 +13,10 @@ import {
   MDBIcon,
   MDBTextArea,
 } from "mdb-react-ui-kit";
-const Chats = () => {
+const ChatList = () => {
+  const navigate = useNavigate();
+  const { theme } = useContext(ThemeContext);
+
   // Sample chat data
   const chats = [
     { id: 1, user: "John Doe", lastMessage: "Hello there!" },
@@ -20,7 +26,20 @@ const Chats = () => {
 
   return (
     <div className={styles.container}>
-      <h2>All Chats</h2>
+      <div className={styles.Chatshead}>
+        <h2>Recent Chats</h2>
+        <button
+          type="button"
+          className={
+            theme === "theme-light"
+              ? "btn btn-outline-dark"
+              : "btn btn-outline-light"
+          }
+          onClick={() => navigate("/chatsPage")}
+        >
+          Show Chats
+        </button>
+      </div>
       <ul>
         {chats.map((chat) => (
           <li key={chat.id} className={styles.chat}>
@@ -32,4 +51,4 @@ const Chats = () => {
     </div>
   );
 };
-export default Chats;
+export default ChatList;

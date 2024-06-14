@@ -39,6 +39,7 @@ import ShowJob from './components/Jobs/ShowJob.jsx';
 
 import JobCompetetorCard from './components/Jobs/JobCompetetorCard.jsx';
 import ChatDetails from './components/Chats/ChatDetails.jsx';
+import ChatPage from './components/Chats/ChatPage.jsx';
 
 function App() {
   const initialized = useRef(false);
@@ -149,6 +150,7 @@ function App() {
                   <Route path='/freelancing-jobs' element={<FreelancingJobs />} />
                   <Route path="/logout" element={<Logout />} />
                   <Route path='/Chat' element={<ChatDetails/>}/>
+                  <Route path='/ChatsPage' element={<ChatPage/>}/>
                   <Route path="/FileTest" element={<FileInputTest />} />
                   <Route path='/job' element={<PostJob />} />
                   <Route path='/freelancing' element={<PostFreelancing />} />

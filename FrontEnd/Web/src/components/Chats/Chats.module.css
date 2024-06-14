@@ -1,25 +1,57 @@
-/* chats.module.css */
-
 .container {
-    margin-top: 20px;
-  }
-  
-  .chat {
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #ccc;
-  }
-  
-  .chat:last-child {
-    border-bottom: none;
-  }
-  
-  .user {
-    font-weight: bold;
-    margin-right: 10px;
-  }
-  
-  .message {
-    color: #666;
-  }
+  margin-top: 20px;
+  background-color: var(--color-background);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  width: 100%; /* Set the width to 100% */
+}
+
+.Chatshead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.Chatshead h2 {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--color-text);
+}
+
+.Chatshead button {
+  font-size: 14px;
+  font-weight: bold;
+  padding: 8px 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: var(--color-primary);
+  color: var(--color-foreground);
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.Chatshead button:hover {
+  background-color: var(--color-rating);
+}
+
+.chat {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.chat:last-child {
+  border-bottom: none;
+}
+
+.user {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.message {
+  color: var(--color-text);
+}
