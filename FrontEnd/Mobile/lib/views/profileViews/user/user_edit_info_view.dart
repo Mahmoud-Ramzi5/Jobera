@@ -22,16 +22,16 @@ class UserEditInfoView extends StatelessWidget {
         title: const TitleText(text: 'Edit Info'),
         actions: [
           TextButton(
-              onPressed: () {
-                if (_editController.formField.currentState?.validate() ==
-                    true) {
-                  _editController.editBasicInfo(
-                      _editController.editNameController.text,
-                      _editController.editPhoneNumberController.text,
-                      _editController.selectedState!.stateId);
-                }
-              },
-              child: const LabelText(text: 'Submit'))
+            onPressed: () {
+              if (_editController.formField.currentState?.validate() == true) {
+                _editController.editBasicInfo(
+                    _editController.editNameController.text,
+                    _editController.editPhoneNumberController.text,
+                    _editController.selectedState!.stateId);
+              }
+            },
+            child: const LabelText(text: 'Submit'),
+          ),
         ],
       ),
       body: Form(
@@ -87,10 +87,8 @@ class UserEditInfoView extends StatelessWidget {
                             ),
                           )
                           .toList(),
-                      onChanged: (p0) async {
-                        await controller.selectCountry(p0);
-                        controller.update();
-                      },
+                      onChanged: (p0) async =>
+                          await controller.selectCountry(p0),
                       text: 'Select Country',
                     ),
                     CustomDropDownButton(

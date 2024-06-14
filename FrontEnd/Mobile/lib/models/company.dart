@@ -11,7 +11,7 @@ class Company {
   final String type;
   final String? description;
   final String? photo;
-  final List<Portfolio>? portofolios;
+  final List<Portfolio> portofolios;
 
   Company({
     required this.name,
@@ -22,9 +22,9 @@ class Company {
     required this.field,
     required this.foundingDate,
     required this.type,
+    required this.portofolios,
     this.description,
     this.photo,
-    this.portofolios,
   });
 
   Company.fromJson(Map<String, dynamic> json)

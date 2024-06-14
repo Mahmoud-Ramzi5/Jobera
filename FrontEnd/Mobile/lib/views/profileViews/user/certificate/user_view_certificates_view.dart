@@ -130,8 +130,9 @@ class UserEditCertificatesView extends StatelessWidget {
                         ),
                         onExpansionChanged: (value) {
                           if (value) {
-                            controller
-                                .startEdit(controller.certificates[index]);
+                            controller.startEdit(
+                              controller.certificates[index],
+                            );
                           }
                         },
                         children: [
@@ -209,12 +210,8 @@ class UserEditCertificatesView extends StatelessWidget {
                                       child: OutlinedButton(
                                         child: const BodyText(
                                             text: 'Choose new file'),
-                                        onPressed: () async {
-                                          controller.editfile = await controller
-                                              .generalController
-                                              .pickFile();
-                                          controller.updateName();
-                                        },
+                                        onPressed: () async =>
+                                            controller.addFile(),
                                       ),
                                     ),
                                     Padding(

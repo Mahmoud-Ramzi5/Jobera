@@ -95,11 +95,7 @@ class UserAddCertificateView extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: OutlinedButton(
                   child: const BodyText(text: 'Choose file'),
-                  onPressed: () async {
-                    _addController.file =
-                        await _addController.generalController.pickFile();
-                    _addController.updateName();
-                  },
+                  onPressed: () async => _addController.addFile(),
                 ),
               ),
             ],

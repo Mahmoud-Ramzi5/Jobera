@@ -70,9 +70,9 @@ class CompanyProfileView extends StatelessWidget {
                         onPressed: () => Dialogs().addBioDialog(
                           controller.editBioController,
                           () {
-                            controller
-                                .editBio(controller.editBioController.text);
-                            controller.refreshIndicatorKey.currentState!.show();
+                            controller.editBio(
+                              controller.editBioController.text,
+                            );
                           },
                         ),
                       ),
@@ -135,7 +135,7 @@ class CompanyProfileView extends StatelessWidget {
                           height: 150,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: controller.company.portofolios!.length,
+                            itemCount: controller.company.portofolios.length,
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               return Padding(
@@ -144,7 +144,7 @@ class CompanyProfileView extends StatelessWidget {
                                   width: 100,
                                   child: Column(
                                     children: [
-                                      controller.company.portofolios![index]
+                                      controller.company.portofolios[index]
                                                   .photo ==
                                               null
                                           ? Icon(
@@ -154,13 +154,13 @@ class CompanyProfileView extends StatelessWidget {
                                             )
                                           : CustomImage(
                                               path: controller.company
-                                                  .portofolios![index].photo
+                                                  .portofolios[index].photo
                                                   .toString(),
                                               height: 60,
                                             ),
                                       LabelText(
                                         text: controller
-                                            .company.portofolios![index].title,
+                                            .company.portofolios[index].title,
                                       ),
                                     ],
                                   ),

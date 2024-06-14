@@ -6,13 +6,13 @@ import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:image_picker/image_picker.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/controllers/general_controller.dart';
-import 'package:jobera/controllers/profileControllers/portfolio/edit_portfolio_controller.dart';
+import 'package:jobera/controllers/profileControllers/portfolio/view_portfolio_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/skill.dart';
 
 class AddPortfolioController extends GetxController {
   late GlobalKey<FormState> formField;
-  late EditPortfolioController portfolioController;
+  late ViewPortfolioController portfolioController;
   late GeneralController generalController;
   late TextEditingController titleController;
   late TextEditingController descriptionController;
@@ -27,7 +27,7 @@ class AddPortfolioController extends GetxController {
   @override
   Future<void> onInit() async {
     formField = GlobalKey<FormState>();
-    portfolioController = Get.find<EditPortfolioController>();
+    portfolioController = Get.find<ViewPortfolioController>();
     generalController = Get.find<GeneralController>();
     titleController = TextEditingController();
     descriptionController = TextEditingController();
@@ -64,6 +64,11 @@ class AddPortfolioController extends GetxController {
     update();
   }
 
+  Future<void> addFiles() async {
+    files = await generalController.pickFiles();
+    update();
+  }
+
   void removeFile(PlatformFile file) {
     files!.files.remove(file);
     update();
@@ -87,6 +92,11 @@ class AddPortfolioController extends GetxController {
     } else {
       return;
     }
+  }
+
+  void removePhoto() {
+    image = null;
+    update();
   }
 
   Future<void> addPortfolio(
@@ -140,7 +150,7 @@ class AddPortfolioController extends GetxController {
       }
       try {
         var response = await dio.post(
-          'http://192.168.1.2:8000/api/portfolio/add',
+          'http://192.168.0.105:8000/api/portfolio/add',
           data: data,
           options: Options(
             headers: {

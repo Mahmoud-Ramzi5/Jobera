@@ -16,8 +16,8 @@ class User {
   final String? photo;
   final Education? education;
   final List<Skill> skills;
-  final List<Certificate>? certificates;
-  final List<Portfolio>? portofolios;
+  final List<Certificate> certificates;
+  final List<Portfolio> portofolios;
 
   User({
     required this.name,
@@ -29,11 +29,11 @@ class User {
     required this.gender,
     required this.type,
     required this.skills,
+    required this.portofolios,
+    required this.certificates,
     this.education,
     this.description,
     this.photo,
-    this.portofolios,
-    this.certificates,
   });
 
   User.fromJson(Map<String, dynamic> json)

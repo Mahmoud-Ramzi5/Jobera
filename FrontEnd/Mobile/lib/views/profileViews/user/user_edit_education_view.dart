@@ -160,7 +160,6 @@ class UserEditEducationView extends StatelessWidget {
                                 'Are you sure you want to delete File?',
                                 () {
                                   _editController.removeFile();
-                                  Get.back();
                                 },
                               );
                             },
@@ -171,12 +170,7 @@ class UserEditEducationView extends StatelessWidget {
                           )
                         else
                           IconButton(
-                            onPressed: () async {
-                              _editController.file = await _editController
-                                  .generalController
-                                  .pickFile();
-                              _editController.changeFileName();
-                            },
+                            onPressed: () async => _editController.addFile(),
                             icon: Icon(
                               Icons.add,
                               color: Colors.lightBlue.shade900,

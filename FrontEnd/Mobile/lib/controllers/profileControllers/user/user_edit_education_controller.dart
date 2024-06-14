@@ -91,7 +91,12 @@ class UserEditEducationController extends GetxController {
     }
   }
 
-  void changeFileName() {
+  Future<void> addFile() async {
+    file = await generalController.pickFile();
+    updateName();
+  }
+
+  void updateName() {
     if (file != null) {
       certficateName = file!.files[0].name;
     }
@@ -102,6 +107,7 @@ class UserEditEducationController extends GetxController {
     file = null;
     certficateName = 'No file';
     update();
+    Get.back();
   }
 
   Future<void> editEducation(
@@ -132,7 +138,7 @@ class UserEditEducationController extends GetxController {
     );
     try {
       var response = await dio.post(
-        'http://192.168.1.2:8000/api/education',
+        'http://192.168.0.106:8000/api/education',
         data: data,
         options: Options(
           headers: {
@@ -163,7 +169,7 @@ class UserEditEducationController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       final response = await dio.post(
-        'http://192.168.1.2:8000/api/regStep',
+        'http://192.168.0.106:8000/api/regStep',
         options: Options(
             responseType: ResponseType.bytes, // important
             headers: {

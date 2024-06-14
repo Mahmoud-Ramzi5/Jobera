@@ -67,10 +67,8 @@ class UserProfileView extends StatelessWidget {
                     ),
                     onPressed: () => Dialogs().addBioDialog(
                       controller.editBioController,
-                      () {
-                        controller.editBio(controller.editBioController.text);
-                        controller.refreshIndicatorKey.currentState!.show();
-                      },
+                      () =>
+                          controller.editBio(controller.editBioController.text),
                     ),
                   ),
                 ),
@@ -282,7 +280,7 @@ class UserProfileView extends StatelessWidget {
                         buttonText: 'View',
                         widget: ListView.builder(
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: controller.user.certificates!.length,
+                          itemCount: controller.user.certificates.length,
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
                             return Padding(
@@ -290,7 +288,7 @@ class UserProfileView extends StatelessWidget {
                               child: ListContainer(
                                 child: BodyText(
                                   text:
-                                      controller.user.certificates![index].name,
+                                      controller.user.certificates[index].name,
                                 ),
                               ),
                             );
@@ -308,7 +306,7 @@ class UserProfileView extends StatelessWidget {
                           height: 150,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: controller.user.portofolios!.length,
+                            itemCount: controller.user.portofolios.length,
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               return Padding(
@@ -317,7 +315,7 @@ class UserProfileView extends StatelessWidget {
                                   width: 100,
                                   child: Column(
                                     children: [
-                                      controller.user.portofolios![index]
+                                      controller.user.portofolios[index]
                                                   .photo ==
                                               null
                                           ? Icon(
@@ -326,14 +324,14 @@ class UserProfileView extends StatelessWidget {
                                               size: 60,
                                             )
                                           : CustomImage(
-                                              path: controller.user
-                                                  .portofolios![index].photo
+                                              path: controller
+                                                  .user.portofolios[index].photo
                                                   .toString(),
                                               height: 60,
                                             ),
                                       LabelText(
                                         text: controller
-                                            .user.portofolios![index].title,
+                                            .user.portofolios[index].title,
                                       ),
                                     ],
                                   ),

@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/classes/texts.dart';
-import 'package:jobera/controllers/profileControllers/portfolio/edit_portfolio_controller.dart';
+import 'package:jobera/controllers/profileControllers/portfolio/view_portfolio_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_image.dart';
 
 class ViewPortfoliosView extends StatelessWidget {
-  final EditPortfolioController _editController =
-      Get.put(EditPortfolioController());
+  final ViewPortfolioController _editController =
+      Get.put(ViewPortfolioController());
 
   ViewPortfoliosView({super.key});
 
@@ -41,7 +41,7 @@ class ViewPortfoliosView extends StatelessWidget {
       body: RefreshIndicator(
         key: _editController.refreshIndicatorKey,
         onRefresh: () => _editController.fetchPortfolios(),
-        child: GetBuilder<EditPortfolioController>(
+        child: GetBuilder<ViewPortfolioController>(
           builder: (controller) => SingleChildScrollView(
             child: Column(
               children: [
@@ -86,8 +86,8 @@ class ViewPortfoliosView extends StatelessWidget {
                                     children: [
                                       IconButton(
                                         onPressed: () {
-                                          controller.startEdit(
-                                              controller.portoflios[index1].id);
+                                          controller.id =
+                                              controller.portoflios[index1].id;
                                           Get.toNamed('/editPortfolio');
                                         },
                                         icon: Icon(
@@ -235,14 +235,14 @@ class ViewPortfoliosView extends StatelessWidget {
                                       child: Padding(
                                         padding: const EdgeInsets.all(5),
                                         child: controller.portoflios[index1]
-                                                .files!.isEmpty
+                                                .files.isEmpty
                                             ? const BodyText(
                                                 text: 'No files',
                                               )
                                             : ListView.builder(
                                                 itemCount: controller
                                                     .portoflios[index1]
-                                                    .files!
+                                                    .files
                                                     .length,
                                                 physics:
                                                     const NeverScrollableScrollPhysics(),
@@ -254,7 +254,7 @@ class ViewPortfoliosView extends StatelessWidget {
                                                         flex: 1,
                                                         child: BodyText(
                                                           text:
-                                                              'File ${index + 1}:${controller.portoflios[index1].files![index].name}',
+                                                              'File ${index + 1}:${controller.portoflios[index1].files[index].name}',
                                                         ),
                                                       ),
                                                       IconButton(
@@ -264,7 +264,7 @@ class ViewPortfoliosView extends StatelessWidget {
                                                                 controller
                                                                     .portoflios[
                                                                         index1]
-                                                                    .files![
+                                                                    .files[
                                                                         index]
                                                                     .path,
                                                                 'portfolios'),
