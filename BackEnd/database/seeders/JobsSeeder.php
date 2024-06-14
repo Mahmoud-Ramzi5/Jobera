@@ -13,18 +13,17 @@ class JobsSeeder extends Seeder
      */
     public function run(): void
     {
-        for($id=1; $id <= 20; $id += 1) {
+        for ($id = 1; $id <= 30; $id += 1) {
             DB::table('def_jobs')->insert(array(
-                'id' => $id,
-                'title' => 'title'.$id,
-                'description' => 'description'.$id,
+                'title' => 'title' . $id,
+                'description' => 'description' . $id,
                 'state_id' => 3464,
                 'photo' => null,
                 'is_done' => false
             ));
         }
 
-        for($id=1; $id <= 20; $id += 2) {
+        for ($id = 1; $id <= 30; $id += 3) {
             DB::table('reg_jobs')->insert(array(
                 'salary' => 2000.0,
                 'type' => 'FullTime',
@@ -34,7 +33,17 @@ class JobsSeeder extends Seeder
             ));
         }
 
-        for($id=2; $id <= 20; $id += 2) {
+        for ($id = 2; $id <= 30; $id += 3) {
+            DB::table('reg_jobs')->insert(array(
+                'salary' => 2000.0,
+                'type' => 'PartTime',
+                'company_id' => 1,
+                'defJob_id' => $id,
+                'accepted_individual' => null
+            ));
+        }
+
+        for ($id = 3; $id <= 30; $id += 3) {
             DB::table('freelancing_jobs')->insert(array(
                 'min_salary' => 1000.0,
                 'max_salary' => 3000.0,
