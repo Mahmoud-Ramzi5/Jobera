@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { LoginContext } from "../../utils/Contexts";
-import { FetchUserChats } from "../../apis/ChatApis";
+import { FetchUserChats,FetchChatDetails } from "../../apis/ChatApis";
 import { Card } from 'react-bootstrap';
 import styles from "./ChatPage.module.css";
 
 // Chat list component
-const ChatList = () => {
+const ChatList = ({ setSelectedChat }) => {
   const { accessToken } = useContext(LoginContext);
   const initialized = useRef(false);
   const [isLoading, setIsLoading] = useState(false);
   const [chats, setChats] = useState([]);
-  const [selectedChat, setSelectedChat] = useState(null);
 
   useEffect(() => {
     if (!initialized.current) {
@@ -39,7 +38,7 @@ const ChatList = () => {
 
   const RenderChat = (chat) => {
     return (
-      <div className={styles.chat_item} key={chat.id} onClick={() => handleChatClick(chat)}>
+      <div className={`${styles.chat_item} ${styles.chat_item_border}`} key={chat.id} onClick={() => handleChatClick(chat)}>
         <div className={styles.avatar}>
           <form className={styles.profile_picture_container}>
             {chat.reciver.avatar_photo ? (
@@ -64,7 +63,7 @@ const ChatList = () => {
           </form>
         </div>
         <div className={styles.chat_details}>
-          <h3>{chat.reciver.name}</h3>
+          <h3>{chat.reciver.name ?chat.reciver.name:chat.reciver.full_name }</h3>
           <p>{chat.last_message.message}</p>
         </div>
       </div>
@@ -81,6 +80,18 @@ const ChatList = () => {
 // Chat window component
 const ChatWindow = ({ selectedChat }) => {
   const [inputMessage, setInputMessage] = useState('');
+  const [messages,setMessages]=useState([]);
+  const { accessToken } = useContext(LoginContext);
+  const initialized = useRef(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+      setIsLoading(true);
+      console.log(selectedChat)
+    }
+  }, );
 
   const handleInputChange = (event) => {
     setInputMessage(event.target.value);
@@ -91,11 +102,11 @@ const ChatWindow = ({ selectedChat }) => {
     // Reset input field after sending the message
     setInputMessage('');
   };
-
+  console.log(selectedChat)
   return (
     <div className={styles.chat_window}>
       <div className={styles.chat_header}>
-        <h3>{selectedChat ? selectedChat.reciver.name : "No chat selected"}</h3>
+        <h3>{selectedChat ? (selectedChat.reciver.name ?selectedChat.reciver.name:selectedChat.reciver.full_name)  : "No chat selected"}</h3>
       </div>
       <div className={styles.chat_messages}>
         {/* Display messages of the selected chat */}
