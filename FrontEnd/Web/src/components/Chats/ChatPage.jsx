@@ -1,48 +1,135 @@
-import React from 'react';
-import styles from './ChatPage.module.css';
+import React, { useState, useEffect, useContext, useRef } from "react";
+import { LoginContext } from "../../utils/Contexts";
+import { FetchUserChats } from "../../apis/ChatApis";
+import { Card } from 'react-bootstrap';
+import styles from "./ChatPage.module.css";
 
 // Chat list component
-const ChatList= () => {
-  return (
-    <div className={styles.chat_list}>
-      <div className={styles.chat_item}>
-        <div className={styles.avatar}></div>
+const ChatList = () => {
+  const { accessToken } = useContext(LoginContext);
+  const initialized = useRef(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [chats, setChats] = useState([]);
+  const [selectedChat, setSelectedChat] = useState(null);
+
+  useEffect(() => {
+    if (!initialized.current) {
+      initialized.current = true;
+      setIsLoading(true);
+      FetchUserChats(accessToken)
+        .then((response) => {
+          if (response.status === 200) {
+            setChats(response.data.chats);
+          } else {
+            console.log(response.statusText);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
+  }, [accessToken]);
+
+  const handleChatClick = (chat) => {
+    setSelectedChat(chat);
+  };
+
+  const RenderChat = (chat) => {
+    return (
+      <div className={styles.chat_item} key={chat.id} onClick={() => handleChatClick(chat)}>
+        <div className={styles.avatar}>
+          <form className={styles.profile_picture_container}>
+            {chat.reciver.avatar_photo ? (
+              <Card.Img
+                className={styles.Card_Img}
+                variant="top"
+                src={chat.reciver.avatar_photo}
+                alt={"Profile Picture"}
+                style={{ pointerEvents: 'none' }}
+              />
+            ) : (
+              <Card.Img
+                className={styles.Card_Img}
+                variant="top"
+                src={
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s"
+                }
+                alt={"Picture"}
+                style={{ pointerEvents: 'none' }}
+              />
+            )}
+          </form>
+        </div>
         <div className={styles.chat_details}>
-          <h3>Contact Name</h3>
-          <p>Last message...</p>
+          <h3>{chat.reciver.name}</h3>
+          <p>{chat.last_message.message}</p>
         </div>
       </div>
-      {/* Add more chat items here */}
+    );
+  };
+
+  return (
+    <div className={styles.chat_list}>
+      {isLoading ? <p>Loading...</p> : chats.map((chat) => RenderChat(chat))}
     </div>
   );
-}
+};
 
 // Chat window component
-const ChatWindow= () => {
+const ChatWindow = ({ selectedChat }) => {
+  const [inputMessage, setInputMessage] = useState('');
+
+  const handleInputChange = (event) => {
+    setInputMessage(event.target.value);
+  };
+
+  const handleSendMessage = () => {
+    // Logic to send the message
+    // Reset input field after sending the message
+    setInputMessage('');
+  };
+
   return (
     <div className={styles.chat_window}>
       <div className={styles.chat_header}>
-        <h3>Contact Name</h3>
+        <h3>{selectedChat ? selectedChat.reciver.name : "No chat selected"}</h3>
       </div>
       <div className={styles.chat_messages}>
-        {/* Messages go here */}
+        {/* Display messages of the selected chat */}
       </div>
       <div className={styles.chat_input}>
-        <input type="text" placeholder="Type a message..." />
-        <button>Send</button>
+        <input
+          type="text"
+          placeholder="Type a message..."
+          value={inputMessage}
+          onChange={handleInputChange}
+        />
+        <div>
+          <button
+            className={styles.submit_button}
+            onClick={handleSendMessage}
+          >
+            Send
+          </button>
+        </div>
       </div>
     </div>
   );
-}
+};
 
 // Main app component
-const ChatPage= () => {
+const ChatPage = () => {
+  const [selectedChat, setSelectedChat] = useState(null);
+
   return (
     <div className={styles.app}>
-      <ChatList />
-      <ChatWindow />
+      <ChatList setSelectedChat={setSelectedChat} />
+      <ChatWindow selectedChat={selectedChat} />
     </div>
   );
-}
+};
 
 export default ChatPage;

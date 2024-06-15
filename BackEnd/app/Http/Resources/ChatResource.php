@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Company;
 use App\Models\Individual;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,6 +17,7 @@ class ChatResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $sender=auth()->user();
         $company = Company::where('user_id', $this->user1_id)->first();
         $individual = Individual::where('user_id', $this->user1_id)->first();
         if ($company == null) {
@@ -23,6 +25,7 @@ class ChatResource extends JsonResource
         } else {
             $user1 = new CompanyResource($company);
         }
+       
 
         $company = Company::where('user_id', $this->user2_id)->first();
         $individual = Individual::where('user_id', $this->user2_id)->first();
@@ -32,11 +35,19 @@ class ChatResource extends JsonResource
             $user2 = new CompanyResource($company);
         }
 
+        if($sender->id==$this->user1_id){
+            $sender=$user1;
+            $reciver=$user2;
+        }else{
+            $reciver=$user2;
+            $sender=$user1;
+        }
         return [
             "id" => $this->id,
-            "user1" => $user1,
-            "user2" => $user2,
-            "messages" => $this->messages
+            "sender" => $sender,
+            "reciver" => $reciver,
+            "messages" => $this->messages,
+            "last_message"=>$this->messages->last()
         ];
     }
 }
