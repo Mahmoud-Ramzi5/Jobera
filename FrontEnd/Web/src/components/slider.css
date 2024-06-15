@@ -9,19 +9,18 @@
 }
 
 .reactSlider_thumb {
-    height: 30px;
-    width: 30px;
+    height: 25px;
+    width: 25px;
+    cursor: pointer;
     border: 1px solid;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border-radius: 25px;
     color: var(--color-background);
     background: var(--color-foreground);
 }
 
 .reactSlider_track {
     height: 10px;
+    border-radius: 20px;
 }
 
 .reactSlider_track-0 {

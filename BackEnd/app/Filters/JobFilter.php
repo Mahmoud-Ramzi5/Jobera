@@ -12,11 +12,11 @@ class JobFilter
         'is_done' => ['eq'],
 
         // RegJobs
-        'company_id' => ['eq'],
+        'company_name' => ['like'],
         'salary' => ['lte', 'gte', 'lt', 'gt'],
 
         // FreelancingJobs
-        'user_id' => ['eq'],
+        'user_name' => ['like'],
         'max_salary' => ['lte', 'gte', 'lt', 'gt'],
         'min_salary' => ['lte', 'gte', 'lt', 'gt'],
         'avg_salary' => ['lte', 'gte', 'lt', 'gt'],

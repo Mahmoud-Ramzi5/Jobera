@@ -2,6 +2,7 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { LoginContext } from '../../utils/Contexts.jsx';
 import { FetchPartTimeJobs } from '../../apis/JobsApis.jsx';
 import JobCard from '../../components/Jobs/JobCard.jsx';
+import Slider from '../../components/Slider.jsx';
 import styles from '../../styles/jobs.module.css';
 
 
@@ -15,6 +16,13 @@ const PartTimeRegJobs = () => {
   const [nextPage, setNextPage] = useState(1);
   const DataSize = 10;
 
+  const [newFilter, setNewFilter] = useState(false);
+  const [filter, setFilter] = useState({
+    companyName: '',
+    minSalary: 0,
+    maxSalary: 100000
+  });
+
   const [jobs, setJobs] = useState([]);
   const [data, setData] = useState([]);
 
@@ -22,26 +30,29 @@ const PartTimeRegJobs = () => {
     if (!initialized.current) {
       initialized.current = true;
     }
-    else if (isDone) {
-      return;
-    }
     else {
       setIsLoading(true);
-      FetchPartTimeJobs(accessToken, nextPage, '').then((response) => {
+      FetchPartTimeJobs(accessToken, nextPage, filter).then((response) => {
         if (response.status === 200) {
           setData(response.data.pagination_data);
           if (!response.data.pagination_data.has_more_pages) {
             setIsDone(true);
           }
           response.data.jobs.map((job) => {
-            if (job.photo) {
-              FetchImage("", job.photo).then((response) => {
-                job.photo = response;
+
+            // Check if job is already in array
+            if (!jobs.some(item => job.id === item.id)) {
+
+              // if not add job
+              if (job.photo) {
+                FetchImage("", job.photo).then((response) => {
+                  job.photo = response;
+                  setJobs((prevState) => ([...prevState, job]));
+                });
+              }
+              else {
                 setJobs((prevState) => ([...prevState, job]));
-              });
-            }
-            else {
-              setJobs((prevState) => ([...prevState, job]));
+              }
             }
           });
         }
@@ -50,9 +61,10 @@ const PartTimeRegJobs = () => {
         }
       }).then(() => {
         setIsLoading(false);
+        setNewFilter(false);
       });
     }
-  }, [nextPage]);
+  }, [nextPage, newFilter]);
 
   const handleScroll = () => {
     const scrollY = window.scrollY;
@@ -73,17 +85,83 @@ const PartTimeRegJobs = () => {
     };
   }, [nextPage]);
 
+  const handleFilter = (event) => {
+    const { name, value } = event.target;
+    if (name === 'minSalary' || name === 'maxSalary') {
+      if (value !== '') {
+        setFilter({ ...filter, [name]: parseInt(value) });
+      }
+    }
+    else {
+      setFilter({ ...filter, [name]: value });
+    }
+  }
+
+  const handlerFilterSubmit = (event) => {
+    setJobs([]);
+    setNextPage(1);
+    setIsDone(false);
+    setNewFilter(true);
+  }
+
 
   return (
     <div className={styles.screen}>
-      <div className={styles.container}>
+      <div className={styles.left_container}>
+        <div>
+          <label htmlFor='CompanyName'>
+            Published By:
+          </label>
+          <input
+            type='text'
+            placeholder='Published by'
+            id='CompanyName'
+            name='companyName'
+            value={filter.companyName}
+            onChange={handleFilter}
+            className={styles.search_input}
+          />
+        </div>
+        <br />
+        <div>
+          <label htmlFor='Salary'>
+            Salary:
+          </label>
+          <Slider values={[filter.minSalary, filter.maxSalary]} handler={setFilter} />
+          <div className={styles.slider_area}>
+            <input
+              type='number'
+              name='minSalary'
+              min={0}
+              max={100000}
+              value={filter.minSalary}
+              onChange={handleFilter}
+              className={styles.slider_input}
+            />
+            <input
+              type='number'
+              name='maxSalary'
+              min={0}
+              max={100000}
+              value={filter.maxSalary}
+              onChange={handleFilter}
+              className={styles.slider_input}
+            />
+          </div>
+        </div>
+        <button type='submit' onClick={handlerFilterSubmit}>
+          Submit filter
+        </button>
+      </div>
+
+      <div className={styles.right_container}>
         {jobs.map((job) => (
           <JobCard key={job.id} JobData={job} />
         ))}
+        {isLoading ? <div id='loader'><div className="clock-loader"></div></div>
+          : isDone && <h5 className={styles.done}>No more jobs to show</h5>
+        }
       </div>
-      {isLoading ? <div id='loader'><div className="clock-loader"></div></div>
-        : isDone && <h5 className={styles.done}>No more jobs to show</h5>
-      }
     </div>
   );
 }
