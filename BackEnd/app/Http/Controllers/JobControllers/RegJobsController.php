@@ -63,6 +63,17 @@ class RegJobsController extends Controller
 
     public function ViewRegJobs(Request $request)
     {
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+
+        // Filter
         $filter = new JobFilter();
         $queryItems = $filter->transform($request);
 
@@ -70,6 +81,22 @@ class RegJobsController extends Controller
         if (empty($queryItems)) {
             $jobs = RegJob::paginate(10);
         } else {
+            // Check if job filtered based on the company that posted the job
+            for ($i = 0; $i < count($queryItems); $i++) {
+                if ($queryItems[$i][0] == 'company_name') {
+                    // Get company
+                    $company = Company::where('name', $queryItems[$i][1], $queryItems[$i][2])->first();
+
+                    // Check company
+                    if ($company !== null) {
+                        $queryItems[$i][0] = 'company_id';
+                        $queryItems[$i][1] = '=';
+                        $queryItems[$i][2] = $company->id;
+                    }
+                }
+            }
+
+            // Get the job
             $jobs = RegJob::where($queryItems)->paginate(10);
         }
 

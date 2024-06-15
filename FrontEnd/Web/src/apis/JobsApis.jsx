@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-export const FetchJobs = async (token, page) => {
+export const FetchJobs = async (token, page, filter) => {
   try {
     const response = await axios.get(`http://127.0.0.1:8000/api/jobs?page=${page}`, {
       headers: {
@@ -16,9 +16,16 @@ export const FetchJobs = async (token, page) => {
   }
 };
 
-export const FetchFullTimeJobs = async (token, page, queries) => {
+export const FetchFullTimeJobs = async (token, page, filter) => {
+  let apiUrl = `http://127.0.0.1:8000/api/regJobs?page=${page}&type[eq]=FullTime`;
+  if (filter.companyName !== null) {
+    apiUrl = `${apiUrl}&company_name[like]=${filter.companyName}`;
+  }
+  if (filter.minSalary >= 0 && filter.maxSalary >= 0) {
+    apiUrl = `${apiUrl}&salary[gte]=${filter.minSalary}&salary[lte]=${filter.maxSalary}`;
+  }
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/regJobs?page=${page}&type[eq]=FullTime`, {
+    const response = await axios.get(apiUrl, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",
@@ -31,9 +38,16 @@ export const FetchFullTimeJobs = async (token, page, queries) => {
   }
 };
 
-export const FetchPartTimeJobs = async (token, page, queries) => {
+export const FetchPartTimeJobs = async (token, page, filter) => {
+  let apiUrl = `http://127.0.0.1:8000/api/regJobs?page=${page}&type[eq]=PartTime`;
+  if (filter.companyName !== null) {
+    apiUrl = `${apiUrl}&company_name[like]=${filter.companyName}`;
+  }
+  if (filter.minSalary >= 0 && filter.maxSalary >= 0) {
+    apiUrl = `${apiUrl}&salary[gte]=${filter.minSalary}&salary[lte]=${filter.maxSalary}`;
+  }
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/regJobs?page=${page}&type[eq]=PartTime`, {
+    const response = await axios.get(apiUrl, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",
