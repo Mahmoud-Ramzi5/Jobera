@@ -15,7 +15,7 @@ import {
 import { FetchImage } from "../apis/FileApi.jsx";
 import Logo from "../assets/JoberaLogo.png";
 import styles from "../styles/navbar.module.css";
-import ChatList from "./Chats/Chats.jsx";
+import ChatNavWindow from "./Chats/Chats.jsx";
 
 const NavBar = () => {
   // Context
@@ -123,7 +123,7 @@ const NavBar = () => {
                       <a href="/logout">LogOut</a>
                     </li>
                   </ul>
-                  {showChatScreen && <ChatList className={styles.chats} />}
+                  {showChatScreen && <ChatNavWindow className={styles.chats} />}
                 </li>
               </>
             ) : (

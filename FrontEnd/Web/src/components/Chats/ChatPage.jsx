@@ -1,24 +1,24 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { LoginContext } from "../../utils/Contexts";
-import { FetchUserChats,FetchChatDetails } from "../../apis/ChatApis";
-import { Card } from 'react-bootstrap';
+import { FetchUserChats, FetchChatDetails } from "../../apis/ChatApis";
 import styles from "./ChatPage.module.css";
+import ChatList from "./ChatList";
 
-// Chat list component
-const ChatList = ({ setSelectedChat }) => {
+// Chat window component
+const ChatWindow = ({ selectedChat }) => {
+  const [inputMessage, setInputMessage] = useState("");
+  const [messages, setMessages] = useState([]);
   const { accessToken } = useContext(LoginContext);
   const initialized = useRef(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [chats, setChats] = useState([]);
 
   useEffect(() => {
-    if (!initialized.current) {
-      initialized.current = true;
+    if (selectedChat) {
       setIsLoading(true);
-      FetchUserChats(accessToken)
+      FetchChatDetails( accessToken,selectedChat.id)
         .then((response) => {
           if (response.status === 200) {
-            setChats(response.data.chats);
+            setMessages(response.data.chat.messages);
           } else {
             console.log(response.statusText);
           }
@@ -30,69 +30,8 @@ const ChatList = ({ setSelectedChat }) => {
           setIsLoading(false);
         });
     }
-  }, [accessToken]);
-
-  const handleChatClick = (chat) => {
-    setSelectedChat(chat);
-  };
-
-  const RenderChat = (chat) => {
-    return (
-      <div className={`${styles.chat_item} ${styles.chat_item_border}`} key={chat.id} onClick={() => handleChatClick(chat)}>
-        <div className={styles.avatar}>
-          <form className={styles.profile_picture_container}>
-            {chat.reciver.avatar_photo ? (
-              <Card.Img
-                className={styles.Card_Img}
-                variant="top"
-                src={chat.reciver.avatar_photo}
-                alt={"Profile Picture"}
-                style={{ pointerEvents: 'none' }}
-              />
-            ) : (
-              <Card.Img
-                className={styles.Card_Img}
-                variant="top"
-                src={
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s"
-                }
-                alt={"Picture"}
-                style={{ pointerEvents: 'none' }}
-              />
-            )}
-          </form>
-        </div>
-        <div className={styles.chat_details}>
-          <h3>{chat.reciver.name ?chat.reciver.name:chat.reciver.full_name }</h3>
-          <p>{chat.last_message.message}</p>
-        </div>
-      </div>
-    );
-  };
-
-  return (
-    <div className={styles.chat_list}>
-      {isLoading ? <p>Loading...</p> : chats.map((chat) => RenderChat(chat))}
-    </div>
-  );
-};
-
-// Chat window component
-const ChatWindow = ({ selectedChat }) => {
-  const [inputMessage, setInputMessage] = useState('');
-  const [messages,setMessages]=useState([]);
-  const { accessToken } = useContext(LoginContext);
-  const initialized = useRef(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    if (!initialized.current) {
-      initialized.current = true;
-      setIsLoading(true);
-      console.log(selectedChat)
-    }
-  }, );
-
+  }, [selectedChat, accessToken]);
+  
   const handleInputChange = (event) => {
     setInputMessage(event.target.value);
   };
@@ -100,16 +39,36 @@ const ChatWindow = ({ selectedChat }) => {
   const handleSendMessage = () => {
     // Logic to send the message
     // Reset input field after sending the message
-    setInputMessage('');
+    setInputMessage("");
   };
-  console.log(selectedChat)
+  console.log(selectedChat);
   return (
     <div className={styles.chat_window}>
       <div className={styles.chat_header}>
-        <h3>{selectedChat ? (selectedChat.reciver.name ?selectedChat.reciver.name:selectedChat.reciver.full_name)  : "No chat selected"}</h3>
+        <h3>
+          {selectedChat
+            ? selectedChat.reciver.name
+              ? selectedChat.reciver.name
+              : selectedChat.reciver.full_name
+            : "No chat selected"}
+        </h3>
       </div>
       <div className={styles.chat_messages}>
-        {/* Display messages of the selected chat */}
+        {isLoading ? (
+          <p>Loading...</p>
+        ) : (
+          messages.map((message) => (
+            <div
+              key={message.id}
+              className={`${styles.message} ${
+                message.user_id === selectedChat.sender.user_id ? styles.sender : styles.receiver
+              }`}
+              style={{ alignSelf: message.sender === "sender" ? "flex-end" : "flex-start" }}
+            >
+              <div className={styles.message_content}>{message.message}</div>
+            </div>
+          ))
+        )}
       </div>
       <div className={styles.chat_input}>
         <input
@@ -119,10 +78,7 @@ const ChatWindow = ({ selectedChat }) => {
           onChange={handleInputChange}
         />
         <div>
-          <button
-            className={styles.submit_button}
-            onClick={handleSendMessage}
-          >
+          <button className={styles.submit_button} onClick={handleSendMessage}>
             Send
           </button>
         </div>

@@ -30,6 +30,7 @@ class IndividualResource extends JsonResource
         }
 
         return [
+            'user_id'=>$user->id,
             'full_name' => $this->full_name,
             'email' => $user->email,
             'phone_number' => $user->phone_number,

@@ -90,3 +90,23 @@
   text-transform: uppercase;
   transition: 0.3s ease;
 }
+
+.sender .message_content {
+  background-color: #f2f2f2;
+  color: #000;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  align-self: flex-end;
+  padding: 8px;
+  display: inline-block; /* Add this line */
+}
+
+.receiver .message_content {
+  background-color: #0073b1;
+  color: #fff;
+  border-radius: 5px;
+  margin-bottom: 10px;
+  align-self: flex-start;
+  padding: 8px;
+  display: inline-block; /* Add this line */
+}
