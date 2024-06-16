@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { LoginContext } from "../../utils/Contexts";
-import { FetchUserChats, FetchChatDetails } from "../../apis/ChatApis";
+import { FetchUserChats, FetchChatDetails, SendMessage } from "../../apis/ChatApis";
 import styles from "./ChatPage.module.css";
 import ChatList from "./ChatList";
 
@@ -15,7 +15,7 @@ const ChatWindow = ({ selectedChat }) => {
   useEffect(() => {
     if (selectedChat) {
       setIsLoading(true);
-      FetchChatDetails( accessToken,selectedChat.id)
+      FetchChatDetails(accessToken, selectedChat.id)
         .then((response) => {
           if (response.status === 200) {
             setMessages(response.data.chat.messages);
@@ -36,12 +36,32 @@ const ChatWindow = ({ selectedChat }) => {
     setInputMessage(event.target.value);
   };
 
-  const handleSendMessage = () => {
-    // Logic to send the message
-    // Reset input field after sending the message
-    setInputMessage("");
+  const handleSendMessage = (event) => {
+    event.preventDefault();
+    if (inputMessage.trim() === "") return;
+
+    SendMessage(accessToken, inputMessage, selectedChat.reciver.user_id)
+      .then((response) => {
+        if (response.status === 201) {
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            {
+              id: response.data.message_id,  // Assuming response returns the new message ID
+              user_id: selectedChat.sender.user_id,
+              message: inputMessage,
+              sender: "sender",
+            },
+          ]);
+          setInputMessage("");
+        } else {
+          console.log(response.statusText);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
-  console.log(selectedChat);
+
   return (
     <div className={styles.chat_window}>
       <div className={styles.chat_header}>
@@ -71,17 +91,18 @@ const ChatWindow = ({ selectedChat }) => {
         )}
       </div>
       <div className={styles.chat_input}>
-        <input
-          type="text"
-          placeholder="Type a message..."
-          value={inputMessage}
-          onChange={handleInputChange}
-        />
-        <div>
-          <button className={styles.submit_button} onClick={handleSendMessage}>
+        <form onSubmit={handleSendMessage}>
+          <input
+            type="text"
+            placeholder="Type a message..."
+            value={inputMessage}
+            onChange={handleInputChange}
+            className={styles.chat_input_field}
+          />
+          <button type="submit" className={styles.submit_button}>
             Send
           </button>
-        </div>
+        </form>
       </div>
     </div>
   );
@@ -90,7 +111,6 @@ const ChatWindow = ({ selectedChat }) => {
 // Main app component
 const ChatPage = () => {
   const [selectedChat, setSelectedChat] = useState(null);
-
   return (
     <div className={styles.app}>
       <ChatList setSelectedChat={setSelectedChat} />
