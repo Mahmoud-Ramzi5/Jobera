@@ -91,7 +91,7 @@ const ChatWindow = ({ selectedChat }) => {
         )}
       </div>
       <div className={styles.chat_input}>
-        <form onSubmit={handleSendMessage}>
+        <form onSubmit={handleSendMessage} className={styles.chatForm}>
           <input
             type="text"
             placeholder="Type a message..."
