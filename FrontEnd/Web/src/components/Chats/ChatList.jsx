@@ -4,7 +4,7 @@ import { FetchUserChats, FetchChatDetails } from "../../apis/ChatApis";
 import { Card } from "react-bootstrap";
 import styles from "./ChatPage.module.css";
 // Chat list component
-const ChatList = ({ setSelectedChat }) => {
+const ChatList = ({ setSelectedChat,updateList }) => {
     const { accessToken } = useContext(LoginContext);
     const initialized = useRef(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -29,13 +29,13 @@ const ChatList = ({ setSelectedChat }) => {
             setIsLoading(false);
           });
       }
-    }, [accessToken]);
+    }, [accessToken,updateList]);
   
     const handleChatClick = (chat) => {
       setSelectedChat(chat);
     };
   
-    const RenderChat = (chat) => {
+    const RenderChat = ({chat}) => {
       return (
         <div
           className={`${styles.chat_item} ${styles.chat_item_border}`}
@@ -77,7 +77,7 @@ const ChatList = ({ setSelectedChat }) => {
   
     return (
       <div className={styles.chat_list}>
-        {isLoading ? <p>Loading...</p> : chats.map((chat) => RenderChat(chat))}
+        {isLoading ? <p>Loading...</p> : chats.map((chat) => <RenderChat key={chat.id} chat={chat} />)}
       </div>
     );
   };
