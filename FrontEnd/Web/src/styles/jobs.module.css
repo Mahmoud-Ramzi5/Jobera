@@ -73,6 +73,10 @@
     outline: none;
 }
 
+.deadlline_area {
+    display: flex;
+    flex-direction: column;
+}
 
 
 /* JobCard CSS */

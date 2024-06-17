@@ -24,7 +24,7 @@ class CompanyResource extends JsonResource
         }
 
         return [
-            'user_id'=>$user->id,
+            'user_id' => $user->id,
             'name' => $this->name,
             'email' => $user->email,
             'phone_number' => $user->phone_number,

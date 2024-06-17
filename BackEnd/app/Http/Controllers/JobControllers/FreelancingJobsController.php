@@ -4,6 +4,8 @@ namespace App\Http\Controllers\JobControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Company;
+use App\Models\Individual;
 use App\Models\DefJob;
 use App\Models\FreelancingJob;
 use App\Models\FreelancingJobCompetetor;
@@ -16,6 +18,7 @@ use App\Http\Resources\FreelancingJobResource;
 use App\Http\Resources\FreelancingJobCollection;
 use App\Http\Resources\FreelancingJobCompetetorResource;
 use App\Http\Resources\FreelancingJobCompetetorCollection;
+
 
 class FreelancingJobsController extends Controller
 {
@@ -50,13 +53,45 @@ class FreelancingJobsController extends Controller
 
     public function ViewFreelancingJobs(Request $request)
     {
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+
+        // Filter
         $filter = new JobFilter();
         $queryItems = $filter->transform($request);
 
-        // Check filter
+        // Response
         if (empty($queryItems)) {
             $jobs = FreelancingJob::paginate(10);
         } else {
+            // Check if job filtered based on the user that posted the job
+            for ($i = 0; $i < count($queryItems); $i++) {
+                if ($queryItems[$i][0] == 'user_name') {
+                    // Get user
+                    $company = Company::where('name', $queryItems[$i][1], $queryItems[$i][2])->first();
+                    $individual = Individual::where('full_name', $queryItems[$i][1], $queryItems[$i][2])->first();
+                    if ($company !== null) {
+                        $user_id = $company->user_id;
+                    } else if ($individual !== null) {
+                        $user_id = $individual->user_id;
+                    } else {
+                        $user_id = null;
+                    }
+
+                    $queryItems[$i][0] = 'user_id';
+                    $queryItems[$i][1] = '=';
+                    $queryItems[$i][2] = $user_id;
+                }
+            }
+
+            // Get the job
             $jobs = FreelancingJob::where($queryItems)->paginate(10);
         }
 

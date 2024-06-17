@@ -60,9 +60,22 @@ export const FetchPartTimeJobs = async (token, page, filter) => {
   }
 };
 
-export const FetchFreelancingJobs = async (token, page, queries) => {
+export const FetchFreelancingJobs = async (token, page, filter) => {
+  let apiUrl = `http://127.0.0.1:8000/api/FreelancingJobs?page=${page}`;
+  if (filter.userName !== null) {
+    apiUrl = `${apiUrl}&user_name[like]=${filter.userName}`;
+  }
+  if (filter.minSalary >= 0 && filter.maxSalary >= 0) {
+    apiUrl = `${apiUrl}&min_salary[gte]=${filter.minSalary}&max_salary[lte]=${filter.maxSalary}`;
+  }
+  if (filter.fromDeadline !== '') {
+    apiUrl = `${apiUrl}&deadline[gte]=${filter.fromDeadline}`;
+  }
+  if (filter.toDeadline !== '') {
+    apiUrl = `${apiUrl}&deadline[lte]=${filter.toDeadline}`;
+  }
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/FreelancingJobs?page=${page}`, {
+    const response = await axios.get(apiUrl, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",
