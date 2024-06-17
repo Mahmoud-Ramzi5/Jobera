@@ -21,7 +21,16 @@ class EditPortfolioView extends StatelessWidget {
         actions: [
           TextButton(
             onPressed: () {
-              if (_editController.formField.currentState?.validate() == true) {}
+              if (_editController.formField.currentState?.validate() == true) {
+                _editController.editPortfolio(
+                  _editController.portfolio.id,
+                  _editController.editTitleController.text,
+                  _editController.editDescriptionController.text,
+                  _editController.editLinkController.text,
+                  _editController.image,
+                  _editController.usedSkills,
+                );
+              }
             },
             child: const LabelText(text: "Submit"),
           ),

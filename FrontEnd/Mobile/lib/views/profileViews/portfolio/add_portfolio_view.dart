@@ -254,7 +254,9 @@ class AddPortfolioView extends StatelessWidget {
                       children: [
                         const BodyText(text: 'Select files Max:5 files'),
                         ListView.builder(
-                          itemCount: controller.files!.count,
+                          itemCount: controller.files == null
+                              ? 0
+                              : controller.files!.count,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {

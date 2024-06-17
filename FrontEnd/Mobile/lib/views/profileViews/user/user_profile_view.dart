@@ -302,43 +302,40 @@ class UserProfileView extends StatelessWidget {
                       child: InfoWithEditContainer(
                         name: 'Portofolios',
                         buttonText: 'View',
-                        widget: SizedBox(
-                          height: 150,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: controller.user.portofolios.length,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: ListContainer(
-                                  width: 100,
-                                  child: Column(
-                                    children: [
-                                      controller.user.portofolios[index]
-                                                  .photo ==
-                                              null
-                                          ? Icon(
-                                              Icons.photo,
-                                              color: Colors.lightBlue.shade900,
-                                              size: 60,
-                                            )
-                                          : CustomImage(
-                                              path: controller
-                                                  .user.portofolios[index].photo
-                                                  .toString(),
-                                              height: 60,
-                                            ),
-                                      LabelText(
-                                        text: controller
-                                            .user.portofolios[index].title,
-                                      ),
-                                    ],
-                                  ),
+                        widget: GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2),
+                          itemCount: controller.user.portofolios.length,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: ListContainer(
+                                child: Column(
+                                  children: [
+                                    controller.user.portofolios[index].photo ==
+                                            null
+                                        ? Icon(
+                                            Icons.photo,
+                                            color: Colors.lightBlue.shade900,
+                                            size: 100,
+                                          )
+                                        : CustomImage(
+                                            path: controller
+                                                .user.portofolios[index].photo
+                                                .toString(),
+                                            height: 100,
+                                          ),
+                                    LabelText(
+                                      text: controller
+                                          .user.portofolios[index].title,
+                                    ),
+                                  ],
                                 ),
-                              );
-                            },
-                          ),
+                              ),
+                            );
+                          },
                         ),
                         onPressed: () {
                           Get.toNamed('/viewPortfolios');

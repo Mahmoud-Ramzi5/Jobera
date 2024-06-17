@@ -157,10 +157,6 @@ class EditPortfolioController extends GetxController {
   ) async {
     String? token = sharedPreferences?.getString('access_token');
     if (skills.isNotEmpty) {
-      if (files.length > 5) {
-        files.removeRange(5, files.length);
-      }
-
       final data = FormData.fromMap(
         {
           'title': title,
@@ -168,6 +164,33 @@ class EditPortfolioController extends GetxController {
           'link': link,
         },
       );
+
+      if (files.isNotEmpty) {
+        if (files.length > 5) {
+          files.removeRange(5, files.length);
+        }
+        for (int i = 0; i < files.length; i++) {
+          if (files[i] is PortfolioFile) {
+            data.files.add(
+              MapEntry(
+                'files[$i]',
+                MultipartFile.fromBytes(
+                  await generalController.downloadFile(files[i].path),
+                ),
+              ),
+            );
+          } else {
+            data.files.add(
+              MapEntry(
+                'files[$i]',
+                await MultipartFile.fromFile(
+                  files[i].path.toString(),
+                ),
+              ),
+            );
+          }
+        }
+      }
 
       if (image != null) {
         data.files.add(
@@ -178,22 +201,6 @@ class EditPortfolioController extends GetxController {
         );
       }
 
-      for (int i = 0; i < files.length; i++) {
-        if (files[i] is PortfolioFile) {
-          data.files.add(
-            MapEntry('files[$i]', files[i].path),
-          );
-        } else {
-          data.files.add(
-            MapEntry(
-              'files[$i]',
-              await MultipartFile.fromFile(
-                files[i].path.toString(),
-              ),
-            ),
-          );
-        }
-      }
       for (int i = 0; i < skills.length; i++) {
         data.fields.add(
           MapEntry(
@@ -205,7 +212,7 @@ class EditPortfolioController extends GetxController {
 
       try {
         var response = await dio.post(
-          'http://192.168.0.106:8000/api/certificate/edit/$id',
+          'http://192.168.0.106:8000/api/portfolio/edit/$id',
           data: data,
           options: Options(
             headers: {
@@ -222,7 +229,7 @@ class EditPortfolioController extends GetxController {
       } on DioException catch (e) {
         Dialogs().showErrorDialog(
           'Error',
-          e.response.toString(),
+          e.response!.data['errors'].toString(),
         );
       }
     } else {

@@ -133,15 +133,16 @@ class CompanyProfileView extends StatelessWidget {
                         buttonText: 'View',
                         widget: SizedBox(
                           height: 150,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
+                          child: GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2),
                             itemCount: controller.company.portofolios.length,
                             shrinkWrap: true,
                             itemBuilder: (context, index) {
                               return Padding(
                                 padding: const EdgeInsets.all(10),
                                 child: ListContainer(
-                                  width: 100,
                                   child: Column(
                                     children: [
                                       controller.company.portofolios[index]
@@ -150,13 +151,13 @@ class CompanyProfileView extends StatelessWidget {
                                           ? Icon(
                                               Icons.photo,
                                               color: Colors.lightBlue.shade900,
-                                              size: 60,
+                                              size: 100,
                                             )
                                           : CustomImage(
                                               path: controller.company
                                                   .portofolios[index].photo
                                                   .toString(),
-                                              height: 60,
+                                              height: 100,
                                             ),
                                       LabelText(
                                         text: controller

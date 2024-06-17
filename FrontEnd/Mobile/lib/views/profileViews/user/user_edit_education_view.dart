@@ -20,32 +20,23 @@ class UserEditEducationView extends StatelessWidget {
       appBar: AppBar(
         title: const TitleText(text: 'Education'),
         actions: [
-          _editController.generalController.isInRegister
-              ? TextButton(
-                  onPressed: () async {
-                    if (_editController.formField.currentState?.validate() ==
-                        true) {
-                      _editController.advanceRegisterStep();
-                    }
-                  },
-                  child: const LabelText(text: 'Next'),
-                )
-              : TextButton(
-                  onPressed: () async {
-                    if (_editController.formField.currentState?.validate() ==
-                        true) {
-                      await _editController.editEducation(
-                        _editController.selectedLevel.toString(),
-                        _editController.editFieldController.text,
-                        _editController.editSchoolController.text,
-                        _editController.startDate,
-                        _editController.endDate,
-                        _editController.file,
-                      );
-                    }
-                  },
-                  child: const LabelText(text: 'Submit'),
-                )
+          TextButton(
+            onPressed: () async {
+              if (_editController.formField.currentState?.validate() == true) {
+                await _editController.editEducation(
+                  _editController.selectedLevel.toString(),
+                  _editController.editFieldController.text,
+                  _editController.editSchoolController.text,
+                  _editController.startDate,
+                  _editController.endDate,
+                  _editController.file,
+                );
+              }
+            },
+            child: _editController.generalController.isInRegister
+                ? const LabelText(text: 'Next')
+                : const LabelText(text: 'Submit'),
+          )
         ],
       ),
       body: Form(

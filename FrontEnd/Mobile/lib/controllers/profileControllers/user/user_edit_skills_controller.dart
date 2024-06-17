@@ -150,28 +150,4 @@ class UserEditSkillsController extends GetxController {
       }
     }
   }
-
-  Future<void> advanceRegisterStep() async {
-    String? token = sharedPreferences?.getString('access_token');
-    try {
-      final response = await dio.post(
-        'http://192.168.0.106:8000/api/regStep',
-        options: Options(
-            responseType: ResponseType.bytes, // important
-            headers: {
-              'Content-Type': 'application/json; charset=UTF-8',
-              'Accept': "application/json",
-              'Authorization': 'Bearer $token'
-            }),
-      );
-      if (response.statusCode == 200) {
-        addSkills();
-      }
-    } on DioException catch (e) {
-      Dialogs().showErrorDialog(
-        'Error',
-        e.response!.data['errors'].toString(),
-      );
-    }
-  }
 }

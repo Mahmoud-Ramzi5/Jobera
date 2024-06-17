@@ -109,10 +109,6 @@ class AddPortfolioController extends GetxController {
   ) async {
     String? token = sharedPreferences?.getString('access_token');
     if (skills.isNotEmpty) {
-      if (files != null && files.count > 5) {
-        files.files.removeRange(5, files.files.length);
-      }
-
       final data = FormData.fromMap(
         {
           'title': title,
@@ -120,6 +116,21 @@ class AddPortfolioController extends GetxController {
           'link': link,
         },
       );
+      if (files != null) {
+        if (files.count > 5) {
+          files.files.removeRange(5, files.files.length);
+        }
+        for (int i = 0; i < files.count; i++) {
+          data.files.add(
+            MapEntry(
+              'files[$i]',
+              await MultipartFile.fromFile(
+                files.files[i].path.toString(),
+              ),
+            ),
+          );
+        }
+      }
 
       if (image != null) {
         data.files.add(
@@ -130,16 +141,6 @@ class AddPortfolioController extends GetxController {
         );
       }
 
-      for (int i = 0; i < files!.count; i++) {
-        data.files.add(
-          MapEntry(
-            'files[$i]',
-            await MultipartFile.fromFile(
-              files.files[i].path.toString(),
-            ),
-          ),
-        );
-      }
       for (int i = 0; i < skills.length; i++) {
         data.fields.add(
           MapEntry(
@@ -150,7 +151,7 @@ class AddPortfolioController extends GetxController {
       }
       try {
         var response = await dio.post(
-          'http://192.168.0.105:8000/api/portfolio/add',
+          'http://192.168.0.106:8000/api/portfolio/add',
           data: data,
           options: Options(
             headers: {
@@ -167,7 +168,7 @@ class AddPortfolioController extends GetxController {
       } on DioException catch (e) {
         Dialogs().showErrorDialog(
           'Error',
-          e.response.toString(),
+          e.response!.data['errors'].toString(),
         );
       }
     } else {

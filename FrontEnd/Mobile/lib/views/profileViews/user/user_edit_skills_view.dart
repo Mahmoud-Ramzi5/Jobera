@@ -16,15 +16,12 @@ class UserEditSkillsView extends StatelessWidget {
       appBar: AppBar(
         title: const TitleText(text: 'Skills'),
         actions: [
-          _editController.generalController.isInRegister
-              ? TextButton(
-                  onPressed: () => _editController.advanceRegisterStep(),
-                  child: const LabelText(text: 'Next'),
-                )
-              : TextButton(
-                  onPressed: () => _editController.addSkills(),
-                  child: const LabelText(text: 'Submit'),
-                ),
+          TextButton(
+            onPressed: () => _editController.addSkills(),
+            child: _editController.generalController.isInRegister
+                ? const LabelText(text: 'Next')
+                : const LabelText(text: 'Submit'),
+          ),
         ],
       ),
       body: SingleChildScrollView(

@@ -9,7 +9,7 @@ import 'package:jobera/main.dart';
 import 'package:jobera/models/education.dart';
 
 class UserEditEducationController extends GetxController {
-  late UserProfileController profileController;
+  late UserProfileController? profileController;
   late GeneralController generalController;
   late Dio dio;
   late GlobalKey<FormState> formField;
@@ -25,7 +25,7 @@ class UserEditEducationController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    profileController = Get.find<UserProfileController>();
+    profileController = null;
     generalController = Get.find<GeneralController>();
     dio = Dio();
     formField = GlobalKey<FormState>();
@@ -37,7 +37,8 @@ class UserEditEducationController extends GetxController {
       'High Institute': 'HIGH_INSTITUTE',
     };
     if (!generalController.isInRegister) {
-      education = profileController.user.education;
+      profileController = Get.find<UserProfileController>();
+      education = profileController!.user.education;
       selectedLevel = education!.level;
       editFieldController = TextEditingController(text: education!.field);
       editSchoolController = TextEditingController(text: education!.school);
@@ -154,40 +155,8 @@ class UserEditEducationController extends GetxController {
           Get.offAllNamed('/userViewCertificates');
         } else {
           Get.back();
-          profileController.refreshIndicatorKey.currentState!.show();
+          profileController!.refreshIndicatorKey.currentState!.show();
         }
-      }
-    } on DioException catch (e) {
-      Dialogs().showErrorDialog(
-        'Error',
-        e.response!.data['errors'].toString(),
-      );
-    }
-  }
-
-  Future<void> advanceRegisterStep() async {
-    String? token = sharedPreferences?.getString('access_token');
-    try {
-      final response = await dio.post(
-        'http://192.168.0.106:8000/api/regStep',
-        options: Options(
-            responseType: ResponseType.bytes, // important
-            headers: {
-              'Content-Type': 'application/json; charset=UTF-8',
-              'Accept': "application/json",
-              'Authorization': 'Bearer $token'
-            }),
-      );
-      if (response.statusCode == 200) {
-        await editEducation(
-          selectedLevel.toString(),
-          editFieldController.text,
-          editSchoolController.text,
-          startDate,
-          endDate,
-          file,
-        );
-        Get.offAllNamed('/userViewCertificates');
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(

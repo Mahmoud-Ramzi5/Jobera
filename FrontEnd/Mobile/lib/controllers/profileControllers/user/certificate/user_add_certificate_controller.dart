@@ -72,7 +72,7 @@ class UserAddCertificateController extends GetxController {
   ) async {
     String newDate = '${date.day}-${date.month}-${date.year}';
     String? token = sharedPreferences?.getString('access_token');
-    if (file!.files.isEmpty) {
+    if (file == null) {
       Dialogs().showErrorDialog('Error', 'File is Required');
     } else {
       final data = FormData.fromMap(
