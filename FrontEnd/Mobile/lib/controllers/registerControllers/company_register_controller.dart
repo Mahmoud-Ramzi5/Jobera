@@ -112,7 +112,7 @@ class CompanyRegisterController extends GetxController {
     String newDate = '${date.day}-${date.month}-${date.year}';
     try {
       var response =
-          await dio.post('http://192.168.0.106:8000/api/company/register',
+          await dio.post('http://192.168.0.107:8000/api/company/register',
               data: {
                 "name": name,
                 "field": workField,

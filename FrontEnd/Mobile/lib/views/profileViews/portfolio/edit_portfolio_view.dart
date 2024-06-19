@@ -20,7 +20,7 @@ class EditPortfolioView extends StatelessWidget {
         title: const TitleText(text: 'Edit Portfolio'),
         actions: [
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               if (_editController.formField.currentState?.validate() == true) {
                 _editController.editPortfolio(
                   _editController.portfolio.id,

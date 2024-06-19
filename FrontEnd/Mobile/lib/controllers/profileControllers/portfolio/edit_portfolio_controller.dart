@@ -57,7 +57,7 @@ class EditPortfolioController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.0.106:8000/api/portfolio/$id',
+        'http://192.168.0.107:8000/api/portfolio/$id',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -108,6 +108,7 @@ class EditPortfolioController extends GetxController {
         files.add(pickedFiles!.files[i]);
       }
     }
+
     update();
   }
 
@@ -164,34 +165,35 @@ class EditPortfolioController extends GetxController {
           'link': link,
         },
       );
-
       if (files.isNotEmpty) {
         if (files.length > 5) {
           files.removeRange(5, files.length);
         }
         for (int i = 0; i < files.length; i++) {
           if (files[i] is PortfolioFile) {
+            var fileBytes = await generalController.downloadFile(files[i].path);
             data.files.add(
               MapEntry(
                 'files[$i]',
                 MultipartFile.fromBytes(
-                  await generalController.downloadFile(files[i].path),
+                  fileBytes,
+                  filename: files[i].name, // Ensure there's a filename
                 ),
               ),
             );
-          } else {
+          } else if (files[i] is PlatformFile) {
             data.files.add(
               MapEntry(
                 'files[$i]',
                 await MultipartFile.fromFile(
-                  files[i].path.toString(),
+                  files[i].path!,
+                  filename: files[i].name,
                 ),
               ),
             );
           }
         }
       }
-
       if (image != null) {
         data.files.add(
           MapEntry(
@@ -209,10 +211,9 @@ class EditPortfolioController extends GetxController {
           ),
         );
       }
-
       try {
         var response = await dio.post(
-          'http://192.168.0.106:8000/api/portfolio/edit/$id',
+          'http://192.168.0.107:8000/api/portfolio/edit/$id',
           data: data,
           options: Options(
             headers: {
