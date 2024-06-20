@@ -2,6 +2,7 @@ import 'package:jobera/models/certificate.dart';
 import 'package:jobera/models/education.dart';
 import 'package:jobera/models/portfolio.dart';
 import 'package:jobera/models/skill.dart';
+import 'package:jobera/models/wallet.dart';
 
 class User {
   final String name;
@@ -18,6 +19,8 @@ class User {
   final List<Skill> skills;
   final List<Certificate> certificates;
   final List<Portfolio> portofolios;
+  final String step;
+  final Wallet wallet;
 
   User({
     required this.name,
@@ -31,6 +34,8 @@ class User {
     required this.skills,
     required this.portofolios,
     required this.certificates,
+    required this.step,
+    required this.wallet,
     this.education,
     this.description,
     this.photo,
@@ -60,7 +65,9 @@ class User {
         portofolios = [
           for (var portofolio in json['portfolios'])
             (Portfolio.fromJson(portofolio)),
-        ];
+        ],
+        step = json['register_step'],
+        wallet = Wallet.fromJson(json['wallet']);
 
   User.empty()
       : name = '',
@@ -76,5 +83,7 @@ class User {
         education = Education.empty(),
         skills = [],
         certificates = [],
-        portofolios = [];
+        portofolios = [],
+        step = '',
+        wallet = Wallet.empty();
 }

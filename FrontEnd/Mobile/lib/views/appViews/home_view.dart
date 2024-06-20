@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
 import 'package:jobera/classes/texts.dart';
-import 'package:jobera/controllers/home_controller.dart';
+import 'package:jobera/controllers/appControllers/home_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_image.dart';
 import 'package:jobera/customWidgets/list_tiles.dart';
@@ -75,23 +75,19 @@ class HomeView extends StatelessWidget {
             MenuListTile(
               title: "Wallet",
               icon: Icons.wallet,
-              onTap: () {},
+              onTap: () => Get.toNamed('/wallet'),
             ),
             MenuListTile(
               title: "Settings",
               icon: Icons.settings,
-              onTap: () {
-                Get.toNamed('/settings');
-              },
+              onTap: () => Get.toNamed('/settings'),
             ),
             MenuListTile(
               title: "Logout",
               icon: Icons.logout,
-              onTap: () {
-                Dialogs().showLogoutDialog(
-                  () => _homeController.logout(),
-                );
-              },
+              onTap: () => Dialogs().showLogoutDialog(
+                () => _homeController.logout(),
+              ),
             ),
           ],
         ),

@@ -12,6 +12,7 @@ class Themes {
     textTheme: TextTheme(
       titleLarge: const TextStyle(color: Colors.white),
       headlineSmall: TextStyle(color: Colors.lightBlue.shade900),
+      headlineMedium: TextStyle(color: Colors.orange.shade800),
       labelLarge: TextStyle(color: Colors.orange.shade800),
       bodyLarge: TextStyle(color: Colors.lightBlue.shade900),
     ),
@@ -100,6 +101,7 @@ class Themes {
     textTheme: TextTheme(
       titleLarge: const TextStyle(color: Colors.white),
       headlineSmall: TextStyle(color: Colors.lightBlue.shade900),
+      headlineMedium: TextStyle(color: Colors.orange.shade800),
       labelLarge: TextStyle(color: Colors.orange.shade800),
       bodyLarge: const TextStyle(color: Colors.white),
     ),

@@ -1,4 +1,5 @@
 import 'package:jobera/models/portfolio.dart';
+import 'package:jobera/models/wallet.dart';
 
 class Company {
   final String name;
@@ -12,6 +13,7 @@ class Company {
   final String? description;
   final String? photo;
   final List<Portfolio> portofolios;
+  final Wallet wallet;
 
   Company({
     required this.name,
@@ -23,6 +25,7 @@ class Company {
     required this.foundingDate,
     required this.type,
     required this.portofolios,
+    required this.wallet,
     this.description,
     this.photo,
   });
@@ -41,7 +44,8 @@ class Company {
         portofolios = [
           for (var portofolio in json['portfolios'])
             (Portfolio.fromJson(portofolio)),
-        ];
+        ],
+        wallet = Wallet.fromJson(json['wallet']);
 
   Company.empty()
       : name = '',
@@ -54,5 +58,6 @@ class Company {
         type = '',
         description = null,
         photo = null,
-        portofolios = [];
+        portofolios = [],
+        wallet = Wallet.empty();
 }
