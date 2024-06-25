@@ -160,6 +160,7 @@
 .name_and_button {
     display: flex;
     margin-left: 10px;
+    margin-bottom: 10px;
 }
 
 .competetor_button {
@@ -188,6 +189,7 @@
     background-color: #004ead;
     color:#fff;
     outline: none;
+    margin-bottom: 10px;
 }
 
 .send_button {
