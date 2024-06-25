@@ -156,6 +156,7 @@ function App() {
                   <Route path='/freelancing' element={<PostFreelancing />} />
 
                   <Route path='/Test' element={<ShowJob />} />
+                  <Route path='/Test4' element={<JobCompetetorCard />} />
                 </Route>
               </Route>
 
@@ -168,7 +169,6 @@ function App() {
                 <Route path="/emailVerify" element={<EmailVerificationMessage />} />
                 <Route path='/file' element={< FileDisplay />} />
                 
-                <Route path='/Test4' element={<JobCompetetorCard />} />
               </Route>
             </Routes>
           </BrowserRouter>
