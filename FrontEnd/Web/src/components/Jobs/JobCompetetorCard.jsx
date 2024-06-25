@@ -1,14 +1,22 @@
 import { useEffect, useState } from "react";
 import styles from "./css/JobCometetorCard.module.css";
 import img_holder from "../../assets/upload.png";
+import { FetchImage } from "../../apis/FileApi";
 import { Star, StarFill, StarHalf } from "react-bootstrap-icons";
 
 const JobCompetetorCard = ({ CompetetorData }) => {
   const [photo, setPhoto] = useState(null);
   useEffect(() => {
     CompetetorData.jobType == "Freelancing"
-      ? setPhoto(CompetetorData.user.photo)
-      : setPhoto(CompetetorData.individual.photo);
+    if (CompetetorData.user) {
+      if(CompetetorData.user.avatar_photo){FetchImage("", CompetetorData.user.avatar_photo).then((response) => {
+        setPhoto(response);
+      });}
+    }else if(CompetetorData.individual) {
+      if(CompetetorData.individual.avatar_photo){FetchImage("", CompetetorData.individual.avatar_photo).then((response) => {
+        setPhoto(response);
+      });}
+    }
   });
   // Context
   //const { accessToken } = useContext(LoginContext);
@@ -65,7 +73,7 @@ const JobCompetetorCard = ({ CompetetorData }) => {
     }
     return stars;
   };
-  console.log(CompetetorData);
+
   return (
     <div className={styles.CompetetorCard}>
       <div className={styles.CompetetorCardContent}>
@@ -88,11 +96,11 @@ const JobCompetetorCard = ({ CompetetorData }) => {
         </div>
         <div className={styles.info_container}>
           <div className={styles.namer}>
-            <h2 className={styles.name}>{CompetetorData.individual?(CompetetorData.individual.full_name):(CompetetorData.company.name)}</h2>
+            <div className={styles.name}><h2>{CompetetorData.individual && CompetetorData.individual.full_name ? (CompetetorData.individual.full_name) : (CompetetorData.user.name)}</h2></div>
             <div className={styles.CompetetorRating}>
-              {CompetetorData.jobType == "Freelancing"
-                ? RenderStars(CompetetorData.user.rating)
-                : RenderStars(CompetetorData.individual.rating)}
+              {CompetetorData.individual ?
+                RenderStars(CompetetorData.individual.rating) :
+                RenderStars(CompetetorData.user.rating)}
             </div>
             {CompetetorData.jobType == "Freelancing" ? (
               <p className={styles.salary}>{CompetetorData.salary} </p>
