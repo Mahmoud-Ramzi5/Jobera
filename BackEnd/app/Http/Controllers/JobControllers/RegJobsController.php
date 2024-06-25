@@ -80,6 +80,7 @@ class RegJobsController extends Controller
         // Response
         if (empty($queryItems)) {
             $jobs = RegJob::paginate(10);
+            $jobsData = $jobs->items();
         } else {
             // Check if job filtered based on the company that posted the job
             for ($i = 0; $i < count($queryItems); $i++) {
@@ -95,14 +96,33 @@ class RegJobsController extends Controller
                     }
                 }
             }
-
             // Get the job
             $jobs = RegJob::where($queryItems)->paginate(10);
+            $jobsData = [];
+
+            // Check skills
+            $skills = $request->input('skills');
+            if (isset($skills)) {
+                $skills = explode(",", trim($skills, '[]'));
+                if (sizeof($skills) >= 1 && $skills[0] !== "") {
+                    foreach ($jobs->items() as $index => $job) {
+                        foreach ($job->skills as $skill) {
+                            if (in_array($skill->name, $skills)) {
+                                array_push($jobsData, $job);
+                            }
+                        };
+                    }
+                } else {
+                    $jobsData = $jobs->items();
+                }
+            } else {
+                $jobsData = $jobs->items();
+            }
         }
 
         // Response
         return response()->json([
-            'jobs' => new RegJobCollection($jobs->items()),
+            'jobs' => new RegJobCollection($jobsData),
             'pagination_data' => [
                 'from' => $jobs->firstItem(),
                 'to' => $jobs->lastItem(),

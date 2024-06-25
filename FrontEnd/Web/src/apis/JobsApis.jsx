@@ -24,6 +24,9 @@ export const FetchFullTimeJobs = async (token, page, filter) => {
   if (filter.minSalary >= 0 && filter.maxSalary >= 0) {
     apiUrl = `${apiUrl}&salary[gte]=${filter.minSalary}&salary[lte]=${filter.maxSalary}`;
   }
+  if (filter.skills.length !== 0) {
+    apiUrl = `${apiUrl}&skills=${filter.skills}`;
+  }
   try {
     const response = await axios.get(apiUrl, {
       headers: {
