@@ -51,7 +51,7 @@ const ShowJob = () => {
   const handleNewJobCompetitor = (event) => {
     event.preventDefault();
     console.log(comment);
-    ApplyToRegJobAPI(accessToken, 3, comment).then((response) => {
+    ApplyToRegJobAPI(accessToken, job.id, comment).then((response) => {
       if (response.status == 200) {
         console.log('added a competitor succsefully')
       }
@@ -64,7 +64,7 @@ const ShowJob = () => {
   const handleNewFreelancer = (event) => {
     event.preventDefault();
     console.log(comment, desiredSalary);
-    ApplyToFreelancingJobAPI(accessToken, 3, comment, desiredSalary).then((response) => {
+    ApplyToFreelancingJobAPI(accessToken, job.id, comment, desiredSalary).then((response) => {
       if (response.status == 200) {
         console.log('added a competitor succsefully')
       }
