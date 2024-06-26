@@ -40,6 +40,7 @@ import ShowJob from './components/Jobs/ShowJob.jsx';
 import JobCompetetorCard from './components/Jobs/JobCompetetorCard.jsx';
 import ChatDetails from './components/Chats/ChatDetails.jsx';
 import ChatPage from './components/Chats/ChatPage.jsx';
+import JobFeed from './pages/Jobs/JobFeed.jsx';
 
 function App() {
   const initialized = useRef(false);
@@ -134,7 +135,7 @@ function App() {
               <Route element={<Layout />}>
                 <Route path="/" element={<Index />} />
                 <Route element={<PrivateRoutes />}>
-                  <Route path="/dashboard" element={<></>} />
+                  <Route path="/dashboar" element={<></>} />
                   <Route path="/complete-register" element={<Register2 />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/edit-skills" element={<SkillsForm />} />
@@ -154,7 +155,7 @@ function App() {
                   <Route path="/FileTest" element={<FileInputTest />} />
                   <Route path='/job' element={<PostJob />} />
                   <Route path='/freelancing' element={<PostFreelancing />} />
-
+                  <Route path='/dashboard' element={<JobFeed />} />
                   <Route path='/Test' element={<ShowJob />} />
                   <Route path='/Test4' element={<JobCompetetorCard />} />
                 </Route>

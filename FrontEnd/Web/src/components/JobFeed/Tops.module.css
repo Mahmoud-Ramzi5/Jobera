@@ -1,0 +1,19 @@
+.tops_container {
+    border: 1px solid #d60b0b;
+    background-color: #c80606;
+    padding: 10px;
+    width: 450px;
+    height: 600px;
+  }
+  
+  .jobs_list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .job_item {
+    background-color: #3514c9;
+    padding: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+  }
