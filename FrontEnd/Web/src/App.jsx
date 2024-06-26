@@ -155,7 +155,7 @@ function App() {
                   <Route path='/job' element={<PostJob />} />
                   <Route path='/freelancing' element={<PostFreelancing />} />
 
-                  <Route path='/Test' element={<ShowJob />} />
+                  <Route path='/display-job/:id' element={<ShowJob />} />
                   <Route path='/Test4' element={<JobCompetetorCard />} />
                 </Route>
               </Route>
