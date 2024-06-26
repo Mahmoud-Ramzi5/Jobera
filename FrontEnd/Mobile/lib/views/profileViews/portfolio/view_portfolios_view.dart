@@ -36,7 +36,10 @@ class ViewPortfoliosView extends StatelessWidget {
                   text: 'Next',
                 ),
               )
-            : null,
+            : IconButton(
+                onPressed: () => _editController.goBack(),
+                icon: const Icon(Icons.arrow_back),
+              ),
       ),
       body: RefreshIndicator(
         key: _editController.refreshIndicatorKey,
