@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { LoginContext } from '../../utils/Contexts.jsx';
+import { FetchAllSkills } from '../../apis/AuthApis.jsx';
 import { FetchFreelancingJobs } from '../../apis/JobsApis.jsx';
 import JobCard from '../../components/Jobs/JobCard.jsx';
 import Slider from '../../components/Slider.jsx';
@@ -22,8 +23,11 @@ const FreelancingJobs = () => {
     minSalary: 0,
     maxSalary: 100000,
     fromDeadline: '',
-    toDeadline: ''
+    toDeadline: '',
+    skills: []
   });
+  const [skills, setSkills] = useState([]);
+  const [choosedSkills, setChoosedSkills] = useState([]);
 
   const [jobs, setJobs] = useState([]);
   const [data, setData] = useState([]);
@@ -31,6 +35,14 @@ const FreelancingJobs = () => {
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
+      FetchAllSkills().then((response) => {
+        if (response.status === 200) {
+          setSkills(response.data.skills);
+        }
+        else {
+          console.log(response.statusText);
+        }
+      });
     }
     else {
       setIsLoading(true);
@@ -98,6 +110,22 @@ const FreelancingJobs = () => {
       setFilter({ ...filter, [name]: value });
     }
   }
+
+  const handleSkillsFilter = (event) => {
+    const { value, checked } = event.target;
+    // Case 1 : The user checks the box
+    if (checked) {
+      setChoosedSkills((prevState) => [...prevState, value]);
+    }
+    // Case 2  : The user unchecks the box
+    else {
+      setChoosedSkills((prevState) => prevState.filter((skill) => skill !== value));
+    }
+  }
+
+  useEffect(() => {
+    setFilter({ ...filter, skills: choosedSkills });
+  }, [choosedSkills]);
 
   const handlerFilterSubmit = (event) => {
     setJobs([]);
@@ -181,6 +209,23 @@ const FreelancingJobs = () => {
             />
           </div>
         </div>
+        <br />
+        <div>
+          <label htmlFor='Skills'>
+            Skills
+          </label>
+          {skills.map((S) => (
+            <div className='' key={S.id}>
+              <input
+                type="checkbox"
+                value={S.name}
+                onChange={handleSkillsFilter}
+              />
+              <label>&nbsp;{S.name}</label>
+            </div>
+          ))}
+        </div>
+        <br />
         <button type='submit' onClick={handlerFilterSubmit}>
           Submit filter
         </button>
