@@ -78,7 +78,7 @@ class Dialogs {
     );
   }
 
-  Future<void> showSesionExpiredDialog(String error) async {
+  Future<void> showSesionExpiredDialog() async {
     Get.defaultDialog(
       title: 'Session expired',
       titleStyle: const TextStyle(
@@ -86,20 +86,16 @@ class Dialogs {
         fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
-      content: Column(
+      content: const Column(
         children: [
-          const Icon(
+          Icon(
             Icons.timer_off,
             color: Colors.red,
             size: 40,
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.all(5),
             child: BodyText(text: 'Please Login again'),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(5),
-            child: BodyText(text: error),
           ),
         ],
       ),
