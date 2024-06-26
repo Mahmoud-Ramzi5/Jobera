@@ -1,16 +1,10 @@
 import { useContext, useState, useEffect } from "react";
 import ReactSwitch from "react-switch";
 import {
-  BriefcaseFill,
-  EnvelopeAtFill,
-  BellFill,
-  List,
-  X,
+  BriefcaseFill, EnvelopeAtFill, BellFill, List, X,
 } from "react-bootstrap-icons";
 import {
-  ThemeContext,
-  LoginContext,
-  ProfileContext,
+  ThemeContext, LoginContext, ProfileContext,
 } from "../utils/Contexts.jsx";
 import { FetchImage } from "../apis/FileApi.jsx";
 import Logo from "../assets/JoberaLogo.png";
@@ -22,11 +16,10 @@ const NavBar = () => {
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { loggedIn } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
+
+  // Define states
   const [showChatScreen, setShowChatScreen] = useState(false);
 
-  const handleShowChat=()=>{
-    setShowChatScreen(!showChatScreen)
-  }
   return (
     <nav>
       <div className={styles.wrapper}>
@@ -94,7 +87,7 @@ const NavBar = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="#" onClick={handleShowChat}>
+                  <a href="#" onClick={() => setShowChatScreen(!showChatScreen)}>
                     <EnvelopeAtFill />
                   </a>
                 </li>
@@ -103,28 +96,31 @@ const NavBar = () => {
                     <BellFill />
                   </a>
                 </li>
-                <li>
-                  <div className={styles.desktop_item}>
-                    <NavUser ProfileData={profile} />
-                  </div>
-                  <input
-                    type="checkbox"
-                    id="Profile"
-                    className={styles.showDrop}
-                  />
-                  <label htmlFor="Profile" className={styles.mobile_item}>
-                    <NavUser ProfileData={profile} />
-                  </label>
-                  <ul className={styles.drop_menu}>
-                    <li>
-                      <a href="/profile">My Profile</a>
-                    </li>
-                    <li>
-                      <a href="/logout">LogOut</a>
-                    </li>
-                  </ul>
-                  {showChatScreen && <ChatNavWindow className={styles.chats} />}
-                </li>
+                <span>
+                  <li>
+                    <div className={styles.desktop_item}>
+                      <NavUser ProfileData={profile} />
+                    </div>
+                    <input
+                      type="checkbox"
+                      id="Profile"
+                      className={styles.showDrop}
+                    />
+                    <label htmlFor="Profile" className={styles.mobile_item}>
+                      <NavUser ProfileData={profile} />
+                    </label>
+
+                    <ul className={styles.drop_menu}>
+                      <li>
+                        <a href="/profile">My Profile</a>
+                      </li>
+                      <li>
+                        <a href="/logout">LogOut</a>
+                      </li>
+                    </ul>
+                  </li>
+                  {showChatScreen && <ChatNavWindow />}
+                </span>
               </>
             ) : (
               <>
