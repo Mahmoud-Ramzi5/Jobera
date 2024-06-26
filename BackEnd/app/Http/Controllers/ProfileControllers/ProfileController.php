@@ -124,12 +124,12 @@ class ProfileController extends Controller
             // Delete old avatar_photo (if found)
             $oldPath = $individual->avatar_photo;
             if ($oldPath != null) {
-                unlink(storage_path('app/'.$oldPath));
+                unlink(storage_path('app/' . $oldPath));
             }
 
             // Store new avatar_photo
             $file = $request->file('avatar_photo');
-            $path = $file->storeAs($user->id.'/avatar', $file->getClientOriginalName());
+            $path = $file->storeAs($user->id . '/avatar', $file->getClientOriginalName());
             $individual->avatar_photo = $path;
             $individual->save();
 
@@ -146,12 +146,12 @@ class ProfileController extends Controller
             // Delete old avatar_photo (if found)
             $oldPath = $company->avatar_photo;
             if ($oldPath != null) {
-                unlink(storage_path('app/'.$oldPath));
+                unlink(storage_path('app/' . $oldPath));
             }
 
             // Store photo
             $file = $request->file('avatar_photo');
-            $path = $file->storeAs($user->id.'/avatar', $file->getClientOriginalName());
+            $path = $file->storeAs($user->id . '/avatar', $file->getClientOriginalName());
             $company->avatar_photo = $path;
             $company->save();
 
@@ -186,7 +186,7 @@ class ProfileController extends Controller
             // Delete old avatar_photo (if found)
             $oldPath = $individual->avatar_photo;
             if ($oldPath != null) {
-                unlink(storage_path('app/'.$oldPath));
+                unlink(storage_path('app/' . $oldPath));
             }
 
             $individual->avatar_photo = null;
@@ -205,7 +205,7 @@ class ProfileController extends Controller
             // Delete old avatar_photo (if found)
             $oldPath = $company->avatar_photo;
             if ($oldPath != null) {
-                unlink(storage_path('app/'.$oldPath));
+                unlink(storage_path('app/' . $oldPath));
             }
 
             $company->avatar_photo = null;

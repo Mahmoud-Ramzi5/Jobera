@@ -78,20 +78,20 @@ class EducationController extends Controller
         // Handle certificate file
         if ($request->hasFile('certificate_file')) {
             // Check education
-            if($education != null) {
+            if ($education != null) {
                 // Delete old certificate_file (if found)
                 $oldPath = $education->certificate_file;
                 if ($oldPath != null) {
-                    unlink(storage_path('app/'.$oldPath));
+                    unlink(storage_path('app/' . $oldPath));
                 }
             }
             $file = $request->file('certificate_file');
-            $path = $file->storeAs($user->id.'/education', $file->getClientOriginalName());
+            $path = $file->storeAs($user->id . '/education', $file->getClientOriginalName());
             $validated['certificate_file'] = $path;
         }
 
         // Check education
-        if($education == null) {
+        if ($education == null) {
             // Create user's education
             $validated['individual_id'] = $individual->id;
             $education = Education::create($validated);
@@ -101,8 +101,7 @@ class EducationController extends Controller
                 "message" => "Education added",
                 "data" => new EducationResource($education),
             ], 201);
-        }
-        else {
+        } else {
             // Update user's education
             $education->update($validated);
 
@@ -177,7 +176,7 @@ class EducationController extends Controller
         // Handle certificate file
         if ($request->hasFile('file')) {
             $file = $request->file('file');
-            $path = $file->storeAs($user->id.'/certificate-'.$certificate->id, $file->getClientOriginalName());
+            $path = $file->storeAs($user->id . '/certificate-' . $certificate->id, $file->getClientOriginalName());
             $certificate->file = $path;
             $certificate->save();
         }
@@ -215,7 +214,7 @@ class EducationController extends Controller
         }
 
         // Check if certificate belongs to individual
-        if($individual->id != $certificate->individual_id) {
+        if ($individual->id != $certificate->individual_id) {
             return response()->json([
                 'errors' => ['user' => 'Invalid user']
             ], 401);
@@ -226,12 +225,12 @@ class EducationController extends Controller
             // Delete old certificate_file (if found)
             $oldPath = $certificate->file;
             if ($oldPath != null) {
-                unlink(storage_path('app/'.$oldPath));
+                unlink(storage_path('app/' . $oldPath));
             }
 
             // Add new certificate_file
             $file = $request->file('file');
-            $path = $file->storeAs($user->id.'/certificate-'.$certificate->id, $file->getClientOriginalName());
+            $path = $file->storeAs($user->id . '/certificate-' . $certificate->id, $file->getClientOriginalName());
             $validated['file'] = $path;
         }
 
@@ -268,7 +267,7 @@ class EducationController extends Controller
         }
 
         // Check if certificate belongs to individual
-        if($individual->id != $certificate->individual_id) {
+        if ($individual->id != $certificate->individual_id) {
             return response()->json([
                 'errors' => ['user' => 'Invalid user']
             ], 401);
@@ -277,7 +276,7 @@ class EducationController extends Controller
         // Delete old certificate_file (if found)
         $oldPath = $certificate->file;
         if ($oldPath != null) {
-            unlink(storage_path('app/'.$oldPath));
+            unlink(storage_path('app/' . $oldPath));
         }
 
         // Delete certificate

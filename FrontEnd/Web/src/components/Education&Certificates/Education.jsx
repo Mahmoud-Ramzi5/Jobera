@@ -2,7 +2,7 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MortarboardFill, ChevronDown } from 'react-bootstrap-icons';
 import { LoginContext } from '../../utils/Contexts.jsx';
-import { EditEducation, AdvanceRegisterStep } from '../../apis/ProfileApis.jsx';
+import { EditEducation } from '../../apis/ProfileApis.jsx';
 import styles from './education.module.css';
 
 const EducationForm = ({ step }) => {
@@ -68,12 +68,6 @@ const EducationForm = ({ step }) => {
     ).then((response) => {
       if (response.status === 200) {
         console.log(response.data);
-
-        AdvanceRegisterStep(accessToken).then((response) => {
-          if (response.status != 200) {
-            console.log(response);
-          }
-        });
         navigate('/profile');
       }
       else {
@@ -96,12 +90,6 @@ const EducationForm = ({ step }) => {
       if (response.status === 201) {
         console.log(response.data);
 
-        AdvanceRegisterStep(accessToken).then((response) => {
-          if (response.status != 200) {
-            console.log(response);
-          }
-        });
-
         // Reset the form fields
         setEducationData({
           level: "",
@@ -112,7 +100,7 @@ const EducationForm = ({ step }) => {
           certificate_file: null,
         });
 
-        step('CERTIFICATE');
+        step('CERTIFICATES');
       }
       else {
         console.log(response.statusText);

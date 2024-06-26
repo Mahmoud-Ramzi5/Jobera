@@ -10,7 +10,8 @@ use App\Http\Requests\ForgetPasswordRequest;
 
 class ForgetPasswordController extends Controller
 {
-    public function ForgotPassword(Request $request) {
+    public function ForgotPassword(Request $request)
+    {
         // Validate request
         $request->validate([
             'email' => 'required|email',
@@ -20,7 +21,7 @@ class ForgetPasswordController extends Controller
         $user = User::where("email", $request->email)->first();
 
         // Check user
-        if($user == null){
+        if ($user == null) {
             return response()->json([
                 'errors' => ['email' => 'Email was not found']
             ], 404);
@@ -36,7 +37,8 @@ class ForgetPasswordController extends Controller
         ], 200);
     }
 
-    public function Reset(ForgetPasswordRequest $request) {
+    public function Reset(ForgetPasswordRequest $request)
+    {
         // Validate request
         $validated = $request->validated();
 

@@ -32,11 +32,9 @@ Route::controller(AuthController::class)->group(function () {
         })->middleware('auth:api');
 
         Route::get('/verifyEmail', 'VerifyEmail');
-        Route::get('/isExpired', 'IsExpired');
         Route::get('/isVerified', 'IsVerified');
-
+        Route::get('/isExpired', 'IsExpired');
         Route::get('/regStep', 'GetRegisterStep');
-        Route::post('/regStep', 'AdvanceRegisterStep');
     });
 
     Route::get('/countries', function () {

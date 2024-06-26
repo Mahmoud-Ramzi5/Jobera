@@ -2,7 +2,7 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { LoginContext } from '../utils/Contexts.jsx';
 import { FetchSkillTypes, FetchSkills, SearchSkills } from '../apis/AuthApis.jsx';
-import { AddSkillsAPI, EditSkillsAPI, AdvanceRegisterStep } from '../apis/ProfileApis.jsx';
+import { AddSkillsAPI, EditSkillsAPI } from '../apis/ProfileApis.jsx';
 import styles from '../styles/skillsform.module.css';
 
 const SkillsForm = ({ step }) => {
@@ -124,11 +124,6 @@ const SkillsForm = ({ step }) => {
     event.preventDefault();
     EditSkillsAPI(accessToken, SkillIds).then((response) => {
       if (response.status == 200) {
-        AdvanceRegisterStep(accessToken).then((response) => {
-          if (response.status != 200) {
-            console.log(response);
-          }
-        });
         navigate('/profile');
       } else {
         console.log(response);
@@ -140,11 +135,6 @@ const SkillsForm = ({ step }) => {
     event.preventDefault();
     AddSkillsAPI(accessToken, SkillIds).then((response) => {
       if (response.status == 200) {
-        AdvanceRegisterStep(accessToken).then((response) => {
-          if (response.status != 200) {
-            console.log(response);
-          }
-        });
         step('EDUCATION');
       } else {
         console.log(response);

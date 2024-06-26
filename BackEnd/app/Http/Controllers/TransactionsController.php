@@ -79,22 +79,20 @@ class TransactionsController extends Controller
         }
 
         // Do the transaction
-        if($senderWallet->reserved_balance > $validated['amount']) {
+        if ($senderWallet->reserved_balance > $validated['amount']) {
             $senderWallet->reserved_balance -= $validated['amount'];
             $receiverWallet->current_balance += $validated['amount'];
             $receiverWallet->available_balance += $validated['amount'];
             $senderWallet->save();
             $receiverWallet->save();
-        }
-        else if($senderWallet->available_balance > $validated['amount']) {
+        } else if ($senderWallet->available_balance > $validated['amount']) {
             $senderWallet->current_balance -= $validated['amount'];
             $senderWallet->available_balance -= $validated['amount'];
             $receiverWallet->current_balance += $validated['amount'];
             $receiverWallet->available_balance += $validated['amount'];
             $senderWallet->save();
             $receiverWallet->save();
-        }
-        else {
+        } else {
             return response()->json([
                 'message' => 'Insufficient balance'
             ], 400);
