@@ -221,6 +221,11 @@
     outline: none;
 }
 
+.buttons_holder{
+display: flex;
+padding-bottom: 25px;
+}
+
 .money_holder{
     display: flex;
     width:70%;

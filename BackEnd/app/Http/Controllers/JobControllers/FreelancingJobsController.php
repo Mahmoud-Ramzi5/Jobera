@@ -70,6 +70,7 @@ class FreelancingJobsController extends Controller
         // Response
         if (empty($queryItems)) {
             $jobs = FreelancingJob::paginate(10);
+            $jobsData = $jobs->items();
         } else {
             // Check if job filtered based on the user that posted the job
             for ($i = 0; $i < count($queryItems); $i++) {
@@ -77,6 +78,8 @@ class FreelancingJobsController extends Controller
                     // Get user
                     $company = Company::where('name', $queryItems[$i][1], $queryItems[$i][2])->first();
                     $individual = Individual::where('full_name', $queryItems[$i][1], $queryItems[$i][2])->first();
+
+                    // Check user
                     if ($company !== null) {
                         $user_id = $company->user_id;
                     } else if ($individual !== null) {
@@ -93,11 +96,31 @@ class FreelancingJobsController extends Controller
 
             // Get the job
             $jobs = FreelancingJob::where($queryItems)->paginate(10);
+            $jobsData = [];
+
+            // Check skills
+            $skills = $request->input('skills');
+            if (isset($skills)) {
+                $skills = explode(",", trim($skills, '[]'));
+                if (sizeof($skills) >= 1 && $skills[0] !== "") {
+                    foreach ($jobs->items() as $job) {
+                        foreach ($job->skills as $skill) {
+                            if (in_array($skill->name, $skills)) {
+                                array_push($jobsData, $job);
+                            }
+                        };
+                    }
+                } else {
+                    $jobsData = $jobs->items();
+                }
+            } else {
+                $jobsData = $jobs->items();
+            }
         }
 
-        // Response
+        // Custom Response
         return response()->json([
-            'jobs' => new FreelancingJobCollection($jobs->items()),
+            'jobs' => new FreelancingJobCollection($jobsData),
             'pagination_data' => [
                 'from' => $jobs->firstItem(),
                 'to' => $jobs->lastItem(),

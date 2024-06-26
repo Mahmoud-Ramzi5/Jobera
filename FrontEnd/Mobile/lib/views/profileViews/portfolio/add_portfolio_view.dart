@@ -173,7 +173,7 @@ class AddPortfolioView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.all(10),
                       child: SkillsContainer(
-                        name: 'Skills',
+                        name: 'Skills:',
                         widget: ExpansionTile(
                           title: const BodyText(text: 'Expand'),
                           children: [

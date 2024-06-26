@@ -3,7 +3,7 @@ import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { FetchImage } from '../../apis/FileApi.jsx';
-import { ShowPortfoliosAPI, AdvanceRegisterStep } from '../../apis/ProfileApis.jsx';
+import { ShowPortfoliosAPI } from '../../apis/ProfileApis.jsx';
 import img_holder from '../../assets/upload.png';
 import styles from './portfolios.module.css';
 import portfolio_style from './portfolio.module.css';
@@ -85,13 +85,6 @@ const Portfolios = ({ step }) => {
           onClick={() => {
             if (!edit) {
               step('DONE');
-            }
-            if (profile.type === 'individual') {
-              AdvanceRegisterStep(accessToken).then((response) => {
-                if (response.status != 200) {
-                  console.log(response);
-                }
-              });
             }
             navigate('/profile');
           }}

@@ -96,11 +96,16 @@ const JobCompetetorCard = ({ CompetetorData }) => {
         </div>
         <div className={styles.info_container}>
           <div className={styles.namer}>
-            <div className={styles.name}><h2>{CompetetorData.individual && CompetetorData.individual.full_name ? (CompetetorData.individual.full_name) : (CompetetorData.user.name)}</h2></div>
+            <div className={styles.name}>
+              <h4>
+                {CompetetorData.jobType === "Freelancing" ? (CompetetorData.user && CompetetorData.user.full_name ?
+                (CompetetorData.user.full_name) : (CompetetorData.user.name)) :
+                (CompetetorData.individual.full_name)}
+                </h4>
+            </div>
             <div className={styles.CompetetorRating}>
-              {CompetetorData.individual ?
-                RenderStars(CompetetorData.individual.rating) :
-                RenderStars(CompetetorData.user.rating)}
+              {CompetetorData.jobType == "Freelancing" ? RenderStars(CompetetorData.user.rating):
+              RenderStars(CompetetorData.individual.rating)}
             </div>
             {CompetetorData.jobType == "Freelancing" ? (
               <p className={styles.salary}>{CompetetorData.salary} </p>

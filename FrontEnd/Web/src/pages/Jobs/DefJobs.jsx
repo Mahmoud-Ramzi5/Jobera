@@ -2,7 +2,7 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { LoginContext } from '../../utils/Contexts.jsx';
 import { FetchJobs } from '../../apis/JobsApis.jsx';
 import JobCard from '../../components/Jobs/JobCard.jsx';
-import Slider from '../../components/Slider.jsx';
+//import Slider from '../../components/Slider.jsx';
 import styles from '../../styles/jobs.module.css';
 
 
@@ -16,7 +16,7 @@ const DefJobs = () => {
   const [nextPage, setNextPage] = useState(1);
   const DataSize = 10;
 
-  const types = [
+  /* const types = [
     { value: '', label: 'All', icon: <></> },
     { value: 'FullTime', label: 'FullTime', icon: <></> },
     { value: 'PartTime', label: 'PartTime', icon: <></> },
@@ -29,7 +29,7 @@ const DefJobs = () => {
     type: '',
     minSalary: 0,
     maxSalary: 100000
-  });
+  });*/
 
   const [jobs, setJobs] = useState([]);
   const [data, setData] = useState([]);
@@ -40,7 +40,7 @@ const DefJobs = () => {
     }
     else {
       setIsLoading(true);
-      FetchJobs(accessToken, nextPage, filter).then((response) => {
+      FetchJobs(accessToken, nextPage, '').then((response) => {
         if (response.status === 200) {
           setData(response.data.pagination_data);
           if (!response.data.pagination_data.has_more_pages) {
@@ -69,10 +69,10 @@ const DefJobs = () => {
         }
       }).then(() => {
         setIsLoading(false);
-        setNewFilter(false);
+        //setNewFilter(false);
       });
     }
-  }, [nextPage, newFilter]);
+  }, [nextPage, /*newFilter*/]);
 
   const handleScroll = () => {
     const scrollY = window.scrollY;
@@ -93,7 +93,7 @@ const DefJobs = () => {
     };
   }, [nextPage]);
 
-  const handleFilter = (event) => {
+  /* const handleFilter = (event) => {
     const { name, value } = event.target;
     if (name === 'minSalary' || name === 'maxSalary') {
       if (value !== '') {
@@ -110,12 +110,12 @@ const DefJobs = () => {
     setNextPage(1);
     setIsDone(false);
     setNewFilter(true);
-  }
+  } */
 
 
   return (
     <div className={styles.screen}>
-      <div className={styles.left_container}>
+      {/* <div className={styles.left_container}>
         <div>
           <label htmlFor='user'>
             Published By:
@@ -179,9 +179,9 @@ const DefJobs = () => {
         <button type='submit' onClick={handlerFilterSubmit}>
           Submit filter
         </button>
-      </div>
+      </div> */}
 
-      <div className={styles.right_container}>
+      <div className={styles.mid_container}>
         {jobs.map((job) => (
           <JobCard key={job.defJob_id} JobData={job} />
         ))}

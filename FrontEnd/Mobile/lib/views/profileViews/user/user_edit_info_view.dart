@@ -25,9 +25,10 @@ class UserEditInfoView extends StatelessWidget {
             onPressed: () {
               if (_editController.formField.currentState?.validate() == true) {
                 _editController.editBasicInfo(
-                    _editController.editNameController.text,
-                    _editController.editPhoneNumberController.text,
-                    _editController.selectedState!.stateId);
+                  _editController.editNameController.text,
+                  _editController.editPhoneNumberController.text,
+                  _editController.selectedState!.stateId,
+                );
               }
             },
             child: const LabelText(text: 'Submit'),

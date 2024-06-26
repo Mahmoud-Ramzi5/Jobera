@@ -39,7 +39,7 @@ class SkillsController extends Controller
         $enumNames = SkillTypes::names();
         $enumValues = SkillTypes::values();
         $response = [];
-        for($i = 0; $i < count($enumValues); $i++) {
+        for ($i = 0; $i < count($enumValues); $i++) {
             array_push($response, ['id' => $i + 1, 'name' => $enumNames[$i], 'value' => $enumValues[$i]]);
         }
 

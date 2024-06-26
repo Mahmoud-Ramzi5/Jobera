@@ -179,7 +179,7 @@ const FullTimeRegJobs = () => {
         </div>
         <br />
         <div>
-          <label htmlFor='Type'>
+          <label htmlFor='Skills'>
             Skills
           </label>
           {skills.map((S) => (
@@ -189,10 +189,11 @@ const FullTimeRegJobs = () => {
                 value={S.name}
                 onChange={handleSkillsFilter}
               />
-              <label>{S.name}</label>
+              <label>&nbsp;{S.name}</label>
             </div>
           ))}
         </div>
+        <br />
         <button type='submit' onClick={handlerFilterSubmit}>
           Submit filter
         </button>

@@ -80,6 +80,9 @@ export const FetchFreelancingJobs = async (token, page, filter) => {
   if (filter.toDeadline !== '') {
     apiUrl = `${apiUrl}&deadline[lte]=${filter.toDeadline}`;
   }
+  if (filter.skills.length !== 0) {
+    apiUrl = `${apiUrl}&skills=${filter.skills}`;
+  }
   try {
     const response = await axios.get(apiUrl, {
       headers: {

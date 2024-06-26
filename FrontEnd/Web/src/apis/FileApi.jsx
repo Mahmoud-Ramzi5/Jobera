@@ -47,9 +47,9 @@ export const FetchImage = async (token, imagePath) => {
         { type: response.data.type }
       );
       // Return file
-      return(image);
+      return (image);
     });
-    return(response);
+    return (response);
   } catch (error) {
     return error.response;
   }

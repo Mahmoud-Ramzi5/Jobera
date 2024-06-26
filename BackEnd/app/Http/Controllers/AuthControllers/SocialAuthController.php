@@ -16,7 +16,8 @@ class SocialAuthController extends Controller
      *
      * @return JsonResponse
      */
-    public function RedirectToProviders() {
+    public function RedirectToProviders()
+    {
         return response()->json([
             'googleURL' => Socialite::driver('google')->stateless()->redirect()->getTargetUrl(),
             'facebookURL' => Socialite::driver('facebook')->stateless()->redirect()->getTargetUrl(),
@@ -30,7 +31,8 @@ class SocialAuthController extends Controller
      * @param $provider
      * @return JsonResponse
      */
-    public function HandleProviderCallback($provider) {
+    public function HandleProviderCallback($provider)
+    {
         // Check driver
         if (!in_array($provider, ['google', 'facebook', 'linkedin'])) {
             return response()->json([

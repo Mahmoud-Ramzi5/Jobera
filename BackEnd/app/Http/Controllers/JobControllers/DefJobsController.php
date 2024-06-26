@@ -80,7 +80,7 @@ class DefJobsController extends Controller
         if ($defJob == null) {
             return response()->json([
                 'errors' => ['job' => 'Job was not found']
-            ], 401);
+            ], 404);
         }
 
         $regJob = RegJob::where('defJob_id', $defJob->id)->first();

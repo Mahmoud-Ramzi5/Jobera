@@ -2,7 +2,7 @@ nav {
   position: fixed;
   z-index: 99;
   width: 100%;
-  
+
   background: var(--color-navbar);
 }
 
@@ -39,7 +39,7 @@ nav {
 .nav_links {
   width: 89%;
   display: inline-flex;
-  justify-content: space-between; 
+  justify-content: space-between;
 }
 
 .nav_links_left,
@@ -77,7 +77,7 @@ nav {
   display: none;
 }
 
-.profile {  
+.profile {
   color: #f2f2f2;
   display: flex;
   width: 260px;
@@ -104,11 +104,11 @@ nav {
   text-decoration: inherit;
 }
 
-.profile_details div{
+.profile_details div {
   height: 49%;
 }
 
-.drop_menu{  
+.drop_menu {
   padding: 0;
   width: 180px;
   position: absolute;
@@ -192,26 +192,17 @@ nav {
   display: none;
 }
 
-.wrapper .btn.close_btn{
+.wrapper .btn.close_btn {
   position: absolute;
   right: 30px;
   top: 10px;
 }
 
 
-.content .row img{
+.content .row img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.chats{
-  display: flex,;
-  align-items: center;
-  margin-right: 40px;
-  color: #f2f2f2;
-  font-size: 18px;
-  font-weight: '500';
 }
 
 
@@ -240,7 +231,7 @@ nav {
   .nav_links_right {
     display: block;
   }
-  
+
   .nav_links li {
     margin: 15px 10px;
   }
@@ -251,7 +242,7 @@ nav {
     display: block;
   }
 
-  .theme_switch{
+  .theme_switch {
     padding-left: 20px;
   }
 
@@ -287,7 +278,7 @@ nav {
     position: static;
     padding-left: 20px;
     width: 100%;
-    max-height: 0px;    
+    max-height: 0px;
     opacity: 1;
     visibility: visible;
     overflow: hidden;
@@ -298,7 +289,7 @@ nav {
   .drop_menu li {
     margin: 0;
   }
-  
+
   .drop_menu li a {
     border-radius: 5px;
     font-size: 20px;
@@ -319,11 +310,11 @@ nav {
     flex-direction: column;
     padding: 20px 20px 0 20px;
   }
-  
+
   .mega_box .content .row {
     width: 100%;
     margin-bottom: 15px;
-    border-top: 1px solid rgba(255,255,255,0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
   }
 
   .mega_box .content .row:nth-child(1),
@@ -344,24 +335,24 @@ nav {
     margin: 0;
   }
 
-  .menu_btn:checked ~ .nav_links {
+  .menu_btn:checked~.nav_links {
     left: 0%;
   }
 
-  .menu_btn:checked ~ .btn.menu_btn {
+  .menu_btn:checked~.btn.menu_btn {
     display: none;
   }
-  
-  .close_btn:checked ~ .btn.menu_btn {
+
+  .close_btn:checked~.btn.menu_btn {
     display: block;
   }
 
-  .showDrop:checked ~ .drop_menu,
-  .showMega:checked ~ .mega_box {
+  .showDrop:checked~.drop_menu,
+  .showMega:checked~.mega_box {
     max-height: 100%;
   }
 
-  .nav_links .desktop_item{
+  .nav_links .desktop_item {
     display: none;
   }
 }

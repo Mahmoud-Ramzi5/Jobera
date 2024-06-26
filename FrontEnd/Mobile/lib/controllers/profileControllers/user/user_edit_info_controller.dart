@@ -82,7 +82,7 @@ class UserEditInfoController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://10.0.2.2:8000/api/profile/edit',
+        'http://192.168.1.7:8000/api/profile/edit',
         data: {
           "full_name": name,
           "phone_number": phoneNumber,

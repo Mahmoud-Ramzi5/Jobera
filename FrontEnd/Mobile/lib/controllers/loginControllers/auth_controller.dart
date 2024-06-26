@@ -10,6 +10,7 @@ class AuthController extends GetxController {
   @override
   onInit() {
     dio = Dio();
+    dio.options.connectTimeout = const Duration(seconds: 5);
     super.onInit();
   }
 
@@ -18,27 +19,36 @@ class AuthController extends GetxController {
     print(token);
     if (token != null) {
       try {
-        var response = await dio.get('http://10.0.2.2:8000/api/isExpired',
-            options: Options(
-              headers: {
-                'Content-Type': 'application/json; charset=UTF-8',
-                'Accept': 'application/json',
-                'Authorization': 'Bearer $token'
-              },
-            ));
+        var response = await dio.get(
+          'http://192.168.1.7:8000/api/isExpired',
+          options: Options(
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Accept': 'application/json',
+              'Authorization': 'Bearer $token'
+            },
+          ),
+        );
         if (response.statusCode == 200) {
           return MiddlewareCases.validToken;
         }
       } on DioException catch (e) {
-        Future.delayed(
-          const Duration(seconds: 1),
-          () {
-            Dialogs().showSesionExpiredDialog(
-              e.response!.data['message'].toString(),
-            );
-          },
-        );
-        return MiddlewareCases.invalidToken;
+        print(e.type);
+        switch (e.type) {
+          case DioExceptionType.badResponse:
+            if (e.response!.statusCode == 401) {
+              Future.delayed(
+                const Duration(seconds: 1),
+                () {
+                  Dialogs().showSesionExpiredDialog();
+                },
+              );
+            }
+          case DioExceptionType.connectionTimeout:
+            return MiddlewareCases.invalidToken;
+          default:
+            return MiddlewareCases.invalidToken;
+        }
       }
     }
     return MiddlewareCases.noToken;

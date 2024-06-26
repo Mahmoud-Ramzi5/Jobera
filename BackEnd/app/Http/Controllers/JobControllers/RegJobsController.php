@@ -105,7 +105,7 @@ class RegJobsController extends Controller
             if (isset($skills)) {
                 $skills = explode(",", trim($skills, '[]'));
                 if (sizeof($skills) >= 1 && $skills[0] !== "") {
-                    foreach ($jobs->items() as $index => $job) {
+                    foreach ($jobs->items() as $job) {
                         foreach ($job->skills as $skill) {
                             if (in_array($skill->name, $skills)) {
                                 array_push($jobsData, $job);
@@ -120,7 +120,7 @@ class RegJobsController extends Controller
             }
         }
 
-        // Response
+        // Custom Response
         return response()->json([
             'jobs' => new RegJobCollection($jobsData),
             'pagination_data' => [

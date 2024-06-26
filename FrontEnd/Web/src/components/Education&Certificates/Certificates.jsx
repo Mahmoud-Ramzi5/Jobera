@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Eye, Pencil, Trash } from 'react-bootstrap-icons';
 import { LoginContext } from '../../utils/Contexts';
 import { FetchFile } from '../../apis/FileApi';
-import { ShowCertificatesAPI, DeleteCertificateAPI, AdvanceRegisterStep } from '../../apis/ProfileApis';
+import { ShowCertificatesAPI, DeleteCertificateAPI } from '../../apis/ProfileApis';
 import styles from './certificates.module.css';
 
 const Certificates = ({ step }) => {
@@ -45,21 +45,11 @@ const Certificates = ({ step }) => {
 
   const handleEdit = (event) => {
     event.preventDefault();
-    AdvanceRegisterStep(accessToken).then((response) => {
-      if (response.status != 200) {
-        console.log(response);
-      }
-    });
     navigate('/profile');
   };
 
   const handleStep3 = (event) => {
     event.preventDefault();
-    AdvanceRegisterStep(accessToken).then((response) => {
-      if (response.status != 200) {
-        console.log(response);
-      }
-    });
     step('PORTFOLIO');
   }
 

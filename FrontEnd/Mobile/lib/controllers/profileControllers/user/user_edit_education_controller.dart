@@ -139,7 +139,7 @@ class UserEditEducationController extends GetxController {
     );
     try {
       var response = await dio.post(
-        'http://10.0.2.2:8000/api/education',
+        'http://192.168.1.7:8000/api/education',
         data: data,
         options: Options(
           headers: {
@@ -150,7 +150,7 @@ class UserEditEducationController extends GetxController {
           },
         ),
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         if (generalController.isInRegister) {
           Get.offAllNamed('/userViewCertificates');
         } else {

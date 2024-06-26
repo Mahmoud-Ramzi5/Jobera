@@ -189,10 +189,11 @@ const PartTimeRegJobs = () => {
                 value={S.name}
                 onChange={handleSkillsFilter}
               />
-              <label>{S.name}</label>
+              <label>&nbsp;{S.name}</label>
             </div>
           ))}
         </div>
+        <br />
         <button type='submit' onClick={handlerFilterSubmit}>
           Submit filter
         </button>
