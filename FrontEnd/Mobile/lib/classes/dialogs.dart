@@ -4,6 +4,13 @@ import 'package:jobera/classes/texts.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
 
 class Dialogs {
+  Future<void> loadingDialog() async {
+    Get.defaultDialog(
+      title: 'Loading...',
+      content: const CircularProgressIndicator(),
+    );
+  }
+
   Future<void> showErrorDialog(String title, String content) async {
     Get.defaultDialog(
       title: title,
@@ -28,7 +35,10 @@ class Dialogs {
     );
   }
 
-  Future<void> showSuccessDialog(String title, String content) async {
+  Future<void> showSuccessDialog(
+    String title,
+    String content,
+  ) async {
     Get.defaultDialog(
       title: title,
       titleStyle: const TextStyle(

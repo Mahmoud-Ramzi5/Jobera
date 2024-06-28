@@ -14,6 +14,7 @@ class UserProfileController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   late XFile? image;
   late GeneralController generalController;
+  bool loading = true;
 
   @override
   Future<void> onInit() async {
@@ -36,7 +37,7 @@ class UserProfileController extends GetxController {
   Future<void> fetchProfile() async {
     String? token = sharedPreferences?.getString('access_token');
     try {
-      var response = await dio.get('http://192.168.1.7:8000/api/profile',
+      var response = await dio.get('http://192.168.0.106:8000/api/profile',
           options: Options(
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',
@@ -46,6 +47,7 @@ class UserProfileController extends GetxController {
           ));
       if (response.statusCode == 200) {
         user = User.fromJson(response.data['user']);
+        loading = false;
         update();
       }
     } on DioException catch (e) {
@@ -60,7 +62,7 @@ class UserProfileController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.1.7:8000/api/profile/description',
+        'http://192.168.0.106:8000/api/profile/description',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -92,7 +94,7 @@ class UserProfileController extends GetxController {
       );
       try {
         var response = await dio.post(
-          'http://192.168.1.7:8000/api/profile/photo',
+          'http://192.168.0.106:8000/api/profile/photo',
           data: data,
           options: Options(
             headers: {
@@ -130,7 +132,7 @@ class UserProfileController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       final response = await dio.delete(
-        'http://192.168.1.7:8000/api/profile/photo',
+        'http://192.168.0.106:8000/api/profile/photo',
         options: Options(
           headers: {
             'Content-Type': 'application/pdf; charset=UTF-8',
@@ -145,7 +147,7 @@ class UserProfileController extends GetxController {
           () {
             Dialogs().showSuccessDialog(
               'Success',
-              response.data['message'],
+              response.data['message'].toString(),
             );
           },
         );

@@ -27,7 +27,7 @@ class ForgotPasswordController extends GetxController {
   ) async {
     try {
       var response = await dio.post(
-        'http://192.168.1.7:8000/api/password/reset-link',
+        'http://192.168.0.106:8000/api/password/reset-link',
         data: {"email": email},
         options: Options(
           contentType: 'application/json; charset=UTF-8',
@@ -36,6 +36,7 @@ class ForgotPasswordController extends GetxController {
           },
         ),
       );
+
       if (response.statusCode == 200) {
         Dialogs().showSuccessDialog(
           'Success',

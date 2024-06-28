@@ -50,21 +50,28 @@ class LoginController extends GetxController {
     String password,
     bool rememberMe,
   ) async {
+    Dialogs().loadingDialog();
     try {
-      var response = await dio.post('http://192.168.1.7:8000/api/login',
-          data: {"email": email, "password": password, "remember": remeberMe},
-          options: Options(
-            headers: {
-              'Content-Type': 'application/json; charset=UTF-8',
-              'Accept': 'application/json',
-            },
-          ));
+      var response = await dio.post(
+        'http://192.168.0.106:8000/api/login',
+        data: {"email": email, "password": password, "remember": remeberMe},
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+          },
+        ),
+      );
       if (response.statusCode == 200) {
+        Get.back();
         sharedPreferences?.setString(
           "access_token",
           response.data["access_token"].toString(),
         );
-        Dialogs().showSuccessDialog('Login Successfull', '');
+        Dialogs().showSuccessDialog(
+          'Login Successfull',
+          '',
+        );
         Future.delayed(
           const Duration(seconds: 1),
           () {

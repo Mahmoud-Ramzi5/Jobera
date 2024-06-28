@@ -35,7 +35,7 @@ class HomeController extends GetxController {
   Future<void> fetchUser() async {
     String? token = sharedPreferences?.getString('access_token');
     try {
-      var response = await dio.get('http://192.168.1.7:8000/api/profile',
+      var response = await dio.get('http://192.168.0.106:8000/api/profile',
           options: Options(
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',
@@ -70,19 +70,27 @@ class HomeController extends GetxController {
   }
 
   Future<void> logout() async {
+    Dialogs().loadingDialog();
     String? token = sharedPreferences?.getString('access_token');
     try {
-      var response = await dio.post('http://192.168.1.7:8000/api/logout',
-          options: Options(
-            headers: {
-              'Content-Type': 'application/json; charset=UTF-8',
-              'Accept': 'application/json',
-              'Authorization': 'Bearer $token'
-            },
-          ));
+      var response = await dio.post(
+        'http://192.168.0.106:8000/api/logout',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+        ),
+      );
+
       if (response.statusCode == 200) {
+        Get.back();
         sharedPreferences?.remove('access_token');
-        await Dialogs().showSuccessDialog('Logout Successfull', '');
+        Dialogs().showSuccessDialog(
+          'Logout Successfull',
+          '',
+        );
         Future.delayed(
           const Duration(seconds: 1),
           () {

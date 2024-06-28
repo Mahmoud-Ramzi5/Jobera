@@ -109,10 +109,11 @@ class CompanyRegisterController extends GetxController {
     String phoneNumber,
     DateTime date,
   ) async {
+    Dialogs().loadingDialog();
     String newDate = '${date.day}-${date.month}-${date.year}';
     try {
       var response =
-          await dio.post('http://192.168.1.7:8000/api/company/register',
+          await dio.post('http://192.168.0.106:8000/api/company/register',
               data: {
                 "name": name,
                 "field": workField,
@@ -131,11 +132,12 @@ class CompanyRegisterController extends GetxController {
                 },
               ));
       if (response.statusCode == 201) {
+        Get.back();
         sharedPreferences?.setString(
           "access_token",
           response.data["access_token"].toString(),
         );
-        await Dialogs().showSuccessDialog('Register Successful', '');
+        Dialogs().showSuccessDialog('Register Successful', '');
         generalController.isInRegister = true;
         Future.delayed(
           const Duration(seconds: 1),

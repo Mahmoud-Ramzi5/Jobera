@@ -17,7 +17,9 @@ class UserEditSkillsView extends StatelessWidget {
         title: const TitleText(text: 'Skills'),
         actions: [
           TextButton(
-            onPressed: () => _editController.addSkills(),
+            onPressed: () => _editController.generalController.isInRegister
+                ? _editController.addSkills()
+                : _editController.editSkills(),
             child: _editController.generalController.isInRegister
                 ? const LabelText(text: 'Next')
                 : const LabelText(text: 'Submit'),
