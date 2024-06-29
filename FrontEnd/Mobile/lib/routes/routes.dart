@@ -1,5 +1,7 @@
 import 'package:get/get.dart';
 import 'package:jobera/middleware/middleware.dart';
+import 'package:jobera/views/appViews/chat_view.dart';
+import 'package:jobera/views/appViews/chats_view.dart';
 import 'package:jobera/views/appViews/home_view.dart';
 import 'package:jobera/views/appViews/wallet_view.dart';
 import 'package:jobera/views/loginViews/forgot_password_view.dart';
@@ -92,5 +94,13 @@ List<GetPage<dynamic>>? getPages = [
   GetPage(
     name: '/wallet',
     page: () => WalletView(),
-  )
+  ),
+  GetPage(
+    name: '/chats',
+    page: () => ChatsView(),
+  ),
+  GetPage(
+    name: '/chat',
+    page: () => ChatView(),
+  ),
 ];

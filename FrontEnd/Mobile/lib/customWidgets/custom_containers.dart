@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jobera/classes/texts.dart';
 
 class DateContainer extends StatelessWidget {
@@ -296,6 +297,51 @@ class ListContainer extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class SendMessageContainer extends StatelessWidget {
+  final Widget? child;
+
+  const SendMessageContainer({
+    super.key,
+    this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: Get.width,
+      padding: const EdgeInsets.all(10),
+      color: Colors.grey[200],
+      child: child,
+    );
+  }
+}
+
+class MessageContainer extends StatelessWidget {
+  final Widget? child;
+  final Color color;
+
+  const MessageContainer({
+    super.key,
+    this.child,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(5),
+      decoration: ShapeDecoration(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: color),
+          borderRadius: BorderRadius.circular(15),
+        ),
+      ),
+      child: child,
     );
   }
 }

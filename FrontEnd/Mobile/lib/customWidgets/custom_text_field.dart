@@ -5,23 +5,25 @@ class CustomTextField extends StatelessWidget {
   final TextInputType textInputType;
   final bool obsecureText;
   final String? Function(String?)? validator;
-  final String labelText;
+  final String? labelText;
   final Icon icon;
   final InkWell? inkWell;
   final int? maxLength;
   final String? initialValue;
+  final String? hintText;
 
   const CustomTextField({
     super.key,
     required this.controller,
     required this.textInputType,
     required this.obsecureText,
-    required this.labelText,
     required this.icon,
+    this.labelText,
     this.validator,
     this.inkWell,
     this.maxLength,
     this.initialValue,
+    this.hintText,
   });
 
   @override
@@ -33,6 +35,8 @@ class CustomTextField extends StatelessWidget {
       obscureText: obsecureText,
       controller: controller,
       decoration: InputDecoration(
+        hintText: hintText,
+        hintStyle: Theme.of(context).textTheme.bodyLarge,
         labelText: labelText,
         labelStyle: Theme.of(context).textTheme.bodyLarge,
         border: const OutlineInputBorder(),
