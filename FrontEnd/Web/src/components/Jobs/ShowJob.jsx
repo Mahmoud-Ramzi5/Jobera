@@ -1,8 +1,9 @@
 import { useEffect, useState, useContext } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
-import { PencilSquare, CurrencyDollar } from 'react-bootstrap-icons';
+import { PencilSquare, CurrencyDollar, ChatDots, Check2 } from 'react-bootstrap-icons';
 import { LoginContext, ProfileContext } from '../../utils/Contexts';
 import { FetchJob, ApplyToRegJobAPI, ApplyToFreelancingJobAPI } from '../../apis/JobsApis';
+import { FetchImage } from '../../apis/FileApi';
 import NormalInput from '../NormalInput';
 import JobCompetetorCard from './JobCompetetorCard';
 import img_holder from '../../assets/upload.png';
@@ -19,13 +20,14 @@ const ShowJob = () => {
   // Define states
   const [isLoading, setIsLoading] = useState(true);
   const [job, setJob] = useState({});
+  const [photo, setPhoto] = useState(null);
 
   const [notFound, setNotFound] = useState(false);
   const [participate, setParticipate] = useState(false);
 
   const [comment, setComment] = useState('');
   const [desiredSalary, setDesiredSalary] = useState('');
-  
+
 
   console.log(id);
   useEffect(() => {
@@ -35,6 +37,11 @@ const ShowJob = () => {
         console.log(response);
         if (response.status === 200) {
           setJob(response.data.job);
+          if (job.photo) {
+            FetchImage("", job.photo).then((response) => {
+              setPhoto(response);
+            });
+          }
         }
         else if (response.status == 404) {
           // TODO add a picture of not found
@@ -94,9 +101,18 @@ const ShowJob = () => {
     setComment('');
   }
 
+  const handleAcceptCompetitor = (event, id) => {
+    console.log(id);
+  }
+
+  const handleChatWithIndividual = (event, id) => {
+    console.log(id);
+  }
+
   if (isLoading) {
     return <div id='loader'><div className="clock-loader"></div></div>
   }
+
   return (
     <div className={styles.jobsPage}>
       {notFound ? <></> :
@@ -105,15 +121,13 @@ const ShowJob = () => {
             <div className={styles.left_side_container}>
               <div className={styles.imageholder}>
                 <div className={styles.image}>
-                  {job.individual && job.individual.avatar_photo ? (
-                    <img src={URL.createObjectURL(job.individual.avatar_photo)} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} className={styles.image} />
-                  ) : (
-                    job.company && job.company.avatar_photo ? (
-                      <img src={URL.createObjectURL(job.company.avatar_photo)} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} className={styles.image} />
-                    ) : (
+                  {photo ? (
+                    <img src={URL.createObjectURL(photo)} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} className={styles.image} />
+                  ) :
+                    (
                       <img src={img_holder} alt="Photo Placeholder" style={{ pointerEvents: 'none' }} className={styles.image} />
                     )
-                  )}
+                  }
                 </div>
               </div>
               <h5 className={styles.heading}>Wanted skills</h5>
@@ -202,7 +216,25 @@ const ShowJob = () => {
             </>
             ) : (<></>)}
             {job.competetors && job.competetors.map((competetor) => (
-              <JobCompetetorCard key={competetor.id} CompetetorData={competetor} />
+              <div className={styles.competitor_and_button} key={competetor.id}>
+                <JobCompetetorCard CompetetorData={competetor} />
+                <div className={styles.buttons_holder2}>
+                  {
+                    job.job_user ? (job.job_user.user_id == profile.user_id ?
+                      <button className={styles.accept_button} 
+                      onClick={(event) => handleAcceptCompetitor(event, competetor.id)}><Check2/></button>
+                      : <></>)
+                      : (job.company && job.company.user_id == profile.user_id ?
+                        <>
+                          <button className={styles.accept_button} 
+                          onClick={(event) => handleAcceptCompetitor(event, competetor.id)}><Check2/></button>
+                          <button className={styles.chat_button} 
+                          onClick={(event) => handleChatWithIndividual(event, competetor.id)}><ChatDots/></button>
+                        </>
+                        : <></>)
+                  }
+                </div>
+              </div>
             ))}
           </div>
         </>

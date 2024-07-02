@@ -22,7 +22,7 @@ class AcceptUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'freelancing_job_competetor_id'=>['required','exists:freelancing_job_competetors,id'],
+            'freelancing_job_competetor_id' => ['required', 'exists:freelancing_job_competetors,id'],
         ];
     }
 }

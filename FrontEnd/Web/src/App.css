@@ -30,6 +30,7 @@ body {
   --color-rating: #000000;
   --color-button: #000000;
   --color-addbutton: #5694e0;
+  --color-Accept: rgb(0, 200, 0);
   --color-foreground: #3E6FA9;
   --color-background: #fafafa;
   --color-backgroundV2: #1f2023;
@@ -50,6 +51,7 @@ body {
   --color-rating: #0e4a94;
   --color-button: #fafafa;
   --color-addbutton: #005ed1;
+  --color-Accept: rgb(0, 100, 0);
   --color-foreground: #efefef;
   --color-background: #1f2023;
   --color-backgroundV2: #fafafa;

@@ -2,24 +2,25 @@
 
 namespace App\Http\Controllers\JobControllers;
 
-use App\Models\Chat;
+use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Individual;
+use App\Models\Company;
+use App\Models\Chat;
 use App\Models\DefJob;
 use App\Models\RegJob;
-use App\Models\Company;
-use App\Filters\JobFilter;
-use App\Models\Individual;
-use Illuminate\Http\Request;
-use App\Policies\RegJobPolicy;
 use App\Models\RegJobCompetetor;
-use App\Http\Controllers\Controller;
-use App\Http\Resources\RegJobResource;
+use App\Filters\JobFilter;
+use App\Policies\RegJobPolicy;
+use Illuminate\Http\Request;
 use App\Http\Requests\AddRegJobRequest;
-use App\Http\Resources\RegJobCollection;
 use App\Http\Requests\ApplyRegJobRequest;
 use App\Http\Requests\AcceptIndividualRequest;
+use App\Http\Resources\RegJobResource;
+use App\Http\Resources\RegJobCollection;
 use App\Http\Resources\RegJobCompetetorResource;
 use App\Http\Resources\RegJobCompetetorCollection;
+
 
 class RegJobsController extends Controller
 {
@@ -52,6 +53,13 @@ class RegJobsController extends Controller
         $validated['company_id'] = $company->id;
         $validated['is_done'] = false;
         $job = DefJob::create($validated);
+        // Handle photo file
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $path = $file->storeAs($user->id . '/' . $validated['type'] . 'Job-' . $job->id, $file->getClientOriginalName());
+            $job->photo = $path;
+            $job->save();
+        }
         $validated['defJob_id'] = $job->id;
         $Regjob = RegJob::create($validated);
         $Regjob->skills()->attach($validated['skills']);
@@ -112,7 +120,8 @@ class RegJobsController extends Controller
                             if (in_array($skill->name, $skills)) {
                                 array_push($jobsData, $job);
                             }
-                        };
+                        }
+                        ;
                     }
                 } else {
                     $jobsData = $jobs->items();
@@ -224,9 +233,11 @@ class RegJobsController extends Controller
             "message" => "Job has been deleted successfully"
         ], 204);
     }
-    public function AcceptIndividual(AcceptIndividualRequest $request,RegJob $regJob){
-        $validated=$request->validated();
-        $job_competetor=RegJobCompetetor::where('id',$validated['reg_job_competetor_id'])->first();
+    public function AcceptIndividual(AcceptIndividualRequest $request, RegJob $regJob)
+    {
+        // Validate request
+        $validated = $request->validated();
+        $job_competetor = RegJobCompetetor::where('id', $validated['reg_job_competetor_id'])->first();
 
         // Get user
         $user = auth()->user();
@@ -237,26 +248,28 @@ class RegJobsController extends Controller
                 'errors' => ['user' => 'Invalid user']
             ], 401);
         }
+
         // Check policy
         $policy = new RegJobPolicy();
-        if (!$policy->AcceptIndividual(User::find($user->id), $regJob,$job_competetor)) {
+        if (!$policy->AcceptIndividual(User::find($user->id), $regJob, $job_competetor)) {
             // Response
             return response()->json([
                 'errors' => ['user' => 'Unauthorized']
             ], 401);
         }
-        $regJob->update(['accepted_individual'=>$job_competetor->individual_id]);
-        $user2_id=$regJob->acceptedIndividual->user->id;
+        $regJob->update(['accepted_individual' => $job_competetor->individual_id]);
+        $user2_id = $regJob->acceptedIndividual->user->id;
+
         Chat::create([
-            'user1_id'=>$user->id,
-            'user2_id'=>$user2_id
+            'user1_id' => $user->id,
+            'user2_id' => $user2_id
         ]);
+        $DefJob = $regJob->defJob;
+        $DefJob->is_done = true;
 
-        $DefJob=$regJob->defJob;
-        $DefJob->is_done=true;
-
+        // Response
         return response()->json([
-            "messsage"=>"User accepted successfully"
-        ],200);
+            "messsage" => "User accepted successfully"
+        ], 200);
     }
 }

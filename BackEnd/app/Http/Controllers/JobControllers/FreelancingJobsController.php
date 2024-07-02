@@ -3,11 +3,10 @@
 namespace App\Http\Controllers\JobControllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AcceptUserRequest;
-use App\Models\Chat;
 use App\Models\User;
-use App\Models\Company;
 use App\Models\Individual;
+use App\Models\Company;
+use App\Models\Chat;
 use App\Models\DefJob;
 use App\Models\FreelancingJob;
 use App\Models\FreelancingJobCompetetor;
@@ -16,6 +15,7 @@ use App\Policies\FreelancingJobPolicy;
 use Illuminate\Http\Request;
 use App\Http\Requests\AddFreelancingJobRequest;
 use App\Http\Requests\ApplyFreelancingJobRequest;
+use App\Http\Requests\AcceptUserRequest;
 use App\Http\Resources\FreelancingJobResource;
 use App\Http\Resources\FreelancingJobCollection;
 use App\Http\Resources\FreelancingJobCompetetorResource;
@@ -42,6 +42,13 @@ class FreelancingJobsController extends Controller
         $validated['user_id'] = $user->id;
         $validated['is_done'] = false;
         $job = DefJob::create($validated);
+        // Handle photo file
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $path = $file->storeAs($user->id . '/FreelancingJob-' . $job->id, $file->getClientOriginalName());
+            $job->photo = $path;
+            $job->save();
+        }
         $validated['defJob_id'] = $job->id;
         $Freelancingjob = FreelancingJob::create($validated);
         $Freelancingjob->skills()->attach($validated['skills']);
@@ -110,7 +117,8 @@ class FreelancingJobsController extends Controller
                             if (in_array($skill->name, $skills)) {
                                 array_push($jobsData, $job);
                             }
-                        };
+                        }
+                        ;
                     }
                 } else {
                     $jobsData = $jobs->items();
@@ -212,9 +220,12 @@ class FreelancingJobsController extends Controller
             "message" => "Job has been deleted successfully"
         ], 204);
     }
-    public function AcceptUser(AcceptUserRequest $request,FreelancingJob $freelancingJob){
-        $validated=$request->validated();
-        $job_competetor=FreelancingJobCompetetor::where('id',$validated['freelancing_job_competetor_id'])->first();
+
+    public function AcceptUser(AcceptUserRequest $request, FreelancingJob $freelancingJob)
+    {
+        // Validate request
+        $validated = $request->validated();
+        $job_competetor = FreelancingJobCompetetor::where('id', $validated['freelancing_job_competetor_id'])->first();
 
         // Get user
         $user = auth()->user();
@@ -225,24 +236,31 @@ class FreelancingJobsController extends Controller
                 'errors' => ['user' => 'Invalid user']
             ], 401);
         }
+
         // Check policy
         $policy = new FreelancingJobPolicy();
-        if (!$policy->AcceptUser(User::find($user->id), $freelancingJob,$job_competetor)) {
+        if (!$policy->AcceptUser(User::find($user->id), $freelancingJob, $job_competetor)) {
             // Response
             return response()->json([
                 'errors' => ['user' => 'Unauthorized']
             ], 401);
         }
-        $freelancingJob->update(['accepted_user'=>$job_competetor->user_id]);
+        $freelancingJob->update(['accepted_user' => $job_competetor->user_id]);
+
         Chat::create([
-            'user1_id'=>$freelancingJob->user_id,
-            'user2_id'=>$freelancingJob->acceptedUser->id
+            'user1_id' => $freelancingJob->user_id,
+            'user2_id' => $freelancingJob->acceptedUser->id
         ]);
+
+        // Response
         return response()->json([
-            "messsage"=>"User accepted successfully"
-        ],200);
+            "messsage" => "User accepted successfully"
+        ], 200);
     }
-    public function Finishedjob(Request $request,FreelancingJob $freelancingJob){
+
+    public function FinishedJob(Request $request, FreelancingJob $freelancingJob)
+    {
+        // Get user
         $user = auth()->user();
 
         // Check user
@@ -251,18 +269,21 @@ class FreelancingJobsController extends Controller
                 'errors' => ['user' => 'Invalid user']
             ], 401);
         }
+
         // Check policy
         $policy = new FreelancingJobPolicy();
-        if (!$policy->Finishedjob(User::find($user->id), $freelancingJob)) {
+        if (!$policy->FinishedJob(User::find($user->id), $freelancingJob)) {
             // Response
             return response()->json([
                 'errors' => ['user' => 'Unauthorized']
             ], 401);
         }
-        $DefJob=$freelancingJob->defJob;
-        $DefJob->is_done=true;
+        $DefJob = $freelancingJob->defJob;
+        $DefJob->is_done = true;
+
+        // Response
         return response()->json([
-            "message"=>"Job is done"
-        ],200);
+            "message" => "Job is done"
+        ], 200);
     }
 }

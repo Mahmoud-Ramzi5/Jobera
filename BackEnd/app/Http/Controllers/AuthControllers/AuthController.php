@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Models\Individual;
 use App\Models\Company;
 use App\Models\Wallet;
-use App\Enums\RegisterStep;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;

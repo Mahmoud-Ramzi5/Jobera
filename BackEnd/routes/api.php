@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\JobControllers\JobFeedController;
 use App\Models\State;
 use App\Models\Country;
 use Illuminate\Http\Request;
@@ -16,6 +15,7 @@ use App\Http\Controllers\ProfileControllers\PortfolioController;
 use App\Http\Controllers\JobControllers\DefJobsController;
 use App\Http\Controllers\JobControllers\RegJobsController;
 use App\Http\Controllers\JobControllers\FreelancingJobsController;
+use App\Http\Controllers\JobControllers\JobFeedController;
 
 
 Route::controller(AuthController::class)->group(function () {
@@ -123,8 +123,8 @@ Route::controller(RegJobsController::class)->group(function () {
         Route::get('regJobs/{regJob}', 'ShowRegJob');
         Route::get('regJobs/{regJob}/competetors', 'ViewRegJobCompetetors');
         Route::post('/regJob/apply', 'ApplyRegJob');
+        Route::post('/regJob/accept/{regJob}', 'AcceptIndividual');
         Route::delete('regJobs/{regJob}', 'DeleteRegJob');
-        Route::post('/regJob/accept/{regJob}','AcceptIndividual');
     });
 });
 
@@ -135,27 +135,27 @@ Route::controller(FreelancingJobsController::class)->group(function () {
         Route::get('FreelancingJobs/{freelancingJob}', 'ShowFreelancingJob');
         Route::get('FreelancingJobs/{freelancingJob}/competetors', 'ViewFreelancingJobCompetetors');
         Route::post('/FreelancingJob/apply', 'ApplyFreelancingJob');
+        Route::post('/FreelancingJob/accept/{freelancingJob}', 'AcceptUser');
+        Route::post('FreelancingJob/done/{freelancingJob}', 'FinishedJob');
         Route::delete('FreelancingJobs/{freelancingJob}', 'DeleteFreelancingJob');
-        Route::post('/FreelancingJob/accept/{freelancingJob}','AcceptUser');
-        Route::post('FreelancingJob/done/{freelancingJob}','Finishedjob');
     });
 });
 
 Route::controller(ChatController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
-        Route::post('chats/sendMessage', 'SendMessage');
-        Route::get('/chats/{chat}', 'GetChat');
         Route::get('/chats', 'GetAllChats');
+        Route::get('/chats/{chat}', 'GetChat');
+        Route::post('chats/sendMessage', 'SendMessage');
     });
 });
 
-Route::controller(JobFeedController::class)->group(function(){
-    Route::middleware('auth:api')->group(function(){
-        Route::get('jobFeed/payedReg','MostPayedRegJobsWeekly');
-        Route::get('jobFeed/payedFreelance','MostPayedFreelancingJobsWeekly');
-        Route::get('jobFeed/skills','MostNeededSkillsWeekly');
-        Route::get('jobFeed/companies','MostPostingCompaniesMonthly');
-        Route::get('jobFeed/stats','WebsiteData');
+Route::controller(JobFeedController::class)->group(function () {
+    Route::middleware('auth:api')->group(function () {
+        Route::get('jobFeed/payedReg', 'MostPayedRegJobsWeekly');
+        Route::get('jobFeed/payedFreelance', 'MostPayedFreelancingJobsWeekly');
+        Route::get('jobFeed/skills', 'MostNeededSkillsWeekly');
+        Route::get('jobFeed/companies', 'MostPostingCompaniesMonthly');
+        Route::get('jobFeed/stats', 'WebsiteData');
     });
 });
 
