@@ -242,4 +242,27 @@ class FreelancingJobsController extends Controller
             "messsage"=>"User accepted successfully"
         ],200);
     }
+    public function Finishedjob(Request $request,FreelancingJob $freelancingJob){
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+        // Check policy
+        $policy = new FreelancingJobPolicy();
+        if (!$policy->Finishedjob(User::find($user->id), $freelancingJob)) {
+            // Response
+            return response()->json([
+                'errors' => ['user' => 'Unauthorized']
+            ], 401);
+        }
+        $DefJob=$freelancingJob->defJob;
+        $DefJob->is_done=true;
+        return response()->json([
+            "message"=>"Job is done"
+        ],200);
+    }
 }

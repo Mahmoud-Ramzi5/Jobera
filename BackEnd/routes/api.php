@@ -124,6 +124,7 @@ Route::controller(RegJobsController::class)->group(function () {
         Route::get('regJobs/{regJob}/competetors', 'ViewRegJobCompetetors');
         Route::post('/regJob/apply', 'ApplyRegJob');
         Route::delete('regJobs/{regJob}', 'DeleteRegJob');
+        Route::post('/regJob/accept/{regJob}','AcceptIndividual');
     });
 });
 
@@ -136,6 +137,7 @@ Route::controller(FreelancingJobsController::class)->group(function () {
         Route::post('/FreelancingJob/apply', 'ApplyFreelancingJob');
         Route::delete('FreelancingJobs/{freelancingJob}', 'DeleteFreelancingJob');
         Route::post('/FreelancingJob/accept/{freelancingJob}','AcceptUser');
+        Route::post('FreelancingJob/done/{freelancingJob}','Finishedjob');
     });
 });
 

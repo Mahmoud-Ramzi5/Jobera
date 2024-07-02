@@ -251,6 +251,10 @@ class RegJobsController extends Controller
             'user1_id'=>$user->id,
             'user2_id'=>$user2_id
         ]);
+
+        $DefJob=$regJob->defJob;
+        $DefJob->is_done=true;
+
         return response()->json([
             "messsage"=>"User accepted successfully"
         ],200);
