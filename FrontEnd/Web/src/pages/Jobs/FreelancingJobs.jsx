@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { List, X } from 'react-bootstrap-icons';
 import { LoginContext } from '../../utils/Contexts.jsx';
 import { FetchAllSkills } from '../../apis/AuthApis.jsx';
 import { FetchFreelancingJobs } from '../../apis/JobsApis.jsx';
@@ -139,7 +140,25 @@ const FreelancingJobs = () => {
 
   return (
     <div className={styles.screen}>
+      <input
+        type="radio"
+        name="slider"
+        id="open_filter"
+        className={styles.menu_btn}
+      />
+      <input
+        type="radio"
+        name="slider"
+        id="close_filter"
+        className={styles.close_btn}
+      />
       <div className={styles.left_container}>
+        <label
+          htmlFor="close_filter"
+          className={`${styles.btn} ${styles.close_btn}`}
+        >
+          <X size={31} />
+        </label>
         <div>
           <label htmlFor='UserName'>
             Published By:
@@ -236,17 +255,23 @@ const FreelancingJobs = () => {
       <div className={styles.right_container}>
         {jobs.map((job) => (
           <Link
-          key={job.defJob_id}
-          className={styles.job_card}
-          to={`/job/${job.defJob_id}`}
-        >
-          <JobCard JobData={job} />
-        </Link>
+            key={job.defJob_id}
+            className={styles.job_card}
+            to={`/job/${job.defJob_id}`}
+          >
+            <JobCard JobData={job} />
+          </Link>
         ))}
         {isLoading ? <div id='loader'><div className="clock-loader"></div></div>
           : isDone && <h5 className={styles.done}>No more jobs to show</h5>
         }
       </div>
+      <label
+        htmlFor="open_filter"
+        className={`${styles.btn} ${styles.menu_btn}`}
+      >
+        <List size={29} />
+      </label>
     </div>
   );
 }

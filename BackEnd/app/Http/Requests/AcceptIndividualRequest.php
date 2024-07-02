@@ -22,7 +22,7 @@ class AcceptIndividualRequest extends FormRequest
     public function rules(): array
     {
         return [
-           'reg_job_competetor_id'=>['required','exists:reg_job_competetors,id']
+            'reg_job_competetor_id' => ['required', 'exists:reg_job_competetors,id']
         ];
     }
 }
