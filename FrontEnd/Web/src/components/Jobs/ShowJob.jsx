@@ -2,7 +2,7 @@ import { useEffect, useState, useContext } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { PencilSquare, CurrencyDollar, ChatDots, Check2 } from 'react-bootstrap-icons';
 import { LoginContext, ProfileContext } from '../../utils/Contexts';
-import { FetchJob, ApplyToRegJobAPI, ApplyToFreelancingJobAPI } from '../../apis/JobsApis';
+import { FetchJob, ApplyToRegJobAPI, ApplyToFreelancingJobAPI, AcceptRegJob, AcceptFreelancingJob } from '../../apis/JobsApis';
 import { FetchImage } from '../../apis/FileApi';
 import NormalInput from '../NormalInput';
 import JobCompetetorCard from './JobCompetetorCard';
@@ -21,6 +21,7 @@ const ShowJob = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [job, setJob] = useState({});
   const [photo, setPhoto] = useState(null);
+  const [accepted, setAccepted] = useState(false);
 
   const [notFound, setNotFound] = useState(false);
   const [participate, setParticipate] = useState(false);
@@ -41,6 +42,9 @@ const ShowJob = () => {
             FetchImage("", job.photo).then((response) => {
               setPhoto(response);
             });
+          }
+          if(response.data.job.accepted_individual||response.data.job.accepted_user){
+            setAccepted(true);
           }
         }
         else if (response.status == 404) {
@@ -101,8 +105,30 @@ const ShowJob = () => {
     setComment('');
   }
 
-  const handleAcceptCompetitor = (event, id) => {
+  const handleAcceptFreelancingCompetitor = (event, id) => {
     console.log(id);
+    AcceptFreelancingJob( accessToken, job.id, id).then((response) => {
+      if (response.status == 200) {
+        console.log('competitor Accepted')
+        setAccepted(true);
+      }
+      else {
+        console.log(response.statusText);
+      }
+    });
+  }
+
+  const handleAcceptRegCompetitor = (event, id) => {
+    console.log(id);
+    AcceptRegJob( accessToken, job.id, id).then((response) => {
+      if (response.status == 200) {
+        console.log('competitor Accepted')
+        setAccepted(true);
+      }
+      else {
+        console.log(response);
+      }
+    });
   }
 
   const handleChatWithIndividual = (event, id) => {
@@ -220,16 +246,16 @@ const ShowJob = () => {
                 <JobCompetetorCard CompetetorData={competetor} />
                 <div className={styles.buttons_holder2}>
                   {
-                    job.job_user ? (job.job_user.user_id == profile.user_id ?
-                      <button className={styles.accept_button} 
-                      onClick={(event) => handleAcceptCompetitor(event, competetor.id)}><Check2/></button>
+                    job.job_user ? (job.job_user.user_id == profile.user_id && !accepted ?
+                      <button className={styles.accept_button}
+                        onClick={(event) => handleAcceptFreelancingCompetitor(event, competetor.id)}><Check2 /></button>
                       : <></>)
-                      : (job.company && job.company.user_id == profile.user_id ?
+                      : (job.company && job.company.user_id == profile.user_id && !accepted ?
                         <>
-                          <button className={styles.accept_button} 
-                          onClick={(event) => handleAcceptCompetitor(event, competetor.id)}><Check2/></button>
-                          <button className={styles.chat_button} 
-                          onClick={(event) => handleChatWithIndividual(event, competetor.id)}><ChatDots/></button>
+                          <button className={styles.accept_button}
+                            onClick={(event) => handleAcceptRegCompetitor(event, competetor.id)}><Check2 /></button>
+                          <button className={styles.chat_button}
+                            onClick={(event) => handleChatWithIndividual(event, competetor.id)}><ChatDots /></button>
                         </>
                         : <></>)
                   }

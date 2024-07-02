@@ -285,3 +285,38 @@ export const FetchFreelancingJobCompetetors = async (token, id) => {
     return error.response;
   }
 };
+
+export const AcceptFreelancingJob = async (token, freelancingJobId, competetorId) => {
+  try {
+    const response = await axios.post(`http://127.0.0.1:8000/api/FreelancingJob/accept/${freelancingJobId}`, {
+      'freelancing_job_competetor_id': competetorId
+    }, {
+      headers: {
+        'Content-Type': 'multipart/form-data; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}
+
+export const AcceptRegJob = async (token, regJobId, competetorId) => {
+  try {
+    const response = await axios.post(`http://127.0.0.1:8000/api/regJob/accept/${regJobId}`, {
+      'reg_job_competetor_id': competetorId
+    }, {
+      headers: {
+        'Content-Type': 'multipart/form-data; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+}
+
