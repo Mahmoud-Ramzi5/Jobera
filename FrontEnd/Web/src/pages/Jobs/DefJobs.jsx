@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { LoginContext } from '../../utils/Contexts.jsx';
 import { FetchJobs } from '../../apis/JobsApis.jsx';
 import JobCard from '../../components/Jobs/JobCard.jsx';
@@ -183,7 +184,13 @@ const DefJobs = () => {
 
       <div className={styles.mid_container}>
         {jobs.map((job) => (
-          <JobCard key={job.defJob_id} JobData={job} />
+          <Link
+            key={job.defJob_id}
+            className={styles.job_card}
+            to={`/display-job/${job.defJob_id}`}
+          >
+            <JobCard JobData={job} />
+          </Link>
         ))}
         {isLoading ? <div id='loader'><div className="clock-loader"></div></div>
           : isDone && <h5 className={styles.done}>No more jobs to show</h5>

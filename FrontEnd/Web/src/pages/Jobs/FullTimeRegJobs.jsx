@@ -1,4 +1,5 @@
 import { useEffect, useState, useContext, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { LoginContext } from '../../utils/Contexts.jsx';
 import { FetchAllSkills } from '../../apis/AuthApis.jsx';
 import { FetchFullTimeJobs } from '../../apis/JobsApis.jsx';
@@ -201,7 +202,13 @@ const FullTimeRegJobs = () => {
 
       <div className={styles.right_container}>
         {jobs.map((job) => (
-          <JobCard key={job.id} JobData={job} />
+          <Link
+          key={job.defJob_id}
+          className={styles.job_card}
+          to={`/display-job/${job.defJob_id}`}
+        >
+          <JobCard JobData={job} />
+        </Link>
         ))}
         {isLoading ? <div id='loader'><div className="clock-loader"></div></div>
           : isDone && <h5 className={styles.done}>No more jobs to show</h5>

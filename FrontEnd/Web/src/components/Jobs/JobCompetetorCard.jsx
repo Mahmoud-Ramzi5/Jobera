@@ -1,46 +1,29 @@
-import { useEffect, useState } from "react";
-import styles from "./css/JobCometetorCard.module.css";
-import img_holder from "../../assets/upload.png";
-import { FetchImage } from "../../apis/FileApi";
-import { Star, StarFill, StarHalf } from "react-bootstrap-icons";
+import { useEffect, useState } from 'react';
+import { Star, StarFill, StarHalf } from 'react-bootstrap-icons';
+import { FetchImage } from '../../apis/FileApi';
+import img_holder from '../../assets/upload.png';
+import styles from './css/JobCometetorCard.module.css';
+
 
 const JobCompetetorCard = ({ CompetetorData }) => {
   const [photo, setPhoto] = useState(null);
+
   useEffect(() => {
-    CompetetorData.jobType == "Freelancing"
     if (CompetetorData.user) {
-      if(CompetetorData.user.avatar_photo){FetchImage("", CompetetorData.user.avatar_photo).then((response) => {
-        setPhoto(response);
-      });}
-    }else if(CompetetorData.individual) {
-      if(CompetetorData.individual.avatar_photo){FetchImage("", CompetetorData.individual.avatar_photo).then((response) => {
-        setPhoto(response);
-      });}
+      if (CompetetorData.user.avatar_photo) {
+        FetchImage("", CompetetorData.user.avatar_photo).then((response) => {
+          setPhoto(response);
+        });
+      }
+    } else if (CompetetorData.individual) {
+      if (CompetetorData.individual.avatar_photo) {
+        FetchImage("", CompetetorData.individual.avatar_photo).then((response) => {
+          setPhoto(response);
+        });
+      }
     }
-  });
-  // Context
-  //const { accessToken } = useContext(LoginContext);
-  // const [RegCompetetor, SetRegCompetetor] = useState({
-  //   name: "",
-  //   rating: "",
-  //   description: "",
-  //   photo: "",
-  // });
-  // const [FreelanceCompetetor, SetFreelanceCompetetor] = useState({
-  //   name: "",
-  //   rating: "",
-  //   description: "",
-  //   photo: "",
-  //   salary: "",
-  // });
-  // useEffect(() => {
-  //   if(CompetetorData.jobType=="Freelancing"){
-  //     SetFreelanceCompetetor(CompetetorData);
-  //   }
-  //   else{
-  //     SetRegCompetetor(CompetetorData);
-  //   }
-  // }, []);
+  }, []);
+
   const RenderStars = (rating) => {
     const stars = [];
     const fullStars = Math.floor(rating);
@@ -98,14 +81,16 @@ const JobCompetetorCard = ({ CompetetorData }) => {
           <div className={styles.namer}>
             <div className={styles.name}>
               <h4>
-                {CompetetorData.jobType === "Freelancing" ? (CompetetorData.user && CompetetorData.user.full_name ?
-                (CompetetorData.user.full_name) : (CompetetorData.user.name)) :
-                (CompetetorData.individual.full_name)}
-                </h4>
+                {CompetetorData.jobType === "Freelancing" ?
+                  (CompetetorData.user && CompetetorData.user.full_name ?
+                    (CompetetorData.user.full_name) : (CompetetorData.user.name)) :
+                  (CompetetorData.individual.full_name)}
+              </h4>
             </div>
             <div className={styles.CompetetorRating}>
-              {CompetetorData.jobType == "Freelancing" ? RenderStars(CompetetorData.user.rating):
-              RenderStars(CompetetorData.individual.rating)}
+              {CompetetorData.jobType == "Freelancing" ?
+                RenderStars(CompetetorData.user.rating) :
+                RenderStars(CompetetorData.individual.rating)}
             </div>
             {CompetetorData.jobType == "Freelancing" ? (
               <p className={styles.salary}>{CompetetorData.salary} </p>
@@ -122,4 +107,5 @@ const JobCompetetorCard = ({ CompetetorData }) => {
     </div>
   );
 };
+
 export default JobCompetetorCard;

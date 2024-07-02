@@ -26,6 +26,10 @@
     flex-direction: column;
 }
 
+.job_card {
+    text-decoration: none;
+}
+
 .done {
     padding: 5px;
     display: flex;
