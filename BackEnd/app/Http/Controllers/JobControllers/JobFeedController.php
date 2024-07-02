@@ -28,12 +28,13 @@ class JobFeedController extends Controller
 
         return $data;
     }
+
     public function MostPayedFreelancingJobsWeekly()
     {
         $data = [];
-        $freelancingjobs = FreelancingJob::whereNotNull('accepted_user') 
-        ->whereBetween('created_at', [now()->subWeek(), now()])
-        ->get();
+        $freelancingjobs = FreelancingJob::whereNotNull('accepted_user')
+            ->whereBetween('created_at', [now()->subWeek(), now()])
+            ->get();
 
         foreach ($freelancingjobs as $freelancingjob) {
             foreach ($freelancingjob->competetors() as $competetor) {
@@ -43,7 +44,6 @@ class JobFeedController extends Controller
                 }
             }
         }
-
         $freelancingjobs = $freelancingjobs->sortByDesc('salary');
 
         // Assuming you want to retrieve the top 5 highest-paying freelancing jobs
@@ -58,13 +58,14 @@ class JobFeedController extends Controller
 
         return $data;
     }
+
     public function MostNeededSkillsWeekly()
     {
-        $freelancingjobs = FreelancingJob::whereNotNull('accepted_user') 
+        $freelancingjobs = FreelancingJob::whereNotNull('accepted_user')
             ->whereBetween('created_at', [now()->subWeek(), now()])
             ->get();
-        
-        $Regjobs = RegJob::whereNotNull('accepted_individual') 
+
+        $Regjobs = RegJob::whereNotNull('accepted_individual')
             ->whereBetween('created_at', [now()->subWeek(), now()])
             ->get();
         $skills = [];
@@ -88,20 +89,23 @@ class JobFeedController extends Controller
         return $mostNeededSkills;
     }
 
-    public function MostPostingCompaniesMonthly(){
-        $regJobs=RegJob::whereNotNull('accepted_individual')
-        ->whereBetween('created_at', [now()->subWeek(), now()])
-        ->get();;
-        $companies=[];
-        foreach($regJobs as $regJob){
-            $companies[]=$regJob->company();
+    public function MostPostingCompaniesMonthly()
+    {
+        $regJobs = RegJob::whereNotNull('accepted_individual')
+            ->whereBetween('created_at', [now()->subWeek(), now()])
+            ->get();;
+        $companies = [];
+        foreach ($regJobs as $regJob) {
+            $companies[] = $regJob->company();
         }
         $companyCounts = array_count_values($companies);
         arsort($companyCounts);
         $MostPostingCompanies = array_keys($companyCounts);
         return $MostPostingCompanies;
     }
-    public function WebsiteData(){
+
+    public function WebsiteData()
+    {
         /*
         return response()->json([
             "total_freelancingJob_posts"=>,

@@ -88,8 +88,12 @@ class ChatController extends Controller
             'chats' => new ChatCollection($chats)
         ], 200);
     }
-    public function CreateChat(CreateChatRequest $request){
-        $validated=$request->validated();
+
+    public function CreateChat(CreateChatRequest $request)
+    {
+        // Validate request
+        $validated = $request->validated();
+
         // Get user
         $user = auth()->user();
 
@@ -99,6 +103,7 @@ class ChatController extends Controller
                 'errors' => ['user' => 'Invalid user']
             ], 401);
         }
+
         // Get chat
         $chat = Chat::where(function ($query) use ($user, $validated) {
             $query->where('user1_id', $user->id)
@@ -115,9 +120,11 @@ class ChatController extends Controller
             $chat->user2_id = $validated['reciver_id'];
             $chat->save();
         }
+
+        // Response
         return response()->json([
-            "message"=>"Chat created successfully",
-            "chat"=>new ChatResource($chat)
-        ],201);
+            "message" => "Chat created successfully",
+            "chat" => new ChatResource($chat)
+        ], 201);
     }
 }

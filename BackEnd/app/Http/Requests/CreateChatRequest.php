@@ -22,7 +22,7 @@ class CreateChatRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'reciver_id'=>['required','exists:users,id']
+            'reciver_id' => ['required', 'exists:users,id']
         ];
     }
 }

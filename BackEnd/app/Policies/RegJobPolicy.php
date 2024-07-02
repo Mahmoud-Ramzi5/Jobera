@@ -70,7 +70,7 @@ class RegJobPolicy
         }
         if ($company->id == $regJob->company_id) {
             $competetors = $regJob->competetors()->pluck('id')->toArray();
-            if(in_array($regJobCompetetor,$competetors))
+            if (in_array($regJobCompetetor, $competetors))
                 return true;
         }
         return false;
