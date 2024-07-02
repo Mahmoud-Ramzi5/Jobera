@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\JobControllers\JobFeedController;
 use App\Models\State;
 use App\Models\Country;
 use Illuminate\Http\Request;
@@ -134,6 +135,7 @@ Route::controller(FreelancingJobsController::class)->group(function () {
         Route::get('FreelancingJobs/{freelancingJob}/competetors', 'ViewFreelancingJobCompetetors');
         Route::post('/FreelancingJob/apply', 'ApplyFreelancingJob');
         Route::delete('FreelancingJobs/{freelancingJob}', 'DeleteFreelancingJob');
+        Route::post('/FreelancingJob/accept/{freelancingJob}','AcceptUser');
     });
 });
 
@@ -142,6 +144,16 @@ Route::controller(ChatController::class)->group(function () {
         Route::post('chats/sendMessage', 'SendMessage');
         Route::get('/chats/{chat}', 'GetChat');
         Route::get('/chats', 'GetAllChats');
+    });
+});
+
+Route::controller(JobFeedController::class)->group(function(){
+    Route::middleware('auth:api')->group(function(){
+        Route::get('jobFeed/payedReg','MostPayedRegJobsWeekly');
+        Route::get('jobFeed/payedFreelance','MostPayedFreelancingJobsWeekly');
+        Route::get('jobFeed/skills','MostNeededSkillsWeekly');
+        Route::get('jobFeed/companies','MostPostingCompaniesMonthly');
+        Route::get('jobFeed/stats','WebsiteData');
     });
 });
 

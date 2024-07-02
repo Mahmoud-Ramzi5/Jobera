@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers\JobControllers;
 
-use App\Http\Controllers\Controller;
+use App\Models\Chat;
 use App\Models\User;
-use App\Models\Company;
-use App\Models\Individual;
 use App\Models\DefJob;
 use App\Models\RegJob;
-use App\Models\RegJobCompetetor;
+use App\Models\Company;
 use App\Filters\JobFilter;
-use App\Policies\RegJobPolicy;
+use App\Models\Individual;
 use Illuminate\Http\Request;
-use App\Http\Requests\AddRegJobRequest;
-use App\Http\Requests\ApplyRegJobRequest;
+use App\Policies\RegJobPolicy;
+use App\Models\RegJobCompetetor;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\RegJobResource;
+use App\Http\Requests\AddRegJobRequest;
 use App\Http\Resources\RegJobCollection;
+use App\Http\Requests\ApplyRegJobRequest;
+use App\Http\Requests\AcceptIndividualRequest;
 use App\Http\Resources\RegJobCompetetorResource;
 use App\Http\Resources\RegJobCompetetorCollection;
 
@@ -221,5 +223,36 @@ class RegJobsController extends Controller
         return response()->json([
             "message" => "Job has been deleted successfully"
         ], 204);
+    }
+    public function AcceptIndividual(AcceptIndividualRequest $request,RegJob $regJob){
+        $validated=$request->validated();
+        $job_competetor=RegJobCompetetor::where('id',$validated['reg_job_competetor_id'])->first();
+
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+        // Check policy
+        $policy = new RegJobPolicy();
+        if (!$policy->AcceptIndividual(User::find($user->id), $regJob,$job_competetor)) {
+            // Response
+            return response()->json([
+                'errors' => ['user' => 'Unauthorized']
+            ], 401);
+        }
+        $regJob->update(['accepted_individual'=>$job_competetor->individual_id]);
+        $user2_id=$regJob->acceptedIndividual->user->id;
+        Chat::create([
+            'user1_id'=>$user->id,
+            'user2_id'=>$user2_id
+        ]);
+        return response()->json([
+            "messsage"=>"User accepted successfully"
+        ],200);
     }
 }

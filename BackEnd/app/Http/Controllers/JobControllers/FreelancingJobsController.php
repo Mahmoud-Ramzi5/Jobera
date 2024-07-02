@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\JobControllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AcceptUserRequest;
+use App\Models\Chat;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\Individual;
@@ -209,5 +211,35 @@ class FreelancingJobsController extends Controller
         return response()->json([
             "message" => "Job has been deleted successfully"
         ], 204);
+    }
+    public function AcceptUser(AcceptUserRequest $request,FreelancingJob $freelancingJob){
+        $validated=$request->validated();
+        $job_competetor=FreelancingJobCompetetor::where('id',$validated['freelancing_job_competetor_id'])->first();
+
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+        // Check policy
+        $policy = new FreelancingJobPolicy();
+        if (!$policy->AcceptUser(User::find($user->id), $freelancingJob,$job_competetor)) {
+            // Response
+            return response()->json([
+                'errors' => ['user' => 'Unauthorized']
+            ], 401);
+        }
+        $freelancingJob->update(['accepted_user'=>$job_competetor->user_id]);
+        Chat::create([
+            'user1_id'=>$freelancingJob->user_id,
+            'user2_id'=>$freelancingJob->acceptedUser->id
+        ]);
+        return response()->json([
+            "messsage"=>"User accepted successfully"
+        ],200);
     }
 }
