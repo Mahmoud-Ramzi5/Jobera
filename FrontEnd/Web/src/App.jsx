@@ -135,7 +135,7 @@ function App() {
               <Route element={<Layout />}>
                 <Route path="/" element={<Index />} />
                 <Route element={<PrivateRoutes />}>
-                  <Route path="/dashboar" element={<></>} />
+                  <Route path="/dashboard" element={<JobFeed />} />
                   <Route path="/complete-register" element={<Register2 />} />
                   <Route path="/profile" element={<Profile />} />
                   <Route path="/edit-skills" element={<SkillsForm />} />
@@ -149,17 +149,14 @@ function App() {
                   <Route path='/fulltime-jobs' element={<FullTimeRegJobs />} />
                   <Route path='/parttime-jobs' element={<PartTimeRegJobs />} />
                   <Route path='/freelancing-jobs' element={<FreelancingJobs />} />
+                  <Route path='/job/:id' element={<ShowJob />} />
+                  <Route path='/regJob' element={<PostJob />} />
+                  <Route path='/freelancingJob' element={<PostFreelancing />} />
+                  <Route path='/Chat' element={<ChatDetails />} />
+                  <Route path='/ChatsPage' element={<ChatPage />} />
                   <Route path="/logout" element={<Logout />} />
-                  <Route path='/Chat' element={<ChatDetails/>}/>
-                  <Route path='/ChatsPage' element={<ChatPage/>}/>
-                  <Route path="/FileTest" element={<FileInputTest />} />
-                  <Route path='/job' element={<PostJob />} />
-                  <Route path='/freelancing' element={<PostFreelancing />} />
 
-                  <Route path='/display-job/:id' element={<ShowJob />} />
-                  <Route path='/dashboard' element={<JobFeed />} />
-                  <Route path='/Test' element={<ShowJob />} />
-                  <Route path='/Test4' element={<JobCompetetorCard />} />
+                  <Route path="/FileTest" element={<FileInputTest />} />
                 </Route>
               </Route>
 
@@ -170,8 +167,8 @@ function App() {
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/ForgetPassword" element={<ForgotPassword />} />
                 <Route path="/emailVerify" element={<EmailVerificationMessage />} />
-                <Route path='/file' element={< FileDisplay />} />
-                
+
+                <Route path='/file' element={<FileDisplay />} />
               </Route>
             </Routes>
           </BrowserRouter>
@@ -181,4 +178,4 @@ function App() {
   )
 }
 
-export default App
+export default App;

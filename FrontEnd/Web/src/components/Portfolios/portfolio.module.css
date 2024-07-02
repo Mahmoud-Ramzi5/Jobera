@@ -158,9 +158,9 @@
   transition: .2s;
 }
 
-.submitButton:active,
-.submitButton:focus,
-.submitButton:hover {
+.submit_button:active,
+.submit_button:focus,
+.submit_button:hover {
   border-color: var(--color-typeschecked);
   outline: none;
 }
@@ -250,7 +250,6 @@
 }
 
 /* some css for portfolio card */
-
 .portfolio_background {
   color: var(--color-rating);
 }
