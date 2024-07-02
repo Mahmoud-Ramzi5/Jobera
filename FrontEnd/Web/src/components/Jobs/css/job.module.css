@@ -1,17 +1,16 @@
 .container {
-    top:75px;
-    margin-bottom: 100px;
+    top: 75px;
+    position: relative;
     display: flex;
-    text-align: center;
     align-items: center;
     justify-content: center;
-    min-height: 160vh;
+    margin-bottom: 100px;
 }
 
 .screen {
-    position: relative;
-    height: 1280px;
+    height: 1120px;
     width: 960px;
+    position: relative;
     border-radius: 10px;
     background-color: var(--color-scrollbar-track2);
     box-shadow: 0 4px 6px #bcb2d21a;
@@ -91,47 +90,14 @@
     transition: .2s;
 }
 
-.submitButton:active,
-.submitButton:focus,
-.submitButton:hover {
+.submit_button:active,
+.submit_button:focus,
+.submit_button:hover {
     border-color: var(--color-typeschecked);
     outline: none;
 }
 
-.data_field {
-    padding-top: 40px;
-    padding-bottom: 10px;
-    width: 100%;
-    position: relative;
-    justify-content: space-around;
-}
-
-.data {
-    border: none;
-    border-bottom: 2px solid #A5A5A8;
-    background: none;
-    color: var(--color-foreground);
-    padding-left: 10px;
-    padding-bottom: 5px;
-    margin-left: 20px;
-    margin-bottom: 40px;
-    width: 90%;
-    font-weight: 600;
-    text-align: left;
-    transition: .2s;
-}
-
-.data p {
-    height: 200px;
-}
-
-/* some css for portfolio card */
-.Card_Img {
-    width: 150px;
-    height: 200px;
-    object-fit: fill;
-}
-
+/* */
 .register__field__radio {
     padding: 20px 0px;
     width: 100%;
@@ -152,19 +118,6 @@
 .register__row {
     display: flex;
     position: relative;   
-}
-
-.date{
-    padding-top: 20px;
-}
-
-.heading {
-    display: flex;
-    position: relative;
-    width: 100%;
-    padding: 10px;
-    align-items: center;
-    justify-content: center;
 }
 
 .skills {
