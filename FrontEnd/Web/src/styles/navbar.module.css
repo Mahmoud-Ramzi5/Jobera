@@ -73,7 +73,8 @@ nav {
   font-weight: 500;
 }
 
-.mobile_item {
+.mobile_item,
+.mobile_item2 {
   display: none;
 }
 
@@ -255,6 +256,10 @@ nav {
     cursor: pointer;
     border-radius: 5px;
     transition: all 0.3s ease;
+  }
+
+  .mobile_item2 {
+    display: inline-flex;
   }
 
   .profile {

@@ -88,7 +88,7 @@ const NavBar = () => {
                 </li>
                 <li>
                   <a href="#" onClick={() => setShowChatScreen(!showChatScreen)}>
-                    <EnvelopeAtFill />
+                    <EnvelopeAtFill /> <span className={styles.mobile_item2}>Chats</span>
                   </a>
                 </li>
                 <li>
