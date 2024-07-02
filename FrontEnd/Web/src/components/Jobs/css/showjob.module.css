@@ -235,3 +235,45 @@ padding-bottom: 25px;
     margin-top: 40px;
     margin-left: 20px;
 }
+
+.competitor_and_button{
+    display: flex;
+}
+
+.accept_button{
+    width: 100%;
+    height: 50%;
+    margin-bottom: 3px;
+    border-radius: 25px;
+    background-color: var(--color-Background);
+    color: var(--color-Accept);
+    font-size: 2em;
+    align-items: center;
+}
+
+.accept_button:hover{
+    background-color:var(--color-Accept);
+    color: white;
+}
+
+.chat_button{
+    width: 100%;
+    height: 50%;
+    margin-bottom: 3px;
+    border-radius: 25px;
+    background-color: var(--color-Background);
+    color: var(--color-foreground);
+    font-size: 2em;
+    align-items: center;
+}
+
+.chat_button:hover{
+    background-color: var(--color-title);
+    color: white;
+}
+
+.buttons_holder2{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 25px;
+    }

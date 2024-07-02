@@ -42,6 +42,13 @@ class FreelancingJobsController extends Controller
         $validated['user_id'] = $user->id;
         $validated['is_done'] = false;
         $job = DefJob::create($validated);
+        // Handle photo file
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $path = $file->storeAs($user->id . '/FreelancingJob-' . $job->id, $file->getClientOriginalName());
+            $job->photo = $path;
+            $job->save();
+        }
         $validated['defJob_id'] = $job->id;
         $Freelancingjob = FreelancingJob::create($validated);
         $Freelancingjob->skills()->attach($validated['skills']);
@@ -110,7 +117,8 @@ class FreelancingJobsController extends Controller
                             if (in_array($skill->name, $skills)) {
                                 array_push($jobsData, $job);
                             }
-                        };
+                        }
+                        ;
                     }
                 } else {
                     $jobsData = $jobs->items();

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { LoginContext } from '../../utils/Contexts.jsx';
 import { FetchAllSkills } from '../../apis/AuthApis.jsx';
 import { FetchFullTimeJobs } from '../../apis/JobsApis.jsx';
+import { FetchImage } from '../../apis/FileApi.jsx';
 import JobCard from '../../components/Jobs/JobCard.jsx';
 import Slider from '../../components/Slider.jsx';
 import styles from '../../styles/jobs.module.css';
@@ -205,7 +206,7 @@ const FullTimeRegJobs = () => {
           <Link
           key={job.defJob_id}
           className={styles.job_card}
-          to={`/display-job/${job.defJob_id}`}
+          to={`/job/${job.defJob_id}`}
         >
           <JobCard JobData={job} />
         </Link>

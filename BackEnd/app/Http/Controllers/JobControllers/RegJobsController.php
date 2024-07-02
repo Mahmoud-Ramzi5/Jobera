@@ -53,6 +53,13 @@ class RegJobsController extends Controller
         $validated['company_id'] = $company->id;
         $validated['is_done'] = false;
         $job = DefJob::create($validated);
+        // Handle photo file
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $path = $file->storeAs($user->id . '/' . $validated['type'] . 'Job-' . $job->id, $file->getClientOriginalName());
+            $job->photo = $path;
+            $job->save();
+        }
         $validated['defJob_id'] = $job->id;
         $Regjob = RegJob::create($validated);
         $Regjob->skills()->attach($validated['skills']);
@@ -113,7 +120,8 @@ class RegJobsController extends Controller
                             if (in_array($skill->name, $skills)) {
                                 array_push($jobsData, $job);
                             }
-                        };
+                        }
+                        ;
                     }
                 } else {
                     $jobsData = $jobs->items();
