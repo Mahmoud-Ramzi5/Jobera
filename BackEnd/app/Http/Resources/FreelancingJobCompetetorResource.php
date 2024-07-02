@@ -28,7 +28,7 @@ class FreelancingJobCompetetorResource extends JsonResource
             "user" => $applierResource,
             "description" => $this->description,
             "salary" => $this->salary,
-            "jobType"=>"Freelancing"
+            "jobType" => "Freelancing"
         ];
     }
 }

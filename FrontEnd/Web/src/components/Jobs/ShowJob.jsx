@@ -14,14 +14,18 @@ const ShowJob = () => {
   // Context
   const { accessToken } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
+  // Params
+  const { id } = useParams();
   // Define states
   const [isLoading, setIsLoading] = useState(true);
   const [job, setJob] = useState({});
-  const [participate, setParticipate] = useState(false);
+
   const [notFound, setNotFound] = useState(false);
+  const [participate, setParticipate] = useState(false);
+
   const [comment, setComment] = useState('');
   const [desiredSalary, setDesiredSalary] = useState('');
-  const { id } = useParams();
+  
 
   console.log(id);
   useEffect(() => {
@@ -30,11 +34,10 @@ const ShowJob = () => {
       FetchJob(accessToken, id).then((response) => {
         console.log(response);
         if (response.status === 200) {
-          // get the info for the job
           setJob(response.data.job);
         }
         else if (response.status == 404) {
-          //to do add a picture of not found
+          // TODO add a picture of not found
           setNotFound(true);
         }
         else {
@@ -45,10 +48,6 @@ const ShowJob = () => {
       });
     }
   }, []);
-
-  if (isLoading) {
-    return <div id='loader'><div className="clock-loader"></div></div>
-  }
 
   const handleNewCompetitor = (event) => {
     event.preventDefault();
@@ -95,6 +94,9 @@ const ShowJob = () => {
     setComment('');
   }
 
+  if (isLoading) {
+    return <div id='loader'><div className="clock-loader"></div></div>
+  }
   return (
     <div className={styles.jobsPage}>
       {notFound ? <></> :
