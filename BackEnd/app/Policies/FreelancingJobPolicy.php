@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\FreelancingJob;
+use App\Models\FreelancingJobCompetetor;
 use App\Models\User;
 
 class FreelancingJobPolicy
@@ -44,6 +45,16 @@ class FreelancingJobPolicy
     {
         if ($user->id == $freelancingJob->user_id) {
             return true;
+        }
+        return false;
+    }
+    public function AcceptUser(User $user, FreelancingJob $freelancingJob, FreelancingJobCompetetor $freelancingJobCompetetor)
+    {
+        if ($user->id == $freelancingJob->user_id) {
+            $competetors = $freelancingJob->competetors()->pluck('id')->toArray();
+            if (in_array($freelancingJobCompetetor->id, $competetors)) {
+                return true;
+            }
         }
         return false;
     }
