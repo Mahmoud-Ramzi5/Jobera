@@ -146,6 +146,7 @@ Route::controller(ChatController::class)->group(function () {
         Route::get('/chats', 'GetAllChats');
         Route::get('/chats/{chat}', 'GetChat');
         Route::post('chats/sendMessage', 'SendMessage');
+        Route::post('chats/create','CreateChat');
     });
 });
 

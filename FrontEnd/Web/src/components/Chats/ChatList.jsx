@@ -69,7 +69,7 @@ const ChatList = ({ setSelectedChat,updateList }) => {
             <h3>
               {chat.reciver.name ? chat.reciver.name : chat.reciver.full_name}
             </h3>
-            <p>{chat.last_message.message}</p>
+            <p>{chat.last_message ?chat.last_message.message:"No messages yet"}</p>
           </div>
         </div>
       );

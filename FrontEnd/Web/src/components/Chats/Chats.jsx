@@ -76,7 +76,7 @@ const ChatNavWindow = () => {
             </form>
           </div>
             <div className={styles.user}>  {chat.reciver.name ? chat.reciver.name : chat.reciver.full_name}</div>
-            <div className={styles.message}>{chat.last_message.message}</div>
+            <div className={styles.message}>{chat.last_message ?chat.last_message.message:"No messages yet"}</div>
           </li>
         ))}
       </ul>

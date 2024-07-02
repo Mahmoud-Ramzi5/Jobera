@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useParams ,useNavigate} from 'react-router-dom';
 import { PencilSquare, CurrencyDollar, ChatDots, Check2 } from 'react-bootstrap-icons';
 import { LoginContext, ProfileContext } from '../../utils/Contexts';
 import { FetchJob, ApplyToRegJobAPI, ApplyToFreelancingJobAPI, AcceptRegJob, AcceptFreelancingJob } from '../../apis/JobsApis';
@@ -9,6 +9,7 @@ import JobCompetetorCard from './JobCompetetorCard';
 import img_holder from '../../assets/upload.png';
 import styles from './css/showjob.module.css';
 import Inputstyles from '../../styles/Input.module.css'
+import { CreateChat } from '../../apis/ChatApis';
 
 
 const ShowJob = () => {
@@ -28,6 +29,8 @@ const ShowJob = () => {
 
   const [comment, setComment] = useState('');
   const [desiredSalary, setDesiredSalary] = useState('');
+  
+  const navigate = useNavigate();
 
 
   console.log(id);
@@ -131,8 +134,18 @@ const ShowJob = () => {
     });
   }
 
-  const handleChatWithIndividual = (event, id) => {
-    console.log(id);
+  const handleChatWithIndividual = (event, competetor) => {
+    var id=competetor.individual.user_id;
+    
+    CreateChat(accessToken,id).then((response) => {
+      if (response.status == 201) {
+        console.log('chat Created')
+      }
+      else {
+        console.log(response);
+      }
+    });
+    navigate('/ChatsPage');
   }
 
   if (isLoading) {
@@ -255,7 +268,7 @@ const ShowJob = () => {
                           <button className={styles.accept_button}
                             onClick={(event) => handleAcceptRegCompetitor(event, competetor.id)}><Check2 /></button>
                           <button className={styles.chat_button}
-                            onClick={(event) => handleChatWithIndividual(event, competetor.id)}><ChatDots /></button>
+                            onClick={(event) => handleChatWithIndividual(event, competetor)}><ChatDots /></button>
                         </>
                         : <></>)
                   }
