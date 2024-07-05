@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { List, X } from 'react-bootstrap-icons';
+import { FunnelFill, X } from 'react-bootstrap-icons';
 import { LoginContext } from '../../utils/Contexts.jsx';
 import { FetchAllSkills } from '../../apis/AuthApis.jsx';
 import { FetchFullTimeJobs } from '../../apis/JobsApis.jsx';
@@ -238,7 +238,7 @@ const FullTimeRegJobs = () => {
         htmlFor="open_filter"
         className={`${styles.btn} ${styles.menu_btn}`}
       >
-        <List size={29} />
+        <FunnelFill size={29} />
       </label>
     </div>
   );

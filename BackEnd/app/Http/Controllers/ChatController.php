@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateChatRequest;
 use App\Models\Chat;
 use App\Models\Message;
 use Illuminate\Http\Request;
@@ -59,8 +58,18 @@ class ChatController extends Controller
         ], 201);
     }
 
-    public function GetChat(Chat $chat)
+    public function GetChat($id)
     {
+        // Get chat
+        $chat = Chat::find($id);
+
+        // Check chat
+        if ($chat == null) {
+            return response()->json([
+                'errors' => ['chat' => 'Invalid chat']
+            ], 404);
+        }
+
         // Response
         return response()->json([
             'chat' => new ChatResource($chat)
@@ -89,10 +98,12 @@ class ChatController extends Controller
         ], 200);
     }
 
-    public function CreateChat(CreateChatRequest $request)
+    public function CreateChat(Request $request)
     {
         // Validate request
-        $validated = $request->validated();
+        $validated = $request->validate([
+            'reciver_id' => ['required', 'exists:users,id']
+        ]);
 
         // Get user
         $user = auth()->user();

@@ -144,9 +144,9 @@ Route::controller(FreelancingJobsController::class)->group(function () {
 Route::controller(ChatController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('/chats', 'GetAllChats');
-        Route::get('/chats/{chat}', 'GetChat');
+        Route::get('/chats/{id}', 'GetChat');
+        Route::post('chats/create', 'CreateChat');
         Route::post('chats/sendMessage', 'SendMessage');
-        Route::post('chats/create','CreateChat');
     });
 });
 
