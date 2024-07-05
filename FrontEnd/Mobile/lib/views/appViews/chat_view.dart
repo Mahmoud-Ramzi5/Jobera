@@ -1,76 +1,104 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jobera/classes/texts.dart';
+import 'package:jobera/controllers/appControllers/chats/chats_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
 
 class ChatView extends StatelessWidget {
-  const ChatView({super.key});
+  final ChatsController _chatsController = Get.find<ChatsController>();
+  ChatView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Name'),
+        title: TitleText(text: _chatsController.chat.name),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: 15,
-              reverse: true,
-              itemBuilder: (context, index) {
-                if (index < 10) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      MessageContainer(
-                        color: Colors.orange.shade800,
-                        child: BodyText(
-                          text: 'Message $index',
-                        ),
-                      )
-                    ],
-                  );
-                } else {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      MessageContainer(
-                        color: Colors.lightBlue.shade900,
-                        child: BodyText(
-                          text: 'Message $index',
-                        ),
-                      )
-                    ],
-                  );
-                }
-              },
+      body: GetBuilder<ChatsController>(
+        builder: (controller) => Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: controller.chat.messages.length,
+                itemBuilder: (context, index) {
+                  if (controller.chat.messages[index].senderId ==
+                      controller.homeController.id) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        MessageContainer(
+                          color: Colors.orange.shade800,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              BodyText(
+                                text: controller.chat.messages[index].message,
+                              ),
+                              Text(
+                                '${controller.chat.messages[index].sendDate.day}/${controller.chat.messages[index].sendDate.month}/${controller.chat.messages[index].sendDate.year} ${controller.chat.messages[index].sendDate.hour}:${controller.chat.messages[index].sendDate.minute}',
+                                style: TextStyle(
+                                  color: Colors.grey[500],
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    );
+                  } else {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        MessageContainer(
+                          color: Colors.lightBlue.shade900,
+                          child: Column(
+                            children: [
+                              BodyText(
+                                text: controller.chat.messages[index].message,
+                              ),
+                              Text(
+                                '${controller.chat.messages[index].sendDate.day}/${controller.chat.messages[index].sendDate.month}/${controller.chat.messages[index].sendDate.year} ${controller.chat.messages[index].sendDate.hour}:${controller.chat.messages[index].sendDate.minute}',
+                                style: TextStyle(
+                                  color: Colors.grey[500],
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    );
+                  }
+                },
+              ),
             ),
-          ),
-          SendMessageContainer(
-            child: Row(
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: CustomTextField(
-                    controller: TextEditingController(),
-                    textInputType: TextInputType.text,
-                    obsecureText: false,
-                    hintText: 'Type a message...',
-                    icon: const Icon(Icons.message),
+            SendMessageContainer(
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: CustomTextField(
+                      controller: TextEditingController(),
+                      textInputType: TextInputType.text,
+                      obsecureText: false,
+                      hintText: 'Type a message...',
+                      icon: const Icon(Icons.message),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    child: const Text('Send'),
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('Send'),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

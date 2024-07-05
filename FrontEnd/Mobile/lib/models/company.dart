@@ -2,6 +2,7 @@ import 'package:jobera/models/portfolio.dart';
 import 'package:jobera/models/wallet.dart';
 
 class Company {
+  final int id;
   final String name;
   final String email;
   final String phoneNumber;
@@ -16,6 +17,7 @@ class Company {
   final Wallet wallet;
 
   Company({
+    required this.id,
     required this.name,
     required this.email,
     required this.phoneNumber,
@@ -31,7 +33,8 @@ class Company {
   });
 
   Company.fromJson(Map<String, dynamic> json)
-      : name = json['name'] as String,
+      : id = json['id'] as int,
+        name = json['name'] as String,
         email = json['email'] as String,
         phoneNumber = json['phone_number'] as String,
         country = json['country'] as String,
@@ -48,7 +51,8 @@ class Company {
         wallet = Wallet.fromJson(json['wallet']);
 
   Company.empty()
-      : name = '',
+      : id = 0,
+        name = '',
         email = '',
         phoneNumber = '',
         country = '',

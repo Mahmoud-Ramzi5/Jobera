@@ -5,6 +5,7 @@ import 'package:jobera/models/skill.dart';
 import 'package:jobera/models/wallet.dart';
 
 class User {
+  final int id;
   final String name;
   final String email;
   final String phoneNumber;
@@ -23,6 +24,7 @@ class User {
   final Wallet wallet;
 
   User({
+    required this.id,
     required this.name,
     required this.email,
     required this.phoneNumber,
@@ -42,7 +44,8 @@ class User {
   });
 
   User.fromJson(Map<String, dynamic> json)
-      : name = json['full_name'] as String,
+      : id = json['user_id'] as int,
+        name = json['full_name'] as String,
         email = json['email'] as String,
         phoneNumber = json['phone_number'] as String,
         country = json['country'] as String,
@@ -70,7 +73,8 @@ class User {
         wallet = Wallet.fromJson(json['wallet']);
 
   User.empty()
-      : name = '',
+      : id = 0,
+        name = '',
         email = '',
         phoneNumber = '',
         country = '',

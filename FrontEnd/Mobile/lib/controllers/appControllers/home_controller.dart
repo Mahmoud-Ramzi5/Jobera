@@ -14,6 +14,7 @@ class HomeController extends GetxController {
   Company? company;
   late String name;
   late String email;
+  late int id;
   late String? photo;
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   late String step;
@@ -26,6 +27,7 @@ class HomeController extends GetxController {
     isCompany = false;
     name = '';
     email = '';
+    id = 0;
     photo = '';
     generalController = Get.find<GeneralController>();
     await fetchUser();
@@ -35,7 +37,7 @@ class HomeController extends GetxController {
   Future<void> fetchUser() async {
     String? token = sharedPreferences?.getString('access_token');
     try {
-      var response = await dio.get('http://10.0.2.2:8000/api/profile',
+      var response = await dio.get('http://192.168.0.107:8000/api/profile',
           options: Options(
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',
@@ -48,6 +50,7 @@ class HomeController extends GetxController {
           company = Company.fromJson(response.data['user']);
           name = company!.name;
           email = company!.email;
+          id = company!.id;
           photo = company!.photo;
           step = '';
           isCompany = true;
@@ -55,6 +58,7 @@ class HomeController extends GetxController {
           user = User.fromJson(response.data['user']);
           name = user!.name;
           email = user!.email;
+          id = user!.id;
           photo = user!.photo;
           step = user!.step;
           isCompany = false;
@@ -74,7 +78,7 @@ class HomeController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://10.0.2.2:8000/api/logout',
+        'http://192.168.0.107:8000/api/logout',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
