@@ -40,7 +40,7 @@ const ChatWindow = ({ selectedChat,setUpdateList }) => {
     event.preventDefault();
     if (inputMessage.trim() === "") return;
 
-    SendMessage(accessToken, inputMessage, selectedChat.reciver.user_id)
+    SendMessage(accessToken, inputMessage, selectedChat.other_user.user_id)
       .then((response) => {
         if (response.status === 201) {
           setMessages((prevMessages) => [
@@ -92,9 +92,9 @@ const ChatWindow = ({ selectedChat,setUpdateList }) => {
       <div className={styles.chat_header}>
         <h3>
           {selectedChat
-            ? selectedChat.reciver.name
-              ? selectedChat.reciver.name
-              : selectedChat.reciver.full_name
+            ? selectedChat.other_user.name
+              ? selectedChat.other_user.name
+              : selectedChat.other_user.full_name
             : "No chat selected"}
         </h3>
       </div>
@@ -106,13 +106,13 @@ const ChatWindow = ({ selectedChat,setUpdateList }) => {
             <div
               key={message.id}
               className={`${styles.message} ${
-                message.user_id === selectedChat.sender.user_id ? styles.sender : styles.receiver
+                message.user.id === selectedChat.sender.user_id ? styles.sender : styles.receiver
               }`}
               style={{ alignSelf: message.sender === "sender" ? "flex-end" : "flex-start" }}
             >
               <div className={styles.message_content}>{message.message}</div>
               <div className={`${styles.timestamp} ${ message.user_id === selectedChat.sender.user_id ? styles.sender : styles.receiver}`}>
-                {formatTimestamp(message.created_at)}
+                {formatTimestamp(message.send_date)}
                 </div>
             </div>
           ))

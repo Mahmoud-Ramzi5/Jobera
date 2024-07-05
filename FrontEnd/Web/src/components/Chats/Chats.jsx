@@ -56,11 +56,11 @@ const ChatNavWindow = () => {
           <li key={chat.id} className={styles.chat}>
             <div className={styles.avatar}>
             <form className={styles.profile_picture_container}>
-              {chat.reciver.avatar_photo ? (
+              {chat.other_user.avatar_photo ? (
                 <Card.Img
                   className={styles.Card_Img}
                   variant="top"
-                  src={chat.reciver.avatar_photo}
+                  src={chat.other_user.avatar_photo}
                   alt={DefPhoto}
                   style={{ pointerEvents: "none" }}
                 />
@@ -76,7 +76,7 @@ const ChatNavWindow = () => {
               )}
             </form>
           </div>
-            <div className={styles.user}>  {chat.reciver.name ? chat.reciver.name : chat.reciver.full_name}</div>
+            <div className={styles.user}>  {chat.other_user.name ? chat.other_user.name : chat.other_user.full_name}</div>
             <div className={styles.message}>{chat.last_message ?chat.last_message.message:"No messages yet"}</div>
           </li>
         ))}

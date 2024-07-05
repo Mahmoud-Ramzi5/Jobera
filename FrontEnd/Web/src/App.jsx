@@ -38,7 +38,6 @@ import JobCard from './components/Jobs/JobCard.jsx';
 import ShowJob from './components/Jobs/ShowJob.jsx';
 
 import JobCompetetorCard from './components/Jobs/JobCompetetorCard.jsx';
-import ChatDetails from './components/Chats/ChatDetails.jsx';
 import ChatPage from './components/Chats/ChatPage.jsx';
 import JobFeed from './pages/Jobs/JobFeed.jsx';
 
@@ -152,7 +151,6 @@ function App() {
                   <Route path='/job/:id' element={<ShowJob />} />
                   <Route path='/regJob' element={<PostJob />} />
                   <Route path='/freelancingJob' element={<PostFreelancing />} />
-                  <Route path='/Chat' element={<ChatDetails />} />
                   <Route path='/ChatsPage' element={<ChatPage />} />
                   <Route path="/logout" element={<Logout />} />
 

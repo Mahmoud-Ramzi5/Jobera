@@ -41,9 +41,9 @@ const ChatList = ({ setSelectedChat, updateList }) => {
     const [photo, setPhoto] = useState(null);
 
     useEffect(() => {
-      if (chat.reciver) {
-        if (chat.reciver.avatar_photo) {
-          FetchImage("", chat.reciver.avatar_photo).then((response) => {
+      if (chat.other_user) {
+        if (chat.other_user.avatar_photo) {
+          FetchImage("", chat.other_user.avatar_photo).then((response) => {
             const imageURL = URL.createObjectURL(response);
             setPhoto(imageURL);
             console.log(response);
@@ -79,7 +79,7 @@ const ChatList = ({ setSelectedChat, updateList }) => {
         </div>
         <div className={styles.chat_details}>
           <h3>
-            {chat.reciver.name ? chat.reciver.name : chat.reciver.full_name}
+            {chat.other_user.name ? chat.other_user.name : chat.other_user.full_name}
           </h3>
           <p>
             {chat.last_message ? chat.last_message.message : "No messages yet"}
