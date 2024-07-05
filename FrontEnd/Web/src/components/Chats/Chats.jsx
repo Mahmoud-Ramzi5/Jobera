@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Chats.module.css";
 import { ThemeContext,LoginContext } from "../../utils/Contexts";
 import { Card } from "react-bootstrap";
+import DefPhoto from "../../assets/default.png";
 const ChatNavWindow = () => {
   const navigate = useNavigate();
   const { theme } = useContext(ThemeContext);
@@ -11,6 +12,7 @@ const ChatNavWindow = () => {
   const initialized = useRef(false);
   const [isLoading, setIsLoading] = useState(false);
   const [chats,setChats]=useState([]);
+  
 
   // Sample chat data
   useEffect(() => {
@@ -59,7 +61,7 @@ const ChatNavWindow = () => {
                   className={styles.Card_Img}
                   variant="top"
                   src={chat.reciver.avatar_photo}
-                  alt={"Profile Picture"}
+                  alt={DefPhoto}
                   style={{ pointerEvents: "none" }}
                 />
               ) : (
@@ -67,9 +69,8 @@ const ChatNavWindow = () => {
                   className={styles.Card_Img}
                   variant="top"
                   src={
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s"
+                    DefPhoto
                   }
-                  alt={"Picture"}
                   style={{ pointerEvents: "none" }}
                 />
               )}
