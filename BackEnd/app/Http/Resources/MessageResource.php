@@ -30,7 +30,7 @@ class MessageResource extends JsonResource
             'chat_id' => $this->chat_id,
             'message' => $this->message,
             'user' => [
-                'id' => $SenderResource->id,
+                'id' => $SenderResource->user->id,
                 'name' => ($SenderResource->type == "individual" ?
                     $SenderResource->full_name : $SenderResource->name),
                 'avatar_photo' => $SenderResource->avatar_photo

@@ -5,7 +5,7 @@ import styles from "./ChatPage.module.css";
 import ChatList from "./ChatList";
 
 // Chat window component
-const ChatWindow = ({ selectedChat,setUpdateList }) => {
+const ChatWindow = ({ selectedChat, setUpdateList }) => {
   const [inputMessage, setInputMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const { accessToken } = useContext(LoginContext);
@@ -31,7 +31,7 @@ const ChatWindow = ({ selectedChat,setUpdateList }) => {
         });
     }
   }, [selectedChat, accessToken]);
-  
+
   const handleInputChange = (event) => {
     setInputMessage(event.target.value);
   };
@@ -46,10 +46,13 @@ const ChatWindow = ({ selectedChat,setUpdateList }) => {
           setMessages((prevMessages) => [
             ...prevMessages,
             {
-              id: response.data.message_id,  // Assuming response returns the new message ID
-              user_id: selectedChat.sender.user_id,
+              id: response.data.message_id, // Assuming response returns the new message ID
+              user: {
+                id: selectedChat.sender.user_id,
+                name: selectedChat.sender.full_name,
+              },
               message: inputMessage,
-              sender: "sender",
+              send_date: new Date().toISOString(), // Assuming the message is sent immediately
             },
           ]);
           setInputMessage("");
@@ -62,11 +65,12 @@ const ChatWindow = ({ selectedChat,setUpdateList }) => {
         console.log(error);
       });
   };
+
   const formatTimestamp = (timestamp) => {
     const messageDate = new Date(timestamp);
     const currentDate = new Date();
     const diffInDays = Math.floor((currentDate - messageDate) / (1000 * 60 * 60 * 24));
-  
+
     if (diffInDays < 7) {
       const options = {
         weekday: "short",
@@ -87,6 +91,7 @@ const ChatWindow = ({ selectedChat,setUpdateList }) => {
       return messageDate.toLocaleString(undefined, options);
     }
   };
+
   return (
     <div className={styles.chat_window}>
       <div className={styles.chat_header}>
@@ -108,12 +113,12 @@ const ChatWindow = ({ selectedChat,setUpdateList }) => {
               className={`${styles.message} ${
                 message.user.id === selectedChat.sender.user_id ? styles.sender : styles.receiver
               }`}
-              style={{ alignSelf: message.sender === "sender" ? "flex-end" : "flex-start" }}
+              style={{ alignSelf: message.user.id === selectedChat.sender.user_id ? "flex-end" : "flex-start" }}
             >
               <div className={styles.message_content}>{message.message}</div>
-              <div className={`${styles.timestamp} ${ message.user_id === selectedChat.sender.user_id ? styles.sender : styles.receiver}`}>
+              <div className={`${styles.timestamp} ${message.user.id === selectedChat.sender.user_id ? styles.sender : styles.receiver}`}>
                 {formatTimestamp(message.send_date)}
-                </div>
+              </div>
             </div>
           ))
         )}
@@ -139,7 +144,8 @@ const ChatWindow = ({ selectedChat,setUpdateList }) => {
 // Main app component
 const ChatPage = () => {
   const [selectedChat, setSelectedChat] = useState(null);
-  const [updateList,setUpdateList]=useState(false);
+  const [updateList, setUpdateList] = useState(false);
+
   return (
     <div className={styles.app}>
       <ChatList setSelectedChat={setSelectedChat} updateList={updateList} />
