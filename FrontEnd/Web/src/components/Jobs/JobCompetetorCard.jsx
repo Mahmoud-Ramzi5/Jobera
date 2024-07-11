@@ -93,7 +93,7 @@ const JobCompetetorCard = ({ CompetetorData }) => {
                 RenderStars(CompetetorData.individual.rating)}
             </div>
             {CompetetorData.jobType == "Freelancing" ? (
-              <p className={styles.salary}>{CompetetorData.salary} </p>
+              <p className={styles.salary}> ${CompetetorData.salary} </p>
             ) : (
               <></>
             )}

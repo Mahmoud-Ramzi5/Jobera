@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
-import { useLocation, useParams ,useNavigate} from 'react-router-dom';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { PencilSquare, CurrencyDollar, ChatDots, Check2 } from 'react-bootstrap-icons';
 import { LoginContext, ProfileContext } from '../../utils/Contexts';
 import { FetchJob, ApplyToRegJobAPI, ApplyToFreelancingJobAPI, AcceptRegJob, AcceptFreelancingJob } from '../../apis/JobsApis';
@@ -26,10 +26,11 @@ const ShowJob = () => {
 
   const [notFound, setNotFound] = useState(false);
   const [participate, setParticipate] = useState(false);
+  const [isCompetitor, setIsCompetitor] = useState(false);
 
   const [comment, setComment] = useState('');
   const [desiredSalary, setDesiredSalary] = useState('');
-  
+
   const navigate = useNavigate();
 
 
@@ -46,9 +47,22 @@ const ShowJob = () => {
               setPhoto(response);
             });
           }
-          if(response.data.job.accepted_individual||response.data.job.accepted_user){
+          if (response.data.job.accepted_individual || response.data.job.accepted_user) {
             setAccepted(true);
           }
+          let AllCompetitors = response.data.job.competetors;
+          AllCompetitors.map(function (competitorCheck) {
+            if (competitorCheck.user) {
+              if (competitorCheck.user.user_id == profile.user_id) {
+                setIsCompetitor(true);
+              }
+            } else if (competitorCheck.individual) {
+              if (competitorCheck.individual.user_id == profile.user_id) {
+                setIsCompetitor(true);
+              }
+            }
+          });
+
         }
         else if (response.status == 404) {
           // TODO add a picture of not found
@@ -75,6 +89,8 @@ const ShowJob = () => {
     ApplyToRegJobAPI(accessToken, job.id, comment).then((response) => {
       if (response.status == 200) {
         console.log('added a competitor succsefully')
+        setParticipate(false);
+        window.location.reload();
       }
       else {
         console.log(response.statusText);
@@ -88,6 +104,8 @@ const ShowJob = () => {
     ApplyToFreelancingJobAPI(accessToken, job.id, comment, desiredSalary).then((response) => {
       if (response.status == 200) {
         console.log('added a competitor succsefully')
+        setParticipate(false);
+        window.location.reload();
       }
       else {
         console.log(response.statusText);
@@ -110,10 +128,11 @@ const ShowJob = () => {
 
   const handleAcceptFreelancingCompetitor = (event, id) => {
     console.log(id);
-    AcceptFreelancingJob( accessToken, job.id, id).then((response) => {
+    AcceptFreelancingJob(accessToken, job.id, id).then((response) => {
       if (response.status == 200) {
         console.log('competitor Accepted')
         setAccepted(true);
+        window.location.reload();
       }
       else {
         console.log(response.statusText);
@@ -123,10 +142,11 @@ const ShowJob = () => {
 
   const handleAcceptRegCompetitor = (event, id) => {
     console.log(id);
-    AcceptRegJob( accessToken, job.id, id).then((response) => {
+    AcceptRegJob(accessToken, job.id, id).then((response) => {
       if (response.status == 200) {
         console.log('competitor Accepted')
         setAccepted(true);
+        window.location.reload();
       }
       else {
         console.log(response);
@@ -135,9 +155,9 @@ const ShowJob = () => {
   }
 
   const handleChatWithIndividual = (event, competetor) => {
-    var id=competetor.individual.user_id;
-    
-    CreateChat(accessToken,id).then((response) => {
+    var id = competetor.individual.user_id;
+
+    CreateChat(accessToken, id).then((response) => {
       if (response.status == 201) {
         console.log('chat Created')
       }
@@ -201,10 +221,10 @@ const ShowJob = () => {
             <div className={styles.name_and_button}>
               <h5>Competitors</h5>
               {
-                job.job_user ? (job.job_user.user_id !== profile.user_id ?
+                !isCompetitor && job.job_user ? (job.job_user.user_id !== profile.user_id ?
                   <button className={styles.competetor_button} onClick={handleNewCompetitor}>+ Be a competitor</button>
                   : <></>)
-                  : (job.company && job.company.id !== profile.user_id
+                  : (!isCompetitor && job.company && job.company.id !== profile.user_id
                     && profile.type !== 'company' ?
                     <button className={styles.competetor_button} onClick={handleNewCompetitor}>+ Be a competitor</button>
                     : <></>)
@@ -229,12 +249,13 @@ const ShowJob = () => {
                   value={desiredSalary}
                   setChange={setDesiredSalary}
                 />
-                <div className={styles.buttons_holder}>
-                  <button className={styles.send_button} onClick={handleNewFreelancer}>send</button>
-                  <button className={styles.send_button} onClick={handleCancelFreelancer}>cancel</button>
-                </div>
-
               </div>
+              <div className={styles.buttons_holder}>
+                <button className={styles.send_button} onClick={handleNewFreelancer}>send</button>
+                <button className={styles.send_button} onClick={handleCancelFreelancer}>cancel</button>
+              </div>
+
+
             </>
             ) : (<></>)}
             {participate && job.type != 'Freelancing' ? (<>
