@@ -187,7 +187,7 @@
 .competetor_button:hover {
     border-color: var(--color-typeschecked);
     background-color: #004ead;
-    color:#fff;
+    color: #fff;
     outline: none;
     margin-bottom: 10px;
 }
@@ -217,18 +217,18 @@
 .send_button:hover {
     border-color: var(--color-typeschecked);
     background-color: #004ead;
-    color:#fff;
+    color: #fff;
     outline: none;
 }
 
-.buttons_holder{
-display: flex;
-padding-bottom: 25px;
+.buttons_holder {
+    display: flex;
+    padding-bottom: 25px;
 }
 
-.money_holder{
+.money_holder {
     display: flex;
-    width:70%;
+    width: 70%;
 }
 
 .competetors {
@@ -236,11 +236,11 @@ padding-bottom: 25px;
     margin-left: 20px;
 }
 
-.competitor_and_button{
+.competitor_and_button {
     display: flex;
 }
 
-.accept_button{
+.accept_button {
     width: 100%;
     height: 50%;
     margin-bottom: 3px;
@@ -251,12 +251,12 @@ padding-bottom: 25px;
     align-items: center;
 }
 
-.accept_button:hover{
-    background-color:var(--color-Accept);
+.accept_button:hover {
+    background-color: var(--color-Accept);
     color: white;
 }
 
-.chat_button{
+.chat_button {
     width: 100%;
     height: 50%;
     margin-bottom: 3px;
@@ -267,13 +267,13 @@ padding-bottom: 25px;
     align-items: center;
 }
 
-.chat_button:hover{
+.chat_button:hover {
     background-color: var(--color-title);
     color: white;
 }
 
-.buttons_holder2{
+.buttons_holder2 {
     display: flex;
     flex-direction: column;
     padding-bottom: 25px;
-    }
+}

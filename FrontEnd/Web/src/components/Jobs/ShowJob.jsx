@@ -27,6 +27,7 @@ const ShowJob = () => {
   const [notFound, setNotFound] = useState(false);
   const [participate, setParticipate] = useState(false);
   const [isCompetitor, setIsCompetitor] = useState(false);
+  const [jobEnded, setJobEnded] = useState(false);
 
   const [comment, setComment] = useState('');
   const [desiredSalary, setDesiredSalary] = useState('');
@@ -42,27 +43,13 @@ const ShowJob = () => {
         console.log(response);
         if (response.status === 200) {
           setJob(response.data.job);
+
+          // Adding the photo if exists
           if (job.photo) {
             FetchImage("", job.photo).then((response) => {
               setPhoto(response);
             });
           }
-          if (response.data.job.accepted_individual || response.data.job.accepted_user) {
-            setAccepted(true);
-          }
-          let AllCompetitors = response.data.job.competetors;
-          AllCompetitors.map(function (competitorCheck) {
-            if (competitorCheck.user) {
-              if (competitorCheck.user.user_id == profile.user_id) {
-                setIsCompetitor(true);
-              }
-            } else if (competitorCheck.individual) {
-              if (competitorCheck.individual.user_id == profile.user_id) {
-                setIsCompetitor(true);
-              }
-            }
-          });
-
         }
         else if (response.status == 404) {
           // TODO add a picture of not found
@@ -71,6 +58,25 @@ const ShowJob = () => {
         else {
           console.log(response.statusText);
         }
+
+        if (response.data.job.accepted_individual || response.data.job.accepted_user) {
+          setAccepted(true);
+        }
+
+        // Checking if user is already a competitor
+        let AllCompetitors = response.data.job.competetors;
+        AllCompetitors.map(function (competitorCheck) {
+          if (competitorCheck.user) {
+            if (competitorCheck.user.user_id == profile.user_id) {
+              setIsCompetitor(true);
+            }
+          } else if (competitorCheck.individual) {
+            if (competitorCheck.individual.user_id == profile.user_id) {
+              setIsCompetitor(true);
+            }
+          }
+        });
+
       }).then(() => {
         setIsLoading(false);
       });
@@ -79,7 +85,6 @@ const ShowJob = () => {
 
   const handleNewCompetitor = (event) => {
     event.preventDefault();
-    console.log('we are number one');
     setParticipate(true);
   }
 
@@ -127,7 +132,6 @@ const ShowJob = () => {
   }
 
   const handleAcceptFreelancingCompetitor = (event, id) => {
-    console.log(id);
     AcceptFreelancingJob(accessToken, job.id, id).then((response) => {
       if (response.status == 200) {
         console.log('competitor Accepted')
@@ -141,7 +145,6 @@ const ShowJob = () => {
   }
 
   const handleAcceptRegCompetitor = (event, id) => {
-    console.log(id);
     AcceptRegJob(accessToken, job.id, id).then((response) => {
       if (response.status == 200) {
         console.log('competitor Accepted')
@@ -221,10 +224,10 @@ const ShowJob = () => {
             <div className={styles.name_and_button}>
               <h5>Competitors</h5>
               {
-                !isCompetitor && job.job_user ? (job.job_user.user_id !== profile.user_id ?
+                !accepted && !isCompetitor && job.job_user ? (job.job_user.user_id !== profile.user_id ?
                   <button className={styles.competetor_button} onClick={handleNewCompetitor}>+ Be a competitor</button>
                   : <></>)
-                  : (!isCompetitor && job.company && job.company.id !== profile.user_id
+                  : (!accepted && !isCompetitor && job.company && job.company.id !== profile.user_id
                     && profile.type !== 'company' ?
                     <button className={styles.competetor_button} onClick={handleNewCompetitor}>+ Be a competitor</button>
                     : <></>)
@@ -254,7 +257,6 @@ const ShowJob = () => {
                 <button className={styles.send_button} onClick={handleNewFreelancer}>send</button>
                 <button className={styles.send_button} onClick={handleCancelFreelancer}>cancel</button>
               </div>
-
 
             </>
             ) : (<></>)}
