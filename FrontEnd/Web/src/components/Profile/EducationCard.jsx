@@ -32,12 +32,12 @@ const EducationCard = ({ ProfileData }) => {
             type="button"
             className={(theme === "theme-light") ? "btn btn-outline-dark" : "btn btn-outline-light"}
             onClick={() => navigate('/education', {
-              state: { edit: true, education: ProfileData.education }
+              state: { edit: true }
             })}
           >
             Edit education
           </button>
-          {ProfileData.education !== null && ProfileData.education.certificate_file &&
+          {ProfileData.education && ProfileData.education.certificate_file &&
             <button
               type="button"
               className={(theme === "theme-light") ? "btn btn-outline-dark" : "btn btn-outline-light"}
@@ -51,7 +51,7 @@ const EducationCard = ({ ProfileData }) => {
         </Card.Body>
       </div>
     </Card>
-  )
+  );
 }
 
 export default EducationCard;

@@ -3,8 +3,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Eye, Pencil, Trash } from 'react-bootstrap-icons';
 import { LoginContext } from '../../utils/Contexts';
 import { FetchFile } from '../../apis/FileApi';
-import { ShowCertificatesAPI, DeleteCertificateAPI } from '../../apis/ProfileApis';
+import { ShowCertificatesAPI, DeleteCertificateAPI } from '../../apis/ProfileApis/EducationApis.jsx';
 import styles from './certificates.module.css';
+
 
 const Certificates = ({ step }) => {
   // Context
@@ -13,8 +14,10 @@ const Certificates = ({ step }) => {
   const initialized = useRef(false);
   const navigate = useNavigate();
   const location = useLocation();
+
   const [isLoading, setIsLoading] = useState(true);
   const [edit, setEdit] = useState(true);
+
   const [certificates, setCertificates] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -22,6 +25,7 @@ const Certificates = ({ step }) => {
     if (!initialized.current) {
       initialized.current = true;
       setIsLoading(true);
+
       ShowCertificatesAPI(accessToken).then((response) => {
         if (response.status === 200) {
           setCertificates(response.data.certificates);
@@ -57,7 +61,7 @@ const Certificates = ({ step }) => {
     const handleEdit = (event) => {
       navigate('/edit-certificate', {
         state: { edit: edit, add: false, certificate }
-      })
+      });
     };
 
     const handleDelete = (event) => {

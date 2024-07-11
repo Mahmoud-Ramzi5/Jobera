@@ -1,10 +1,11 @@
 .container {
-  top: 150px;
+  top: 100px;
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
-  margin-bottom: 150px;
+  margin-bottom: 130px;
+  min-height: 100vh;
 }
 
 .screen {
@@ -51,6 +52,10 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
+}
+
+.date_picker {
+  width: 100%;
 }
 
 .submit_button {

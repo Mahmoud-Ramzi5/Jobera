@@ -1,9 +1,12 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { MortarboardFill, ChevronDown } from 'react-bootstrap-icons';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { LoginContext } from '../../utils/Contexts.jsx';
-import { EditEducation } from '../../apis/ProfileApis.jsx';
+import { GetEducation, EditEducation } from '../../apis/ProfileApis/EducationApis.jsx';
 import styles from './education.module.css';
+
 
 const EducationForm = ({ step }) => {
   // Context
@@ -14,31 +17,43 @@ const EducationForm = ({ step }) => {
   const location = useLocation();
 
   const [edit, setEdit] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [educationData, setEducationData] = useState({
     level: "",
     field: "",
     school: "",
-    start_date: "",
-    end_date: "",
+    start_date: new Date(),
+    end_date: new Date(),
     certificate_file: null, // New state for certificate file
   });
 
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
+      setIsLoading(true);
+
+      GetEducation(accessToken).then((response) => {
+        if (response.status === 200) {
+          response.data.education.start_date = new Date(response.data.education.start_date);
+          response.data.education.end_date = new Date(response.data.education.end_date);
+          setEducationData(response.data.education);
+        }
+        else {
+          console.log(response.statusText);
+        }
+      }).then(() => {
+        setIsLoading(false);
+      });
 
       if (location.state !== null) {
         setEdit(location.state.edit);
-        if (location.state.education !== null) {
-          setEducationData(location.state.education);
-        }
-      }
-      else {
-        navigate('/profile');
+        // if (location.state.education !== null) {
+        //   setEducationData(location.state.education);
+        // }
       }
     }
-  });
+  }, []);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -70,23 +85,6 @@ const EducationForm = ({ step }) => {
         console.log(response.data);
         navigate('/profile');
       }
-      else {
-        console.log(response.statusText);
-      }
-    });
-  }
-
-  const handleStep2 = (event) => {
-    event.preventDefault();
-    EditEducation(
-      accessToken,
-      educationData.level,
-      educationData.field,
-      educationData.school,
-      educationData.start_date,
-      educationData.end_date,
-      educationData.certificate_file
-    ).then((response) => {
       if (response.status === 201) {
         console.log(response.data);
 
@@ -95,8 +93,8 @@ const EducationForm = ({ step }) => {
           level: "",
           field: "",
           school: "",
-          start_date: "",
-          end_date: "",
+          start_date: new Date(),
+          end_date: new Date(),
           certificate_file: null,
         });
 
@@ -106,14 +104,18 @@ const EducationForm = ({ step }) => {
         console.log(response.statusText);
       }
     });
-  };
+  }
 
+
+  if (isLoading) {
+    return <div id='loader'><div className="clock-loader"></div></div>
+  }
   return (
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen_content}>
           <h2 className={styles.heading}>{edit ? 'Edit Education' : 'Add Education'}</h2>
-          <form onSubmit={edit ? handleEdit : handleStep2}>
+          <form onSubmit={handleEdit}>
             <div className={styles.row}>
               <label htmlFor="level">Level:</label>
               <div className={styles.dropdown_container}>
@@ -167,12 +169,17 @@ const EducationForm = ({ step }) => {
               <label htmlFor="StartDate">
                 Start Date:
               </label>
-              <input
-                type="date"
-                id="StartDate"
-                name="start_date"
-                value={educationData.start_date}
-                onChange={handleInputChange}
+              <DatePicker
+                id='StartDate'
+                dateFormat='dd/MM/yyyy'
+                wrapperClassName={styles.date_picker}
+                selected={educationData.start_date}
+                onChange={(date) => {
+                  const selectedDate = new Date(date).toISOString().split('T')[0];
+                  setEducationData({ ...educationData, start_date: selectedDate });
+                }}
+                showMonthDropdown
+                showYearDropdown
                 required
               />
             </div>
@@ -180,23 +187,28 @@ const EducationForm = ({ step }) => {
               <label htmlFor="EndDate">
                 End Date:
               </label>
-              <input
-                type="date"
-                id="EndDate"
-                name="end_date"
-                value={educationData.end_date}
-                onChange={handleInputChange}
+              <DatePicker
+                id='EndDate'
+                dateFormat='dd/MM/yyyy'
+                wrapperClassName={styles.date_picker}
+                selected={educationData.end_date}
+                onChange={(date) => {
+                  const selectedDate = new Date(date).toISOString().split('T')[0];
+                  setEducationData({ ...educationData, end_date: selectedDate });
+                }}
+                showMonthDropdown
+                showYearDropdown
                 required
               />
             </div>
             {/* File upload field */}
             <div className={styles.row}>
-              <label htmlFor="certificate">
+              <label htmlFor="Certificate">
                 Certificate:
               </label>
               <input
                 type="file"
-                id="certificate"
+                id="Certificate"
                 name="certificate"
                 accept=".pdf"
                 onChange={handleFileChange}

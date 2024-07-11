@@ -13,6 +13,8 @@ import styles from './userinfo.module.css';
 const UserInfo = ({ ProfileData }) => {
   // Context
   const { accessToken } = useContext(LoginContext);
+
+  // Define state
   const [description, setDescription] = useState(ProfileData.description);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
   const [isEditingProfile, setIsEditingProfile] = useState(false);
@@ -179,7 +181,7 @@ const UserInfo = ({ ProfileData }) => {
             <EditMenu
               data={ProfileData}
               onSave={() => setIsEditingProfile(false)}
-              //onCancel={() => setIsEditingProfile(false)}
+            //onCancel={() => setIsEditingProfile(false)}
             />
           ) : (
             <Button variant="primary" onClick={() => setIsEditingProfile(true)}>

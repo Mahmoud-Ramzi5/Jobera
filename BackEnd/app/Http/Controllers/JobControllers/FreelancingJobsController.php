@@ -117,8 +117,7 @@ class FreelancingJobsController extends Controller
                             if (in_array($skill->name, $skills)) {
                                 array_push($jobsData, $job);
                             }
-                        }
-                        ;
+                        };
                     }
                 } else {
                     $jobsData = $jobs->items();

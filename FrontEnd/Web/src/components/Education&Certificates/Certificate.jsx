@@ -1,8 +1,11 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { LoginContext } from '../../utils/Contexts.jsx';
-import { AddCertificateAPI, EditCertificateAPI } from '../../apis/ProfileApis.jsx';
+import { AddCertificateAPI, EditCertificateAPI } from '../../apis/ProfileApis/EducationApis.jsx';
 import styles from './certificate.module.css';
+
 
 const CertificateForm = () => {
   // Context
@@ -11,12 +14,13 @@ const CertificateForm = () => {
   const navigate = useNavigate();
   const initialized = useRef(false);
   const location = useLocation();
+
   const [edit, setEdit] = useState(true);
   const [add, setAdd] = useState(false);
   const [CertificateData, setCertificateData] = useState({
     name: "",
     organization: "",
-    release_date: "",
+    release_date: new Date(),
     file: null, // New state for certificate file
   });
 
@@ -78,7 +82,7 @@ const CertificateForm = () => {
           setCertificateData({
             name: "",
             organization: "",
-            release_date: "",
+            release_date: new Date(),
             file: null,
           });
         } else {
@@ -154,23 +158,28 @@ const CertificateForm = () => {
               <label htmlFor="ReleaseDate">
                 Release Date:
               </label>
-              <input
-                type="date"
-                id="ReleaseDate"
-                name="release_date"
-                value={CertificateData.release_date}
-                onChange={handleInputChange}
+              <DatePicker
+                id='ReleaseDate'
+                dateFormat='dd/MM/yyyy'
+                wrapperClassName={styles.date_picker}
+                selected={CertificateData.release_date}
+                onChange={(date) => {
+                  const selectedDate = new Date(date).toISOString().split('T')[0];
+                  setCertificateData({ ...CertificateData, release_date: selectedDate });
+                }}
+                showMonthDropdown
+                showYearDropdown
                 required
               />
             </div>
             {/* File upload field */}
             <div className={styles.row}>
-              <label htmlFor="certificate">
+              <label htmlFor="Certificate">
                 Certificate:
               </label>
               <input
                 type="file"
-                id="certificate"
+                id="Certificate"
                 name="certificate"
                 accept=".pdf"
                 onChange={handleFileChange}
