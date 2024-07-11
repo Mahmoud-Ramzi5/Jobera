@@ -41,11 +41,6 @@ class ProfileController extends Controller
                 "user" => new CompanyResource($company),
             ], 200);
         }
-
-        // Response
-        return response()->json([
-            'errors' => ['user' => 'Invalid user']
-        ], 401);
     }
 
     public function EditProfile(EditProfileRequest $request)
@@ -249,5 +244,42 @@ class ProfileController extends Controller
         return response()->json([
             "message" => "Description updated"
         ], 200);
+    }
+
+
+    public function GetUserProfile(Request $request, $UserName)
+    {
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+
+        // Check individual
+        $individual = Individual::where('full_name', $UserName)->first();
+        if ($individual != null) {
+            // Response
+            return response()->json([
+                "user" => new IndividualResource($individual),
+            ], 200);
+        }
+
+        // Check company
+        $company = Company::where('name', $UserName)->first();
+        if ($company != null) {
+            // Response
+            return response()->json([
+                "user" => new CompanyResource($company),
+            ], 200);
+        }
+
+        // Response
+        return response()->json([
+            'errors' => ['user' => 'Invalid user']
+        ], 404);
     }
 }

@@ -73,6 +73,8 @@ Route::controller(ProfileController::class)->group(function () {
         Route::post('/profile/photo', 'EditProfilePhoto');
         Route::Delete('/profile/photo', 'DeleteProfilePhoto');
         Route::post('/profile/description', 'EditDescription');
+
+        Route::get('/profile/{UserName}', 'GetUserProfile');
     });
 });
 

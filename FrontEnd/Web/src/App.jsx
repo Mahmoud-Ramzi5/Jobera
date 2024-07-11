@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { ThemeContext, LoginContext, ProfileContext } from './utils/Contexts.jsx';
 import { CheckToken } from './apis/AuthApis.jsx';
-import { FetchUserProfile } from './apis/ProfileApis.jsx';
+import { FetchProfile } from './apis/ProfileApis.jsx';
 import PrivateRoutes from './utils/PrivateRoutes.jsx';
 import AnonymousRoutes from './utils/AnonymousRoutes.jsx';
 import Layout from './utils/Layout.jsx';
@@ -77,7 +77,7 @@ function App() {
             setLoggedIn(true);
             setAccessToken(cookieToken);
 
-            FetchUserProfile(cookieToken).then((response) => {
+            FetchProfile(cookieToken).then((response) => {
               if (response.status === 200) {
                 setProfile(response.data.user);
               }
@@ -104,7 +104,7 @@ function App() {
   useEffect(() => {
     if (loggedIn && accessToken) {
       setIsLoading(true);
-      FetchUserProfile(accessToken).then((response) => {
+      FetchProfile(accessToken).then((response) => {
         if (response.status === 200) {
           setProfile(response.data.user);
         }
@@ -136,7 +136,7 @@ function App() {
                 <Route element={<PrivateRoutes />}>
                   <Route path="/dashboard" element={<JobFeed />} />
                   <Route path="/complete-register" element={<Register2 />} />
-                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/profile/:user_name" element={<Profile />} />
                   <Route path="/edit-skills" element={<SkillsForm />} />
                   <Route path="/education" element={<EducationForm />} />
                   <Route path="/certificates" element={<Certificates />} />

@@ -112,7 +112,12 @@ const NavBar = () => {
 
                     <ul className={styles.drop_menu}>
                       <li>
-                        <a href="/profile">My Profile</a>
+                        <a href={
+                          profile.type === "individual" ?
+                            `/profile/${profile.full_name}` :
+                            profile.type === "company" ?
+                              `/profile/${profile.name}` :
+                              '#'}>My Profile</a>
                       </li>
                       <li>
                         <a href="/logout">LogOut</a>

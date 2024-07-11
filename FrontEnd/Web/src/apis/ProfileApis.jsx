@@ -1,9 +1,24 @@
 import axios from 'axios';
 
 
-export const FetchUserProfile = async (token) => {
+export const FetchProfile = async (token) => {
   try {
     const response = await axios.get('http://127.0.0.1:8000/api/profile', {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+
+export const FetchUserProfile = async (token, user_name) => {
+  try {
+    const response = await axios.get(`http://127.0.0.1:8000/api/profile/${user_name}`, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",
