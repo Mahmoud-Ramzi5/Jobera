@@ -13,7 +13,7 @@ use App\Http\Resources\PortfolioCollection;
 
 class PortfolioController extends Controller
 {
-    public function ShowUserPortfolios()
+    public function ShowUserPortfolios(Request $request, $userId)
     {
         // Get User
         $user = auth()->user();
@@ -26,7 +26,7 @@ class PortfolioController extends Controller
         }
 
         // Get user's portfolios
-        $portfolios = $user->portfolios;
+        $portfolios = Portfolio::where('user_id', $userId)->get();
 
         // Response
         return response()->json([

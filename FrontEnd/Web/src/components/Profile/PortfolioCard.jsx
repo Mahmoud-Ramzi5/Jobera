@@ -36,7 +36,7 @@ const PortfolioCard = ({ ProfileData }) => {
           <div className={styles.portfolio_title}>
             Portfolio
             <Button className={styles.portfolio_button} variant="primary"
-              onClick={() => navigate('/portfolios', {
+              onClick={() => navigate(`/portfolios/${ProfileData.user_id}`, {
                 state: { edit: true }
               })}
             >
@@ -49,7 +49,7 @@ const PortfolioCard = ({ ProfileData }) => {
             {portfolios === null || portfolios.length === 0 ? <p className={styles.no_data}>No portfolio to display</p> :
               portfolios.map((portfolio) => (
                 <div key={portfolio.id} className={styles.portfolio_div}>
-                  <Link to={`/portfolio/${portfolio.id}`} state={{ portfolio }}>
+                  <Link to={`/portfolio/${portfolio.id}`}>
                     <Portfolio title={portfolio.title} photo={portfolio.photo} />
                   </Link>
                 </div>

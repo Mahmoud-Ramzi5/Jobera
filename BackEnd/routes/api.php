@@ -101,7 +101,7 @@ Route::controller(EducationController::class)->group(function () {
 
 Route::controller(PortfolioController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
-        Route::get('/portfolios', 'ShowUserPortfolios');
+        Route::get('/portfolios/{userId}', 'ShowUserPortfolios');
         Route::get('/portfolio/{id}', 'ShowPortfolio');
         Route::post('/portfolio/add', 'AddPortfolio');
         Route::post('/portfolio/edit/{id}', 'EditPortfolio');

@@ -1,9 +1,9 @@
 import { useEffect, useState, useContext, useRef } from 'react';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useNavigate, useLocation, useParams, Link } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { FetchImage } from '../../apis/FileApi.jsx';
-import { ShowPortfoliosAPI } from '../../apis/ProfileApis.jsx';
+import { ShowPortfoliosAPI } from '../../apis/ProfileApis/PortfolioApis.jsx';
 import img_holder from '../../assets/upload.png';
 import styles from './portfolios.module.css';
 import portfolio_style from './portfolio.module.css';
@@ -13,10 +13,13 @@ const Portfolios = ({ step }) => {
   // Context
   const { accessToken } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
+  // Params
+  const { user_id } = useParams();
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
   const location = useLocation();
+
   const [isLoading, setIsLoading] = useState(true);
   const [edit, setEdit] = useState(true);
   const [portfolios, setPortfolios] = useState([]);
@@ -25,7 +28,8 @@ const Portfolios = ({ step }) => {
     if (!initialized.current) {
       initialized.current = true;
       setIsLoading(true);
-      ShowPortfoliosAPI(accessToken).then((response) => {
+
+      ShowPortfoliosAPI(accessToken, user_id).then((response) => {
         if (response.status === 200) {
           response.data.portfolios.map((portfolio) => {
             if (portfolio.photo) {
@@ -52,6 +56,7 @@ const Portfolios = ({ step }) => {
     }
   }, [location.pathname]);
 
+
   if (isLoading) {
     return <div id='loader'><div className="clock-loader"></div></div>
   }
@@ -60,19 +65,21 @@ const Portfolios = ({ step }) => {
       <div className={styles.container}>
         <div className={styles.heading}>
           <h1>Portfolios</h1>
-          <button
-            className={styles.add_button}
-            onClick={() => navigate('/edit-portfolio', { state: { edit: false } })}
-          >
-            + Add Portfolio
-          </button>
+          {user_id == profile.user_id ?
+            <button
+              className={styles.add_button}
+              onClick={() => navigate('/edit-portfolio', { state: { edit: false } })}
+            >
+              + Add Portfolio
+            </button>
+            : <></>}
         </div>
       </div>
       <div className={styles.container}>
         <div className={styles.portfolios}>
           {portfolios.map((portfolio) => (
             <div className={styles.portfolio_card} key={portfolio.id}>
-              <Link to={`/portfolio/${portfolio.id}`} state={{ portfolio }}>
+              <Link to={`/portfolio/${portfolio.id}`}>
                 <Portfolio title={portfolio.title} photo={portfolio.photo} />
               </Link>
             </div>

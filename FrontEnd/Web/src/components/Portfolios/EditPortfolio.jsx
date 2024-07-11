@@ -2,8 +2,9 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Fonts, PencilSquare, Link45deg, Files } from 'react-bootstrap-icons';
 import { LoginContext } from '../../utils/Contexts.jsx';
+import { FetchImage } from '../../apis/FileApi';
 import { FetchAllSkills, SearchSkills } from '../../apis/AuthApis.jsx';
-import { AddPortfolioAPI, EditPortfolioAPI } from '../../apis/ProfileApis.jsx';
+import { AddPortfolioAPI, EditPortfolioAPI } from '../../apis/ProfileApis/PortfolioApis.jsx';
 import NormalInput from '../NormalInput.jsx';
 import img_holder from '../../assets/upload.png';
 import styles from './portfolio.module.css';
@@ -51,7 +52,9 @@ const EditPortfolio = () => {
 
           setTitle(location.state.portfolio.title);
           setDescription(location.state.portfolio.description);
-          setPhoto(location.state.portfolio.photo);
+          FetchImage("", location.state.portfolio.photo).then((response) => {
+            setPhoto(response);
+          });
           setLink(location.state.portfolio.link);
           setFiles(location.state.portfolio.files);
           location.state.portfolio.skills.map((skill) => {

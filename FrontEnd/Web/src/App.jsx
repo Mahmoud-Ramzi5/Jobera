@@ -141,7 +141,7 @@ function App() {
                   <Route path="/education" element={<EducationForm />} />
                   <Route path="/certificates" element={<Certificates />} />
                   <Route path="/edit-certificate" element={<CertificateForm />} />
-                  <Route path="/portfolios" element={<Portfolios />} />
+                  <Route path="/portfolios/:user_id" element={<Portfolios />} />
                   <Route path="/portfolio/:id" element={<ShowPortfolio />} />
                   <Route path="/edit-portfolio" element={<EditPortfolio />} />
                   <Route path='/jobs' element={<DefJobs />} />

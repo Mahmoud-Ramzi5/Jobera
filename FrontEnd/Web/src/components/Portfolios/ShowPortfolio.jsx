@@ -1,8 +1,8 @@
 import { useEffect, useState, useContext, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { LoginContext } from '../../utils/Contexts';
-import { FetchFile } from '../../apis/FileApi';
-import { DeletePortfolioAPI } from '../../apis/ProfileApis';
+import { useNavigate, useParams } from 'react-router-dom';
+import { LoginContext, ProfileContext } from '../../utils/Contexts';
+import { FetchImage, FetchFile } from '../../apis/FileApi';
+import { ShowPortfolioAPI, DeletePortfolioAPI } from '../../apis/ProfileApis/PortfolioApis.jsx';
 import img_holder from '../../assets/upload.png';
 import styles from './portfolio.module.css';
 import Inputstyles from '../../styles/Input.module.css';
@@ -11,11 +11,17 @@ import Inputstyles from '../../styles/Input.module.css';
 const ShowPortfolio = () => {
   // Context
   const { accessToken } = useContext(LoginContext);
+  const { profile } = useContext(ProfileContext);
+  // Params
+  const { id } = useParams();
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
-  const location = useLocation();
 
+  const [isLoading, setIsLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
+
+  const [photo, setPhoto] = useState(null);
   const [portfolio, SetPortfolio] = useState(
     {
       title: "",
@@ -27,54 +33,75 @@ const ShowPortfolio = () => {
     }
   );
 
+
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
+      setIsLoading(true);
 
-      if (location.state !== null) {
-        SetPortfolio(location.state.portfolio);
-      }
-      else {
-        navigate('/portfolios');
-      }
+      ShowPortfolioAPI(accessToken, id).then((response) => {
+        if (response.status === 200) {
+          SetPortfolio(response.data.portfolio);
+
+          if (response.data.portfolio.photo) {
+            FetchImage("", response.data.portfolio.photo).then((response) => {
+              setPhoto(response);
+            });
+          }
+          else {
+            // TODO add a picture of not found
+            setNotFound(true);
+          }
+        }
+        else {
+          console.log(response.statusText);
+        }
+      }).then(() => {
+        setIsLoading(false);
+      });
     }
   }, []);
 
+
+  if (isLoading) {
+    return <div id='loader'><div className="clock-loader"></div></div>
+  }
   return (
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen_content}>
           <h2 className={styles.heading}>Portfolio item</h2>
-          <div className={styles.submit_div}>
-            <button
-              className={styles.submit_button}
-              onClick={() => navigate('/edit-portfolio', {
-                state: { edit: true, portfolio }
-              }
-              )}
-            >
-              edit
-            </button>
-            <button
-              className={styles.submit_button}
-              onClick={() => {
-                DeletePortfolioAPI(accessToken, portfolio.id).then((response) => {
-                  if (response.status == 204) {
-                    console.log(response);
+          {portfolio.user_id === profile.user_id ?
+            <div className={styles.submit_div}>
+              <button
+                className={styles.submit_button}
+                onClick={() => navigate('/edit-portfolio', {
+                  state: { edit: true, portfolio }
+                })}
+              >
+                edit
+              </button>
+              <button
+                className={styles.submit_button}
+                onClick={() => {
+                  DeletePortfolioAPI(accessToken, portfolio.id).then((response) => {
+                    if (response.status == 204) {
+                      console.log(response);
 
-                    navigate('/portfolios', {
-                      state: { edit: true }
-                    });
-                  }
-                  else {
-                    console.log(response.statusText);
-                  }
-                });
-              }}
-            >
-              delete
-            </button>
-          </div>
+                      navigate('/portfolios', {
+                        state: { edit: true }
+                      });
+                    }
+                    else {
+                      console.log(response.statusText);
+                    }
+                  });
+                }}
+              >
+                delete
+              </button>
+            </div>
+            : <></>}
           <div className={styles.row}>
             <div className={styles.column}>
               <div className={styles.data_field}>
@@ -100,8 +127,8 @@ const ShowPortfolio = () => {
             <div className={styles.column}>
               <div className={styles.data_field}>
                 <div className={styles.img_holder}>
-                  {portfolio.photo ? (
-                    <img src={URL.createObjectURL(portfolio.photo)} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} />
+                  {photo ? (
+                    <img src={URL.createObjectURL(photo)} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} />
                   ) : (
                     <img src={img_holder} alt="Photo Placeholder" style={{ pointerEvents: 'none' }} />
                   )}
