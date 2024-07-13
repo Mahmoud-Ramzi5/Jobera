@@ -1,22 +1,26 @@
 import { useEffect, useState, useContext, useRef } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { Eye, Pencil, Trash } from 'react-bootstrap-icons';
-import { LoginContext } from '../../utils/Contexts';
-import { FetchFile } from '../../apis/FileApi';
+import { LoginContext, ProfileContext } from '../../utils/Contexts';
 import { ShowCertificatesAPI, DeleteCertificateAPI } from '../../apis/ProfileApis/EducationApis.jsx';
+import { FetchFile } from '../../apis/FileApi';
+import Clock from '../../utils/Clock.jsx';
 import styles from './certificates.module.css';
 
 
 const Certificates = ({ step }) => {
   // Context
   const { accessToken } = useContext(LoginContext);
+  const { profile } = useContext(ProfileContext);
+  // Params
+  const { user_id, user_name } = useParams();
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [isLoading, setIsLoading] = useState(true);
   const [edit, setEdit] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   const [certificates, setCertificates] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -26,22 +30,37 @@ const Certificates = ({ step }) => {
       initialized.current = true;
       setIsLoading(true);
 
-      ShowCertificatesAPI(accessToken).then((response) => {
-        if (response.status === 200) {
-          setCertificates(response.data.certificates);
-        }
-        else {
-          console.log(response.statusText);
-        }
-      }).then(() => {
-        setIsLoading(false);
-      });
+      if (typeof user_id !== 'undefined' || typeof user_name !== 'undefined') {
+        ShowCertificatesAPI(accessToken, user_id, user_name).then((response) => {
+          if (response.status === 200) {
+            setCertificates(response.data.certificates);
+          }
+          else {
+            console.log(response.statusText);
+          }
+        }).then(() => {
+          setIsLoading(false);
+        });
+      }
+      else {
+        ShowCertificatesAPI(accessToken, profile.user_id, profile.full_name).then((response) => {
+          if (response.status === 200) {
+            setCertificates(response.data.certificates);
+          }
+          else {
+            console.log(response.statusText);
+          }
+        }).then(() => {
+          setIsLoading(false);
+        });
+      }
+
 
       if (location.state !== null) {
         setEdit(location.state.edit);
       }
     }
-  }, [location.pathname]);
+  }, []);
 
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
@@ -49,13 +68,22 @@ const Certificates = ({ step }) => {
 
   const handleEdit = (event) => {
     event.preventDefault();
-    navigate('/profile');
+    if (typeof user_id !== 'undefined' || typeof user_name !== 'undefined') {
+      navigate(`/profile/${user_id}/${user_name}`);
+    } else {
+      navigate(`/profile/${profile.user_id}/${profile.full_name}`);
+    }
   };
 
   const handleStep3 = (event) => {
     event.preventDefault();
     step('PORTFOLIO');
   }
+
+
+  const filteredCertificates = certificates.filter((certificate) =>
+    certificate.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   const RenderCertificate = (certificate) => {
     const handleEdit = (event) => {
@@ -67,7 +95,6 @@ const Certificates = ({ step }) => {
     const handleDelete = (event) => {
       DeleteCertificateAPI(accessToken, certificate.id).then((response) => {
         if (response.status == 204) {
-          console.log(response);
           window.location.reload(); // Refresh the page after deletion
         }
         else {
@@ -76,9 +103,6 @@ const Certificates = ({ step }) => {
       });
     };
 
-    if (isLoading) {
-      return <div id='loader'><div className="clock-loader"></div></div>
-    }
     return (
       <tr key={certificate.id}>
         <td>{certificate.name}</td>
@@ -91,27 +115,30 @@ const Certificates = ({ step }) => {
           >
             <Eye />
           </button>
-          <button
-            onClick={handleEdit}
-            className={styles.edit_button}
-          >
-            <Pencil />
-          </button>
-          <button
-            onClick={handleDelete}
-            className={styles.delete_button}
-          >
-            <Trash />
-          </button>
+          {profile.user_id == user_id || typeof user_id === 'undefined' ?
+            <>
+              <button
+                onClick={handleEdit}
+                className={styles.edit_button}
+              >
+                <Pencil />
+              </button>
+              <button
+                onClick={handleDelete}
+                className={styles.delete_button}
+              >
+                <Trash />
+              </button>
+            </> : <></>}
         </td>
       </tr>
     );
   };
 
-  const filteredCertificates = certificates.filter((certificate) =>
-    certificate.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
+  if (isLoading) {
+    return <Clock />
+  }
   return (
     <div className={styles.screen}>
       <div className={styles.content}>
@@ -125,19 +152,22 @@ const Certificates = ({ step }) => {
               onChange={handleSearch}
               className={styles.search_input}
             />
-            <button
-              className={styles.create_button}
-              onClick={() => navigate('/edit-certificate', {
-                state: { edit: edit, add: true }
-              })}
-            >
-              Create
-            </button>
-            <form className={styles.submit_div} onSubmit={edit ? handleEdit : handleStep3}>
-              <div>
-                <button className={styles.submit_button}>Submit</button>
-              </div>
-            </form>
+            {profile.user_id == user_id || typeof user_id === 'undefined' ?
+              <>
+                <button
+                  className={styles.create_button}
+                  onClick={() => navigate('/edit-certificate', {
+                    state: { edit: edit, add: true }
+                  })}
+                >
+                  Create
+                </button>
+                <form className={styles.submit_div} onSubmit={edit ? handleEdit : handleStep3}>
+                  <div>
+                    <button className={styles.submit_button}>{edit ? 'Back to profile' : 'Submit'}</button>
+                  </div>
+                </form>
+              </> : <></>}
           </div>
         </div>
         <table className={styles.certificates_table}>

@@ -74,7 +74,7 @@ Route::controller(ProfileController::class)->group(function () {
         Route::Delete('/profile/photo', 'DeleteProfilePhoto');
         Route::post('/profile/description', 'EditDescription');
 
-        Route::get('/profile/{UserName}', 'GetUserProfile');
+        Route::get('/profile/{userId}/{userName}', 'GetUserProfile');
     });
 });
 
@@ -94,7 +94,7 @@ Route::controller(EducationController::class)->group(function () {
         Route::get('/education', 'GetEducation');
         Route::post('/education', 'EditEducation');
 
-        Route::get('/certificates', 'ShowUserCertificates');
+        Route::get('/certificates/{userId}/{userName}', 'ShowUserCertificates');
         Route::post('/certificate/add', 'AddCertificate');
         Route::post('/certificate/edit/{certificate}', 'EditCertificate');
         Route::delete('/certificates/{certificate}', 'DeleteCertificate');
@@ -103,7 +103,7 @@ Route::controller(EducationController::class)->group(function () {
 
 Route::controller(PortfolioController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
-        Route::get('/portfolios/{userId}', 'ShowUserPortfolios');
+        Route::get('/portfolios/{userId}/{userName}', 'ShowUserPortfolios');
         Route::get('/portfolio/{id}', 'ShowPortfolio');
         Route::post('/portfolio/add', 'AddPortfolio');
         Route::post('/portfolio/edit/{id}', 'EditPortfolio');

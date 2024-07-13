@@ -27,7 +27,7 @@ const PortfolioCard = ({ ProfileData }) => {
         }
       });
     }
-  });
+  }, []);
 
   return (
     <Card className={styles.cards}>
@@ -36,9 +36,21 @@ const PortfolioCard = ({ ProfileData }) => {
           <div className={styles.portfolio_title}>
             Portfolio
             <Button className={styles.portfolio_button} variant="primary"
-              onClick={() => navigate(`/portfolios/${ProfileData.user_id}`, {
-                state: { edit: true }
-              })}
+              onClick={() => {
+                if (ProfileData.type === 'individual') {
+                  navigate(`/portfolios/${ProfileData.user_id}/${ProfileData.full_name}`, {
+                    state: { edit: true }
+                  });
+                }
+                else if (ProfileData.type === 'company') {
+                  navigate(`/portfolios/${ProfileData.user_id}/${ProfileData.name}`, {
+                    state: { edit: true }
+                  });
+                }
+                else {
+                  console.log('error')
+                }
+              }}
             >
               View All
             </Button>
@@ -46,7 +58,8 @@ const PortfolioCard = ({ ProfileData }) => {
         </Card.Header>
         <Card.Body>
           <div className={styles.portfolio}>
-            {portfolios === null || portfolios.length === 0 ? <p className={styles.no_data}>No portfolio to display</p> :
+            {portfolios === null || portfolios.length === 0 ?
+              <p className={styles.no_data}>No portfolio to display</p> :
               portfolios.map((portfolio) => (
                 <div key={portfolio.id} className={styles.portfolio_div}>
                   <Link to={`/portfolio/${portfolio.id}`}>
@@ -77,7 +90,7 @@ const Portfolio = ({ title, photo }) => {
             className={styles.Card_Img}
             variant="top"
             src={img_holder}
-            alt={title + "picture"}
+            alt="Picture"
           />
         )}
         <Card.Body>

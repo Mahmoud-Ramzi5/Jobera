@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\ProfileControllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Individual;
+use App\Models\Company;
 use App\Models\Portfolio;
 use App\Models\PortfolioFile;
 use Illuminate\Support\Arr;
@@ -13,7 +15,7 @@ use App\Http\Resources\PortfolioCollection;
 
 class PortfolioController extends Controller
 {
-    public function ShowUserPortfolios(Request $request, $userId)
+    public function ShowUserPortfolios(Request $request, $userId, $userName)
     {
         // Get User
         $user = auth()->user();
@@ -25,13 +27,36 @@ class PortfolioController extends Controller
             ], 401);
         }
 
-        // Get user's portfolios
-        $portfolios = Portfolio::where('user_id', $userId)->get();
+        // Check individual
+        $individual = Individual::where('user_id', $userId)
+            ->where('full_name', $userName)->first();
+        if ($individual != null) {
+            // Get individual's certificates
+            $portfolios = $individual->user->portfolios;
+
+            // Response
+            return response()->json([
+                "portfolios" => new PortfolioCollection($portfolios)
+            ], 200);
+        }
+
+        // Check company
+        $company = Company::where('user_id', $userId)
+            ->where('name', $userName)->first();
+        if ($company != null) {
+            // Get company's certificates
+            $portfolios = $company->user->portfolios;
+
+            // Response
+            return response()->json([
+                "portfolios" => new PortfolioCollection($portfolios)
+            ], 200);
+        }
 
         // Response
         return response()->json([
-            "portfolios" => new PortfolioCollection($portfolios)
-        ], 200);
+            'errors' => ['user' => 'Invalid user']
+        ], 404);
     }
 
     public function ShowPortfolio(Request $request, $id)

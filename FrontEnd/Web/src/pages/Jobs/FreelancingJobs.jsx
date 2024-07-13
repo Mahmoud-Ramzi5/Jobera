@@ -2,7 +2,7 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { FunnelFill, X } from 'react-bootstrap-icons';
 import { LoginContext } from '../../utils/Contexts.jsx';
-import { FetchAllSkills } from '../../apis/AuthApis.jsx';
+import { FetchAllSkills } from '../../apis/SkillsApis.jsx';
 import { FetchFreelancingJobs } from '../../apis/JobsApis.jsx';
 import { FetchImage } from '../../apis/FileApi.jsx';
 import JobCard from '../../components/Jobs/JobCard.jsx';

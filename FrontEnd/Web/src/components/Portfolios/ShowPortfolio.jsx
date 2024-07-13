@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { LoginContext, ProfileContext } from '../../utils/Contexts';
 import { FetchImage, FetchFile } from '../../apis/FileApi';
 import { ShowPortfolioAPI, DeletePortfolioAPI } from '../../apis/ProfileApis/PortfolioApis.jsx';
+import Clock from '../../utils/Clock.jsx';
 import img_holder from '../../assets/upload.png';
 import styles from './portfolio.module.css';
 import Inputstyles from '../../styles/Input.module.css';
@@ -48,10 +49,10 @@ const ShowPortfolio = () => {
               setPhoto(response);
             });
           }
-          else {
-            // TODO add a picture of not found
-            setNotFound(true);
-          }
+        }
+        else if (response.status === 404) {
+          // TODO add a picture of not found
+          setNotFound(true);
         }
         else {
           console.log(response.statusText);
@@ -64,7 +65,7 @@ const ShowPortfolio = () => {
 
 
   if (isLoading) {
-    return <div id='loader'><div className="clock-loader"></div></div>
+    return <Clock />
   }
   return (
     <div className={styles.container}>
@@ -88,9 +89,19 @@ const ShowPortfolio = () => {
                     if (response.status == 204) {
                       console.log(response);
 
-                      navigate('/portfolios', {
-                        state: { edit: true }
-                      });
+                      if (profile.type === 'individual') {
+                        navigate(`/portfolios/${profile.user_id}/${profile.full_name}`, {
+                          state: { edit: true }
+                        });
+                      }
+                      else if (profile.type === 'company') {
+                        navigate(`/portfolios/${profile.user_id}/${profile.name}`, {
+                          state: { edit: true }
+                        });
+                      }
+                      else {
+                        console.log('error')
+                      }
                     }
                     else {
                       console.log(response.statusText);

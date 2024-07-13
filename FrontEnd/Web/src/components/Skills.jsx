@@ -1,19 +1,22 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { LoginContext } from '../utils/Contexts.jsx';
-import { FetchSkillTypes, FetchSkills, SearchSkills } from '../apis/AuthApis.jsx';
-import { AddSkillsAPI, EditSkillsAPI } from '../apis/ProfileApis.jsx';
-import styles from '../styles/skillsform.module.css';
+import { LoginContext, ProfileContext } from '../utils/Contexts.jsx';
+import { FetchSkillTypes, FetchSkills, SearchSkills } from '../apis/SkillsApis.jsx';
+import { GetSkillsAPI, AddSkillsAPI, EditSkillsAPI } from '../apis/ProfileApis/SkillsApis.jsx';
+import Clock from '../utils/Clock.jsx';
+import styles from '../styles/skills.module.css';
 
 const SkillsForm = ({ step }) => {
   // Context
   const { accessToken } = useContext(LoginContext);
+  const { profile } = useContext(ProfileContext);
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate()
   const location = useLocation();
 
   const [edit, setEdit] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [types, setTypes] = useState([]);
   const [type, setType] = useState("");
@@ -28,31 +31,40 @@ const SkillsForm = ({ step }) => {
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
+      setIsLoading(true);
 
       if (location.state !== null) {
+        setEdit(location.state.edit);
+
         if (location.state.edit) {
-          setEdit(location.state.edit);
-          location.state.skills.forEach((skill) => {
-            if (!checked[skill.id]) {
-              setChecked((prevState) => ({ ...prevState, [skill.id]: true }));
-              setSkillIds((prevState) => [...prevState, skill.id]);
-              setUserSkills((prevState) => [...prevState,
-              {
-                id: skill.id,
-                name: skill.name,
-              }
-              ]);
-              setShowSubmitButton(true);
+          GetSkillsAPI(accessToken).then((response) => {
+            if (response.status === 200) {
+              response.data.skills.forEach((skill) => {
+                if (!checked[skill.id]) {
+                  setChecked((prevState) => ({ ...prevState, [skill.id]: true }));
+                  setSkillIds((prevState) => [...prevState, skill.id]);
+                  setUserSkills((prevState) => [...prevState,
+                  {
+                    id: skill.id,
+                    name: skill.name,
+                  }
+                  ]);
+                  setShowSubmitButton(true);
+                }
+              });
             }
+            else {
+              console.log(response.statusText);
+            }
+          }).then(() => {
+            setIsLoading(false);
           });
         }
         else {
-          setEdit(false);
+          setIsLoading(false);
         }
       }
-      else {
-        navigate('/profile');
-      }
+
 
       FetchSkillTypes().then((response) => {
         if (response.status === 200) {
@@ -61,6 +73,8 @@ const SkillsForm = ({ step }) => {
           console.log(response.statusText);
         }
       });
+
+
     }
   }, []);
 
@@ -124,9 +138,9 @@ const SkillsForm = ({ step }) => {
     event.preventDefault();
     EditSkillsAPI(accessToken, SkillIds).then((response) => {
       if (response.status == 200) {
-        navigate('/profile');
+        navigate(`/profile/${profile.user_id}/${profile.full_name}`);
       } else {
-        console.log(response);
+        console.log(response.statusText);
       }
     });
   };
@@ -137,11 +151,14 @@ const SkillsForm = ({ step }) => {
       if (response.status == 200) {
         step('EDUCATION');
       } else {
-        console.log(response);
+        console.log(response.statusText);
       }
     });
   };
 
+  if (isLoading) {
+    return <Clock />
+  }
   return (
     <div className={styles.screen}>
       <div className={styles.container}>

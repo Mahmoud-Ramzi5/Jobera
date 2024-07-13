@@ -1,10 +1,10 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Fonts, PencilSquare, Link45deg, Files } from 'react-bootstrap-icons';
-import { LoginContext } from '../../utils/Contexts.jsx';
-import { FetchImage } from '../../apis/FileApi';
-import { FetchAllSkills, SearchSkills } from '../../apis/AuthApis.jsx';
+import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
+import { FetchAllSkills, SearchSkills } from '../../apis/SkillsApis.jsx';
 import { AddPortfolioAPI, EditPortfolioAPI } from '../../apis/ProfileApis/PortfolioApis.jsx';
+import { FetchImage } from '../../apis/FileApi';
 import NormalInput from '../NormalInput.jsx';
 import img_holder from '../../assets/upload.png';
 import styles from './portfolio.module.css';
@@ -14,6 +14,7 @@ import Inputstyles from '../../styles/Input.module.css';
 const EditPortfolio = () => {
   // Context
   const { accessToken } = useContext(LoginContext);
+  const { profile } = useContext(ProfileContext);
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
@@ -165,9 +166,19 @@ const EditPortfolio = () => {
       if (response.status === 200) {
         console.log(response.data);
 
-        navigate('/portfolios', {
-          state: { edit: true }
-        });
+        if (profile.type === 'individual') {
+          navigate(`/portfolios/${profile.user_id}/${profile.full_name}`, {
+            state: { edit: true }
+          });
+        }
+        else if (profile.type === 'company') {
+          navigate(`/portfolios/${profile.user_id}/${profile.name}`, {
+            state: { edit: true }
+          });
+        }
+        else {
+          console.log('error')
+        }
       } else {
         console.log(response.statusText);
       }
@@ -195,7 +206,15 @@ const EditPortfolio = () => {
         setLink("");
         setFiles(null);
 
-        navigate('/portfolios');
+        if (profile.type === 'individual') {
+          navigate(`/portfolios/${profile.user_id}/${profile.full_name}`);
+        }
+        else if (profile.type === 'company') {
+          navigate(`/portfolios/${profile.user_id}/${profile.name}`);
+        }
+        else {
+          console.log('error')
+        }
       } else {
         console.log(response.statusText);
       }

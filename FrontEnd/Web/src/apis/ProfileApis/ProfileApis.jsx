@@ -16,9 +16,9 @@ export const FetchProfile = async (token) => {
   }
 };
 
-export const FetchUserProfile = async (token, user_name) => {
+export const FetchUserProfile = async (token, user_id, user_name) => {
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/profile/${user_name}`, {
+    const response = await axios.get(`http://127.0.0.1:8000/api/profile/${user_id}/${user_name}`, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",
@@ -89,42 +89,6 @@ export const UpdateProfilePicture = async (token, avatarPhoto) => {
     return error.response;
   }
 };
-
-export const AddSkillsAPI = async (token, SkillIds) => {
-  try {
-    const response = await axios.post('http://127.0.0.1:8000/api/user/skills/add', {
-      'skills': SkillIds,
-    }, {
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': "application/json",
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    return response;
-  } catch (error) {
-    return error.response;
-  }
-};
-
-export const EditSkillsAPI = async (token, SkillIds) => {
-  try {
-    const response = await axios.post('http://127.0.0.1:8000/api/user/skills/edit', {
-      'skills': SkillIds,
-    }, {
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': "application/json",
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    return response;
-  } catch (error) {
-    return error.response;
-  }
-};
-
-
 
 export const GetRegisterStep = async (token) => {
   try {

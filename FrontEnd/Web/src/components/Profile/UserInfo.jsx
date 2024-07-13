@@ -3,49 +3,44 @@ import { Card, Button } from 'react-bootstrap';
 import { Star, StarFill, StarHalf } from 'react-bootstrap-icons';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { LoginContext } from '../../utils/Contexts';
-import { UpdateProfilePicture, EditDescription } from '../../apis/ProfileApis';
+import { LoginContext, ProfileContext } from '../../utils/Contexts';
+import { UpdateProfilePicture, EditDescription } from '../../apis/ProfileApis/ProfileApis';
 import { FetchImage } from '../../apis/FileApi';
 import EditMenu from './EditMenu';
+import defaultUser from '../../assets/default.png';
 import styles from './userinfo.module.css';
 
 
 const UserInfo = ({ ProfileData }) => {
   // Context
   const { accessToken } = useContext(LoginContext);
-
+  const { profile } = useContext(ProfileContext);
   // Define state
+  const [avatarPhoto, setAvatarPhoto] = useState(null);
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [description, setDescription] = useState(ProfileData.description);
   const [isEditingDescription, setIsEditingDescription] = useState(false);
-  const [isEditingProfile, setIsEditingProfile] = useState(false);
-  const [avatarPhoto, setAvatarPhoto] = useState(null);
-  const avatarPhotoPath = ProfileData.avatar_photo;
 
   useEffect(() => {
-    if (avatarPhotoPath) {
-      FetchImage(accessToken, avatarPhotoPath).then((response) => {
+    if (ProfileData.avatar_photo) {
+      FetchImage(accessToken, ProfileData.avatar_photo).then((response) => {
         setAvatarPhoto(response);
       });
     }
   });
-
-  const handleShareProfile = () => {
-    // TODO
-  };
 
   const handlePhotoChange = (event) => {
     const image = event.target.files[0];
     const allowedImageTypes = ["image/png", "image/jpg", "image/jpeg"];
     if (image && allowedImageTypes.includes(image.type)) {
       setAvatarPhoto(image);
-      UpdateProfilePicture(accessToken, image)
-        .then((response) => {
-          if (response.status === 200) {
-            console.log(response.data.message);
-          } else {
-            console.log(response.statusText);
-          }
-        });
+      UpdateProfilePicture(accessToken, image).then((response) => {
+        if (response.status === 200) {
+          console.log(response.data.message);
+        } else {
+          console.log(response.statusText);
+        }
+      });
     } else {
       console.log("Invalid Image type. Please select a PNG, JPG, JPEG image.");
     }
@@ -57,18 +52,6 @@ const UserInfo = ({ ProfileData }) => {
     setDescription(data);
   };
 
-  const handleDescriptionChange = () => {
-    EditDescription(accessToken, formattedDescription).then((response) => {
-      if (response.status === 200) {
-        console.log(response.data.message);
-        setIsEditingDescription(false);
-      }
-      else {
-        console.log(response.statusText);
-      }
-    });
-  };
-
   const StripHtmlTags = (html) => {
     const tempElement = document.createElement("div");
     tempElement.innerHTML = html;
@@ -76,6 +59,18 @@ const UserInfo = ({ ProfileData }) => {
   };
 
   const formattedDescription = StripHtmlTags(description);
+
+  const handleDescriptionChange = () => {
+    EditDescription(accessToken, formattedDescription).then((response) => {
+      if (response.status === 200) {
+        ProfileData.description = formattedDescription;
+        setIsEditingDescription(false);
+      }
+      else {
+        console.log(response.statusText);
+      }
+    });
+  };
   /* --------------------------------- */
 
   const RenderStars = (rating) => {
@@ -129,25 +124,27 @@ const UserInfo = ({ ProfileData }) => {
               <Card.Img
                 className={styles.Card_Img}
                 variant="top"
-                src={
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s"
-                }
-                alt={"Picture"}
+                src={defaultUser}
+                alt={"Default Picture"}
                 style={{ pointerEvents: 'none' }}
               />
             )}
-            <span className={styles.profile_picture_overlay}>
-              <span className={styles.profile_picture_text}>Change Photo</span>
-            </span>
+            {profile.user_id === ProfileData.user_id ?
+              <span className={styles.profile_picture_overlay}>
+                <span className={styles.profile_picture_text}>Change Photo</span>
+              </span>
+              : <></>}
           </label>
-          <input
-            id="photo"
-            type="file"
-            placeholder="Photo"
-            accept=".png,.jpg,.jpeg"
-            onChange={handlePhotoChange}
-            style={{ visibility: 'hidden' }}
-          />
+          {profile.user_id === ProfileData.user_id ?
+            <input
+              id="photo"
+              type="file"
+              placeholder="Photo"
+              accept=".png,.jpg,.jpeg"
+              onChange={handlePhotoChange}
+              style={{ visibility: 'hidden' }}
+            />
+            : <></>}
         </form>
         <div className={styles.info_in_profile}>
           <h2 className={styles.user_info_title}>
@@ -174,35 +171,37 @@ const UserInfo = ({ ProfileData }) => {
                 onChange={handleEditorChange}
               />
             ) : (
-              <p><b>Description:</b> {formattedDescription}</p>
+              <p><b>Description:</b> {ProfileData.description}</p>
             )}
           </div>
-          {isEditingProfile ? (
-            <EditMenu
-              data={ProfileData}
-              onSave={() => setIsEditingProfile(false)}
-            //onCancel={() => setIsEditingProfile(false)}
-            />
-          ) : (
-            <Button variant="primary" onClick={() => setIsEditingProfile(true)}>
-              Edit Profile
-            </Button>
-          )}{" "}
-          {/*<Button variant="secondary" onClick={handleShareProfile}>
-            Share
-          </Button>{" "}*/}
-          {isEditingDescription ? (
-            <><Button variant="success" onClick={handleDescriptionChange}>
-              Save Description
-            </Button>{" "}
-              <Button variant="danger" onClick={() => setIsEditingDescription(!isEditingDescription)}>
-                Cancel
-              </Button></>
-          ) : (
-            <Button variant="info" onClick={() => setIsEditingDescription(!isEditingDescription)}>
-              Edit Description
-            </Button>
-          )}{" "}
+          {profile.user_id === ProfileData.user_id ?
+            <>
+              {isEditingProfile ? (
+                <EditMenu
+                  data={ProfileData}
+                  onClose={() => setIsEditingProfile(false)}
+                />
+              ) : (
+                <Button variant="primary" onClick={() => setIsEditingProfile(true)}>
+                  Edit Profile
+                </Button>
+              )}{" "}
+              {isEditingDescription ? (
+                <><Button variant="success" onClick={handleDescriptionChange}>
+                  Save Description
+                </Button>{" "}
+                  <Button variant="danger" onClick={() => {
+                    setDescription(ProfileData.description);
+                    setIsEditingDescription(false)
+                    }}>
+                    Cancel
+                  </Button></>
+              ) : (
+                <Button variant="info" onClick={() => setIsEditingDescription(true)}>
+                  Edit Description
+                </Button>
+              )}{" "}
+            </> : <></>}
         </div>
       </div>
     </Card>

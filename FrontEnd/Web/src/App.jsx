@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { ThemeContext, LoginContext, ProfileContext } from './utils/Contexts.jsx';
 import { CheckToken } from './apis/AuthApis.jsx';
-import { FetchProfile } from './apis/ProfileApis.jsx';
+import { FetchProfile } from './apis/ProfileApis/ProfileApis.jsx';
 import PrivateRoutes from './utils/PrivateRoutes.jsx';
 import AnonymousRoutes from './utils/AnonymousRoutes.jsx';
 import Layout from './utils/Layout.jsx';
@@ -14,7 +14,7 @@ import Login from './pages/Login.jsx';
 import Logout from './pages/Logout.jsx';
 import CallBack from './components/CallBack.jsx';
 import Profile from './pages/Profile.jsx';
-import SkillsForm from './components/SkillsForm.jsx';
+import SkillsForm from './components/Skills.jsx';
 import EducationForm from './components/Education&Certificates/Education.jsx';
 import Portfolios from './components/Portfolios/Portfolios.jsx';
 import ShowPortfolio from './components/Portfolios/ShowPortfolio.jsx';
@@ -136,12 +136,12 @@ function App() {
                 <Route element={<PrivateRoutes />}>
                   <Route path="/dashboard" element={<JobFeed />} />
                   <Route path="/complete-register" element={<Register2 />} />
-                  <Route path="/profile/:user_name" element={<Profile />} />
+                  <Route path="/profile/:user_id/:user_name" element={<Profile />} />
                   <Route path="/edit-skills" element={<SkillsForm />} />
-                  <Route path="/education" element={<EducationForm />} />
-                  <Route path="/certificates" element={<Certificates />} />
+                  <Route path="/edit-education" element={<EducationForm />} />
+                  <Route path="/certificates/:user_id/:user_name" element={<Certificates />} />
                   <Route path="/edit-certificate" element={<CertificateForm />} />
-                  <Route path="/portfolios/:user_id" element={<Portfolios />} />
+                  <Route path="/portfolios/:user_id/:user_name" element={<Portfolios />} />
                   <Route path="/portfolio/:id" element={<ShowPortfolio />} />
                   <Route path="/edit-portfolio" element={<EditPortfolio />} />
                   <Route path='/jobs' element={<DefJobs />} />

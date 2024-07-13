@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
-import { ThemeContext } from '../../utils/Contexts';
+import { ThemeContext, ProfileContext } from '../../utils/Contexts';
 import { FetchFile } from '../../apis/FileApi';
 import styles from './cards.module.css';
 
@@ -9,6 +9,7 @@ import styles from './cards.module.css';
 const EducationCard = ({ ProfileData }) => {
   // Context    
   const { theme } = useContext(ThemeContext);
+  const { profile } = useContext(ProfileContext);
   // Define states
   const navigate = useNavigate();
 
@@ -28,15 +29,17 @@ const EducationCard = ({ ProfileData }) => {
               <p>End date: {ProfileData.education.end_date}</p>
             </>
           }
-          <button
-            type="button"
-            className={(theme === "theme-light") ? "btn btn-outline-dark" : "btn btn-outline-light"}
-            onClick={() => navigate('/education', {
-              state: { edit: true }
-            })}
-          >
-            Edit education
-          </button>
+          {profile.user_id === ProfileData.user_id ?
+            <button
+              type="button"
+              className={(theme === "theme-light") ? "btn btn-outline-dark" : "btn btn-outline-light"}
+              onClick={() => navigate('/edit-education', {
+                state: { edit: true }
+              })}
+            >
+              Edit education
+            </button>
+            : <></>}
           {ProfileData.education && ProfileData.education.certificate_file &&
             <button
               type="button"
@@ -52,6 +55,6 @@ const EducationCard = ({ ProfileData }) => {
       </div>
     </Card>
   );
-}
+};
 
 export default EducationCard;

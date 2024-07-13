@@ -114,9 +114,9 @@ const NavBar = () => {
                       <li>
                         <a href={
                           profile.type === "individual" ?
-                            `/profile/${profile.full_name}` :
+                            `/profile/${profile.user_id}/${profile.full_name}` :
                             profile.type === "company" ?
-                              `/profile/${profile.name}` :
+                              `/profile/${profile.user_id}/${profile.name}` :
                               '#'}>My Profile</a>
                       </li>
                       <li>

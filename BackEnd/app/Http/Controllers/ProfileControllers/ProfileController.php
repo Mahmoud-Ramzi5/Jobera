@@ -247,7 +247,7 @@ class ProfileController extends Controller
     }
 
 
-    public function GetUserProfile(Request $request, $UserName)
+    public function GetUserProfile(Request $request, $userId, $userName)
     {
         // Get user
         $user = auth()->user();
@@ -260,7 +260,8 @@ class ProfileController extends Controller
         }
 
         // Check individual
-        $individual = Individual::where('full_name', $UserName)->first();
+        $individual = Individual::where('user_id', $userId)
+            ->where('full_name', $userName)->first();
         if ($individual != null) {
             // Response
             return response()->json([
@@ -269,7 +270,8 @@ class ProfileController extends Controller
         }
 
         // Check company
-        $company = Company::where('name', $UserName)->first();
+        $company = Company::where('user_id', $userId)
+            ->where('name', $userName)->first();
         if ($company != null) {
             // Response
             return response()->json([

@@ -5,6 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { LoginContext } from '../../utils/Contexts.jsx';
 import { GetEducation, EditEducation } from '../../apis/ProfileApis/EducationApis.jsx';
+import Clock from '../../utils/Clock.jsx';
 import styles from './education.module.css';
 
 
@@ -23,8 +24,8 @@ const EducationForm = ({ step }) => {
     level: "",
     field: "",
     school: "",
-    start_date: new Date(),
-    end_date: new Date(),
+    start_date: new Date().toISOString().split('T')[0],
+    end_date: new Date().toISOString().split('T')[0],
     certificate_file: null, // New state for certificate file
   });
 
@@ -33,24 +34,25 @@ const EducationForm = ({ step }) => {
       initialized.current = true;
       setIsLoading(true);
 
-      GetEducation(accessToken).then((response) => {
-        if (response.status === 200) {
-          response.data.education.start_date = new Date(response.data.education.start_date);
-          response.data.education.end_date = new Date(response.data.education.end_date);
-          setEducationData(response.data.education);
-        }
-        else {
-          console.log(response.statusText);
-        }
-      }).then(() => {
-        setIsLoading(false);
-      });
-
       if (location.state !== null) {
         setEdit(location.state.edit);
-        // if (location.state.education !== null) {
-        //   setEducationData(location.state.education);
-        // }
+        if (location.state.edit) {
+          GetEducation(accessToken).then((response) => {
+            if (response.status === 200) {
+              response.data.education.start_date = new Date(response.data.education.start_date);
+              response.data.education.end_date = new Date(response.data.education.end_date);
+              setEducationData(response.data.education);
+            }
+            else {
+              console.log(response.statusText);
+            }
+          }).then(() => {
+            setIsLoading(false);
+          });
+        }
+        else {
+          setIsLoading(false);
+        }
       }
     }
   }, []);
@@ -93,22 +95,22 @@ const EducationForm = ({ step }) => {
           level: "",
           field: "",
           school: "",
-          start_date: new Date(),
-          end_date: new Date(),
+          start_date: new Date().toISOString().split('T')[0],
+          end_date: new Date().toISOString().split('T')[0],
           certificate_file: null,
         });
 
         step('CERTIFICATES');
       }
       else {
-        console.log(response.statusText);
+        console.log(response);
       }
     });
   }
 
 
   if (isLoading) {
-    return <div id='loader'><div className="clock-loader"></div></div>
+    return <Clock />
   }
   return (
     <div className={styles.container}>

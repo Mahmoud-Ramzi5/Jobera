@@ -49,10 +49,12 @@ export const EditEducation = async (
 
 
 export const ShowCertificatesAPI = async (
-  token
+  token,
+  user_id,
+  user_name
 ) => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/certificates', {
+    const response = await axios.get(`http://127.0.0.1:8000/api/certificates/${user_id}/${user_name}`, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",

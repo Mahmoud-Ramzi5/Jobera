@@ -1,9 +1,9 @@
 import { useEffect, useState, useContext, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { LoginContext, ProfileContext } from '../utils/Contexts.jsx';
-import { GetRegisterStep } from '../apis/ProfileApis.jsx';
+import { GetRegisterStep } from '../apis/ProfileApis/ProfileApis.jsx';
 import ProgressBar from '../components/Register/ProgressBar.jsx';
-import SkillsForm from '../components/SkillsForm.jsx';
+import SkillsForm from '../components/Skills.jsx';
 import EducationForm from '../components/Education&Certificates/Education.jsx';
 import Certificates from '../components/Education&Certificates/Certificates.jsx';
 import Portfolios from '../components/Portfolios/Portfolios.jsx';
@@ -17,27 +17,51 @@ const Register2 = () => {
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const [loading, setLoading] = useState(true);
   const [step, setStep] = useState('SKILLS');
+
+  const ProfilePage = () => {
+    if (profile.type === 'individual') {
+      navigate(`/profile/${profile.user_id}/${profile.full_name}`);
+    }
+    else if (profile.type === 'company') {
+      navigate(`/profile/${profile.user_id}/${profile.name}`);
+    }
+    else {
+      console.log('error')
+    }
+  }
 
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
 
       if (profile.is_registered) {
-        navigate('/profile');
+        ProfilePage();
       }
       else {
-        GetRegisterStep(accessToken).then((response) => {
-          if (response.status == 200) {
-            setStep(response.data.step);
+        if (location.state !== null) {
+          if (location.state.currStep) {
+            setStep(location.state.currStep);
+            setLoading(false);
           }
           else {
-            console.log(response.statusText);
+            GetRegisterStep(accessToken).then((response) => {
+              if (response.status == 200) {
+                setStep(response.data.step);
+              }
+              else {
+                console.log(response.statusText);
+              }
+            }).then(() => {
+              setLoading(false);
+            });
           }
-        }).then(() => {
-          setLoading(false);
-        });
+        }
+        else {
+          ProfilePage();
+        }
       }
     }
   }, []);
@@ -71,7 +95,7 @@ const Register2 = () => {
                 <Portfolios step={setStep} />
               );
             case 'DONE':
-              return navigate('/profile');
+              return ProfilePage();
             default:
               return <h1>404 Not Found</h1>;
           }

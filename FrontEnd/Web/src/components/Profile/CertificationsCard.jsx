@@ -6,7 +6,7 @@ import certificate from '../../assets/certificate.png'
 import styles from './cards.module.css';
 
 
-const CertificationsCard = () => {
+const CertificationsCard = ({ ProfileData }) => {
   // Context    
   const { theme } = useContext(ThemeContext);
   // Define states
@@ -28,9 +28,10 @@ const CertificationsCard = () => {
           <button
             type="button"
             className={(theme === "theme-light") ? "btn btn-outline-dark" : "btn btn-outline-light"}
-            onClick={() => navigate('/certificates', {
+            onClick={() => navigate(`/certificates/${ProfileData.user_id}/${ProfileData.full_name}`, {
               state: { edit: true }
-            })}
+            })
+            }
           >
             Show Certificates
           </button>

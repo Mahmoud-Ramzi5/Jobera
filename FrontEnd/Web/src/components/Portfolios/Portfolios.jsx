@@ -4,6 +4,7 @@ import { Card } from 'react-bootstrap';
 import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { FetchImage } from '../../apis/FileApi.jsx';
 import { ShowPortfoliosAPI } from '../../apis/ProfileApis/PortfolioApis.jsx';
+import Clock from '../../utils/Clock.jsx';
 import img_holder from '../../assets/upload.png';
 import styles from './portfolios.module.css';
 import portfolio_style from './portfolio.module.css';
@@ -14,13 +15,14 @@ const Portfolios = ({ step }) => {
   const { accessToken } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
   // Params
-  const { user_id } = useParams();
+  const { user_id, user_name } = useParams();
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
   const [edit, setEdit] = useState(true);
   const [portfolios, setPortfolios] = useState([]);
 
@@ -29,43 +31,52 @@ const Portfolios = ({ step }) => {
       initialized.current = true;
       setIsLoading(true);
 
-      ShowPortfoliosAPI(accessToken, user_id).then((response) => {
-        if (response.status === 200) {
-          response.data.portfolios.map((portfolio) => {
-            if (portfolio.photo) {
-              FetchImage("", portfolio.photo).then((response) => {
-                portfolio.photo = response;
+      if (typeof user_id !== 'undefined' || typeof user_name !== 'undefined') {
+        ShowPortfoliosAPI(accessToken, user_id, user_name).then((response) => {
+          if (response.status === 200) {
+            response.data.portfolios.map((portfolio) => {
+              if (portfolio.photo) {
+                FetchImage("", portfolio.photo).then((response) => {
+                  portfolio.photo = response;
+                  setPortfolios((prevState) => ([...prevState, portfolio]));
+                });
+              }
+              else if (response.status === 404) {
+                // TODO add a picture of not found
+                setNotFound(true);
+              }
+              else {
                 setPortfolios((prevState) => ([...prevState, portfolio]));
-              });
-            }
-            else {
-              setPortfolios((prevState) => ([...prevState, portfolio]));
-            }
-          });
-        }
-        else {
-          console.log(response.statusText);
-        }
-      }).then(() => {
+              }
+            });
+          }
+          else {
+            console.log(response.statusText);
+          }
+        }).then(() => {
+          setIsLoading(false);
+        });
+      }
+      else {
         setIsLoading(false);
-      });
+      }
 
       if (location.state !== null) {
         setEdit(location.state.edit);
       }
     }
-  }, [location.pathname]);
+  }, []);
 
 
   if (isLoading) {
-    return <div id='loader'><div className="clock-loader"></div></div>
+    return <Clock />
   }
   return (
     <div className={styles.screen}>
       <div className={styles.container}>
         <div className={styles.heading}>
-          <h1>Portfolios</h1>
-          {user_id == profile.user_id ?
+          <h1>{user_name} Portfolios</h1>
+          {profile.user_id == user_id || typeof user_id === 'undefined' ?
             <button
               className={styles.add_button}
               onClick={() => navigate('/edit-portfolio', { state: { edit: false } })}
@@ -93,7 +104,15 @@ const Portfolios = ({ step }) => {
             if (!edit) {
               step('DONE');
             }
-            navigate('/profile');
+            if (profile.type === 'individual') {
+              navigate(`/profile/${profile.user_id}/${profile.full_name}`);
+            }
+            else if (profile.type === 'company') {
+              navigate(`/profile/${profile.user_id}/${profile.name}`);
+            }
+            else {
+              console.log('error')
+            }
           }}
         >
           Back to profile

@@ -3,14 +3,14 @@ import { Button } from 'react-bootstrap';
 import { PersonFill, BuildingFill, Globe, GeoAltFill } from 'react-bootstrap-icons';
 import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { FetchCountries, FetchStates } from '../../apis/AuthApis.jsx';
-import { EditProfile } from '../../apis/ProfileApis.jsx';
+import { EditProfile } from '../../apis/ProfileApis/ProfileApis.jsx';
 import NormalInput from '../NormalInput';
 import CustomPhoneInput from '../CustomPhoneInput';
 import styles from './userinfo.module.css';
 import Inputstyles from '../../styles/Input.module.css';
 
 
-const EditMenu = ({ data, onSave, onCancel }) => {
+const EditMenu = ({ data, onClose }) => {
   // Context
   const { accessToken } = useContext(LoginContext);
   const { setProfile } = useContext(ProfileContext);
@@ -161,10 +161,9 @@ const EditMenu = ({ data, onSave, onCancel }) => {
         </div>
         {successMessage && <p className={styles.success_message}>{successMessage}</p>}
         {failMessage && <p className={styles.fail_message}>{failMessage}</p>}
-        <Button className={styles.submit_button} variant="primary" type="submit">Submit</Button>
-        <Button className={styles.save_button} variant="secondary" onClick={onSave}>Save</Button>
+        <Button className={styles.submit_button} variant="primary" type="submit">Save</Button>
+        <Button className={styles.save_button} variant="secondary" onClick={onClose}>Close</Button>
       </form>
-      {/*<Button className={styles.cancel_button} variant="secondary" onClick={onCancel}>Cancel</Button>*/}
     </div>
   );
 };

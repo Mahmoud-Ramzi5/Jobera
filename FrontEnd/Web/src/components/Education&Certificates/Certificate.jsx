@@ -2,7 +2,7 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { LoginContext } from '../../utils/Contexts.jsx';
+import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { AddCertificateAPI, EditCertificateAPI } from '../../apis/ProfileApis/EducationApis.jsx';
 import styles from './certificate.module.css';
 
@@ -10,6 +10,7 @@ import styles from './certificate.module.css';
 const CertificateForm = () => {
   // Context
   const { accessToken } = useContext(LoginContext);
+  const { profile } = useContext(ProfileContext);
   // Define states
   const navigate = useNavigate();
   const initialized = useRef(false);
@@ -20,7 +21,7 @@ const CertificateForm = () => {
   const [CertificateData, setCertificateData] = useState({
     name: "",
     organization: "",
-    release_date: new Date(),
+    release_date: new Date().toISOString().split('T')[0],
     file: null, // New state for certificate file
   });
 
@@ -69,20 +70,20 @@ const CertificateForm = () => {
         if (response.status === 201) {
           console.log(response.data);
 
-          if(edit) {
-            navigate('/certificates', {
+          if (edit) {
+            navigate(`/certificates/${profile.user_id}/${profile.full_name}`, {
               state: { edit: edit }
             });
           } else {
             navigate('/complete-register', {
-              state: { edit: edit }
+              state: { edit: edit, currStep: 'CERTIFICATES' }
             });
           }
           // Reset the form fields
           setCertificateData({
             name: "",
             organization: "",
-            release_date: new Date(),
+            release_date: new Date().toISOString().split('T')[0],
             file: null,
           });
         } else {
@@ -102,13 +103,13 @@ const CertificateForm = () => {
         if (response.status === 200) {
           console.log(response.data);
 
-          if(edit) {
-            navigate('/certificates', {
+          if (edit) {
+            navigate(`/certificates/${profile.user_id}/${profile.full_name}`, {
               state: { edit: edit }
             });
           } else {
             navigate('/complete-register', {
-              state: { edit: edit }
+              state: { edit: edit, currStep: 'CERTIFICATES' }
             });
           }
         } else {

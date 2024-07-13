@@ -1,12 +1,15 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from 'react-bootstrap';
 import { PenFill } from 'react-bootstrap-icons';
+import { ProfileContext } from '../../utils/Contexts';
 import SlicingArrayInput from './SlicingArrayInput';
 import styles from './cards.module.css';
 
 
 const SkillsCard = ({ ProfileData }) => {
+  // Context    
+  const { profile } = useContext(ProfileContext);
   // Define states
   const navigate = useNavigate();
   const [specific, setSpecific] = useState(5);
@@ -18,19 +21,22 @@ const SkillsCard = ({ ProfileData }) => {
         <Card.Header className={styles.titles}>
           <div>
             <div className={styles.title}>Top skills</div>
-            <button
-              type="button"
-              className={styles.pen_button}
-              onClick={() => navigate('/edit-skills', {
-                state: { edit: true, skills: ProfileData.skills }
-              }
-              )}>
-              <i className={styles.pen}><PenFill /></i>
-            </button>
+            {profile.user_id === ProfileData.user_id ?
+              <button
+                type="button"
+                className={styles.pen_button}
+                onClick={() => navigate('/edit-skills', {
+                  state: { edit: true }
+                }
+                )}>
+                <i className={styles.pen}><PenFill /></i>
+              </button>
+              : <></>}
           </div>
         </Card.Header>
         <Card.Body>
-          {ProfileData.skills === null || ProfileData.skills.length === 0 ? <p className={styles.no_data}>No skills to display</p> :
+          {ProfileData.skills === null || ProfileData.skills.length === 0 ?
+            <p className={styles.no_data}>No skills to display</p> :
             <>
               {/* Here should be the top skills */}
               <SlicingArrayInput dataArray={ProfileData.skills} first={0} last={specific} />

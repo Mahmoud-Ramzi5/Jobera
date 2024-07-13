@@ -113,7 +113,7 @@ class EducationController extends Controller
         }
     }
 
-    public function ShowUserCertificates()
+    public function ShowUserCertificates(Request $request, $userId, $userName)
     {
         // Get User
         $user = auth()->user();
@@ -126,7 +126,8 @@ class EducationController extends Controller
         }
 
         // Get individual
-        $individual = Individual::where('user_id', $user->id)->first();
+        $individual = Individual::where('user_id', $userId)
+            ->where('full_name', $userName)->first();
 
         // Check individual
         if ($individual == null) {
