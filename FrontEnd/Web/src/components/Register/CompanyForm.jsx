@@ -5,11 +5,14 @@ import {
   GeoAltFill, Calendar3, SuitcaseFill, ChevronRight
 } from 'react-bootstrap-icons';
 import Cookies from 'js-cookie';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { FetchCountries, FetchStates, CompanyRegisterAPI } from '../../apis/AuthApis.jsx';
 import NormalInput from '../NormalInput.jsx';
 import PasswordInput from '../PasswordInput.jsx';
 import CustomPhoneInput from '../CustomPhoneInput.jsx';
+import Clock from '../../utils/Clock.jsx';
 import styles from '../../styles/register.module.css';
 import Inputstyles from '../../styles/Input.module.css';
 
@@ -32,7 +35,7 @@ const CompanyForm = () => {
   const [country, setCountry] = useState('');
   const [states, setStates] = useState([]);
   const [state, setState] = useState('');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
 
   useEffect(() => {
     if (!initialized.current) {
@@ -91,11 +94,12 @@ const CompanyForm = () => {
           setAccessToken(token);
           setProfile(response.data.company);
           Cookies.set('access_token', token, { secure: true, expires: 1 / 24 });
+          return response.data.company;
         }
         else {
           console.log(response.statusText);
         }
-      }).then(() => {
+      }).then((company) => {
         setIsLoading(false);
         // Reset the form fields
         setName('');
@@ -109,12 +113,12 @@ const CompanyForm = () => {
         setDate('');
 
         // Redirect to profile
-        navigate('/profile')
+        navigate(`/profile/${company.user_id}/${company.name}`);
       });
   };
 
   if (isLoading) {
-    return <div id='loader'><div className="clock-loader"></div></div>
+    return <Clock />
   }
   return (
     <form className={styles.register} onSubmit={handleSubmit}>
@@ -181,13 +185,24 @@ const CompanyForm = () => {
         </div>
       </div>
       <div className={styles.register__row}>
-        <NormalInput
-          type='date'
-          placeholder='Birthdate'
-          icon={<Calendar3 />}
-          value={date}
-          setChange={setDate}
-        />
+        <div className={Inputstyles.field}>
+          <DatePicker
+            icon={<Calendar3 />}
+            dateFormat='dd/MM/yyyy'
+            className={Inputstyles.input}
+            wrapperClassName={styles.date_picker}
+            calendarIconClassName={styles.date_picker_icon}
+            selected={date}
+            onChange={(date) => {
+              const selectedDate = new Date(date).toISOString().split('T')[0];
+              setDate(selectedDate);
+            }}
+            showMonthDropdown
+            showYearDropdown
+            showIcon
+            required
+          />
+        </div>
         <div className={Inputstyles.field}></div>
       </div>
       <button type="submit" className={styles.register__submit}>

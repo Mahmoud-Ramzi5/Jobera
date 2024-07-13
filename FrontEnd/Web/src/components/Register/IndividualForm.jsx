@@ -5,11 +5,14 @@ import {
   Calendar3, ChevronRight, PersonStanding, PersonStandingDress
 } from 'react-bootstrap-icons';
 import Cookies from 'js-cookie';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { FetchCountries, FetchStates, RegisterAPI } from '../../apis/AuthApis.jsx';
 import NormalInput from '../NormalInput.jsx';
 import PasswordInput from '../PasswordInput.jsx';
 import CustomPhoneInput from '../CustomPhoneInput.jsx';
+import Clock from '../../utils/Clock.jsx';
 import styles from '../../styles/register.module.css';
 import Inputstyles from '../../styles/Input.module.css';
 
@@ -17,7 +20,7 @@ import Inputstyles from '../../styles/Input.module.css';
 const IndividualForm = () => {
   // Context
   const { setLoggedIn, setAccessToken } = useContext(LoginContext);
-  const { setProfile } = useContext(ProfileContext);
+  const { profile, setProfile } = useContext(ProfileContext);
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
@@ -32,7 +35,7 @@ const IndividualForm = () => {
   const [country, setCountry] = useState('');
   const [states, setStates] = useState([]);
   const [state, setState] = useState('');
-  const [date, setDate] = useState('');
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [gender, setGender] = useState('');
   const genders = [
     { value: 'MALE', label: 'Male', icon: <PersonStanding /> },
@@ -97,11 +100,12 @@ const IndividualForm = () => {
           setAccessToken(token);
           setProfile(response.data.individual);
           Cookies.set('access_token', token, { secure: true, expires: 1 / 24 });
+          return response.data.individual;
         }
         else {
           console.log(response);
         }
-      }).then(() => {
+      }).then((individual) => {
         setIsLoading(false);
         // Reset the form fields
         setFirstName('');
@@ -116,12 +120,12 @@ const IndividualForm = () => {
         setGender('');
 
         // Redirect to profile
-        navigate('/profile')
+        navigate(`/profile/${individual.user_id}/${individual.full_name}`);
       });
   };
 
   if (isLoading) {
-    return <div id='loader'><div className="clock-loader"></div></div>
+    return <Clock />
   }
   return (
     <form className={styles.register} onSubmit={handleSubmit}>
@@ -188,13 +192,24 @@ const IndividualForm = () => {
         </div>
       </div>
       <div className={styles.register__row}>
-        <NormalInput
-          type='date'
-          placeholder='Birthdate'
-          icon={<Calendar3 />}
-          value={date}
-          setChange={setDate}
-        />
+        <div className={Inputstyles.field}>
+          <DatePicker
+            icon={<Calendar3 />}
+            dateFormat='dd/MM/yyyy'
+            className={Inputstyles.input}
+            wrapperClassName={styles.date_picker}
+            calendarIconClassName={styles.date_picker_icon}
+            selected={date}
+            onChange={(date) => {
+              const selectedDate = new Date(date).toISOString().split('T')[0];
+              setDate(selectedDate);
+            }}
+            showMonthDropdown
+            showYearDropdown
+            showIcon
+            required
+          />
+        </div>
         <div className={styles.register__field__radio}>
           {genders.map((G) => (
             <div className={styles.register__input__radio} key={G.value}>

@@ -221,3 +221,12 @@
     margin-left: auto;
     color: #58708F;
 }
+
+/* Date Picker */
+.date_picker {
+    width: 100%; 
+}
+
+.date_picker_icon {
+    margin-left: -7px;
+}
