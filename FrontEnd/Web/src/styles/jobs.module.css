@@ -89,6 +89,33 @@
     flex-direction: column;
 }
 
+.submit_button {
+    background: #fff;
+    width: 100%;
+    font-size: 15px;
+    padding: 5px 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--color-titles);
+    text-decoration: inherit;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-rating);
+    box-shadow: 0px 1px 1px #395F87;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.submit_button:active,
+.submit_button:focus,
+.submit_button:hover {
+    border-color: var(--color-typeschecked);
+    outline: none;
+}
+
+
 
 /* JobCard CSS */
 .card {

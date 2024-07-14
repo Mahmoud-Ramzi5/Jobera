@@ -7,6 +7,7 @@ import { FetchFreelancingJobs } from '../../apis/JobsApis.jsx';
 import { FetchImage } from '../../apis/FileApi.jsx';
 import JobCard from '../../components/Jobs/JobCard.jsx';
 import Slider from '../../components/Slider.jsx';
+import Clock from '../../utils/Clock.jsx';
 import styles from '../../styles/jobs.module.css';
 
 
@@ -247,7 +248,7 @@ const FreelancingJobs = () => {
           ))}
         </div>
         <br />
-        <button type='submit' onClick={handlerFilterSubmit}>
+        <button type='submit' className={styles.submit_button} onClick={handlerFilterSubmit}>
           Submit filter
         </button>
       </div>
@@ -262,7 +263,7 @@ const FreelancingJobs = () => {
             <JobCard JobData={job} />
           </Link>
         ))}
-        {isLoading ? <div id='loader'><div className="clock-loader"></div></div>
+        {isLoading ? <Clock />
           : isDone && <h5 className={styles.done}>No more jobs to show</h5>
         }
       </div>
