@@ -1,30 +1,31 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/controllers/appControllers/home_controller.dart';
+import 'package:jobera/controllers/appControllers/chats/chat_controller.dart';
 import 'package:jobera/main.dart';
-import 'package:jobera/models/chat.dart';
 import 'package:jobera/models/chats.dart';
 
 class ChatsController extends GetxController {
+  late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   late Dio dio;
-  late HomeController homeController;
+  late ChatController chatController;
   List<Chats> chats = [];
   bool loading = true;
-  Chat chat = Chat.empty();
 
   @override
   Future<void> onInit() async {
+    refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
     dio = Dio();
-    homeController = Get.put(HomeController());
-    //homeController = Get.find<HomeController>();
+    chatController = Get.put(ChatController());
     await fetchChats();
     loading = false;
+    update();
     super.onInit();
   }
 
   Future<void> goToChat(int id) async {
-    await fetchChat(id);
+    await chatController.fetchChat(id);
     Get.toNamed('/chat');
   }
 
@@ -32,7 +33,7 @@ class ChatsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.0.107:8000/api/chats',
+        'http://192.168.43.23:8000/api/chats',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -45,32 +46,6 @@ class ChatsController extends GetxController {
         chats = [
           for (var chat in response.data['chats']) Chats.fromJson(chat),
         ];
-        update();
-      }
-    } on DioException catch (e) {
-      Dialogs().showErrorDialog(
-        'Error',
-        e.response.toString(),
-      );
-    }
-  }
-
-  Future<dynamic> fetchChat(int id) async {
-    String? token = sharedPreferences?.getString('access_token');
-    try {
-      var response = await dio.get(
-        'http://192.168.0.107:8000/api/chats/$id',
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-        ),
-      );
-      if (response.statusCode == 200) {
-        chat = Chat.fromJson(response.data['chat']);
-        update();
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(

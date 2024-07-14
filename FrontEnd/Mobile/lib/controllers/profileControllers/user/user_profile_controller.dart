@@ -37,7 +37,7 @@ class UserProfileController extends GetxController {
   Future<void> fetchProfile() async {
     String? token = sharedPreferences?.getString('access_token');
     try {
-      var response = await dio.get('http://192.168.0.107:8000/api/profile',
+      var response = await dio.get('http://192.168.43.23:8000/api/profile',
           options: Options(
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',
@@ -62,7 +62,7 @@ class UserProfileController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.107:8000/api/profile/description',
+        'http://192.168.43.23:8000/api/profile/description',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -94,7 +94,7 @@ class UserProfileController extends GetxController {
       );
       try {
         var response = await dio.post(
-          'http://192.168.0.107:8000/api/profile/photo',
+          'http://192.168.43.23:8000/api/profile/photo',
           data: data,
           options: Options(
             headers: {

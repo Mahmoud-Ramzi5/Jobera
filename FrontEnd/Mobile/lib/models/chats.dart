@@ -17,7 +17,10 @@ class Chats {
       : id = json['id'] as int,
         name = json['other_user']['name'] as String,
         photo = json['other_user']['avatar_photo'] as String?,
-        lastMessage = json['last_message']['message'] as String,
-        lastMessageDate =
-            DateTime.parse(json['last_message']['send_date'] as String);
+        lastMessage = json['last_message'] != null
+            ? json['last_message']['message'] as String?
+            : null,
+        lastMessageDate = json['last_message'] != null
+            ? DateTime.parse(json['last_message']['send_date'])
+            : null;
 }
