@@ -7,7 +7,7 @@ import { FetchAllSkills, SearchSkills } from '../../apis/SkillsApis.jsx';
 import { AddRegJobAPI } from '../../apis/JobsApis.jsx';
 import NormalInput from '../NormalInput.jsx';
 import img_holder from '../../assets/upload.png';
-import styles from './css/job.module.css';
+import styles from './post_job.module.css';
 import Inputstyles from '../../styles/Input.module.css';
 
 
@@ -74,7 +74,7 @@ const PostJob = () => {
   const handleCreate = (event) => {
     event.preventDefault();
     let state_id;
-    if (needLocation == 'Remotely') {
+    if (needLocation === 'Remotely') {
       state_id = 0;
     } else {
       state_id = state;
@@ -95,17 +95,17 @@ const PostJob = () => {
         console.log(response.data);
 
         // Reset the form fields
-        setTitle("");
-        setDescription("");
-        setPhoto("");
-        setSalary("");
-        setType("");
+        setTitle('');
+        setDescription('');
+        setPhoto('');
+        setSalary('');
+        setType('');
         setCountry('');
         setState('');
         setJobSkills([]);
         setSkillIds([]);
 
-        navigate('/');
+        navigate('/jobs');
       } else {
         console.log(response.statusText);
       }
@@ -163,6 +163,7 @@ const PostJob = () => {
     setSkillCount((prevState) => (prevState >= 0 ? ++prevState : prevState));
   }
 
+
   return (
     <div className={styles.container}>
       <div className={styles.screen}>
@@ -190,24 +191,11 @@ const PostJob = () => {
                 </div>
                 <NormalInput
                   type='number'
-                  placeholder='salary'
+                  placeholder='Salary'
                   icon={<CurrencyDollar />}
                   value={salary}
                   setChange={setSalary}
                 />
-                <div className={styles.register__field__radio}>
-                  {types.map((T) => (
-                    <div className={styles.register__input__radio} key={T.value}>
-                      <input
-                        type="radio"
-                        value={T.value}
-                        checked={type === T.value}
-                        onChange={(event) => setType(event.target.value)}
-                      />
-                      <label>{T.label}</label>
-                    </div>
-                  ))}
-                </div>
               </div>
               <div className={styles.column}>
                 <div className={Inputstyles.field}>
@@ -229,22 +217,36 @@ const PostJob = () => {
                     style={{ visibility: 'hidden' }}
                   />
                 </div>
+                <br />
+                <div className={styles.register__field__radio} style={{ justifyContent: 'space-around' }}>
+                  {types.map((T) => (
+                    <div className={styles.register__input__radio} key={T.value}>
+                      <input
+                        type="radio"
+                        value={T.value}
+                        checked={type === T.value}
+                        onChange={(event) => setType(event.target.value)}
+                      />
+                      <label>{T.label}</label>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
             <div className={styles.register__field__radio}>
-              {locations.map((T) => (
-                <div className={styles.register__input__radio} key={T.value}>
+              {locations.map((L) => (
+                <div className={styles.register__input__radio} key={L.value}>
                   <input
                     type="radio"
-                    value={T.value}
-                    checked={needLocation === T.value}
+                    value={L.value}
+                    checked={needLocation === L.value}
                     onChange={(event) => setNeedLocation(event.target.value)}
                   />
-                  <label>{T.label}</label>
+                  <label>{L.label}</label>
                 </div>
               ))}
             </div>
-            {needLocation == 'Location' ? (
+            {needLocation === 'Location' ? (
               <div className={styles.register__row}>
                 <div className={Inputstyles.field}>
                   <i className={Inputstyles.icon}><Globe /></i>
@@ -266,6 +268,7 @@ const PostJob = () => {
                 </div>
               </div>) :
               (<></>)}
+            <br />
             <h4 className={styles.heading}>Skills wanted:</h4>
             <div className={styles.row}>
               <div className={styles.column}>

@@ -12,6 +12,7 @@ use App\Models\FreelancingJob;
 use App\Models\FreelancingJobCompetetor;
 use App\Filters\JobFilter;
 use App\Policies\FreelancingJobPolicy;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Http\Requests\AddFreelancingJobRequest;
 use App\Http\Requests\ApplyFreelancingJobRequest;
@@ -41,6 +42,12 @@ class FreelancingJobsController extends Controller
 
         $validated['user_id'] = $user->id;
         $validated['is_done'] = false;
+
+        // Check if Remotely
+        if ($validated['state_id'] == 0) {
+            $validated = Arr::except($validated, 'state_id');
+        }
+
         $job = DefJob::create($validated);
         // Handle photo file
         if ($request->hasFile('photo')) {

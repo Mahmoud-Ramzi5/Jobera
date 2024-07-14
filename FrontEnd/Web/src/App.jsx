@@ -28,18 +28,14 @@ import DefJobs from './pages/Jobs/DefJobs.jsx';
 import FullTimeRegJobs from './pages/Jobs/FullTimeRegJobs.jsx';
 import PartTimeRegJobs from './pages/Jobs/PartTimeRegJobs.jsx';
 import FreelancingJobs from './pages/Jobs/FreelancingJobs.jsx';
-
-
-import FileDisplay from './components/FileDisplay.jsx';
-import FileInputTest from './components/FileInputTest.jsx';
+import ShowJob from './components/Jobs/ShowJob.jsx';
 import PostJob from './components/Jobs/PostJob.jsx';
 import PostFreelancing from './components/Jobs/PostFreelancing.jsx';
-import JobCard from './components/Jobs/JobCard.jsx';
-import ShowJob from './components/Jobs/ShowJob.jsx';
 
-import JobCompetetorCard from './components/Jobs/JobCompetetorCard.jsx';
-import ChatPage from './components/Chats/ChatPage.jsx';
+
 import JobFeed from './pages/Jobs/JobFeed.jsx';
+import ChatPage from './components/Chats/ChatPage.jsx';
+
 
 function App() {
   const initialized = useRef(false);
@@ -151,10 +147,10 @@ function App() {
                   <Route path='/job/:id' element={<ShowJob />} />
                   <Route path='/regJob' element={<PostJob />} />
                   <Route path='/freelancingJob' element={<PostFreelancing />} />
-                  <Route path='/ChatsPage' element={<ChatPage />} />
-                  <Route path="/logout" element={<Logout />} />
 
-                  <Route path="/FileTest" element={<FileInputTest />} />
+                  <Route path='/ChatsPage' element={<ChatPage />} />
+
+                  <Route path="/logout" element={<Logout />} />
                 </Route>
               </Route>
 
@@ -165,8 +161,6 @@ function App() {
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/ForgetPassword" element={<ForgotPassword />} />
                 <Route path="/emailVerify" element={<EmailVerificationMessage />} />
-
-                <Route path='/file' element={<FileDisplay />} />
               </Route>
             </Routes>
           </BrowserRouter>

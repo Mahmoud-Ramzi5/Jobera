@@ -12,6 +12,7 @@ use App\Models\RegJob;
 use App\Models\RegJobCompetetor;
 use App\Filters\JobFilter;
 use App\Policies\RegJobPolicy;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Http\Requests\AddRegJobRequest;
 use App\Http\Requests\ApplyRegJobRequest;
@@ -52,6 +53,12 @@ class RegJobsController extends Controller
 
         $validated['company_id'] = $company->id;
         $validated['is_done'] = false;
+
+        // Check if Remotely
+        if ($validated['state_id'] == 0) {
+            $validated = Arr::except($validated, 'state_id');
+        }
+
         $job = DefJob::create($validated);
         // Handle photo file
         if ($request->hasFile('photo')) {

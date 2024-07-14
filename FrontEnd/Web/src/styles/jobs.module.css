@@ -129,6 +129,11 @@
     margin-left: 5%;
 }
 
+.card:hover {
+    transition: .2s;
+    box-shadow: 0px 2px 12px #395F87;
+}
+
 .row {
     width: 100%;
     padding-top: 30px;

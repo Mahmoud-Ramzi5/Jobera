@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
-            $table->bigInteger('state_id')->unsigned();
+            $table->unsignedBigInteger('state_id')->nullable();
             $table->string('photo')->nullable();
             $table->boolean('is_done');
             $table->timestamps();

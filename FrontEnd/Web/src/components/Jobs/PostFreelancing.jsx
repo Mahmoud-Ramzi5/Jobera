@@ -1,13 +1,15 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Fonts, PencilSquare, CurrencyDollar, Calendar3, GeoAltFill, Globe } from 'react-bootstrap-icons';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { LoginContext } from '../../utils/Contexts.jsx';
 import { FetchCountries, FetchStates } from '../../apis/AuthApis.jsx';
 import { FetchAllSkills, SearchSkills } from '../../apis/SkillsApis.jsx';
 import { AddFreelancingJobAPI } from '../../apis/JobsApis.jsx';
 import NormalInput from '../NormalInput.jsx';
 import img_holder from '../../assets/upload.png';
-import styles from './css/job.module.css';
+import styles from './post_job.module.css';
 import Inputstyles from '../../styles/Input.module.css';
 
 
@@ -23,11 +25,10 @@ const PostFreelancing = () => {
   const [photo, setPhoto] = useState(null);
   const [minSalary, setMinSalary] = useState('');
   const [maxSalary, setMaxSalary] = useState('');
-  const [deadline, setDeadline] = useState('');
+  const [deadline, setDeadline] = useState(new Date().toISOString().split('T')[0]);
 
   const [needLocation, setNeedLocation] = useState('Remotely');
   const locations = [
-    { value: 'Remotely', label: 'Remotely' },
     { value: 'Remotely', label: 'Remotely' },
     { value: 'Location', label: 'Location' },
   ];
@@ -85,25 +86,25 @@ const PostFreelancing = () => {
       minSalary,
       maxSalary,
       photo,
-      SkillIds,
       deadline,
+      SkillIds
     ).then((response) => {
       if (response.status === 201) {
         console.log(response.data);
 
         // Reset the form fields
-        setTitle("");
-        setDescription("");
-        setPhoto("");
-        setMinSalary("");
-        setMaxSalary("");
-        setDeadline("");
+        setTitle('');
+        setDescription('');
+        setPhoto('');
+        setMinSalary('');
+        setMaxSalary('');
+        setDeadline(new Date().toISOString().split('T')[0]);
         setCountry('');
         setState('');
         setJobSkills([]);
         setSkillIds([]);
 
-        navigate('/');
+        navigate('/freelancing-jobs');
       } else {
         console.log(response.statusText);
       }
@@ -161,6 +162,7 @@ const PostFreelancing = () => {
     setSkillCount((prevState) => (prevState >= 0 ? ++prevState : prevState));
   }
 
+
   return (
     <div className={styles.container}>
       <div className={styles.screen}>
@@ -200,16 +202,6 @@ const PostFreelancing = () => {
                   value={maxSalary}
                   setChange={setMaxSalary}
                 />
-                <div className={styles.date}>
-                  <h6>Deadline</h6>
-                  <NormalInput
-                    type='date'
-                    placeholder='Deadline'
-                    icon={<Calendar3 />}
-                    value={deadline}
-                    setChange={setDeadline}
-                  />
-                </div>
               </div>
               <div className={styles.column}>
                 <div className={Inputstyles.field}>
@@ -231,18 +223,38 @@ const PostFreelancing = () => {
                     style={{ visibility: 'hidden' }}
                   />
                 </div>
+                <br /><br />
+                <div className={Inputstyles.field}>
+                  <h6>Deadline</h6>
+                  <DatePicker
+                    icon={<Calendar3 />}
+                    dateFormat='dd/MM/yyyy'
+                    className={Inputstyles.input}
+                    wrapperClassName={styles.date_picker}
+                    calendarIconClassName={styles.date_picker_icon}
+                    selected={deadline}
+                    onChange={(date) => {
+                      const selectedDate = new Date(date).toISOString().split('T')[0];
+                      setDeadline(selectedDate);
+                    }}
+                    showMonthDropdown
+                    showYearDropdown
+                    showIcon
+                    required
+                  />
+                </div>
               </div>
             </div>
             <div className={styles.register__field__radio}>
-              {locations.map((T) => (
-                <div className={styles.register__input__radio} key={T.value}>
+              {locations.map((L) => (
+                <div className={styles.register__input__radio} key={L.value}>
                   <input
                     type="radio"
-                    value={T.value}
-                    checked={needLocation === T.value}
+                    value={L.value}
+                    checked={needLocation === L.value}
                     onChange={(event) => setNeedLocation(event.target.value)}
                   />
-                  <label>{T.label}</label>
+                  <label>{L.label}</label>
                 </div>
               ))}
             </div>
