@@ -32,7 +32,7 @@ class RegisterRequest extends FormRequest
             'password' => ['required'],
             'confirm_password' => ['required', 'same:password'],
             'state_id' => ['required'],
-            'birth_date' => ['required', 'date'],
+            'birth_date' => ['required', 'date_format:Y-m-d'],
             'gender' => ['required', Rule::in(IndividualGender::names())],
             'type' => ['required', 'in:admin,individual'],
         ];
