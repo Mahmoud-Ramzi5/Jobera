@@ -24,6 +24,27 @@ class FreelancingJobResource extends JsonResource
         $acceptedCompany = Company::where('user_id', $this->accepted_user)->first();
         $acceptedIndividual = Individual::where('user_id', $this->accepted_user)->first();
 
+        if ($acceptedCompany != null) {
+            $acceptedUser = [
+                'id' => $acceptedCompany->id,
+                'user_id' => $acceptedCompany->user_id,
+                'name' => $acceptedCompany->name,
+                'type' => $acceptedCompany->type,
+                'avatar_photo' => $acceptedCompany->avatar_photo
+            ];
+        } else if ($acceptedIndividual != null) {
+            $acceptedUser = [
+                'id' => $acceptedIndividual->id,
+                'user_id' => $acceptedIndividual->user_id,
+                'name' => $acceptedIndividual->full_name,
+                'type' => $acceptedIndividual->type,
+                'avatar_photo' => $acceptedIndividual->avatar_photo
+            ];
+        } else {
+            $acceptedUser = null;
+        }
+
+
         return [
             "id" => $this->id,
             "defJob_id" => $defJob->id,
@@ -49,19 +70,7 @@ class FreelancingJobResource extends JsonResource
                 'type' => $company->type,
                 'avatar_photo' => $company->avatar_photo
             ],
-            "accepted_user" => $acceptedCompany == null ? [
-                'id' => $acceptedIndividual->id,
-                'user_id' => $acceptedIndividual->user_id,
-                'name' => $acceptedIndividual->full_name,
-                'type' => $acceptedIndividual->type,
-                'avatar_photo' => $acceptedIndividual->avatar_photo
-            ] : [
-                'id' => $acceptedCompany->id,
-                'user_id' => $acceptedCompany->user_id,
-                'name' => $acceptedCompany->name,
-                'type' => $acceptedCompany->type,
-                'avatar_photo' => $acceptedCompany->avatar_photo
-            ],
+            "accepted_user" => $acceptedUser,
             "competitors" => new FreelancingJobCompetitorCollection($this->competitors),
             "skills" => new SkillCollection($this->skills),
             "state" => $defJob->state

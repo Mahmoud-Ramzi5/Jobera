@@ -31,13 +31,13 @@ class RegJobResource extends JsonResource
                 "name" => $this->company->name,
                 'avatar_photo' => $this->company->avatar_photo
             ],
-            "accepted_individual" => [
+            "accepted_individual" => $this->acceptedIndividual != null ? [
                 'id' => $this->acceptedIndividual->id,
                 'user_id' => $this->acceptedIndividual->user_id,
                 'full_name' => $this->acceptedIndividual->full_name,
                 'type' => $this->acceptedIndividual->type,
                 'avatar_photo' => $this->acceptedIndividual->avatar_photo
-            ],
+            ] : null,
             "competitors" => new RegJobCompetitorCollection($this->competitors),
             "skills" => new SkillCollection($this->skills),
             "state" => $defJob->state
