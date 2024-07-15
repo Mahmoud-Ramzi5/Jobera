@@ -57,7 +57,7 @@ const ShowJob = () => {
             });
           }
         }
-        else if (response.status == 404) {
+        else if (response.status === 404) {
           // TODO add a picture of not found
           setNotFound(true);
         }
@@ -178,7 +178,7 @@ const ShowJob = () => {
   if (isLoading) {
     return <Clock />
   }
-
+  console.log(job);
   return (
     <div className={styles.jobsPage}>
       {notFound ? <></> :
@@ -215,10 +215,17 @@ const ShowJob = () => {
               <div className={styles.type}>{job.type}  job</div>
               <div className={styles.description}>Description: {job.description}</div>
               {job.salary ? (
-                <h5 className={styles.salary}>Salary: ${job.salary}</h5>
+                <div className={styles.salary}>Salary: ${job.salary}</div>
               ) : (
-                <h5 className={styles.salary}>Min salary: ${job.min_salary}&nbsp;&nbsp; Max salary: ${job.max_salary}</h5>
+                <div className={styles.salary}>Min salary: ${job.min_salary}&nbsp;&nbsp; Max salary: ${job.max_salary}</div>
               )}
+              <h5 className={styles.state}> Job location: {job.location ?
+                `${job.location.state}, ${job.location.country}` : 'Remotely'}
+              </h5>
+              {job.type === 'Freelancing'&&
+              <div className={styles.deadline}>Deadline: {job.deadline}</div>}
+              <br /><br />
+              <div className={styles.publish_date}>Publish date: {job.publish_date.split('T')[0]}</div>
             </div>
           </div>
           <div className={styles.competitors}>

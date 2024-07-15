@@ -103,6 +103,32 @@
     padding-left: 40px;
 }
 
+.state {
+    position: relative;
+    font-weight: 450;
+    padding-top: 20px;
+    padding-left: 40px;
+    color: var(--color-button);
+}
+
+.deadline {
+    position: relative;
+    font-weight: 500;
+    font-size: 1.1em;
+    padding-top: 20px;
+    padding-left: 40px;
+    color: var(--color-button);
+}
+
+.publish_date {
+    position: relative;
+    font-weight: 500;
+    font-size: 1.1em;
+    padding-top: 20px;
+    padding-left: 40px;
+    color: var(--color-button);
+}
+
 .heading {
     display: flex;
     position: relative;

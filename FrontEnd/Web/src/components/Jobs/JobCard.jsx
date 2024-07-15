@@ -28,6 +28,9 @@ const JobCard = ({ JobData }) => {
           <p> Published by: {' '}
             {JobData.job_user ? JobData.job_user.name : JobData.company.name}
           </p>
+          <p> Publish date: {' '}
+            {JobData.publish_date.split('T')[0]}
+          </p>
         </div>
       </div>
       }

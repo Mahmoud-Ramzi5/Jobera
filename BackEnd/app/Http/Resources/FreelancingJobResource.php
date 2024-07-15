@@ -73,7 +73,11 @@ class FreelancingJobResource extends JsonResource
             "accepted_user" => $acceptedUser,
             "competitors" => new FreelancingJobCompetitorCollection($this->competitors),
             "skills" => new SkillCollection($this->skills),
-            "state" => $defJob->state
+            'location' => $defJob->state != null ? [
+                'state' => $defJob->state->state_name,
+                'country' => $defJob->state->country->country_name
+            ] : null,
+            'publish_date' => $defJob->created_at
         ];
     }
 }
