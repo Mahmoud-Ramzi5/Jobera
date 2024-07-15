@@ -163,7 +163,7 @@
     margin-bottom: 10px;
 }
 
-.competetor_button {
+.competitor_button {
     margin-left: 20px;
     background: #fff;
     font-size: 15px;
@@ -182,9 +182,9 @@
 }
 
 
-.competetor_button:active,
-.competetor_button:focus,
-.competetor_button:hover {
+.competitor_button:active,
+.competitor_button:focus,
+.competitor_button:hover {
     border-color: var(--color-typeschecked);
     background-color: #004ead;
     color: #fff;
@@ -231,7 +231,7 @@
     width: 70%;
 }
 
-.competetors {
+.competitors {
     margin-top: 40px;
     margin-left: 20px;
 }

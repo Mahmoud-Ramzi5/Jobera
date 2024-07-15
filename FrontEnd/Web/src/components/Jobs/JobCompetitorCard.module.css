@@ -1,4 +1,4 @@
-.CompetetorCard {
+.CompetitorCard {
   border: 1px solid #ccc;
   border-radius: 8px;
   padding: 16px;
@@ -6,7 +6,7 @@
   width: 90%
 }
 
-.CompetetorCardContent {
+.CompetitorCardContent {
   display: flex;
 }
 
@@ -43,11 +43,11 @@
   color: var(--color-button);
 }
 
-.CompetetorDescription {
+.CompetitorDescription {
   margin-top: 8px;
 }
 
-.CompetetorRating {
+.CompetitorRating {
   margin-top: 8px;
   width: 20%;
   position: relative;

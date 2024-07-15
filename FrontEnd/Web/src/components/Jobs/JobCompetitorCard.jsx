@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react';
 import { Star, StarFill, StarHalf } from 'react-bootstrap-icons';
 import { FetchImage } from '../../apis/FileApi';
-import img_holder from '../../assets/upload.png';
-import styles from './css/JobCometetorCard.module.css';
+import img_holder from '../../assets/default.png';
+import styles from './JobCompetitorCard.module.css';
 
 
-const JobCompetetorCard = ({ CompetetorData }) => {
+const JobCompetitorCard = ({ CompetitorData }) => {
   const [photo, setPhoto] = useState(null);
 
   useEffect(() => {
-    if (CompetetorData.user) {
-      if (CompetetorData.user.avatar_photo) {
-        FetchImage("", CompetetorData.user.avatar_photo).then((response) => {
+    if (CompetitorData.user) {
+      if (CompetitorData.user.avatar_photo) {
+        FetchImage("", CompetitorData.user.avatar_photo).then((response) => {
           setPhoto(response);
         });
       }
-    } else if (CompetetorData.individual) {
-      if (CompetetorData.individual.avatar_photo) {
-        FetchImage("", CompetetorData.individual.avatar_photo).then((response) => {
+    } else if (CompetitorData.individual) {
+      if (CompetitorData.individual.avatar_photo) {
+        FetchImage("", CompetitorData.individual.avatar_photo).then((response) => {
           setPhoto(response);
         });
       }
@@ -58,8 +58,8 @@ const JobCompetetorCard = ({ CompetetorData }) => {
   };
 
   return (
-    <div className={styles.CompetetorCard}>
-      <div className={styles.CompetetorCardContent}>
+    <div className={styles.CompetitorCard}>
+      <div className={styles.CompetitorCardContent}>
         <div className={styles.photoContainer}>
           {photo ? (
             <img
@@ -81,26 +81,22 @@ const JobCompetetorCard = ({ CompetetorData }) => {
           <div className={styles.namer}>
             <div className={styles.name}>
               <h4>
-                {CompetetorData.jobType === "Freelancing" ?
-                  (CompetetorData.user && CompetetorData.user.full_name ?
-                    (CompetetorData.user.full_name) : (CompetetorData.user.name)) :
-                  (CompetetorData.individual.full_name)}
+                {CompetitorData.job_type === "Freelancing" ?
+                  CompetitorData.user.name :
+                  CompetitorData.individual.full_name}
               </h4>
             </div>
-            <div className={styles.CompetetorRating}>
-              {CompetetorData.jobType == "Freelancing" ?
-                RenderStars(CompetetorData.user.rating) :
-                RenderStars(CompetetorData.individual.rating)}
+            <div className={styles.CompetitorRating}>
+              {CompetitorData.job_type == "Freelancing" ?
+                RenderStars(CompetitorData.user.rating) :
+                RenderStars(CompetitorData.individual.rating)}
             </div>
-            {CompetetorData.jobType == "Freelancing" ? (
-              <p className={styles.salary}> ${CompetetorData.salary} </p>
-            ) : (
-              <></>
+            {CompetitorData.job_type == "Freelancing" && (
+              <p className={styles.salary}> ${CompetitorData.salary} </p>
             )}
           </div>
-
-          <p className={styles.CompetetorDescription}>
-            {CompetetorData.description}
+          <p className={styles.CompetitorDescription}>
+            {CompetitorData.description}
           </p>
         </div>
       </div>
@@ -108,4 +104,4 @@ const JobCompetetorCard = ({ CompetetorData }) => {
   );
 };
 
-export default JobCompetetorCard;
+export default JobCompetitorCard;

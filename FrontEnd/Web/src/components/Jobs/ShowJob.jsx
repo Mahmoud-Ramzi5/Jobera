@@ -8,11 +8,11 @@ import {
 } from '../../apis/JobsApis';
 import { FetchImage } from '../../apis/FileApi';
 import { CreateChat } from '../../apis/ChatApis';
-import JobCompetetorCard from './JobCompetetorCard';
+import JobCompetitorCard from './JobCompetitorCard';
 import NormalInput from '../NormalInput';
 import Clock from '../../utils/Clock';
 import img_holder from '../../assets/upload.png';
-import styles from './css/showjob.module.css';
+import styles from './show_job.module.css';
 import Inputstyles from '../../styles/Input.module.css'
 
 
@@ -178,6 +178,7 @@ const ShowJob = () => {
   if (isLoading) {
     return <Clock />
   }
+
   return (
     <div className={styles.jobsPage}>
       {notFound ? <></> :
@@ -220,81 +221,67 @@ const ShowJob = () => {
               )}
             </div>
           </div>
-          <div className={styles.competetors}>
+          <div className={styles.competitors}>
             <div className={styles.name_and_button}>
               <h5>Competitors</h5>
               {
                 !accepted && !isCompetitor && job.job_user ? (job.job_user.user_id !== profile.user_id ?
-                  <button className={styles.competetor_button} onClick={handleNewCompetitor}>+ Be a competitor</button>
+                  <button className={styles.competitor_button} onClick={handleNewCompetitor}>+ Be a competitor</button>
                   : <></>)
-                  : (!accepted && !isCompetitor && job.company && job.company.id !== profile.user_id
+                  : (!accepted && !isCompetitor && job.company && job.company.user_id !== profile.user_id
                     && profile.type !== 'company' ?
-                    <button className={styles.competetor_button} onClick={handleNewCompetitor}>+ Be a competitor</button>
+                    <button className={styles.competitor_button} onClick={handleNewCompetitor}>+ Be a competitor</button>
                     : <></>)
               }
             </div>
-            {participate && job.type === 'Freelancing' ? (<>
+            {participate ? <>
               <div className={Inputstyles.field}>
                 <i className={Inputstyles.icon}><PencilSquare /></i>
                 <textarea
-                  placeholder='add your comment'
+                  placeholder='Add your comment'
                   value={comment}
                   onChange={(event) => setComment(event.target.value)}
                   className={Inputstyles.input}
                   rows='5'
                 />
               </div>
-              <div className={styles.money_holder}>
-                <NormalInput
-                  type='number'
-                  placeholder='DesiredSalary'
-                  icon={<CurrencyDollar />}
-                  value={desiredSalary}
-                  setChange={setDesiredSalary}
-                />
-              </div>
-              <div className={styles.buttons_holder}>
-                <button className={styles.send_button} onClick={handleNewFreelancer}>send</button>
-                <button className={styles.send_button} onClick={handleCancelFreelancer}>cancel</button>
-              </div>
-
-            </>
-            ) : (<></>)}
-            {participate && job.type != 'Freelancing' ? (<>
-              <div className={Inputstyles.field}>
-                <i className={Inputstyles.icon}><PencilSquare /></i>
-                <textarea
-                  placeholder='add your comment'
-                  value={comment}
-                  onChange={(event) => setComment(event.target.value)}
-                  className={Inputstyles.input}
-                  rows='5'
-                />
-              </div>
-              <div className={styles.buttons_holder}>
-                <button className={styles.send_button} onClick={handleNewJobCompetitor}>send</button>
-                <button className={styles.send_button} onClick={handleCancelJobCompetitor}>cancel</button>
-              </div>
-            </>
-            ) : (<></>)}
-            {job.competetors && job.competetors.map((competetor) => (
-              <div className={styles.competitor_and_button} key={competetor.id}>
-                <JobCompetetorCard CompetetorData={competetor} />
+              {job.type === 'Freelancing' ? <>
+                <div className={styles.money_holder}>
+                  <NormalInput
+                    type='number'
+                    placeholder='Desired salary'
+                    icon={<CurrencyDollar />}
+                    value={desiredSalary}
+                    setChange={setDesiredSalary}
+                  />
+                </div>
+                <div className={styles.buttons_holder}>
+                  <button className={styles.send_button} onClick={handleNewFreelancer}>Send</button>
+                  <button className={styles.send_button} onClick={handleCancelFreelancer}>Cancel</button>
+                </div>
+              </> :
+                <div className={styles.buttons_holder}>
+                  <button className={styles.send_button} onClick={handleNewJobCompetitor}>Send</button>
+                  <button className={styles.send_button} onClick={handleCancelJobCompetitor}>Cancel</button>
+                </div>
+              }
+            </> : <></>}
+            {job.competitors && job.competitors.map((competitor) => (
+              <div className={styles.competitor_and_button} key={competitor.id}>
+                <JobCompetitorCard CompetitorData={competitor} />
                 <div className={styles.buttons_holder2}>
                   {
-                    job.job_user ? (job.job_user.user_id == profile.user_id && !accepted ?
+                    job.job_user ? (job.job_user.user_id === profile.user_id && !accepted &&
                       <button className={styles.accept_button}
-                        onClick={(event) => handleAcceptFreelancingCompetitor(event, competetor.id)}><Check2 /></button>
-                      : <></>)
-                      : (job.company && job.company.user_id == profile.user_id && !accepted ?
-                        <>
-                          <button className={styles.accept_button}
-                            onClick={(event) => handleAcceptRegCompetitor(event, competetor.id)}><Check2 /></button>
-                          <button className={styles.chat_button}
-                            onClick={(event) => handleChatWithIndividual(event, competetor)}><ChatDots /></button>
-                        </>
-                        : <></>)
-                  }
+                        onClick={(event) => handleAcceptFreelancingCompetitor(event, competitor.id)}><Check2 /></button>
+                    ) : (job.company && job.company.user_id === profile.user_id && !accepted &&
+                      <>
+                        <button className={styles.accept_button}
+                          onClick={(event) => handleAcceptRegCompetitor(event, competitor.id)}><Check2 /></button>
+                        <button className={styles.chat_button}
+                          onClick={(event) => handleChatWithIndividual(event, competitor)}><ChatDots /></button>
+                      </>
+                    )}
                 </div>
               </div>
             ))}
