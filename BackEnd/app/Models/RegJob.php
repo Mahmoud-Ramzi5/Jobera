@@ -61,9 +61,9 @@ class RegJob extends Model
         return $this->belongsTo(Individual::class, 'accepted_individual', 'id');
     }
 
-    public function competetors(): HasMany
+    public function competitors(): HasMany
     {
-        return $this->hasMany(RegJobCompetetor::class, 'job_id', 'id');
+        return $this->hasMany(RegJobCompetitor::class, 'job_id', 'id');
     }
 
     public function skills(): BelongsToMany

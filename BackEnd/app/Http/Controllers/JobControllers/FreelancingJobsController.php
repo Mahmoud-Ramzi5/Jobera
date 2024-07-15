@@ -9,7 +9,7 @@ use App\Models\Company;
 use App\Models\Chat;
 use App\Models\DefJob;
 use App\Models\FreelancingJob;
-use App\Models\FreelancingJobCompetetor;
+use App\Models\FreelancingJobCompetitor;
 use App\Filters\JobFilter;
 use App\Policies\FreelancingJobPolicy;
 use Illuminate\Support\Arr;
@@ -19,8 +19,8 @@ use App\Http\Requests\ApplyFreelancingJobRequest;
 use App\Http\Requests\AcceptUserRequest;
 use App\Http\Resources\FreelancingJobResource;
 use App\Http\Resources\FreelancingJobCollection;
-use App\Http\Resources\FreelancingJobCompetetorResource;
-use App\Http\Resources\FreelancingJobCompetetorCollection;
+use App\Http\Resources\FreelancingJobCompetitorResource;
+use App\Http\Resources\FreelancingJobCompetitorCollection;
 
 
 class FreelancingJobsController extends Controller
@@ -164,11 +164,11 @@ class FreelancingJobsController extends Controller
         ], 200);
     }
 
-    public function ViewFreelancingJobCompetetors(Request $request, FreelancingJob $freelancingJob)
+    public function ViewFreelancingJobCompetitors(Request $request, FreelancingJob $freelancingJob)
     {
         // Response
         return response()->json([
-            'job_competetors' => new FreelancingJobCompetetorCollection($freelancingJob->competetors),
+            'job_competitors' => new FreelancingJobCompetitorCollection($freelancingJob->competitors),
         ], 200);
     }
 
@@ -188,11 +188,11 @@ class FreelancingJobsController extends Controller
         }
 
         $validated['user_id'] = $user->id;
-        $FreelancingJobCompetetor = FreelancingJobCompetetor::create($validated);
+        $FreelancingJobCompetitor = FreelancingJobCompetitor::create($validated);
 
         // Response
         return response()->json([
-            'job_competetor' => new FreelancingJobCompetetorResource($FreelancingJobCompetetor),
+            'job_competitor' => new FreelancingJobCompetitorResource($FreelancingJobCompetitor),
         ], 200);
     }
 
@@ -231,7 +231,7 @@ class FreelancingJobsController extends Controller
     {
         // Validate request
         $validated = $request->validated();
-        $job_competetor = FreelancingJobCompetetor::where('id', $validated['freelancing_job_competetor_id'])->first();
+        $job_competitor = FreelancingJobCompetitor::where('id', $validated['freelancing_job_competitor_id'])->first();
 
         // Get user
         $user = auth()->user();
@@ -245,13 +245,13 @@ class FreelancingJobsController extends Controller
 
         // Check policy
         $policy = new FreelancingJobPolicy();
-        if (!$policy->AcceptUser(User::find($user->id), $freelancingJob, $job_competetor)) {
+        if (!$policy->AcceptUser(User::find($user->id), $freelancingJob, $job_competitor)) {
             // Response
             return response()->json([
                 'errors' => ['user' => 'Unauthorized']
             ], 401);
         }
-        $freelancingJob->update(['accepted_user' => $job_competetor->user_id]);
+        $freelancingJob->update(['accepted_user' => $job_competitor->user_id]);
 
         Chat::create([
             'user1_id' => $freelancingJob->user_id,

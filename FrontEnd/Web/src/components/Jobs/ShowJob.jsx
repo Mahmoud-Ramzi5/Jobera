@@ -1,15 +1,19 @@
-import { useEffect, useState, useContext } from 'react';
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { useEffect, useState, useContext, useRef } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PencilSquare, CurrencyDollar, ChatDots, Check2 } from 'react-bootstrap-icons';
 import { LoginContext, ProfileContext } from '../../utils/Contexts';
-import { FetchJob, ApplyToRegJobAPI, ApplyToFreelancingJobAPI, AcceptRegJob, AcceptFreelancingJob } from '../../apis/JobsApis';
+import {
+  FetchJob, ApplyToRegJobAPI, ApplyToFreelancingJobAPI,
+  AcceptRegJob, AcceptFreelancingJob
+} from '../../apis/JobsApis';
 import { FetchImage } from '../../apis/FileApi';
-import NormalInput from '../NormalInput';
+import { CreateChat } from '../../apis/ChatApis';
 import JobCompetetorCard from './JobCompetetorCard';
+import NormalInput from '../NormalInput';
+import Clock from '../../utils/Clock';
 import img_holder from '../../assets/upload.png';
 import styles from './css/showjob.module.css';
 import Inputstyles from '../../styles/Input.module.css'
-import { CreateChat } from '../../apis/ChatApis';
 
 
 const ShowJob = () => {
@@ -19,12 +23,16 @@ const ShowJob = () => {
   // Params
   const { id } = useParams();
   // Define states
-  const [isLoading, setIsLoading] = useState(true);
-  const [job, setJob] = useState({});
-  const [photo, setPhoto] = useState(null);
-  const [accepted, setAccepted] = useState(false);
+  const initialized = useRef(false);
+  const navigate = useNavigate();
 
+  const [isLoading, setIsLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+
+  const [photo, setPhoto] = useState(null);
+  const [job, setJob] = useState({});
+
+  const [accepted, setAccepted] = useState(false);
   const [participate, setParticipate] = useState(false);
   const [isCompetitor, setIsCompetitor] = useState(false);
   const [jobEnded, setJobEnded] = useState(false);
@@ -32,21 +40,19 @@ const ShowJob = () => {
   const [comment, setComment] = useState('');
   const [desiredSalary, setDesiredSalary] = useState('');
 
-  const navigate = useNavigate();
 
-
-  console.log(id);
   useEffect(() => {
-    if (accessToken) {
+    if (!initialized.current) {
+      initialized.current = true;
       setIsLoading(true);
+
       FetchJob(accessToken, id).then((response) => {
-        console.log(response);
         if (response.status === 200) {
           setJob(response.data.job);
 
           // Adding the photo if exists
-          if (job.photo) {
-            FetchImage("", job.photo).then((response) => {
+          if (response.data.job.photo) {
+            FetchImage("", response.data.job.photo).then((response) => {
               setPhoto(response);
             });
           }
@@ -64,24 +70,25 @@ const ShowJob = () => {
         }
 
         // Checking if user is already a competitor
-        let AllCompetitors = response.data.job.competetors;
-        AllCompetitors.map(function (competitorCheck) {
-          if (competitorCheck.user) {
-            if (competitorCheck.user.user_id == profile.user_id) {
+        response.data.job.competitors.map((competitor) => {
+          if (competitor.user) {
+            if (competitor.user.user_id === profile.user_id) {
               setIsCompetitor(true);
             }
-          } else if (competitorCheck.individual) {
-            if (competitorCheck.individual.user_id == profile.user_id) {
+          } else if (competitor.individual) {
+            if (competitor.individual.user_id === profile.user_id) {
               setIsCompetitor(true);
             }
+          } else {
+            setIsCompetitor(false);
           }
         });
-
       }).then(() => {
         setIsLoading(false);
       });
     }
   }, []);
+
 
   const handleNewCompetitor = (event) => {
     event.preventDefault();
@@ -90,12 +97,11 @@ const ShowJob = () => {
 
   const handleNewJobCompetitor = (event) => {
     event.preventDefault();
-    console.log(comment);
     ApplyToRegJobAPI(accessToken, job.id, comment).then((response) => {
       if (response.status == 200) {
-        console.log('added a competitor succsefully')
+        console.log('Added a competitor successfully')
         setParticipate(false);
-        window.location.reload();
+        window.location.reload(); // Refresh the page after deletion
       }
       else {
         console.log(response.statusText);
@@ -103,14 +109,32 @@ const ShowJob = () => {
     })
   }
 
+  const handleCancelJobCompetitor = (event) => {
+    event.preventDefault();
+    setParticipate(false);
+    setComment('');
+  }
+
+  const handleAcceptRegCompetitor = (event, id) => {
+    AcceptRegJob(accessToken, job.id, id).then((response) => {
+      if (response.status == 200) {
+        console.log('Competitor Accepted')
+        setAccepted(true);
+        window.location.reload(); // Refresh the page after deletion
+      }
+      else {
+        console.log(response);
+      }
+    });
+  }
+
   const handleNewFreelancer = (event) => {
     event.preventDefault();
-    console.log(comment, desiredSalary);
     ApplyToFreelancingJobAPI(accessToken, job.id, comment, desiredSalary).then((response) => {
       if (response.status == 200) {
-        console.log('added a competitor succsefully')
+        console.log('Added a competitor successfully')
         setParticipate(false);
-        window.location.reload();
+        window.location.reload(); // Refresh the page after deletion
       }
       else {
         console.log(response.statusText);
@@ -121,22 +145,16 @@ const ShowJob = () => {
   const handleCancelFreelancer = (event) => {
     event.preventDefault();
     setParticipate(false);
-    setComment('');
-    setDesiredSalary('')
-  }
-
-  const handleCancelJobCompetitor = (event) => {
-    event.preventDefault();
-    setParticipate(false);
+    setDesiredSalary('');
     setComment('');
   }
 
   const handleAcceptFreelancingCompetitor = (event, id) => {
     AcceptFreelancingJob(accessToken, job.id, id).then((response) => {
       if (response.status == 200) {
-        console.log('competitor Accepted')
+        console.log('Competitor Accepted')
         setAccepted(true);
-        window.location.reload();
+        window.location.reload(); // Refresh the page after deletion
       }
       else {
         console.log(response.statusText);
@@ -144,37 +162,22 @@ const ShowJob = () => {
     });
   }
 
-  const handleAcceptRegCompetitor = (event, id) => {
-    AcceptRegJob(accessToken, job.id, id).then((response) => {
-      if (response.status == 200) {
-        console.log('competitor Accepted')
-        setAccepted(true);
-        window.location.reload();
-      }
-      else {
-        console.log(response);
-      }
-    });
-  }
 
-  const handleChatWithIndividual = (event, competetor) => {
-    var id = competetor.individual.user_id;
-
-    CreateChat(accessToken, id).then((response) => {
+  const handleChatWithIndividual = (event, competitor) => {
+    CreateChat(accessToken, competitor.individual.user_id).then((response) => {
       if (response.status == 201) {
-        console.log('chat Created')
-      }
-      else {
+        console.log('Chat created')
+      } else {
         console.log(response);
       }
     });
     navigate('/ChatsPage');
   }
 
-  if (isLoading) {
-    return <div id='loader'><div className="clock-loader"></div></div>
-  }
 
+  if (isLoading) {
+    return <Clock />
+  }
   return (
     <div className={styles.jobsPage}>
       {notFound ? <></> :
@@ -205,11 +208,8 @@ const ShowJob = () => {
               <div className={styles.titleholder}>
                 <div className={styles.title}>{job.title}</div>
               </div>
-              <div className={styles.name}>Job owner: {job.job_user ?
-                (job.job_user.full_name ?
-                  job.job_user.full_name
-                  : job.job_user.name)
-                : (job.company.name)}
+              <div className={styles.name}>
+                Job owner: {job.job_user ? job.job_user.name : job.company.name}
               </div>
               <div className={styles.type}>{job.type}  job</div>
               <div className={styles.description}>Description: {job.description}</div>

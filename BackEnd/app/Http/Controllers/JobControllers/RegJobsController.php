@@ -9,7 +9,7 @@ use App\Models\Company;
 use App\Models\Chat;
 use App\Models\DefJob;
 use App\Models\RegJob;
-use App\Models\RegJobCompetetor;
+use App\Models\RegJobCompetitor;
 use App\Filters\JobFilter;
 use App\Policies\RegJobPolicy;
 use Illuminate\Support\Arr;
@@ -19,8 +19,8 @@ use App\Http\Requests\ApplyRegJobRequest;
 use App\Http\Requests\AcceptIndividualRequest;
 use App\Http\Resources\RegJobResource;
 use App\Http\Resources\RegJobCollection;
-use App\Http\Resources\RegJobCompetetorResource;
-use App\Http\Resources\RegJobCompetetorCollection;
+use App\Http\Resources\RegJobCompetitorResource;
+use App\Http\Resources\RegJobCompetitorCollection;
 
 
 class RegJobsController extends Controller
@@ -167,11 +167,11 @@ class RegJobsController extends Controller
         ], 200);
     }
 
-    public function ViewRegJobCompetetors(Request $request, RegJob $regJob)
+    public function ViewRegJobCompetitors(Request $request, RegJob $regJob)
     {
         // Response
         return response()->json([
-            'job_competetors' => new RegJobCompetetorCollection($regJob->competetors),
+            'job_competitors' => new RegJobCompetitorCollection($regJob->competitors),
         ], 200);
     }
 
@@ -201,11 +201,11 @@ class RegJobsController extends Controller
 
         $individual = Individual::where('user_id', $user->id)->first();
         $validated['individual_id'] = $individual->id;
-        $RegJobCompetetor = RegJobCompetetor::create($validated);
+        $RegJobCompetitor = RegJobCompetitor::create($validated);
 
         // Response
         return response()->json([
-            'job_competetor' => new RegJobCompetetorResource($RegJobCompetetor)
+            'job_competitor' => new RegJobCompetitorResource($RegJobCompetitor)
         ], 200);
     }
 
@@ -243,7 +243,7 @@ class RegJobsController extends Controller
     {
         // Validate request
         $validated = $request->validated();
-        $job_competetor = RegJobCompetetor::where('id', $validated['reg_job_competetor_id'])->first();
+        $job_competitor = RegJobCompetitor::where('id', $validated['reg_job_competitor_id'])->first();
 
         // Get user
         $user = auth()->user();
@@ -257,13 +257,13 @@ class RegJobsController extends Controller
 
         // Check policy
         $policy = new RegJobPolicy();
-        if (!$policy->AcceptIndividual(User::find($user->id), $regJob, $job_competetor)) {
+        if (!$policy->AcceptIndividual(User::find($user->id), $regJob, $job_competitor)) {
             // Response
             return response()->json([
                 'errors' => ['user' => 'Unauthorized']
             ], 401);
         }
-        $regJob->update(['accepted_individual' => $job_competetor->individual_id]);
+        $regJob->update(['accepted_individual' => $job_competitor->individual_id]);
         $user2_id = $regJob->acceptedIndividual->user->id;
 
         Chat::create([

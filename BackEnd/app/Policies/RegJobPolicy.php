@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\RegJobCompetetor;
+use App\Models\RegJobCompetitor;
 use App\Models\User;
 use App\Models\RegJob;
 use App\Models\Company;
@@ -37,7 +37,7 @@ class RegJobPolicy
         return true;
     }
 
-    public function ViewRegJobCompetetors(User $user)
+    public function ViewRegJobCompetitors(User $user)
     {
         return true;
     }
@@ -62,15 +62,15 @@ class RegJobPolicy
         }
         return false;
     }
-    public function AcceptIndividual(User $user, RegJob $regJob, RegJobCompetetor $regJobCompetetor)
+    public function AcceptIndividual(User $user, RegJob $regJob, RegJobCompetitor $regJobCompetitor)
     {
         $company = Company::where('user_id', $user->id)->first();
         if ($company == null) {
             return false;
         }
         if ($company->id == $regJob->company_id) {
-            $competetors = $regJob->competetors()->pluck('id')->toArray();
-            if (in_array($regJobCompetetor->id, $competetors))
+            $competitors = $regJob->competitors()->pluck('id')->toArray();
+            if (in_array($regJobCompetitor->id, $competitors))
                 return true;
         }
         return false;

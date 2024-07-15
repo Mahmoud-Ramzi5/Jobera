@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\FreelancingJob;
-use App\Models\FreelancingJobCompetetor;
+use App\Models\FreelancingJobCompetitor;
 use App\Models\User;
 
 class FreelancingJobPolicy
@@ -31,7 +31,7 @@ class FreelancingJobPolicy
         return true;
     }
 
-    public function ViewFreelancingJobCompetetors(User $user)
+    public function ViewFreelancingJobCompetitors(User $user)
     {
         return true;
     }
@@ -48,11 +48,11 @@ class FreelancingJobPolicy
         }
         return false;
     }
-    public function AcceptUser(User $user, FreelancingJob $freelancingJob, FreelancingJobCompetetor $freelancingJobCompetetor)
+    public function AcceptUser(User $user, FreelancingJob $freelancingJob, FreelancingJobCompetitor $freelancingJobCompetitor)
     {
         if ($user->id == $freelancingJob->user_id) {
-            $competetors = $freelancingJob->competetors()->pluck('id')->toArray();
-            if (in_array($freelancingJobCompetetor->id, $competetors)) {
+            $competitors = $freelancingJob->competitors()->pluck('id')->toArray();
+            if (in_array($freelancingJobCompetitor->id, $competitors)) {
                 return true;
             }
         }

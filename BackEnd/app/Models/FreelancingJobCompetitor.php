@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
-class FreelancingJobCompetetor extends Model
+class FreelancingJobCompetitor extends Model
 {
     use HasFactory;
 

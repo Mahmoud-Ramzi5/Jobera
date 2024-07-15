@@ -20,19 +20,10 @@ class FreelancingJobResource extends JsonResource
 
         $company = Company::where('user_id', $this->user_id)->first();
         $individual = Individual::where('user_id', $this->user_id)->first();
-        if ($company == null) {
-            $posterResource = new IndividualResource($individual);
-        } else {
-            $posterResource = new CompanyResource($company);
-        }
 
         $acceptedCompany = Company::where('user_id', $this->accepted_user)->first();
         $acceptedIndividual = Individual::where('user_id', $this->accepted_user)->first();
-        if ($acceptedCompany == null) {
-            $acceptedResource = new IndividualResource($acceptedIndividual);
-        } else {
-            $acceptedResource = new CompanyResource($acceptedCompany);
-        }
+
         return [
             "id" => $this->id,
             "defJob_id" => $defJob->id,
@@ -45,9 +36,33 @@ class FreelancingJobResource extends JsonResource
             "max_salary" => $this->max_salary,
             "deadline" => $this->deadline,
             "avg_salary" => $this->avg_salary,
-            "job_user" => $posterResource,
-            "accepted_user" => $acceptedResource,
-            "competetors" => new FreelancingJobCompetetorCollection($this->competetors),
+            "job_user" => $company == null ? [
+                'id' => $individual->id,
+                'user_id' => $individual->user_id,
+                'name' => $individual->full_name,
+                'type' => $individual->type,
+                'avatar_photo' => $individual->avatar_photo
+            ] : [
+                'id' => $company->id,
+                'user_id' => $company->user_id,
+                'name' => $company->name,
+                'type' => $company->type,
+                'avatar_photo' => $company->avatar_photo
+            ],
+            "accepted_user" => $acceptedCompany == null ? [
+                'id' => $acceptedIndividual->id,
+                'user_id' => $acceptedIndividual->user_id,
+                'name' => $acceptedIndividual->full_name,
+                'type' => $acceptedIndividual->type,
+                'avatar_photo' => $acceptedIndividual->avatar_photo
+            ] : [
+                'id' => $acceptedCompany->id,
+                'user_id' => $acceptedCompany->user_id,
+                'name' => $acceptedCompany->name,
+                'type' => $acceptedCompany->type,
+                'avatar_photo' => $acceptedCompany->avatar_photo
+            ],
+            "competitors" => new FreelancingJobCompetitorCollection($this->competitors),
             "skills" => new SkillCollection($this->skills),
             "state" => $defJob->state
         ];

@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reg_job_competetors', function (Blueprint $table) {
+        Schema::create('freelancing_job_competitors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('individual_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('job_id')->constrained('reg_jobs')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('job_id')->constrained('freelancing_jobs')->cascadeOnDelete();
             $table->text("description");
+            $table->double("salary");
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reg_job_competetors');
+        Schema::dropIfExists('freelancing_job_competitors');
     }
 };

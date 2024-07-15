@@ -63,9 +63,9 @@ class FreelancingJob extends Model
         return $this->belongsTo(User::class, 'accepted_user', 'id');
     }
 
-    public function competetors(): HasMany
+    public function competitors(): HasMany
     {
-        return $this->hasMany(FreelancingJobCompetetor::class, 'job_id', 'id');
+        return $this->hasMany(FreelancingJobCompetitor::class, 'job_id', 'id');
     }
 
     public function skills(): BelongsToMany

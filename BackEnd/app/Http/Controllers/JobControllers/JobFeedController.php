@@ -37,9 +37,9 @@ class JobFeedController extends Controller
             ->get();
 
         foreach ($freelancingjobs as $freelancingjob) {
-            foreach ($freelancingjob->competetors() as $competetor) {
-                if ($competetor->user->id == $freelancingjob->accepted_user) {
-                    $freelancingjob->salary = $competetor->salary;
+            foreach ($freelancingjob->competitors() as $competitor) {
+                if ($competitor->user->id == $freelancingjob->accepted_user) {
+                    $freelancingjob->salary = $competitor->salary;
                     break;
                 }
             }

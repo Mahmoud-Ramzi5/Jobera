@@ -15,6 +15,7 @@ class RegJobResource extends JsonResource
     public function toArray(Request $request): array
     {
         $defJob = $this->defJob;
+
         return [
             "id" => $this->id,
             "defJob_id" => $defJob->id,
@@ -24,9 +25,20 @@ class RegJobResource extends JsonResource
             "is_done" => $defJob->is_done,
             "salary" => $this->salary,
             "type" => $this->type,
-            "company" => new CompanyResource($this->company),
-            "accepted_individual" => new IndividualResource($this->acceptedIndividual),
-            "competetors" => new RegJobCompetetorCollection($this->competetors),
+            "company" => [
+                "id" => $this->company->id,
+                'user_id' => $this->company->user_id,
+                "name" => $this->company->name,
+                'avatar_photo' => $this->company->avatar_photo
+            ],
+            "accepted_individual" => [
+                'id' => $this->acceptedIndividual->id,
+                'user_id' => $this->acceptedIndividual->user_id,
+                'full_name' => $this->acceptedIndividual->full_name,
+                'type' => $this->acceptedIndividual->type,
+                'avatar_photo' => $this->acceptedIndividual->avatar_photo
+            ],
+            "competitors" => new RegJobCompetitorCollection($this->competitors),
             "skills" => new SkillCollection($this->skills),
             "state" => $defJob->state
         ];
