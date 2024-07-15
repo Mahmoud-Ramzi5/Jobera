@@ -12,6 +12,13 @@ import './App.css';
 
 
 const lng = localStorage.getItem('Lang');
+
+if (lng !== null) {
+  document.documentElement.lang = lng;
+} else {
+  document.documentElement.lang = 'en';
+}
+
 i18next.init({
   // React already does escaping
   interpolation: { escapeValue: false },

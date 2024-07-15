@@ -8,6 +8,7 @@ const Footer = () => {
 
   useEffect(() => {
     localStorage.setItem('Lang', i18n.language);
+    document.documentElement.lang = i18n.language;
   }, [i18n.language]);
 
   const changeLanguage = (event) => {
