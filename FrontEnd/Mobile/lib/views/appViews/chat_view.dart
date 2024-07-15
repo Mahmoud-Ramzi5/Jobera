@@ -63,6 +63,7 @@ class ChatView extends StatelessWidget {
                           MessageContainer(
                             color: Colors.lightBlue.shade900,
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 BodyText(
                                   text: controller.chat.messages[index].message,
@@ -93,7 +94,7 @@ class ChatView extends StatelessWidget {
                         textInputType: TextInputType.text,
                         obsecureText: false,
                         hintText: 'Type a message...',
-                        icon: const Icon(Icons.message),
+                        icon: const Icon(Icons.chat_bubble),
                       ),
                     ),
                     Padding(

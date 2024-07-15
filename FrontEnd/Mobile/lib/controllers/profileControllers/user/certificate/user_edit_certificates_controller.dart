@@ -27,13 +27,14 @@ class UserEditCertificatesController extends GetxController {
     dio = Dio();
     formField = GlobalKey<FormState>();
     generalController = Get.find<GeneralController>();
-    await fetchCertificates();
     editNameController = TextEditingController();
     editOrganizationController = TextEditingController();
     editDate = DateTime.now();
     if (!generalController.isInRegister) {
       profileController = Get.find<UserProfileController>();
+      await fetchCertificates();
     }
+
     super.onInit();
   }
 
@@ -52,11 +53,7 @@ class UserEditCertificatesController extends GetxController {
   void startEdit(Certificate certificate) {
     editNameController.text = certificate.name;
     editOrganizationController.text = certificate.organization;
-    List<String> parts = certificate.date.split('-');
-    int day1 = int.parse(parts[0]);
-    int month1 = int.parse(parts[1]);
-    int year1 = int.parse(parts[2]);
-    editDate = DateTime(year1, month1, day1);
+    editDate = DateTime.parse(certificate.date);
     editFileName = Uri.file(
       certificate.file.toString(),
     ).pathSegments.last;
@@ -78,7 +75,7 @@ class UserEditCertificatesController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.43.23:8000/api/certificates',
+        'http://192.168.0.101:8000/api/certificates/${profileController.user.id}/${profileController.user.name}',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -119,7 +116,7 @@ class UserEditCertificatesController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.delete(
-        'http://192.168.43.23:8000/api/certificates/$id',
+        'http://192.168.0.101:8000/api/certificates/$id',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -147,7 +144,6 @@ class UserEditCertificatesController extends GetxController {
     String fileName,
     FilePickerResult? file,
   ) async {
-    String newDate = '${date.day}-${date.month}-${date.year}';
     dynamic newfile = fileName;
     String? token = sharedPreferences?.getString('access_token');
     if (file != null) {
@@ -160,12 +156,12 @@ class UserEditCertificatesController extends GetxController {
         "file": newfile,
         'name': name,
         'organization': organization,
-        'release_date': newDate,
+        'release_date': date.toString().split(' ')[0],
       },
     );
     try {
       var response = await dio.post(
-        'http://192.168.43.23:8000/api/certificate/edit/$id',
+        'http://192.168.0.101:8000/api/certificate/edit/$id',
         data: data,
         options: Options(
           headers: {

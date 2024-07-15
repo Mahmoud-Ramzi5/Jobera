@@ -70,7 +70,6 @@ class UserAddCertificateController extends GetxController {
     DateTime date,
     FilePickerResult? file,
   ) async {
-    String newDate = '${date.day}-${date.month}-${date.year}';
     String? token = sharedPreferences?.getString('access_token');
     if (file == null) {
       Dialogs().showErrorDialog('Error', 'File is Required');
@@ -82,12 +81,12 @@ class UserAddCertificateController extends GetxController {
           ),
           'name': name,
           'organization': organization,
-          'release_date': newDate,
+          'release_date': date.toString().split(' ')[0],
         },
       );
       try {
         var response = await dio.post(
-          'http://192.168.43.23:8000/api/certificate/add',
+          'http://192.168.0.101:8000/api/certificate/add',
           data: data,
           options: Options(
             headers: {
