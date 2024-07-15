@@ -13,9 +13,9 @@ class ChatsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const TitleText(text: 'Chats'),
-      ),
+      // appBar: AppBar(
+      //   title: const TitleText(text: 'Chats'),
+      // ),
       body: RefreshIndicator(
         key: _chatsController.refreshIndicatorKey,
         onRefresh: () => _chatsController.fetchChats(),

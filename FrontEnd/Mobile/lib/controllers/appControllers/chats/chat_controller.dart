@@ -19,10 +19,9 @@ class ChatController extends GetxController {
   void onInit() {
     refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
     dio = Dio();
-    homeController = Get.put(HomeController());
+    homeController = Get.find<HomeController>();
     messageController = TextEditingController();
     scrollController = ScrollController();
-    //homeController = Get.find<HomeController>();
     super.onInit();
   }
 
@@ -37,7 +36,7 @@ class ChatController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.43.23:8000/api/chats/$id',
+        'http://192.168.0.101:8000/api/chats/$id',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -62,7 +61,7 @@ class ChatController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.43.23:8000/api/chats/sendMessage',
+        'http://192.168.0.101:8000/api/chats/sendMessage',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

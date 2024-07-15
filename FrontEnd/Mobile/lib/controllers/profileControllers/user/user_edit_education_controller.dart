@@ -42,16 +42,8 @@ class UserEditEducationController extends GetxController {
       selectedLevel = education!.level;
       editFieldController = TextEditingController(text: education!.field);
       editSchoolController = TextEditingController(text: education!.school);
-      List<String> parts1 = education!.startDate.split('-');
-      int day1 = int.parse(parts1[0]);
-      int month1 = int.parse(parts1[1]);
-      int year1 = int.parse(parts1[2]);
-      startDate = DateTime(year1, month1, day1);
-      List<String> parts2 = education!.endDate.split('-');
-      int day2 = int.parse(parts2[0]);
-      int month2 = int.parse(parts2[1]);
-      int year2 = int.parse(parts2[2]);
-      endDate = DateTime(year2, month2, day2);
+      startDate = DateTime.parse(education!.startDate);
+      endDate = DateTime.parse(education!.endDate);
       certficateName = education!.certificateFile == null
           ? null
           : Uri.file(
@@ -119,9 +111,6 @@ class UserEditEducationController extends GetxController {
     DateTime endDate,
     FilePickerResult? file,
   ) async {
-    String newStartDate =
-        '${startDate.day}-${startDate.month}-${startDate.year}';
-    String newEndDate = '${endDate.day}-${endDate.month}-${endDate.year}';
     String? token = sharedPreferences?.getString('access_token');
     final data = FormData.fromMap(
       {
@@ -133,13 +122,13 @@ class UserEditEducationController extends GetxController {
         'level': level,
         'field': field,
         'school': school,
-        'start_date': newStartDate,
-        'end_date': newEndDate,
+        'start_date': startDate.toString().split(' ')[0],
+        'end_date': endDate.toString().split(' ')[0],
       },
     );
     try {
       var response = await dio.post(
-        'http://192.168.43.23:8000/api/education',
+        'http://192.168.0.101:8000/api/education',
         data: data,
         options: Options(
           headers: {

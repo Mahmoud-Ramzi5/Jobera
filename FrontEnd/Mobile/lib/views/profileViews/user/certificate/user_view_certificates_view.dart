@@ -105,7 +105,7 @@ class UserEditCertificatesView extends StatelessWidget {
                                   IconButton(
                                     onPressed: () =>
                                         controller.generalController.fetchFile(
-                                      controller.certificates[index].name,
+                                      controller.certificates[index].file,
                                       'certificate',
                                     ),
                                     icon: Icon(

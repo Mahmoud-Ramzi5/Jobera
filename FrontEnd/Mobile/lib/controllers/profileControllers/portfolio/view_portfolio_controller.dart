@@ -14,10 +14,11 @@ class ViewPortfolioController extends GetxController {
   late GeneralController generalController;
   late Dio dio;
   late HomeController homeController;
-  late UserProfileController? profileController;
-  late CompanyProfileController? profileController2;
+  late dynamic profileController;
   List<Portfolio> portoflios = [];
   int id = 0;
+  int userId = 0;
+  String userName = '';
 
   @override
   Future<void> onInit() async {
@@ -27,11 +28,13 @@ class ViewPortfolioController extends GetxController {
     if (!generalController.isInRegister) {
       homeController = Get.find<HomeController>();
       if (homeController.isCompany) {
-        profileController = null;
-        profileController2 = Get.find<CompanyProfileController>();
+        profileController = Get.find<CompanyProfileController>();
+        userId = profileController.company.id;
+        userName = profileController.company.name;
       } else {
         profileController = Get.find<UserProfileController>();
-        profileController2 = null;
+        userId = profileController.user.id;
+        userName = profileController.user.name;
       }
     }
     await fetchPortfolios();
@@ -39,11 +42,7 @@ class ViewPortfolioController extends GetxController {
   }
 
   void goBack() {
-    if (homeController.isCompany) {
-      profileController2!.refreshIndicatorKey.currentState!.show();
-    } else {
-      profileController!.refreshIndicatorKey.currentState!.show();
-    }
+    profileController!.refreshIndicatorKey.currentState!.show();
     Get.back();
   }
 
@@ -51,7 +50,7 @@ class ViewPortfolioController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.43.23:8000/api/portfolios',
+        'http://192.168.0.101:8000/api/portfolios/$userId/$userName',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -84,7 +83,7 @@ class ViewPortfolioController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.delete(
-        'http://192.168.43.23:8000/api/portfolios/$id',
+        'http://192.168.0.101:8000/api/portfolios/$id',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

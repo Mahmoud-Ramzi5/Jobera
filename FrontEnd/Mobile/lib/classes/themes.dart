@@ -38,17 +38,13 @@ class Themes {
       fillColor: MaterialStatePropertyAll(Colors.orange.shade800),
     ),
     tabBarTheme: TabBarTheme(
+      labelPadding: const EdgeInsets.all(5),
       overlayColor: const MaterialStatePropertyAll(Colors.transparent),
       labelColor: Colors.lightBlue.shade900,
       unselectedLabelColor: Colors.black,
       indicatorSize: TabBarIndicatorSize.tab,
       dividerColor: Colors.transparent,
-      indicator: UnderlineTabIndicator(
-        borderSide: BorderSide(
-          color: Colors.orange.shade800,
-          width: 2,
-        ),
-      ),
+      indicatorColor: Colors.transparent,
     ),
     datePickerTheme: DatePickerThemeData(
       todayForegroundColor: MaterialStatePropertyAll(Colors.orange.shade800),
@@ -133,12 +129,7 @@ class Themes {
       unselectedLabelColor: Colors.white,
       indicatorSize: TabBarIndicatorSize.tab,
       dividerColor: Colors.transparent,
-      indicator: UnderlineTabIndicator(
-        borderSide: BorderSide(
-          color: Colors.orange.shade800,
-          width: 2,
-        ),
-      ),
+      indicatorColor: Colors.transparent,
     ),
     datePickerTheme: const DatePickerThemeData(
       todayForegroundColor: MaterialStatePropertyAll(Colors.white),

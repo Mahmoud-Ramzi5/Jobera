@@ -27,7 +27,7 @@ class MainApp extends StatelessWidget {
     final SettingsController settingsController = Get.put(SettingsController());
     final GeneralController generalController = Get.put(GeneralController());
     return GetMaterialApp(
-      initialRoute: '/chats',
+      initialRoute: '/splashScreen',
       getPages: getPages,
       debugShowCheckedModeBanner: false,
       theme: settingsController.theme,
