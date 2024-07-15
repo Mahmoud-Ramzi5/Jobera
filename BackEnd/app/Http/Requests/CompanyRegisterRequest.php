@@ -31,7 +31,7 @@ class CompanyRegisterRequest extends FormRequest
             'password' => ['required'],
             'confirm_password' => ['required', 'same:password'],
             'state_id' => ['required'],
-            'founding_date' => ['required', 'date'],
+            'founding_date' => ['required', 'date_format:Y-m-d'],
         ];
     }
 

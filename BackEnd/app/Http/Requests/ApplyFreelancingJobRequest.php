@@ -24,11 +24,11 @@ class ApplyFreelancingJobRequest extends FormRequest
      */
     public function rules(): array
     {
-        $job = FreelancingJob::find($this->input('job_id'));
+        //$job = FreelancingJob::find($this->input('job_id'));
         return [
             'job_id' => ['required'],
             'description' => ['required'],
-            'salary' => ['required', 'numeric', "between:{$job->min_salary},{$job->max_salary}"]
+            'salary' => ['required', 'numeric'/*, "between:{$job->min_salary},{$job->max_salary}"*/]
         ];
     }
 
