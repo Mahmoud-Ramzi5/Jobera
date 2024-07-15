@@ -53,6 +53,19 @@
   text-decoration: none;
 }
 
+.AppLang {
+  width: 190px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 19px;
+}
+
+.AppLang select {
+  margin-top: 5px;
+  padding: 2px 3px;
+  border-radius: 5px;
+}
+
 .footerList_links {
   padding-left: 1px;
   list-style: none;

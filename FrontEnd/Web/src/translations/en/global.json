@@ -1,0 +1,15 @@
+{
+    "pages": {
+        "Login": {
+            "title": "Login",
+            "email_input": "Email",
+            "password_input": "Password",
+            "remember_me": "Remember me",
+            "forgot_password": "Forgot password?",
+            "button": "Log In Now",
+            "login_register_div": "Don't have an account?",
+            "login_register_a": "Register",
+            "social": "log in via"
+        }
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "pages": {
+        "Login": {
+            "title": "تسجيل الدخول",
+            "email_input": "ايميل",
+            "password_input": "كلمة المرور",
+            "remember_me": "تذكرني",
+            "forgot_password": "نسيت كلمة المرور؟",
+            "button": "تسجيل الدخول الآن",
+            "login_register_div": "لا تملك حساب؟",
+            "login_register_a": "إنشاء حساب",
+            "social": "الدخول بواسطة"
+        }
+    }
+}

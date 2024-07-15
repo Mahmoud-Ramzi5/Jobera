@@ -1,20 +1,43 @@
-import React from 'react';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from '../styles/footer.module.css';
 
 const Footer = () => {
+  // Translations
+  const { i18n } = useTranslation('global');
+
+  useEffect(() => {
+    localStorage.setItem('Lang', i18n.language);
+  }, [i18n.language]);
+
+  const changeLanguage = (event) => {
+    if (event.target.value === 'en' || event.target.value === 'ar') {
+      i18n.changeLanguage(event.target.value);
+    }
+  };
+
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
         <div className={styles.row}>
           <div className={`${styles.column} ${styles.col_1}`}>
-            <a href="#" className={styles.footerLogo}>Jobera</a>
+            <a href="/" className={styles.footerLogo}>Jobera</a>
+            <span className={styles.AppLang}> Language:
+              <select onChange={changeLanguage} value={i18n.language}>
+                <option key='en' value='en'>English</option>
+                <option key='ar' value='ar'>Arabic</option>
+              </select>
+            </span>
             <p>Copyright ©2024 All rights reserved</p>
           </div>
           <div className={`${styles.column} ${styles.col_2}`}>
             <h3>Jobs</h3>
             <ul className={styles.footerList_links}>
-              <li><a href="#">Browse Jobs</a></li>
               <li><a href="#">Post a job</a></li>
+              <li><a href="/jobs">Browse All Jobs</a></li>
+              <li><a href="/fulltime-jobs">Browse FullTime Jobs</a></li>
+              <li><a href="/parttime-jobs">Browse PartTime Jobs</a></li>
+              <li><a href="/freelancing-jobs">Browse Freelancing Jobs</a></li>
             </ul>
           </div>
           <div className={`${styles.column} ${styles.col_2}`}>

@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { PersonFill, ChevronRight } from 'react-bootstrap-icons';
 import Cookies from 'js-cookie';
 import { LoginContext, ProfileContext } from '../utils/Contexts.jsx';
@@ -11,6 +12,8 @@ import styles from '../styles/login.module.css';
 
 
 const Login = () => {
+  // Translations
+  const { t } = useTranslation('global');
   // Context
   const { setLoggedIn, setAccessToken } = useContext(LoginContext);
   const { setProfile } = useContext(ProfileContext);
@@ -92,49 +95,51 @@ const Login = () => {
       <div className={styles.screen}>
         <div className={styles.screen__content}>
           <img src={Logo} className={styles.logo} alt="logo" />
-          <div className={styles.title}>Login</div>
+          <div className={styles.title}>{t('pages.Login.title')}</div>
           <form className={styles.login} onSubmit={handleSubmit}>
             <NormalInput
               type='text'
-              placeholder='Email'
+              placeholder={t('pages.Login.email_input')}
               icon={<PersonFill />}
               value={email}
               setChange={setEmail}
             />
             <PasswordInput
-              placeholder='Password'
+              placeholder={t('pages.Login.password_input')}
               value={password}
               setChange={setPassword}
             />
             <div>
               <div className={styles.checkBox}>
                 <input
+                  id="rememberMe"
                   type="checkbox"
-                  name="rememberMe"
                   onChange={(event) => setRememberMe(event.target.checked)}
                 />
-                <label htmlFor="rememberMe"> Remember me</label>
+                <label htmlFor="rememberMe">{t('pages.Login.remember_me')}</label>
               </div>
-              <a href='/ForgetPassword' className={styles.forgot__password}>Forgot password?</a>
+              <a href='/ForgetPassword' className={styles.forgot__password}>
+                {t('pages.Login.forgot_password')}
+              </a>
             </div>
 
             <button type="submit" className={styles.login__submit}>
-              <span>Log In Now</span>
+              <span>{t('pages.Login.button')}</span>
               <i className={styles.button__icon}><ChevronRight /></i>
             </button>
           </form>
 
+          <div className={styles.login__register}>
+            {t('pages.Login.login_register_div')} <a href='/register'>{t('pages.Login.login_register_a')}</a>
+          </div>
+
           <div className={styles.social__login}>
-            <h5>log in via</h5>
+            <h5>{t('pages.Login.social')}</h5>
             <div className={styles.social__icons}>
               <a href={GoogleUrl} className={`${styles.social__login__icon} fab fa-google`}></a>
               <a href={FacebookUrl} className={`${styles.social__login__icon} fab fa-facebook`}></a>
               <a href={LinkedinUrl} className={`${styles.social__login__icon} fab fa-linkedin`}></a>
             </div>
-          </div>
-
-          <div className={styles.login__register}>
-            Don't have an account? <a href='/register'>Register</a>
           </div>
 
         </div>
