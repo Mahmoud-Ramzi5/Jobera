@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/classes/enums.dart';
+import 'package:jobera/customWidgets/dialogs.dart';
+import 'package:jobera/customWidgets/enums.dart';
 import 'package:jobera/main.dart';
 
 class AuthController extends GetxController {
@@ -20,7 +20,7 @@ class AuthController extends GetxController {
     if (token != null) {
       try {
         var response = await dio.get(
-          'http://192.168.0.101:8000/api/isExpired',
+          'http://192.168.0.104:8000/api/isExpired',
           options: Options(
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',

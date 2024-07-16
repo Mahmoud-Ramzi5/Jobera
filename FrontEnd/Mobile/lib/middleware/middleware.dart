@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/enums.dart';
+import 'package:jobera/customWidgets/enums.dart';
 import 'package:jobera/main.dart';
 
 class Middleware extends GetMiddleware {

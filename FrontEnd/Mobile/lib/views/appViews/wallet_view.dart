@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/texts.dart';
+import 'package:jobera/customWidgets/texts.dart';
 import 'package:jobera/controllers/appControllers/wallet_controller.dart';
 
 class WalletView extends StatelessWidget {

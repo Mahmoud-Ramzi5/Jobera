@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/texts.dart';
-import 'package:jobera/classes/validation.dart';
+import 'package:jobera/customWidgets/texts.dart';
+import 'package:jobera/customWidgets/validation.dart';
 import 'package:jobera/controllers/profileControllers/user/certificate/user_add_certificate_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';

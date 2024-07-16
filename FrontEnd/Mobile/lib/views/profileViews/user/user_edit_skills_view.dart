@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/texts.dart';
+import 'package:jobera/customWidgets/texts.dart';
 import 'package:jobera/controllers/profileControllers/user/user_edit_skills_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 
@@ -42,7 +42,7 @@ class UserEditSkillsView extends StatelessWidget {
                       name: 'My Skills:',
                       widget: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: (controller.myskills.length / 2).ceil(),
+                        itemCount: controller.myskills.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           final firstIndex = index * 2;
@@ -108,7 +108,7 @@ class UserEditSkillsView extends StatelessWidget {
                       name: 'Skill Types:',
                       widget: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: (controller.skillTypes.length / 2).ceil(),
+                        itemCount: controller.skillTypes.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           final firstIndex = index * 2;
@@ -159,7 +159,7 @@ class UserEditSkillsView extends StatelessWidget {
                       name: 'Skills:',
                       widget: ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: (controller.skills.length / 2).ceil(),
+                        itemCount: controller.skills.length,
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           final firstIndex = index * 2;

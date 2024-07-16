@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
-import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/controllers/general_controller.dart';
-import 'package:jobera/controllers/profileControllers/user/user_profile_controller.dart';
+import 'package:jobera/customWidgets/dialogs.dart';
+import 'package:jobera/controllers/appControllers/general_controller.dart';
+import 'package:jobera/controllers/profileControllers/profile_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/certificate.dart';
 
@@ -17,7 +17,7 @@ class UserEditCertificatesController extends GetxController {
   late TextEditingController editNameController;
   late TextEditingController editOrganizationController;
   late DateTime editDate;
-  late UserProfileController profileController;
+  late ProfileController profileController;
   String? editFileName;
   FilePickerResult? editfile;
 
@@ -31,7 +31,7 @@ class UserEditCertificatesController extends GetxController {
     editOrganizationController = TextEditingController();
     editDate = DateTime.now();
     if (!generalController.isInRegister) {
-      profileController = Get.find<UserProfileController>();
+      profileController = Get.find<ProfileController>();
       await fetchCertificates();
     }
 
@@ -75,7 +75,7 @@ class UserEditCertificatesController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.0.101:8000/api/certificates/${profileController.user.id}/${profileController.user.name}',
+        'http://192.168.0.104:8000/api/certificates/${profileController.user.id}/${profileController.user.name}',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -116,7 +116,7 @@ class UserEditCertificatesController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.delete(
-        'http://192.168.0.101:8000/api/certificates/$id',
+        'http://192.168.0.104:8000/api/certificates/$id',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -161,7 +161,7 @@ class UserEditCertificatesController extends GetxController {
     );
     try {
       var response = await dio.post(
-        'http://192.168.0.101:8000/api/certificate/edit/$id',
+        'http://192.168.0.104:8000/api/certificate/edit/$id',
         data: data,
         options: Options(
           headers: {

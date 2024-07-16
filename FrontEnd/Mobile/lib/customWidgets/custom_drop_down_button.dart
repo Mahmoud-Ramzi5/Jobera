@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/texts.dart';
+import 'package:jobera/customWidgets/texts.dart';
 
 class CustomDropDownButton extends StatelessWidget {
   final dynamic value;

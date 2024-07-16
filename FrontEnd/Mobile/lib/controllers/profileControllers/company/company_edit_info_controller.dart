@@ -2,16 +2,16 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/controllers/profileControllers/company/company_profile_controller.dart';
-import 'package:jobera/controllers/general_controller.dart';
+import 'package:jobera/customWidgets/dialogs.dart';
+import 'package:jobera/controllers/appControllers/general_controller.dart';
+import 'package:jobera/controllers/profileControllers/profile_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/company.dart';
 import 'package:jobera/models/country.dart';
 import 'package:jobera/models/state.dart';
 
 class CompanyEditInfoController extends GetxController {
-  late CompanyProfileController profileController;
+  late ProfileController profileController;
   late Company company;
   late GeneralController generalController;
   late GlobalKey<FormState> formField;
@@ -28,8 +28,8 @@ class CompanyEditInfoController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    profileController = Get.find<CompanyProfileController>();
-    company = profileController.company;
+    profileController = Get.find<ProfileController>();
+    company = profileController.user;
     generalController = Get.find<GeneralController>();
     formField = GlobalKey<FormState>();
     dio = Dio();
@@ -88,7 +88,7 @@ class CompanyEditInfoController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.101:8000/api/profile/edit',
+        'http://192.168.0.104:8000/api/profile/edit',
         data: {
           "name": name,
           "field": field,

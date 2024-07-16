@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/controllers/loginControllers/forgot_password_controller.dart';
-import 'package:jobera/classes/texts.dart';
+import 'package:jobera/customWidgets/texts.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
-import 'package:jobera/classes/validation.dart';
+import 'package:jobera/customWidgets/validation.dart';
 
 class ForgotPasswordView extends StatelessWidget {
   final ForgotPasswordController _forgotPasswordController =

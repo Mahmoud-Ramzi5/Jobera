@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/classes/texts.dart';
+import 'package:jobera/customWidgets/dialogs.dart';
+import 'package:jobera/customWidgets/texts.dart';
 import 'package:jobera/controllers/profileControllers/portfolio/view_portfolio_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_image.dart';
@@ -28,10 +28,7 @@ class ViewPortfoliosView extends StatelessWidget {
         ],
         leading: _editController.generalController.isInRegister
             ? IconButton(
-                onPressed: () {
-                  _editController.generalController.isInRegister = false;
-                  Get.offAllNamed('/home');
-                },
+                onPressed: () => _editController.finishRegister(),
                 icon: const LabelText(
                   text: 'Next',
                 ),
@@ -65,8 +62,7 @@ class ViewPortfoliosView extends StatelessWidget {
                           child: Column(
                             children: [
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   ProfilePhotoContainer(
                                     child: controller
@@ -102,7 +98,7 @@ class ViewPortfoliosView extends StatelessWidget {
                                         onPressed: () =>
                                             Dialogs().confirmDialog(
                                           'Notice:',
-                                          'Are you sure you want to delete Portofolio?',
+                                          'Are you sure you want to delete Portfolio?',
                                           () {
                                             controller.deletePortfolio(
                                               controller.portoflios[index1].id,
@@ -119,43 +115,45 @@ class ViewPortfoliosView extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              Padding(
-                                padding: const EdgeInsets.all(10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const BodyText(text: 'Title: '),
-                                        LabelText(
-                                          text: _editController
-                                              .portoflios[index1].title,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const BodyText(text: 'Description: '),
-                                        Flexible(
-                                          flex: 1,
-                                          child: LabelText(
-                                            text: controller
-                                                .portoflios[index1].description,
+                              ExpansionTile(
+                                title: const BodyText(text: 'Info'),
+                                children: [
+                                  Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          const BodyText(text: 'Title: '),
+                                          LabelText(
+                                            text: _editController
+                                                .portoflios[index1].title,
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const BodyText(text: 'Link: '),
-                                        LabelText(
-                                          text: controller
-                                              .portoflios[index1].link,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          const BodyText(text: 'Link: '),
+                                          LabelText(
+                                            text: controller
+                                                .portoflios[index1].link,
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          const BodyText(text: 'Description: '),
+                                          Flexible(
+                                            flex: 1,
+                                            child: LabelText(
+                                              text: controller
+                                                  .portoflios[index1]
+                                                  .description,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                               ExpansionTile(
                                 title: const BodyText(text: 'Used Skills'),

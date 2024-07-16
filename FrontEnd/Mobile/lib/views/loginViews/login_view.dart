@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:jobera/controllers/loginControllers/login_controller.dart';
-import 'package:jobera/classes/texts.dart';
+import 'package:jobera/customWidgets/texts.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
-import 'package:jobera/classes/validation.dart';
+import 'package:jobera/customWidgets/validation.dart';
 
 class LoginView extends StatelessWidget {
   final LoginController _loginController = Get.put(LoginController());

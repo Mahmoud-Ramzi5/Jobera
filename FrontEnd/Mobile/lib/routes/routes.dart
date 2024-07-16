@@ -1,13 +1,12 @@
 import 'package:get/get.dart';
 import 'package:jobera/middleware/middleware.dart';
-import 'package:jobera/views/appViews/chat_view.dart';
-import 'package:jobera/views/appViews/chats_view.dart';
+import 'package:jobera/views/appViews/chats/chat_view.dart';
+import 'package:jobera/views/appViews/chats/chats_view.dart';
 import 'package:jobera/views/appViews/home_view.dart';
 import 'package:jobera/views/appViews/wallet_view.dart';
 import 'package:jobera/views/loginViews/forgot_password_view.dart';
 import 'package:jobera/views/loginViews/login_view.dart';
 import 'package:jobera/views/profileViews/company/company_edit_info_view.dart';
-import 'package:jobera/views/profileViews/company/company_profile_view.dart';
 import 'package:jobera/views/profileViews/portfolio/edit_portfolio_view.dart';
 import 'package:jobera/views/profileViews/user/certificate/user_add_certificate_view.dart';
 import 'package:jobera/views/profileViews/user/certificate/user_view_certificates_view.dart';
@@ -16,7 +15,7 @@ import 'package:jobera/views/profileViews/portfolio/view_portfolios_view.dart';
 import 'package:jobera/views/profileViews/user/user_edit_education_view.dart';
 import 'package:jobera/views/profileViews/user/user_edit_info_view.dart';
 import 'package:jobera/views/profileViews/user/user_edit_skills_view.dart';
-import 'package:jobera/views/profileViews/user/user_profile_view.dart';
+import 'package:jobera/views/profileViews/profile_view.dart';
 import 'package:jobera/views/registerViews/register_view.dart';
 import 'package:jobera/views/appViews/settings_view.dart';
 import 'package:jobera/views/splash_screen.dart';
@@ -48,12 +47,8 @@ List<GetPage<dynamic>>? getPages = [
     page: () => const SettingsView(),
   ),
   GetPage(
-    name: '/userProfile',
-    page: () => UserProfileView(),
-  ),
-  GetPage(
-    name: '/companyProfile',
-    page: () => CompanyProfileView(),
+    name: '/profile',
+    page: () => ProfileView(),
   ),
   GetPage(
     name: '/userEditInfo',

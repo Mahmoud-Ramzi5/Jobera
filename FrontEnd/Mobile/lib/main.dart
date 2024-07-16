@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/enums.dart';
+import 'package:jobera/customWidgets/enums.dart';
 import 'package:jobera/controllers/loginControllers/auth_controller.dart';
-import 'package:jobera/controllers/general_controller.dart';
+import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/controllers/appControllers/settings_controller.dart';
 import 'package:jobera/routes/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';

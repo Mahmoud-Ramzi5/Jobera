@@ -2,14 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
-import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/controllers/general_controller.dart';
-import 'package:jobera/controllers/profileControllers/user/user_profile_controller.dart';
+import 'package:jobera/customWidgets/dialogs.dart';
+import 'package:jobera/controllers/appControllers/general_controller.dart';
+import 'package:jobera/controllers/profileControllers/profile_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/education.dart';
 
 class UserEditEducationController extends GetxController {
-  late UserProfileController? profileController;
+  late ProfileController? profileController;
   late GeneralController generalController;
   late Dio dio;
   late GlobalKey<FormState> formField;
@@ -37,7 +37,7 @@ class UserEditEducationController extends GetxController {
       'High Institute': 'HIGH_INSTITUTE',
     };
     if (!generalController.isInRegister) {
-      profileController = Get.find<UserProfileController>();
+      profileController = Get.find<ProfileController>();
       education = profileController!.user.education;
       selectedLevel = education!.level;
       editFieldController = TextEditingController(text: education!.field);
@@ -128,7 +128,7 @@ class UserEditEducationController extends GetxController {
     );
     try {
       var response = await dio.post(
-        'http://192.168.0.101:8000/api/education',
+        'http://192.168.0.104:8000/api/education',
         data: data,
         options: Options(
           headers: {

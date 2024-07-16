@@ -2,8 +2,8 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/controllers/general_controller.dart';
+import 'package:jobera/customWidgets/dialogs.dart';
+import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/country.dart';
 import 'package:jobera/models/state.dart';
@@ -112,7 +112,7 @@ class CompanyRegisterController extends GetxController {
     Dialogs().loadingDialog();
     try {
       var response =
-          await dio.post('http://192.168.0.101:8000/api/company/register',
+          await dio.post('http://192.168.0.104:8000/api/company/register',
               data: {
                 "name": name,
                 "field": workField,

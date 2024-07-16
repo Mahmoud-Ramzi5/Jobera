@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jobera/classes/texts.dart';
+import 'package:jobera/customWidgets/texts.dart';
 import 'package:jobera/views/registerViews/company/company_register_view.dart';
 import 'package:jobera/views/registerViews/user/user_register_view.dart';
 
