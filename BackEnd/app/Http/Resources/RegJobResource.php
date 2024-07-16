@@ -29,7 +29,8 @@ class RegJobResource extends JsonResource
                 "id" => $this->company->id,
                 'user_id' => $this->company->user_id,
                 "name" => $this->company->name,
-                'avatar_photo' => $this->company->avatar_photo
+                'avatar_photo' => $this->company->avatar_photo,
+                'wallet' =>$this->company->user->wallet
             ],
             "accepted_individual" => $this->acceptedIndividual != null ? [
                 'id' => $this->acceptedIndividual->id,

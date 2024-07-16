@@ -210,7 +210,7 @@ const ShowJob = () => {
                 <div className={styles.title}>{job.title}</div>
               </div>
               <div className={styles.name}>
-                Job owner: {job.job_user ? job.job_user.name : job.company.name}
+                Job owner: {job.job_user ? <a className={styles.anchor} href={`/profile/${job.job_user.user_id}/${job.job_user.name}`}>{job.job_user.name}</a> : <a className={styles.anchor} href={`/profile/${job.company.user_id}/${job.company.name}`}>{job.company.name}</a>}
               </div>
               <div className={styles.type}>{job.type}  job</div>
               <div className={styles.description}>Description: {job.description}</div>

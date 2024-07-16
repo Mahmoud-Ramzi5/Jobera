@@ -76,6 +76,14 @@
     color: var(--color-foreground)
 }
 
+.anchor {
+    text-decoration: none;
+}
+
+.anchor:hover {
+    text-decoration: underline;
+}
+
 .type {
     width: 100%;
     position: relative;
