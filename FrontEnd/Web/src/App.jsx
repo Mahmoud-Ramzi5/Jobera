@@ -35,6 +35,7 @@ import PostFreelancing from './components/Jobs/PostFreelancing.jsx';
 
 import JobFeed from './pages/Jobs/JobFeed.jsx';
 import ChatPage from './components/Chats/ChatPage.jsx';
+import PostingPage from './pages/Jobs/PostingPage.jsx';
 
 
 function App() {
@@ -147,6 +148,7 @@ function App() {
                   <Route path='/job/:id' element={<ShowJob />} />
                   <Route path='/regJob' element={<PostJob />} />
                   <Route path='/freelancingJob' element={<PostFreelancing />} />
+                  <Route path='/Test' element={<PostingPage/>} />
 
                   <Route path='/ChatsPage' element={<ChatPage />} />
 

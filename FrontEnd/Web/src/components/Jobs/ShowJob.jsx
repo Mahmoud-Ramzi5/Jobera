@@ -36,6 +36,7 @@ const ShowJob = () => {
   const [participate, setParticipate] = useState(false);
   const [isCompetitor, setIsCompetitor] = useState(false);
   const [jobEnded, setJobEnded] = useState(false);
+  const [adminShare, setAdminShare] = useState(0);
 
   const [comment, setComment] = useState('');
   const [desiredSalary, setDesiredSalary] = useState('');
@@ -149,11 +150,21 @@ const ShowJob = () => {
     setComment('');
   }
 
-  const handleAcceptFreelancingCompetitor = (event, id) => {
+  const handleAcceptFreelancingCompetitor = (event, id, salary) => {
     AcceptFreelancingJob(accessToken, job.id, id).then((response) => {
       if (response.status == 200) {
         console.log('Competitor Accepted')
         setAccepted(true);
+        if (salary <= 2000 && salary > 0){
+          setAdminShare(salary*0.05);
+        }else if (salary > 2000 && salary <=15000){
+          setAdminShare(salary*0.04);
+        }else if (salary > 15000){
+          setAdminShare(salary*0.03);
+        }
+        
+        //need an api to give admin money and reserve money for the user
+
         window.location.reload(); // Refresh the page after deletion
       }
       else {
@@ -178,7 +189,7 @@ const ShowJob = () => {
   if (isLoading) {
     return <Clock />
   }
-  console.log(job);
+
   return (
     <div className={styles.jobsPage}>
       {notFound ? <></> :
@@ -278,9 +289,10 @@ const ShowJob = () => {
                 <JobCompetitorCard CompetitorData={competitor} />
                 <div className={styles.buttons_holder2}>
                   {
-                    job.job_user ? (job.job_user.user_id === profile.user_id && !accepted &&
+                    job.job_user ? (job.job_user.user_id === profile.user_id && !accepted && 
+                      job.job_user.wallet.current_balance >= competitor.salary &&
                       <button className={styles.accept_button}
-                        onClick={(event) => handleAcceptFreelancingCompetitor(event, competitor.id)}><Check2 /></button>
+                        onClick={(event) => handleAcceptFreelancingCompetitor(event, competitor.id, competitor.salary)}><Check2 /></button>
                     ) : (job.company && job.company.user_id === profile.user_id && !accepted &&
                       <>
                         <button className={styles.accept_button}

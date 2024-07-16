@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Fonts, PencilSquare, CurrencyDollar, GeoAltFill, Globe } from 'react-bootstrap-icons';
-import { LoginContext } from '../../utils/Contexts.jsx';
+import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { FetchCountries, FetchStates } from '../../apis/AuthApis.jsx';
 import { FetchAllSkills, SearchSkills } from '../../apis/SkillsApis.jsx';
 import { AddRegJobAPI } from '../../apis/JobsApis.jsx';
@@ -11,9 +11,10 @@ import styles from './post_job.module.css';
 import Inputstyles from '../../styles/Input.module.css';
 
 
-const PostJob = () => {
+const PostJob = ({type}) => {
   // Context
   const { accessToken } = useContext(LoginContext);
+  const { profile } = useContext(ProfileContext);
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
@@ -22,12 +23,7 @@ const PostJob = () => {
   const [description, setDescription] = useState('');
   const [photo, setPhoto] = useState(null);
   const [salary, setSalary] = useState('');
-
-  const [type, setType] = useState(null);
-  const types = [
-    { value: 'FullTime', label: 'Full_Time' },
-    { value: 'PartTime', label: 'Part_Time' },
-  ];
+  const [adminShare, setAdminShare] = useState(0);
 
   const [needLocation, setNeedLocation] = useState('Remotely');
   const locations = [
@@ -73,43 +69,53 @@ const PostJob = () => {
 
   const handleCreate = (event) => {
     event.preventDefault();
-    let state_id;
-    if (needLocation === 'Remotely') {
-      state_id = 0;
-    } else {
-      state_id = state;
-    }
-
-    // Api Call
-    AddRegJobAPI(
-      accessToken,
-      title,
-      description,
-      state_id,
-      salary,
-      photo,
-      type,
-      SkillIds
-    ).then((response) => {
-      if (response.status === 201) {
-        console.log(response.data);
-
-        // Reset the form fields
-        setTitle('');
-        setDescription('');
-        setPhoto('');
-        setSalary('');
-        setType('');
-        setCountry('');
-        setState('');
-        setJobSkills([]);
-        setSkillIds([]);
-
-        navigate('/jobs');
+    //if (profile.wallet.current_balance >= salary){
+      let state_id;
+      if (needLocation === 'Remotely') {
+        state_id = 0;
       } else {
-        console.log(response.statusText);
+        state_id = state;
       }
-    });
+  
+      // Api Call
+      AddRegJobAPI(
+        accessToken,
+        title,
+        description,
+        state_id,
+        salary,
+        photo,
+        type,
+        SkillIds
+      ).then((response) => {
+        if (response.status === 201) {
+          console.log(response.data);       
+          if (salary <= 2000 && salary > 0){
+            setAdminShare(salary*0.05);
+          }else if (salary > 2000 && salary <=15000){
+            setAdminShare(salary*0.04);
+          }else if (salary > 15000){
+            setAdminShare(salary*0.03);
+          }
+  
+          // Reset the form fields
+          setTitle('');
+          setDescription('');
+          setPhoto('');
+          setSalary('');
+          setCountry('');
+          setState('');
+          setJobSkills([]);
+          setSkillIds([]);
+  
+          navigate('/jobs');
+        } else {
+          console.log(response);
+        }
+      });
+    //}else{
+    //  console.log('not enough balance');
+    //}
   }
 
   const handleCountrySelect = (event) => {
@@ -165,10 +171,7 @@ const PostJob = () => {
 
 
   return (
-    <div className={styles.container}>
-      <div className={styles.screen}>
         <div className={styles.screen_content}>
-          <h2 className={styles.heading}>Add a job</h2>
           <form className={styles.form} onSubmit={handleCreate}>
             <div className={styles.row}>
               <div className={styles.column}>
@@ -218,19 +221,6 @@ const PostJob = () => {
                   />
                 </div>
                 <br />
-                <div className={styles.register__field__radio} style={{ justifyContent: 'space-around' }}>
-                  {types.map((T) => (
-                    <div className={styles.register__input__radio} key={T.value}>
-                      <input
-                        type="radio"
-                        value={T.value}
-                        checked={type === T.value}
-                        onChange={(event) => setType(event.target.value)}
-                      />
-                      <label>{T.label}</label>
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
             <div className={styles.register__field__radio}>
@@ -330,8 +320,6 @@ const PostJob = () => {
             </div>
           </form>
         </div>
-      </div>
-    </div>
   );
 };
 
