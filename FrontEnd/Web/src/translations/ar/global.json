@@ -10,6 +10,33 @@
             "login_register_div": "لا تملك حساب؟",
             "login_register_a": "إنشاء حساب",
             "social": "الدخول بواسطة"
+        },
+        "Register": {
+            "title": "إنشاء حساب",
+            "slider": {
+                "individual": "فرد",
+                "company": "شركة"
+            },
+            "email_input": "ايميل",
+            "password_input": "كلمة المرور",
+            "confirm_password_input": "تأكيد كلمة المرور",
+            "country_input": "البلد",
+            "city_input": "المدينة",
+            "individual_form": {
+                "first_name_input": "الاسم",
+                "last_name_input": "الكنية",
+                "gender": {
+                    "Male": "ذكر",
+                    "Female": "انثى"
+                }
+            },
+            "company_form": {
+                "name_input": "اسم الشركة",
+                "field_input": "مجال العمل"
+            },
+            "button": "أنشىء الحساب الآن",
+            "register_login_div": "بالفعل لديك حساب؟",
+            "register_login_a": "تسجيل الدخول"
         }
     }
 }

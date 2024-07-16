@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   PersonFill, EnvelopeFill, TelephoneFill, Globe, GeoAltFill,
   Calendar3, ChevronRight, PersonStanding, PersonStandingDress
@@ -18,6 +19,8 @@ import Inputstyles from '../../styles/Input.module.css';
 
 
 const IndividualForm = () => {
+  // Translations
+  const { t } = useTranslation('global');
   // Context
   const { setLoggedIn, setAccessToken } = useContext(LoginContext);
   const { profile, setProfile } = useContext(ProfileContext);
@@ -38,8 +41,8 @@ const IndividualForm = () => {
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [gender, setGender] = useState('');
   const genders = [
-    { value: 'MALE', label: 'Male', icon: <PersonStanding /> },
-    { value: 'FEMALE', label: 'Female', icon: <PersonStandingDress /> },
+    { value: 'MALE', label: t('pages.Register.individual_form.gender.Male'), icon: <PersonStanding /> },
+    { value: 'FEMALE', label: t('pages.Register.individual_form.gender.Female'), icon: <PersonStandingDress /> },
   ];
 
   useEffect(() => {
@@ -132,14 +135,14 @@ const IndividualForm = () => {
       <div className={styles.register__row}>
         <NormalInput
           type="text"
-          placeholder="First Name"
+          placeholder={t('pages.Register.individual_form.first_name_input')}
           icon={<PersonFill />}
           value={FirstName}
           setChange={setFirstName}
         />
         <NormalInput
           type="text"
-          placeholder="Last Name"
+          placeholder={t('pages.Register.individual_form.last_name_input')}
           icon={<PersonFill />}
           value={LastName}
           setChange={setLastName}
@@ -148,7 +151,7 @@ const IndividualForm = () => {
       <div className={styles.register__row}>
         <NormalInput
           type="text"
-          placeholder="Email"
+          placeholder={t('pages.Register.email_input')}
           icon={<EnvelopeFill />}
           value={email}
           setChange={setEmail}
@@ -161,12 +164,12 @@ const IndividualForm = () => {
       </div>
       <div className={styles.register__row}>
         <PasswordInput
-          placeholder='Password'
+          placeholder={t('pages.Register.password_input')}
           value={password}
           setChange={setPassword}
         />
         <PasswordInput
-          placeholder='Confirm Password'
+          placeholder={t('pages.Register.confirm_password_input')}
           value={ConfirmPassword}
           setChange={setConfirmPassword}
         />
@@ -175,7 +178,7 @@ const IndividualForm = () => {
         <div className={Inputstyles.field}>
           <i className={Inputstyles.icon}><Globe /></i>
           <select onChange={handleCountrySelect} value={country} className={Inputstyles.input} required>
-            <option key={0} value='' disabled>Country</option>
+            <option key={0} value='' disabled>{t('pages.Register.country_input')}</option>
             {(countries.length === 0) ? <></> : countries.map((country) => {
               return <option key={country.country_id} value={country.country_name} className={Inputstyles.option}>{country.country_name}</option>
             })}
@@ -184,7 +187,7 @@ const IndividualForm = () => {
         <div className={Inputstyles.field}>
           <i className={Inputstyles.icon}><GeoAltFill /></i>
           <select onChange={(event) => setState(event.target.value)} value={state} className={Inputstyles.input} required>
-            <option key={0} value='' disabled>City</option>
+            <option key={0} value='' disabled>{t('pages.Register.city_input')}</option>
             {(states.length === 0) ? <></> : states.map((state) => {
               return <option key={state.state_id} value={state.state_id} className={Inputstyles.option}>{state.state_name}</option>
             })}
@@ -226,7 +229,7 @@ const IndividualForm = () => {
         </div>
       </div>
       <button type="submit" className={styles.register__submit}>
-        <span>Register now</span>
+        <span>{t('pages.Register.button')}</span>
         <i className={styles.button__icon}><ChevronRight /></i>
       </button>
     </form>
