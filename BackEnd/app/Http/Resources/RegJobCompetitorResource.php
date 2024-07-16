@@ -21,8 +21,8 @@ class RegJobCompetitorResource extends JsonResource
                 'user_id' => $this->individual->user_id,
                 'full_name' => $this->individual->full_name,
                 'type' => $this->individual->type,
-                'rating' => $this->individual->rating,
-                'avatar_photo' => $this->individual->avatar_photo,
+                'rating' => $this->individual->user->rating,
+                'avatar_photo' => $this->individual->user->avatar_photo,
             ],
             "description" => $this->description,
             "job_type" => $this->regJob->type

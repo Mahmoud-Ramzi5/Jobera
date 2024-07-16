@@ -30,7 +30,7 @@ class FreelancingJobResource extends JsonResource
                 'user_id' => $acceptedCompany->user_id,
                 'name' => $acceptedCompany->name,
                 'type' => $acceptedCompany->type,
-                'avatar_photo' => $acceptedCompany->avatar_photo
+                'avatar_photo' => $acceptedCompany->user->avatar_photo
             ];
         } else if ($acceptedIndividual != null) {
             $acceptedUser = [
@@ -38,7 +38,7 @@ class FreelancingJobResource extends JsonResource
                 'user_id' => $acceptedIndividual->user_id,
                 'name' => $acceptedIndividual->full_name,
                 'type' => $acceptedIndividual->type,
-                'avatar_photo' => $acceptedIndividual->avatar_photo
+                'avatar_photo' => $acceptedIndividual->user->avatar_photo
             ];
         } else {
             $acceptedUser = null;
@@ -62,14 +62,14 @@ class FreelancingJobResource extends JsonResource
                 'user_id' => $individual->user_id,
                 'name' => $individual->full_name,
                 'type' => $individual->type,
-                'avatar_photo' => $individual->avatar_photo,
+                'avatar_photo' => $individual->user->avatar_photo,
                 'wallet' =>$individual->user->wallet
             ] : [
                 'id' => $company->id,
                 'user_id' => $company->user_id,
                 'name' => $company->name,
                 'type' => $company->type,
-                'avatar_photo' => $company->avatar_photo,
+                'avatar_photo' => $company->user->avatar_photo,
                 'wallet' =>$company->user->wallet
             ],
             "accepted_user" => $acceptedUser,

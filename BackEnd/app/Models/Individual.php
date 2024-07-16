@@ -26,7 +26,6 @@ class Individual extends User
         'birth_date',
         'gender',
         'type',
-        'avatar_photo',
         'user_id'
     ];
 

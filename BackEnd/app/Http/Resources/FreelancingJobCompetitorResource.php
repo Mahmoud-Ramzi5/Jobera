@@ -26,15 +26,15 @@ class FreelancingJobCompetitorResource extends JsonResource
                 'user_id' => $individual->user_id,
                 'name' => $individual->full_name,
                 'type' => $individual->type,
-                'rating' => $individual->rating,
-                'avatar_photo' => $individual->avatar_photo
+                'rating' => $individual->user->rating,
+                'avatar_photo' => $individual->user->avatar_photo
             ] : [
                 'id' => $company->id,
                 'user_id' => $company->user_id,
                 'name' => $company->name,
                 'type' => $company->type,
-                'rating' => $company->rating,
-                'avatar_photo' => $company->avatar_photo
+                'rating' => $company->user->rating,
+                'avatar_photo' => $company->user->avatar_photo
             ],
             "description" => $this->description,
             "salary" => $this->salary,

@@ -17,6 +17,7 @@ class ChatResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // Get Current user
         $user = auth()->user();
 
         $company = Company::where('user_id', $this->user1_id)->first();
@@ -35,26 +36,26 @@ class ChatResource extends JsonResource
             $user2 = new CompanyResource($company);
         }
 
+        // Check Other User
         if ($user->id == $this->user1_id) {
             $otherUser = $user2;
-             $sender = $user1;
-            // $reciver = $user1;
+
+            $sender = $user1; // ??
         } else {
             $otherUser = $user1;
-            // $reciver = $user1;
-            $sender = $user2;
+
+            $sender = $user2; // ??
         }
 
         return [
             'id' => $this->id,
             'other_user' => [
+                'user_id' => $otherUser->user_id,
                 'name' => ($otherUser->type == "individual" ?
                     $otherUser->full_name : $otherUser->name),
-                'avatar_photo' => $otherUser->avatar_photo,
-                "user_id"=>$otherUser->user->id
+                'avatar_photo' => $otherUser->avatar_photo
             ],
-            "sender" => $sender,
-            // "reciver" => $reciver,
+            "sender" => $sender, // ??
             'messages' => new MessageCollection($this->messages),
             'last_message' => new MessageResource($this->messages->last())
         ];

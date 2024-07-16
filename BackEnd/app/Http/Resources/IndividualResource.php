@@ -15,7 +15,7 @@ class IndividualResource extends JsonResource
     public function toArray(Request $request): array
     {
         // Get user
-        $user = $this->user()->first();
+        $user = $this->user;
 
         // Check user verification
         $is_verified = false;
@@ -40,8 +40,8 @@ class IndividualResource extends JsonResource
             'gender' => $this->gender,
             'type' => 'individual',
             'description' => $user->description,
-            'avatar_photo' => $this->avatar_photo,
-            'rating' => $this->rating,
+            'avatar_photo' => $user->avatar_photo,
+            'rating' => $user->rating,
             'reviews' => $this->reviewedBy->count(),
             'wallet' => $user->wallet,
             'skills' => new SkillCollection($this->skills),

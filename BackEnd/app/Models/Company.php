@@ -20,7 +20,6 @@ class Company extends User
         'name',
         'field',
         'founding_date',
-        'avatar_photo',
         'user_id'
     ];
 

@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->bigInteger('state_id')->unsigned();
             $table->text('description')->nullable();
+            $table->string('avatar_photo')->nullable();
+            $table->float('rating')->default(0.0)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

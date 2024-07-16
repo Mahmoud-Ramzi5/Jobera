@@ -41,6 +41,11 @@ class ProfileController extends Controller
                 "user" => new CompanyResource($company),
             ], 200);
         }
+
+        // Response
+        return response()->json([
+            'errors' => ['user' => 'Invalid user']
+        ], 401);
     }
 
     public function EditProfile(EditProfileRequest $request)
@@ -113,47 +118,36 @@ class ProfileController extends Controller
             ], 401);
         }
 
+        // Delete old avatar_photo (if found)
+        $oldPath = $user->avatar_photo;
+        if ($oldPath != null) {
+            unlink(storage_path('app/' . $oldPath));
+        }
+
+        // Store new avatar_photo
+        $file = $request->file('avatar_photo');
+        $path = $file->storeAs($user->id . '/avatar', $file->getClientOriginalName());
+        $user->avatar_photo = $path;
+        $user->save();
+
+
         // Check individual
         $individual = Individual::where('user_id', $user->id)->first();
         if ($individual != null) {
-            // Delete old avatar_photo (if found)
-            $oldPath = $individual->avatar_photo;
-            if ($oldPath != null) {
-                unlink(storage_path('app/' . $oldPath));
-            }
-
-            // Store new avatar_photo
-            $file = $request->file('avatar_photo');
-            $path = $file->storeAs($user->id . '/avatar', $file->getClientOriginalName());
-            $individual->avatar_photo = $path;
-            $individual->save();
-
             // Response
             return response()->json([
-                "message" => "Profile photo has been add successfully",
-                "user" => new IndividualResource($individual),
+                "message" => "Profile photo has been added successfully",
+                "user" => new IndividualResource($individual)
             ], 200);
         }
 
         // Check company
         $company = Company::where('user_id', $user->id)->first();
         if ($company != null) {
-            // Delete old avatar_photo (if found)
-            $oldPath = $company->avatar_photo;
-            if ($oldPath != null) {
-                unlink(storage_path('app/' . $oldPath));
-            }
-
-            // Store photo
-            $file = $request->file('avatar_photo');
-            $path = $file->storeAs($user->id . '/avatar', $file->getClientOriginalName());
-            $company->avatar_photo = $path;
-            $company->save();
-
             // Response
             return response()->json([
                 "message" => "Profile photo has been added successfully",
-                "user" => new CompanyResource($company),
+                "user" => new CompanyResource($company)
             ], 200);
         }
 
@@ -175,41 +169,32 @@ class ProfileController extends Controller
             ], 401);
         }
 
+        // Delete old avatar_photo (if found)
+        $oldPath = $user->avatar_photo;
+        if ($oldPath != null) {
+            unlink(storage_path('app/' . $oldPath));
+        }
+
+        $user->avatar_photo = null;
+        $user->save();
+
         // Check individual
         $individual = Individual::where('user_id', $user->id)->first();
         if ($individual != null) {
-            // Delete old avatar_photo (if found)
-            $oldPath = $individual->avatar_photo;
-            if ($oldPath != null) {
-                unlink(storage_path('app/' . $oldPath));
-            }
-
-            $individual->avatar_photo = null;
-            $individual->save();
-
             // Response
             return response()->json([
-                "message" => "Profile photo has been Deleted successfully",
-                "user" => new IndividualResource($individual),
+                "message" => "Profile photo has been deleted successfully",
+                "user" => new IndividualResource($individual)
             ], 200);
         }
 
         // Check company
         $company = Company::where('user_id', $user->id)->first();
         if ($company != null) {
-            // Delete old avatar_photo (if found)
-            $oldPath = $company->avatar_photo;
-            if ($oldPath != null) {
-                unlink(storage_path('app/' . $oldPath));
-            }
-
-            $company->avatar_photo = null;
-            $company->save();
-
             // Response
             return response()->json([
                 "message" => "Profile photo has been deleted successfully",
-                "user" => new CompanyResource($company),
+                "user" => new CompanyResource($company)
             ], 200);
         }
 
@@ -240,10 +225,30 @@ class ProfileController extends Controller
         $user->description = $validated['description'];
         $user->save();
 
+        // Check individual
+        $individual = Individual::where('user_id', $user->id)->first();
+        if ($individual != null) {
+            // Response
+            return response()->json([
+                "message" => "Description has been updated successfully",
+                "user" => new IndividualResource($individual)
+            ], 200);
+        }
+
+        // Check company
+        $company = Company::where('user_id', $user->id)->first();
+        if ($company != null) {
+            // Response
+            return response()->json([
+                "message" => "Description has been updated successfully",
+                "user" => new CompanyResource($company)
+            ], 200);
+        }
+
         // Response
         return response()->json([
-            "message" => "Description updated"
-        ], 200);
+            'errors' => ['user' => 'Invalid user']
+        ], 401);
     }
 
 

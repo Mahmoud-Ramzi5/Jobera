@@ -30,7 +30,7 @@ class AuthController extends Controller
         $validated['password'] = bcrypt($validated['password']);
         $validated = Arr::except($validated, 'confirm_password');
 
-        // Register user and send verification email
+        // Create user and send verification email
         $user = User::create([
             'email' => $validated['email'],
             'phone_number' => $validated['phone_number'],
@@ -38,17 +38,31 @@ class AuthController extends Controller
             'state_id' => $validated['state_id'],
         ]);
 
+        // Check user
         if ($user == null) {
+            // Response
             return response()->json([
                 'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
+        // Create individual
         $validated['user_id'] = $user->id;
-        $validated['register_step'] = "SKILLS";
         $individual = Individual::create($validated);
 
-        Wallet::create([
+        // Check individual
+        if ($individual == null) {
+            // delete user if individual is not created
+            $user->delete();
+
+            // Response
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+
+        // Create wallet
+        $wallet = Wallet::create([
             'id' => $user->id,
             'user_id' => $user->id,
             'current_balance' => 0.0,
@@ -56,12 +70,25 @@ class AuthController extends Controller
             'reserved_balance' => 0.0,
         ]);
 
+        // Check wallet
+        if ($wallet == null) {
+            // delete user & individual if wallet is not created
+            $user->delete();
+            $individual->delete();
+
+            // Response
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+
+        // Create Token
         $token = $user->createToken("api_token")->accessToken;
         $this->SendEmailVerification($request);
 
         // Response
         return response()->json([
-            "message" => "user registered",
+            "message" => "Individual registered",
             "individual" => new IndividualResource($individual),
             "access_token" => $token,
             "token_type" => "bearer"
@@ -77,7 +104,7 @@ class AuthController extends Controller
         $validated['password'] = bcrypt($validated['password']);
         $validated = Arr::except($validated, 'confirm_password');
 
-        // Register user and send verification email
+        // Create user and send verification email
         $user = User::create([
             'email' => $validated['email'],
             'phone_number' => $validated['phone_number'],
@@ -85,16 +112,31 @@ class AuthController extends Controller
             'state_id' => $validated['state_id'],
         ]);
 
+        // Check user
         if ($user == null) {
+            // Response
             return response()->json([
                 'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
+        // Create company
         $validated['user_id'] = $user->id;
         $company = Company::create($validated);
 
-        Wallet::create([
+        // Check company
+        if ($company == null) {
+            // delete user if company is not created
+            $user->delete();
+
+            // Response
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+
+        // Create wallet
+        $wallet = Wallet::create([
             'id' => $user->id,
             'user_id' => $user->id,
             'current_balance' => 0.0,
@@ -102,12 +144,25 @@ class AuthController extends Controller
             'reserved_balance' => 0.0,
         ]);
 
+        // Check wallet
+        if ($wallet == null) {
+            // delete user & individual if wallet is not created
+            $user->delete();
+            $company->delete();
+
+            // Response
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+
+        // Create Token
         $token = $user->createToken("api_token")->accessToken;
         $this->SendEmailVerification($request);
 
         // Response
         return response()->json([
-            "message" => "company registered",
+            "message" => "Company registered",
             "company" => new CompanyResource($company),
             "access_token" => $token,
             "token_type" => "bearer"
@@ -171,7 +226,9 @@ class AuthController extends Controller
 
     public function Logout(Request $request)
     {
+        // Delete Token
         $request->user()->token()->delete();
+
         // Response
         return response()->json([
             "message" => "Logged Out Successfully",

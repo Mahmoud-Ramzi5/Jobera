@@ -18,8 +18,6 @@ return new class extends Migration
             $table->dateTime('birth_date');
             $table->enum('gender', IndividualGender::names());
             $table->enum('type', ['admin', 'individual']);
-            $table->string('avatar_photo')->nullable();
-            $table->float('rating')->default(0.0)->nullable();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });

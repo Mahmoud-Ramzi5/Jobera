@@ -16,7 +16,7 @@ class MessageResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // Get sender details
+        // Get Sender details
         $company = Company::where('user_id', $this->user_id)->first();
         $individual = Individual::where('user_id', $this->user_id)->first();
         if ($company == null) {
@@ -30,7 +30,7 @@ class MessageResource extends JsonResource
             'chat_id' => $this->chat_id,
             'message' => $this->message,
             'user' => [
-                'id' => $SenderResource->user->id,
+                'user_id' => $SenderResource->user_id,
                 'name' => ($SenderResource->type == "individual" ?
                     $SenderResource->full_name : $SenderResource->name),
                 'avatar_photo' => $SenderResource->avatar_photo
