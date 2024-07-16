@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import IndividualForm from '../components/Register/IndividualForm';
 import CompanyForm from '../components/Register/CompanyForm';
 import Logo from '../assets/JoberaLogo.png';
@@ -6,6 +7,8 @@ import styles from '../styles/register.module.css';
 
 
 const Register = () => {
+  // Translations
+  const { t } = useTranslation('global');
   // Define states
   const [RegisterType, setRegisterType] = useState('individual');
 
@@ -13,16 +16,16 @@ const Register = () => {
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen__content}>
-        <img src={Logo} className={styles.logo} alt="logo" />
-          <div className={styles.title}>Register</div>
+          <img src={Logo} className={styles.logo} alt="logo" />
+          <div className={styles.title}>{t('pages.Register.title')}</div>
           <div className={styles.btn}>
-          <div className={styles.slider} style={RegisterType === 'individual'? {left: 0} : {left:'100px'}} />
-            <button onClick={() => setRegisterType('individual')}>Individual</button>
-            <button onClick={() => setRegisterType('company')}>Company</button>
+            <div className={styles.slider} style={RegisterType === 'individual' ? { left: 0 } : { left: '100px' }} />
+            <button onClick={() => setRegisterType('individual')}>{t('pages.Register.slider.individual')}</button>
+            <button onClick={() => setRegisterType('company')}>{t('pages.Register.slider.company')}</button>
           </div>
           {RegisterType === 'individual' ? <IndividualForm /> : <CompanyForm />}
           <div className={styles.register__login}>
-            Already have an account? <a href='/login'>Log in</a>
+            {t('pages.Register.register_login_div')} <a href='/login'>{t('pages.Register.register_login_a')}</a>
           </div>
         </div>
         <div className={styles.screen__background}>

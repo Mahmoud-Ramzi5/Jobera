@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   PersonFill, EnvelopeFill, TelephoneFill, Globe,
   GeoAltFill, Calendar3, SuitcaseFill, ChevronRight
@@ -18,6 +19,8 @@ import Inputstyles from '../../styles/Input.module.css';
 
 
 const CompanyForm = () => {
+  // Translations
+  const { t } = useTranslation('global');
   // Context
   const { setLoggedIn, setAccessToken } = useContext(LoginContext);
   const { setProfile } = useContext(ProfileContext);
@@ -125,14 +128,14 @@ const CompanyForm = () => {
       <div className={styles.register__row}>
         <NormalInput
           type="text"
-          placeholder="Company Name"
+          placeholder={t('pages.Register.company_form.name_input')}
           icon={<PersonFill />}
           value={name}
           setChange={setName}
         />
         <NormalInput
           type="text"
-          placeholder="Field of work"
+          placeholder={t('pages.Register.company_form.field_input')}
           icon={<SuitcaseFill />}
           value={field}
           setChange={setField}
@@ -141,7 +144,7 @@ const CompanyForm = () => {
       <div className={styles.register__row}>
         <NormalInput
           type="text"
-          placeholder="Email"
+          placeholder={t('pages.Register.email_input')}
           icon={<EnvelopeFill />}
           value={email}
           setChange={setEmail}
@@ -154,12 +157,12 @@ const CompanyForm = () => {
       </div>
       <div className={styles.register__row}>
         <PasswordInput
-          placeholder='Password'
+          placeholder={t('pages.Register.password_input')}
           value={password}
           setChange={setPassword}
         />
         <PasswordInput
-          placeholder='Confirm Password'
+          placeholder={t('pages.Register.confirm_password_input')}
           value={ConfirmPassword}
           setChange={setConfirmPassword}
         />
@@ -168,7 +171,7 @@ const CompanyForm = () => {
         <div className={Inputstyles.field}>
           <i className={Inputstyles.icon}><Globe /></i>
           <select onChange={handleCountrySelect} value={country} className={Inputstyles.input} required>
-            <option key={0} value='' disabled>Country</option>
+            <option key={0} value='' disabled>{t('pages.Register.country_input')}</option>
             {(countries.length === 0) ? <></> : countries.map((country) => {
               return <option key={country.country_id} value={country.country_name} className={Inputstyles.option}>{country.country_name}</option>
             })}
@@ -177,7 +180,7 @@ const CompanyForm = () => {
         <div className={Inputstyles.field}>
           <i className={Inputstyles.icon}><GeoAltFill /></i>
           <select onChange={(event) => setState(event.target.value)} value={state} className={Inputstyles.input} required>
-            <option key={0} value='' disabled>City</option>
+            <option key={0} value='' disabled>{t('pages.Register.city_input')}</option>
             {(states.length === 0) ? <></> : states.map((state) => {
               return <option key={state.state_id} value={state.state_id} className={Inputstyles.option}>{state.state_name}</option>
             })}
@@ -206,7 +209,7 @@ const CompanyForm = () => {
         <div className={Inputstyles.field}></div>
       </div>
       <button type="submit" className={styles.register__submit}>
-        <span>Register now</span>
+        <span>{t('pages.Register.button')}</span>
         <i className={styles.button__icon}><ChevronRight /></i>
       </button>
     </form>
