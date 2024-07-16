@@ -4,8 +4,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:image_picker/image_picker.dart';
-import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/controllers/general_controller.dart';
+import 'package:jobera/customWidgets/dialogs.dart';
+import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/controllers/profileControllers/portfolio/view_portfolio_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/skill.dart';
@@ -54,7 +54,7 @@ class AddPortfolioController extends GetxController {
       skills.remove(skill);
       update();
     } else {
-      Dialogs().showErrorDialog('Error', 'Max 5 skills per portofolio');
+      Dialogs().showErrorDialog('Error', 'Max 5 skills per portfolio');
     }
   }
 
@@ -151,7 +151,7 @@ class AddPortfolioController extends GetxController {
       }
       try {
         var response = await dio.post(
-          'http://192.168.0.101:8000/api/portfolio/add',
+          'http://192.168.0.104:8000/api/portfolio/add',
           data: data,
           options: Options(
             headers: {

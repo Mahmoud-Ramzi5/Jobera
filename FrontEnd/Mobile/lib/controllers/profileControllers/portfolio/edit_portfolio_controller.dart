@@ -4,8 +4,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:image_picker/image_picker.dart';
-import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/controllers/general_controller.dart';
+import 'package:jobera/customWidgets/dialogs.dart';
+import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/controllers/profileControllers/portfolio/view_portfolio_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/portfolio.dart';
@@ -57,7 +57,7 @@ class EditPortfolioController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.0.101:8000/api/portfolio/$id',
+        'http://192.168.0.104:8000/api/portfolio/$id',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -213,7 +213,7 @@ class EditPortfolioController extends GetxController {
       }
       try {
         var response = await dio.post(
-          'http://192.168.0.101:8000/api/portfolio/edit/$id',
+          'http://192.168.0.104:8000/api/portfolio/edit/$id',
           data: data,
           options: Options(
             headers: {

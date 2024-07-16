@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/dialogs.dart';
+import 'package:jobera/customWidgets/dialogs.dart';
 import 'package:jobera/controllers/appControllers/chats/chats_controller.dart';
 import 'package:jobera/controllers/appControllers/home_controller.dart';
 import 'package:jobera/main.dart';
@@ -36,7 +36,7 @@ class ChatController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.0.101:8000/api/chats/$id',
+        'http://192.168.0.104:8000/api/chats/$id',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -61,7 +61,7 @@ class ChatController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.101:8000/api/chats/sendMessage',
+        'http://192.168.0.104:8000/api/chats/sendMessage',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

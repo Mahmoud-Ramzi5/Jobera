@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/texts.dart';
+import 'package:jobera/customWidgets/texts.dart';
 import 'package:jobera/controllers/appControllers/settings_controller.dart';
 import 'package:jobera/customWidgets/list_tiles.dart';
 import 'package:jobera/customWidgets/settings_single_section.dart';

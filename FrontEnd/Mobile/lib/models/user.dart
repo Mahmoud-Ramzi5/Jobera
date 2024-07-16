@@ -19,7 +19,7 @@ class User {
   final Education? education;
   final List<Skill> skills;
   final List<Certificate> certificates;
-  final List<Portfolio> portofolios;
+  final List<Portfolio> portfolios;
   final String step;
   final Wallet wallet;
 
@@ -34,7 +34,7 @@ class User {
     required this.gender,
     required this.type,
     required this.skills,
-    required this.portofolios,
+    required this.portfolios,
     required this.certificates,
     required this.step,
     required this.wallet,
@@ -65,9 +65,9 @@ class User {
           for (var certificate in json['certificates'])
             (Certificate.fromJson(certificate)),
         ],
-        portofolios = [
-          for (var portofolio in json['portfolios'])
-            (Portfolio.fromJson(portofolio)),
+        portfolios = [
+          for (var portfolio in json['portfolios'])
+            (Portfolio.fromJson(portfolio)),
         ],
         step = json['register_step'],
         wallet = Wallet.fromJson(json['wallet']);
@@ -87,7 +87,7 @@ class User {
         education = Education.empty(),
         skills = [],
         certificates = [],
-        portofolios = [],
+        portfolios = [],
         step = '',
         wallet = Wallet.empty();
 }

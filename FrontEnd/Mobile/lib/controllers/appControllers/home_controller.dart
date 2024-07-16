@@ -1,13 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/controllers/general_controller.dart';
+import 'package:jobera/customWidgets/dialogs.dart';
+import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/company.dart';
 import 'package:jobera/models/user.dart';
 
 class HomeController extends GetxController {
+  late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   late Dio dio;
   late bool isCompany;
   User? user;
@@ -16,14 +17,14 @@ class HomeController extends GetxController {
   late String email;
   late int id;
   late String? photo;
-  late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
+
   late String step;
   late GeneralController generalController;
 
   @override
   Future<void> onInit() async {
-    dio = Dio();
     refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+    dio = Dio();
     isCompany = false;
     name = '';
     email = '';
@@ -37,7 +38,7 @@ class HomeController extends GetxController {
   Future<void> fetchUser() async {
     String? token = sharedPreferences?.getString('access_token');
     try {
-      var response = await dio.get('http://192.168.0.101:8000/api/profile',
+      var response = await dio.get('http://192.168.0.104:8000/api/profile',
           options: Options(
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',
@@ -78,7 +79,7 @@ class HomeController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.101:8000/api/logout',
+        'http://192.168.0.104:8000/api/logout',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/themes.dart';
+import 'package:jobera/customWidgets/themes.dart';
 import 'package:jobera/main.dart';
 
 class SettingsController extends GetxController {

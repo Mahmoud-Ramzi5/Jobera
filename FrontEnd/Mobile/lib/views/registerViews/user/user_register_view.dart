@@ -4,9 +4,9 @@ import 'package:jobera/controllers/registerControllers/user_register_controller.
 import 'package:jobera/customWidgets/code_picker.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_drop_down_button.dart';
-import 'package:jobera/classes/texts.dart';
+import 'package:jobera/customWidgets/texts.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
-import 'package:jobera/classes/validation.dart';
+import 'package:jobera/customWidgets/validation.dart';
 import 'package:jobera/models/country.dart';
 import 'package:jobera/models/state.dart';
 

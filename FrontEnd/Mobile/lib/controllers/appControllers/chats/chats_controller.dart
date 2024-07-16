@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/dialogs.dart';
+import 'package:jobera/customWidgets/dialogs.dart';
 import 'package:jobera/controllers/appControllers/chats/chat_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/chats.dart';
@@ -9,7 +9,6 @@ import 'package:jobera/models/chats.dart';
 class ChatsController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   late Dio dio;
-  late ChatController chatController;
   List<Chats> chats = [];
   bool loading = true;
 
@@ -17,7 +16,6 @@ class ChatsController extends GetxController {
   Future<void> onInit() async {
     refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
     dio = Dio();
-    chatController = Get.put(ChatController());
     await fetchChats();
     loading = false;
     update();
@@ -25,6 +23,7 @@ class ChatsController extends GetxController {
   }
 
   Future<void> goToChat(int id) async {
+    ChatController chatController = Get.put(ChatController());
     await chatController.fetchChat(id);
     Get.toNamed('/chat');
   }
@@ -33,7 +32,7 @@ class ChatsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.0.101:8000/api/chats',
+        'http://192.168.0.104:8000/api/chats',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
-import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/controllers/general_controller.dart';
+import 'package:jobera/customWidgets/dialogs.dart';
+import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/controllers/profileControllers/user/certificate/user_edit_certificates_controller.dart';
 import 'package:jobera/main.dart';
 
@@ -86,7 +86,7 @@ class UserAddCertificateController extends GetxController {
       );
       try {
         var response = await dio.post(
-          'http://192.168.0.101:8000/api/certificate/add',
+          'http://192.168.0.104:8000/api/certificate/add',
           data: data,
           options: Options(
             headers: {

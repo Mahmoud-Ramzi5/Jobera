@@ -1,14 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/controllers/profileControllers/user/user_profile_controller.dart';
-import 'package:jobera/controllers/general_controller.dart';
+import 'package:jobera/customWidgets/dialogs.dart';
+import 'package:jobera/controllers/profileControllers/profile_controller.dart';
+import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/skill_type.dart';
 import 'package:jobera/models/skill.dart';
 
 class UserEditSkillsController extends GetxController {
-  late UserProfileController profileController;
+  late ProfileController profileController;
   late GeneralController generalController;
   late Dio dio;
   List<Skill> myskills = [];
@@ -17,7 +17,7 @@ class UserEditSkillsController extends GetxController {
 
   @override
   void onInit() async {
-    profileController = Get.put(UserProfileController());
+    profileController = Get.put(ProfileController());
     generalController = Get.find<GeneralController>();
     dio = Dio();
     await fetchSkills();
@@ -57,7 +57,7 @@ class UserEditSkillsController extends GetxController {
 
     try {
       var response = await dio.get(
-        'http://192.168.0.101:8000/api/user/skills',
+        'http://192.168.0.104:8000/api/user/skills',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -91,7 +91,7 @@ class UserEditSkillsController extends GetxController {
       }
       try {
         var response = await dio.post(
-          'http://192.168.0.101:8000/api/user/skills/edit',
+          'http://192.168.0.104:8000/api/user/skills/edit',
           data: {
             'skills': skillIds,
           },
@@ -127,7 +127,7 @@ class UserEditSkillsController extends GetxController {
       }
       try {
         var response = await dio.post(
-          'http://192.168.0.101:8000/api/user/skills/add',
+          'http://192.168.0.104:8000/api/user/skills/add',
           data: {
             'skills': skillIds,
           },

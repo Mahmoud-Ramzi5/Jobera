@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/dialogs.dart';
+import 'package:jobera/customWidgets/dialogs.dart';
 import 'package:jobera/main.dart';
 
 class LoginController extends GetxController {
@@ -53,7 +53,7 @@ class LoginController extends GetxController {
     Dialogs().loadingDialog();
     try {
       var response = await dio.post(
-        'http://192.168.0.101:8000/api/login',
+        'http://192.168.0.104:8000/api/login',
         data: {"email": email, "password": password, "remember": remeberMe},
         options: Options(
           headers: {

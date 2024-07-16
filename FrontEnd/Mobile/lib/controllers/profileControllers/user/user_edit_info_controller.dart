@@ -2,16 +2,16 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/controllers/profileControllers/user/user_profile_controller.dart';
-import 'package:jobera/controllers/general_controller.dart';
+import 'package:jobera/customWidgets/dialogs.dart';
+import 'package:jobera/controllers/profileControllers/profile_controller.dart';
+import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/country.dart';
 import 'package:jobera/models/state.dart';
 import 'package:jobera/models/user.dart';
 
 class UserEditInfoController extends GetxController {
-  late UserProfileController profileController;
+  late ProfileController profileController;
   late User user;
   late GeneralController generalController;
   late GlobalKey<FormState> formField;
@@ -27,7 +27,7 @@ class UserEditInfoController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    profileController = Get.find<UserProfileController>();
+    profileController = Get.find<ProfileController>();
     user = profileController.user;
     generalController = Get.find<GeneralController>();
     formField = GlobalKey<FormState>();
@@ -84,7 +84,7 @@ class UserEditInfoController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.101:8000/api/profile/edit',
+        'http://192.168.0.104:8000/api/profile/edit',
         data: {
           "full_name": name,
           "phone_number": phoneNumber,

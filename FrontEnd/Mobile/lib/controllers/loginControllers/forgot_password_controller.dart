@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/dialogs.dart';
+import 'package:jobera/customWidgets/dialogs.dart';
 
 class ForgotPasswordController extends GetxController {
   late GlobalKey<FormState> formField;
@@ -27,7 +27,7 @@ class ForgotPasswordController extends GetxController {
   ) async {
     try {
       var response = await dio.post(
-        'http://192.168.0.101:8000/api/password/reset-link',
+        'http://192.168.0.104:8000/api/password/reset-link',
         data: {"email": email},
         options: Options(
           contentType: 'application/json; charset=UTF-8',

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:jobera/classes/texts.dart';
+import 'package:jobera/customWidgets/texts.dart';
 
 class SingleSection extends StatelessWidget {
   final String? title;

@@ -2,29 +2,33 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:image_picker/image_picker.dart';
-import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/controllers/general_controller.dart';
+import 'package:jobera/customWidgets/dialogs.dart';
+import 'package:jobera/controllers/appControllers/home_controller.dart';
+import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/main.dart';
+import 'package:jobera/models/company.dart';
 import 'package:jobera/models/user.dart';
 
-class UserProfileController extends GetxController {
-  late Dio dio;
-  late User user;
-  late TextEditingController editBioController;
+class ProfileController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
-  late XFile? image;
+  late Dio dio;
+  late HomeController homeController;
   late GeneralController generalController;
+  late TextEditingController editBioController;
+  late XFile? image;
   bool loading = true;
+  dynamic user;
 
   @override
   Future<void> onInit() async {
     refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
     dio = Dio();
-    user = User.empty();
+    homeController = Get.find<HomeController>();
+    generalController = Get.find<GeneralController>();
     await fetchProfile();
     editBioController = TextEditingController(text: user.description);
     image = null;
-    generalController = Get.find<GeneralController>();
+
     super.onInit();
   }
 
@@ -34,10 +38,16 @@ class UserProfileController extends GetxController {
     super.onClose();
   }
 
+  void goBack() {
+    homeController.refreshIndicatorKey.currentState!.show();
+    homeController.update();
+    Get.back();
+  }
+
   Future<void> fetchProfile() async {
     String? token = sharedPreferences?.getString('access_token');
     try {
-      var response = await dio.get('http://192.168.0.101:8000/api/profile',
+      var response = await dio.get('http://192.168.0.104:8000/api/profile',
           options: Options(
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',
@@ -46,9 +56,15 @@ class UserProfileController extends GetxController {
             },
           ));
       if (response.statusCode == 200) {
-        user = User.fromJson(response.data['user']);
-        loading = false;
-        update();
+        if (homeController.isCompany) {
+          user = Company.fromJson(response.data['user']);
+          loading = false;
+          update();
+        } else {
+          user = User.fromJson(response.data['user']);
+          loading = false;
+          update();
+        }
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
@@ -62,7 +78,7 @@ class UserProfileController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.101:8000/api/profile/description',
+        'http://192.168.0.104:8000/api/profile/description',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -94,7 +110,7 @@ class UserProfileController extends GetxController {
       );
       try {
         var response = await dio.post(
-          'http://192.168.0.101:8000/api/profile/photo',
+          'http://192.168.0.104:8000/api/profile/photo',
           data: data,
           options: Options(
             headers: {
@@ -132,7 +148,7 @@ class UserProfileController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       final response = await dio.delete(
-        'http://10.0.2.2:8000/api/profile/photo',
+        'http://192.168.0.104:8000/api/profile/photo',
         options: Options(
           headers: {
             'Content-Type': 'application/pdf; charset=UTF-8',

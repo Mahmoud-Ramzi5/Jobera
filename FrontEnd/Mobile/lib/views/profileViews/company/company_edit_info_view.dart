@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/texts.dart';
-import 'package:jobera/classes/validation.dart';
+import 'package:jobera/customWidgets/texts.dart';
+import 'package:jobera/customWidgets/validation.dart';
 import 'package:jobera/controllers/profileControllers/company/company_edit_info_controller.dart';
 import 'package:jobera/customWidgets/code_picker.dart';
 import 'package:jobera/customWidgets/custom_drop_down_button.dart';
@@ -106,9 +106,8 @@ class CompanyEditInfoView extends StatelessWidget {
                                 ),
                               )
                               .toList(),
-                          onChanged: (p0) async {
-                            await controller.selectCountry(p0);
-                          },
+                          onChanged: (p0) async =>
+                              await controller.selectCountry(p0),
                           text: 'Select Country',
                         ),
                         CustomDropDownButton(

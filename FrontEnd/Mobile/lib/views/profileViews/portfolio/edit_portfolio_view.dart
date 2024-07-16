@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/dialogs.dart';
-import 'package:jobera/classes/texts.dart';
-import 'package:jobera/classes/validation.dart';
+import 'package:jobera/customWidgets/dialogs.dart';
+import 'package:jobera/customWidgets/texts.dart';
+import 'package:jobera/customWidgets/validation.dart';
 import 'package:jobera/controllers/profileControllers/portfolio/edit_portfolio_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_image.dart';

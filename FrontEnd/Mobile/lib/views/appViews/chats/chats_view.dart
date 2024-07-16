@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/texts.dart';
+import 'package:jobera/customWidgets/texts.dart';
 import 'package:jobera/controllers/appControllers/chats/chats_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_image.dart';
@@ -13,9 +13,6 @@ class ChatsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: const TitleText(text: 'Chats'),
-      // ),
       body: RefreshIndicator(
         key: _chatsController.refreshIndicatorKey,
         onRefresh: () => _chatsController.fetchChats(),

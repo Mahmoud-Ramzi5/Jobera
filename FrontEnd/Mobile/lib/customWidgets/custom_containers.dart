@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/classes/texts.dart';
+import 'package:jobera/customWidgets/texts.dart';
 
 class DateContainer extends StatelessWidget {
   final Widget widget;
@@ -37,21 +37,22 @@ class LogoContainer extends StatelessWidget {
     return Container(
       height: 250,
       decoration: ShapeDecoration(
-          shape: const StadiumBorder(),
-          gradient: LinearGradient(
-            colors: [
-              Colors.lightBlue.shade900,
-              Colors.orange.shade800,
-              Colors.cyan,
-            ],
-          ),
-          shadows: const [
-            BoxShadow(
-              color: Colors.cyan,
-              blurRadius: 20,
-              blurStyle: BlurStyle.outer,
-            )
-          ]),
+        shape: const StadiumBorder(),
+        gradient: LinearGradient(
+          colors: [
+            Colors.lightBlue.shade900,
+            Colors.orange.shade800,
+            Colors.cyan,
+          ],
+        ),
+        shadows: const [
+          BoxShadow(
+            color: Colors.cyan,
+            blurRadius: 20,
+            blurStyle: BlurStyle.outer,
+          )
+        ],
+      ),
       child: Image.asset(imagePath),
     );
   }
@@ -157,19 +158,19 @@ class ProfileBackgroundContainer extends StatelessWidget {
 
 class InfoWithEditContainer extends StatelessWidget {
   final String name;
-  final String buttonText;
-  final IconData? icon;
   final Widget widget;
   final void Function()? onPressed;
+  final String? buttonText;
+  final IconData? icon;
   final double? width;
   final double? height;
 
   const InfoWithEditContainer({
     super.key,
     required this.name,
-    required this.buttonText,
     required this.widget,
     required this.onPressed,
+    this.buttonText,
     this.icon,
     this.width,
     this.height,
@@ -199,14 +200,17 @@ class InfoWithEditContainer extends StatelessWidget {
                   onPressed: onPressed,
                   child: Row(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(5),
-                        child: Icon(
-                          icon,
-                          color: Colors.orange.shade800,
+                      if (buttonText != null)
+                        Padding(
+                          padding: const EdgeInsets.all(5),
+                          child: Icon(
+                            icon,
+                            color: Colors.orange.shade800,
+                          ),
                         ),
+                      LabelText(
+                        text: buttonText.toString(),
                       ),
-                      LabelText(text: buttonText),
                     ],
                   ),
                 ),

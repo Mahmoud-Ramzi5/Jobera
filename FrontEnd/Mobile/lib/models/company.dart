@@ -13,7 +13,7 @@ class Company {
   final String type;
   final String? description;
   final String? photo;
-  final List<Portfolio> portofolios;
+  final List<Portfolio> portfolios;
   final Wallet wallet;
 
   Company({
@@ -26,7 +26,7 @@ class Company {
     required this.field,
     required this.foundingDate,
     required this.type,
-    required this.portofolios,
+    required this.portfolios,
     required this.wallet,
     this.description,
     this.photo,
@@ -44,9 +44,9 @@ class Company {
         type = json['type'] as String,
         description = json['description'] as String?,
         photo = json['avatar_photo'] as String?,
-        portofolios = [
-          for (var portofolio in json['portfolios'])
-            (Portfolio.fromJson(portofolio)),
+        portfolios = [
+          for (var portfolio in json['portfolios'])
+            (Portfolio.fromJson(portfolio)),
         ],
         wallet = Wallet.fromJson(json['wallet']);
 
@@ -62,6 +62,6 @@ class Company {
         type = '',
         description = null,
         photo = null,
-        portofolios = [],
+        portfolios = [],
         wallet = Wallet.empty();
 }
