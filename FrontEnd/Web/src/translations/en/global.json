@@ -38,5 +38,59 @@
             "register_login_div": "Already have an account?",
             "register_login_a": "Log in"
         }
+    },
+    "components": {
+        "profile_cards": {
+            "set_up": {
+                "title": "Setup Profile",
+                "card_title": "Continue your registeration:",
+                "card_text": "Please click the following button then follow the instructions to complete your regisetration.",
+                "button": "Set yourself up"
+            },
+            "user_info": {
+                "picture_text": "Change Photo",
+                "location": "Location:",
+                "rating": "Rating:",
+                "reviews": "reviews",
+                "description": "Description",
+                "edit_Profile_button": "Edit Profile",
+                "edit_Description_button": "Edit Description",
+                "save_description_button": "Save Description",
+                "cancel_button": "Cancel"
+            },
+            "wallet": {
+                "wallet_title": "Personal Wallet",
+                "redeem_title": "Enter redeem code to increase your balance:",
+                "button": "Redeem",
+                "wallet_body": "Current balance:"
+            },
+            "skills": {
+                "title": "Top skills",
+                "no_data": "No skills to display",
+                "view_more": "View more",
+                "view_less": "View less"
+            },
+            "education": {
+                "title": "Education",
+                "no_data": "No education to display",
+                "level": "Level",
+                "field": "Field",
+                "school": "School",
+                "start_date": "Start date",
+                "end_date": "End date",
+                "edit_education_button": "Edit education",
+                "show_certificate_button": "Show certificate"
+            },
+            "certifications": {
+                "title": "Personal Certifications",
+                "card_text": "Click on the button to display your certificates",
+                "button": "Show Certificates"
+            },
+            "portfolio": {
+                "portfolio_title": "Portfolio",
+                "button": "View All",
+                "no_data": "No portfolio to display"
+            }
+        }
     }
 }
