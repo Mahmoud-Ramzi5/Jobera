@@ -16,7 +16,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 4,
       initialIndex: 0,
       child: Scaffold(
         appBar: AppBar(),
@@ -95,9 +95,21 @@ class HomeView extends StatelessWidget {
             tabs: <Widget>[
               Tab(
                 icon: Icon(
+                  Icons.newspaper,
+                ),
+                text: "News Feed",
+              ),
+              Tab(
+                icon: Icon(
                   Icons.work,
                 ),
-                text: "Jobs",
+                text: "Regular",
+              ),
+              Tab(
+                icon: Icon(
+                  Icons.laptop,
+                ),
+                text: "Freelancing",
               ),
               Tab(
                 icon: Icon(
@@ -113,6 +125,12 @@ class HomeView extends StatelessWidget {
           onRefresh: () => _homeController.fetchUser(),
           child: TabBarView(
             children: [
+              const Scaffold(
+                body: Center(child: Text('under construction')),
+              ),
+              const Scaffold(
+                body: Center(child: Text('under construction')),
+              ),
               const Scaffold(
                 body: Center(child: Text('under construction')),
               ),

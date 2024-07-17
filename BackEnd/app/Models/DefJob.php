@@ -39,7 +39,7 @@ class DefJob extends Model
     protected function casts(): array
     {
         return [
-
+            'is_done' => 'boolean'
         ];
     }
 
