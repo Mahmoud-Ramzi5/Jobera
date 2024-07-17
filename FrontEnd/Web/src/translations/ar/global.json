@@ -133,6 +133,11 @@
             "organization": "المنظمة",
             "release_date": "تاريخ التصدير",
             "certificate": "الشهادة"
+        },
+        "portfolios": {
+            "h1": " معرض أعمال",
+            "button": "إضافة عمل +",
+            "back_button": "العودة إالى الملف الشخصي"
         }
     }
 }

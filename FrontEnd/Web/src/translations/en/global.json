@@ -133,6 +133,11 @@
             "organization": "Organization:",
             "release_date": "Release Date:",
             "certificate": "Certificate"
+        },
+        "portfolios": {
+            "h1": "'s Portfolio",
+            "button": "+ Add item",
+            "back_button": "Back to profile"
         }
     }
 }

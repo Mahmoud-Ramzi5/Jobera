@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation, useParams, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Card } from 'react-bootstrap';
 import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { FetchImage } from '../../apis/FileApi.jsx';
@@ -11,6 +12,8 @@ import portfolio_style from './portfolio.module.css';
 
 
 const Portfolios = ({ step }) => {
+  // Translations
+  const { t } = useTranslation('global');
   // Context
   const { accessToken } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
@@ -75,13 +78,13 @@ const Portfolios = ({ step }) => {
     <div className={styles.screen}>
       <div className={styles.container}>
         <div className={styles.heading}>
-          <h1>{user_name} Portfolios</h1>
+          <h1>{user_name}{t('components.portfolios.h1')}</h1>
           {profile.user_id == user_id || typeof user_id === 'undefined' ?
             <button
               className={styles.add_button}
               onClick={() => navigate('/edit-portfolio', { state: { edit: false } })}
             >
-              + Add Portfolio
+              {t('components.portfolios.button')}
             </button>
             : <></>}
         </div>
@@ -115,7 +118,7 @@ const Portfolios = ({ step }) => {
             }
           }}
         >
-          Back to profile
+          {t('components.portfolios.back_button')}
         </button>
       </div>
     </div>
