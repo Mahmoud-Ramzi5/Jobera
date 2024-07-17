@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Card } from 'react-bootstrap';
 import { ThemeContext } from '../../utils/Contexts';
 import certificate from '../../assets/certificate.png'
@@ -7,6 +8,8 @@ import styles from './cards.module.css';
 
 
 const CertificationsCard = ({ ProfileData }) => {
+  // Translations
+  const { t } = useTranslation('global');
   // Context    
   const { theme } = useContext(ThemeContext);
   // Define states
@@ -16,14 +19,16 @@ const CertificationsCard = ({ ProfileData }) => {
     <Card className={styles.cards}>
       <div className={styles.background}>
         <Card.Header className={styles.titles}>
-          <div className={styles.title}>Personal Certifications</div>
+          <div className={styles.title}>
+            {t('components.profile_cards.certifications.title')}
+          </div>
         </Card.Header>
         <Card.Body>
           <div className={styles.cer_img}>
             <img src={certificate} alt="Certificate" />
           </div>
           <Card.Text>
-            Click on the button to display your certificates
+            {t('components.profile_cards.certifications.card_text')}
           </Card.Text>
           <button
             type="button"
@@ -33,12 +38,12 @@ const CertificationsCard = ({ ProfileData }) => {
             })
             }
           >
-            Show Certificates
+            {t('components.profile_cards.certifications.button')}
           </button>
         </Card.Body>
       </div>
     </Card>
-  )
-}
+  );
+};
 
 export default CertificationsCard;

@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, Button } from 'react-bootstrap';
 import { Star, StarFill, StarHalf } from 'react-bootstrap-icons';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -12,6 +13,8 @@ import styles from './userinfo.module.css';
 
 
 const UserInfo = ({ ProfileData }) => {
+  // Translations
+  const { t } = useTranslation('global');
   // Context
   const { accessToken } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
@@ -131,7 +134,9 @@ const UserInfo = ({ ProfileData }) => {
             )}
             {profile.user_id === ProfileData.user_id ?
               <span className={styles.profile_picture_overlay}>
-                <span className={styles.profile_picture_text}>Change Photo</span>
+                <span className={styles.profile_picture_text}>
+                  {t('components.profile_cards.user_info.picture_text')}
+                </span>
               </span>
               : <></>}
           </label>
@@ -157,11 +162,11 @@ const UserInfo = ({ ProfileData }) => {
             )}
           </h2>
           <h6 className={styles.location}>
-            Location: {ProfileData.state}, {ProfileData.country}
+            {t('components.profile_cards.user_info.location')} {ProfileData.state}, {ProfileData.country}
           </h6>
           <h6 className={styles.rating}>
-            Rating: {RenderStars(ProfileData.rating)} (
-            {ProfileData.reviews} reviews){" "}
+            {t('components.profile_cards.user_info.rating')} {RenderStars(ProfileData.rating)} (
+            {ProfileData.reviews} {t('components.profile_cards.user_info.reviews')}){" "}
           </h6>
           <div className={styles.description}>
             {isEditingDescription ? (
@@ -171,7 +176,7 @@ const UserInfo = ({ ProfileData }) => {
                 onChange={handleEditorChange}
               />
             ) : (
-              <p><b>Description:</b> {ProfileData.description}</p>
+              <p><b>{t('components.profile_cards.user_info.description')}</b> {ProfileData.description}</p>
             )}
           </div>
           {profile.user_id === ProfileData.user_id ?
@@ -183,22 +188,22 @@ const UserInfo = ({ ProfileData }) => {
                 />
               ) : (
                 <Button variant="primary" onClick={() => setIsEditingProfile(true)}>
-                  Edit Profile
+                  {t('components.profile_cards.user_info.edit_Profile_button')}
                 </Button>
               )}{" "}
               {isEditingDescription ? (
                 <><Button variant="success" onClick={handleDescriptionChange}>
-                  Save Description
+                  {t('components.profile_cards.user_info.save_description_button')}
                 </Button>{" "}
                   <Button variant="danger" onClick={() => {
                     setDescription(ProfileData.description);
                     setIsEditingDescription(false)
-                    }}>
-                    Cancel
+                  }}>
+                    {t('components.profile_cards.user_info.cancel_button')}
                   </Button></>
               ) : (
                 <Button variant="info" onClick={() => setIsEditingDescription(true)}>
-                  Edit Description
+                  {t('components.profile_cards.user_info.edit_Description_button')}
                 </Button>
               )}{" "}
             </> : <></>}

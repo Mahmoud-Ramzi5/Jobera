@@ -1,11 +1,14 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Card, Button } from 'react-bootstrap';
 import { FetchImage } from '../../apis/FileApi';
 import img_holder from '../../assets/upload.png';
 import styles from './cards.module.css';
 
 const PortfolioCard = ({ ProfileData }) => {
+  // Translations
+  const { t } = useTranslation('global');
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
@@ -34,7 +37,7 @@ const PortfolioCard = ({ ProfileData }) => {
       <div className={styles.background}>
         <Card.Header className={styles.titles}>
           <div className={styles.portfolio_title}>
-            Portfolio
+            {t('components.profile_cards.portfolio.portfolio_title')}
             <Button className={styles.portfolio_button} variant="primary"
               onClick={() => {
                 if (ProfileData.type === 'individual') {
@@ -52,14 +55,14 @@ const PortfolioCard = ({ ProfileData }) => {
                 }
               }}
             >
-              View All
+              {t('components.profile_cards.portfolio.button')}
             </Button>
           </div>
         </Card.Header>
         <Card.Body>
           <div className={styles.portfolio}>
             {portfolios === null || portfolios.length === 0 ?
-              <p className={styles.no_data}>No portfolio to display</p> :
+              <p className={styles.no_data}>{t('components.profile_cards.portfolio.no_data')}</p> :
               portfolios.map((portfolio) => (
                 <div key={portfolio.id} className={styles.portfolio_div}>
                   <Link to={`/portfolio/${portfolio.id}`}>

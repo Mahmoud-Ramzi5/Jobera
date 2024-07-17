@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Card } from 'react-bootstrap';
 import { ThemeContext, ProfileContext } from '../../utils/Contexts';
 import { FetchFile } from '../../apis/FileApi';
@@ -7,6 +8,8 @@ import styles from './cards.module.css';
 
 
 const EducationCard = ({ ProfileData }) => {
+  // Translations
+  const { t } = useTranslation('global');
   // Context    
   const { theme } = useContext(ThemeContext);
   const { profile } = useContext(ProfileContext);
@@ -17,16 +20,19 @@ const EducationCard = ({ ProfileData }) => {
     <Card className={styles.cards}>
       <div className={styles.background}>
         <Card.Header className={styles.titles}>
-          <div className={styles.title}>Education</div>
+          <div className={styles.title}>
+            {t('components.profile_cards.education.title')}
+          </div>
         </Card.Header>
         <Card.Body>
-          {ProfileData.education === null ? <p className={styles.no_data}>No education to display</p> :
+          {ProfileData.education === null ?
+            <p className={styles.no_data}>{t('components.profile_cards.education.no_data')}</p> :
             <>
-              <p>Level: {ProfileData.education.level}</p>
-              <p>Field: {ProfileData.education.field}</p>
-              <p>School: {ProfileData.education.school}</p>
-              <p>Start date: {ProfileData.education.start_date}</p>
-              <p>End date: {ProfileData.education.end_date}</p>
+              <p>{t('components.profile_cards.education.level')} {ProfileData.education.level}</p>
+              <p>{t('components.profile_cards.education.field')} {ProfileData.education.field}</p>
+              <p>{t('components.profile_cards.education.school')} {ProfileData.education.school}</p>
+              <p>{t('components.profile_cards.education.start_date')} {ProfileData.education.start_date}</p>
+              <p>{t('components.profile_cards.education.end_date')} {ProfileData.education.end_date}</p>
             </>
           }
           {profile.user_id === ProfileData.user_id ?
@@ -37,7 +43,7 @@ const EducationCard = ({ ProfileData }) => {
                 state: { edit: true }
               })}
             >
-              Edit education
+              {t('components.profile_cards.education.edit_education_button')}
             </button>
             : <></>}
           {ProfileData.education && ProfileData.education.certificate_file &&
@@ -48,7 +54,7 @@ const EducationCard = ({ ProfileData }) => {
                 FetchFile("", ProfileData.education.certificate_file);
               }}
             >
-              Show certificate
+              {t('components.profile_cards.education.show_certificate_button')}
             </button>
           }
         </Card.Body>

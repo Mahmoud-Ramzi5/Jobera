@@ -38,5 +38,63 @@
             "register_login_div": "بالفعل لديك حساب؟",
             "register_login_a": "تسجيل الدخول"
         }
+    },
+    "components": {
+        "profile_cards": {
+            "set_up": {
+                "title": "إعداد الملف الشخصي",
+                "card_title": "متابعة التسجيل",
+                "card_text": "برجاء الضغط على الزر التالي ثم إتباع التعليمات لإستكمال التسجيل.",
+                "button": "جهز نفسك"
+            },
+            "user_info": {
+                "picture_text": "تغير الصورة",
+                "location": "العنوان",
+                "rating": "التقييم",
+                "reviews": "المراجعات",
+                "description": "الوصف",
+                "edit_Profile_button": "تعديل الملف الشخصي",
+                "edit_Description_button": "تعديل الوصف",
+                "save_description_button": "حفظ الوصف",
+                "cancel_button": "إلغاء",
+                "edit_menu": {
+                    "save_button": "حفظ",
+                    "close_button": "إغلاق"
+                }
+            },
+            "wallet": {
+                "wallet_title": "المحفظة الشخصية",
+                "redeem_title": "أدخل رمز الاسترداد لزيادة رصيدك",
+                "button": "استرد",
+                "wallet_body": "الرصيد الحالي"
+            },
+            "skills": {
+                "title": "المهارات",
+                "no_data": "لا توجد مهارات لعرضها",
+                "view_more": "عرض المزيد",
+                "view_less": "عرض أقل"
+            },
+            "education": {
+                "title": "التعلبم",
+                "no_data": "لا يوجد تعليم لعرضه",
+                "level": "المستوى",
+                "field": "المجال",
+                "school": "المدرسة",
+                "start_date": "تاريخ البدء",
+                "end_date": "تاريخ الانتهاء",
+                "edit_education_button": "تعديل التعليم",
+                "show_certificate_button": "عرض الشهادة"
+            },
+            "certifications": {
+                "title": "الشهادات الشخصية",
+                "card_text": "انقر على الزر لعرض شهاداتك",
+                "button": "عرض الشهادات"
+            },
+            "portfolio": {
+                "portfolio_title": "معرض الأعمال",
+                "button": "عرض الكل",
+                "no_data": "لا يوجد أعمال لعرضها"
+            }
+        }
     }
 }

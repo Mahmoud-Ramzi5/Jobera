@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from 'react-bootstrap';
 import { PersonFill, BuildingFill, Globe, GeoAltFill } from 'react-bootstrap-icons';
 import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
@@ -11,6 +12,8 @@ import Inputstyles from '../../styles/Input.module.css';
 
 
 const EditMenu = ({ data, onClose }) => {
+  // Translations
+  const { t } = useTranslation('global');
   // Context
   const { accessToken } = useContext(LoginContext);
   const { setProfile } = useContext(ProfileContext);
@@ -161,8 +164,12 @@ const EditMenu = ({ data, onClose }) => {
         </div>
         {successMessage && <p className={styles.success_message}>{successMessage}</p>}
         {failMessage && <p className={styles.fail_message}>{failMessage}</p>}
-        <Button className={styles.submit_button} variant="primary" type="submit">Save</Button>
-        <Button className={styles.save_button} variant="secondary" onClick={onClose}>Close</Button>
+        <Button className={styles.submit_button} variant="primary" type="submit">
+          {t('components.profile_cards.user_info.edit_menu.save_button')}
+        </Button>
+        <Button className={styles.save_button} variant="secondary" onClick={onClose}>
+          {t('components.profile_cards.user_info.edit_menu.close_button')}
+        </Button>
       </form>
     </div>
   );

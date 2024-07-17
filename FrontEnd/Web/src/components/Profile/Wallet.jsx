@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Card, Button } from 'react-bootstrap';
 import { CreditCard, ChevronRight } from 'react-bootstrap-icons';
 import { ProfileContext } from '../../utils/Contexts';
@@ -8,6 +9,8 @@ import styles from './wallet.module.css';
 
 
 const Wallet = ({ ProfileData }) => {
+  // Translations
+  const { t } = useTranslation('global');
   // Define states
   const [redeemCode, SetRedeemCode] = useState('');
   const { profile } = useContext(ProfileContext);
@@ -23,11 +26,11 @@ const Wallet = ({ ProfileData }) => {
         <img src={wallet} className={styles.wallet_image} alt="wallet" />
         <div className={styles.wallet_info}>
           <div className={styles.wallet_title}>
-            <h3>Personal Wallet</h3>
+            <h3>{t('components.profile_cards.wallet.wallet_title')}</h3>
           </div>
           <form onSubmit={handleSubmit}>
             <div className={styles.redeem_title}>
-              <h5>Enter redeem code to increase your balance:</h5>
+              <h5>{t('components.profile_cards.wallet.redeem_title')}</h5>
             </div>
             {profile.user_id === ProfileData.user_id ?
               <div className={styles.redeem}>
@@ -39,14 +42,16 @@ const Wallet = ({ ProfileData }) => {
                   setChange={SetRedeemCode}
                 />
                 <button type="submit" className={styles.redeem_submit}>
-                  <span>Redeem</span>
+                  <span>{t('components.profile_cards.wallet.button')}</span>
                   <i className={styles.button__icon}><ChevronRight /></i>
                 </button>
               </div>
               : <></>}
           </form>
           <div className={styles.wallet_body}>
-            <h3>Current balance: ${ProfileData.wallet.available_balance}</h3>
+            <h3>{t('components.profile_cards.wallet.wallet_body')}
+              ${ProfileData.wallet.available_balance}
+            </h3>
           </div>
         </div>
       </div>
