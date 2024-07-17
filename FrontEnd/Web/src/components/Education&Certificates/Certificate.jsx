@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
@@ -8,6 +9,8 @@ import styles from './certificate.module.css';
 
 
 const CertificateForm = () => {
+  // Translations
+  const { t } = useTranslation('global');
   // Context
   const { accessToken } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
@@ -123,11 +126,14 @@ const CertificateForm = () => {
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen_content}>
-          <h3 className={styles.heading}>{add ? 'Add Certificate' : 'Edit Certificate'}</h3>
+          <h3 className={styles.heading}>
+            {add ? t('components.certificate.heading1')
+              : t('components.certificate.heading2')}
+          </h3>
           <form className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.row}>
               <label htmlFor="name">
-                Name:
+                {t('components.certificate.name')}
               </label>
               <input
                 className={styles.inputField}
@@ -137,12 +143,11 @@ const CertificateForm = () => {
                 value={CertificateData.name}
                 onChange={handleInputChange}
                 required
-                placeholder="Enter certificate name"
               />
             </div>
             <div className={styles.row}>
               <label htmlFor="organization">
-                Organization:
+                {t('components.certificate.organization')}
               </label>
               <input
                 className={styles.inputField}
@@ -152,12 +157,11 @@ const CertificateForm = () => {
                 value={CertificateData.organization}
                 onChange={handleInputChange}
                 required
-                placeholder="Enter organization name"
               />
             </div>
             <div className={styles.row}>
               <label htmlFor="ReleaseDate">
-                Release Date:
+                {t('components.certificate.release_date')}
               </label>
               <DatePicker
                 id='ReleaseDate'
@@ -176,7 +180,7 @@ const CertificateForm = () => {
             {/* File upload field */}
             <div className={styles.row}>
               <label htmlFor="Certificate">
-                Certificate:
+                {t('components.certificate.certificate')}
               </label>
               <input
                 type="file"
@@ -187,7 +191,8 @@ const CertificateForm = () => {
               />
             </div>
             <button type="submit" className={styles.submit_button}>
-              {add ? 'Add Certificate' : 'Edit Certificate'}
+              {add ? t('components.certificate.heading1')
+                : t('components.certificate.heading2')}
             </button>
           </form>
         </div>

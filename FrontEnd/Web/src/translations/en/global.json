@@ -95,6 +95,44 @@
                 "button": "View All",
                 "no_data": "No portfolio to display"
             }
+        },
+        "education": {
+            "heading1": "Edit Education",
+            "heading2": "Add Education",
+            "level": "Level:",
+            "select": {
+                "level": "Select Level",
+                "bachelor": "Bachelor",
+                "master": "Master",
+                "PHD": "PHD",
+                "high_school_diploma": "High School Diploma",
+                "high_institute": "High Institute"
+            },
+            "field": "Field:",
+            "school": "School:",
+            "start_date": "Start date:",
+            "end_date": "End date:",
+            "certificate": "Certificate",
+            "button": "Submit Education"
+        },
+        "certificates": {
+            "h1": "'s Certificates",
+            "search_input": "Search...",
+            "create_button": "Add certificate",
+            "submit_button1": "Back to profile",
+            "submit_button2": "Submit",
+            "name": "Name",
+            "organization": "Organization",
+            "release_date": "Release Date",
+            "actions": "Actions"
+        },
+        "certificate": {
+            "heading1": "Add Certificate",
+            "heading2": "Edit Certificate",
+            "name": "Name:",
+            "organization": "Organization:",
+            "release_date": "Release Date:",
+            "certificate": "Certificate"
         }
     }
 }

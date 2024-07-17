@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Eye, Pencil, Trash } from 'react-bootstrap-icons';
 import { LoginContext, ProfileContext } from '../../utils/Contexts';
 import { ShowCertificatesAPI, DeleteCertificateAPI } from '../../apis/ProfileApis/EducationApis.jsx';
@@ -9,6 +10,8 @@ import styles from './certificates.module.css';
 
 
 const Certificates = ({ step }) => {
+  // Translations
+  const { t } = useTranslation('global');
   // Context
   const { accessToken } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
@@ -143,11 +146,11 @@ const Certificates = ({ step }) => {
     <div className={styles.screen}>
       <div className={styles.content}>
         <div>
-          <h1>Certificates</h1>
+          <h1>{user_name}{t('components.certificates.h1')}</h1>
           <div className={styles.search_bar}>
             <input
               type="text"
-              placeholder="Search..."
+              placeholder={t('components.certificates.search_input')}
               value={searchQuery}
               onChange={handleSearch}
               className={styles.search_input}
@@ -160,11 +163,14 @@ const Certificates = ({ step }) => {
                     state: { edit: edit, add: true }
                   })}
                 >
-                  Create
+                  {t('components.certificates.create_button')}
                 </button>
                 <form className={styles.submit_div} onSubmit={edit ? handleEdit : handleStep3}>
                   <div>
-                    <button className={styles.submit_button}>{edit ? 'Back to profile' : 'Submit'}</button>
+                    <button className={styles.submit_button}>
+                      {edit ? t('components.certificates.submit_button1')
+                        : t('components.certificates.submit_button2')}
+                    </button>
                   </div>
                 </form>
               </> : <></>}
@@ -173,10 +179,10 @@ const Certificates = ({ step }) => {
         <table className={styles.certificates_table}>
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Organization</th>
-              <th>Release Date</th>
-              <th>Actions</th>
+              <th>{t('components.certificates.name')}</th>
+              <th>{t('components.certificates.organization')}</th>
+              <th>{t('components.certificates.release_date')}</th>
+              <th>{t('components.certificates.actions')}</th>
             </tr>
           </thead>
           <tbody>{filteredCertificates.map(RenderCertificate)}</tbody>

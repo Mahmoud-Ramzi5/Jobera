@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { MortarboardFill, ChevronDown } from 'react-bootstrap-icons';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -10,6 +11,8 @@ import styles from './education.module.css';
 
 
 const EducationForm = ({ step }) => {
+  // Translations
+  const { t } = useTranslation('global');
   // Context
   const { accessToken } = useContext(LoginContext);
   // Define states
@@ -116,10 +119,13 @@ const EducationForm = ({ step }) => {
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen_content}>
-          <h2 className={styles.heading}>{edit ? 'Edit Education' : 'Add Education'}</h2>
+          <h2 className={styles.heading}>
+            {edit ? t('components.education.heading1')
+              : t('components.education.heading2')}
+          </h2>
           <form onSubmit={handleEdit}>
             <div className={styles.row}>
-              <label htmlFor="level">Level:</label>
+              <label htmlFor="level">{t('components.education.level')}</label>
               <div className={styles.dropdown_container}>
                 <i className={styles.dropdown_icon}><ChevronDown /></i>
                 <select
@@ -130,18 +136,31 @@ const EducationForm = ({ step }) => {
                   required
                   className={styles.dropdown_select}
                 >
-                  <option value="">Select Level</option>
-                  <option value="BACHELOR">Bachelor</option>
-                  <option value="MASTER">Master</option>
-                  <option value="PHD">PHD</option>
-                  <option value="HIGH_SCHOOL_DIPLOMA">High School Diploma</option>
-                  <option value="HIGH_INSTITUTE">High Institute</option>
+                  <option value="">
+                    {t('components.education.select.level')}
+                  </option>
+                  <option value="BACHELOR">
+                    {t('components.education.select.bachelor')}
+                  </option>
+                  <option value="MASTER">
+                    {t('components.education.select.master')}
+                  </option>
+                  <option value="PHD">
+                    {t('components.education.select.PHD')}
+                  </option>
+                  <option value="HIGH_SCHOOL_DIPLOMA">
+                    {t('components.education.select.high_school_diploma')}
+                  </option>
+                  <option value="HIGH_INSTITUTE">
+                    {t('components.education.select.high_institute')}
+                  </option>
                 </select>
               </div>
             </div>
             <div className={styles.row}>
               <label htmlFor="field">
-                Field: <i className="fas fa-graduation-cap"></i>
+                {t('components.education.field')}{' '}
+                <i className="fas fa-graduation-cap"></i>
               </label>
               <input
                 type="text"
@@ -155,7 +174,8 @@ const EducationForm = ({ step }) => {
             </div>
             <div className={styles.row}>
               <label htmlFor="school">
-                School: <i className="fas fa-university"></i>
+                {t('components.education.school')}{' '}
+                <i className="fas fa-university"></i>
               </label>
               <input
                 type="text"
@@ -169,7 +189,7 @@ const EducationForm = ({ step }) => {
             </div>
             <div className={styles.row}>
               <label htmlFor="StartDate">
-                Start Date:
+                {t('components.education.start_date')}
               </label>
               <DatePicker
                 id='StartDate'
@@ -187,7 +207,7 @@ const EducationForm = ({ step }) => {
             </div>
             <div className={styles.row}>
               <label htmlFor="EndDate">
-                End Date:
+                {t('components.education.end_date')}
               </label>
               <DatePicker
                 id='EndDate'
@@ -206,7 +226,7 @@ const EducationForm = ({ step }) => {
             {/* File upload field */}
             <div className={styles.row}>
               <label htmlFor="Certificate">
-                Certificate:
+                {t('components.education.certificate')}
               </label>
               <input
                 type="file"
@@ -217,7 +237,9 @@ const EducationForm = ({ step }) => {
               />
             </div>
             <div>
-              <button className={styles.submit_button}>Submit Education</button>
+              <button className={styles.submit_button}>
+                {t('components.education.button')}
+              </button>
             </div>
           </form>
         </div>

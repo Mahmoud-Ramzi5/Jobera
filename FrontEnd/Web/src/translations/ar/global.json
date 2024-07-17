@@ -95,6 +95,44 @@
                 "button": "عرض الكل",
                 "no_data": "لا يوجد أعمال لعرضها"
             }
+        },
+        "education": {
+            "heading1": "تعديل التعليم",
+            "heading2": "إضافة التعليم",
+            "level": "المستوى",
+            "select": {
+                "level": "اختيار المستوى",
+                "bachelor": "بكالوريوس",
+                "master": "ماجستير",
+                "PHD": "دكتوراه",
+                "high_school_diploma": "شهادة الدراسة الثانوية",
+                "high_institute": "المعهد العالي"
+            },
+            "field": "المجال",
+            "school": "المدرسة",
+            "start_date": "تاريخ البدء",
+            "end_date": "تاريخ الانتهاء",
+            "certificate": "الشهادة",
+            "button": "إرسال التعليم"
+        },
+        "certificates": {
+            "h1": " شهادات",
+            "search_input": "...البحث",
+            "create_button": "إضافة شهادة",
+            "submit_button1": "العودة إالى الملف الشخصي",
+            "submit_button2": "إرسال",
+            "name": "الاسم",
+            "organization": "المنظمة",
+            "release_date": "تاريخ التصدير",
+            "actions": "الإجراءات"
+        },
+        "certificate": {
+            "heading1": "إضافة شهادة",
+            "heading2": "تعديل شهادة",
+            "name": "الاسم",
+            "organization": "المنظمة",
+            "release_date": "تاريخ التصدير",
+            "certificate": "الشهادة"
         }
     }
 }
