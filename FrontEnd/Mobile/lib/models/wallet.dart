@@ -1,9 +1,9 @@
 class Wallet {
   final int id;
   final int userId;
-  final int currentBalance;
-  final int availableBalance;
-  final int reservedBalance;
+  final double currentBalance;
+  final double availableBalance;
+  final double reservedBalance;
 
   Wallet({
     required this.id,
@@ -16,9 +16,9 @@ class Wallet {
   Wallet.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,
         userId = json['user_id'] as int,
-        currentBalance = json['current_balance'] as int,
-        availableBalance = json['available_balance'] as int,
-        reservedBalance = json['reserved_balance'] as int;
+        currentBalance = json['current_balance'] as double,
+        availableBalance = json['available_balance'] as double,
+        reservedBalance = json['reserved_balance'] as double;
 
   Wallet.empty()
       : id = 0,

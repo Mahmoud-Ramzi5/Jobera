@@ -21,72 +21,79 @@ class ChatsView extends StatelessWidget {
               ? const Center(
                   child: CircularProgressIndicator(),
                 )
-              : ListView.builder(
-                  itemCount: controller.chats.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: GestureDetector(
-                        onTap: () =>
-                            controller.goToChat(controller.chats[index].id),
-                        child: Column(
-                          children: [
-                            Row(
+              : controller.chats.isEmpty
+                  ? const Center(
+                      child: MediumHeadlineText(text: 'No Chats'),
+                    )
+                  : ListView.builder(
+                      itemCount: controller.chats.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: GestureDetector(
+                            onTap: () =>
+                                controller.goToChat(controller.chats[index].id),
+                            child: Column(
                               children: [
-                                ProfilePhotoContainer(
-                                  child: controller.chats[index].photo == null
-                                      ? Icon(
-                                          Icons.person,
-                                          size: 100,
-                                          color: Colors.lightBlue.shade900,
-                                        )
-                                      : CustomImage(
-                                          width: 100,
-                                          height: 100,
-                                          path: controller.chats[index].photo
-                                              .toString(),
-                                        ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(10),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      HeadlineText(
-                                          text: controller.chats[index].name),
-                                      BodyText(
-                                        text: controller
-                                                    .chats[index].lastMessage ==
-                                                null
-                                            ? ''
-                                            : controller
-                                                .chats[index].lastMessage
-                                                .toString(),
+                                Row(
+                                  children: [
+                                    ProfilePhotoContainer(
+                                      child: controller.chats[index].photo ==
+                                              null
+                                          ? Icon(
+                                              Icons.person,
+                                              size: 100,
+                                              color: Colors.lightBlue.shade900,
+                                            )
+                                          : CustomImage(
+                                              width: 100,
+                                              height: 100,
+                                              path: controller
+                                                  .chats[index].photo
+                                                  .toString(),
+                                            ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SmallHeadlineText(
+                                              text:
+                                                  controller.chats[index].name),
+                                          BodyText(
+                                            text: controller.chats[index]
+                                                        .lastMessage ==
+                                                    null
+                                                ? ''
+                                                : controller
+                                                    .chats[index].lastMessage
+                                                    .toString(),
+                                          ),
+                                          Text(
+                                            controller.chats[index]
+                                                        .lastMessageDate ==
+                                                    null
+                                                ? ''
+                                                : '${controller.chats[index].lastMessageDate?.day}/${controller.chats[index].lastMessageDate?.month}/${controller.chats[index].lastMessageDate?.year} ${controller.chats[index].lastMessageDate?.hour}:${controller.chats[index].lastMessageDate?.minute}',
+                                            style: const TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      Text(
-                                        controller.chats[index]
-                                                    .lastMessageDate ==
-                                                null
-                                            ? ''
-                                            : '${controller.chats[index].lastMessageDate?.day}/${controller.chats[index].lastMessageDate?.month}/${controller.chats[index].lastMessageDate?.year} ${controller.chats[index].lastMessageDate?.hour}:${controller.chats[index].lastMessageDate?.minute}',
-                                        style: const TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
+                                const Divider(),
                               ],
                             ),
-                            const Divider(),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
+                          ),
+                        );
+                      },
+                    ),
         ),
       ),
     );

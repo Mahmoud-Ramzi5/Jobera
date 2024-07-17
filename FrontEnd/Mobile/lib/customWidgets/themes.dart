@@ -13,6 +13,7 @@ class Themes {
       titleLarge: const TextStyle(color: Colors.white),
       headlineSmall: TextStyle(color: Colors.lightBlue.shade900),
       headlineMedium: TextStyle(color: Colors.orange.shade800),
+      headlineLarge: TextStyle(color: Colors.orange.shade800),
       labelLarge: TextStyle(color: Colors.orange.shade800),
       bodyLarge: TextStyle(color: Colors.lightBlue.shade900),
     ),
@@ -83,7 +84,11 @@ class Themes {
       ),
     ),
     cardTheme: const CardTheme(
-      shape: BeveledRectangleBorder(),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(10),
+        ),
+      ),
       elevation: 5,
     ),
   );
@@ -98,6 +103,7 @@ class Themes {
       titleLarge: const TextStyle(color: Colors.white),
       headlineSmall: TextStyle(color: Colors.lightBlue.shade900),
       headlineMedium: TextStyle(color: Colors.orange.shade800),
+      headlineLarge: TextStyle(color: Colors.orange.shade800),
       labelLarge: TextStyle(color: Colors.orange.shade800),
       bodyLarge: const TextStyle(color: Colors.white),
     ),
@@ -169,7 +175,11 @@ class Themes {
       ),
     ),
     cardTheme: const CardTheme(
-      shape: BeveledRectangleBorder(),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(10),
+        ),
+      ),
       elevation: 5,
     ),
   );

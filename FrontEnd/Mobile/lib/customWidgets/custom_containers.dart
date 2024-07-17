@@ -349,3 +349,38 @@ class MessageContainer extends StatelessWidget {
     );
   }
 }
+
+class NewsFeedContainer extends StatelessWidget {
+  final double? width;
+  final double? height;
+  final Widget? child;
+
+  const NewsFeedContainer({
+    super.key,
+    this.child,
+    this.width,
+    this.height,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      width: width,
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+          Radius.circular(10),
+        ),
+        border: Border.all(
+          color: Colors.lightBlue.shade900,
+          style: BorderStyle.solid,
+          width: 3,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: child,
+      ),
+    );
+  }
+}
