@@ -50,6 +50,7 @@ const ShowJob = () => {
       FetchJob(accessToken, id).then((response) => {
         if (response.status === 200) {
           setJob(response.data.job);
+          setJobEnded(response.data.job.is_done)
 
           // Adding the photo if exists
           if (response.data.job.photo) {
@@ -189,7 +190,7 @@ const ShowJob = () => {
   if (isLoading) {
     return <Clock />
   }
-
+  console.log(jobEnded);
   return (
     <div className={styles.jobsPage}>
       {notFound ? <></> :

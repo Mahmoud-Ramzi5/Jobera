@@ -5,13 +5,14 @@ import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { FetchCountries, FetchStates } from '../../apis/AuthApis.jsx';
 import { FetchAllSkills, SearchSkills } from '../../apis/SkillsApis.jsx';
 import { AddRegJobAPI } from '../../apis/JobsApis.jsx';
+import { RegJobTransaction } from '../../apis/TransactionsApi.jsx';
 import NormalInput from '../NormalInput.jsx';
 import img_holder from '../../assets/upload.png';
 import styles from './post_job.module.css';
 import Inputstyles from '../../styles/Input.module.css';
 
 
-const PostJob = ({type}) => {
+const PostJob = ({ type }) => {
   // Context
   const { accessToken } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
@@ -67,16 +68,30 @@ const PostJob = ({type}) => {
     }
   }, []);
 
+  const handleCalculateSalary = (amount) =>{
+    setSalary(amount);
+    if (amount <= 2000 && amount > 0) {
+      setAdminShare(amount * 0.15);
+    } else if (amount > 2000 && amount <= 15000) {
+      setAdminShare(amount * 0.12);
+    } else if (amount > 15000) {
+      setAdminShare(amount * 0.10);
+    } else {
+      console.log('bad amount of money detected')
+      setAdminShare(0);
+    }
+  }
+
   const handleCreate = (event) => {
     event.preventDefault();
-    //if (profile.wallet.current_balance >= salary){
+    if (profile.wallet.current_balance >= adminShare) {
       let state_id;
       if (needLocation === 'Remotely') {
         state_id = 0;
       } else {
         state_id = state;
       }
-  
+
       // Api Call
       AddRegJobAPI(
         accessToken,
@@ -89,15 +104,14 @@ const PostJob = ({type}) => {
         SkillIds
       ).then((response) => {
         if (response.status === 201) {
-          console.log(response.data);       
-          if (salary <= 2000 && salary > 0){
-            setAdminShare(salary*0.15);
-          }else if (salary > 2000 && salary <=15000){
-            setAdminShare(salary*0.12);
-          }else if (salary > 15000){
-            setAdminShare(salary*0.10);
-          }
-  
+          console.log(response.data);
+          RegJobTransaction(
+            accessToken,
+            profile.user_id,
+            response.data.job.id,
+            adminShare
+          )
+
           // Reset the form fields
           setTitle('');
           setDescription('');
@@ -107,15 +121,15 @@ const PostJob = ({type}) => {
           setState('');
           setJobSkills([]);
           setSkillIds([]);
-  
+
           navigate('/jobs');
         } else {
           console.log(response);
         }
       });
-    //}else{
-    //  console.log('not enough balance');
-    //}
+    } else {
+      console.log('not enough balance');
+    }
   }
 
   const handleCountrySelect = (event) => {
@@ -169,157 +183,156 @@ const PostJob = ({type}) => {
     setSkillCount((prevState) => (prevState >= 0 ? ++prevState : prevState));
   }
 
-
   return (
-        <div className={styles.screen_content}>
-          <form className={styles.form} onSubmit={handleCreate}>
-            <div className={styles.row}>
-              <div className={styles.column}>
-                <NormalInput
-                  type='text'
-                  placeholder='Title'
-                  icon={<Fonts />}
-                  value={title}
-                  setChange={setTitle}
-                />
-                <div className={Inputstyles.field}>
-                  <i className={Inputstyles.icon}><PencilSquare /></i>
-                  <textarea
-                    placeholder='Description'
-                    value={description}
-                    onChange={(event) => setDescription(event.target.value)}
-                    className={Inputstyles.input}
-                    rows='10'
-                  />
-                </div>
-                <NormalInput
-                  type='number'
-                  placeholder='Salary'
-                  icon={<CurrencyDollar />}
-                  value={salary}
-                  setChange={setSalary}
-                />
-              </div>
-              <div className={styles.column}>
-                <div className={Inputstyles.field}>
-                  <label htmlFor='photo' className={styles.img_holder}>
-                    {photo ? (
-                      <img src={URL.createObjectURL(photo)} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} />
-                    ) : (
-                      <img src={img_holder} alt="Photo Placeholder" style={{ pointerEvents: 'none' }} />
-                    )}
-                  </label>
-                  <input
-                    id='photo'
-                    type='file'
-                    placeholder='Photo'
-                    accept='.png,.jpg,.jpeg'
-                    onChange={(event) => {
-                      setPhoto(event.target.files[0]);
-                    }}
-                    style={{ visibility: 'hidden' }}
-                  />
-                </div>
-                <br />
-              </div>
+    <div className={styles.screen_content}>
+      <form className={styles.form} onSubmit={handleCreate}>
+        <div className={styles.row}>
+          <div className={styles.column}>
+            <NormalInput
+              type='text'
+              placeholder='Title'
+              icon={<Fonts />}
+              value={title}
+              setChange={setTitle}
+            />
+            <div className={Inputstyles.field}>
+              <i className={Inputstyles.icon}><PencilSquare /></i>
+              <textarea
+                placeholder='Description'
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+                className={Inputstyles.input}
+                rows='10'
+              />
             </div>
-            <div className={styles.register__field__radio}>
-              {locations.map((L) => (
-                <div className={styles.register__input__radio} key={L.value}>
-                  <input
-                    type="radio"
-                    value={L.value}
-                    checked={needLocation === L.value}
-                    onChange={(event) => setNeedLocation(event.target.value)}
-                  />
-                  <label>{L.label}</label>
-                </div>
-              ))}
+            <NormalInput
+              type='number'
+              placeholder='Salary'
+              icon={<CurrencyDollar />}
+              value={salary}
+              setChange={handleCalculateSalary}
+            />
+            <p>Website Tax: ${adminShare}</p>
+          </div>
+          <div className={styles.column}>
+            <div className={Inputstyles.field}>
+              <label htmlFor='photo' className={styles.img_holder}>
+                {photo ? (
+                  <img src={URL.createObjectURL(photo)} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} />
+                ) : (
+                  <img src={img_holder} alt="Photo Placeholder" style={{ pointerEvents: 'none' }} />
+                )}
+              </label>
+              <input
+                id='photo'
+                type='file'
+                placeholder='Photo'
+                accept='.png,.jpg,.jpeg'
+                onChange={(event) => {
+                  setPhoto(event.target.files[0]);
+                }}
+                style={{ visibility: 'hidden' }}
+              />
             </div>
-            {needLocation === 'Location' ? (
-              <div className={styles.register__row}>
-                <div className={Inputstyles.field}>
-                  <i className={Inputstyles.icon}><Globe /></i>
-                  <select onChange={handleCountrySelect} value={country} className={Inputstyles.input} required>
-                    <option key={0} value='' disabled>Country</option>
-                    {(countries.length === 0) ? <></> : countries.map((country) => {
-                      return <option key={country.country_id} value={country.country_name} className={Inputstyles.option}>{country.country_name}</option>
-                    })}
-                  </select>
-                </div>
-                <div className={Inputstyles.field}>
-                  <i className={Inputstyles.icon}><GeoAltFill /></i>
-                  <select onChange={(event) => setState(event.target.value)} value={state} className={Inputstyles.input} required>
-                    <option key={0} value='' disabled>City</option>
-                    {(states.length === 0) ? <></> : states.map((state) => {
-                      return <option key={state.state_id} value={state.state_id} className={Inputstyles.option}>{state.state_name}</option>
-                    })}
-                  </select>
-                </div>
-              </div>) :
-              (<></>)}
             <br />
-            <h4 className={styles.heading}>Skills wanted:</h4>
-            <div className={styles.row}>
-              <div className={styles.column}>
-                <div className={styles.skills}>
-                  <input
-                    type="text"
-                    placeholder="Search skill"
-                    value={searchSkill}
-                    onChange={(event) => SearchSkill(event.target.value)}
-                  />
-                  <p></p>
-                  <select multiple disabled={skillCount === 0}>
-                    {skills.length === 0 ? (
-                      <option
-                        key='0'
-                        value=''
-                        disabled={true}
-                      >
-                        Skill not found
-                      </option>
-                    ) : (
-                      skills.map((skill) => (
-                        <option
-                          key={skill.id}
-                          value={skill.name}
-                          onClick={(event) => AddSkill(event, skill.id)}
-                          hidden={checked[skill.id]}
-                          disabled={checked[skill.id] || skillCount === 0}
-                        >
-                          {skill.name}
-                        </option>
-                      ))
-                    )}
-                  </select>
-                </div>
-              </div>
-              <div className={styles.column}>
-                <div className={styles.skills}>
-                  <span> Skills left: {skillCount}</span>
-                  {jobSkills.length === 0 ? <></> :
-                    <div className={styles.choosed_skills}>
-                      {jobSkills.map((skill) => (
-                        <button
-                          className={styles.choosed_skill}
-                          key={skill.id}
-                          value={skill.name}
-                          onClick={(event) => RemoveSkill(event, skill.id)}
-                        >
-                          {skill.name}
-                        </button>
-                      ))}
-                    </div>
-                  }
-                </div>
-              </div>
-            </div>
-            <div className={styles.submit_div}>
-              <button className={styles.submit_button}>Submit</button>
-            </div>
-          </form>
+          </div>
         </div>
+        <div className={styles.register__field__radio}>
+          {locations.map((L) => (
+            <div className={styles.register__input__radio} key={L.value}>
+              <input
+                type="radio"
+                value={L.value}
+                checked={needLocation === L.value}
+                onChange={(event) => setNeedLocation(event.target.value)}
+              />
+              <label>{L.label}</label>
+            </div>
+          ))}
+        </div>
+        {needLocation === 'Location' ? (
+          <div className={styles.register__row}>
+            <div className={Inputstyles.field}>
+              <i className={Inputstyles.icon}><Globe /></i>
+              <select onChange={handleCountrySelect} value={country} className={Inputstyles.input} required>
+                <option key={0} value='' disabled>Country</option>
+                {(countries.length === 0) ? <></> : countries.map((country) => {
+                  return <option key={country.country_id} value={country.country_name} className={Inputstyles.option}>{country.country_name}</option>
+                })}
+              </select>
+            </div>
+            <div className={Inputstyles.field}>
+              <i className={Inputstyles.icon}><GeoAltFill /></i>
+              <select onChange={(event) => setState(event.target.value)} value={state} className={Inputstyles.input} required>
+                <option key={0} value='' disabled>City</option>
+                {(states.length === 0) ? <></> : states.map((state) => {
+                  return <option key={state.state_id} value={state.state_id} className={Inputstyles.option}>{state.state_name}</option>
+                })}
+              </select>
+            </div>
+          </div>) :
+          (<></>)}
+        <br />
+        <h4 className={styles.heading}>Skills wanted:</h4>
+        <div className={styles.row}>
+          <div className={styles.column}>
+            <div className={styles.skills}>
+              <input
+                type="text"
+                placeholder="Search skill"
+                value={searchSkill}
+                onChange={(event) => SearchSkill(event.target.value)}
+              />
+              <select multiple disabled={skillCount === 0}>
+                {skills.length === 0 ? (
+                  <option
+                    key='0'
+                    value=''
+                    disabled={true}
+                  >
+                    Skill not found
+                  </option>
+                ) : (
+                  skills.map((skill) => (
+                    <option
+                      key={skill.id}
+                      value={skill.name}
+                      onClick={(event) => AddSkill(event, skill.id)}
+                      hidden={checked[skill.id]}
+                      disabled={checked[skill.id] || skillCount === 0}
+                    >
+                      {skill.name}
+                    </option>
+                  ))
+                )}
+              </select>
+            </div>
+          </div>
+          <div className={styles.column}>
+            <div className={styles.skills}>
+              <span> Skills left: {skillCount}</span>
+              {jobSkills.length === 0 ? <></> :
+                <div className={styles.choosed_skills}>
+                  {jobSkills.map((skill) => (
+                    <button
+                      className={styles.choosed_skill}
+                      key={skill.id}
+                      value={skill.name}
+                      onClick={(event) => RemoveSkill(event, skill.id)}
+                    >
+                      {skill.name}
+                    </button>
+                  ))}
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+        <div className={styles.submit_div}>
+          <button className={styles.submit_button}>Submit</button>
+        </div>
+      </form>
+    </div>
   );
 };
 
