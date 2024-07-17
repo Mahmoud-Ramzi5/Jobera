@@ -5,6 +5,7 @@ use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\AuthControllers\AuthController;
 use App\Http\Controllers\AuthControllers\SocialAuthController;
 use App\Http\Controllers\AuthControllers\ForgetPasswordController;
@@ -122,11 +123,11 @@ Route::controller(RegJobsController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::post('/regJob/add', 'PostRegJob');
         Route::get('/regJobs', 'ViewRegJobs');
-        Route::get('regJobs/{regJob}', 'ShowRegJob');
-        Route::get('regJobs/{regJob}/competitors', 'ViewRegJobCompetitors');
+        Route::get('/regJobs/{regJob}', 'ShowRegJob');
+        Route::get('/regJobs/{regJob}/competitors', 'ViewRegJobCompetitors');
         Route::post('/regJob/apply', 'ApplyRegJob');
         Route::post('/regJob/accept/{regJob}', 'AcceptIndividual');
-        Route::delete('regJobs/{regJob}', 'DeleteRegJob');
+        Route::delete('/regJobs/{regJob}', 'DeleteRegJob');
     });
 });
 
@@ -134,12 +135,21 @@ Route::controller(FreelancingJobsController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::post('/FreelancingJob/add', 'PostFreelancingJob');
         Route::get('/FreelancingJobs', 'ViewFreelancingJobs');
-        Route::get('FreelancingJobs/{freelancingJob}', 'ShowFreelancingJob');
-        Route::get('FreelancingJobs/{freelancingJob}/competitors', 'ViewFreelancingJobCompetitors');
+        Route::get('/FreelancingJobs/{freelancingJob}', 'ShowFreelancingJob');
+        Route::get('/FreelancingJobs/{freelancingJob}/competitors', 'ViewFreelancingJobCompetitors');
         Route::post('/FreelancingJob/apply', 'ApplyFreelancingJob');
         Route::post('/FreelancingJob/accept/{freelancingJob}', 'AcceptUser');
-        Route::post('FreelancingJob/done/{freelancingJob}', 'FinishedJob');
-        Route::delete('FreelancingJobs/{freelancingJob}', 'DeleteFreelancingJob');
+        Route::post('/FreelancingJob/done/{freelancingJob}', 'FinishedJob');
+        Route::delete('/FreelancingJobs/{freelancingJob}', 'DeleteFreelancingJob');
+    });
+});
+
+Route::controller(TransactionsController::class)->group(function () {
+    Route::middleware('auth:api')->group(function () {
+        Route::get('/transactions', 'GetUserTransactions');
+        Route::post('/transactions/regJob', 'RegJobTransaction');
+        Route::post('/transactions/FreelancingJob', 'FreelancingJobTransaction');
+        Route::post('/transactions/done', 'AddUserTransaction');
     });
 });
 
@@ -147,18 +157,18 @@ Route::controller(ChatController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('/chats', 'GetAllChats');
         Route::get('/chats/{id}', 'GetChat');
-        Route::post('chats/create', 'CreateChat');
-        Route::post('chats/sendMessage', 'SendMessage');
+        Route::post('/chats/create', 'CreateChat');
+        Route::post('/chats/sendMessage', 'SendMessage');
     });
 });
 
 Route::controller(JobFeedController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
-        Route::get('jobFeed/payedReg', 'MostPayedRegJobsWeekly');
-        Route::get('jobFeed/payedFreelance', 'MostPayedFreelancingJobsWeekly');
-        Route::get('jobFeed/skills', 'MostNeededSkillsWeekly');
-        Route::get('jobFeed/companies', 'MostPostingCompaniesMonthly');
-        Route::get('jobFeed/stats', 'WebsiteData');
+        Route::get('/jobFeed/payedReg', 'MostPayedRegJobsWeekly');
+        Route::get('/jobFeed/payedFreelance', 'MostPayedFreelancingJobsWeekly');
+        Route::get('/jobFeed/skills', 'MostNeededSkillsWeekly');
+        Route::get('/jobFeed/companies', 'MostPostingCompaniesMonthly');
+        Route::get('/jobFeed/stats', 'WebsiteData');
     });
 });
 

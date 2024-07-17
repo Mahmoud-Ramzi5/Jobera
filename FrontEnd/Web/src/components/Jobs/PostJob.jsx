@@ -91,11 +91,11 @@ const PostJob = ({type}) => {
         if (response.status === 201) {
           console.log(response.data);       
           if (salary <= 2000 && salary > 0){
-            setAdminShare(salary*0.05);
+            setAdminShare(salary*0.15);
           }else if (salary > 2000 && salary <=15000){
-            setAdminShare(salary*0.04);
+            setAdminShare(salary*0.12);
           }else if (salary > 15000){
-            setAdminShare(salary*0.03);
+            setAdminShare(salary*0.10);
           }
   
           // Reset the form fields
