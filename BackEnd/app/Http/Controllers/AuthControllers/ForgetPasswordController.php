@@ -37,7 +37,7 @@ class ForgetPasswordController extends Controller
         ], 200);
     }
 
-    public function Reset(ForgetPasswordRequest $request)
+    public function ResetPassword(ForgetPasswordRequest $request)
     {
         // Validate request
         $validated = $request->validated();

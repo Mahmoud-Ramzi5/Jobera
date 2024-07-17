@@ -31,7 +31,7 @@ Route::controller(AuthController::class)->group(function () {
             return response()->json([
                 "email" => auth()->user()->email
             ], 200);
-        })->middleware('auth:api');
+        });
 
         Route::get('/verifyEmail', 'VerifyEmail');
         Route::get('/isVerified', 'IsVerified');
@@ -64,7 +64,7 @@ Route::controller(SocialAuthController::class)->group(function () {
 
 Route::controller(ForgetPasswordController::class)->group(function () {
     Route::post('/password/reset-link', 'ForgotPassword');
-    Route::post('/password/reset', 'Reset')->middleware('auth:api');
+    Route::post('/password/reset', 'ResetPassword')->middleware('auth:api');
 });
 
 Route::controller(ProfileController::class)->group(function () {
