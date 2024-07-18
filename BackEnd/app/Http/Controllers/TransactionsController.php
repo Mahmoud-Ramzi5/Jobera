@@ -134,7 +134,7 @@ class TransactionsController extends Controller
         }
 
         // Check if job is freelancing
-        $freelancing = FreelancingJob::where('job_id', $validated['job_id'])->first();
+        $freelancing = FreelancingJob::where('id', $validated['job_id'])->first();
         if ($freelancing == null) {
             return response()->json([
                 'errors' => ['job' => 'Invalid job']
@@ -216,7 +216,7 @@ class TransactionsController extends Controller
         }
 
         // Check if job is freelancing
-        $freelancing = FreelancingJob::where('job_id', $validated['job_id'])->first();
+        $freelancing = FreelancingJob::where('id', $validated['job_id'])->first();
         if ($freelancing == null) {
             return response()->json([
                 'errors' => ['job' => 'Invalid job']
@@ -252,6 +252,7 @@ class TransactionsController extends Controller
         $userShare = $fullAmount - $adminShare;
         if ($senderWallet->reserved_balance >= $userShare) {
             $senderWallet->reserved_balance -= $userShare;
+            $senderWallet->available_balance-= $userShare;
             $receiverWallet->current_balance += $userShare;
             $receiverWallet->available_balance += $userShare;
             $senderWallet->save();
