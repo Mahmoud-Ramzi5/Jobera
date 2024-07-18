@@ -4,7 +4,7 @@ import { PencilSquare, CurrencyDollar, ChatDots, Check2 } from 'react-bootstrap-
 import { LoginContext, ProfileContext } from '../../utils/Contexts';
 import {
   FetchJob, ApplyToRegJobAPI, ApplyToFreelancingJobAPI,
-  AcceptRegJob, AcceptFreelancingJob
+  AcceptRegJob, AcceptFreelancingJob, DeleteRegJobAPI, DeleteFreelancingJobAPI
 } from '../../apis/JobsApis';
 import { FreelancingJobTransaction, FinishedJobTransaction } from '../../apis/TransactionsApi';
 import { FetchImage } from '../../apis/FileApi';
@@ -238,13 +238,36 @@ const ShowJob = () => {
 
   const handleDeleteJob = (event) => {
     event.preventDefault();
-    //api to delete job
+    if(job.type === 'Freelancing'){
+      DeleteFreelancingJobAPI(
+        accessToken,
+        job.id
+      ).then((response) =>{
+        if (response.status==204){
+          console.log('job deleted');
+          navigate('/freelancing-jobs');
+        }else{
+          console.log(response);
+        }});
+    }else if(job.type != 'Freelancing'){
+      DeleteRegJobAPI(
+        accessToken,
+        job.id
+      ).then((response) =>{
+        if (response.status==204){
+          console.log('job deleted');
+          navigate('/jobs');
+        }else{
+          console.log(response);
+        }
+      })
+    }
   }
 
   if (isLoading) {
     return <Clock />
   }
-  console.log(job.accepted_user.salary)
+  console.log(job)
   return (
     <div className={styles.jobsPage}>
       {notFound ? <></> :
