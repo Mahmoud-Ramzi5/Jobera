@@ -1,12 +1,13 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useContext, useRef } from 'react';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
+import { LoginContext, ProfileContext } from '../utils/Contexts';
 import Cookies from 'js-cookie';
-import { LoginContext } from '../utils/Contexts';
 
 
 const CallBack = () => {
   // Context
-  const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
+  const { setLoggedIn, setAccessToken } = useContext(LoginContext);
+  const { setProfile } = useContext(ProfileContext);
   // Define states
   const initialized = useRef(false);
   const location = useLocation();
@@ -38,10 +39,10 @@ const CallBack = () => {
         })
         .then((data) => {
           // Store token and Log in user 
-          const token = data.access_token;
           setLoggedIn(true);
-          setAccessToken(token);
-          Cookies.set('access_token', token, { secure: true, expires: 1/24 });
+          setAccessToken(data.access_token);
+          setProfile(data.user);
+          Cookies.set('access_token', data.access_token, { secure: true, expires: 1 / 24 });
 
           // Redirect to dashboard
           navigate('/dashboard');
@@ -51,7 +52,10 @@ const CallBack = () => {
 
   return (
     // TODO
-    <h1>Loading...</h1>
+    <>
+      <h1>Loading...</h1>
+      <h1>Please Wait...</h1>
+    </>
   );
 
 };

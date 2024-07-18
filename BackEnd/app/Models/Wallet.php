@@ -42,9 +42,9 @@ class Wallet extends Model
     protected function casts(): array
     {
         return [
-            'current_balance' => 'decimal:4',
-            'available_balance' => 'decimal:4',
-            'reserved_balance' => 'decimal:4'
+            'current_balance' => 'decimal:2',
+            'available_balance' => 'decimal:2',
+            'reserved_balance' => 'decimal:2'
         ];
     }
 

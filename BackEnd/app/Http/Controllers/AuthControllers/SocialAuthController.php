@@ -4,8 +4,12 @@ namespace App\Http\Controllers\AuthControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Individual;
+use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use App\Http\Resources\IndividualResource;
+use App\Http\Resources\CompanyResource;
 use Laravel\Socialite\Facades\Socialite;
 use GuzzleHttp\Exception\ClientException;
 
@@ -37,7 +41,7 @@ class SocialAuthController extends Controller
         // Check driver
         if (!in_array($provider, ['google', 'facebook', 'linkedin'])) {
             return response()->json([
-                'error' => 'Please login using Google, Facebook or Linkedin.'
+                'errors' => ['provider' => 'Please login using Google, Facebook or Linkedin.']
             ], 422);
         }
 
@@ -46,7 +50,7 @@ class SocialAuthController extends Controller
             $user = Socialite::driver($provider)->stateless()->user();
         } catch (ClientException $exception) {
             return response()->json([
-                'error' => 'Invalid credentials provided.'
+                'errors' => ['credentials' => 'Invalid credentials provided.']
             ], 422);
         }
 
@@ -60,8 +64,7 @@ class SocialAuthController extends Controller
             ], 401);
         }
 
-        $token = $userDB->createToken("api_token")->accessToken;
-
+        // Add provider
         $userDB->providers()->updateOrCreate(
             [
                 'provider' => $provider,
@@ -72,12 +75,34 @@ class SocialAuthController extends Controller
             ]
         );
 
-        // Response
+        // Prepare token
+        $token = $userDB->createToken("api_token")->accessToken;
+
+        // Check individual
+        $individual = Individual::where('user_id', $userDB->id)->first();
+        if ($individual != null) {
+            // Response
+            return response()->json([
+                'user' => new IndividualResource($individual),
+                'access_token' => $token,
+                'token_type' => 'bearer'
+            ], 200);
+        }
+
+        // Check company
+        $company = Company::where('user_id', $userDB->id)->first();
+        if ($company != null) {
+            // Response
+            return response()->json([
+                'user' => new CompanyResource($company),
+                'access_token' => $token,
+                'token_type' => 'bearer'
+            ], 200);
+        }
+
         return response()->json([
-            "user" => $userDB,
-            "access_token" => $token,
-            "token_type" => "bearer"
-        ], 200);
+            'errors' => ['user' => 'Invalid user']
+        ], 401);
     }
 
     /**
