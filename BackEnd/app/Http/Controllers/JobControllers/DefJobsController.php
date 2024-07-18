@@ -203,4 +203,49 @@ class DefJobsController extends Controller
             "FreelancingJobs" => $freelancingJobsApplied     
         ]);
     }
+    public function FlagJob(Request $request,DefJob $defJob){
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user'],
+            ], 401);
+        }
+
+        $user->FlagedJobs()->attach($defJob);
+        return response()->json([
+            "message"=>"Job is Flaged"
+        ],201);
+    }
+    public function FlagedJobs(){
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user'],
+            ], 401);
+        }
+
+        // Get all jobs
+        $jobs = [];
+        $defJobs = $user->FlagedJobs;
+        foreach ($defJobs as $defJob) {
+            $regJob = RegJob::where('defJob_id', $defJob->id)->first();
+            $freelancingJob = FreelancingJob::where('defJob_id', $defJob->id)->first();
+            if ($regJob != null) {
+                array_push($jobs, new RegJobResource($regJob));
+            } else if ($freelancingJob != null) {
+                array_push($jobs, new FreelancingJobResource($freelancingJob));
+            } else {
+                continue;
+            }
+        }
+        return response()->json([
+            "jobs"=>$jobs
+        ]);    
+    }
 }
