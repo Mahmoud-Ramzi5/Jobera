@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
-import 'package:jobera/controllers/appControllers/home_controller.dart';
 import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/controllers/profileControllers/profile_controller.dart';
 import 'package:jobera/main.dart';
@@ -12,8 +11,7 @@ class ViewPortfolioController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   late GeneralController generalController;
   late Dio dio;
-  late HomeController homeController;
-  late dynamic profileController;
+  late ProfileController? profileController;
   List<Portfolio> portoflios = [];
   int id = 0;
   int userId = 0;
@@ -24,17 +22,9 @@ class ViewPortfolioController extends GetxController {
     refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
     generalController = Get.find<GeneralController>();
     dio = Dio();
+    profileController = null;
     if (!generalController.isInRegister) {
-      homeController = Get.find<HomeController>();
-      if (homeController.isCompany) {
-        profileController = Get.find<ProfileController>();
-        userId = profileController.company.id;
-        userName = profileController.company.name;
-      } else {
-        profileController = Get.find<ProfileController>();
-        userId = profileController.user.id;
-        userName = profileController.user.name;
-      }
+      profileController = Get.find<ProfileController>();
     }
     await fetchPortfolios();
     super.onInit();
