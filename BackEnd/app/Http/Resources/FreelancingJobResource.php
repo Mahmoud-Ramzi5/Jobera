@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Company;
+use App\Models\FreelancingJobCompetitor;
 use App\Models\Individual;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -21,16 +22,17 @@ class FreelancingJobResource extends JsonResource
         $company = Company::where('user_id', $this->user_id)->first();
         $individual = Individual::where('user_id', $this->user_id)->first();
 
+        $acceptedCompetitor=FreelancingJobCompetitor::where('user_id',$this->accepted_user)->first();
         $acceptedCompany = Company::where('user_id', $this->accepted_user)->first();
         $acceptedIndividual = Individual::where('user_id', $this->accepted_user)->first();
-
         if ($acceptedCompany != null) {
             $acceptedUser = [
                 'id' => $acceptedCompany->id,
                 'user_id' => $acceptedCompany->user_id,
                 'name' => $acceptedCompany->name,
                 'type' => $acceptedCompany->type,
-                'avatar_photo' => $acceptedCompany->user->avatar_photo
+                'avatar_photo' => $acceptedCompany->user->avatar_photo,
+                'salary' => $acceptedCompetitor->salary
             ];
         } else if ($acceptedIndividual != null) {
             $acceptedUser = [
@@ -38,7 +40,8 @@ class FreelancingJobResource extends JsonResource
                 'user_id' => $acceptedIndividual->user_id,
                 'name' => $acceptedIndividual->full_name,
                 'type' => $acceptedIndividual->type,
-                'avatar_photo' => $acceptedIndividual->user->avatar_photo
+                'avatar_photo' => $acceptedIndividual->user->avatar_photo,
+                'salary' => $acceptedCompetitor->salary
             ];
         } else {
             $acceptedUser = null;

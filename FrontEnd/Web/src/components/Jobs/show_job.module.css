@@ -94,7 +94,6 @@
 
 .description {
     position: relative;
-    min-height: 100px;
     font-weight: 400;
     font-size: 1.2em;
     color: var(--color-button);
@@ -263,6 +262,10 @@
 .money_holder {
     display: flex;
     width: 70%;
+}
+
+.cancel_finish_job {
+    display: flex;
 }
 
 .competitors {
