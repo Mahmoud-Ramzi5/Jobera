@@ -16,9 +16,9 @@ class Wallet {
   Wallet.fromJson(Map<String, dynamic> json)
       : id = json['id'] as int,
         userId = json['user_id'] as int,
-        currentBalance = json['current_balance'] as double,
-        availableBalance = json['available_balance'] as double,
-        reservedBalance = json['reserved_balance'] as double;
+        currentBalance = double.parse(json['current_balance']),
+        availableBalance = double.parse(json['available_balance']),
+        reservedBalance = double.parse(json['reserved_balance']);
 
   Wallet.empty()
       : id = 0,

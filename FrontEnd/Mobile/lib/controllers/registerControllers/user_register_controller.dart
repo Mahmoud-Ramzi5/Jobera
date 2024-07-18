@@ -116,7 +116,7 @@ class UserRegisterController extends GetxController {
   ) async {
     Dialogs().loadingDialog();
     try {
-      var response = await dio.post('http://192.168.0.105:8000/api/register',
+      var response = await dio.post('http://192.168.43.23:8000/api/register',
           data: {
             "full_name": fullName,
             "email": email,

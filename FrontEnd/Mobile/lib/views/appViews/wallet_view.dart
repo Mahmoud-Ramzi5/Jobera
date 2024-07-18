@@ -38,8 +38,7 @@ class WalletView extends StatelessWidget {
                             text: 'Current Balance:',
                           ),
                           Text(
-                            '999999999999 SYP',
-                            //'${_walletController.wallet.currentBalance} SYP',
+                            '${_walletController.wallet.currentBalance} SYP',
                             style: Theme.of(context).textTheme.headlineMedium,
                           ),
                         ],

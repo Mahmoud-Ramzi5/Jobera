@@ -128,7 +128,7 @@ class UserEditEducationController extends GetxController {
     );
     try {
       var response = await dio.post(
-        'http://192.168.0.105:8000/api/education',
+        'http://192.168.43.23:8000/api/education',
         data: data,
         options: Options(
           headers: {

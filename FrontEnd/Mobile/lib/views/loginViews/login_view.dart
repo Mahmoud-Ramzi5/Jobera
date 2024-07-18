@@ -114,7 +114,7 @@ class LoginView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () => _loginController.handleGoogleSignIn(),
                         child: Padding(
                           padding: const EdgeInsets.all(10),
                           child: FaIcon(

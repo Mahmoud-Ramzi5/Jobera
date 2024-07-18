@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
 import 'package:jobera/main.dart';
 
@@ -11,6 +12,7 @@ class LoginController extends GetxController {
   late bool passwordToggle;
   late bool remeberMe;
   late Dio dio;
+  late GoogleSignIn googleSignIn;
 
   @override
   void onInit() {
@@ -20,6 +22,7 @@ class LoginController extends GetxController {
     passwordToggle = true;
     remeberMe = false;
     dio = Dio();
+    googleSignIn = GoogleSignIn();
     super.onInit();
   }
 
@@ -53,7 +56,7 @@ class LoginController extends GetxController {
     Dialogs().loadingDialog();
     try {
       var response = await dio.post(
-        'http://192.168.0.105:8000/api/login',
+        'http://192.168.43.23:8000/api/login',
         data: {"email": email, "password": password, "remember": remeberMe},
         options: Options(
           headers: {
@@ -82,6 +85,58 @@ class LoginController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Login Failed',
+        e.toString(),
+      );
+    }
+  }
+
+  Future<void> handleGoogleSignIn() async {
+    GoogleSignInAccount? googleSignInAccount;
+    try {
+      googleSignInAccount = await googleSignIn.signIn();
+      if (googleSignInAccount != null) {
+        try {
+          var response = await dio.post(
+            'http://192.168.43.23:8000/api/auth/android/google',
+            data: {
+              'provider_id': googleSignInAccount.id,
+              'email': googleSignInAccount.email,
+              'avatar_photo': googleSignInAccount.photoUrl,
+              'provider': 'google',
+            },
+            options: Options(
+              headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Accept': 'application/json',
+              },
+            ),
+          );
+          if (response.statusCode == 200) {
+            sharedPreferences?.setString(
+              "access_token",
+              response.data["access_token"].toString(),
+            );
+            Dialogs().showSuccessDialog(
+              'Login Successfull',
+              '',
+            );
+            Future.delayed(
+              const Duration(seconds: 1),
+              () {
+                Get.offAllNamed('/home');
+              },
+            );
+          }
+        } on DioException catch (e) {
+          Dialogs().showErrorDialog(
+            'Login with google failed',
+            e.toString(),
+          );
+        }
+      }
+    } catch (e) {
+      Dialogs().showErrorDialog(
+        'Login with google failed',
         e.toString(),
       );
     }
