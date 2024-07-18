@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AuthControllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Laravel\Socialite\Facades\Socialite;
 use GuzzleHttp\Exception\ClientException;
@@ -26,7 +27,7 @@ class SocialAuthController extends Controller
     }
 
     /**
-     * Obtain the user information from Provider.
+     * Obtain the user information from Provider Web.
      *
      * @param $provider
      * @return JsonResponse
@@ -51,6 +52,14 @@ class SocialAuthController extends Controller
 
         // Login user
         $userDB = User::where('email', $user->getEmail())->first();
+
+        // Check user
+        if ($userDB == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+
         $token = $userDB->createToken("api_token")->accessToken;
 
         $userDB->providers()->updateOrCreate(
@@ -65,7 +74,59 @@ class SocialAuthController extends Controller
 
         // Response
         return response()->json([
-            "data" => $user,
+            "user" => $userDB,
+            "access_token" => $token,
+            "token_type" => "bearer"
+        ], 200);
+    }
+
+    /**
+     * Obtain the user information from Provider.
+     *
+     * @param $request
+     * @return JsonResponse
+     */
+    public function HandleProviderAndroid(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required',
+            'provider' => 'required',
+            'provider_id' => 'required',
+            'avatar_photo' => 'required'
+        ]);
+
+        // Check driver
+        if (!in_array($validated['provider'], ['google', 'facebook', 'linkedin'])) {
+            return response()->json([
+                'error' => 'Please login using Google, Facebook or Linkedin.'
+            ], 422);
+        }
+
+        // Login user
+        $userDB = User::where('email', $validated['email'])->first();
+
+        // Check user
+        if ($userDB == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+
+        $token = $userDB->createToken("api_token")->accessToken;
+
+        $userDB->providers()->updateOrCreate(
+            [
+                'provider' => $validated['provider'],
+                'provider_id' => $validated['provider_id'],
+            ],
+            [
+                'avatar' => $validated['avatar_photo']
+            ]
+        );
+
+        // Response
+        return response()->json([
+            "user" => $userDB,
             "access_token" => $token,
             "token_type" => "bearer"
         ], 200);
