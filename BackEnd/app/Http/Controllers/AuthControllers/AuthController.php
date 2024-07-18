@@ -189,7 +189,7 @@ class AuthController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'user' => 'Invalid user'
+                'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 

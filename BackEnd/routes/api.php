@@ -60,6 +60,7 @@ Route::controller(AuthController::class)->group(function () {
 Route::controller(SocialAuthController::class)->group(function () {
     Route::get('/auth/providers', 'RedirectToProviders');
     Route::get('/auth/{provider}/call-back', 'HandleProviderCallback');
+    Route::post('/auth/android/google', 'HandleProviderAndroid');
 });
 
 Route::controller(ForgetPasswordController::class)->group(function () {
