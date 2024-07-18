@@ -63,8 +63,8 @@ class ProfileView extends StatelessWidget {
                           ),
                         ],
                       ),
-                      HeadlineText(text: controller.user.name),
-                      const HeadlineText(text: 'Rating:'),
+                      SmallHeadlineText(text: controller.user.name),
+                      const SmallHeadlineText(text: 'Rating:'),
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: InfoWithEditContainer(

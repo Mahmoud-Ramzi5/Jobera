@@ -42,10 +42,38 @@ class LabelText extends StatelessWidget {
   }
 }
 
-class HeadlineText extends StatelessWidget {
+class LargeHeadlineText extends StatelessWidget {
   final String text;
 
-  const HeadlineText({super.key, required this.text});
+  const LargeHeadlineText({super.key, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: Theme.of(context).textTheme.headlineLarge,
+    );
+  }
+}
+
+class MediumHeadlineText extends StatelessWidget {
+  final String text;
+
+  const MediumHeadlineText({super.key, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+      style: Theme.of(context).textTheme.headlineMedium,
+    );
+  }
+}
+
+class SmallHeadlineText extends StatelessWidget {
+  final String text;
+
+  const SmallHeadlineText({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {

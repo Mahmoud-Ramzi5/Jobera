@@ -34,11 +34,12 @@ class WalletView extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const HeadlineText(
+                          const SmallHeadlineText(
                             text: 'Current Balance:',
                           ),
                           Text(
-                            '${_walletController.wallet.currentBalance} SYP',
+                            '999999999999 SYP',
+                            //'${_walletController.wallet.currentBalance} SYP',
                             style: Theme.of(context).textTheme.headlineMedium,
                           ),
                         ],

@@ -19,7 +19,7 @@ class SingleSection extends StatelessWidget {
         if (title != null)
           Padding(
             padding: const EdgeInsets.all(10),
-            child: HeadlineText(text: title!),
+            child: SmallHeadlineText(text: title!),
           ),
         Column(
           children: children,

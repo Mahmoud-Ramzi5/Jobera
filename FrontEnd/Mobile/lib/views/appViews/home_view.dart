@@ -7,6 +7,7 @@ import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_image.dart';
 import 'package:jobera/customWidgets/list_tiles.dart';
 import 'package:jobera/views/appViews/chats/chats_view.dart';
+import 'package:jobera/views/appViews/news_feed_view.dart';
 
 class HomeView extends StatelessWidget {
   final HomeController _homeController = Get.put(HomeController());
@@ -109,7 +110,7 @@ class HomeView extends StatelessWidget {
                 icon: Icon(
                   Icons.laptop,
                 ),
-                text: "Freelancing",
+                text: "Freelance",
               ),
               Tab(
                 icon: Icon(
@@ -125,9 +126,7 @@ class HomeView extends StatelessWidget {
           onRefresh: () => _homeController.fetchUser(),
           child: TabBarView(
             children: [
-              const Scaffold(
-                body: Center(child: Text('under construction')),
-              ),
+              NewsFeedView(),
               const Scaffold(
                 body: Center(child: Text('under construction')),
               ),
