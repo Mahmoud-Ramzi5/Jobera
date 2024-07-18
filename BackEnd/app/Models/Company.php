@@ -50,4 +50,8 @@ class Company extends User
     {
         return $this->belongsTo(User::class);
     }
+    public function regJobs()
+    {
+        return $this->hasMany(RegJob::class);
+    }
 }

@@ -116,6 +116,8 @@ Route::controller(DefJobsController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('/jobs', 'ShowAllJobs');
         Route::get('/jobs/{id}', 'ShowSpecificJob');
+        Route::get('/mange/posted','JobYouPosted');
+        Route::get('/mange/applied','JobYouApplied');
     });
 });
 
