@@ -39,6 +39,15 @@ class FreelancingJobsController extends Controller
                 'errors' => ['user' => 'Invalid user']
             ], 401);
         }
+        // Check policy
+        $policy = new FreelancingJobPolicy();
+
+        if (!$policy->PostFreelancingJob(User::find($user->id))) {
+            // Response
+            return response()->json([
+                'errors' => ['user' => 'Unauthorized']
+            ], 401);
+        }
 
         $validated['user_id'] = $user->id;
         $validated['is_done'] = false;
@@ -184,6 +193,15 @@ class FreelancingJobsController extends Controller
         if ($user == null) {
             return response()->json([
                 'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+        // Check policy
+        $policy = new FreelancingJobPolicy();
+
+        if (!$policy->ApplyFreelancingJob(User::find($user->id))) {
+            // Response
+            return response()->json([
+                'errors' => ['user' => 'Unauthorized']
             ], 401);
         }
 

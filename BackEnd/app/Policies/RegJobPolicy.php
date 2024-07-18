@@ -24,6 +24,9 @@ class RegJobPolicy
         if ($company == null) {
             return false;
         }
+        if($user->email_verified_at==null){
+            return false;
+        }
         return true;
     }
 
@@ -46,6 +49,9 @@ class RegJobPolicy
     {
         $individual = Individual::where('user_id', $user->id)->first();
         if ($individual == null) {
+            return false;
+        }
+        if($user->email_verified_at==null){
             return false;
         }
         return true;
