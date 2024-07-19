@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { LoginContext, ProfileContext } from '../../utils/Contexts';
 import { FetchImage, FetchFile } from '../../apis/FileApi';
 import { ShowPortfolioAPI, DeletePortfolioAPI } from '../../apis/ProfileApis/PortfolioApis.jsx';
@@ -10,6 +11,8 @@ import Inputstyles from '../../styles/Input.module.css';
 
 
 const ShowPortfolio = () => {
+  // Translations
+  const { t } = useTranslation('global');
   // Context
   const { accessToken } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
@@ -71,7 +74,9 @@ const ShowPortfolio = () => {
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen_content}>
-          <h2 className={styles.heading}>Portfolio item</h2>
+          <h2 className={styles.heading}>
+            {t('components.show_portfolio.h2_heading')}
+          </h2>
           {portfolio.user_id === profile.user_id ?
             <div className={styles.submit_div}>
               <button
@@ -80,7 +85,7 @@ const ShowPortfolio = () => {
                   state: { edit: true, portfolio }
                 })}
               >
-                edit
+                {t('components.show_portfolio.edit_button')}
               </button>
               <button
                 className={styles.submit_button}
@@ -109,7 +114,7 @@ const ShowPortfolio = () => {
                   });
                 }}
               >
-                delete
+                {t('components.show_portfolio.delete_button')}
               </button>
             </div>
             : <></>}
@@ -125,7 +130,9 @@ const ShowPortfolio = () => {
                 <div className={styles.data}>
                   <h6>{portfolio.link}</h6>
                 </div>
-                <h4 className={styles.heading}>Skills used:</h4>
+                <h4 className={styles.heading}>
+                  {t('components.show_portfolio.h4_heading1')}
+                </h4>
                 <div className={styles.data}>
                   {portfolio.skills.map((skill) => (
                     <div key={skill.id} className={styles.used_skills}>
@@ -145,7 +152,9 @@ const ShowPortfolio = () => {
                   )}
                 </div>
               </div>
-              <h4 className={styles.heading}>Files:</h4>
+              <h4 className={styles.heading}>
+                {t('components.show_portfolio.h4_heading2')}
+              </h4>
               <div className={Inputstyles.field}>
                 {portfolio.files.map((file) => (
                   <div className={styles.files} key={file.id}>
@@ -154,7 +163,7 @@ const ShowPortfolio = () => {
                       <button
                         onClick={async () => { FetchFile("", file.path); }}
                       >
-                        Browse
+                        {t('components.show_portfolio.browse_button')}
                       </button>
                     </div>
                   </div>

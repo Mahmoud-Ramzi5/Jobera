@@ -138,6 +138,29 @@
             "h1": " معرض أعمال",
             "button": "إضافة عمل +",
             "back_button": "العودة إالى الملف الشخصي"
+        },
+        "show_portfolio": {
+            "h2_heading": "العمل",
+            "edit_button": "تعديل",
+            "delete_button": "حذف",
+            "h4_heading1": "المهارات المستخدمة",
+            "h4_heading2": "الملفات",
+            "browse_button": "تصفح الملف"
+        },
+        "edit_portfolio": {
+            "h2_heading1": "تعديل العمل",
+            "h2_heading2": "إضافة عمل",
+            "title_input": "العنوان",
+            "description_input": "الوصف",
+            "link_input": "الرابط",
+            "files_input": "الملفات",
+            "files_text_p": "حتى 5 ملفات",
+            "files_text_span": "إذا تم تحميل المزيد، فسيتم تحميل أول 5 ملفات فقط",
+            "h4_heading": "المهارات المستخدمة",
+            "search_input": "البحث عن مهارة",
+            "not_found": "لم يتم العثور على المهارة",
+            "count": "المهارات المتبقية:",
+            "button": "إرسال"
         }
     }
 }

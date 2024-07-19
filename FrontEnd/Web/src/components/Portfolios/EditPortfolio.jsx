@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Fonts, PencilSquare, Link45deg, Files } from 'react-bootstrap-icons';
 import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { FetchAllSkills, SearchSkills } from '../../apis/SkillsApis.jsx';
@@ -12,6 +13,8 @@ import Inputstyles from '../../styles/Input.module.css';
 
 
 const EditPortfolio = () => {
+  // Translations
+  const { t } = useTranslation('global');
   // Context
   const { accessToken } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
@@ -225,13 +228,16 @@ const EditPortfolio = () => {
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen_content}>
-          <h2 className={styles.heading}>{edit ? 'Edit Portfolio item' : 'Add Portfolio item'}</h2>
+          <h2 className={styles.heading}>
+            {edit ? t('components.edit_portfolio.h2_heading1')
+              : t('components.edit_portfolio.h2_heading2')}
+          </h2>
           <form className={styles.form} onSubmit={edit ? handleEdit : handleStep4}>
             <div className={styles.row}>
               <div className={styles.column}>
                 <NormalInput
                   type='text'
-                  placeholder='Title'
+                  placeholder={t('components.edit_portfolio.title_input')}
                   icon={<Fonts />}
                   value={title}
                   setChange={setTitle}
@@ -239,7 +245,7 @@ const EditPortfolio = () => {
                 <div className={Inputstyles.field}>
                   <i className={Inputstyles.icon}><PencilSquare /></i>
                   <textarea
-                    placeholder='Description'
+                    placeholder={t('components.edit_portfolio.description_input')}
                     value={description}
                     onChange={(event) => setDescription(event.target.value)}
                     className={Inputstyles.input}
@@ -248,7 +254,7 @@ const EditPortfolio = () => {
                 </div>
                 <NormalInput
                   type='text'
-                  placeholder='Link'
+                  placeholder={t('components.edit_portfolio.link_input')}
                   icon={<Link45deg />}
                   value={link}
                   setChange={setLink}
@@ -277,28 +283,30 @@ const EditPortfolio = () => {
                   <input
                     id='files'
                     type='file'
-                    placeholder='Files'
+                    placeholder={t('components.edit_portfolio.files_input')}
                     accept='.pdf'
                     onChange={handleFileChange}
                     multiple
                     className={Inputstyles.input}
                   />
                   <p>
-                    Up to 5 files.
+                    {t('components.edit_portfolio.files_text_p')}{' '}
                     <span style={{ fontSize: '10px', marginLeft: '10px' }}>
-                      If more is uploaded, only the first 5 files will be uploaded.
+                      {t('components.edit_portfolio.files_text_span')}
                     </span>
                   </p>
                 </div>
               </div>
             </div>
-            <h4 className={styles.heading}>Skills used:</h4>
+            <h4 className={styles.heading}>
+              {t('components.edit_portfolio.h4_heading')}
+            </h4>
             <div className={styles.row}>
               <div className={styles.column}>
                 <div className={styles.skills}>
                   <input
                     type="text"
-                    placeholder="Search skill"
+                    placeholder={t('components.edit_portfolio.search_input')}
                     value={searchSkill}
                     onChange={(event) => SearchSkill(event.target.value)}
                   />
@@ -310,7 +318,7 @@ const EditPortfolio = () => {
                         value=''
                         disabled={true}
                       >
-                        Skill not found
+                        {t('components.edit_portfolio.not_found')}
                       </option>
                     ) : (
                       skills.map((skill) => (
@@ -330,7 +338,7 @@ const EditPortfolio = () => {
               </div>
               <div className={styles.column}>
                 <div className={styles.skills}>
-                  <span> Skills left: {skillCount}</span>
+                  <span>{t('components.edit_portfolio.count')} {skillCount}</span>
                   {portfolioSkills.length === 0 ? <></> :
                     <div className={styles.choosed_skills}>
                       {portfolioSkills.map((skill) => (
@@ -349,7 +357,9 @@ const EditPortfolio = () => {
               </div>
             </div>
             <div className={styles.submit_div}>
-              <button className={styles.submit_button} disabled={skillCount < 0}>Submit</button>
+              <button className={styles.submit_button} disabled={skillCount < 0}>
+                {t('components.edit_portfolio.button')}
+              </button>
             </div>
           </form>
         </div>

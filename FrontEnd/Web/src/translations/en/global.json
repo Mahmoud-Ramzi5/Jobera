@@ -138,6 +138,29 @@
             "h1": "'s Portfolio",
             "button": "+ Add item",
             "back_button": "Back to profile"
+        },
+        "show_portfolio": {
+            "h2_heading": "Portfolio item",
+            "edit_button": "Edit",
+            "delete_button": "Delete",
+            "h4_heading1": "Skills used:",
+            "h4_heading2": "Files:",
+            "browse_button": "Browse"
+        },
+        "edit_portfolio": {
+            "h2_heading1": "Edit Portfolio item",
+            "h2_heading2": "Add Portfolio item",
+            "title_input": "Title",
+            "description_input": "Description",
+            "link_input": "Link",
+            "files_input": "Files",
+            "files_text_p": "Up to 5 files.",
+            "files_text_span": "If more is uploaded, only the first 5 files will be uploaded.",
+            "h4_heading": "Skills used:",
+            "search_input": "Search skill",
+            "not_found": "Skill was not found",
+            "count": "Skills left:",
+            "button": "Submit"
         }
     }
 }
