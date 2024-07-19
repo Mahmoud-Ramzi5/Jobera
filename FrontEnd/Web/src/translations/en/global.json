@@ -37,6 +37,33 @@
             "button": "Register now",
             "register_login_div": "Already have an account?",
             "register_login_a": "Log in"
+        },
+        "jobs": {
+            "job_filter": {
+                "published_by1": "Published By:",
+                "published_by2": "Name",
+                "salary": "Salary:",
+                "deadline": {
+                    "label": "Deadline:",
+                    "from": "From:",
+                    "to": "To:"
+                },
+                "skills": {
+                    "label:": "Skills",
+                    "see_less": "See less",
+                    "see_more": "See more"
+                },
+                "button": "Submit filter"
+            },
+            "job_card": {
+                "type": "Type:",
+                "salary": "Salary:",
+                "min_salary": "Min salary:",
+                "max_salary": "Max salary:",
+                "published_by": "Published by:",
+                "publish_date": "Publish date:"
+            },
+            "done": "No more jobs to show"
         }
     },
     "components": {

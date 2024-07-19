@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Card } from 'react-bootstrap';
 import { PenFill } from 'react-bootstrap-icons';
 import { ProfileContext } from '../../utils/Contexts';
-import SlicingArrayInput from './SlicingArrayInput';
+import { SlicedArray } from '../SlicingInput';
 import styles from './cards.module.css';
 
 
@@ -26,7 +26,7 @@ const SkillsCard = ({ ProfileData }) => {
             <div className={styles.title}>
               {t('components.profile_cards.skills.title')}
             </div>
-            {profile.user_id === ProfileData.user_id ?
+            {profile.user_id === ProfileData.user_id &&
               <button
                 type="button"
                 className={styles.pen_button}
@@ -36,7 +36,7 @@ const SkillsCard = ({ ProfileData }) => {
                 )}>
                 <i className={styles.pen}><PenFill /></i>
               </button>
-              : <></>}
+            }
           </div>
         </Card.Header>
         <Card.Body>
@@ -46,19 +46,21 @@ const SkillsCard = ({ ProfileData }) => {
             </p> :
             <>
               {/* Here should be the top skills */}
-              <SlicingArrayInput dataArray={ProfileData.skills} first={0} last={specific} />
+              <SlicedArray dataArray={ProfileData.skills} first={0} last={specific} />
               {showMore === false ?
                 <button
                   type="button"
                   className={styles.skills_button}
-                  onClick={() => { setSpecific(ProfileData.skills.length); setShowMore(true) }}>
+                  onClick={() => { setSpecific(ProfileData.skills.length); setShowMore(true) }}
+                >
                   {t('components.profile_cards.skills.view_more')}
                 </button>
                 :
                 <button
                   type="button"
                   className={styles.skills_button}
-                  onClick={() => { setSpecific(5); setShowMore(false) }}>
+                  onClick={() => { setSpecific(5); setShowMore(false) }}
+                >
                   {t('components.profile_cards.skills.view_less')}
                 </button>
               }

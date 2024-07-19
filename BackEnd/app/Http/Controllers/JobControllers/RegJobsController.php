@@ -124,7 +124,7 @@ class RegJobsController extends Controller
                 if (sizeof($skills) >= 1 && $skills[0] !== "") {
                     foreach ($jobs->items() as $job) {
                         foreach ($job->skills as $skill) {
-                            if (in_array($skill->name, $skills)) {
+                            if (in_array($skill->name, $skills) && !in_array($job, $jobsData)) {
                                 array_push($jobsData, $job);
                             }
                         };

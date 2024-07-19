@@ -46,7 +46,7 @@ const NavBar = () => {
               <a href="/dashboard"> Home </a>
             </li>
             <li>
-              <a href="/jobs" className={styles.desktop_item}>
+              <a href="/jobs/all" className={styles.desktop_item}>
                 {" "}
                 Jobs{" "}
               </a>
@@ -56,17 +56,17 @@ const NavBar = () => {
                 Jobs{" "}
               </label>
               <ul className={styles.drop_menu}>
-                <a className={styles.mobile_item} href="/jobs">
+                <a className={styles.mobile_item} href="/jobs/all">
                   All Jobs
                 </a>
                 <li>
-                  <a href="/fulltime-jobs">FullTime</a>
+                  <a href="/jobs/FullTime">FullTime</a>
                 </li>
                 <li>
-                  <a href="/parttime-jobs">PartTime</a>
+                  <a href="/jobs/PartTime">PartTime</a>
                 </li>
                 <li>
-                  <a href="/freelancing-jobs">FreeLance</a>
+                  <a href="/jobs/Freelancing">FreeLance</a>
                 </li>
               </ul>
             </li>

@@ -34,11 +34,11 @@ const Footer = () => {
           <div className={`${styles.column} ${styles.col_2}`}>
             <h3>Jobs</h3>
             <ul className={styles.footerList_links}>
-              <li><a href="#">Post a job</a></li>
-              <li><a href="/jobs">Browse All Jobs</a></li>
-              <li><a href="/fulltime-jobs">Browse FullTime Jobs</a></li>
-              <li><a href="/parttime-jobs">Browse PartTime Jobs</a></li>
-              <li><a href="/freelancing-jobs">Browse Freelancing Jobs</a></li>
+              <li><a href="/jobs/post">Post a job</a></li>
+              <li><a href="/jobs/all">Browse All Jobs</a></li>
+              <li><a href="/jobs/FullTime">Browse FullTime Jobs</a></li>
+              <li><a href="/jobs/PartTime">Browse PartTime Jobs</a></li>
+              <li><a href="/jobs/Freelancing">Browse Freelancing Jobs</a></li>
             </ul>
           </div>
           <div className={`${styles.column} ${styles.col_2}`}>

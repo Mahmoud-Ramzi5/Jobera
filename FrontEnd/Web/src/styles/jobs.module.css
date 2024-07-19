@@ -6,13 +6,6 @@
     min-height: 100vh;
 }
 
-.left_container {
-    width: 25%;
-    padding: 10px 15px;
-    display: flex;
-    flex-direction: column;
-}
-
 .right_container {
     width: 75%;
     display: flex;
@@ -36,86 +29,6 @@
     align-items: center;
     justify-content: center;
 }
-
-
-.search_input {
-    background: #fff;
-    width: 100%;
-    font-size: 15px;
-    padding: 10px 15px;
-    margin-top: 10px;
-    border-radius: 10px;
-    border: 1px solid var(--color-titles);
-    text-decoration: inherit;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    color: var(--color-rating);
-    box-shadow: 0px 1px 1px #395F87;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.search_input:active,
-.search_input:focus,
-.search_input:hover {
-    border-color: var(--color-typeschecked);
-    outline: none;
-}
-
-.slider_area {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.slider_input {
-    width: 50%;
-    margin: 5px;
-    padding: 5px;
-    border: none;
-    border-radius: 5px;
-    box-shadow: 0px 1px 1px #395F87;
-}
-
-.slider_input:active,
-.slider_input:focus,
-.slider_input:hover {
-    outline: none;
-}
-
-.deadlline_area {
-    display: flex;
-    flex-direction: column;
-}
-
-.submit_button {
-    background: #fff;
-    width: 100%;
-    font-size: 15px;
-    padding: 5px 10px;
-    margin-top: 10px;
-    border-radius: 10px;
-    border: 1px solid var(--color-titles);
-    text-decoration: inherit;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-rating);
-    box-shadow: 0px 1px 1px #395F87;
-    cursor: pointer;
-    transition: .2s;
-}
-
-.submit_button:active,
-.submit_button:focus,
-.submit_button:hover {
-    border-color: var(--color-typeschecked);
-    outline: none;
-}
-
-
 
 /* JobCard CSS */
 .card {
@@ -196,6 +109,100 @@
 }
 
 
+/* JobFilter CSS */
+.left_container {
+    width: 25%;
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-scrollbar-track2);
+}
+
+.search_input {
+    background: #fff;
+    width: 100%;
+    font-size: 15px;
+    padding: 10px 15px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--color-titles);
+    text-decoration: inherit;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    color: var(--color-rating);
+    box-shadow: 0px 1px 1px #395F87;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.search_input:active,
+.search_input:focus,
+.search_input:hover {
+    border-color: var(--color-typeschecked);
+    outline: none;
+}
+
+.slider_area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.slider_input {
+    width: 50%;
+    margin: 5px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 1px 1px #395F87;
+}
+
+.slider_input:active,
+.slider_input:focus,
+.slider_input:hover {
+    outline: none;
+}
+
+.deadlline_area {
+    display: flex;
+    flex-direction: column;
+}
+
+.skills_button {
+    padding: 0px;
+    color: blue;
+    text-align: center;
+    border-style: none;
+}
+
+.submit_button {
+    background: #fff;
+    width: 100%;
+    font-size: 15px;
+    padding: 5px 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--color-titles);
+    text-decoration: inherit;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-rating);
+    box-shadow: 0px 1px 1px #395F87;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.submit_button:active,
+.submit_button:focus,
+.submit_button:hover {
+    border-color: var(--color-typeschecked);
+    outline: none;
+}
+
+
 /* Screen Size compatiplity */
 @media screen and (max-width: 970px) {
     .left_container {
@@ -228,7 +235,7 @@
         height: 100vh;
         width: 100%;
         max-width: 350px;
-        background: var(--color-background);
+        background-color: var(--color-scrollbar-track2);
         padding: 10px 15px;
 
         display: flex;

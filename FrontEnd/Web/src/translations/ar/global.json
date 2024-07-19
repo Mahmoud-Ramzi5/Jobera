@@ -37,6 +37,33 @@
             "button": "أنشىء الحساب الآن",
             "register_login_div": "بالفعل لديك حساب؟",
             "register_login_a": "تسجيل الدخول"
+        },
+        "jobs": {
+            "job_filter": {
+                "published_by1": "الناشر",
+                "published_by2": "الاسم",
+                "salary": "الراتب",
+                "deadline": {
+                    "label": "موعد التسليم",
+                    "from": "من",
+                    "to": "إلى"
+                },
+                "skills": {
+                    "label": "المهارات",
+                    "see_less": "عرض أقل",
+                    "see_more": "عرض المزيد"
+                },
+                "button": "إرسال الفلتر"
+            },
+            "job_card": {
+                "type": "النوع",
+                "salary": "الراتب",
+                "min_salary": "الحد الأقل للراتب",
+                "max_salary": "الحد الأعلى للراتب",
+                "published_by": "الناشر",
+                "publish_date": "تاريخ النشر"
+            },
+            "done": "لا يوجد المزيد من الوظائف لعرضها"
         }
     },
     "components": {

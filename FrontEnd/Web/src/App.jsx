@@ -29,13 +29,11 @@ import FullTimeRegJobs from './pages/Jobs/FullTimeRegJobs.jsx';
 import PartTimeRegJobs from './pages/Jobs/PartTimeRegJobs.jsx';
 import FreelancingJobs from './pages/Jobs/FreelancingJobs.jsx';
 import ShowJob from './components/Jobs/ShowJob.jsx';
-import PostJob from './components/Jobs/PostJob.jsx';
-import PostFreelancing from './components/Jobs/PostFreelancing.jsx';
+import PostingPage from './pages/Jobs/PostingPage.jsx';
 
 
 import JobFeed from './pages/Jobs/JobFeed.jsx';
 import ChatPage from './components/Chats/ChatPage.jsx';
-import PostingPage from './pages/Jobs/PostingPage.jsx';
 
 
 function App() {
@@ -141,14 +139,12 @@ function App() {
                   <Route path="/portfolios/:user_id/:user_name" element={<Portfolios />} />
                   <Route path="/portfolio/:id" element={<ShowPortfolio />} />
                   <Route path="/edit-portfolio" element={<EditPortfolio />} />
-                  <Route path='/jobs' element={<DefJobs />} />
-                  <Route path='/fulltime-jobs' element={<FullTimeRegJobs />} />
-                  <Route path='/parttime-jobs' element={<PartTimeRegJobs />} />
-                  <Route path='/freelancing-jobs' element={<FreelancingJobs />} />
+                  <Route path='/jobs/all' element={<DefJobs />} />
+                  <Route path='/jobs/FullTime' element={<FullTimeRegJobs />} />
+                  <Route path='/jobs/PartTime' element={<PartTimeRegJobs />} />
+                  <Route path='/jobs/Freelancing' element={<FreelancingJobs />} />
+                  <Route path='/jobs/post' element={<PostingPage />} />
                   <Route path='/job/:id' element={<ShowJob />} />
-                  <Route path='/regJob' element={<PostJob />} />
-                  <Route path='/freelancingJob' element={<PostFreelancing />} />
-                  <Route path='/Test' element={<PostingPage/>} />
 
                   <Route path='/ChatsPage' element={<ChatPage />} />
 
