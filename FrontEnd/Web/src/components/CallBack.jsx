@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useRef } from 'react';
+import { useEffect, useContext, useRef } from 'react';
 import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import { LoginContext, ProfileContext } from '../utils/Contexts';
 import Cookies from 'js-cookie';

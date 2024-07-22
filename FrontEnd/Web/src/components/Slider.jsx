@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useRef } from 'react';
+import React from 'react';
 import ReactSlider from 'react-slider';
 import './slider.css';
 

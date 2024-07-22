@@ -29,7 +29,7 @@ import FullTimeRegJobs from './pages/Jobs/FullTimeRegJobs.jsx';
 import PartTimeRegJobs from './pages/Jobs/PartTimeRegJobs.jsx';
 import FreelancingJobs from './pages/Jobs/FreelancingJobs.jsx';
 import ShowJob from './components/Jobs/ShowJob.jsx';
-import PostingPage from './pages/Jobs/PostingPage.jsx';
+import PostJob from './pages/Jobs/PostJob.jsx';
 
 
 import JobFeed from './pages/Jobs/JobFeed.jsx';
@@ -143,7 +143,7 @@ function App() {
                   <Route path='/jobs/FullTime' element={<FullTimeRegJobs />} />
                   <Route path='/jobs/PartTime' element={<PartTimeRegJobs />} />
                   <Route path='/jobs/Freelancing' element={<FreelancingJobs />} />
-                  <Route path='/jobs/post' element={<PostingPage />} />
+                  <Route path='/jobs/post' element={<PostJob />} />
                   <Route path='/job/:id' element={<ShowJob />} />
 
                   <Route path='/ChatsPage' element={<ChatPage />} />

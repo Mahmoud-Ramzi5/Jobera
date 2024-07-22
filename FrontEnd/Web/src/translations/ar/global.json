@@ -64,6 +64,31 @@
                 "publish_date": "تاريخ النشر"
             },
             "done": "لا يوجد المزيد من الوظائف لعرضها"
+        },
+        "post_job": {
+            "heading": "(وظيفة) نشر عمل",
+            "title_fulltime": "دوام كامل",
+            "title_parttime": "دوام جزئي",
+            "title_freelancing": "عمل حر",
+            "form": {
+                "title": "العنوان",
+                "description": "الوصف",
+                "reg": {
+                    "salary": "الراتب"
+                },
+                "freelancing": {
+                    "min_salary": "الحد الأقل للراتب",
+                    "max_salary": "الحد الأعلى للراتب",
+                    "deadline": "موعد التسليم"
+                },
+                "country_input": "البلد",
+                "city_input": "المدينة",
+                "h4_heading": "المهارات المطلوبة",
+                "search_input": "البحث عن مهارة",
+                "not_found": "لم يتم العثور على المهارة",
+                "count": "المهارات المتبقية:",
+                "button": "إرسال"
+            }
         }
     },
     "components": {

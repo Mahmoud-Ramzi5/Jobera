@@ -37,8 +37,14 @@
     justify-content: space-evenly;
 }
 
+.card_limit {
+    max-width: 150px;
+    max-height: 150px;
+}
+
 .card_background {
     color: var(--color-rating);
+    cursor: pointer;
 }
 
 .card_background::before {
@@ -61,12 +67,6 @@
     width: 150px;
     height: 125px;
     object-fit: fill;
-}
-
-.cardlimit {
-    max-width: 150px;
-    max-height: 150px;
-
 }
 
 .title {

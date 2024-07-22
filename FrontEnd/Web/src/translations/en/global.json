@@ -64,6 +64,31 @@
                 "publish_date": "Publish date:"
             },
             "done": "No more jobs to show"
+        },
+        "post_job": {
+            "heading": "Post a job",
+            "title_fulltime": "FullTime",
+            "title_parttime": "PartTime",
+            "title_freelancing": "Freelancing",
+            "form": {
+                "title": "Title",
+                "description": "Description",
+                "reg": {
+                    "salary": "salary"
+                },
+                "freelancing": {
+                    "min_salary": "Min Salary",
+                    "max_salary": "Max Salary",
+                    "deadline": "Deadline"
+                },
+                "country_input": "Country",
+                "city_input": "City",
+                "h4_heading": "Skills wanted:",
+                "search_input": "Search skill",
+                "not_found": "Skill was not found",
+                "left": "Skills left:",
+                "button": "Submit"
+            }
         }
     },
     "components": {
