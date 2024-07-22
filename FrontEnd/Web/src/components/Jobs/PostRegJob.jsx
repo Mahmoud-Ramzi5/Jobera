@@ -125,7 +125,7 @@ const PostRegJob = ({ type }) => {
           setJobSkills([]);
           setSkillIds([]);
 
-          navigate('/jobs');
+          navigate('/jobs/all');
         } else {
           console.log(response);
         }

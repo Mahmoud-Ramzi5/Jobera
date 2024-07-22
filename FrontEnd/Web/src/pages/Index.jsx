@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Carousel from 'react-bootstrap/Carousel';
-import { LoginContext } from '../utils/Contexts.jsx';
+import { LoginContext, ProfileContext } from '../utils/Contexts.jsx';
 import Slide1 from '../assets/Slide1.png';
 import Slide2 from '../assets/Slide2.png';
 import Slide3 from '../assets/Slide3.png';
@@ -10,6 +10,7 @@ import styles from '../styles/index.module.css';
 const Index = () => {
   // Context
   const { loggedIn } = useContext(LoginContext);
+  const { profile } = useContext(ProfileContext);
   // Define states
   const navigate = useNavigate();
   const [index, setIndex] = useState(0);
@@ -18,9 +19,24 @@ const Index = () => {
     setIndex(selectedIndex);
   };
 
-  const handleButtonClick = (event) => {
+  const handleNavigateJobs = (event) => {
     if (loggedIn) {
-      // TODO...
+      event.preventDefault();
+      navigate('/jobs/all');
+    }
+    else {
+      navigate('/login');
+    }
+  };
+
+  const handlePostJob = (event) => {
+    if (loggedIn) {
+      event.preventDefault();
+      if (profile.type === "individual") {
+        navigate('/jobs/postfreelancing');
+      } else {
+        navigate('/jobs/post');
+      }
     }
     else {
       navigate('/login');
@@ -36,8 +52,8 @@ const Index = () => {
               <span>Find Your Next Dream Job</span>
               <p>Easiest way to find a perfect job</p>
               <div className={styles.carousel_buttons}>
-                <button onClick={handleButtonClick}>Looking For a job?</button>
-                <button onClick={handleButtonClick}>Post a job</button>
+                <button onClick={handleNavigateJobs}>Looking For a job?</button>
+                <button onClick={handlePostJob}>Post a job</button>
               </div>
             </div>
           </Carousel.Caption>

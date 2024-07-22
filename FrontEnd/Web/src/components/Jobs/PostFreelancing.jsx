@@ -107,7 +107,7 @@ const PostFreelancing = () => {
         setJobSkills([]);
         setSkillIds([]);
 
-        navigate('/freelancing-jobs');
+        navigate('/jobs/Freelancing');
       } else {
         console.log(response.statusText);
       }

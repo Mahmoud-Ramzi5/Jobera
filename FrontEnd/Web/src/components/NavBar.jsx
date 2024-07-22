@@ -70,6 +70,10 @@ const NavBar = () => {
                 </li>
               </ul>
             </li>
+            <li>
+              {profile.type === "individual" ? <a href="/jobs/postfreelancing"> Post a job </a> :
+                <a href="/jobs/post"> Post a job </a>}
+            </li>
           </div>
 
           <div className={styles.nav_links_right}>
