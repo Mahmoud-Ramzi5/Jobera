@@ -3,10 +3,10 @@ import { useTranslation } from "react-i18next";
 import img_holder from "../../assets/upload.png";
 import styles from "../../styles/jobs.module.css";
 
-const JobCard = ({ JobData, showOffer }) => {
+const JobCard = ({ JobData }) => {
   // Translations
   const { t } = useTranslation("global");
-  const [showMore, setShowMore] = useState(false);
+
 
   return (
     <div className={styles.card}>
@@ -58,21 +58,8 @@ const JobCard = ({ JobData, showOffer }) => {
           </div>
         </div>
       )}
-      {showOffer && (
-        <div className={styles.showmoreInfo}>
-          {showMore ? (
-            <p>Additional Information</p>
-          ) : (
-            <button
-              className={styles.showMoreButton}
-              onClick={() => setShowMore(true)}
-            >
-              Show More
-            </button>
-          )}
-        </div>
-      )}
     </div>
+
   );
 };
 

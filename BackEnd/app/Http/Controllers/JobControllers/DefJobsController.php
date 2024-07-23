@@ -4,8 +4,10 @@ namespace App\Http\Controllers\JobControllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\FreelancingJobCollection;
+use App\Http\Resources\FreelancingJobCompetitorResource;
 use App\Http\Resources\FreelancingJobResource;
 use App\Http\Resources\RegJobCollection;
+use App\Http\Resources\RegJobCompetitorResource;
 use App\Http\Resources\RegJobResource;
 use App\Models\Company;
 use App\Models\DefJob;
@@ -156,13 +158,15 @@ class DefJobsController extends Controller
                         if($RegJob->accepted_individual!=null){
                             array_push($freelancingJobsApplied, [
                                 "RegJob"=>new RegJobResource($RegJob),
-                                "status"=>"Refused"
+                                "status"=>"Refused",
+                                "offer"=>new RegJobCompetitorResource($competitor)
                             ]);
                             continue;
                         }
                         array_push($regJobsApplied, [
                             "regJob"=>new RegJobResource($RegJob),
-                            "status"=>"Pending"
+                            "status"=>"Pending",
+                            "offer"=>new RegJobCompetitorResource($competitor)
                         ]);
                     }
 
@@ -186,13 +190,15 @@ class DefJobsController extends Controller
                     if($freelancingJob->acceptedUser!=null){
                         array_push($freelancingJobsApplied, [
                             "freelancingJob"=>new FreelancingJobResource($freelancingJob),
-                            "status"=>"Refused"
+                            "status"=>"Refused",
+                            "offer"=>new FreelancingJobCompetitorResource($competitor)
                         ]);
                         continue;
                     }
                     array_push($freelancingJobsApplied, [
                         "freelancingJob"=>new FreelancingJobResource($freelancingJob),
-                        "status"=>"Pending"
+                        "status"=>"Pending",
+                        "offer"=>new FreelancingJobCompetitorResource($competitor)
                     ]);
                 }
 

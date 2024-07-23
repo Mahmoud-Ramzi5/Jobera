@@ -6,6 +6,7 @@ import JobCard from "../components/Jobs/JobCard";
 import Clock from "../utils/Clock";
 import { Link } from "react-router-dom";
 import JobFilter from "../components/Jobs/JobFilter";
+import JobCompetitorCard from "../components/Jobs/JobCompetitorCard";
 
 const Manage = () => {
   const [currentPage, setCurrentPage] = useState("Posts");
@@ -176,6 +177,7 @@ const Offers = () => {
   const [freelancingjobs, setFreelancingJobs] = useState([]);
   const [newFilter, setNewFilter] = useState(false);
   const [jobType, setJobType] = useState("all");
+  const [showMore, setShowMore] = useState(false);
   const [filter, setFilter] = useState({
     userName: "",
     minSalary: 0,
@@ -205,10 +207,10 @@ const Offers = () => {
         });
     }
   }, []);
+
   const handleFilterSubmit = (event) => {
-    setJobs([]);
-    setNextPage(1);
-    setIsDone(false);
+    setRegJobs([]);
+    setFreelancingJobs([]);
     setNewFilter(true);
     filtered.current = false;
     // Update jobType based on the selected radio button
@@ -267,18 +269,40 @@ const Offers = () => {
                 className={styles.job_card}
                 to={`/job/${job.regJob.defJob_id}`}
               >
-                <JobCard JobData={job.regJob} showOffer={true} />
+                <JobCard JobData={job.regJob} />
               </Link>
             ))}
           {(jobType === "all" || jobType === "freelancing") &&
             freelancingjobs.map((job) => (
-              <Link
-                key={job.freelancingJob.defJob_id}
-                className={styles.job_card}
-                to={`/job/${job.freelancingJob.defJob_id}`}
-              >
-                <JobCard JobData={job.freelancingJob} showOffer={true} />
-              </Link>
+              <div key={job.freelancingJob.defJob_id}>
+                <Link
+                  className={styles.job_card}
+                  to={`/job/${job.freelancingJob.defJob_id}`}
+                >
+                  <JobCard JobData={job.freelancingJob} />
+                </Link>
+                <div>
+                  {showMore ? (
+                    <div>{
+                      <JobCompetitorCard CompetitorData={job.offer}/>
+                    }
+                      <button
+                        className={styles.showMoreButton}
+                        onClick={() => setShowMore(false)}
+                      >
+                        Show less
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      className={styles.showMoreButton}
+                      onClick={() => setShowMore(true)}
+                    >
+                      Show Offer
+                    </button>
+                  )}
+                </div>
+              </div>
             ))}
           {isLoading ? <Clock /> : null}
         </div>
