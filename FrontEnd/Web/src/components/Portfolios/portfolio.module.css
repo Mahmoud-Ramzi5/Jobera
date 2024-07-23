@@ -26,7 +26,7 @@
   box-sizing: border-box;
   margin: 0;
   width: 100%;
-  padding-left: 10px;
+  padding-inline-start: 10px;
 }
 
 .row {
@@ -66,16 +66,16 @@
 .skills {
   width: 100%;
   position: relative;
-  padding-top: 30px;
-  padding-bottom: 10px;
+  padding-block-start: 30px;
+  padding-block-end: 10px;
 }
 
 .skills input {
   border: none;
   background: none;
   color: var(--color-foreground);
-  padding-left: 24px;
-  padding-bottom: 8px;
+  padding-inline-start: 24px;
+  padding-block-end: 8px;
   width: 80%;
   font-size: 15px;
   font-weight: 700;
@@ -85,20 +85,20 @@
 .skills p {
   border: none;
   background: none;
-  border-bottom: 1px dotted #A5A5A8;
+  border-block-end: 1px dotted #A5A5A8;
   color: var(--color-foreground);
-  margin-left: 69px;
-  margin-bottom: 23px;
+  margin-inline-start: 69px;
+  margin-block-end: 23px;
   width: 69%;
 }
 
 .skills select {
   border: none;
-  border-bottom: 2px solid #A5A5A8;
+  border-block-end: 2px solid #A5A5A8;
   background: none;
   color: var(--color-foreground);
-  padding-left: 24px;
-  padding-bottom: 8px;
+  padding-inline-start: 24px;
+  padding-block-end: 8px;
   width: 80%;
   height: 200px;
   font-size: 15px;
@@ -113,14 +113,14 @@
 .skills input:hover,
 .skills select:hover {
   outline: none;
-  border-bottom-color: #4F6E95;
+  border-block-end-color: #4F6E95;
 }
 
 .choosed_skills {
   width: 100%;
   position: relative;
-  padding-top: 15px;
-  padding-bottom: 10px;
+  padding-block-start: 15px;
+  padding-block-end: 10px;
 }
 
 .choosed_skill {
@@ -134,7 +134,7 @@
 
 .submit_div {
   width: 100%;
-  padding-top: 25px;
+  padding-block-start: 25px;
   display: flex;
   justify-content: center;
 }
@@ -166,8 +166,8 @@
 }
 
 .data_field {
-  padding-top: 40px;
-  padding-bottom: 10px;
+  padding-block-start: 40px;
+  padding-block-end: 10px;
   width: 100%;
   position: relative;
   justify-content: space-around;
@@ -175,13 +175,13 @@
 
 .data {
   border: none;
-  border-bottom: 2px solid #A5A5A8;
+  border-block-end: 2px solid #A5A5A8;
   background: none;
   color: var(--color-foreground);
-  padding-left: 10px;
-  padding-bottom: 5px;
-  margin-left: 20px;
-  margin-bottom: 40px;
+  padding-inline-start: 10px;
+  padding-block-end: 5px;
+  margin-inline-start: 20px;
+  margin-block-end: 40px;
   width: 90%;
   font-weight: 600;
   text-align: left;
@@ -219,7 +219,7 @@
 
 .files {
   width: 100%;
-  padding-top: 10px;
+  padding-block-start: 10px;
   position: relative;
   display: flex;
   align-items: center;
@@ -229,8 +229,8 @@
 .file {
   font-size: 15px;
   padding: 5px 10px;
-  border-left: 1px dashed;
-  border-bottom: 1px dashed;
+  border-inline-start: 1px dashed;
+  border-block-end: 1px dashed;
   border-color: #302f2f;
   font-weight: 600;
   display: flex;
@@ -257,10 +257,10 @@
 .portfolio_background::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  inset-inline-end: 0;
+  inset-block-end: 0;
   opacity: 0;
   background-color: rgba(0, 0, 0, 0.5);
   transition: opacity 0.35s ease;

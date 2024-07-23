@@ -7,7 +7,8 @@
 
 .progress_steps_container {
   display: flex;
-  flex-direction: row-reverse; /* Change flex direction to reverse */
+  flex-direction: row-reverse;
+  /* Change flex direction to reverse */
   flex: 1;
 }
 
@@ -27,28 +28,33 @@
 .progress_step:not(:first-child):before {
   content: "";
   position: absolute;
-  top: 50%;
-  right: -10px; /* Adjust right position for arrow */
+  inset-block-start: 50%;
+  inset-inline-end: -10px;
+  /* Adjust right position for arrow */
   transform: translateY(-50%);
   width: 0;
   height: 0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-left: 10px solid #ccc; /* Change border to point to the left */
+  border-block-start: 10px solid transparent;
+  border-block-end: 10px solid transparent;
+  border-inline-start: 10px solid #ccc;
+  /* Change border to point to the left */
 }
 
 .progress_step:not(:last-child):after {
   content: "";
   position: absolute;
-  top: 50%;
-  left: -10px; /* Adjust left position for arrow */
+  inset-block-start: 50%;
+  inset-inline-start: -10px;
+  /* Adjust left position for arrow */
   transform: translateY(-50%) rotate(180deg);
   width: 0;
   height: 0;
-  border-top: 10px solid transparent;
-  border-bottom: 10px solid transparent;
-  border-right: 10px solid #ccc; /* Change border to point to the right */
-  display: none; /* Hide the arrow initially */
+  border-block-start: 10px solid transparent;
+  border-block-end: 10px solid transparent;
+  border-inline-end: 10px solid #ccc;
+  /* Change border to point to the right */
+  display: none;
+  /* Hide the arrow initially */
 }
 
 
@@ -66,10 +72,13 @@
 }
 
 .progress_step.active:before {
-  border-left-color: #007bff; /* Adjust border color */
+  border-inline-start-color: #007bff;
+  /* Adjust border color */
 }
 
 .progress_step.active:after {
-  display: block; /* Show the arrow for the active step */
-  border-right-color: #007bff; /* Adjust border color */
+  display: block;
+  /* Show the arrow for the active step */
+  border-inline-end-color: #007bff;
+  /* Adjust border color */
 }

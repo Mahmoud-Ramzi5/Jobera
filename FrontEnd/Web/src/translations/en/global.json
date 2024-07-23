@@ -49,7 +49,7 @@
                     "to": "To:"
                 },
                 "skills": {
-                    "label:": "Skills",
+                    "label": "Skills",
                     "see_less": "See less",
                     "see_more": "See more"
                 },
@@ -74,7 +74,7 @@
                 "title": "Title",
                 "description": "Description",
                 "reg": {
-                    "salary": "salary"
+                    "salary": "Salary"
                 },
                 "freelancing": {
                     "min_salary": "Min Salary",
@@ -213,6 +213,54 @@
             "not_found": "Skill was not found",
             "count": "Skills left:",
             "button": "Submit"
+        },
+        "show_job": {
+            "heading": "Wanted skills",
+            "name": "Job owner:",
+            "type": "job",
+            "description": "Description:",
+            "salary": "Salary:",
+            "min_salary": "Min Salary:",
+            "max_salary": "Max Salary:",
+            "avg_salary": "Avg offer salary:",
+            "location": "Job location:",
+            "deadline": "Deadline:",
+            "publish_date": "Publish date:",
+            "end_job_button": "End job",
+            "delete_job_button": "Delete job",
+            "h5": "Competitors",
+            "competitor_button": "+ Be a competitor",
+            "comment_input": "Add your comment",
+            "desired_salary": "Desired salary",
+            "tax": "Your share after website taxes:",
+            "send_button": "Send",
+            "cancel_button": "Cancel"
+        },
+        "footer": {
+            "footer_logo": "Jobera",
+            "app_lang": "Language:",
+            "en": "English",
+            "ar": "Arabic",
+            "copyright": "Copyright ©2024 All rights reserved",
+            "h3_jobs": "Jobs",
+            "post_job": "Post a job",
+            "all": "Browse All Jobs",
+            "full_time": "Browse FullTime Jobs",
+            "part_time": "Browse PartTime Jobs",
+            "freelancing": "Browse Freelancing Jobs",
+            "h3_apps": "Apps",
+            "android": "Android App",
+            "ios": "IOS App",
+            "h3_about": "About",
+            "about_us": "About us",
+            "contact_us": "Contact us",
+            "services": "Services",
+            "careers": "Careers",
+            "team": "Team",
+            "h3_info": "Further Information",
+            "privacy&policy": "Privacy & Policy",
+            "terms&conditions": "Terms & Conditions",
+            "code_of_conduct": "Code of Conduct"
         }
     }
 }

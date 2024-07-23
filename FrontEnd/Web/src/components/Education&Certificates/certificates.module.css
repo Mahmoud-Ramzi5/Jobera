@@ -1,11 +1,11 @@
 .screen {
-  top: 70px;
+  inset-block-start: 70px;
   width: 100%;
   min-height: 100vh;
   position: relative;
   display: flex;
   flex-direction: column;
-  margin-bottom: 70px;
+  margin-block-end: 70px;
 }
 
 .content {
@@ -16,7 +16,7 @@
 .content h1 {
   color: var(--color-foreground);
   font-size: 24px;
-  margin-bottom: 10px;
+  margin-block-end: 10px;
 }
 
 .top_bar {
@@ -24,7 +24,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-block-end: 20px;
 }
 
 .search_bar {
@@ -64,7 +64,7 @@
   border: none;
   border-radius: 4px;
   padding: 10px 20px;
-  margin-left: 10px;
+  margin-inline-start: 10px;
   cursor: pointer;
   color: #ffffff;
   display: inline-flex;
@@ -96,7 +96,7 @@
 .submit_div {
   display: flex;
   align-items: center;
-  margin-left: auto; /* Move the form to the right */
+  margin-inline-start: auto; /* Move the form to the right */
 }
 
 .submit_button {
@@ -120,11 +120,11 @@
 .certificates_table th,
 .certificates_table td {
   padding: 10px;
-  border-bottom: 1px solid #ccc;
+  border-block-end: 1px solid #ccc;
 }
 
 .certificates_table th {
-  text-align: left;
+  text-align: inset-inline-start;
   font-weight: bold;
 }
 

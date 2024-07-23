@@ -1,10 +1,10 @@
 .container {
-  top: 130px;
+  inset-block-start: 130px;
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
-  margin-bottom: 170px;
+  margin-block-end: 170px;
   min-height: 100vh;
 }
 
@@ -25,7 +25,7 @@
 }
 
 .heading {
-  margin-bottom: 30px;
+  margin-block-end: 30px;
   font-weight: bold;
   text-align: center;
 }
@@ -34,16 +34,16 @@
   box-sizing: border-box;
   margin: 0;
   width: 100%;
-  padding-left: 10px;
+  padding-inline-start: 10px;
 }
 
 .row {
-  margin-bottom: 20px;
+  margin-block-end: 20px;
 }
 
 .row label {
   font-weight: bold;
-  padding-bottom: 4px;
+  padding-block-end: 4px;
 }
 
 .row input {
@@ -92,7 +92,7 @@
 
 .dropdown_icon {
   position: absolute;
-  top: 20%;
+  inset-block-start: 20%;
   right: 15px;
   color: #555;
 }
