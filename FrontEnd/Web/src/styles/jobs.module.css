@@ -202,7 +202,26 @@
     outline: none;
 }
 
-
+.showmoreInfo {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-foreground);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  
+  .showMoreButton {
+    background-color: transparent;
+    border: none;
+    color: var(--color-button);
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: underline;
+  }
 /* Screen Size compatiplity */
 @media screen and (max-width: 970px) {
     .left_container {
