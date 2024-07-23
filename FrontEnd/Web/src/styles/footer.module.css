@@ -7,22 +7,22 @@
 
 .container {
   width: 100%;
-  padding-left: 15px;
-  padding-right: 15px;
-  margin-left: 10px;
-  margin-right: 10px;
+  padding-inline-start: 15px;
+  padding-inline-end: 15px;
+  margin-inline-start: 10px;
+  margin-inline-end: 10px;
 }
 
 .row {
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: 50px;
+  margin-block-end: 50px;
 }
 
 .column {
   position: relative;
-  padding-right: 15px;
-  padding-left: 15px;
+  padding-inline-end: 15px;
+  padding-inline-start: 15px;
 }
 
 .col_1 {
@@ -34,14 +34,14 @@
 }
 
 .column p {
-  margin-top: 0;
-  margin-bottom: 10px;
+  margin-block-start: 0;
+  margin-block-end: 10px;
 }
 
 .column h3 {
   color: #ffffff;
   font-size: 20px;
-  margin-bottom: 10px;
+  margin-block-end: 10px;
 }
 
 .footerLogo {
@@ -49,7 +49,7 @@
   color: #ffffff;
   font-size: 30px;
   font-weight: bold;
-  margin-bottom: 30px;
+  margin-block-end: 30px;
   text-decoration: none;
 }
 
@@ -57,22 +57,22 @@
   width: 190px;
   display: flex;
   flex-direction: column;
-  margin-bottom: 19px;
+  margin-block-end: 19px;
 }
 
 .AppLang select {
-  margin-top: 5px;
+  margin-block-start: 5px;
   padding: 2px 3px;
   border-radius: 5px;
 }
 
 .footerList_links {
-  padding-left: 1px;
+  padding-inline-start: 1px;
   list-style: none;
 }
 
 .footerList_links li {
-  margin-bottom: 10px;
+  margin-block-end: 10px;
 }
 
 .footerList_links li a {
@@ -88,7 +88,7 @@
   position: relative;
   width: 100%;
   margin: 10px 20px;
-  border-top: 1px solid #ffffff33;
+  border-block-start: 1px solid #ffffff33;
 }
 
 @media screen and (max-width: 970px) {

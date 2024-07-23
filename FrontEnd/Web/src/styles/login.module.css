@@ -6,71 +6,90 @@
     min-height: 100vh;
 }
 
-.screen {        
-    background: linear-gradient(90deg, #00C9FF, #E27D48, #3B6D99);
-    position: relative; 
+.screen {
+    position: relative;
     height: 600px;
-    width: 360px;   
+    width: 360px;
     box-shadow: 0px 0px 24px #395F87;
+}
+
+html[dir='ltr'] .screen {
+    background: linear-gradient(90deg, #00C9FF, #E27D48, #3B6D99);
+}
+
+html[dir='rtl'] .screen {
+    background: linear-gradient(-90deg, #00C9FF, #E27D48, #3B6D99);
 }
 
 .screen__content {
     margin: 0;
     padding: 0;
     z-index: 1;
-    position: relative; 
+    position: relative;
     height: 100%;
 }
 
-.screen__background {        
+.screen__background {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    inset-block-end: 0;
     z-index: 0;
     -webkit-clip-path: inset(0 0 0 0);
-    clip-path: inset(0 0 0 0);    
+    clip-path: inset(0 0 0 0);
 }
 
-.screen__background__shape {
+html[dir='ltr'] .screen__background__shape {
     transform: rotate(45deg);
+    position: absolute;
+}
+
+html[dir='rtl'] .screen__background__shape {
+    transform: rotate(-45deg);
     position: absolute;
 }
 
 .screen__background__shape1 {
     height: 520px;
     width: 520px;
-    background-color:var(--color-background);   
-    top: -50px;
-    right: 120px;   
-    border-radius: 0 72px 0 0;
+    background-color: var(--color-background);
+    inset-block-start: -50px;
+    inset-inline-end: 120px;
+    border-radius: 72px 72px 0 0;
 }
 
 .screen__background__shape2 {
     height: 220px;
     width: 220px;
-    background: #4F6E95;    
-    top: -172px;
-    right: 0;   
+    background: #4F6E95;
+    inset-block-start: -172px;
+    inset-inline-end: 0;
     border-radius: 32px;
 }
 
 .screen__background__shape3 {
     height: 540px;
     width: 190px;
-    background: linear-gradient(270deg, #E27D48, #4F6E95);
-    top: -24px;
-    right: 0;   
+    inset-block-start: -24px;
+    inset-inline-end: 0;
     border-radius: 32px;
+}
+
+html[dir='rtl'] .screen__background__shape3 {
+    background: linear-gradient(270deg, #E27D48, #4F6E95);
+}
+
+html[dir='rtl'] .screen__background__shape3 {
+    background: linear-gradient(270deg, #4F6E95, #E27D48);
 }
 
 .screen__background__shape4 {
     height: 400px;
     width: 200px;
-    background: #3E6FA9;    
-    top: 420px;
-    right: 50px;    
+    background: #3E6FA9;
+    inset-block-start: 420px;
+    inset-inline-end: 50px;
     border-radius: 60px;
 }
 
@@ -78,15 +97,30 @@
     position: absolute;
     font-size: 32px;
     font-weight: 480;
+}
+
+html[dir='ltr'] .title {
     translate: 96px 48px;
+}
+
+html[dir='rtl'] .title {
+    translate: -32px 64px;
 }
 
 .logo {
     position: absolute;
-    height: 83px;
     will-change: filter;
     transition: filter 290ms;
+}
+
+html[dir='ltr'] .logo {
+    height: 83px;
     translate: -156px 26px;
+}
+
+html[dir='rtl'] .logo {
+    height: 67px;
+    translate: 156px 13px;
 }
 
 .logo:hover {
@@ -94,16 +128,16 @@
     filter: drop-shadow(0 0 32px #00C9FF);
 }
 
-.login {    
+.login {
     box-sizing: border-box;
     margin: 0;
     width: 300px;
-    padding-top: 125px;
+    padding-block-start: 125px;
 }
 
 .checkBox {
     font-size: 13px;
-    margin-left: 15px;
+    margin-inline-start: 15px;
     padding: 5px 20px;
     text-decoration: inherit;
     font-weight: 500;
@@ -116,12 +150,12 @@
 }
 
 .checkBox label {
-    padding-left: 15px;
+    padding-inline-start: 15px;
 }
 
 .forgot__password {
     font-size: 13px;
-    margin-left: 15px;
+    margin-inline-start: 15px;
     padding: 10px 15px;
     text-decoration: inherit;
     text-transform: uppercase;
@@ -139,8 +173,8 @@
 .login__submit {
     background: #fff;
     font-size: 15px;
-    margin-top: 5px;
-    margin-left: 15px;
+    margin-block-start: 5px;
+    margin-inline-start: 15px;
     padding: 10px 20px;
     border-radius: 25px;
     border: 1px solid #A7A6BC;
@@ -165,7 +199,7 @@
 
 .login__register {
     font-size: 14px;
-    margin-left: 9px;
+    margin-inline-start: 9px;
     padding: 7px 14px;
     text-decoration: inherit;
     font-weight: 623;
@@ -193,26 +227,30 @@
 
 .button__icon {
     font-size: 24px;
-    margin-left: auto;
+    margin-inline-start: auto;
     color: #58708F;
 }
 
-.social__login {    
+html[dir='rtl'] .button__icon {
+    transform: scaleX(-1);
+}
+
+.social__login {
     position: absolute;
     height: 140px;
     width: 160px;
     text-align: center;
-    bottom: 0px;
-    right: 0px;
+    inset-block-end: 0px;
+    inset-inline-end: 0px;
     color: #fff;
 }
 
 .social__login__icon {
     padding: 20px 10px;
     color: #fff;
-    text-decoration: none;    
+    text-decoration: none;
 }
 
 .social__login__icon:hover {
-    transform: scale(1.7);    
+    transform: scale(1.7);
 }

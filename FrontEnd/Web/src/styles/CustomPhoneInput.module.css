@@ -5,10 +5,10 @@
 }
 
 .PhoneInput {
-    padding-top: 27px;
-    margin-left: 27px;
+    padding-block-start: 27px;
+    margin-inline-start: 27px;
     width: 81%;
-    border-bottom: 2px solid #A5A5A8;
+    border-block-end: 2px solid #A5A5A8;
 
     --react-international-phone-flag-width: 25px;
     --react-international-phone-flag-width: 25px;

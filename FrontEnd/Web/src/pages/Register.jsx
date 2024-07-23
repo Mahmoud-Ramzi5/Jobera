@@ -19,7 +19,7 @@ const Register = () => {
           <img src={Logo} className={styles.logo} alt="logo" />
           <div className={styles.title}>{t('pages.Register.title')}</div>
           <div className={styles.btn}>
-            <div className={styles.slider} style={RegisterType === 'individual' ? { left: 0 } : { left: '100px' }} />
+            <div className={styles.slider} style={RegisterType === 'individual' ? { insetInlineStart: 0 } : { insetInlineStart: '100px' }} />
             <button onClick={() => setRegisterType('individual')}>{t('pages.Register.slider.individual')}</button>
             <button onClick={() => setRegisterType('company')}>{t('pages.Register.slider.company')}</button>
           </div>

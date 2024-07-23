@@ -1,5 +1,5 @@
 .carousel {
-    top: 70px;
+    inset-block-start: 70px;
     width: 100%;
     height: 90vh;
     background-color: #3A3B3C;
@@ -17,10 +17,10 @@
     background-position: center;
     background-repeat: no-repeat;
     position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    bottom: 0;
+    inset-block-start: 0;
+    inset-block-end: 0;
+    inset-inline-end: 0;
+    inset-inline-start: 0;
 }
 
 .carousel_item::before {
@@ -33,10 +33,10 @@
     justify-content: center;
     align-items: center;
     position: absolute;
-    bottom: 0;
-    top: 0;
-    left: 50px;
-    right: 50px;
+    inset-block-start: 0;
+    inset-block-end: 0;
+    inset-inline-start: 50px;
+    inset-inline-end: 50px;
 }
 
 .carousel_container {
@@ -45,7 +45,7 @@
 
 .carousel_container span {
     color: #fff;
-    margin-bottom: 20px;
+    margin-block-end: 20px;
     font-size: 48px;
     font-weight: 700;
 }
@@ -64,8 +64,8 @@
 .carousel_buttons button {
     background: #ddd;
     font-size: 15px;
-    margin-top: 5px;
-    margin-left: 15px;
+    margin-block-start: 5px;
+    margin-inline-start: 15px;
     padding: 10px 20px;
     border-radius: 25px;
     border: 1px solid #A7A6BC;
@@ -93,7 +93,7 @@
     display: flex;
     width: 100%;
     padding: 10px;
-    margin-top: 100px;
+    margin-block-start: 100px;
     justify-content: center;
 }
 
@@ -103,10 +103,10 @@
     text-align: center;
     width: 60%;
     min-height: 1px;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-bottom: 20px;
-    margin-bottom: 10px;
+    padding-inline-start: 15px;
+    padding-inline-end: 15px;
+    padding-block-end: 20px;
+    margin-block-end: 10px;
 }
 
 .container2 span {
@@ -114,7 +114,7 @@
     line-height: 1;
     font-size: 110px;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-block-end: 10px;
     color: var(--color-foreground);
 }
 
@@ -122,7 +122,7 @@
     display: block;
     font-size: 46px;
     font-weight: 700;
-    margin-bottom: 23px;
+    margin-block-end: 23px;
     text-transform: capitalize;
     color: var(--color-foreground);
 }
@@ -131,6 +131,6 @@
     font-size: 15px;
     font-weight: normal;
     line-height: 30px;
-    margin-bottom: 15px;
+    margin-block-end: 15px;
     color: var(--color-foreground);
 }
