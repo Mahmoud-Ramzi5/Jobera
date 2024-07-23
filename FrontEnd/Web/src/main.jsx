@@ -15,8 +15,14 @@ const lng = localStorage.getItem('Lang');
 
 if (lng !== null) {
   document.documentElement.lang = lng;
+  if (lng === 'ar') {
+    document.documentElement.dir = 'rtl';
+  } else {
+    document.documentElement.dir = 'ltr';
+  }
 } else {
   document.documentElement.lang = 'en';
+  document.documentElement.dir = 'ltr';
 }
 
 i18next.init({

@@ -6,75 +6,94 @@
     min-height: 100vh;
 }
 
-.screen {        
+.screen {
     position: relative;
     height: 600px;
-    width: 720px;   
+    width: 720px;
     box-shadow: 0px 0px 24px #395F87;
 }
 
 .screen__shape {
-    background: linear-gradient(90deg, #00C9FF, #E27D48, #3B6D99);
-    position: absolute; 
+    position: absolute;
     height: 600px;
-    width: 360px;  
+    width: 360px;
+}
+
+html[dir='ltr'] .screen__shape {
+    background: linear-gradient(90deg, #00C9FF, #E27D48, #3B6D99);
+}
+
+html[dir='rtl'] .screen__shape {
+    background: linear-gradient(-90deg, #00C9FF, #E27D48, #3B6D99);
 }
 
 .screen__content {
     z-index: 1;
-    position: relative; 
+    position: relative;
     height: 100%;
 }
 
-.screen__background {        
+.screen__background {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    inset-block-end: 0;
     z-index: 0;
     -webkit-clip-path: inset(0 0 0 0);
-    clip-path: inset(0 0 0 0);    
+    clip-path: inset(0 0 0 0);
 }
 
-.screen__background__shape {
+html[dir='ltr'] .screen__background__shape {
     transform: rotate(45deg);
+    position: absolute;
+}
+
+html[dir='rtl'] .screen__background__shape {
+    transform: rotate(-45deg);
     position: absolute;
 }
 
 .screen__background__shape1 {
     height: 520px;
     width: 520px;
-    background-color: var(--color-background);   
-    top: -50px;
-    right: 120px;   
-    border-radius: 0 72px 0 0;
+    background-color: var(--color-background);
+    inset-block-start: -50px;
+    inset-inline-end: 120px;
+    border-radius: 72px 72px 0 0;
 }
 
 .screen__background__shape2 {
     height: 220px;
     width: 220px;
-    background: #4F6E95;    
-    top: -172px;
-    right: 0;   
+    background: #4F6E95;
+    inset-block-start: -172px;
+    inset-inline-end: 0;
     border-radius: 32px;
 }
 
 .screen__background__shape3 {
     height: 540px;
     width: 190px;
-    background: linear-gradient(270deg, #E27D48, #4F6E95);
-    top: -24px;
-    right: 0;   
+    inset-block-start: -24px;
+    inset-inline-end: 0;
     border-radius: 32px;
+}
+
+html[dir='rtl'] .screen__background__shape3 {
+    background: linear-gradient(270deg, #E27D48, #4F6E95);
+}
+
+html[dir='rtl'] .screen__background__shape3 {
+    background: linear-gradient(270deg, #4F6E95, #E27D48);
 }
 
 .screen__background__shape4 {
     height: 400px;
     width: 200px;
-    background: #3E6FA9;    
-    top: 420px;
-    right: 50px;    
+    background: #3E6FA9;
+    inset-block-start: 420px;
+    inset-inline-end: 50px;
     border-radius: 60px;
 }
 
@@ -82,7 +101,14 @@
     position: absolute;
     font-size: 32px;
     font-weight: 480;
+}
+
+html[dir='ltr'] .title {
     translate: 160px 32px;
+}
+
+html[dir='rtl'] .title {
+    translate: -128px 32px;
 }
 
 .logo {
@@ -90,7 +116,14 @@
     height: 83px;
     will-change: filter;
     transition: filter 290ms;
+}
+
+html[dir='ltr'] .logo {
     translate: -312px 13px;
+}
+
+html[dir='rtl'] .logo {
+    translate: 312px 13px;
 }
 
 .logo:hover {
@@ -100,7 +133,7 @@
 
 .slider {
     position: absolute;
-    bottom: 0;
+    inset-block-end: 0;
     height: 46px;
     width: 92px;
     border-radius: 1px;
@@ -114,11 +147,18 @@
     height: 48px;
     width: 192px;
     border-width: 1px;
-    border-bottom: solid;
+    border-block-end: solid;
     align-items: center;
     justify-content: space-around;
     background-color: var(--color-scrollbar-thump);
+}
+
+html[dir='ltr'] .btn {
     translate: 320px 32px;
+}
+
+html[dir='rtl'] .btn {
+    translate: -320px 32px;
 }
 
 .btn button {
@@ -134,37 +174,37 @@
     box-sizing: border-box;
     margin: 0;
     width: 600px;
-    padding-left: 20px;
-    padding-right: 30px;
-    padding-top: 85px;
+    padding-inline-start: 20px;
+    padding-inline-end: 30px;
+    padding-block-start: 85px;
 }
 
 .register__row {
     display: flex;
-    position: relative;   
+    position: relative;
 }
 
-.register__field__radio {    
+.register__field__radio {
     padding: 20px 0px;
     width: 100%;
     display: flex;
-    position: relative;  
+    position: relative;
 }
 
 .register__input__radio {
     padding: 10px 0px;
-    padding-left: 3px;
+    padding-inline-start: 3px;
     font-weight: 500;
     width: 35%;
     color: var(--color-foreground);
-    text-decoration: inherit;  
+    text-decoration: inherit;
     accent-color: #4F6E95;
 }
 
 .register__login {
     font-size: 15px;
-    margin-top: 5px;
-    margin-left: 30px;
+    margin-block-start: 5px;
+    margin-inline-start: 30px;
     padding: 10px 15px;
     text-decoration: inherit;
     font-weight: 500;
@@ -192,7 +232,7 @@
 
 .register__submit {
     font-size: 15px;
-    margin-top: 5px;
+    margin-block-start: 5px;
     padding: 10px 20px;
     border-radius: 25px;
     border: 1px solid #A7A6BC;
@@ -218,15 +258,23 @@
 
 .button__icon {
     font-size: 24px;
-    margin-left: auto;
+    margin-inline-start: auto;
     color: #58708F;
+}
+
+html[dir='rtl'] .button__icon {
+    transform: scaleX(-1);
 }
 
 /* Date Picker */
 .date_picker {
-    width: 100%; 
+    width: 100%;
 }
 
 .date_picker_icon {
-    margin-left: -7px;
+    margin-inline-start: -7px;
+}
+
+html[dir='rtl'] .date_picker input {
+    padding-inline-start: 23px;
 }
