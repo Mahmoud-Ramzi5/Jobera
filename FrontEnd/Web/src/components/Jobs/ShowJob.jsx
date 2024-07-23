@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { PencilSquare, CurrencyDollar, ChatDots, Check2 } from 'react-bootstrap-icons';
 import { LoginContext, ProfileContext } from '../../utils/Contexts';
 import {
@@ -18,6 +19,8 @@ import Inputstyles from '../../styles/Input.module.css'
 
 
 const ShowJob = () => {
+  // Translations
+  const { t } = useTranslation('global');
   // Context
   const { accessToken } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
@@ -219,12 +222,12 @@ const ShowJob = () => {
       job.accepted_user.id,
       job.id,
       job.accepted_user.salary
-    ).then((response)=>{
-      if (response.status==200){
+    ).then((response) => {
+      if (response.status == 200) {
         setJobEnded(true);
         console.log('done write')
         window.location.reload();
-      }else{
+      } else {
         console.log(response);
       }
     })
@@ -238,26 +241,27 @@ const ShowJob = () => {
 
   const handleDeleteJob = (event) => {
     event.preventDefault();
-    if(job.type === 'Freelancing'){
+    if (job.type === 'Freelancing') {
       DeleteFreelancingJobAPI(
         accessToken,
         job.id
-      ).then((response) =>{
-        if (response.status==204){
+      ).then((response) => {
+        if (response.status == 204) {
           console.log('job deleted');
           navigate('/freelancing-jobs');
-        }else{
+        } else {
           console.log(response);
-        }});
-    }else if(job.type != 'Freelancing'){
+        }
+      });
+    } else if (job.type != 'Freelancing') {
       DeleteRegJobAPI(
         accessToken,
         job.id
-      ).then((response) =>{
-        if (response.status==204){
+      ).then((response) => {
+        if (response.status == 204) {
           console.log('job deleted');
           navigate('/jobs');
-        }else{
+        } else {
           console.log(response);
         }
       })
@@ -285,7 +289,9 @@ const ShowJob = () => {
                   }
                 </div>
               </div>
-              <h5 className={styles.heading}>Wanted skills</h5>
+              <h5 className={styles.heading}>
+                {t('components.show_job.heading')}
+              </h5>
               <div className={styles.data}>
                 {job.skills && job.skills.map((skill) => (
                   <div key={skill.id} className={styles.used_skills}>
@@ -299,95 +305,145 @@ const ShowJob = () => {
                 <div className={styles.title}>{job.title}</div>
               </div>
               <div className={styles.name}>
-                Job owner: {job.job_user ? <a className={styles.anchor} href={`/profile/${job.job_user.user_id}/${job.job_user.name}`}>{job.job_user.name}</a> : <a className={styles.anchor} href={`/profile/${job.company.user_id}/${job.company.name}`}>{job.company.name}</a>}
+                {t('components.show_job.name')}{' '}
+                {job.job_user ?
+                  <a className={styles.anchor} href={`/profile/${job.job_user.user_id}/${job.job_user.name}`}>
+                    {job.job_user.name}
+                  </a>
+                  :
+                  <a className={styles.anchor} href={`/profile/${job.company.user_id}/${job.company.name}`}>
+                    {job.company.name}
+                  </a>
+                }
               </div>
-              <div className={styles.type}>{job.type}  job</div>
-              <div className={styles.description}>Description: {job.description}</div>
+              <div className={styles.type}>
+                {job.type}{' '}{t('components.show_job.type')}
+              </div>
+              <div className={styles.description}>
+                {t('components.show_job.description')}{' '}{job.description}
+              </div>
               {job.salary ? (
-                <div className={styles.salary}>Salary: ${job.salary}</div>
+                <div className={styles.salary}>
+                  {t('components.show_job.salary')} ${job.salary}
+                </div>
               ) : (
                 <>
-                  <div className={styles.salary}>Min salary: ${job.min_salary}&nbsp;&nbsp; Max salary: ${job.max_salary}</div>
-                  <div className={styles.salary}>Avg offer salary: ${job.avg_salary}</div>
+                  <div className={styles.salary}>
+                    {t('components.show_job.min_salary')} ${job.min_salary} &nbsp;&nbsp;
+                    &nbsp;&nbsp; {t('components.show_job.min_salary')} ${job.max_salary}
+                  </div>
+                  <div className={styles.salary}>
+                    {t('components.show_job.avg_salary')} ${job.avg_salary}
+                  </div>
                 </>
               )}
-              <h5 className={styles.state}> Job location: {job.location ?
-                `${job.location.state}, ${job.location.country}` : 'Remotely'}
+              <h5 className={styles.state}>
+                {t('components.show_job.location')}{' '}
+                {job.location ?
+                  `${job.location.state}, ${job.location.country}`
+                  : 'Remotely'}
               </h5>
               {job.type === 'Freelancing' &&
-                <div className={styles.deadline}>Deadline: {job.deadline}</div>}
+                <div className={styles.deadline}>
+                  {t('components.show_job.deadline')}{' '}{job.deadline}
+                </div>}
               <br /><br />
-              <div className={styles.publish_date}>Publish date: {job.publish_date.split('T')[0]}</div>
+              <div className={styles.publish_date}>
+                {t('components.show_job.publish_date')}{' '}{job.publish_date.split('T')[0]}
+              </div>
             </div>
           </div>
           <div className={styles.cancel_finish_job}>
-            {accepted && isJobCreator && job.type === 'Freelancing' ? <button className={styles.send_button} onClick={handleFinishFreelancingJob}>End job</button>
-              : accepted && isJobCreator && job.type != 'Freelancing' ? <button className={styles.send_button} onClick={handleFinishJob}>End job</button>
-              :!accepted && isJobCreator ? <button className={styles.send_button} onClick={handleDeleteJob}>Delete job</button> :
-                <></>}
+            {accepted && isJobCreator && job.type === 'Freelancing' ?
+              <button className={styles.send_button} onClick={handleFinishFreelancingJob}>
+                {t('components.show_job.end_job_button')}
+              </button>
+              : accepted && isJobCreator && job.type != 'Freelancing' ?
+                <button className={styles.send_button} onClick={handleFinishJob}>
+                  {t('components.show_job.end_job_button')}
+                </button>
+                : !accepted && isJobCreator ?
+                  <button className={styles.send_button} onClick={handleDeleteJob}>
+                    {t('components.show_job.delete_job_button')}
+                  </button> :
+                  <></>}
           </div>
           <div className={styles.competitors}>
             <div className={styles.name_and_button}>
-              <h5>Competitors</h5>
+              <h5>{t('components.show_job.h5')}</h5>
               {
-                !accepted && !isCompetitor && job.job_user ? (job.job_user.user_id !== profile.user_id ?
-                  <button className={styles.competitor_button} onClick={handleNewCompetitor}>+ Be a competitor</button>
-                  : <></>)
-                  : (!accepted && !isCompetitor && job.company && job.company.user_id !== profile.user_id
-                    && profile.type !== 'company' ?
-                    <button className={styles.competitor_button} onClick={handleNewCompetitor}>+ Be a competitor</button>
-                    : <></>)
+                !accepted && !isCompetitor && job.job_user ?
+                  (job.job_user.user_id !== profile.user_id &&
+                    <button className={styles.competitor_button} onClick={handleNewCompetitor}>
+                      {t('components.show_job.competitor_button')}
+                    </button>
+                  )
+                  :
+                  (!accepted && !isCompetitor && job.company &&
+                    job.company.user_id !== profile.user_id && profile.type !== 'company' &&
+                    <button className={styles.competitor_button} onClick={handleNewCompetitor}>
+                      {t('components.show_job.competitor_button')}
+                    </button>
+                  )
               }
             </div>
-            {participate ? <>
+            {participate && <>
               <div className={Inputstyles.field}>
                 <i className={Inputstyles.icon}><PencilSquare /></i>
                 <textarea
-                  placeholder='Add your comment'
+                  placeholder={t('components.show_job.comment_input')}
                   value={comment}
                   onChange={(event) => setComment(event.target.value)}
                   className={Inputstyles.input}
                   rows='5'
                 />
               </div>
-              {job.type === 'Freelancing' ? <>
+              {job.type === 'Freelancing' &&
                 <div className={styles.money_holder}>
                   <NormalInput
                     type='number'
-                    placeholder='Desired salary'
+                    placeholder={t('components.show_job.desired_salary')}
                     icon={<CurrencyDollar />}
                     value={desiredSalary}
                     setChange={handleCalculateSalary}
                   />
                   <br />
-                  <p> Your share after website taxes: {desiredSalary - adminShare} $ </p>
-                </div>
-                <div className={styles.buttons_holder}>
-                  <button className={styles.send_button} onClick={handleNewFreelancer}>Send</button>
-                  <button className={styles.send_button} onClick={handleCancelFreelancer}>Cancel</button>
-                </div>
-              </> :
-                <div className={styles.buttons_holder}>
-                  <button className={styles.send_button} onClick={handleNewJobCompetitor}>Send</button>
-                  <button className={styles.send_button} onClick={handleCancelJobCompetitor}>Cancel</button>
+                  <p>{t('components.show_job.tax')} {desiredSalary - adminShare} $</p>
                 </div>
               }
-            </> : <></>}
+              <div className={styles.buttons_holder}>
+                <button className={styles.send_button} onClick={handleNewFreelancer}>
+                  {t('components.show_job.send_button')}
+                </button>
+                <button className={styles.send_button} onClick={handleCancelFreelancer}>
+                  {t('components.show_job.cancel_button')}
+                </button>
+              </div>
+            </>
+            }
             {job.competitors && job.competitors.map((competitor) => (
               <div className={styles.competitor_and_button} key={competitor.id}>
                 <JobCompetitorCard CompetitorData={competitor} />
                 <div className={styles.buttons_holder2}>
-                  {
-                    job.job_user ? (job.job_user.user_id === profile.user_id && !accepted &&
+                  {job.job_user ?
+                    (job.job_user.user_id === profile.user_id && !accepted &&
                       job.job_user.wallet.current_balance >= competitor.salary &&
                       <button className={styles.accept_button}
-                        onClick={(event) => handleAcceptFreelancingCompetitor(event, competitor.id, competitor.salary)}><Check2 /></button>
-                    ) : (job.company && job.company.user_id === profile.user_id && !accepted &&
+                        onClick={(event) => handleAcceptFreelancingCompetitor(event, competitor.id, competitor.salary)}>
+                        <Check2 />
+                      </button>
+                    )
+                    :
+                    (job.company && job.company.user_id === profile.user_id && !accepted &&
                       <>
                         <button className={styles.accept_button}
-                          onClick={(event) => handleAcceptRegCompetitor(event, competitor.id)}><Check2 /></button>
+                          onClick={(event) => handleAcceptRegCompetitor(event, competitor.id)}>
+                          <Check2 />
+                        </button>
                         <button className={styles.chat_button}
-                          onClick={(event) => handleChatWithIndividual(event, competitor)}><ChatDots /></button>
+                          onClick={(event) => handleChatWithIndividual(event, competitor)}>
+                          <ChatDots />
+                        </button>
                       </>
                     )}
                 </div>

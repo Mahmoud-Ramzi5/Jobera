@@ -1,10 +1,10 @@
 .container {
-  top: 100px;
+  inset-block-start: 100px;
   display: flex;
   position: relative;
   align-items: center;
   justify-content: center;
-  margin-bottom: 130px;
+  margin-block-end: 130px;
 }
 
 .screen {
@@ -24,7 +24,7 @@
 }
 
 .heading {
-  margin-bottom: 30px;
+  margin-block-end: 30px;
   font-weight: bold;
   text-align: center;
 }
@@ -33,16 +33,16 @@
   box-sizing: border-box;
   margin: 0;
   width: 100%;
-  padding-left: 10px;
+  padding-inline-start: 10px;
 }
 
 .row {
-  margin-bottom: 30px;
+  margin-block-end: 30px;
 }
 
 .row label {
   font-weight: bold;
-  padding-bottom: 4px;
+  padding-block-end: 4px;
 }
 
 .row input {

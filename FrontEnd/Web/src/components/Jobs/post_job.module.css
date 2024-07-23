@@ -9,7 +9,7 @@
     box-sizing: border-box;
     margin: 0;
     width: 100%;
-    padding-left: 10px;
+    padding-inline-start: 10px;
 }
 
 .row {
@@ -52,12 +52,12 @@
 }
 
 .date_picker_icon {
-    margin-left: -7px;
+    margin-inline-start: -7px;
 }
 
 .submit_div {
     width: 100%;
-    padding-top: 25px;
+    padding-block-start: 25px;
     display: flex;
     justify-content: center;
 }
@@ -66,7 +66,7 @@
     background: #fff;
     font-size: 15px;
     padding: 5px 10px;
-    margin-bottom: 10px;
+    margin-block-end: 10px;
     border-radius: 25px;
     border: 1px solid var(--color-titles);
     text-decoration: inherit;
@@ -93,13 +93,13 @@
 .register__field__radio {
     width: 100%;
     display: flex;
-    padding-top: 20px;
+    padding-block-start: 20px;
     position: relative;
 }
 
 .register__input__radio {
     padding: 10px 0px;
-    padding-left: 3px;
+    padding-inline-start: 3px;
     font-weight: 500;
     width: 35%;
     color: var(--color-foreground);
@@ -115,16 +115,16 @@
 .skills {
     width: 100%;
     position: relative;
-    padding-top: 30px;
-    padding-bottom: 10px;
+    padding-block-start: 30px;
+    padding-block-end: 10px;
 }
 
 .skills input {
     border: none;
     background: none;
     color: var(--color-foreground);
-    padding-left: 24px;
-    padding-bottom: 8px;
+    padding-inline-start: 24px;
+    padding-block-end: 8px;
     width: 80%;
     font-size: 15px;
     font-weight: 700;
@@ -134,20 +134,20 @@
 .skills p {
     border: none;
     background: none;
-    border-bottom: 1px dotted #A5A5A8;
+    border-block-end: 1px dotted #A5A5A8;
     color: var(--color-foreground);
-    margin-left: 69px;
-    margin-bottom: 23px;
+    margin-inline-start: 69px;
+    margin-block-end: 23px;
     width: 69%;
 }
 
 .skills select {
     border: none;
-    border-bottom: 2px solid #A5A5A8;
+    border-block-end: 2px solid #A5A5A8;
     background: none;
     color: var(--color-foreground);
-    padding-left: 24px;
-    padding-bottom: 8px;
+    padding-inline-start: 24px;
+    padding-block-end: 8px;
     width: 80%;
     height: 200px;
     font-size: 15px;
@@ -162,14 +162,14 @@
 .skills input:hover,
 .skills select:hover {
     outline: none;
-    border-bottom-color: #4F6E95;
+    border-block-end-color: #4F6E95;
 }
 
 .choosed_skills {
     width: 100%;
     position: relative;
-    padding-top: 15px;
-    padding-bottom: 10px;
+    padding-block-start: 15px;
+    padding-block-end: 10px;
 }
 
 .choosed_skill {

@@ -1,10 +1,10 @@
 .container {
-    top: 75px;
+    inset-block-start: 75px;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 100px;
+    margin-block-end: 100px;
 }
 
 .screen {
@@ -33,7 +33,7 @@
 }
 
 .all_cards {
-    display:flex;
+    display: flex;
     justify-content: space-evenly;
 }
 
@@ -50,10 +50,10 @@
 .card_background::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inset-inline-end: 0;
+    inset-block-end: 0;
     opacity: 0;
     background-color: rgba(0, 0, 0, 0.5);
     transition: opacity 0.35s ease;
