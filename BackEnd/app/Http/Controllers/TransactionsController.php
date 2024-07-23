@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Wallet;
 use App\Models\Company;
 use App\Models\FreelancingJob;
+use App\Models\RedeemCode;
 use Illuminate\Http\Request;
 
 class TransactionsController extends Controller
@@ -252,7 +253,7 @@ class TransactionsController extends Controller
         $userShare = $fullAmount - $adminShare;
         if ($senderWallet->reserved_balance >= $userShare) {
             $senderWallet->reserved_balance -= $userShare;
-            $senderWallet->available_balance-= $userShare;
+            $senderWallet->available_balance -= $userShare;
             $receiverWallet->current_balance += $userShare;
             $receiverWallet->available_balance += $userShare;
             $senderWallet->save();
@@ -266,5 +267,57 @@ class TransactionsController extends Controller
         return response()->json([
             'message' => 'Transaction done successfully'
         ], 200);
+    }
+
+    public function RedeemCode(Request $request)
+    {
+        $validated = $request->validate([
+            'code' => 'required'
+        ]);
+
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+        $redeemCode = RedeemCode::where('code', $validated['code'])->first();
+        if ($redeemCode !== null) {
+            $userWallet = Wallet::where('user_id', $user->id)->first();
+            $userWallet->available_balance += $redeemCode->value;
+            $userWallet->current_balance += $redeemCode->value;
+            $userWallet->save();
+            $this->DeleteRedeemCode($user, $redeemCode);
+            return response()->json([
+                'message' => 'redeem code has been used successfully'
+            ], 200);
+        } else {
+            return response()->json([
+                'errors' => ['redeemcode' => 'code not found']
+            ], 404);
+        }
+    }
+
+    public function DeleteRedeemCode($user, $redeemCode)
+    {
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+        if ($redeemCode !== null) {
+            $redeemCode->delete();
+            return response()->json([
+                'message' => 'done with the code'
+            ], 204);
+        } else {
+            return response()->json([
+                'errors' => ['redeemcode' => 'code not found']
+            ], 404);
+        }
     }
 }

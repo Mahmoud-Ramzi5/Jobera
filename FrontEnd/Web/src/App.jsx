@@ -36,6 +36,7 @@ import PostFreelancing from './components/Jobs/PostFreelancing.jsx';
 import JobFeed from './pages/Jobs/JobFeed.jsx';
 import ChatPage from './components/Chats/ChatPage.jsx';
 import Manage from './pages/Manage.jsx';
+import RedeemCode from './components/Profile/RedeemCode.jsx';
 
 
 function App() {
@@ -151,6 +152,7 @@ function App() {
                   <Route path='/manage' element={<Manage/>}/>
 
                   <Route path='/ChatsPage' element={<ChatPage />} />
+                  <Route path='/redeemcode' element={<RedeemCode />} />
 
                   <Route path="/logout" element={<Logout />} />
                 </Route>

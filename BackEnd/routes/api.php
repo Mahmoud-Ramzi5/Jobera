@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthControllers\AuthController;
 use App\Http\Controllers\AuthControllers\SocialAuthController;
 use App\Http\Controllers\AuthControllers\ForgetPasswordController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\JobControllers\DefJobsController;
 use App\Http\Controllers\JobControllers\RegJobsController;
 use App\Http\Controllers\JobControllers\FreelancingJobsController;
 use App\Http\Controllers\JobControllers\JobFeedController;
+
 
 
 Route::controller(AuthController::class)->group(function () {
@@ -155,6 +157,7 @@ Route::controller(TransactionsController::class)->group(function () {
         Route::post('/transactions/regJob', 'RegJobTransaction');
         Route::post('/transactions/FreelancingJob', 'FreelancingJobTransaction');
         Route::post('/transactions/done', 'AddUserTransaction');
+        Route::post('/redeemcode', 'RedeemCode');
     });
 });
 
@@ -193,3 +196,8 @@ Route::get('/image/{user_id}/{folder}/{image}', function (Request $request, $use
     }
     return response()->file($path);
 });
+
+// Routes for admin can only be accessed through postman
+Route::controller(AdminController::class)->group(function () {
+        Route::post('/generate', 'GenerateCode');
+    });
