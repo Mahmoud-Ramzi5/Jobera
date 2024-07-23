@@ -287,7 +287,63 @@ export const AcceptFreelancingJob = async (token, freelancingJobId, competitorId
     return error.response;
   }
 }
+export const BookmarkJob = async (token, defJob) => {
+  try {
+    const response = await axios.post(`http://127.0.0.1:8000/api/jobs/${defJob}/bookmark`, {
+      headers: {
+        'Content-Type': 'multipart/form-data; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+export const JobYouPosted = async (token) => {
+  try {
+    const response = await axios.get(`http://127.0.0.1:8000/api/mange/posted`, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
 
+export const JobYouApplied = async (token) => {
+  try {
+    const response = await axios.get(`http://127.0.0.1:8000/api/mange/applied`, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+export const BookmarkedJobs = async (token) => {
+  try {
+    const response = await axios.get(`http://127.0.0.1:8000/api/mange/bookmarked`, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
 //
 // export const FetchRegJobCompetitors = async (token, id) => {
 //   try {

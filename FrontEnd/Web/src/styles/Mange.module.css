@@ -1,0 +1,291 @@
+.Manage {
+    top: 75px;
+    position: relative;
+    margin-bottom: 100px;
+    min-height: 100vh;
+  }
+  .screen{
+    display: flex; /* Added */
+  }
+  
+  .left_container {
+    width: 25%;
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-scrollbar-track2);
+  }
+  
+  .right_container {
+    width: 75%; /* Updated */
+    padding: 10px 15px;
+    display: flex; /* Added */
+    flex-direction: column; /* Added */
+  }
+  
+  /* Rest of the CSS code... */
+  
+  .slider {
+    display: flex;
+    margin-bottom: 20px;
+    justify-content: center;  
+}
+  
+.slider button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #eee;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .slider button.active {
+    background-color: #ccc;
+  }
+  
+  .content {
+    padding: 10px;
+    background-color: #f9f9f9;
+  }
+  .header1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .mid_container {
+    width: 100%;
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.job_card {
+    text-decoration: none;
+}
+
+/* JobCard CSS */
+.card {
+    height: 180px;
+    width: 90%;
+    border: 3px;
+    border-radius: 20px;
+    border-style: outset;
+    border-color: var(--color-rating);
+    margin-top: 3px;
+    margin-left: 5%;
+}
+
+.card:hover {
+    transition: .2s;
+    box-shadow: 0px 2px 12px #395F87;
+}
+
+.row {
+    width: 100%;
+    padding-top: 30px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+}
+
+.img_holder {
+    width: 25%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image {
+    width: 100px;
+    height: 100px;
+    object-fit: fill;
+    border-radius: 10px;
+}
+
+.info {
+    width: 30%;
+    padding-top: 5px;
+    padding-left: 25px;
+    color: var(--color-button);
+}
+
+.title {
+    padding: 5px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: var(--color-title);
+}
+
+.second_column {
+    width: 45%;
+    padding-top: 5px;
+    color: var(--color-button);
+}
+
+.salary {
+    padding: 5px;
+    font-weight: 500;
+}
+
+
+.menu_btn,
+.close_btn {
+    display: none;
+}
+
+.btn {
+    color: var(--color-foreground);
+    font-size: 20px;
+    cursor: pointer;
+    display: none;
+}
+
+
+/* JobFilter CSS */
+.left_container {
+    width: 25%;
+    padding: 10px 15px;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-scrollbar-track2);
+}
+
+.search_input {
+    background: #fff;
+    width: 100%;
+    font-size: 15px;
+    padding: 10px 15px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--color-titles);
+    text-decoration: inherit;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    color: var(--color-rating);
+    box-shadow: 0px 1px 1px #395F87;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.search_input:active,
+.search_input:focus,
+.search_input:hover {
+    border-color: var(--color-typeschecked);
+    outline: none;
+}
+
+.slider_area {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.slider_input {
+    width: 50%;
+    margin: 5px;
+    padding: 5px;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0px 1px 1px #395F87;
+}
+
+.slider_input:active,
+.slider_input:focus,
+.slider_input:hover {
+    outline: none;
+}
+
+.deadlline_area {
+    display: flex;
+    flex-direction: column;
+}
+
+.skills_button {
+    padding: 0px;
+    color: blue;
+    text-align: center;
+    border-style: none;
+}
+
+.submit_button {
+    background: #fff;
+    width: 100%;
+    font-size: 15px;
+    padding: 5px 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--color-titles);
+    text-decoration: inherit;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-rating);
+    box-shadow: 0px 1px 1px #395F87;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.submit_button:active,
+.submit_button:focus,
+.submit_button:hover {
+    border-color: var(--color-typeschecked);
+    outline: none;
+}
+
+
+/* Screen Size compatiplity */
+@media screen and (max-width: 970px) {
+    .left_container {
+        display: none;
+    }
+
+    .right_container {
+        width: 95%;
+    }
+
+    .btn {
+        display: block;
+    }
+
+    .close_btn {
+        position: absolute;
+        right: 10px;
+        top: 5px;
+    }
+
+    .menu_btn {
+        position: absolute;
+        right: 35px;
+        top: 10px;
+    }
+
+    .menu_btn:checked~.left_container {
+        z-index: 1;
+        position: fixed;
+        height: 100vh;
+        width: 100%;
+        max-width: 350px;
+        background-color: var(--color-scrollbar-track2);
+        padding: 10px 15px;
+
+        display: flex;
+        flex-direction: column;
+
+        overflow-y: auto;
+        padding-bottom: 100px;
+        box-shadow: 0px 15px 15px #0000002e;
+        transition: 0.5s;
+    }
+
+    .menu_btn:checked~.btn.menu_btn {
+        display: none;
+    }
+
+    .close_btn:checked~.btn.menu_btn {
+        display: block;
+    }
+}
