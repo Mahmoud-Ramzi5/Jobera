@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\JobControllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\TransactionsController;
 use App\Models\User;
 use App\Models\Individual;
 use App\Models\Company;
@@ -278,9 +279,11 @@ class FreelancingJobsController extends Controller
             'user2_id' => $freelancingJob->acceptedUser->id
         ]);
 
+        $something = app(TransactionsController::class)->FreelancingJobTransaction($user->id, $freelancingJob->id, $validated['salary']);
+
         // Response
         return response()->json([
-            "messsage" => "User accepted successfully"
+            "messsage" => $something
         ], 200);
     }
 

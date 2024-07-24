@@ -7,7 +7,7 @@ import {
   FetchJob, ApplyToRegJobAPI, ApplyToFreelancingJobAPI,
   AcceptRegJob, AcceptFreelancingJob, DeleteRegJobAPI, DeleteFreelancingJobAPI
 } from '../../apis/JobsApis';
-import { FreelancingJobTransaction, FinishedJobTransaction } from '../../apis/TransactionsApis';
+import { FinishedJobTransaction } from '../../apis/TransactionsApis';
 import { FetchImage } from '../../apis/FileApi';
 import { CreateChat } from '../../apis/ChatApis';
 import JobCompetitorCard from './JobCompetitorCard';
@@ -72,8 +72,8 @@ const ShowJob = () => {
           }
         }
         else if (response.status === 404) {
-          // TODO add a picture of not found
           setNotFound(true);
+          navigate('/notfound');
         }
         else {
           console.log(response.statusText);
@@ -136,12 +136,6 @@ const ShowJob = () => {
     })
   }
 
-  const handleCancelJobCompetitor = (event) => {
-    event.preventDefault();
-    setParticipate(false);
-    setComment('');
-  }
-
   const handleAcceptRegCompetitor = (event, id) => {
     AcceptRegJob(accessToken, job.id, id).then((response) => {
       if (response.status == 200) {
@@ -169,7 +163,7 @@ const ShowJob = () => {
     });
   }
 
-  const handleCancelFreelancer = (event) => {
+  const handleCancelcompetitor = (event) => {
     event.preventDefault();
     setParticipate(false);
     setDesiredSalary('');
@@ -178,26 +172,13 @@ const ShowJob = () => {
 
   const handleAcceptFreelancingCompetitor = (event, id, salary) => {
     event.preventDefault();
-    AcceptFreelancingJob(accessToken, job.id, id).then((response) => {
+    AcceptFreelancingJob(accessToken, job.id, id, salary).then((response) => {
       if (response.status == 200) {
-        console.log('Competitor Accepted')
+        console.log('competitor accepted');
         setAccepted(true);
-        FreelancingJobTransaction(
-          accessToken,
-          profile.user_id,
-          job.id,
-          salary
-        ).then((response) => {
-          if (response.status == 200) {
-            console.log('transaction went smoothly')
-            window.location.reload();
-          } else {
-            console.log(response);
-          }
-        })
       }
       else {
-        console.log(response.statusText);
+        console.log(response);
       }
     });
   }
@@ -215,6 +196,7 @@ const ShowJob = () => {
   }
 
   const handleFinishFreelancingJob = (event) => {
+    console.log(job.accepted_user.salary);
     event.preventDefault();
     FinishedJobTransaction(
       accessToken,
@@ -398,27 +380,37 @@ const ShowJob = () => {
                   rows='5'
                 />
               </div>
-              {job.type === 'Freelancing' &&
-                <div className={styles.money_holder}>
-                  <NormalInput
-                    type='number'
-                    placeholder={t('components.show_job.desired_salary')}
-                    icon={<CurrencyDollar />}
-                    value={desiredSalary}
-                    setChange={handleCalculateSalary}
-                  />
-                  <br />
-                  <p>{t('components.show_job.tax')} {desiredSalary - adminShare} $</p>
+              {job.type === 'Freelancing' ?
+                <>
+                  <div className={styles.money_holder}>
+                    <NormalInput
+                      type='number'
+                      placeholder={t('components.show_job.desired_salary')}
+                      icon={<CurrencyDollar />}
+                      value={desiredSalary}
+                      setChange={handleCalculateSalary}
+                    />
+                    <br />
+                    <p>{t('components.show_job.tax')} {desiredSalary - adminShare} $</p>
+                  </div>
+                  <div className={styles.buttons_holder}>
+                    <button className={styles.send_button} onClick={handleNewFreelancer}>
+                      {t('components.show_job.send_button')}
+                    </button>
+                    <button className={styles.send_button} onClick={handleCancelcompetitor}>
+                      {t('components.show_job.cancel_button')}
+                    </button>
+                  </div>
+                </> :
+                <div className={styles.buttons_holder}>
+                  <button className={styles.send_button} onClick={handleNewJobCompetitor}>
+                    {t('components.show_job.send_button')}
+                  </button>
+                  <button className={styles.send_button} onClick={handleCancelcompetitor}>
+                    {t('components.show_job.cancel_button')}
+                  </button>
                 </div>
               }
-              <div className={styles.buttons_holder}>
-                <button className={styles.send_button} onClick={handleNewFreelancer}>
-                  {t('components.show_job.send_button')}
-                </button>
-                <button className={styles.send_button} onClick={handleCancelFreelancer}>
-                  {t('components.show_job.cancel_button')}
-                </button>
-              </div>
             </>
             }
             {job.competitors && job.competitors.map((competitor) => (

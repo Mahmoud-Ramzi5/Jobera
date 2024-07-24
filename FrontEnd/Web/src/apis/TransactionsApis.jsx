@@ -15,54 +15,6 @@ export const GetTransactions = async (token) => {
   }
 };
 
-export const RegJobTransaction = async (
-  token,
-  sender_id,
-  job_id,
-  amount
-) => {
-  try {
-    const response = await axios.post(`http://127.0.0.1:8000/api/transactions/regJob`, {
-      'sender_id': sender_id,
-      'job_id': job_id,
-      'amount': amount
-    }, {
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': "application/json",
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    return response;
-  } catch (error) {
-    return error.response;
-  }
-};
-
-export const FreelancingJobTransaction = async (
-  token,
-  sender_id,
-  job_id,
-  amount
-) => {
-  try {
-    const response = await axios.post(`http://127.0.0.1:8000/api/transactions/FreelancingJob`, {
-      'sender_id': sender_id,
-      'job_id': job_id,
-      'amount': amount
-    }, {
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': "application/json",
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    return response;
-  } catch (error) {
-    return error.response;
-  }
-};
-
 export const FinishedJobTransaction = async (
   token,
   sender_id,

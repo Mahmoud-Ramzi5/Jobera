@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams } from 'react-router-dom';
 import { LoginContext } from '../utils/Contexts.jsx';
 import { FetchUserProfile } from '../apis/ProfileApis/ProfileApis.jsx';
 import UserInfo from '../components/Profile/UserInfo';
@@ -16,6 +16,8 @@ import styles from '../styles/profile.module.css';
 const Profile = () => {
   // Context
   const { loggedIn, accessToken } = useContext(LoginContext);
+  //Navigate
+  const navigate = useNavigate();
   // Params
   const { user_id, user_name } = useParams();
   // Define states
@@ -32,6 +34,7 @@ const Profile = () => {
         }
         else {
           console.log(response.statusText);
+          navigate('/notfound');
         }
       }).then(() => {
         setIsLoading(false);

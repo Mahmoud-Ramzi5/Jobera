@@ -156,8 +156,6 @@ Route::controller(FreelancingJobsController::class)->group(function () {
 Route::controller(TransactionsController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('/transactions', 'GetUserTransactions');
-        Route::post('/transactions/regJob', 'RegJobTransaction');
-        Route::post('/transactions/FreelancingJob', 'FreelancingJobTransaction');
         Route::post('/transactions/done', 'AddUserTransaction');
         Route::post('/redeemcode', 'RedeemCode');
     });

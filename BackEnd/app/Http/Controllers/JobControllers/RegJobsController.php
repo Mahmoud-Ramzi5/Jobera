@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\JobControllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\TransactionsController;
 use App\Models\User;
 use App\Models\Individual;
 use App\Models\Company;
@@ -71,10 +72,23 @@ class RegJobsController extends Controller
         $Regjob = RegJob::create($validated);
         $Regjob->skills()->attach($validated['skills']);
 
+        if ($validated['salary'] > 0 && $validated['salary'] <= 2000) {
+            $adminShare = $validated['salary'] * 0.15;
+        } else if ($validated['salary'] > 2000 && $validated['salary'] <= 15000) {
+            $adminShare = $validated['salary'] * 0.12;
+        } else if ($validated['salary'] > 15000) {
+            $adminShare = $validated['salary'] * 0.10;
+        } else {
+            return response()->json([
+                'message' => 'Error'
+            ], 401);
+        }
+        $something = app(TransactionsController::class)->RegJobTransaction($user->id, $Regjob->job_id, $adminShare);
+
         // Response
         return response()->json([
             "message" => "Job created successfully",
-            "job" => new RegJobResource($Regjob)
+            "job" => $something
         ], 201);
     }
 
