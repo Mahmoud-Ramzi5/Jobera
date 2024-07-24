@@ -37,17 +37,16 @@
 
 .wallet_body {
   width: 100%;
-  padding: 2px;
-  color: var(--color-button);
   font-size: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  padding-block-start: 30px;
+  padding-block-end: 10px;
+  color: var(--color-button);
 }
 
 .redeem {
   display: flex;
-}
-
-.redeem_title {
-  color: var(--color-foreground);
 }
 
 .redeem_submit {
@@ -83,6 +82,10 @@
   font-size: 24px;
   margin-inline-start: auto;
   color: #5da3ff;
+}
+
+html[dir='rtl'] .button__icon {
+  transform: scaleX(-1);
 }
 
 @media screen and (max-width: 970px) {
