@@ -73,6 +73,7 @@ Route::controller(ForgetPasswordController::class)->group(function () {
 Route::controller(ProfileController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('/profile', 'ShowProfile');
+        Route::get('/profile/wallet', 'GetWallet');
         Route::post('/profile/edit', 'EditProfile');
         Route::post('/profile/photo', 'EditProfilePhoto');
         Route::Delete('/profile/photo', 'DeleteProfilePhoto');
