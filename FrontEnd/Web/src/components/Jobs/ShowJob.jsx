@@ -18,10 +18,6 @@ import {
   DeleteFreelancingJobAPI,
   BookmarkJob,
 } from "../../apis/JobsApis";
-import {
-  FetchJob, ApplyToRegJobAPI, ApplyToFreelancingJobAPI,
-  AcceptRegJob, AcceptFreelancingJob, DeleteRegJobAPI, DeleteFreelancingJobAPI
-} from '../../apis/JobsApis';
 import { FinishedJobTransaction } from '../../apis/TransactionsApis';
 import { FetchImage } from '../../apis/FileApi';
 import { CreateChat } from '../../apis/ChatApis';
