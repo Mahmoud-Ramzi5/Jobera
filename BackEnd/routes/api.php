@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthControllers\AuthController;
 use App\Http\Controllers\AuthControllers\SocialAuthController;
 use App\Http\Controllers\AuthControllers\ForgetPasswordController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\JobControllers\DefJobsController;
 use App\Http\Controllers\JobControllers\RegJobsController;
 use App\Http\Controllers\JobControllers\FreelancingJobsController;
 use App\Http\Controllers\JobControllers\JobFeedController;
+
 
 
 Route::controller(AuthController::class)->group(function () {
@@ -71,6 +73,7 @@ Route::controller(ForgetPasswordController::class)->group(function () {
 Route::controller(ProfileController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('/profile', 'ShowProfile');
+        Route::get('/profile/wallet', 'GetWallet');
         Route::post('/profile/edit', 'EditProfile');
         Route::post('/profile/photo', 'EditProfilePhoto');
         Route::Delete('/profile/photo', 'DeleteProfilePhoto');
@@ -117,10 +120,11 @@ Route::controller(DefJobsController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('/jobs', 'ShowAllJobs');
         Route::get('/jobs/{id}', 'ShowSpecificJob');
-        Route::post('/jobs/{defJob}/bookmark','FlagJob');
-        Route::get('/mange/posted','JobYouPosted');
-        Route::get('/mange/applied','JobYouApplied');
-        Route::get('/mange/bookmarked','FlagedJobs');
+
+        Route::get('/manage/posted', 'PostedJobs');
+        Route::get('/manage/applied', 'AppliedJobs');
+        Route::get('/manage/bookmarked', 'FlagedJobs');
+        Route::post('/jobs/{id}/bookmark', 'FlagJob');
     });
 });
 
@@ -152,9 +156,8 @@ Route::controller(FreelancingJobsController::class)->group(function () {
 Route::controller(TransactionsController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('/transactions', 'GetUserTransactions');
-        Route::post('/transactions/regJob', 'RegJobTransaction');
-        Route::post('/transactions/FreelancingJob', 'FreelancingJobTransaction');
         Route::post('/transactions/done', 'AddUserTransaction');
+        Route::post('/redeemcode', 'RedeemCode');
     });
 });
 
@@ -192,4 +195,10 @@ Route::get('/image/{user_id}/{folder}/{image}', function (Request $request, $use
         return null;
     }
     return response()->file($path);
+});
+
+
+// Routes for admin can only be accessed through postman
+Route::controller(AdminController::class)->group(function () {
+    Route::post('/generate', 'GenerateCode');
 });

@@ -5,8 +5,7 @@ import { Fonts, PencilSquare, CurrencyDollar, GeoAltFill, Globe } from 'react-bo
 import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { FetchCountries, FetchStates } from '../../apis/AuthApis.jsx';
 import { FetchAllSkills, SearchSkills } from '../../apis/SkillsApis.jsx';
-import { AddRegJobAPI } from '../../apis/JobsApis.jsx';
-import { RegJobTransaction } from '../../apis/TransactionsApis.jsx';
+import { AddRegJobAPI } from '../../apis/JobsApis.jsx';;
 import NormalInput from '../NormalInput.jsx';
 import img_holder from '../../assets/upload.png';
 import styles from './post_job.module.css';
@@ -108,12 +107,6 @@ const PostRegJob = ({ type }) => {
       ).then((response) => {
         if (response.status === 201) {
           console.log(response.data);
-          RegJobTransaction(
-            accessToken,
-            profile.user_id,
-            response.data.job.id,
-            adminShare
-          )
 
           // Reset the form fields
           setTitle('');

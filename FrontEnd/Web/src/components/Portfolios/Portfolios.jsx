@@ -45,8 +45,8 @@ const Portfolios = ({ step }) => {
                 });
               }
               else if (response.status === 404) {
-                // TODO add a picture of not found
                 setNotFound(true);
+                navigate('/notfound');
               }
               else {
                 setPortfolios((prevState) => ([...prevState, portfolio]));

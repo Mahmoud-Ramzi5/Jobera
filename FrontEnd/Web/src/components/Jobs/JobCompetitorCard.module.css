@@ -1,9 +1,9 @@
 .CompetitorCard {
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  width: 90%;
   padding: 16px;
   margin-block-end: 16px;
-  width: 90%
+  border: 1px solid #ccc;
+  border-radius: 8px;
 }
 
 .CompetitorCardContent {

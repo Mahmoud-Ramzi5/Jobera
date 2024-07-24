@@ -42,259 +42,272 @@ class ViewPortfoliosView extends StatelessWidget {
         key: _editController.refreshIndicatorKey,
         onRefresh: () => _editController.fetchPortfolios(),
         child: GetBuilder<ViewPortfolioController>(
-          builder: (controller) => SingleChildScrollView(
-            child: Column(
-              children: [
-                if (_editController.generalController.isInRegister)
-                  const LinearProgressIndicator(
-                    value: 1,
-                  ),
-                ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: controller.portoflios.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index1) {
-                    return Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ProfilePhotoContainer(
-                                    child: controller
-                                                .portoflios[index1].photo ==
-                                            null
-                                        ? Icon(
-                                            Icons.photo,
+          builder: (controller) => controller.loading
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      if (_editController.generalController.isInRegister)
+                        const LinearProgressIndicator(
+                          value: 1,
+                        ),
+                      ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: controller.portfolios.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index1) {
+                          return Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        IconButton(
+                                          onPressed: () {
+                                            controller.id = controller
+                                                .portfolios[index1].id;
+                                            Get.toNamed('/editPortfolio');
+                                          },
+                                          icon: Icon(
+                                            Icons.edit,
                                             color: Colors.lightBlue.shade900,
-                                            size: 100,
-                                          )
-                                        : CustomImage(
-                                            height: 100,
-                                            width: 100,
-                                            path: controller
-                                                .portoflios[index1].photo
-                                                .toString(),
                                           ),
-                                  ),
-                                  Column(
-                                    children: [
-                                      IconButton(
-                                        onPressed: () {
-                                          controller.id =
-                                              controller.portoflios[index1].id;
-                                          Get.toNamed('/editPortfolio');
-                                        },
-                                        icon: Icon(
-                                          Icons.edit,
-                                          color: Colors.lightBlue.shade900,
                                         ),
-                                      ),
-                                      IconButton(
-                                        onPressed: () =>
-                                            Dialogs().confirmDialog(
-                                          'Notice:',
-                                          'Are you sure you want to delete Portfolio?',
-                                          () {
-                                            controller.deletePortfolio(
-                                              controller.portoflios[index1].id,
-                                            );
-                                            Get.back();
-                                          },
+                                        ProfilePhotoContainer(
+                                          child: controller.portfolios[index1]
+                                                      .photo ==
+                                                  null
+                                              ? Icon(
+                                                  Icons.photo,
+                                                  color:
+                                                      Colors.lightBlue.shade900,
+                                                  size: 100,
+                                                )
+                                              : CustomImage(
+                                                  height: 100,
+                                                  width: 100,
+                                                  path: controller
+                                                      .portfolios[index1].photo
+                                                      .toString(),
+                                                ),
                                         ),
-                                        icon: const Icon(
-                                          Icons.delete,
-                                          color: Colors.red,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              ExpansionTile(
-                                title: const BodyText(text: 'Info'),
-                                children: [
-                                  Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          const BodyText(text: 'Title: '),
-                                          LabelText(
-                                            text: _editController
-                                                .portoflios[index1].title,
+                                        IconButton(
+                                          onPressed: () =>
+                                              Dialogs().confirmDialog(
+                                            'Notice:',
+                                            'Are you sure you want to delete Portfolio?',
+                                            () {
+                                              controller.deletePortfolio(
+                                                controller
+                                                    .portfolios[index1].id,
+                                              );
+                                              Get.back();
+                                            },
                                           ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          const BodyText(text: 'Link: '),
-                                          LabelText(
-                                            text: controller
-                                                .portoflios[index1].link,
+                                          icon: const Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
                                           ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          const BodyText(text: 'Description: '),
-                                          Flexible(
-                                            flex: 1,
-                                            child: LabelText(
-                                              text: controller
-                                                  .portoflios[index1]
-                                                  .description,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                              ExpansionTile(
-                                title: const BodyText(text: 'Used Skills'),
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: ListContainer(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: ListView.builder(
-                                          itemCount: controller
-                                              .portoflios[index1].skills.length,
-                                          shrinkWrap: true,
-                                          itemBuilder: (context, index) {
-                                            final firstIndex = index * 2;
-                                            final secondIndex = firstIndex + 1;
-                                            return Row(
-                                              children: [
-                                                if (firstIndex <
-                                                    controller
-                                                        .portoflios[index1]
-                                                        .skills
-                                                        .length)
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              5),
-                                                      child: Chip(
-                                                        label: BodyText(
-                                                          text: controller
-                                                              .portoflios[
-                                                                  index1]
-                                                              .skills[
-                                                                  firstIndex]
-                                                              .name,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                if (secondIndex <
-                                                    controller
-                                                        .portoflios[index1]
-                                                        .skills
-                                                        .length)
-                                                  Expanded(
-                                                    flex: 1,
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              5),
-                                                      child: Chip(
-                                                        label: BodyText(
-                                                          text: controller
-                                                              .portoflios[
-                                                                  index1]
-                                                              .skills[
-                                                                  secondIndex]
-                                                              .name,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                              ],
-                                            );
-                                          },
                                         ),
-                                      ),
+                                      ],
                                     ),
-                                  ),
-                                ],
-                              ),
-                              ExpansionTile(
-                                title: const BodyText(text: 'Files'),
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: ListContainer(
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(5),
-                                        child: controller.portoflios[index1]
-                                                .files.isEmpty
-                                            ? const BodyText(
-                                                text: 'No files',
-                                              )
-                                            : ListView.builder(
+                                    ExpansionTile(
+                                      title: const BodyText(text: 'Info'),
+                                      children: [
+                                        Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                const BodyText(text: 'Title: '),
+                                                LabelText(
+                                                  text: _editController
+                                                      .portfolios[index1].title,
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                const BodyText(text: 'Link: '),
+                                                LabelText(
+                                                  text: controller
+                                                      .portfolios[index1].link,
+                                                ),
+                                              ],
+                                            ),
+                                            Row(
+                                              children: [
+                                                const BodyText(
+                                                    text: 'Description: '),
+                                                Flexible(
+                                                  flex: 1,
+                                                  child: LabelText(
+                                                    text: controller
+                                                        .portfolios[index1]
+                                                        .description,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    ExpansionTile(
+                                      title:
+                                          const BodyText(text: 'Used Skills'),
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: ListContainer(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(5),
+                                              child: ListView.builder(
                                                 itemCount: controller
-                                                    .portoflios[index1]
-                                                    .files
+                                                    .portfolios[index1]
+                                                    .skills
                                                     .length,
-                                                physics:
-                                                    const NeverScrollableScrollPhysics(),
                                                 shrinkWrap: true,
                                                 itemBuilder: (context, index) {
+                                                  final firstIndex = index * 2;
+                                                  final secondIndex =
+                                                      firstIndex + 1;
                                                   return Row(
                                                     children: [
-                                                      Flexible(
-                                                        flex: 1,
-                                                        child: BodyText(
-                                                          text:
-                                                              'File ${index + 1}:${controller.portoflios[index1].files[index].name}',
-                                                        ),
-                                                      ),
-                                                      IconButton(
-                                                        onPressed: () => controller
-                                                            .generalController
-                                                            .fetchFile(
-                                                                controller
-                                                                    .portoflios[
+                                                      if (firstIndex <
+                                                          controller
+                                                              .portfolios[
+                                                                  index1]
+                                                              .skills
+                                                              .length)
+                                                        Expanded(
+                                                          flex: 1,
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(5),
+                                                            child: Chip(
+                                                              label: BodyText(
+                                                                text: controller
+                                                                    .portfolios[
                                                                         index1]
-                                                                    .files[
-                                                                        index]
-                                                                    .path,
-                                                                'portfolios'),
-                                                        icon: Icon(
-                                                          Icons.file_open,
-                                                          color: Colors
-                                                              .lightBlue
-                                                              .shade900,
+                                                                    .skills[
+                                                                        firstIndex]
+                                                                    .name,
+                                                              ),
+                                                            ),
+                                                          ),
                                                         ),
-                                                      ),
+                                                      if (secondIndex <
+                                                          controller
+                                                              .portfolios[
+                                                                  index1]
+                                                              .skills
+                                                              .length)
+                                                        Expanded(
+                                                          flex: 1,
+                                                          child: Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .all(5),
+                                                            child: Chip(
+                                                              label: BodyText(
+                                                                text: controller
+                                                                    .portfolios[
+                                                                        index1]
+                                                                    .skills[
+                                                                        secondIndex]
+                                                                    .name,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
                                                     ],
                                                   );
                                                 },
                                               ),
-                                      ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
+                                    ExpansionTile(
+                                      title: const BodyText(text: 'Files'),
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: ListContainer(
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(5),
+                                              child: controller
+                                                      .portfolios[index1]
+                                                      .files
+                                                      .isEmpty
+                                                  ? const BodyText(
+                                                      text: 'No files',
+                                                    )
+                                                  : ListView.builder(
+                                                      itemCount: controller
+                                                          .portfolios[index1]
+                                                          .files
+                                                          .length,
+                                                      physics:
+                                                          const NeverScrollableScrollPhysics(),
+                                                      shrinkWrap: true,
+                                                      itemBuilder:
+                                                          (context, index) {
+                                                        return Row(
+                                                          children: [
+                                                            Flexible(
+                                                              flex: 1,
+                                                              child: BodyText(
+                                                                text:
+                                                                    'File ${index + 1}:${controller.portfolios[index1].files[index].name}',
+                                                              ),
+                                                            ),
+                                                            IconButton(
+                                                              onPressed: () => controller
+                                                                  .generalController
+                                                                  .fetchFile(
+                                                                      controller
+                                                                          .portfolios[
+                                                                              index1]
+                                                                          .files[
+                                                                              index]
+                                                                          .path,
+                                                                      'portfolios'),
+                                                              icon: Icon(
+                                                                Icons.file_open,
+                                                                color: Colors
+                                                                    .lightBlue
+                                                                    .shade900,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        );
+                                                      },
+                                                    ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
         ),
       ),
     );

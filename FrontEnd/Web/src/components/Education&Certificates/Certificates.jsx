@@ -40,6 +40,7 @@ const Certificates = ({ step }) => {
           }
           else {
             console.log(response.statusText);
+            navigate('/notfound');
           }
         }).then(() => {
           setIsLoading(false);

@@ -76,12 +76,12 @@ html[dir='rtl'] .screen__background__shape {
     border-radius: 32px;
 }
 
-html[dir='rtl'] .screen__background__shape3 {
+html[dir='ltr'] .screen__background__shape3 {
     background: linear-gradient(270deg, #E27D48, #4F6E95);
 }
 
 html[dir='rtl'] .screen__background__shape3 {
-    background: linear-gradient(270deg, #4F6E95, #E27D48);
+    background: linear-gradient(-270deg, #E27D48, #4F6E95);
 }
 
 .screen__background__shape4 {
@@ -91,6 +91,24 @@ html[dir='rtl'] .screen__background__shape3 {
     inset-block-start: 420px;
     inset-inline-end: 50px;
     border-radius: 60px;
+}
+
+.check {
+    color: green;
+}
+
+.xmark{
+    color:red;
+}
+
+.message {
+    height: 150px;
+    width: 300px;
+    color: var(--color-foreground);
+    font-size: 30px;
+    padding: 10px;
+    padding-block-start: 130px;
+    text-decoration: inherit;
 }
 
 .title {

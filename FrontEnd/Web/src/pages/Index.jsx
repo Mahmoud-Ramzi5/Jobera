@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Carousel from 'react-bootstrap/Carousel';
-import { LoginContext, ProfileContext } from '../utils/Contexts.jsx';
+import { LoginContext } from '../utils/Contexts.jsx';
 import Slide1 from '../assets/Slide1.png';
 import Slide2 from '../assets/Slide2.png';
 import Slide3 from '../assets/Slide3.png';
@@ -10,7 +10,6 @@ import styles from '../styles/index.module.css';
 const Index = () => {
   // Context
   const { loggedIn } = useContext(LoginContext);
-  const { profile } = useContext(ProfileContext);
   // Define states
   const navigate = useNavigate();
   const [index, setIndex] = useState(0);
@@ -32,11 +31,7 @@ const Index = () => {
   const handlePostJob = (event) => {
     if (loggedIn) {
       event.preventDefault();
-      if (profile.type === "individual") {
-        navigate('/jobs/postfreelancing');
-      } else {
-        navigate('/jobs/post');
-      }
+      navigate('/jobs/post');
     }
     else {
       navigate('/login');

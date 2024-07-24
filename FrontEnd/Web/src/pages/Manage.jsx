@@ -1,38 +1,36 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
-import styles from "../styles/Mange.module.css";
-import { LoginContext } from "../utils/Contexts";
-import { JobYouPosted, JobYouApplied, BookmarkedJobs } from "../apis/JobsApis";
-import JobCard from "../components/Jobs/JobCard";
-import Clock from "../utils/Clock";
-import { Link } from "react-router-dom";
-import JobFilter from "../components/Jobs/JobFilter";
-import JobCompetitorCard from "../components/Jobs/JobCompetitorCard";
+import { useEffect, useState, useRef, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { LoginContext } from '../utils/Contexts';
+import { JobYouPosted, JobYouApplied, BookmarkedJobs } from '../apis/JobsApis';
+import JobCard from '../components/Jobs/JobCard';
+import JobFilter from '../components/Jobs/JobFilter';
+import JobCompetitorCard from '../components/Jobs/JobCompetitorCard';
+import Clock from '../utils/Clock';
+import styles from '../styles/manage.module.css';
 
 const Manage = () => {
+  // Define states
   const [currentPage, setCurrentPage] = useState("Posts");
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
 
   return (
-    <div className={styles.Manage}>
+    <div className={styles.manage}>
       <div className={styles.slider}>
         <button
           className={currentPage === "Posts" ? styles.active : ""}
-          onClick={() => handlePageChange("Posts")}
+          onClick={() => setCurrentPage("Posts")}
         >
           Posts
         </button>
         <button
           className={currentPage === "Offers" ? styles.active : ""}
-          onClick={() => handlePageChange("Offers")}
+          onClick={() => setCurrentPage("Offers")}
         >
           Offers
         </button>
         <button
           className={currentPage === "Bookmarks" ? styles.active : ""}
-          onClick={() => handlePageChange("Bookmarks")}
+          onClick={() => setCurrentPage("Bookmarks")}
         >
           Bookmarks
         </button>
@@ -48,55 +46,60 @@ const Manage = () => {
 };
 
 const Posts = () => {
+  // Context
+  const { accessToken } = useContext(LoginContext);
+  // Define states
   const initialized = useRef(false);
   const filtered = useRef(false);
-  const { accessToken } = useContext(LoginContext);
   const [isLoading, setIsLoading] = useState(false);
-  const [regjobs, setRegJobs] = useState([]);
-  const [freelancingjobs, setFreelancingJobs] = useState([]);
+
   const [newFilter, setNewFilter] = useState(false);
-  const [jobType, setJobType] = useState("all");
   const [filter, setFilter] = useState({
-    userName: "",
+    userName: '',
+    companyName: '',
     minSalary: 0,
     maxSalary: 100000,
-    fromDeadline: "",
-    toDeadline: "",
+    fromDeadline: '',
+    toDeadline: '',
     skills: [],
   });
+
+  const [regjobs, setRegJobs] = useState([]);
+  const [freelancingjobs, setFreelancingJobs] = useState([]);
+  const [jobType, setJobType] = useState("all");
 
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
     } else {
       setIsLoading(true);
-      JobYouPosted(accessToken)
-        .then((response) => {
-          if (response.status === 200) {
-            setRegJobs(response.data.RegJobs);
-            setFreelancingJobs(response.data.FreelancingJobs);
-            console.log(response.data.FreelancingJobs);
-          } else {
-            console.log(response.statusText);
-          }
-        })
-        .then(() => {
-          setIsLoading(false);
-        });
+      JobYouPosted(accessToken).then((response) => {
+        if (response.status === 200) {
+          setRegJobs(response.data.RegJobs);
+          setFreelancingJobs(response.data.FreelancingJobs);
+        } else {
+          console.log(response.statusText);
+        }
+      }).then(() => {
+        setIsLoading(false);
+      });
     }
   }, []);
+
   const handleFilterSubmit = (event) => {
     setJobs([]);
     setNextPage(1);
     setIsDone(false);
     setNewFilter(true);
     filtered.current = false;
+
     // Update jobType based on the selected radio button
     const selectedJobType = document.querySelector(
       'input[name="jobType"]:checked'
     ).value;
     setJobType(selectedJobType);
   };
+
 
   return (
     <div>
@@ -132,6 +135,7 @@ const Posts = () => {
           Freelancing
         </label>
       </div>
+
       <div className={styles.screen}>
         <JobFilter
           JobType={jobType === "freelancing" ? "Freelancing" : ""}
@@ -140,6 +144,7 @@ const Posts = () => {
           handleFilterSubmit={handleFilterSubmit}
           NoPublishedBy={true}
         />
+
         <div className={styles.mid_container}>
           {(jobType === "all" || jobType === "regjobs") &&
             regjobs.map((job) => (
@@ -161,7 +166,7 @@ const Posts = () => {
                 <JobCard JobData={job} />
               </Link>
             ))}
-          {isLoading ? <Clock /> : null}
+          {isLoading && <Clock />}
         </div>
       </div>
     </div>
@@ -169,42 +174,44 @@ const Posts = () => {
 };
 
 const Offers = () => {
+  // Context
+  const { accessToken } = useContext(LoginContext);
+  // Define states
   const initialized = useRef(false);
   const filtered = useRef(false);
-  const { accessToken } = useContext(LoginContext);
   const [isLoading, setIsLoading] = useState(false);
-  const [regjobs, setRegJobs] = useState([]);
-  const [freelancingjobs, setFreelancingJobs] = useState([]);
-  const [newFilter, setNewFilter] = useState(false);
-  const [jobType, setJobType] = useState("all");
   const [showMore, setShowMore] = useState(false);
+
+  const [newFilter, setNewFilter] = useState(false);
   const [filter, setFilter] = useState({
-    userName: "",
+    userName: '',
+    companyName: '',
     minSalary: 0,
     maxSalary: 100000,
-    fromDeadline: "",
-    toDeadline: "",
+    fromDeadline: '',
+    toDeadline: '',
     skills: [],
   });
+
+  const [regjobs, setRegJobs] = useState([]);
+  const [freelancingjobs, setFreelancingJobs] = useState([]);
+  const [jobType, setJobType] = useState("all");
 
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
     } else {
       setIsLoading(true);
-      JobYouApplied(accessToken)
-        .then((response) => {
-          if (response.status === 200) {
-            setRegJobs(response.data.RegJobs);
-            setFreelancingJobs(response.data.FreelancingJobs);
-            console.log(response.data);
-          } else {
-            console.log(response.statusText);
-          }
-        })
-        .then(() => {
-          setIsLoading(false);
-        });
+      JobYouApplied(accessToken).then((response) => {
+        if (response.status === 200) {
+          setRegJobs(response.data.RegJobs);
+          setFreelancingJobs(response.data.FreelancingJobs);
+        } else {
+          console.log(response.statusText);
+        }
+      }).then(() => {
+        setIsLoading(false);
+      });
     }
   }, []);
 
@@ -213,12 +220,14 @@ const Offers = () => {
     setFreelancingJobs([]);
     setNewFilter(true);
     filtered.current = false;
+
     // Update jobType based on the selected radio button
     const selectedJobType = document.querySelector(
       'input[name="jobType"]:checked'
     ).value;
     setJobType(selectedJobType);
   };
+
 
   return (
     <div>
@@ -254,6 +263,7 @@ const Offers = () => {
           Freelancing
         </label>
       </div>
+
       <div className={styles.screen}>
         <JobFilter
           JobType={jobType === "freelancing" ? "Freelancing" : ""}
@@ -261,6 +271,7 @@ const Offers = () => {
           setFilter={setFilter}
           handleFilterSubmit={handleFilterSubmit}
         />
+
         <div className={styles.mid_container}>
           {(jobType === "all" || jobType === "regjobs") &&
             regjobs.map((job) => (
@@ -274,37 +285,35 @@ const Offers = () => {
             ))}
           {(jobType === "all" || jobType === "freelancing") &&
             freelancingjobs.map((job) => (
-              <div key={job.freelancingJob.defJob_id}>
+              <div key={job.freelancingJob.defJob_id} className={styles.job_card}>
                 <Link
-                  className={styles.job_card}
                   to={`/job/${job.freelancingJob.defJob_id}`}
                 >
                   <JobCard JobData={job.freelancingJob} />
                 </Link>
-                <div>
-                  {showMore ? (
-                    <div>{
-                      <JobCompetitorCard CompetitorData={job.offer}/>
-                    }
-                      <button
-                        className={styles.showMoreButton}
-                        onClick={() => setShowMore(false)}
-                      >
-                        Show less
-                      </button>
-                    </div>
-                  ) : (
+                {showMore ? (
+                  <>
+                    <span className={styles.show_offer_info}>
+                      <JobCompetitorCard CompetitorData={job.offer} />
+                    </span>
                     <button
-                      className={styles.showMoreButton}
-                      onClick={() => setShowMore(true)}
+                      className={styles.show_button}
+                      onClick={() => setShowMore(false)}
                     >
-                      Show Offer
+                      Show less
                     </button>
-                  )}
-                </div>
+                  </>
+                ) : (
+                  <button
+                    className={styles.show_button}
+                    onClick={() => setShowMore(true)}
+                  >
+                    Show Offer
+                  </button>
+                )}
               </div>
             ))}
-          {isLoading ? <Clock /> : null}
+          {isLoading && <Clock />}
         </div>
       </div>
     </div>
@@ -312,46 +321,51 @@ const Offers = () => {
 };
 
 const Bookmarks = () => {
+  // Context
+  const { accessToken } = useContext(LoginContext);
+  // Define states
   const initialized = useRef(false);
   const filtered = useRef(false);
-  const { accessToken } = useContext(LoginContext);
   const [isLoading, setIsLoading] = useState(false);
-  const [jobs, setJobs] = useState([]);
+
   const [newFilter, setNewFilter] = useState(false);
-  const [jobType, setJobType] = useState("all");
   const [filter, setFilter] = useState({
-    userName: "",
+    userName: '',
+    companyName: '',
     minSalary: 0,
     maxSalary: 100000,
-    fromDeadline: "",
-    toDeadline: "",
+    fromDeadline: '',
+    toDeadline: '',
     skills: [],
   });
+
+  const [jobs, setJobs] = useState([]);
+  const [jobType, setJobType] = useState("all");
 
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
     } else {
       setIsLoading(true);
-      BookmarkedJobs(accessToken)
-        .then((response) => {
-          if (response.status === 200) {
-            setJobs(response.data.jobs);
-          } else {
-            console.log(response.statusText);
-          }
-        })
-        .then(() => {
-          setIsLoading(false);
-        });
+      BookmarkedJobs(accessToken).then((response) => {
+        if (response.status === 200) {
+          setJobs(response.data.jobs);
+        } else {
+          console.log(response.statusText);
+        }
+      }).then(() => {
+        setIsLoading(false);
+      });
     }
   }, []);
+
   const handleFilterSubmit = (event) => {
     setJobs([]);
     setNextPage(1);
     setIsDone(false);
     setNewFilter(true);
     filtered.current = false;
+
     // Update jobType based on the selected radio button
     const selectedJobType = document.querySelector(
       'input[name="jobType"]:checked'
@@ -359,39 +373,38 @@ const Bookmarks = () => {
     setJobType(selectedJobType);
   };
 
+
   return (
-    <div>
-      <div className={styles.screen}>
-        <JobFilter
-          JobType={jobType === "freelancing" ? "Freelancing" : ""}
-          filter={filter}
-          setFilter={setFilter}
-          handleFilterSubmit={handleFilterSubmit}
-          NoPublishedBy={true}
-        />
-        <div className={styles.mid_container}>
-          {(jobType === "all" || jobType === "regjobs") &&
-            jobs.map((job) => (
-              <Link
-                key={job.defJob_id}
-                className={styles.job_card}
-                to={`/job/${job.defJob_id}`}
-              >
-                <JobCard JobData={job} />
-              </Link>
-            ))}
-          {(jobType === "all" || jobType === "freelancing") &&
-            jobs.map((job) => (
-              <Link
-                key={job.defJob_id}
-                className={styles.job_card}
-                to={`/job/${job.defJob_id}`}
-              >
-                <JobCard JobData={job} />
-              </Link>
-            ))}
-          {isLoading ? <Clock /> : null}
-        </div>
+    <div className={styles.screen}>
+      <JobFilter
+        JobType={jobType === "freelancing" ? "Freelancing" : ""}
+        filter={filter}
+        setFilter={setFilter}
+        handleFilterSubmit={handleFilterSubmit}
+        NoPublishedBy={true}
+      />
+      <div className={styles.mid_container}>
+        {(jobType === "all" || jobType === "regjobs") &&
+          jobs.map((job) => (
+            <Link
+              key={job.defJob_id}
+              className={styles.job_card}
+              to={`/job/${job.defJob_id}`}
+            >
+              <JobCard JobData={job} />
+            </Link>
+          ))}
+        {(jobType === "all" || jobType === "freelancing") &&
+          jobs.map((job) => (
+            <Link
+              key={job.defJob_id}
+              className={styles.job_card}
+              to={`/job/${job.defJob_id}`}
+            >
+              <JobCard JobData={job} />
+            </Link>
+          ))}
+        {isLoading && <Clock />}
       </div>
     </div>
   );

@@ -14,6 +14,7 @@ class UserEditSkillsController extends GetxController {
   List<Skill> myskills = [];
   late List<SkillType> skillTypes = [];
   List<Skill> skills = [];
+  bool loading = true;
 
   @override
   void onInit() async {
@@ -25,6 +26,7 @@ class UserEditSkillsController extends GetxController {
     dio = Dio();
     await fetchSkills();
     skillTypes = await generalController.getSkillTypes();
+    loading = false;
     update();
     super.onInit();
   }
@@ -60,7 +62,7 @@ class UserEditSkillsController extends GetxController {
 
     try {
       var response = await dio.get(
-        'http://192.168.43.23:8000/api/user/skills',
+        'http://192.168.0.101:8000/api/user/skills',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -94,7 +96,7 @@ class UserEditSkillsController extends GetxController {
       }
       try {
         var response = await dio.post(
-          'http://192.168.43.23:8000/api/user/skills/edit',
+          'http://192.168.0.101:8000/api/user/skills/edit',
           data: {
             'skills': skillIds,
           },
@@ -130,7 +132,7 @@ class UserEditSkillsController extends GetxController {
       }
       try {
         var response = await dio.post(
-          'http://192.168.43.23:8000/api/user/skills/add',
+          'http://192.168.0.101:8000/api/user/skills/add',
           data: {
             'skills': skillIds,
           },

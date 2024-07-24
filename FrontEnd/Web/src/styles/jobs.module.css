@@ -20,7 +20,14 @@
 }
 
 .job_card {
+    width: 90%;
+    border: 2px;
     text-decoration: none;
+    border-radius: 20px;
+    border-style: outset;
+    border-color: var(--color-rating);
+    margin-block-start: 5px;
+    margin-inline-start: 5%;
 }
 
 .done {
@@ -33,13 +40,7 @@
 /* JobCard CSS */
 .card {
     height: 180px;
-    width: 90%;
-    border: 2px;
     border-radius: 20px;
-    border-style: outset;
-    border-color: var(--color-rating);
-    margin-block-start: 5px;
-    margin-inline-start: 5%;
 }
 
 .card:hover {

@@ -8,15 +8,15 @@
 
 .screen {
     position: relative;
-    height: 600px;
-    width: 720px;
+    height: 500px;
+    width: 600px;
     box-shadow: 0px 0px 24px #395F87;
 }
 
 .screen__shape {
     position: absolute;
-    height: 600px;
-    width: 360px;
+    height: 500px;
+    width: 300px;
 }
 
 html[dir='ltr'] .screen__shape {
@@ -108,7 +108,7 @@ html[dir='ltr'] .title {
 }
 
 html[dir='rtl'] .title {
-    translate: -128px 32px;
+    translate: -160px 32px;
 }
 
 .logo {
@@ -119,11 +119,11 @@ html[dir='rtl'] .title {
 }
 
 html[dir='ltr'] .logo {
-    translate: -312px 13px;
+    translate: -260px 13px;
 }
 
 html[dir='rtl'] .logo {
-    translate: 312px 13px;
+    translate: 260px 13px;
 }
 
 .logo:hover {
@@ -131,109 +131,42 @@ html[dir='rtl'] .logo {
     filter: drop-shadow(0 0 32px #00C9FF);
 }
 
-.slider {
-    position: absolute;
-    inset-block-end: 0;
-    height: 46px;
-    width: 92px;
-    border-radius: 1px;
-    background: linear-gradient(90deg, rgb(255, 195, 110), rgb(255, 146, 91));
-    transition: all 0.5s ease-in-out;
-}
-
-.btn {
-    position: absolute;
-    display: flex;
-    height: 48px;
-    width: 192px;
-    border-width: 1px;
-    border-block-end: solid;
-    align-items: center;
-    justify-content: space-around;
-    background-color: var(--color-scrollbar-thump);
-}
-
-html[dir='ltr'] .btn {
-    translate: 320px 32px;
-}
-
-html[dir='rtl'] .btn {
-    translate: -320px 32px;
-}
-
-.btn button {
-    position: relative;
-    font-size: 16px;
-    font-weight: 480;
-    border: none;
+.message {
+    height: 150px;
+    width: 300px;
     color: var(--color-foreground);
-    background-color: transparent;
+    font-size: 30px;
+    padding: 10px;
+    margin-block-start: 130px;
+    margin-inline-start: 130px;
+    text-decoration: inherit;
 }
 
-.register {
+.check {
+    color: green;
+}
+
+.xmark {
+    color: red;
+}
+
+.redeem_code {
     box-sizing: border-box;
-    margin: 0;
     width: 600px;
     padding-inline-start: 20px;
     padding-inline-end: 30px;
     padding-block-start: 85px;
 }
 
-.register__row {
-    display: flex;
-    position: relative;
+.submit_code {
+    padding-block-start: 85px;
 }
 
-.register__field__radio {
-    padding: 20px 0px;
-    width: 100%;
-    display: flex;
-    position: relative;
-}
-
-.register__input__radio {
-    padding: 10px 0px;
-    padding-inline-start: 3px;
-    font-weight: 500;
-    width: 35%;
-    color: var(--color-foreground);
-    text-decoration: inherit;
-    accent-color: #4F6E95;
-}
-
-.register__login {
+.form__submit {
     font-size: 15px;
-    margin-block-start: 5px;
-    margin-inline-start: 30px;
-    padding: 10px 15px;
-    text-decoration: inherit;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    color: var(--color-foreground);
-    cursor: pointer;
-    transition: .15s;
-}
-
-.register__login a {
-    font-size: 19px;
-    padding: 10px 15px;
-    text-decoration: inherit;
-    font-weight: 500;
-    color: var(--color-foreground);
-    cursor: pointer;
-    transition: .15s;
-}
-
-.register__login a:hover {
-    text-decoration: underline;
-    color: #00C9FF;
-}
-
-.register__submit {
-    font-size: 15px;
-    margin-block-start: 5px;
+    margin-block-start: 10px;
     padding: 10px 20px;
+    margin-inline-start: 50px;
     border-radius: 25px;
     border: 1px solid #A7A6BC;
     text-decoration: inherit;
@@ -249,9 +182,9 @@ html[dir='rtl'] .btn {
     transition: .2s;
 }
 
-.register__submit:active,
-.register__submit:focus,
-.register__submit:hover {
+.form__submit:active,
+.form__submit:focus,
+.form__submit:hover {
     border-color: #4F6E95;
     outline: none;
 }
@@ -266,29 +199,16 @@ html[dir='rtl'] .button__icon {
     transform: scaleX(-1);
 }
 
-/* Date Picker */
-.date_picker {
-    width: 100%;
+.no_reason {
+    margin-block-start: 60px;
+    margin-inline-start: -60px;
 }
 
-.date_picker_icon {
-    margin-inline-start: -7px;
+.anchor {
+    text-decoration: none;
+    font-size: 20px;
 }
 
-html[dir='rtl'] .date_picker input {
-    padding-inline-start: 23px;
-}
-
-.xmark{
-    color:red;
-}
-
-.message {
-    width: 300px;
-    color: var(--color-foreground);
-    font-size: 30px;
-    padding: 10px;
-    padding-block-start: 200px;
-    margin-inline-start: 150px;
-    text-decoration: inherit;
+.anchor:hover {
+    text-decoration: underline;
 }

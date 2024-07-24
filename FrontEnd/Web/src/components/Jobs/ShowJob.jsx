@@ -19,18 +19,19 @@ import {
   BookmarkJob,
 } from "../../apis/JobsApis";
 import {
-  FreelancingJobTransaction,
-  FinishedJobTransaction,
-} from "../../apis/TransactionsApis";
-import { FetchImage } from "../../apis/FileApi";
-import { CreateChat } from "../../apis/ChatApis";
-import JobCompetitorCard from "./JobCompetitorCard";
-import NormalInput from "../NormalInput";
-import Clock from "../../utils/Clock";
-import img_holder from "../../assets/upload.png";
-import styles from "./show_job.module.css";
-import Inputstyles from "../../styles/Input.module.css";
-import "bootstrap-icons/font/bootstrap-icons.css";
+  FetchJob, ApplyToRegJobAPI, ApplyToFreelancingJobAPI,
+  AcceptRegJob, AcceptFreelancingJob, DeleteRegJobAPI, DeleteFreelancingJobAPI
+} from '../../apis/JobsApis';
+import { FinishedJobTransaction } from '../../apis/TransactionsApis';
+import { FetchImage } from '../../apis/FileApi';
+import { CreateChat } from '../../apis/ChatApis';
+import JobCompetitorCard from './JobCompetitorCard';
+import NormalInput from '../NormalInput';
+import Clock from '../../utils/Clock';
+import img_holder from '../../assets/upload.png';
+import styles from './show_job.module.css';
+import Inputstyles from '../../styles/Input.module.css'
+
 
 const ShowJob = () => {
   // Translations
@@ -82,31 +83,27 @@ const ShowJob = () => {
             setJob(response.data.job);
             setJobEnded(response.data.job.is_done);
 
-            if (
-              response.data.job.job_user &&
-              response.data.job.job_user.user_id === profile.user_id
-            ) {
-              setIsJobCreator(true);
-            } else if (
-              response.data.job.company &&
-              response.data.job.company.user_id === profile.user_id
-            ) {
-              setIsJobCreator(true);
-            } else {
-              setIsJobCreator(false);
-            }
-            // Adding the photo if exists
-            if (response.data.job.photo) {
-              FetchImage("", response.data.job.photo).then((response) => {
-                setPhoto(response);
-              });
-            }
-          } else if (response.status === 404) {
-            // TODO add a picture of not found
-            setNotFound(true);
+          if (response.data.job.job_user && response.data.job.job_user.user_id === profile.user_id) {
+            setIsJobCreator(true);
+          } else if (response.data.job.company && response.data.job.company.user_id === profile.user_id) {
+            setIsJobCreator(true);
           } else {
-            console.log(response.statusText);
+            setIsJobCreator(false);
           }
+          // Adding the photo if exists
+          if (response.data.job.photo) {
+            FetchImage("", response.data.job.photo).then((response) => {
+              setPhoto(response);
+            });
+          }
+        }
+        else if (response.status === 404) {
+          setNotFound(true);
+          navigate('/notfound');
+        }
+        else {
+          console.log(response.statusText);
+        }
 
           if (
             response.data.job.accepted_individual ||
@@ -165,14 +162,8 @@ const ShowJob = () => {
       } else {
         console.log(response.statusText);
       }
-    });
-  };
-
-  const handleCancelJobCompetitor = (event) => {
-    event.preventDefault();
-    setParticipate(false);
-    setComment("");
-  };
+    })
+  }
 
   const handleAcceptRegCompetitor = (event, id) => {
     AcceptRegJob(accessToken, job.id, id).then((response) => {
@@ -201,7 +192,7 @@ const ShowJob = () => {
     );
   };
 
-  const handleCancelFreelancer = (event) => {
+  const handleCancelcompetitor = (event) => {
     event.preventDefault();
     setParticipate(false);
     setDesiredSalary("");
@@ -210,25 +201,13 @@ const ShowJob = () => {
 
   const handleAcceptFreelancingCompetitor = (event, id, salary) => {
     event.preventDefault();
-    AcceptFreelancingJob(accessToken, job.id, id).then((response) => {
+    AcceptFreelancingJob(accessToken, job.id, id, salary).then((response) => {
       if (response.status == 200) {
-        console.log("Competitor Accepted");
+        console.log('competitor accepted');
         setAccepted(true);
-        FreelancingJobTransaction(
-          accessToken,
-          profile.user_id,
-          job.id,
-          salary
-        ).then((response) => {
-          if (response.status == 200) {
-            console.log("transaction went smoothly");
-            window.location.reload();
-          } else {
-            console.log(response);
-          }
-        });
-      } else {
-        console.log(response.statusText);
+      }
+      else {
+        console.log(response);
       }
     });
   };
@@ -246,6 +225,7 @@ const ShowJob = () => {
   };
 
   const handleFinishFreelancingJob = (event) => {
+    console.log(job.accepted_user.salary);
     event.preventDefault();
     FinishedJobTransaction(
       accessToken,

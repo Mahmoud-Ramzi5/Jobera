@@ -48,6 +48,24 @@ class ProfileController extends Controller
         ], 401);
     }
 
+    public function GetWallet()
+    {
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+
+        // Response
+        return response()->json([
+            'wallet' => $user->wallet
+        ], 200);
+    }
+
     public function EditProfile(EditProfileRequest $request)
     {
         // Validate request

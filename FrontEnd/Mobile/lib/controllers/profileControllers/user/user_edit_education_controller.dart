@@ -22,6 +22,7 @@ class UserEditEducationController extends GetxController {
   DateTime endDate = DateTime.now();
   String? certficateName;
   FilePickerResult? file;
+  bool loading = true;
 
   @override
   Future<void> onInit() async {
@@ -50,6 +51,7 @@ class UserEditEducationController extends GetxController {
               education!.certificateFile.toString(),
             ).pathSegments.last;
       file = null;
+      loading = false;
       update();
     }
     super.onInit();
@@ -128,7 +130,7 @@ class UserEditEducationController extends GetxController {
     );
     try {
       var response = await dio.post(
-        'http://192.168.43.23:8000/api/education',
+        'http://192.168.0.101:8000/api/education',
         data: data,
         options: Options(
           headers: {
