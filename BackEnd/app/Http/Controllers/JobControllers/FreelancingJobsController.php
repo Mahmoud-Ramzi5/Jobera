@@ -39,6 +39,7 @@ class FreelancingJobsController extends Controller
                 'errors' => ['user' => 'Invalid user']
             ], 401);
         }
+
         // Check policy
         $policy = new FreelancingJobPolicy();
 
@@ -195,6 +196,7 @@ class FreelancingJobsController extends Controller
                 'errors' => ['user' => 'Invalid user']
             ], 401);
         }
+
         // Check policy
         $policy = new FreelancingJobPolicy();
 

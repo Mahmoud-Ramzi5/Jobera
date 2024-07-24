@@ -18,7 +18,7 @@ class FreelancingJobPolicy
 
     public function PostFreelancingJob(User $user)
     {
-        if($user->email_verified_at==null){
+        if ($user->email_verified_at == null) {
             return false;
         }
         return true;
@@ -41,7 +41,7 @@ class FreelancingJobPolicy
 
     public function ApplyFreelancingJob(User $user)
     {
-        if($user->email_verified_at==null){
+        if ($user->email_verified_at == null) {
             return false;
         }
         return true;
@@ -54,6 +54,7 @@ class FreelancingJobPolicy
         }
         return false;
     }
+
     public function AcceptUser(User $user, FreelancingJob $freelancingJob, FreelancingJobCompetitor $freelancingJobCompetitor)
     {
         if ($user->id == $freelancingJob->user_id) {
