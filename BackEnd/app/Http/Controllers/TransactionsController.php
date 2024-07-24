@@ -340,7 +340,7 @@ class TransactionsController extends Controller
             $receiverWallet->save();
         } else {
             return response()->json([
-                'message' =>$validated['amount']
+                'message' => $validated['amount']
             ], 400);
         }
 

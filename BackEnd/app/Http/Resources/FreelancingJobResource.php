@@ -3,8 +3,8 @@
 namespace App\Http\Resources;
 
 use App\Models\Company;
-use App\Models\FreelancingJobCompetitor;
 use App\Models\Individual;
+use App\Models\FreelancingJobCompetitor;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -22,10 +22,10 @@ class FreelancingJobResource extends JsonResource
         $company = Company::where('user_id', $this->user_id)->first();
         $individual = Individual::where('user_id', $this->user_id)->first();
 
-        $acceptedCompetitor = FreelancingJobCompetitor::where('user_id', $this->accepted_user)
-            ->where('job_id', $this->id)->first();
         $acceptedCompany = Company::where('user_id', $this->accepted_user)->first();
         $acceptedIndividual = Individual::where('user_id', $this->accepted_user)->first();
+        $acceptedCompetitor = FreelancingJobCompetitor::where('user_id', $this->accepted_user)
+            ->where('job_id', $this->id)->first();
         if ($acceptedCompany != null) {
             $acceptedUser = [
                 'id' => $acceptedCompany->id,
