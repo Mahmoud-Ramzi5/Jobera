@@ -190,4 +190,29 @@ class Dialogs {
       ),
     );
   }
+
+  Future<void> redeemCodeDialog(
+    TextEditingController controller,
+    void Function()? onPressed,
+  ) async {
+    Get.defaultDialog(
+      title: 'Redeem Code',
+      titleStyle: TextStyle(
+        color: Colors.orange.shade800,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+      content: CustomTextField(
+        controller: controller,
+        textInputType: TextInputType.text,
+        obsecureText: false,
+        labelText: 'Code',
+        icon: const Icon(Icons.numbers),
+      ),
+      confirm: OutlinedButton(
+        onPressed: onPressed,
+        child: const LabelText(text: 'Redeem'),
+      ),
+    );
+  }
 }

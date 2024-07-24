@@ -3,6 +3,7 @@ import 'package:jobera/middleware/middleware.dart';
 import 'package:jobera/views/appViews/chats/chat_view.dart';
 import 'package:jobera/views/appViews/chats/chats_view.dart';
 import 'package:jobera/views/appViews/home_view.dart';
+import 'package:jobera/views/appViews/manage_view.dart';
 import 'package:jobera/views/appViews/news_feed_view.dart';
 import 'package:jobera/views/appViews/wallet_view.dart';
 import 'package:jobera/views/loginViews/forgot_password_view.dart';
@@ -102,5 +103,9 @@ List<GetPage<dynamic>>? getPages = [
   GetPage(
     name: '/newsFeed',
     page: () => NewsFeedView(),
+  ),
+  GetPage(
+    name: '/manage',
+    page: () => ManageView(),
   ),
 ];

@@ -116,7 +116,7 @@ class UserRegisterController extends GetxController {
   ) async {
     Dialogs().loadingDialog();
     try {
-      var response = await dio.post('http://192.168.43.23:8000/api/register',
+      var response = await dio.post('http://192.168.0.101:8000/api/register',
           data: {
             "full_name": fullName,
             "email": email,
@@ -150,7 +150,7 @@ class UserRegisterController extends GetxController {
         );
       }
     } on DioException catch (e) {
-      await Dialogs().showErrorDialog(
+      Dialogs().showErrorDialog(
         'Register Failed',
         e.response!.data['errors'].toString(),
       );

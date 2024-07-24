@@ -12,10 +12,9 @@ class ViewPortfolioController extends GetxController {
   late GeneralController generalController;
   late Dio dio;
   late ProfileController? profileController;
-  List<Portfolio> portoflios = [];
+  List<Portfolio> portfolios = [];
   int id = 0;
-  int userId = 0;
-  String userName = '';
+  bool loading = true;
 
   @override
   Future<void> onInit() async {
@@ -27,6 +26,8 @@ class ViewPortfolioController extends GetxController {
       profileController = Get.find<ProfileController>();
     }
     await fetchPortfolios();
+    loading = false;
+    update();
     super.onInit();
   }
 
@@ -44,7 +45,7 @@ class ViewPortfolioController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.43.23:8000/api/portfolios/$userId/$userName',
+        'http://192.168.0.101:8000/api/portfolios/${profileController!.user.id}/${profileController!.user.name}',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -54,14 +55,9 @@ class ViewPortfolioController extends GetxController {
         ),
       );
       if (response.statusCode == 200) {
-        portoflios = [
+        portfolios = [
           for (var portfolio in response.data['portfolios'])
-            Portfolio.fromJson(
-              {
-                ...portfolio,
-                'files': portfolio['files'] ?? [],
-              },
-            ),
+            (Portfolio.fromJson(portfolio)),
         ];
         update();
       }
@@ -70,6 +66,12 @@ class ViewPortfolioController extends GetxController {
         'Error',
         e.response.toString(),
       );
+      Future.delayed(
+        const Duration(seconds: 1),
+        () {
+          Get.back();
+        },
+      );
     }
   }
 
@@ -77,7 +79,7 @@ class ViewPortfolioController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.delete(
-        'http://192.168.43.23:8000/api/portfolios/$id',
+        'http://192.168.0.101:8000/api/portfolios/$id',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -93,6 +95,12 @@ class ViewPortfolioController extends GetxController {
       Dialogs().showErrorDialog(
         'Error',
         e.response.toString(),
+      );
+      Future.delayed(
+        const Duration(seconds: 1),
+        () {
+          Get.back();
+        },
       );
     }
   }

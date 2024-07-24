@@ -32,7 +32,6 @@ class ProfileController extends GetxController {
     editBioController = TextEditingController();
     await fetchProfile();
     image = null;
-
     super.onInit();
   }
 
@@ -51,7 +50,7 @@ class ProfileController extends GetxController {
   Future<void> fetchProfile() async {
     String? token = sharedPreferences?.getString('access_token');
     try {
-      var response = await dio.get('http://192.168.43.23:8000/api/profile',
+      var response = await dio.get('http://192.168.0.101:8000/api/profile',
           options: Options(
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',
@@ -63,10 +62,12 @@ class ProfileController extends GetxController {
         if (homeController.isCompany) {
           user = Company.fromJson(response.data['user']);
           loading = false;
+          editBioController.text = user.description;
           update();
         } else {
           user = User.fromJson(response.data['user']);
           loading = false;
+          editBioController.text = user.description;
           update();
         }
       }
@@ -82,7 +83,7 @@ class ProfileController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.43.23:8000/api/profile/description',
+        'http://192.168.0.101:8000/api/profile/description',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -94,7 +95,12 @@ class ProfileController extends GetxController {
       );
       if (response.statusCode == 200) {
         refreshIndicatorKey.currentState!.show();
-        Get.back();
+        Future.delayed(
+          const Duration(seconds: 2),
+          () {
+            Get.back();
+          },
+        );
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
@@ -114,7 +120,7 @@ class ProfileController extends GetxController {
       );
       try {
         var response = await dio.post(
-          'http://192.168.43.23:8000/api/profile/photo',
+          'http://192.168.0.101:8000/api/profile/photo',
           data: data,
           options: Options(
             headers: {
@@ -125,22 +131,29 @@ class ProfileController extends GetxController {
           ),
         );
         if (response.statusCode == 200) {
+          refreshIndicatorKey.currentState!.show();
+          Dialogs().showSuccessDialog(
+            'Photo added successfully',
+            '',
+          );
           Future.delayed(
-            const Duration(seconds: 1),
+            const Duration(seconds: 2),
             () {
-              Dialogs().showSuccessDialog(
-                'Photo added successfully',
-                '',
-              );
+              Get.back();
+              Get.back();
             },
           );
-          refreshIndicatorKey.currentState!.show();
-          Get.back();
         }
       } on DioException catch (e) {
         Dialogs().showErrorDialog(
           'Error',
           e.response!.data['errors'].toString(),
+        );
+        Future.delayed(
+          const Duration(seconds: 1),
+          () {
+            Get.back();
+          },
         );
       }
     } else {
@@ -152,7 +165,7 @@ class ProfileController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       final response = await dio.delete(
-        'http://192.168.43.23:8000/api/profile/photo',
+        'http://192.168.0.101:8000/api/profile/photo',
         options: Options(
           headers: {
             'Content-Type': 'application/pdf; charset=UTF-8',
@@ -162,22 +175,29 @@ class ProfileController extends GetxController {
         ),
       );
       if (response.statusCode == 200) {
+        refreshIndicatorKey.currentState!.show();
+        Dialogs().showSuccessDialog(
+          'Success',
+          response.data['message'].toString(),
+        );
         Future.delayed(
-          const Duration(seconds: 1),
+          const Duration(seconds: 2),
           () {
-            Dialogs().showSuccessDialog(
-              'Success',
-              response.data['message'].toString(),
-            );
+            Get.back();
+            Get.back();
           },
         );
-        refreshIndicatorKey.currentState!.show();
-        Get.back();
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
         e.response!.data['errors'].toString(),
+      );
+      Future.delayed(
+        const Duration(seconds: 1),
+        () {
+          Get.back();
+        },
       );
     }
   }
