@@ -37,6 +37,8 @@ import JobFeed from './pages/Jobs/JobFeed.jsx';
 import ChatPage from './components/Chats/ChatPage.jsx';
 import Manage from './pages/Manage.jsx';
 import RedeemCode from './components/Profile/RedeemCode.jsx';
+import NotFound from './components/NotFound.jsx';
+import ErrorPage from './components/ErrorPage.jsx';
 
 
 function App() {
@@ -153,6 +155,8 @@ function App() {
 
                   <Route path='/ChatsPage' element={<ChatPage />} />
                   <Route path='/redeemcode' element={<RedeemCode />} />
+                  <Route path='/notfound' element={<NotFound />} />
+                  <Route path='/error' element={<ErrorPage />} />
 
                   <Route path="/logout" element={<Logout />} />
                 </Route>
