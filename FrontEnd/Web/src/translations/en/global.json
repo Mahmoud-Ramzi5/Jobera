@@ -116,9 +116,9 @@
             },
             "wallet": {
                 "wallet_title": "Personal Wallet",
-                "redeem_title": "Enter redeem code to increase your balance:",
-                "button": "Redeem",
-                "wallet_body": "Current balance:"
+                "wallet_body1": "Available balance:",
+                "wallet_body2": "Total balance:",
+                "button": "Redeem Code"
             },
             "skills": {
                 "title": "Skills",
@@ -147,6 +147,15 @@
                 "button": "View All",
                 "no_data": "No portfolio to display"
             }
+        },
+        "redeem_code": {
+            "message1": "Charged your wallet successfully",
+            "messsge1": "Something went wrong, please try again later",
+            "title": "Redeem",
+            "h3": "Enter redeem code to charge your wallet",
+            "input": "Redeem code",
+            "button": "Submit",
+            "anchor": "Return to profile"
         },
         "education": {
             "heading1": "Edit Education",

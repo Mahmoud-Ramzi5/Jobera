@@ -287,6 +287,7 @@ export const AcceptFreelancingJob = async (token, freelancingJobId, competitorId
     return error.response;
   }
 }
+
 export const BookmarkJob = async (token, defJob) => {
   try {
     const response = await axios.post(`http://127.0.0.1:8000/api/jobs/${defJob}/bookmark`, {
@@ -301,9 +302,10 @@ export const BookmarkJob = async (token, defJob) => {
     return error.response;
   }
 };
+
 export const JobYouPosted = async (token) => {
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/mange/posted`, {
+    const response = await axios.get(`http://127.0.0.1:8000/api/manage/posted`, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",
@@ -318,7 +320,7 @@ export const JobYouPosted = async (token) => {
 
 export const JobYouApplied = async (token) => {
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/mange/applied`, {
+    const response = await axios.get(`http://127.0.0.1:8000/api/manage/applied`, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",
@@ -330,9 +332,10 @@ export const JobYouApplied = async (token) => {
     return error.response;
   }
 };
+
 export const BookmarkedJobs = async (token) => {
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/mange/bookmarked`, {
+    const response = await axios.get(`http://127.0.0.1:8000/api/manage/bookmarked`, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",
@@ -344,6 +347,7 @@ export const BookmarkedJobs = async (token) => {
     return error.response;
   }
 };
+
 //
 // export const FetchRegJobCompetitors = async (token, id) => {
 //   try {

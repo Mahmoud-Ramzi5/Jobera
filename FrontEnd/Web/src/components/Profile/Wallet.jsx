@@ -29,10 +29,15 @@ const Wallet = ({ ProfileData }) => {
           <div className={styles.wallet_title}>
             <h3>{t('components.profile_cards.wallet.wallet_title')}</h3>
           </div>
+          <div className={styles.wallet_body}>
+            <h3>{t('components.profile_cards.wallet.wallet_body1')}
+              {' $'}{ProfileData.wallet.current_balance}
+            </h3>
+            <h3>{t('components.profile_cards.wallet.wallet_body2')}
+              {' $'}{ProfileData.wallet.available_balance}
+            </h3>
+          </div>
           <form onSubmit={handleSubmit}>
-            <div className={styles.redeem_title}>
-              <h5>{t('components.profile_cards.wallet.redeem_title')}</h5>
-            </div>
             {profile.user_id === ProfileData.user_id ?
               <div className={styles.redeem}>
                 <button type="submit" className={styles.redeem_submit}>
@@ -42,11 +47,6 @@ const Wallet = ({ ProfileData }) => {
               </div>
               : <></>}
           </form>
-          <div className={styles.wallet_body}>
-            <h3>{t('components.profile_cards.wallet.wallet_body')}
-              ${ProfileData.wallet.available_balance}
-            </h3>
-          </div>
         </div>
       </div>
     </Card>
