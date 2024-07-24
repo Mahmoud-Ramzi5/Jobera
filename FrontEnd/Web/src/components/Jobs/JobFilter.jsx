@@ -7,7 +7,7 @@ import Slider from '../../components/Slider.jsx';
 import styles from '../../styles/jobs.module.css';
 
 
-const JobFilter = ({ JobType, filter, setFilter, handleFilterSubmit,NoPublishedBy }) => {
+const JobFilter = ({ JobType, filter, setFilter, handleFilterSubmit, NoPublishedBy }) => {
   // Translations
   const { t } = useTranslation('global');
   // Define states
@@ -67,22 +67,22 @@ const JobFilter = ({ JobType, filter, setFilter, handleFilterSubmit,NoPublishedB
       >
         <X size={31} />
       </label>
-      {NoPublishedBy?<></> :
-      <div>
-        <label htmlFor={JobType === 'Freelancing' ? 'UserName' : 'CompanyName'}>
-          {t('pages.jobs.job_filter.published_by1')}
-        </label>
-        <input
-          type='text'
-          placeholder={t('pages.jobs.job_filter.published_by2')}
-          id={JobType === 'Freelancing' ? 'UserName' : 'CompanyName'}
-          name={JobType === 'Freelancing' ? 'userName' : 'companyName'}
-          value={JobType === 'Freelancing' ? filter.userName : filter.companyName}
-          onChange={handleFilter}
-          className={styles.search_input}
-        />
-      </div>
-}
+      {NoPublishedBy ? <></> :
+        <div>
+          <label htmlFor={JobType === 'Freelancing' ? 'UserName' : 'CompanyName'}>
+            {t('pages.jobs.job_filter.published_by1')}
+          </label>
+          <input
+            type='text'
+            placeholder={t('pages.jobs.job_filter.published_by2')}
+            id={JobType === 'Freelancing' ? 'UserName' : 'CompanyName'}
+            name={JobType === 'Freelancing' ? 'userName' : 'companyName'}
+            value={JobType === 'Freelancing' ? filter.userName : filter.companyName}
+            onChange={handleFilter}
+            className={styles.search_input}
+          />
+        </div>
+      }
       <br />
       <div>
         <label htmlFor='Salary'>
