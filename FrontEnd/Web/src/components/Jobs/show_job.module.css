@@ -314,3 +314,21 @@
     flex-direction: column;
     padding-block-end: 25px;
 }
+.favorite_button {
+    font-size: 2em; 
+    margin-left: 100px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    align-items: center;
+  }
+  
+  .favorite_icon {
+
+    color: transparent;
+    transition: color 0.2s;
+  }
+  
+  .favorite_button.active .favorite_icon {
+    color: var(--color-typeschecked);
+  }
