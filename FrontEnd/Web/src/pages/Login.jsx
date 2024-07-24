@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { PersonFill, ChevronRight } from 'react-bootstrap-icons';
+import { PersonFill, ChevronRight, X, CheckLg } from 'react-bootstrap-icons';
 import Cookies from 'js-cookie';
 import { LoginContext, ProfileContext } from '../utils/Contexts.jsx';
 import { FetchProviders, LoginAPI } from '../apis/AuthApis.jsx';
@@ -26,6 +26,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [message, setMessage] = useState('')
 
   useEffect(() => {
     if (!initialized.current) {
@@ -63,7 +64,7 @@ const Login = () => {
           // Store token and Log in user 
           const token = response.data.access_token;
           const expires = response.data.expires_at;
-
+          setMessage('login successfully');
           setLoggedIn(true);
           setAccessToken(token);
           setProfile(response.data.user);
@@ -75,73 +76,90 @@ const Login = () => {
             // 1 Hour
             Cookies.set('access_token', token, { secure: true, expires: 1 / 24 });
           }
+          // Redirect to dashboard
+          setTimeout(() => {
+            navigate('/dashboard');
+          }, 3000);
         }
         else {
           console.log(response.statusText);
+          setMessage('please make sure that the email and password are correct')
+          setTimeout(() => {
+            navigate('/login');
+          }, 3000);
         }
       }).then(() => {
         // Reset the form fields
         setEmail('');
         setPassword('');
         setRememberMe(false);
-
-        // Redirect to dashboard
-        navigate('/dashboard');
       });
   };
-
+  console.log(message);
   return (
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen__content}>
           <img src={Logo} className={styles.logo} alt="logo" />
-          <div className={styles.title}>{t('pages.Login.title')}</div>
-          <form className={styles.login} onSubmit={handleSubmit}>
-            <NormalInput
-              type='text'
-              placeholder={t('pages.Login.email_input')}
-              icon={<PersonFill />}
-              value={email}
-              setChange={setEmail}
-            />
-            <PasswordInput
-              placeholder={t('pages.Login.password_input')}
-              value={password}
-              setChange={setPassword}
-            />
-            <div>
-              <div className={styles.checkBox}>
-                <input
-                  id="rememberMe"
-                  type="checkbox"
-                  onChange={(event) => setRememberMe(event.target.checked)}
+          {message ? message === 'login successfully' ?
+            <div className={styles.message}>
+              <i className={styles.check}><CheckLg size={60} /></i>
+              <br />
+              <span>Login successfully</span>
+            </div> :
+            <div className={styles.message}>
+              <i className={styles.xmark}><X size={60} /></i>
+              <br />
+              <span>Make sure that the email and password are correct</span>
+            </div>
+            : <>
+              <div className={styles.title}>{t('pages.Login.title')}</div>
+              <form className={styles.login} onSubmit={handleSubmit}>
+                <NormalInput
+                  type='text'
+                  placeholder={t('pages.Login.email_input')}
+                  icon={<PersonFill />}
+                  value={email}
+                  setChange={setEmail}
                 />
-                <label htmlFor="rememberMe">{t('pages.Login.remember_me')}</label>
+                <PasswordInput
+                  placeholder={t('pages.Login.password_input')}
+                  value={password}
+                  setChange={setPassword}
+                />
+                <div>
+                  <div className={styles.checkBox}>
+                    <input
+                      id="rememberMe"
+                      type="checkbox"
+                      onChange={(event) => setRememberMe(event.target.checked)}
+                    />
+                    <label htmlFor="rememberMe">{t('pages.Login.remember_me')}</label>
+                  </div>
+                  <a href='/ForgetPassword' className={styles.forgot__password}>
+                    {t('pages.Login.forgot_password')}
+                  </a>
+                </div>
+
+                <button type="submit" className={styles.login__submit}>
+                  <span>{t('pages.Login.button')}</span>
+                  <i className={styles.button__icon}><ChevronRight /></i>
+                </button>
+              </form>
+
+              <div className={styles.login__register}>
+                {t('pages.Login.login_register_div')} <a href='/register'>{t('pages.Login.login_register_a')}</a>
               </div>
-              <a href='/ForgetPassword' className={styles.forgot__password}>
-                {t('pages.Login.forgot_password')}
-              </a>
-            </div>
 
-            <button type="submit" className={styles.login__submit}>
-              <span>{t('pages.Login.button')}</span>
-              <i className={styles.button__icon}><ChevronRight /></i>
-            </button>
-          </form>
-
-          <div className={styles.login__register}>
-            {t('pages.Login.login_register_div')} <a href='/register'>{t('pages.Login.login_register_a')}</a>
-          </div>
-
-          <div className={styles.social__login}>
-            <h5>{t('pages.Login.social')}</h5>
-            <div className={styles.social__icons}>
-              <a href={GoogleUrl} className={`${styles.social__login__icon} fab fa-google`}></a>
-              <a href={FacebookUrl} className={`${styles.social__login__icon} fab fa-facebook`}></a>
-              <a href={LinkedinUrl} className={`${styles.social__login__icon} fab fa-linkedin`}></a>
-            </div>
-          </div>
-
+              <div className={styles.social__login}>
+                <h5>{t('pages.Login.social')}</h5>
+                <div className={styles.social__icons}>
+                  <a href={GoogleUrl} className={`${styles.social__login__icon} fab fa-google`}></a>
+                  <a href={FacebookUrl} className={`${styles.social__login__icon} fab fa-facebook`}></a>
+                  <a href={LinkedinUrl} className={`${styles.social__login__icon} fab fa-linkedin`}></a>
+                </div>
+              </div>
+            </>}
         </div>
 
         <div className={styles.screen__background}>
