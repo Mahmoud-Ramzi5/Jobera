@@ -30,13 +30,14 @@ import PartTimeRegJobs from './pages/Jobs/PartTimeRegJobs.jsx';
 import FreelancingJobs from './pages/Jobs/FreelancingJobs.jsx';
 import ShowJob from './components/Jobs/ShowJob.jsx';
 import PostJob from './pages/Jobs/PostJob.jsx';
-import PostFreelancing from './components/Jobs/PostFreelancing.jsx';
+import Manage from './pages/Manage.jsx';
+import RedeemCode from './components/Profile/RedeemCode.jsx';
 
 
 import JobFeed from './pages/Jobs/JobFeed.jsx';
 import ChatPage from './components/Chats/ChatPage.jsx';
-import Manage from './pages/Manage.jsx';
-import RedeemCode from './components/Profile/RedeemCode.jsx';
+
+
 import NotFound from './components/NotFound.jsx';
 import ErrorPage from './components/ErrorPage.jsx';
 
@@ -149,12 +150,13 @@ function App() {
                   <Route path='/jobs/PartTime' element={<PartTimeRegJobs />} />
                   <Route path='/jobs/Freelancing' element={<FreelancingJobs />} />
                   <Route path='/jobs/post' element={<PostJob />} />
-                  <Route path='/jobs/postfreelancing' element={<PostFreelancing />} />
                   <Route path='/job/:id' element={<ShowJob />} />
                   <Route path='/manage' element={<Manage/>}/>
+                  <Route path='/redeemcode' element={<RedeemCode />} />
+
 
                   <Route path='/ChatsPage' element={<ChatPage />} />
-                  <Route path='/redeemcode' element={<RedeemCode />} />
+
                   <Route path='/notfound' element={<NotFound />} />
                   <Route path='/error' element={<ErrorPage />} />
 

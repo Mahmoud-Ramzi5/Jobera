@@ -1,22 +1,21 @@
-import { useContext, useState, useEffect } from "react";
-import ReactSwitch from "react-switch";
-import {
-  BriefcaseFill, EnvelopeAtFill, BellFill, List, X,
-} from "react-bootstrap-icons";
-import {
-  ThemeContext, LoginContext, ProfileContext,
-} from "../utils/Contexts.jsx";
-import { FetchImage } from "../apis/FileApi.jsx";
-import Logo from "../assets/JoberaLogo.png";
-import styles from "../styles/navbar.module.css";
+import { useContext, useState, useEffect } from 'react';
+import ReactSwitch from 'react-switch';
+import { useTranslation } from 'react-i18next';
+import { KanbanFill, EnvelopeAtFill, BellFill, List, X } from 'react-bootstrap-icons';
+import { ThemeContext, LoginContext, ProfileContext } from '../utils/Contexts.jsx';
+import { FetchImage } from '../apis/FileApi.jsx';
+import Logo from '../assets/JoberaLogo.png';
+import defaultUser from '../assets/default.png';
+import styles from '../styles/navbar.module.css';
 import ChatNavWindow from "./Chats/Chats.jsx";
 
 const NavBar = () => {
+  // Translations
+  const { t } = useTranslation('global');
   // Context
   const { theme, toggleTheme } = useContext(ThemeContext);
   const { loggedIn } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
-
   // Define states
   const [showChatScreen, setShowChatScreen] = useState(false);
 
@@ -25,7 +24,9 @@ const NavBar = () => {
       <div className={styles.wrapper}>
         <div className={styles.logo}>
           <img src={Logo} alt="logo" />
-          <a href="/">Jobera</a>
+          <a href="/">
+            {t('components.nav_bar.nav_logo')}
+          </a>
         </div>
         <input
           type="radio"
@@ -42,40 +43,38 @@ const NavBar = () => {
 
         <ul className={styles.nav_links}>
           <div className={styles.nav_links_left}>
-            <li>
-              <a href="/dashboard"> Home </a>
-            </li>
+            {loggedIn &&
+              <li>
+                <a href="/dashboard">{t('components.nav_bar.li_home')}</a>
+              </li>
+            }
             <li>
               <a href="/jobs/all" className={styles.desktop_item}>
-                {" "}
-                Jobs{" "}
+                {t('components.nav_bar.li_jobs')}
               </a>
               <input type="checkbox" id="Jobs" className={styles.showDrop} />
               <label htmlFor="Jobs" className={styles.mobile_item}>
-                {" "}
-                Jobs{" "}
+                {t('components.nav_bar.li_jobs')}
               </label>
               <ul className={styles.drop_menu}>
                 <a className={styles.mobile_item} href="/jobs/all">
-                  All Jobs
+                  {t('components.nav_bar.all')}
                 </a>
                 <li>
-                  <a href="/jobs/FullTime">FullTime</a>
+                  <a href="/jobs/FullTime">{t('components.nav_bar.full_time')}</a>
                 </li>
                 <li>
-                  <a href="/jobs/PartTime">PartTime</a>
+                  <a href="/jobs/PartTime">{t('components.nav_bar.part_time')}</a>
                 </li>
                 <li>
-                  <a href="/jobs/Freelancing">FreeLance</a>
+                  <a href="/jobs/Freelancing">{t('components.nav_bar.freelancing')}</a>
                 </li>
               </ul>
             </li>
             <li>
-              {profile.type === "individual" ? <a href="/jobs/postfreelancing"> Post a job </a> :
-                <a href="/jobs/post"> Post a job </a>}
+              <a href="/jobs/post">{t('components.nav_bar.post_job')}</a>
             </li>
           </div>
-
           <div className={styles.nav_links_right}>
             <label
               htmlFor="close_btn"
@@ -87,13 +86,13 @@ const NavBar = () => {
               <>
                 <li>
                   <a href="/manage">
-                    <BriefcaseFill /> Manage{" "}
+                    <KanbanFill /> {t('components.nav_bar.li_manage')}
                   </a>
                 </li>
                 <li>
-                  <a href="#" onClick={() => setShowChatScreen(!showChatScreen)}>
-                    <EnvelopeAtFill /> <span className={styles.mobile_item2}>Chats</span>
-                  </a>
+                  <span className={styles.chat_list} onClick={() => setShowChatScreen(!showChatScreen)}>
+                    <EnvelopeAtFill /> <span className={styles.mobile_item2}>{t('components.nav_bar.li_chats')}</span>
+                  </span>
                 </li>
                 <li>
                   <a href="#">
@@ -121,10 +120,10 @@ const NavBar = () => {
                             `/profile/${profile.user_id}/${profile.full_name}` :
                             profile.type === "company" ?
                               `/profile/${profile.user_id}/${profile.name}` :
-                              '#'}>My Profile</a>
+                              '#'}>{t('components.nav_bar.li_profile')}</a>
                       </li>
                       <li>
-                        <a href="/logout">LogOut</a>
+                        <a href="/logout">{t('components.nav_bar.li_logout')}</a>
                       </li>
                     </ul>
                   </li>
@@ -134,10 +133,10 @@ const NavBar = () => {
             ) : (
               <>
                 <li>
-                  <a href="/login"> Login </a>
+                  <a href="/login">{t('components.nav_bar.li_login')}</a>
                 </li>
                 <li>
-                  <a href="/register"> Register </a>
+                  <a href="/register">{t('components.nav_bar.li_register')}</a>
                 </li>
               </>
             )}
@@ -177,7 +176,7 @@ const NavUser = ({ ProfileData }) => {
       });
       setAvatarPhotoPath(null);
     }
-  });
+  }, []);
 
   return (
     <div className={styles.profile}>
@@ -188,7 +187,7 @@ const NavUser = ({ ProfileData }) => {
         ></img>
       ) : (
         <img
-          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShW5NjeHQbu_ztouupPjcHZsD9LT-QYehassjT3noI4Q&s"
+          src={defaultUser}
           className={styles.profile_image}
         ></img>
       )}
@@ -202,7 +201,7 @@ const NavUser = ({ ProfileData }) => {
             <></>
           )}
         </div>
-        <div>${ProfileData.wallet.available_balance}</div>
+        <div>${ProfileData.wallet.current_balance}</div>
       </div>
     </div>
   );

@@ -245,6 +245,22 @@
             "send_button": "Send",
             "cancel_button": "Cancel"
         },
+        "nav_bar": {
+            "nav_logo": "Jobera",
+            "li_home": "Home",
+            "li_jobs": "Jobs",
+            "all": "All Jobs",
+            "full_time": "FullTime",
+            "part_time": "PartTime",
+            "freelancing": "FreeLance",
+            "post_job": "Post a job",
+            "li_manage": "Manage",
+            "li_chats": "Chats",
+            "li_profile": "My Profile",
+            "li_logout": "LogOut",
+            "li_login": "Login",
+            "li_register": "Register"
+        },
         "footer": {
             "footer_logo": "Jobera",
             "app_lang": "Language:",

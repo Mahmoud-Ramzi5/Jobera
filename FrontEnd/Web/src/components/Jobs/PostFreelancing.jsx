@@ -170,9 +170,6 @@ const PostFreelancing = () => {
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen_content}>
-          <div className={styles.titleF}>
-            <h3>Freelancing job</h3>
-          </div>
           <form className={styles.form} onSubmit={handleCreate}>
             <div className={styles.row}>
               <div className={styles.column}>
