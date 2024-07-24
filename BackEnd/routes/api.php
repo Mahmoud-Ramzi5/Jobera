@@ -119,10 +119,11 @@ Route::controller(DefJobsController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('/jobs', 'ShowAllJobs');
         Route::get('/jobs/{id}', 'ShowSpecificJob');
-        Route::post('/jobs/{defJob}/bookmark','FlagJob');
-        Route::get('/mange/posted','JobYouPosted');
-        Route::get('/mange/applied','JobYouApplied');
-        Route::get('/mange/bookmarked','FlagedJobs');
+
+        Route::get('/manage/posted', 'PostedJobs');
+        Route::get('/manage/applied', 'AppliedJobs');
+        Route::get('/manage/bookmarked', 'FlagedJobs');
+        Route::post('/jobs/{id}/bookmark', 'FlagJob');
     });
 });
 
@@ -197,7 +198,8 @@ Route::get('/image/{user_id}/{folder}/{image}', function (Request $request, $use
     return response()->file($path);
 });
 
+
 // Routes for admin can only be accessed through postman
 Route::controller(AdminController::class)->group(function () {
-        Route::post('/generate', 'GenerateCode');
-    });
+    Route::post('/generate', 'GenerateCode');
+});

@@ -85,8 +85,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Review::class, 'reviewed_id', 'id');
     }
 
-    public function FlagedJobs():BelongsToMany
+    public function FlagedJobs(): BelongsToMany
     {
-        return $this->belongsToMany(DefJob::class,'flaged_jobs','user_id','defJob_id');
+        return $this->belongsToMany(DefJob::class, 'flaged_jobs', 'user_id', 'defJob_id');
     }
 }

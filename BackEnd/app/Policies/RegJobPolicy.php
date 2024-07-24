@@ -24,7 +24,7 @@ class RegJobPolicy
         if ($company == null) {
             return false;
         }
-        if($user->email_verified_at==null){
+        if ($user->email_verified_at == null) {
             return false;
         }
         return true;
@@ -51,7 +51,7 @@ class RegJobPolicy
         if ($individual == null) {
             return false;
         }
-        if($user->email_verified_at==null){
+        if ($user->email_verified_at == null) {
             return false;
         }
         return true;
@@ -68,6 +68,7 @@ class RegJobPolicy
         }
         return false;
     }
+
     public function AcceptIndividual(User $user, RegJob $regJob, RegJobCompetitor $regJobCompetitor)
     {
         $company = Company::where('user_id', $user->id)->first();

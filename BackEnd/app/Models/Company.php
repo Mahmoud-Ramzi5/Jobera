@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 
@@ -40,9 +41,7 @@ class Company extends User
      */
     protected function casts(): array
     {
-        return [
-
-        ];
+        return [];
     }
 
     /* Relations */
@@ -50,7 +49,8 @@ class Company extends User
     {
         return $this->belongsTo(User::class);
     }
-    public function regJobs()
+
+    public function regJobs(): HasMany
     {
         return $this->hasMany(RegJob::class);
     }

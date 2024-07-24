@@ -3,18 +3,19 @@
 namespace App\Http\Controllers\JobControllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\FreelancingJobCollection;
-use App\Http\Resources\FreelancingJobCompetitorResource;
-use App\Http\Resources\FreelancingJobResource;
-use App\Http\Resources\RegJobCollection;
-use App\Http\Resources\RegJobCompetitorResource;
-use App\Http\Resources\RegJobResource;
+use App\Models\Individual;
 use App\Models\Company;
 use App\Models\DefJob;
-use App\Models\FreelancingJob;
-use App\Models\Individual;
 use App\Models\RegJob;
+use App\Models\FreelancingJob;
 use Illuminate\Http\Request;
+use App\Http\Resources\RegJobResource;
+use App\Http\Resources\RegJobCollection;
+use App\Http\Resources\RegJobCompetitorResource;
+use App\Http\Resources\FreelancingJobResource;
+use App\Http\Resources\FreelancingJobCollection;
+use App\Http\Resources\FreelancingJobCompetitorResource;
+
 
 class DefJobsController extends Controller
 {
@@ -107,7 +108,8 @@ class DefJobsController extends Controller
             'job' => $job,
         ], 200);
     }
-    public function JobYouPosted()
+
+    public function PostedJobs()
     {
         // Get user
         $user = auth()->user();
@@ -118,18 +120,27 @@ class DefJobsController extends Controller
                 'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
+
+        // Check company
         $company = Company::where('user_id', $user->id)->first();
+
+        // Check RegJobs
         $RegJobs = [];
         if ($company) {
             $RegJobs = $company->regJobs;
         }
+
+        // Check FreelancingJobs
         $FreelancingJobs = FreelancingJob::where('user_id', $user->id)->get();
+
+        // Response
         return response()->json([
             "RegJobs" => new RegJobCollection($RegJobs),
             "FreelancingJobs" => new FreelancingJobCollection($FreelancingJobs),
-        ]);
+        ], 200);
     }
-    public function JobYouApplied()
+
+    public function AppliedJobs()
     {
         // Get user
         $user = auth()->user();
@@ -140,76 +151,83 @@ class DefJobsController extends Controller
                 'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
+
+        // Check Individual
         $individual = Individual::where('user_id', $user->id)->first();
+
+        // Check RegJobs
         $regJobsApplied = [];
-        if ($individual) {
+        if ($individual != null) {
             $RegJobs = RegJob::all();
             foreach ($RegJobs as $RegJob) {
                 if ($RegJob->accepted_individual == $individual->id) {
                     array_push($regJobsApplied, [
-                        "regJob"=>new RegJobResource($RegJob),
-                        "status"=>"Accepted"
+                        "regJob" => new RegJobResource($RegJob),
+                        "status" => "Accepted"
                     ]);
                     continue;
                 }
                 $competitors = $RegJob->competitors;
                 foreach ($competitors as $competitor) {
                     if ($competitor->individual_id == $individual->id) {
-                        if($RegJob->accepted_individual!=null){
-                            array_push($freelancingJobsApplied, [
-                                "RegJob"=>new RegJobResource($RegJob),
-                                "status"=>"Refused",
-                                "offer"=>new RegJobCompetitorResource($competitor)
+                        if ($RegJob->accepted_individual != null) {
+                            array_push($regJobsApplied, [
+                                "regJob" => new RegJobResource($RegJob),
+                                "status" => "Refused",
+                                "offer" => new RegJobCompetitorResource($competitor)
                             ]);
                             continue;
                         }
                         array_push($regJobsApplied, [
-                            "regJob"=>new RegJobResource($RegJob),
-                            "status"=>"Pending",
-                            "offer"=>new RegJobCompetitorResource($competitor)
+                            "regJob" => new RegJobResource($RegJob),
+                            "status" => "Pending",
+                            "offer" => new RegJobCompetitorResource($competitor)
                         ]);
                     }
-
                 }
             }
-
         }
+
+        // Check FreelancingJobs
         $freelancingJobsApplied = [];
         $FreelancingJobs = FreelancingJob::all();
         foreach ($FreelancingJobs as $freelancingJob) {
             if ($freelancingJob->accepted_user == $user->id) {
                 array_push($freelancingJobsApplied, [
-                    "freelancingJob"=>new FreelancingJobResource($freelancingJob),
-                    "status"=>"Accepted"
+                    "freelancingJob" => new FreelancingJobResource($freelancingJob),
+                    "status" => "Accepted"
                 ]);
                 continue;
             }
             $competitors = $freelancingJob->competitors;
             foreach ($competitors as $competitor) {
                 if ($competitor->user_id == $user->id) {
-                    if($freelancingJob->acceptedUser!=null){
+                    if ($freelancingJob->acceptedUser != null) {
                         array_push($freelancingJobsApplied, [
-                            "freelancingJob"=>new FreelancingJobResource($freelancingJob),
-                            "status"=>"Refused",
-                            "offer"=>new FreelancingJobCompetitorResource($competitor)
+                            "freelancingJob" => new FreelancingJobResource($freelancingJob),
+                            "status" => "Refused",
+                            "offer" => new FreelancingJobCompetitorResource($competitor)
                         ]);
                         continue;
                     }
                     array_push($freelancingJobsApplied, [
-                        "freelancingJob"=>new FreelancingJobResource($freelancingJob),
-                        "status"=>"Pending",
-                        "offer"=>new FreelancingJobCompetitorResource($competitor)
+                        "freelancingJob" => new FreelancingJobResource($freelancingJob),
+                        "status" => "Pending",
+                        "offer" => new FreelancingJobCompetitorResource($competitor)
                     ]);
                 }
-
             }
         }
+
+        // Response
         return response()->json([
             "RegJobs" => $regJobsApplied,
-            "FreelancingJobs" => $freelancingJobsApplied     
-        ]);
+            "FreelancingJobs" => $freelancingJobsApplied
+        ], 200);
     }
-    public function FlagJob(Request $request,DefJob $defJob){
+
+    public function FlagedJobs()
+    {
         // Get user
         $user = auth()->user();
 
@@ -220,23 +238,7 @@ class DefJobsController extends Controller
             ], 401);
         }
 
-        $user->FlagedJobs()->attach($defJob);
-        return response()->json([
-            "message"=>"Job is Flaged"
-        ],201);
-    }
-    public function FlagedJobs(){
-        // Get user
-        $user = auth()->user();
-
-        // Check user
-        if ($user == null) {
-            return response()->json([
-                'errors' => ['user' => 'Invalid user'],
-            ], 401);
-        }
-
-        // Get all jobs
+        // Get FlagedJobs
         $jobs = [];
         $defJobs = $user->FlagedJobs;
         foreach ($defJobs as $defJob) {
@@ -250,8 +252,40 @@ class DefJobsController extends Controller
                 continue;
             }
         }
+
+        // Response
         return response()->json([
-            "jobs"=>$jobs
-        ]);    
+            "jobs" => $jobs
+        ], 200);
+    }
+
+    public function FlagJob(Request $request, $id)
+    {
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user'],
+            ], 401);
+        }
+
+        // Get job
+        $defJob = DefJob::find($id);
+
+        // Check job
+        if ($defJob == null) {
+            return response()->json([
+                'errors' => ['job' => 'Job was not found'],
+            ], 404);
+        }
+
+        $user->FlagedJobs()->attach($defJob);
+
+        // Response
+        return response()->json([
+            "message" => "Job is Flaged"
+        ], 200);
     }
 }

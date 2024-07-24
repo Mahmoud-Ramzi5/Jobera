@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Wallet;
 use App\Models\Company;
-use App\Models\FreelancingJob;
 use App\Models\RedeemCode;
+use App\Models\FreelancingJob;
 use Illuminate\Http\Request;
 
 class TransactionsController extends Controller
