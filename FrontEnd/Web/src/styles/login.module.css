@@ -93,6 +93,24 @@ html[dir='rtl'] .screen__background__shape3 {
     border-radius: 60px;
 }
 
+.check {
+    color: green;
+}
+
+.xmark{
+    color:red;
+}
+
+.message {
+    height: 150px;
+    width: 300px;
+    color: var(--color-foreground);
+    font-size: 30px;
+    padding: 10px;
+    padding-block-start: 130px;
+    text-decoration: inherit;
+}
+
 .title {
     position: absolute;
     font-size: 32px;

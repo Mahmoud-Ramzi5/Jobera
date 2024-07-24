@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   PersonFill, EnvelopeFill, TelephoneFill, Globe,
-  GeoAltFill, Calendar3, SuitcaseFill, ChevronRight
+  GeoAltFill, Calendar3, SuitcaseFill, ChevronRight, X
 } from 'react-bootstrap-icons';
 import Cookies from 'js-cookie';
 import DatePicker from "react-datepicker";
@@ -39,6 +39,7 @@ const CompanyForm = () => {
   const [states, setStates] = useState([]);
   const [state, setState] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [message, SetMessage] = useState('');
 
   useEffect(() => {
     if (!initialized.current) {
@@ -101,6 +102,7 @@ const CompanyForm = () => {
         }
         else {
           console.log(response.statusText);
+          SetMessage('F')
         }
       }).then((company) => {
         setIsLoading(false);
@@ -124,95 +126,104 @@ const CompanyForm = () => {
     return <Clock />
   }
   return (
-    <form className={styles.register} onSubmit={handleSubmit}>
-      <div className={styles.register__row}>
-        <NormalInput
-          type="text"
-          placeholder={t('pages.Register.company_form.name_input')}
-          icon={<PersonFill />}
-          value={name}
-          setChange={setName}
-        />
-        <NormalInput
-          type="text"
-          placeholder={t('pages.Register.company_form.field_input')}
-          icon={<SuitcaseFill />}
-          value={field}
-          setChange={setField}
-        />
-      </div>
-      <div className={styles.register__row}>
-        <NormalInput
-          type="text"
-          placeholder={t('pages.Register.email_input')}
-          icon={<EnvelopeFill />}
-          value={email}
-          setChange={setEmail}
-        />
-        <CustomPhoneInput
-          defaultCountry='us'
-          value={PhoneNumber}
-          setChange={setPhoneNumber}
-        />
-      </div>
-      <div className={styles.register__row}>
-        <PasswordInput
-          placeholder={t('pages.Register.password_input')}
-          value={password}
-          setChange={setPassword}
-        />
-        <PasswordInput
-          placeholder={t('pages.Register.confirm_password_input')}
-          value={ConfirmPassword}
-          setChange={setConfirmPassword}
-        />
-      </div>
-      <div className={styles.register__row}>
-        <div className={Inputstyles.field}>
-          <i className={Inputstyles.icon}><Globe /></i>
-          <select onChange={handleCountrySelect} value={country} className={Inputstyles.input} required>
-            <option key={0} value='' disabled>{t('pages.Register.country_input')}</option>
-            {(countries.length === 0) ? <></> : countries.map((country) => {
-              return <option key={country.country_id} value={country.country_name} className={Inputstyles.option}>{country.country_name}</option>
-            })}
-          </select>
-        </div>
-        <div className={Inputstyles.field}>
-          <i className={Inputstyles.icon}><GeoAltFill /></i>
-          <select onChange={(event) => setState(event.target.value)} value={state} className={Inputstyles.input} required>
-            <option key={0} value='' disabled>{t('pages.Register.city_input')}</option>
-            {(states.length === 0) ? <></> : states.map((state) => {
-              return <option key={state.state_id} value={state.state_id} className={Inputstyles.option}>{state.state_name}</option>
-            })}
-          </select>
-        </div>
-      </div>
-      <div className={styles.register__row}>
-        <div className={Inputstyles.field}>
-          <DatePicker
-            icon={<Calendar3 />}
-            dateFormat='dd/MM/yyyy'
-            className={Inputstyles.input}
-            wrapperClassName={styles.date_picker}
-            calendarIconClassName={styles.date_picker_icon}
-            selected={date}
-            onChange={(date) => {
-              const selectedDate = new Date(date).toISOString().split('T')[0];
-              setDate(selectedDate);
-            }}
-            showMonthDropdown
-            showYearDropdown
-            showIcon
-            required
-          />
-        </div>
-        <div className={Inputstyles.field}></div>
-      </div>
-      <button type="submit" className={styles.register__submit}>
-        <span>{t('pages.Register.button')}</span>
-        <i className={styles.button__icon}><ChevronRight /></i>
-      </button>
-    </form>
+    <div>
+      {message ?
+        <div className={styles.message}>
+          <i className={styles.xmark}><X size={60} /></i>
+          <br />
+          <span>An error happened or the email is already taken</span>
+        </div> :
+        <form className={styles.register} onSubmit={handleSubmit}>
+          <div className={styles.register__row}>
+            <NormalInput
+              type="text"
+              placeholder={t('pages.Register.company_form.name_input')}
+              icon={<PersonFill />}
+              value={name}
+              setChange={setName}
+            />
+            <NormalInput
+              type="text"
+              placeholder={t('pages.Register.company_form.field_input')}
+              icon={<SuitcaseFill />}
+              value={field}
+              setChange={setField}
+            />
+          </div>
+          <div className={styles.register__row}>
+            <NormalInput
+              type="text"
+              placeholder={t('pages.Register.email_input')}
+              icon={<EnvelopeFill />}
+              value={email}
+              setChange={setEmail}
+            />
+            <CustomPhoneInput
+              defaultCountry='us'
+              value={PhoneNumber}
+              setChange={setPhoneNumber}
+            />
+          </div>
+          <div className={styles.register__row}>
+            <PasswordInput
+              placeholder={t('pages.Register.password_input')}
+              value={password}
+              setChange={setPassword}
+            />
+            <PasswordInput
+              placeholder={t('pages.Register.confirm_password_input')}
+              value={ConfirmPassword}
+              setChange={setConfirmPassword}
+            />
+          </div>
+          <div className={styles.register__row}>
+            <div className={Inputstyles.field}>
+              <i className={Inputstyles.icon}><Globe /></i>
+              <select onChange={handleCountrySelect} value={country} className={Inputstyles.input} required>
+                <option key={0} value='' disabled>{t('pages.Register.country_input')}</option>
+                {(countries.length === 0) ? <></> : countries.map((country) => {
+                  return <option key={country.country_id} value={country.country_name} className={Inputstyles.option}>{country.country_name}</option>
+                })}
+              </select>
+            </div>
+            <div className={Inputstyles.field}>
+              <i className={Inputstyles.icon}><GeoAltFill /></i>
+              <select onChange={(event) => setState(event.target.value)} value={state} className={Inputstyles.input} required>
+                <option key={0} value='' disabled>{t('pages.Register.city_input')}</option>
+                {(states.length === 0) ? <></> : states.map((state) => {
+                  return <option key={state.state_id} value={state.state_id} className={Inputstyles.option}>{state.state_name}</option>
+                })}
+              </select>
+            </div>
+          </div>
+          <div className={styles.register__row}>
+            <div className={Inputstyles.field}>
+              <DatePicker
+                icon={<Calendar3 />}
+                dateFormat='dd/MM/yyyy'
+                className={Inputstyles.input}
+                wrapperClassName={styles.date_picker}
+                calendarIconClassName={styles.date_picker_icon}
+                selected={date}
+                onChange={(date) => {
+                  const selectedDate = new Date(date).toISOString().split('T')[0];
+                  setDate(selectedDate);
+                }}
+                showMonthDropdown
+                showYearDropdown
+                showIcon
+                required
+              />
+            </div>
+            <div className={Inputstyles.field}></div>
+          </div>
+          <button type="submit" className={styles.register__submit}>
+            <span>{t('pages.Register.button')}</span>
+            <i className={styles.button__icon}><ChevronRight /></i>
+          </button>
+        </form>
+      }
+    </div>
   );
 };
 

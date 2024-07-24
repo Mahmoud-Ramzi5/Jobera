@@ -278,3 +278,17 @@ html[dir='rtl'] .button__icon {
 html[dir='rtl'] .date_picker input {
     padding-inline-start: 23px;
 }
+
+.xmark{
+    color:red;
+}
+
+.message {
+    width: 300px;
+    color: var(--color-foreground);
+    font-size: 30px;
+    padding: 10px;
+    padding-block-start: 200px;
+    margin-inline-start: 150px;
+    text-decoration: inherit;
+}
