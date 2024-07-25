@@ -93,10 +93,13 @@ const ShowJob = () => {
               setPhoto(response);
             });
           }
+          //bookmark initial state
           IsBookmarkedAPI(accessToken,id).then((response) => {
             if (response.status === 200){
+              console.log(response);
               setIsFavorite(true);
             }else if(response.status === 201){
+              console.log(response);
               setIsFavorite(false);
             }
             else{

@@ -260,41 +260,44 @@ class DefJobsController extends Controller
     }
 
     public function FlagJob(Request $request, $id)
-    {
-        // Get user
-        $user = auth()->user();
+{
+    // Get user
+    $user = auth()->user();
 
-        // Check user
-        if ($user == null) {
-            return response()->json([
-                'errors' => ['user' => 'Invalid user'],
-            ], 401);
-        }
-
-        // Get job
-        $defJob = DefJob::find($id);
-
-        // Check job
-        if ($defJob == null) {
-            return response()->json([
-                'errors' => ['job' => 'Job was not found'],
-            ], 404);
-        }
-        $flagedJobs = $user->FlagedJobs;
-        $flagedJobsArray = $flagedJobs->toArray();
-        if(in_array($defJob,$flagedJobsArray)){
-            $user->FlagedJobs()->detach($defJob);
-        }
-        else{
-            $user->FlagedJobs()->attach($defJob);
-        }
-        
-
-        // Response
+    // Check user
+    if ($user == null) {
         return response()->json([
-            "message" => "Job is Flaged"
+            'errors' => ['user' => 'Invalid user'],
+        ], 401);
+    }
+
+    // Get job
+    $defJob = DefJob::find($id);
+
+    // Check job
+    if ($defJob == null) {
+        return response()->json([
+            'errors' => ['job' => 'Job was not found'],
+        ], 404);
+    }
+
+    // Get flagged jobs
+    $flagedJobs = $user->FlagedJobs()->pluck('defJob_id')->toArray();
+
+    // Check if job is already flagged
+    if (in_array($defJob->id, $flagedJobs)) {
+        $user->FlagedJobs()->detach($defJob->id);
+        return response()->json([
+            "message" => "Job is unflagged"
+        ], 200);
+    } else {
+        $user->FlagedJobs()->attach($defJob->id);
+        return response()->json([
+            "message" => "Job is flagged"
         ], 200);
     }
+}
+
     public function IsFlaged(Request $request,$id){
         // Get user
         $user = auth()->user();
@@ -315,9 +318,8 @@ class DefJobsController extends Controller
                 'errors' => ['job' => 'Job was not found'],
             ], 404);
         }
-        $flagedJobs = $user->FlagedJobs;
-        $flagedJobsArray = $flagedJobs->toArray();
-        if(in_array($defJob,$flagedJobsArray)){
+        $flagedJobs = $user->FlagedJobs()->pluck('defJob_id')->toArray();
+        if (in_array($defJob->id, $flagedJobs)){
             return response()->json([
                 "message"=>"Job is bookmarked"
             ],200);
