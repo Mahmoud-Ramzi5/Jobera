@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
 
 class RedeemCode extends Model
@@ -17,6 +18,7 @@ class RedeemCode extends Model
     protected $fillable = [
         'code',
         'value',
+        'user_id'
     ];
 
     /**
@@ -28,4 +30,11 @@ class RedeemCode extends Model
         'created_at',
         'updated_at'
     ];
+
+
+    // Relations
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

@@ -22,7 +22,8 @@ const RedeemCode = () => {
     event.preventDefault();
     UseRedeemCode(
       accessToken,
-      redeemCode
+      redeemCode,
+      profile.user_id
     ).then((response) => {
       if (response.status === 200) {
         console.log(response);
@@ -34,7 +35,7 @@ const RedeemCode = () => {
     });
   }
 
-
+console.log(profile.user_id)
   return (
     <div className={styles.container}>
       <div className={styles.screen}>
