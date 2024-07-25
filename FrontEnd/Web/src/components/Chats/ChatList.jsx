@@ -6,7 +6,7 @@ import ChatCard from './ChatCard';
 import styles from "./chats.module.css";
 
 
-const ChatList = ({ setSelectedChat, updateList }) => {
+const ChatList = ({ setSelectedChat, updateList, setUpdateList }) => {
   // Context
   const { accessToken } = useContext(LoginContext);
   // Define states
@@ -42,6 +42,7 @@ const ChatList = ({ setSelectedChat, updateList }) => {
         }
       }).then(() => {
         setIsLoading(false);
+        setUpdateList(true);
       });
     }
   }, [accessToken, updateList]);

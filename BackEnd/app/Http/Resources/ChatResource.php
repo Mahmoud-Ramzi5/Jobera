@@ -39,12 +39,8 @@ class ChatResource extends JsonResource
         // Check Other User
         if ($user->id == $this->user1_id) {
             $otherUser = $user2;
-
-            $sender = $user1; // ??
         } else {
             $otherUser = $user1;
-
-            $sender = $user2; // ??
         }
 
         return [
@@ -55,7 +51,6 @@ class ChatResource extends JsonResource
                     $otherUser->full_name : $otherUser->name),
                 'avatar_photo' => $otherUser->avatar_photo
             ],
-            "sender" => $sender, // ??
             'messages' => new MessageCollection($this->messages),
             'last_message' => new MessageResource($this->messages->last())
         ];

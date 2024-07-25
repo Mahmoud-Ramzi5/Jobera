@@ -32,7 +32,6 @@
 
 /* ChatList CSS */
 .List {
-  margin-top: 75px;
   width: 25%;
   min-width: 250px;
   padding: 20px;
@@ -76,6 +75,7 @@
 
 .card_message {
   font-size: 13px;
+  overflow-x: hidden;
 }
 
 /* Screen Size compatiplity */
