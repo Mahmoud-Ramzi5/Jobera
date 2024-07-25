@@ -254,7 +254,7 @@ export const DeleteFreelancingJobAPI = async (token, id) => {
   }
 };
 
-export const BookmarkJobAPI = async (token, id) => {
+export const BookmarkJob = async (token, id) => {
   try {
     const response = await axios.post(`http://127.0.0.1:8000/api/jobs/${id}/bookmark`, {
       headers: {
