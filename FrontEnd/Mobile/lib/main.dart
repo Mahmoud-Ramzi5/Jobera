@@ -15,7 +15,6 @@ Future<void> main() async {
   sharedPreferences = await SharedPreferences.getInstance();
   final AuthController authController = Get.put(AuthController());
   middlewareCase = await authController.checkToken();
-
   runApp(const MainApp());
 }
 

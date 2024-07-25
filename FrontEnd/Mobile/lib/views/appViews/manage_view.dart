@@ -12,14 +12,8 @@ class ManageView extends StatelessWidget {
         length: 3,
         initialIndex: 0,
         child: Scaffold(
-          appBar: TabBar(
+          bottomNavigationBar: TabBar(
             tabs: <Widget>[
-              Tab(
-                icon: Icon(
-                  Icons.bookmark,
-                ),
-                text: "Bookmarks",
-              ),
               Tab(
                 icon: Icon(
                   Icons.push_pin,
@@ -31,6 +25,12 @@ class ManageView extends StatelessWidget {
                   Icons.local_offer_sharp,
                 ),
                 text: "Offers",
+              ),
+              Tab(
+                icon: Icon(
+                  Icons.bookmark,
+                ),
+                text: "Bookmarks",
               ),
             ],
           ),

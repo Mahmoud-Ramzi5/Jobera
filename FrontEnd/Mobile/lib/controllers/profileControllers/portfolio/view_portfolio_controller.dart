@@ -24,8 +24,9 @@ class ViewPortfolioController extends GetxController {
     profileController = null;
     if (!generalController.isInRegister) {
       profileController = Get.find<ProfileController>();
+      await fetchPortfolios();
     }
-    await fetchPortfolios();
+
     loading = false;
     update();
     super.onInit();
@@ -45,7 +46,7 @@ class ViewPortfolioController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.0.101:8000/api/portfolios/${profileController!.user.id}/${profileController!.user.name}',
+        'http://192.168.43.23:8000/api/portfolios/${profileController!.user.id}/${profileController!.user.name}',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -66,12 +67,6 @@ class ViewPortfolioController extends GetxController {
         'Error',
         e.response.toString(),
       );
-      Future.delayed(
-        const Duration(seconds: 1),
-        () {
-          Get.back();
-        },
-      );
     }
   }
 
@@ -79,7 +74,7 @@ class ViewPortfolioController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.delete(
-        'http://192.168.0.101:8000/api/portfolios/$id',
+        'http://192.168.43.23:8000/api/portfolios/$id',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -95,12 +90,6 @@ class ViewPortfolioController extends GetxController {
       Dialogs().showErrorDialog(
         'Error',
         e.response.toString(),
-      );
-      Future.delayed(
-        const Duration(seconds: 1),
-        () {
-          Get.back();
-        },
       );
     }
   }
