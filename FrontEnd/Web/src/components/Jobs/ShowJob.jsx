@@ -1,25 +1,12 @@
-import { useEffect, useState, useContext, useRef } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { useTranslation } from "react-i18next";
+import { useEffect, useState, useContext, useRef } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { PencilSquare, CurrencyDollar, ChatDots, Check2, Bookmark, BookmarkFill } from 'react-bootstrap-icons';
+import { LoginContext, ProfileContext } from '../../utils/Contexts';
 import {
-  PencilSquare,
-  CurrencyDollar,
-  ChatDots,
-  Check2,
-} from "react-bootstrap-icons";
-import 'bootstrap-icons/font/bootstrap-icons.css';
-import { LoginContext, ProfileContext } from "../../utils/Contexts";
-import {
-  FetchJob,
-  ApplyToRegJobAPI,
-  ApplyToFreelancingJobAPI,
-  AcceptRegJob,
-  AcceptFreelancingJob,
-  DeleteRegJobAPI,
-  DeleteFreelancingJobAPI,
-  BookmarkJobAPI,
-  IsBookmarkedAPI
-} from "../../apis/JobsApis";
+  FetchJob, ApplyToRegJobAPI, ApplyToFreelancingJobAPI, AcceptRegJob, AcceptFreelancingJob,
+  DeleteRegJobAPI, DeleteFreelancingJobAPI, BookmarkJobAPI, IsBookmarkedAPI,
+} from '../../apis/JobsApis';
 import { FinishedJobTransaction } from '../../apis/TransactionsApis';
 import { FetchImage } from '../../apis/FileApi';
 import { CreateChat } from '../../apis/ChatApis';
@@ -30,9 +17,10 @@ import img_holder from '../../assets/upload.png';
 import styles from './show_job.module.css';
 import Inputstyles from '../../styles/Input.module.css'
 
+
 const ShowJob = () => {
   // Translations
-  const { t } = useTranslation("global");
+  const { t } = useTranslation('global');
   // Context
   const { accessToken } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
@@ -54,31 +42,21 @@ const ShowJob = () => {
   const [jobEnded, setJobEnded] = useState(false);
   const [adminShare, setAdminShare] = useState(0);
   const [isJobCreator, setIsJobCreator] = useState(false);
-
-  const [comment, setComment] = useState("");
-  const [desiredSalary, setDesiredSalary] = useState("");
   const [isFavorite, setIsFavorite] = useState(false);
 
-  const handleFavorite = () => {
-    BookmarkJobAPI(accessToken,id)
-    .then((response) => {
-      if (response.status === 200){
-        setIsFavorite(!isFavorite);
-      }else{
-        console.log(response);
-      } })
-  };
+  const [comment, setComment] = useState('');
+  const [desiredSalary, setDesiredSalary] = useState('');
+
 
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
       setIsLoading(true);
 
-      FetchJob(accessToken, id)
-        .then((response) => {
-          if (response.status === 200) {
-            setJob(response.data.job);
-            setJobEnded(response.data.job.is_done);
+      FetchJob(accessToken, id).then((response) => {
+        if (response.status === 200) {
+          setJob(response.data.job);
+          setJobEnded(response.data.job.is_done);
 
           if (response.data.job.job_user && response.data.job.job_user.user_id === profile.user_id) {
             setIsJobCreator(true);
@@ -93,18 +71,15 @@ const ShowJob = () => {
               setPhoto(response);
             });
           }
-          //bookmark initial state
-          IsBookmarkedAPI(accessToken,id).then((response) => {
-            if (response.status === 200){
+
+          // Checking if job is bookmarked
+          IsBookmarkedAPI(accessToken, id).then((response) => {
+            if (response.status === 200) {
+              setIsFavorite(response.data.is_flagged);
+            } else {
               console.log(response);
-              setIsFavorite(true);
-            }else if(response.status === 201){
-              console.log(response);
-              setIsFavorite(false);
             }
-            else{
-              console.log(response);
-            } })
+          });
         }
         else if (response.status === 404) {
           setNotFound(true);
@@ -114,31 +89,27 @@ const ShowJob = () => {
           console.log(response.statusText);
         }
 
-          if (
-            response.data.job.accepted_individual ||
-            response.data.job.accepted_user
-          ) {
-            setAccepted(true);
-          }
+        if (response.data.job.accepted_individual || response.data.job.accepted_user) {
+          setAccepted(true);
+        }
 
-          // Checking if user is already a competitor
-          response.data.job.competitors.map((competitor) => {
-            if (competitor.user) {
-              if (competitor.user.user_id === profile.user_id) {
-                setIsCompetitor(true);
-              }
-            } else if (competitor.individual) {
-              if (competitor.individual.user_id === profile.user_id) {
-                setIsCompetitor(true);
-              }
-            } else {
-              setIsCompetitor(false);
+        // Check if user is already a competitor
+        response.data.job.competitors.map((competitor) => {
+          if (competitor.user) {
+            if (competitor.user.user_id === profile.user_id) {
+              setIsCompetitor(true);
             }
-          });
-        })
-        .then(() => {
-          setIsLoading(false);
+          } else if (competitor.individual) {
+            if (competitor.individual.user_id === profile.user_id) {
+              setIsCompetitor(true);
+            }
+          } else {
+            setIsCompetitor(false);
+          }
         });
+      }).then(() => {
+        setIsLoading(false);
+      });
     }
   }, []);
 
@@ -149,23 +120,23 @@ const ShowJob = () => {
     } else if (amount > 2000 && amount <= 15000) {
       setAdminShare(amount * 0.12);
     } else if (amount > 15000) {
-      setAdminShare(amount * 0.1);
+      setAdminShare(amount * 0.10);
     } else {
-      console.log("bad amount of money detected");
+      console.log('bad amount of money detected')
       setAdminShare(0);
     }
-  };
+  }
 
   const handleNewCompetitor = (event) => {
     event.preventDefault();
     setParticipate(true);
-  };
+  }
 
   const handleNewJobCompetitor = (event) => {
     event.preventDefault();
     ApplyToRegJobAPI(accessToken, job.id, comment).then((response) => {
       if (response.status == 200) {
-        console.log("Added a competitor successfully");
+        console.log('Added a competitor successfully')
         setParticipate(false);
         window.location.reload(); // Refresh the page after deletion
       } else {
@@ -177,64 +148,67 @@ const ShowJob = () => {
   const handleAcceptRegCompetitor = (event, id) => {
     AcceptRegJob(accessToken, job.id, id).then((response) => {
       if (response.status == 200) {
-        console.log("Competitor Accepted");
+        console.log('Competitor Accepted')
         setAccepted(true);
         window.location.reload(); // Refresh the page after deletion
       } else {
         console.log(response);
       }
     });
-  };
+  }
 
   const handleNewFreelancer = (event) => {
     event.preventDefault();
-    ApplyToFreelancingJobAPI(accessToken, job.id, comment, desiredSalary).then(
-      (response) => {
-        if (response.status == 200) {
-          console.log("Added a competitor successfully");
-          setParticipate(false);
-          window.location.reload(); // Refresh the page after deletion
-        } else {
-          console.log(response.statusText);
-        }
+    ApplyToFreelancingJobAPI(accessToken, job.id, comment, desiredSalary).then((response) => {
+      if (response.status == 200) {
+        console.log('Added a competitor successfully')
+        setParticipate(false);
+        window.location.reload(); // Refresh the page after deletion
+      } else {
+        console.log(response.statusText);
       }
-    );
-  };
-
-  const handleCancelcompetitor = (event) => {
-    event.preventDefault();
-    setParticipate(false);
-    setDesiredSalary("");
-    setComment("");
-  };
+    });
+  }
 
   const handleAcceptFreelancingCompetitor = (event, id, salary) => {
     event.preventDefault();
     AcceptFreelancingJob(accessToken, job.id, id, salary).then((response) => {
       if (response.status == 200) {
-        console.log('competitor accepted');
+        console.log('Competitor Accepted');
         setAccepted(true);
       }
       else {
         console.log(response);
       }
     });
-  };
+  }
+
+  const handleCancelcompetitor = (event) => {
+    event.preventDefault();
+    setParticipate(false);
+    setDesiredSalary('');
+    setComment('');
+  }
 
   const handleChatWithIndividual = (event, competitor) => {
     event.preventDefault();
     CreateChat(accessToken, competitor.individual.user_id).then((response) => {
-      if (response.status == 201) {
-        console.log("Chat created");
+      if (response.status === 201) {
+        console.log('Chat created');
+        navigate('/chats');
       } else {
         console.log(response);
       }
     });
-    navigate("/ChatsPage");
-  };
+  }
+
+  const handleFinishJob = (event) => {
+    event.preventDefault();
+    setJobEnded(true);
+    // api to finish job
+  }
 
   const handleFinishFreelancingJob = (event) => {
-    console.log(job.accepted_user.salary);
     event.preventDefault();
     FinishedJobTransaction(
       accessToken,
@@ -245,308 +219,245 @@ const ShowJob = () => {
     ).then((response) => {
       if (response.status == 200) {
         setJobEnded(true);
-        console.log("done write");
         window.location.reload();
       } else {
         console.log(response);
       }
     });
-  };
-
-  const handleFinishJob = (event) => {
-    event.preventDefault();
-    setJobEnded(true);
-    //api to finish job
-  };
+  }
 
   const handleDeleteJob = (event) => {
     event.preventDefault();
-    if (job.type === "Freelancing") {
+    if (job.type === 'Freelancing') {
       DeleteFreelancingJobAPI(accessToken, job.id).then((response) => {
         if (response.status == 204) {
-          console.log("job deleted");
-          navigate("/freelancing-jobs");
+          console.log('Job deleted');
+          navigate('/jobs/Freelancing');
         } else {
           console.log(response);
         }
       });
-    } else if (job.type != "Freelancing") {
+    } else if (job.type !== 'Freelancing') {
       DeleteRegJobAPI(accessToken, job.id).then((response) => {
         if (response.status == 204) {
-          console.log("job deleted");
-          navigate("/jobs");
+          console.log('Job deleted');
+          navigate('/jobs/all');
         } else {
           console.log(response);
         }
       });
     }
-  };
+  }
+
+  const handleFavorite = () => {
+    BookmarkJobAPI(accessToken, id).then((response) => {
+      if (response.status === 200) {
+        setIsFavorite(!isFavorite);
+      } else {
+        console.log(response);
+      }
+    });
+  }
+
 
   if (isLoading) {
-    return <Clock />;
+    return <Clock />
   }
   return (
     <div className={styles.jobsPage}>
-      {notFound ? (
-        <></>
-      ) : (
+      {notFound ? <></> :
         <>
           <div className={styles.pagecontent}>
             <div className={styles.left_side_container}>
               <div className={styles.imageholder}>
                 <div className={styles.image}>
                   {photo ? (
-                    <img
-                      src={URL.createObjectURL(photo)}
-                      alt="Uploaded Photo"
-                      style={{ pointerEvents: "none" }}
-                      className={styles.image}
-                    />
+                    <img src={URL.createObjectURL(photo)} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} className={styles.image} />
                   ) : (
-                    <img
-                      src={img_holder}
-                      alt="Photo Placeholder"
-                      style={{ pointerEvents: "none" }}
-                      className={styles.image}
-                    />
+                    <img src={img_holder} alt="Photo Placeholder" style={{ pointerEvents: 'none' }} className={styles.image} />
                   )}
                 </div>
               </div>
               <h5 className={styles.heading}>
-                {t("components.show_job.heading")}
+                {t('components.show_job.heading')}
               </h5>
               <div className={styles.data}>
-                {job.skills &&
-                  job.skills.map((skill) => (
-                    <div key={skill.id} className={styles.used_skills}>
-                      <div className={styles.used_skill}>{skill.name}</div>
-                    </div>
-                  ))}
+                {job.skills && job.skills.map((skill) => (
+                  <div key={skill.id} className={styles.used_skills}>
+                    <div className={styles.used_skill}>{skill.name}</div>
+                  </div>
+                ))}
               </div>
             </div>
             <div className={styles.right_side_container}>
               <div className={styles.titleholder}>
-                <div className={styles.title}>{job.title}</div>
+                <div className={styles.title}>
+                  <button onClick={handleFavorite} className={`${styles.favorite_button} ${isFavorite ? 'active' : ''}`}>
+                    {isFavorite ? <BookmarkFill size={27} /> : <Bookmark size={27} />}
+                  </button>
+                  {job.title}
+                </div>
               </div>
               <div className={styles.name}>
-                {t("components.show_job.name")}{" "}
-                {job.job_user ? (
-                  <a
-                    className={styles.anchor}
-                    href={`/profile/${job.job_user.user_id}/${job.job_user.name}`}
-                  >
+                {t('components.show_job.name')}{' '}
+                {job.job_user ?
+                  <a className={styles.anchor} href={`/profile/${job.job_user.user_id}/${job.job_user.name}`}>
                     {job.job_user.name}
                   </a>
-                ) : (
-                  <a
-                    className={styles.anchor}
-                    href={`/profile/${job.company.user_id}/${job.company.name}`}
-                  >
+                  :
+                  <a className={styles.anchor} href={`/profile/${job.company.user_id}/${job.company.name}`}>
                     {job.company.name}
                   </a>
-                )}
+                }
               </div>
               <div className={styles.type}>
-                {job.type} {t("components.show_job.type")}
+                {job.type}{' '}{t('components.show_job.type')}
               </div>
               <div className={styles.description}>
-                {t("components.show_job.description")} {job.description}
+                {t('components.show_job.description')}{' '}{job.description}
               </div>
               {job.salary ? (
                 <div className={styles.salary}>
-                  {t("components.show_job.salary")} ${job.salary}
+                  {t('components.show_job.salary')} ${job.salary}
                 </div>
               ) : (
                 <>
                   <div className={styles.salary}>
-                    {t("components.show_job.min_salary")} ${job.min_salary}{" "}
-                    &nbsp;&nbsp; &nbsp;&nbsp;{" "}
-                    {t("components.show_job.min_salary")} ${job.max_salary}
+                    {t('components.show_job.min_salary')} ${job.min_salary} &nbsp;&nbsp;
+                    &nbsp;&nbsp; {t('components.show_job.min_salary')} ${job.max_salary}
                   </div>
                   <div className={styles.salary}>
-                    {t("components.show_job.avg_salary")} ${job.avg_salary}
+                    {t('components.show_job.avg_salary')} ${job.avg_salary}
                   </div>
                 </>
               )}
               <h5 className={styles.state}>
-                {t("components.show_job.location")}{" "}
-                {job.location
-                  ? `${job.location.state}, ${job.location.country}`
-                  : "Remotely"}
+                {t('components.show_job.location')}{' '}
+                {job.location ?
+                  `${job.location.state}, ${job.location.country}`
+                  : 'Remotely'}
               </h5>
-              {job.type === "Freelancing" && (
+              {job.type === 'Freelancing' &&
                 <div className={styles.deadline}>
-                  {t("components.show_job.deadline")} {job.deadline}
-                </div>
-              )}
-              <br />
-              <br />
+                  {t('components.show_job.deadline')}{' '}{job.deadline}
+                </div>}
+              <br /><br />
               <div className={styles.publish_date}>
-                {t("components.show_job.publish_date")}{" "}
-                {job.publish_date.split("T")[0]}
+                {t('components.show_job.publish_date')}{' '}{job.publish_date.split('T')[0]}
               </div>
-              <button
-              className={`${styles.favorite_button} ${
-                isFavorite ? "active" : ""
-              }`}
-              onClick={handleFavorite}
-            >
-              {isFavorite ? (
-                <i className="bi bi-bookmark-fill"></i>
-              ) : (
-                <i className="bi bi-bookmark"></i>
-              )}
-            </button>
-
             </div>
           </div>
           <div className={styles.cancel_finish_job}>
-            {accepted && isJobCreator && job.type === "Freelancing" ? (
-              <button
-                className={styles.send_button}
-                onClick={handleFinishFreelancingJob}
-              >
-                {t("components.show_job.end_job_button")}
+            {accepted && isJobCreator && job.type === 'Freelancing' ?
+              <button className={styles.send_button} onClick={handleFinishFreelancingJob}>
+                {t('components.show_job.end_job_button')}
               </button>
-            ) : accepted && isJobCreator && job.type != "Freelancing" ? (
-              <button className={styles.send_button} onClick={handleFinishJob}>
-                {t("components.show_job.end_job_button")}
-              </button>
-            ) : !accepted && isJobCreator ? (
-              <button className={styles.send_button} onClick={handleDeleteJob}>
-                {t("components.show_job.delete_job_button")}
-              </button>
-            ) : (
-              <></>
-            )}
+              : accepted && isJobCreator && job.type != 'Freelancing' ?
+                <button className={styles.send_button} onClick={handleFinishJob}>
+                  {t('components.show_job.end_job_button')}
+                </button>
+                : !accepted && isJobCreator ?
+                  <button className={styles.send_button} onClick={handleDeleteJob}>
+                    {t('components.show_job.delete_job_button')}
+                  </button> :
+                  <></>}
           </div>
           <div className={styles.competitors}>
             <div className={styles.name_and_button}>
-              <h5>{t("components.show_job.h5")}</h5>
-              {!accepted && !isCompetitor && job.job_user
-                ? job.job_user.user_id !== profile.user_id && (
-                    <button
-                      className={styles.competitor_button}
-                      onClick={handleNewCompetitor}
-                    >
-                      {t("components.show_job.competitor_button")}
+              <h5>{t('components.show_job.h5')}</h5>
+              {
+                !accepted && !isCompetitor && job.job_user ?
+                  (job.job_user.user_id !== profile.user_id &&
+                    <button className={styles.competitor_button} onClick={handleNewCompetitor}>
+                      {t('components.show_job.competitor_button')}
                     </button>
                   )
-                : !accepted &&
-                  !isCompetitor &&
-                  job.company &&
-                  job.company.user_id !== profile.user_id &&
-                  profile.type !== "company" && (
-                    <button
-                      className={styles.competitor_button}
-                      onClick={handleNewCompetitor}
-                    >
-                      {t("components.show_job.competitor_button")}
+                  :
+                  (!accepted && !isCompetitor && job.company &&
+                    job.company.user_id !== profile.user_id && profile.type !== 'company' &&
+                    <button className={styles.competitor_button} onClick={handleNewCompetitor}>
+                      {t('components.show_job.competitor_button')}
                     </button>
-                  )}
+                  )
+              }
             </div>
-            {participate && (
-              <>
-                <div className={Inputstyles.field}>
-                  <i className={Inputstyles.icon}>
-                    <PencilSquare />
-                  </i>
-                  <textarea
-                    placeholder={t("components.show_job.comment_input")}
-                    value={comment}
-                    onChange={(event) => setComment(event.target.value)}
-                    className={Inputstyles.input}
-                    rows="5"
-                  />
-                </div>
-                {job.type === "Freelancing" && (
+            {participate && <>
+              <div className={Inputstyles.field}>
+                <i className={Inputstyles.icon}><PencilSquare /></i>
+                <textarea
+                  placeholder={t('components.show_job.comment_input')}
+                  value={comment}
+                  onChange={(event) => setComment(event.target.value)}
+                  className={Inputstyles.input}
+                  rows='5'
+                />
+              </div>
+              {job.type === 'Freelancing' ?
+                <>
                   <div className={styles.money_holder}>
                     <NormalInput
-                      type="number"
-                      placeholder={t("components.show_job.desired_salary")}
+                      type='number'
+                      placeholder={t('components.show_job.desired_salary')}
                       icon={<CurrencyDollar />}
                       value={desiredSalary}
                       setChange={handleCalculateSalary}
                     />
                     <br />
-                    <p>
-                      {t("components.show_job.tax")}{" "}
-                      {desiredSalary - adminShare} $
-                    </p>
+                    <p>{t('components.show_job.tax')} {desiredSalary - adminShare} $</p>
                   </div>
-                )}
+                  <div className={styles.buttons_holder}>
+                    <button className={styles.send_button} onClick={handleNewFreelancer}>
+                      {t('components.show_job.send_button')}
+                    </button>
+                    <button className={styles.send_button} onClick={handleCancelcompetitor}>
+                      {t('components.show_job.cancel_button')}
+                    </button>
+                  </div>
+                </> :
                 <div className={styles.buttons_holder}>
-                  <button
-                    className={styles.send_button}
-                    onClick={handleNewFreelancer}
-                  >
-                    {t("components.show_job.send_button")}
+                  <button className={styles.send_button} onClick={handleNewJobCompetitor}>
+                    {t('components.show_job.send_button')}
                   </button>
-                  <button
-                    className={styles.send_button}
-                    onClick={handleCancelFreelancer}
-                  >
-                    {t("components.show_job.cancel_button")}
+                  <button className={styles.send_button} onClick={handleCancelcompetitor}>
+                    {t('components.show_job.cancel_button')}
                   </button>
                 </div>
-              </>
-            )}
-            {job.competitors &&
-              job.competitors.map((competitor) => (
-                <div
-                  className={styles.competitor_and_button}
-                  key={competitor.id}
-                >
-                  <JobCompetitorCard CompetitorData={competitor} />
-                  <div className={styles.buttons_holder2}>
-                    {job.job_user
-                      ? job.job_user.user_id === profile.user_id &&
-                        !accepted &&
-                        job.job_user.wallet.current_balance >=
-                          competitor.salary && (
-                          <button
-                            className={styles.accept_button}
-                            onClick={(event) =>
-                              handleAcceptFreelancingCompetitor(
-                                event,
-                                competitor.id,
-                                competitor.salary
-                              )
-                            }
-                          >
-                            <Check2 />
-                          </button>
-                        )
-                      : job.company &&
-                        job.company.user_id === profile.user_id &&
-                        !accepted && (
-                          <>
-                            <button
-                              className={styles.accept_button}
-                              onClick={(event) =>
-                                handleAcceptRegCompetitor(event, competitor.id)
-                              }
-                            >
-                              <Check2 />
-                            </button>
-                            <button
-                              className={styles.chat_button}
-                              onClick={(event) =>
-                                handleChatWithIndividual(event, competitor)
-                              }
-                            >
-                              <ChatDots />
-                            </button>
-                          </>
-                        )}
-                  </div>
+              }
+            </>
+            }
+            {job.competitors && job.competitors.map((competitor) => (
+              <div className={styles.competitor_and_button} key={competitor.id}>
+                <JobCompetitorCard CompetitorData={competitor} />
+                <div className={styles.buttons_holder2}>
+                  {job.job_user ?
+                    (job.job_user.user_id === profile.user_id && !accepted &&
+                      job.job_user.wallet.current_balance >= competitor.salary &&
+                      <button className={styles.accept_button}
+                        onClick={(event) => handleAcceptFreelancingCompetitor(event, competitor.id, competitor.salary)}>
+                        <Check2 />
+                      </button>
+                    )
+                    :
+                    (job.company && job.company.user_id === profile.user_id && !accepted &&
+                      <>
+                        <button className={styles.accept_button}
+                          onClick={(event) => handleAcceptRegCompetitor(event, competitor.id)}>
+                          <Check2 />
+                        </button>
+                        <button className={styles.chat_button}
+                          onClick={(event) => handleChatWithIndividual(event, competitor)}>
+                          <ChatDots />
+                        </button>
+                      </>
+                    )}
                 </div>
-              ))}
+              </div>
+            ))}
           </div>
         </>
-      )}
+      }
     </div>
   );
-};
+}
 
 export default ShowJob;
