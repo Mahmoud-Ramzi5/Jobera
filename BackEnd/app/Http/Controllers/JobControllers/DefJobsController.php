@@ -280,12 +280,52 @@ class DefJobsController extends Controller
                 'errors' => ['job' => 'Job was not found'],
             ], 404);
         }
-
-        $user->FlagedJobs()->attach($defJob);
+        $flagedJobs = $user->FlagedJobs;
+        $flagedJobsArray = $flagedJobs->toArray();
+        if(in_array($defJob,$flagedJobsArray)){
+            $user->FlagedJobs()->detach($defJob);
+        }
+        else{
+            $user->FlagedJobs()->attach($defJob);
+        }
+        
 
         // Response
         return response()->json([
             "message" => "Job is Flaged"
         ], 200);
+    }
+    public function isFlaged(Request $request,$id){
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user'],
+            ], 401);
+        }
+
+        // Get job
+        $defJob = DefJob::find($id);
+
+        // Check job
+        if ($defJob == null) {
+            return response()->json([
+                'errors' => ['job' => 'Job was not found'],
+            ], 404);
+        }
+        $flagedJobs = $user->FlagedJobs;
+        $flagedJobsArray = $flagedJobs->toArray();
+        if(in_array($defJob,$flagedJobsArray)){
+            return response()->json([
+                "message"=>"Job is bookmarked"
+            ],200);
+        }
+        else{
+            return response()->json([
+                "message"=>"Job is not bookmarked"
+            ],201);
+        }
     }
 }

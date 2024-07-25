@@ -7,6 +7,7 @@ import {
   ChatDots,
   Check2,
 } from "react-bootstrap-icons";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import { LoginContext, ProfileContext } from "../../utils/Contexts";
 import {
   FetchJob,
@@ -16,7 +17,7 @@ import {
   AcceptFreelancingJob,
   DeleteRegJobAPI,
   DeleteFreelancingJobAPI,
-  BookmarkJob,
+  BookmarkJobAPI,
 } from "../../apis/JobsApis";
 import { FinishedJobTransaction } from '../../apis/TransactionsApis';
 import { FetchImage } from '../../apis/FileApi';
@@ -27,7 +28,6 @@ import Clock from '../../utils/Clock';
 import img_holder from '../../assets/upload.png';
 import styles from './show_job.module.css';
 import Inputstyles from '../../styles/Input.module.css'
-
 
 const ShowJob = () => {
   // Translations
@@ -59,7 +59,7 @@ const ShowJob = () => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   const handleFavorite = () => {
-    BookmarkJob(accessToken,id)
+    BookmarkJobAPI(accessToken,id)
     .then((response) => {
       if (response.status === 200){
         setIsFavorite(!isFavorite);
@@ -272,7 +272,6 @@ const ShowJob = () => {
   if (isLoading) {
     return <Clock />;
   }
-  console.log(job);
   return (
     <div className={styles.jobsPage}>
       {notFound ? (
@@ -373,6 +372,19 @@ const ShowJob = () => {
                 {t("components.show_job.publish_date")}{" "}
                 {job.publish_date.split("T")[0]}
               </div>
+              <button
+              className={`${styles.favorite_button} ${
+                isFavorite ? "active" : ""
+              }`}
+              onClick={handleFavorite}
+            >
+              {isFavorite ? (
+                <i className="bi bi-bookmark-fill"></i>
+              ) : (
+                <i className="bi bi-bookmark"></i>
+              )}
+            </button>
+
             </div>
           </div>
           <div className={styles.cancel_finish_job}>
@@ -394,18 +406,6 @@ const ShowJob = () => {
             ) : (
               <></>
             )}
-            <button
-              className={`${styles.favorite_button} ${
-                isFavorite ? "active" : ""
-              }`}
-              onClick={handleFavorite}
-            >
-              {isFavorite ? (
-                <i className="bi bi-bookmark-fill"></i>
-              ) : (
-                <i className="bi bi-bookmark"></i>
-              )}
-            </button>
           </div>
           <div className={styles.competitors}>
             <div className={styles.name_and_button}>

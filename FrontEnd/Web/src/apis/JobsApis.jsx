@@ -289,11 +289,25 @@ export const AcceptFreelancingJob = async (token, freelancingJobId, competitorId
   }
 }
 
-export const BookmarkJob = async (token, defJob) => {
+export const BookmarkJobAPI = async (token, defJob) => {
   try {
-    const response = await axios.post(`http://127.0.0.1:8000/api/jobs/${defJob}/bookmark`, {
+    const response = await axios.post(`http://127.0.0.1:8000/api/jobs/${defJob}/bookmark`,null ,{
       headers: {
-        'Content-Type': 'multipart/form-data; charset=UTF-8',
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+export const IsBookmarkedAPI = async (token, defJob) => {
+  try {
+    const response = await axios.get(`http://127.0.0.1:8000/api/jobs/${defJob}/bookmarked`,null ,{
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",
         'Authorization': `Bearer ${token}`
       }

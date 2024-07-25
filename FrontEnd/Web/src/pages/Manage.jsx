@@ -384,17 +384,7 @@ const Bookmarks = () => {
         NoPublishedBy={true}
       />
       <div className={styles.mid_container}>
-        {(jobType === "all" || jobType === "regjobs") &&
-          jobs.map((job) => (
-            <Link
-              key={job.defJob_id}
-              className={styles.job_card}
-              to={`/job/${job.defJob_id}`}
-            >
-              <JobCard JobData={job} />
-            </Link>
-          ))}
-        {(jobType === "all" || jobType === "freelancing") &&
+        {
           jobs.map((job) => (
             <Link
               key={job.defJob_id}
