@@ -6,7 +6,7 @@ import 'package:jobera/customWidgets/custom_text_field.dart';
 class Dialogs {
   Future<void> loadingDialog() async {
     Get.defaultDialog(
-      title: 'Loading...',
+      title: 'Loading....',
       content: const CircularProgressIndicator(),
     );
   }
