@@ -3,7 +3,7 @@ import { LoginContext } from '../../utils/Contexts';
 import { FetchUserChats } from '../../apis/ChatApis';
 import { FetchImage } from '../../apis/FileApi';
 import ChatCard from './ChatCard';
-import styles from "./chats.module.css";
+import styles from './chats.module.css';
 
 
 const ChatList = ({ setSelectedChat, updateList, setUpdateList }) => {
@@ -17,7 +17,9 @@ const ChatList = ({ setSelectedChat, updateList, setUpdateList }) => {
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
-    } else {
+    }
+    else {
+      setChats([]);
       setIsLoading(true);
 
       FetchUserChats(accessToken).then((response) => {
@@ -42,7 +44,7 @@ const ChatList = ({ setSelectedChat, updateList, setUpdateList }) => {
         }
       }).then(() => {
         setIsLoading(false);
-        setUpdateList(true);
+        setUpdateList(false);
       });
     }
   }, [accessToken, updateList]);

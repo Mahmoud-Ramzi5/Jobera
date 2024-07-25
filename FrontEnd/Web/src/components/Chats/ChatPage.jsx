@@ -4,7 +4,7 @@ import { LoginContext, ProfileContext } from '../../utils/Contexts';
 import { FetchChat, SendMessage } from '../../apis/ChatApis';
 import ChatList from './ChatList';
 import Clock from '../../utils/Clock';
-import styles from './ChatPage.module.css';
+import styles from './chats.module.css';
 
 
 const ChatPage = () => {
