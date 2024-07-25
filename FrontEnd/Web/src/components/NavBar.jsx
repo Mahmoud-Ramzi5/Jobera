@@ -87,7 +87,7 @@ const NavBar = () => {
               <>
                 <li>
                   <a href="/manage">
-                    <KanbanFill /> {t('components.nav_bar.li_manage')}
+                    <KanbanFill /> <span className={styles.mobile_item2}>{t('components.nav_bar.li_manage')}</span>
                   </a>
                 </li>
                 <li>
