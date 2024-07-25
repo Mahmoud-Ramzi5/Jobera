@@ -295,7 +295,7 @@ class DefJobsController extends Controller
             "message" => "Job is Flaged"
         ], 200);
     }
-    public function isFlaged(Request $request,$id){
+    public function IsFlaged(Request $request,$id){
         // Get user
         $user = auth()->user();
 

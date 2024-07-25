@@ -18,6 +18,7 @@ import {
   DeleteRegJobAPI,
   DeleteFreelancingJobAPI,
   BookmarkJobAPI,
+  IsBookmarkedAPI
 } from "../../apis/JobsApis";
 import { FinishedJobTransaction } from '../../apis/TransactionsApis';
 import { FetchImage } from '../../apis/FileApi';
@@ -92,6 +93,15 @@ const ShowJob = () => {
               setPhoto(response);
             });
           }
+          IsBookmarkedAPI(accessToken,id).then((response) => {
+            if (response.status === 200){
+              setIsFavorite(true);
+            }else if(response.status === 201){
+              setIsFavorite(false);
+            }
+            else{
+              console.log(response);
+            } })
         }
         else if (response.status === 404) {
           setNotFound(true);
