@@ -305,21 +305,6 @@ export const BookmarkJobAPI = async (token, defJobId) => {
   }
 };
 
-export const IsBookmarkedAPI = async (token, defJobId) => {
-  try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/jobs/${defJobId}/bookmarked`, {
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': "application/json",
-        'Authorization': `Bearer ${token}`
-      }
-    });
-    return response;
-  } catch (error) {
-    return error.response;
-  }
-};
-
 export const JobYouPosted = async (token) => {
   try {
     const response = await axios.get(`http://127.0.0.1:8000/api/manage/posted`, {

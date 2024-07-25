@@ -204,23 +204,6 @@
     outline: none;
 }
 
-.favorite_button {
-    flex: 0 0 24px;
-    margin-inline-start: 16px;
-}
-
-.icon {
-    color: #aaa;
-    cursor: pointer;
-    transition: color 0.3s;
-}
-
-.favorite_icon {
-    color: #f44336;
-    cursor: pointer;
-    transition: color 0.3s;
-}
-
 /* Screen Size compatiplity */
 @media screen and (max-width: 970px) {
     .left_container {

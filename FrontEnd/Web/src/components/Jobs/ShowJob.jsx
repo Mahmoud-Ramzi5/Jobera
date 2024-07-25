@@ -4,8 +4,8 @@ import { useTranslation } from 'react-i18next';
 import { PencilSquare, CurrencyDollar, ChatDots, Check2, Bookmark, BookmarkFill } from 'react-bootstrap-icons';
 import { LoginContext, ProfileContext } from '../../utils/Contexts';
 import {
-  FetchJob, ApplyToRegJobAPI, ApplyToFreelancingJobAPI, AcceptRegJob, AcceptFreelancingJob,
-  DeleteRegJobAPI, DeleteFreelancingJobAPI, BookmarkJobAPI, IsBookmarkedAPI,
+  FetchJob, ApplyToRegJobAPI, ApplyToFreelancingJobAPI, BookmarkJobAPI,
+  AcceptRegJob, AcceptFreelancingJob, DeleteRegJobAPI, DeleteFreelancingJobAPI
 } from '../../apis/JobsApis';
 import { FinishedJobTransaction } from '../../apis/TransactionsApis';
 import { FetchImage } from '../../apis/FileApi';
@@ -57,6 +57,7 @@ const ShowJob = () => {
         if (response.status === 200) {
           setJob(response.data.job);
           setJobEnded(response.data.job.is_done);
+          setIsFavorite(response.data.job.is_flagged);
 
           if (response.data.job.job_user && response.data.job.job_user.user_id === profile.user_id) {
             setIsJobCreator(true);
@@ -71,15 +72,6 @@ const ShowJob = () => {
               setPhoto(response);
             });
           }
-
-          // Checking if job is bookmarked
-          IsBookmarkedAPI(accessToken, id).then((response) => {
-            if (response.status === 200) {
-              setIsFavorite(response.data.is_flagged);
-            } else {
-              console.log(response);
-            }
-          });
         }
         else if (response.status === 404) {
           setNotFound(true);
@@ -252,7 +244,7 @@ const ShowJob = () => {
   const handleFavorite = () => {
     BookmarkJobAPI(accessToken, id).then((response) => {
       if (response.status === 200) {
-        setIsFavorite(!isFavorite);
+        setIsFavorite(response.data.is_flagged);
       } else {
         console.log(response);
       }

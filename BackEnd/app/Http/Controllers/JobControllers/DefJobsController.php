@@ -290,53 +290,14 @@ class DefJobsController extends Controller
 
             // Response
             return response()->json([
-                "message" => "Job is unbookmarked"
+                "is_flagged" => false
             ], 200);
         } else {
             $user->FlagedJobs()->attach($defJob->id);
 
             // Response
             return response()->json([
-                "message" => "Job is bookmarked"
-            ], 200);
-        }
-    }
-
-    public function IsFlaged(Request $request, $id)
-    {
-        // Get user
-        $user = auth()->user();
-
-        // Check user
-        if ($user == null) {
-            return response()->json([
-                'errors' => ['user' => 'Invalid user'],
-            ], 401);
-        }
-
-        // Get job
-        $defJob = DefJob::find($id);
-
-        // Check job
-        if ($defJob == null) {
-            return response()->json([
-                'errors' => ['job' => 'Job was not found'],
-            ], 404);
-        }
-
-        // Get flagged jobs
-        $flagedJobs = $user->FlagedJobs()->pluck('defJob_id')->toArray();
-
-        // Check if job is already flagged
-        if (in_array($defJob->id, $flagedJobs)) {
-            // Response
-            return response()->json([
                 "is_flagged" => true
-            ], 200);
-        } else {
-            // Response
-            return response()->json([
-                "is_flagged" => false
             ], 200);
         }
     }

@@ -14,7 +14,11 @@ class RegJobResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $user = auth()->user();
         $defJob = $this->defJob;
+
+        // Get flagged jobs
+        $flagedJobs = $user->FlagedJobs()->pluck('defJob_id')->toArray();
 
         return [
             "id" => $this->id,
@@ -30,7 +34,7 @@ class RegJobResource extends JsonResource
                 'user_id' => $this->company->user_id,
                 "name" => $this->company->name,
                 'avatar_photo' => $this->company->user->avatar_photo,
-                'wallet' =>$this->company->user->wallet
+                'wallet' => $this->company->user->wallet
             ],
             "accepted_individual" => $this->acceptedIndividual != null ? [
                 'id' => $this->acceptedIndividual->id,
@@ -45,7 +49,8 @@ class RegJobResource extends JsonResource
                 'state' => $defJob->state->state_name,
                 'country' => $defJob->state->country->country_name
             ] : null,
-            'publish_date' => $defJob->created_at
+            'publish_date' => $defJob->created_at,
+            "is_flagged" => in_array($defJob->id, $flagedJobs) ? true : false
         ];
     }
 }

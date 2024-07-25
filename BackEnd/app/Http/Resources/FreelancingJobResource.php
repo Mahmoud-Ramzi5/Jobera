@@ -17,6 +17,7 @@ class FreelancingJobResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $user = auth()->user();
         $defJob = $this->defJob;
 
         $company = Company::where('user_id', $this->user_id)->first();
@@ -48,6 +49,8 @@ class FreelancingJobResource extends JsonResource
             $acceptedUser = null;
         }
 
+        // Get flagged jobs
+        $flagedJobs = $user->FlagedJobs()->pluck('defJob_id')->toArray();
 
         return [
             "id" => $this->id,
@@ -83,7 +86,8 @@ class FreelancingJobResource extends JsonResource
                 'state' => $defJob->state->state_name,
                 'country' => $defJob->state->country->country_name
             ] : null,
-            'publish_date' => $defJob->created_at
+            'publish_date' => $defJob->created_at,
+            "is_flagged" => in_array($defJob->id, $flagedJobs) ? true : false
         ];
     }
 }
