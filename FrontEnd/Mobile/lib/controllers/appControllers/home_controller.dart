@@ -49,7 +49,6 @@ class HomeController extends GetxController {
         ),
       );
       if (response.statusCode == 200) {
-        print(response.data.toString());
         if (response.data['user']['type'] == 'company') {
           company = Company.fromJson(response.data['user']);
           name = company!.name;

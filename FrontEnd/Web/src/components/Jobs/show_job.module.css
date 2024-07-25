@@ -316,19 +316,9 @@
 }
 
 .favorite_button {
-    font-size: 2em; 
-    background-color: transparent;
     border: none;
     cursor: pointer;
-    align-items: left;
-  }
-  
-  .favorite_icon {
-
-    color: transparent;
-    transition: color 0.2s;
-  }
-  
-  .favorite_button.active .favorite_icon {
-    color: var(--color-typeschecked);
-  }
+    padding-inline-end: 23px;
+    color: var(--color-foreground);
+    background-color: transparent;
+}

@@ -13,8 +13,7 @@ const JobCard = ({ JobData }) => {
       {JobData && <div className={styles.row}>
         <div className={styles.img_holder}>
           {JobData.photo ? (
-            <></>
-            //<img src={URL.createObjectURL(JobData.photo)} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} className={styles.image} />
+            <img src={URL.createObjectURL(JobData.photo)} alt="Uploaded Photo" style={{ pointerEvents: 'none' }} className={styles.image} />
           ) : (
             <img src={img_holder} alt="Photo Placeholder" style={{ pointerEvents: 'none' }} className={styles.image} />
           )}

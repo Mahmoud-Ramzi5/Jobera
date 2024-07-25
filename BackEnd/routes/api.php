@@ -124,7 +124,7 @@ Route::controller(DefJobsController::class)->group(function () {
         Route::get('/manage/posted', 'PostedJobs');
         Route::get('/manage/applied', 'AppliedJobs');
         Route::get('/manage/bookmarked', 'FlagedJobs');
-        Route::get('/jobs/{id}/bookmarked','IsFlaged');
+        Route::get('/jobs/{id}/bookmarked', 'IsFlaged');
         Route::post('/jobs/{id}/bookmark', 'FlagJob');
     });
 });
