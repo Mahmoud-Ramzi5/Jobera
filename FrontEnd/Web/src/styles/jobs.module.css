@@ -21,13 +21,28 @@
 
 .job_card {
     width: 90%;
+    display: flex;
     border: 2px;
-    text-decoration: none;
     border-radius: 20px;
     border-style: outset;
     border-color: var(--color-foreground);
     margin-block-start: 5px;
     margin-inline-start: 5%;
+}
+
+.job_card a {
+    width: 95%;
+    text-decoration: none;
+}
+
+.favorite_button {
+    width: 5%;
+    border: none;
+    cursor: pointer;
+    padding-inline-start: 15px;
+    padding-inline-end: 35px;
+    color: var(--color-foreground);
+    background-color: transparent;
 }
 
 .done {
