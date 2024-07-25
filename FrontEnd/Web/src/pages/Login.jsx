@@ -77,9 +77,7 @@ const Login = () => {
             Cookies.set('access_token', token, { secure: true, expires: 1 / 24 });
           }
           // Redirect to dashboard
-          setTimeout(() => {
             navigate('/dashboard');
-          }, 3000);
         }
         else {
           console.log(response.statusText);
@@ -95,7 +93,7 @@ const Login = () => {
         setRememberMe(false);
       });
   };
-  console.log(message);
+
   return (
     <div className={styles.container}>
       <div className={styles.screen}>

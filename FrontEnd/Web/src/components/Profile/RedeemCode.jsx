@@ -35,7 +35,6 @@ const RedeemCode = () => {
     });
   }
 
-console.log(profile.user_id)
   return (
     <div className={styles.container}>
       <div className={styles.screen}>
