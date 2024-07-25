@@ -263,6 +263,7 @@
             "li_register": "Register",
             "h4_chats": "Recent Chats",
             "button_chats": "Show Chats",
+            "no_chats": "No chats yet",
             "card_chat": "No messages yet"
         },
         "footer": {

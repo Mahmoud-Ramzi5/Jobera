@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { LoginContext } from '../../utils/Contexts';
 import { FetchUserChats } from '../../apis/ChatApis';
 import { FetchImage } from '../../apis/FileApi';
@@ -7,6 +8,8 @@ import styles from './chats.module.css';
 
 
 const ChatList = ({ setSelectedChat, updateList, setUpdateList }) => {
+  // Translations
+  const { t } = useTranslation('global');
   // Context
   const { accessToken } = useContext(LoginContext);
   // Define states
@@ -54,9 +57,11 @@ const ChatList = ({ setSelectedChat, updateList, setUpdateList }) => {
     <div className={styles.List}>
       {isLoading ? <p>Loading...</p> :
         <ul className={styles.chat_list}>
-          {chats?<h4 className={styles.h4}>No chats yet</h4>:chats.map((chat) => (
-            <ChatCard key={chat.id} chat={chat} onClick={() => setSelectedChat(chat)} />
-          ))}
+          {chats ?
+            <h4 className={styles.no_chats}>{t('components.nav_bar.no_chats')}</h4>
+            : chats.map((chat) => (
+              <ChatCard key={chat.id} chat={chat} onClick={() => setSelectedChat(chat)} />
+            ))}
         </ul>
       }
     </div>

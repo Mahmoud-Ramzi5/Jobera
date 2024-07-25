@@ -17,11 +17,12 @@
   justify-content: space-between;
   margin-block-end: 10px;
 }
-.h4{
+
+.no_chats {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10%;
+  margin-block-start: 40px;
 }
 
 .chats_head h4 {
