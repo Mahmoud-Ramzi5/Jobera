@@ -1,40 +1,40 @@
-import { useEffect, useState, useRef, useContext } from 'react';
-import { Link } from 'react-router-dom';
-import { LoginContext } from '../utils/Contexts';
-import { JobYouPosted, JobYouApplied, BookmarkedJobs } from '../apis/JobsApis';
-import JobCard from '../components/Jobs/JobCard';
-import JobFilter from '../components/Jobs/JobFilter';
-import JobCompetitorCard from '../components/Jobs/JobCompetitorCard';
-import Clock from '../utils/Clock';
-import styles from '../styles/manage.module.css';
+import { useEffect, useState, useRef, useContext } from "react";
+import { Link } from "react-router-dom";
+import { LoginContext } from "../utils/Contexts";
+import { JobYouPosted, JobYouApplied, BookmarkedJobs } from "../apis/JobsApis";
+import JobCard from "../components/Jobs/JobCard";
+import JobFilter from "../components/Jobs/JobFilter";
+import JobCompetitorCard from "../components/Jobs/JobCompetitorCard";
+import Clock from "../utils/Clock";
+import styles from "../styles/manage.module.css";
 
 const Manage = () => {
   // Define states
   const [currentPage, setCurrentPage] = useState("Posts");
 
-
   return (
     <div className={styles.manage}>
-      <div className={styles.slider}>
+      <div className={styles.tabContainer}>
         <button
-          className={currentPage === "Posts" ? styles.active : ""}
+          className={`${styles.tabButton} ${currentPage === "Posts" ? styles.tabButtonActive : ""}`}
           onClick={() => setCurrentPage("Posts")}
         >
           Posts
         </button>
         <button
-          className={currentPage === "Offers" ? styles.active : ""}
+          className={`${styles.tabButton} ${currentPage === "Offers" ? styles.tabButtonActive : ""}`}
           onClick={() => setCurrentPage("Offers")}
         >
           Offers
         </button>
         <button
-          className={currentPage === "Bookmarks" ? styles.active : ""}
+          className={`${styles.tabButton} ${currentPage === "Bookmarks" ? styles.tabButtonActive : ""}`}
           onClick={() => setCurrentPage("Bookmarks")}
         >
           Bookmarks
         </button>
       </div>
+
 
       <div className={styles.content}>
         {currentPage === "Posts" && <Posts />}
@@ -55,12 +55,12 @@ const Posts = () => {
 
   const [newFilter, setNewFilter] = useState(false);
   const [filter, setFilter] = useState({
-    userName: '',
-    companyName: '',
+    userName: "",
+    companyName: "",
     minSalary: 0,
     maxSalary: 100000,
-    fromDeadline: '',
-    toDeadline: '',
+    fromDeadline: "",
+    toDeadline: "",
     skills: [],
   });
 
@@ -73,16 +73,18 @@ const Posts = () => {
       initialized.current = true;
     } else {
       setIsLoading(true);
-      JobYouPosted(accessToken).then((response) => {
-        if (response.status === 200) {
-          setRegJobs(response.data.RegJobs);
-          setFreelancingJobs(response.data.FreelancingJobs);
-        } else {
-          console.log(response.statusText);
-        }
-      }).then(() => {
-        setIsLoading(false);
-      });
+      JobYouPosted(accessToken)
+        .then((response) => {
+          if (response.status === 200) {
+            setRegJobs(response.data.RegJobs);
+            setFreelancingJobs(response.data.FreelancingJobs);
+          } else {
+            console.log(response.statusText);
+          }
+        })
+        .then(() => {
+          setIsLoading(false);
+        });
     }
   }, []);
 
@@ -100,40 +102,38 @@ const Posts = () => {
     setJobType(selectedJobType);
   };
 
-
   return (
     <div>
       <div className={styles.slider}>
-        <label>
-          <input
-            type="radio"
-            name="jobType"
-            value="all"
-            checked={jobType === "all"}
-            onChange={() => setJobType("all")}
-          />
-          All
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="jobType"
-            value="regjobs"
-            checked={jobType === "regjobs"}
-            onChange={() => setJobType("regjobs")}
-          />
-          RegJobs
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="jobType"
-            value="freelancing"
-            checked={jobType === "freelancing"}
-            onChange={() => setJobType("freelancing")}
-          />
-          Freelancing
-        </label>
+        <input
+          type="radio"
+          id="all"
+          name="jobType"
+          value="all"
+          checked={jobType === "all"}
+          onChange={() => setJobType("all")}
+        />
+        <label htmlFor="all">All</label>
+
+        <input
+          type="radio"
+          id="regjobs"
+          name="jobType"
+          value="regjobs"
+          checked={jobType === "regjobs"}
+          onChange={() => setJobType("regjobs")}
+        />
+        <label htmlFor="regjobs">RegJobs</label>
+
+        <input
+          type="radio"
+          id="freelancing"
+          name="jobType"
+          value="freelancing"
+          checked={jobType === "freelancing"}
+          onChange={() => setJobType("freelancing")}
+        />
+        <label htmlFor="freelancing">Freelancing</label>
       </div>
 
       <div className={styles.screen}>
@@ -184,12 +184,12 @@ const Offers = () => {
 
   const [newFilter, setNewFilter] = useState(false);
   const [filter, setFilter] = useState({
-    userName: '',
-    companyName: '',
+    userName: "",
+    companyName: "",
     minSalary: 0,
     maxSalary: 100000,
-    fromDeadline: '',
-    toDeadline: '',
+    fromDeadline: "",
+    toDeadline: "",
     skills: [],
   });
 
@@ -202,16 +202,18 @@ const Offers = () => {
       initialized.current = true;
     } else {
       setIsLoading(true);
-      JobYouApplied(accessToken).then((response) => {
-        if (response.status === 200) {
-          setRegJobs(response.data.RegJobs);
-          setFreelancingJobs(response.data.FreelancingJobs);
-        } else {
-          console.log(response.statusText);
-        }
-      }).then(() => {
-        setIsLoading(false);
-      });
+      JobYouApplied(accessToken)
+        .then((response) => {
+          if (response.status === 200) {
+            setRegJobs(response.data.RegJobs);
+            setFreelancingJobs(response.data.FreelancingJobs);
+          } else {
+            console.log(response.statusText);
+          }
+        })
+        .then(() => {
+          setIsLoading(false);
+        });
     }
   }, []);
 
@@ -228,40 +230,38 @@ const Offers = () => {
     setJobType(selectedJobType);
   };
 
-
   return (
     <div>
       <div className={styles.slider}>
-        <label>
-          <input
-            type="radio"
-            name="jobType"
-            value="all"
-            checked={jobType === "all"}
-            onChange={() => setJobType("all")}
-          />
-          All
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="jobType"
-            value="regjobs"
-            checked={jobType === "regjobs"}
-            onChange={() => setJobType("regjobs")}
-          />
-          RegJobs
-        </label>
-        <label>
-          <input
-            type="radio"
-            name="jobType"
-            value="freelancing"
-            checked={jobType === "freelancing"}
-            onChange={() => setJobType("freelancing")}
-          />
-          Freelancing
-        </label>
+        <input
+          type="radio"
+          id="all"
+          name="jobType"
+          value="all"
+          checked={jobType === "all"}
+          onChange={() => setJobType("all")}
+        />
+        <label htmlFor="all">All</label>
+
+        <input
+          type="radio"
+          id="regjobs"
+          name="jobType"
+          value="regjobs"
+          checked={jobType === "regjobs"}
+          onChange={() => setJobType("regjobs")}
+        />
+        <label htmlFor="regjobs">RegJobs</label>
+
+        <input
+          type="radio"
+          id="freelancing"
+          name="jobType"
+          value="freelancing"
+          checked={jobType === "freelancing"}
+          onChange={() => setJobType("freelancing")}
+        />
+        <label htmlFor="freelancing">Freelancing</label>
       </div>
 
       <div className={styles.screen}>
@@ -285,10 +285,11 @@ const Offers = () => {
             ))}
           {(jobType === "all" || jobType === "freelancing") &&
             freelancingjobs.map((job) => (
-              <div key={job.freelancingJob.defJob_id} className={styles.job_card}>
-                <Link
-                  to={`/job/${job.freelancingJob.defJob_id}`}
-                >
+              <div
+                key={job.freelancingJob.defJob_id}
+                className={styles.job_card}
+              >
+                <Link to={`/job/${job.freelancingJob.defJob_id}`}>
                   <JobCard JobData={job.freelancingJob} />
                 </Link>
                 {showMore ? (
@@ -330,12 +331,12 @@ const Bookmarks = () => {
 
   const [newFilter, setNewFilter] = useState(false);
   const [filter, setFilter] = useState({
-    userName: '',
-    companyName: '',
+    userName: "",
+    companyName: "",
     minSalary: 0,
     maxSalary: 100000,
-    fromDeadline: '',
-    toDeadline: '',
+    fromDeadline: "",
+    toDeadline: "",
     skills: [],
   });
 
@@ -347,15 +348,17 @@ const Bookmarks = () => {
       initialized.current = true;
     } else {
       setIsLoading(true);
-      BookmarkedJobs(accessToken).then((response) => {
-        if (response.status === 200) {
-          setJobs(response.data.jobs);
-        } else {
-          console.log(response.statusText);
-        }
-      }).then(() => {
-        setIsLoading(false);
-      });
+      BookmarkedJobs(accessToken)
+        .then((response) => {
+          if (response.status === 200) {
+            setJobs(response.data.jobs);
+          } else {
+            console.log(response.statusText);
+          }
+        })
+        .then(() => {
+          setIsLoading(false);
+        });
     }
   }, []);
 
@@ -373,7 +376,6 @@ const Bookmarks = () => {
     setJobType(selectedJobType);
   };
 
-
   return (
     <div className={styles.screen}>
       <JobFilter
@@ -384,16 +386,15 @@ const Bookmarks = () => {
         NoPublishedBy={true}
       />
       <div className={styles.mid_container}>
-        {
-          jobs.map((job) => (
-            <Link
-              key={job.defJob_id}
-              className={styles.job_card}
-              to={`/job/${job.defJob_id}`}
-            >
-              <JobCard JobData={job} />
-            </Link>
-          ))}
+        {jobs.map((job) => (
+          <Link
+            key={job.defJob_id}
+            className={styles.job_card}
+            to={`/job/${job.defJob_id}`}
+          >
+            <JobCard JobData={job} />
+          </Link>
+        ))}
         {isLoading && <Clock />}
       </div>
     </div>

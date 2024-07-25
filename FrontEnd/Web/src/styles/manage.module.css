@@ -11,25 +11,65 @@
 
 .slider {
     display: flex;
-    margin-block-end: 20px;
     justify-content: center;
-}
-
-.slider button {
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .slider label {
+    position: relative;
+    display: flex;
+    align-items: center;
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #eee;
-    border: none;
+    background-color: var(--color--titles);
+    border: 2px solid transparent;
+    border-radius: 25px;
     cursor: pointer;
-}
-
-.slider button.active {
-    background-color: #ccc;
-}
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+  
+  .slider input[type="radio"] {
+    display: none;
+  }
+  
+  .slider label:hover {
+    background-color: var(--color--titles);
+  }
+  
+  .slider input[type="radio"]:checked + label {
+    background-color: var(--color--title);
+    color: var(--color--titles);
+    border-color: var(--color--title);
+  }
+  
+  .slider label span {
+    display: block;
+    padding-left: 10px;
+  }
+  
+  .slider label::before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--color--titles);
+    border: 2px solid var(--color--title);
+    transition: transform 0.3s;
+  }
+  
+  .slider input[type="radio"]:checked + label::before {
+    transform: scale(1.2);
+    background-color: var(--color--titles);
+    border-color: var(--color--title);
+  }
+  
 
 .content {
     padding: 10px;
-    background-color: #f9f9f9;
+    background-color: var(--color--titles);
 }
 
 .mid_container {
@@ -76,3 +116,34 @@
     align-items: center;
     justify-content: center;
 }
+.tabContainer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .tabButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #f0f0f0;
+    border: 2px solid transparent;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+  }
+  
+  .tabButton:hover {
+    background-color: #e0e0e0;
+  }
+  
+  .tabButtonActive {
+    background-color: #0073e6;
+    color: #fff;
+    border-color: #005bb5;
+  }
+  
+  .tabButton:not(.tabButtonActive) {
+    color: #333;
+  }
+  
