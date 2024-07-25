@@ -26,6 +26,7 @@ class UserRegisterController extends GetxController {
   late List<Country> countries = [];
   List<States> states = [];
   States? selectedState;
+  bool loading = true;
 
   @override
   Future<void> onInit() async {
@@ -43,6 +44,7 @@ class UserRegisterController extends GetxController {
     dio = Dio();
     selectedCountry = null;
     countries = await generalController.getCountries();
+    loading = false;
     update();
     super.onInit();
   }
@@ -116,7 +118,7 @@ class UserRegisterController extends GetxController {
   ) async {
     Dialogs().loadingDialog();
     try {
-      var response = await dio.post('http://192.168.43.23:8000/api/register',
+      var response = await dio.post('http://10.0.2.2:8000/api/register',
           data: {
             "full_name": fullName,
             "email": email,

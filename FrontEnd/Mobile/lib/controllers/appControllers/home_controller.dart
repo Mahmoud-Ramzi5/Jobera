@@ -39,7 +39,7 @@ class HomeController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.43.23:8000/api/profile',
+        'http://10.0.2.2:8000/api/profile',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -81,7 +81,7 @@ class HomeController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.43.23:8000/api/logout',
+        'http://10.0.2.2:8000/api/logout',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
