@@ -33,7 +33,7 @@ class Company {
   });
 
   Company.fromJson(Map<String, dynamic> json)
-      : id = json['company_id'] as int,
+      : id = json['user_id'] as int,
         name = json['name'] as String,
         email = json['email'] as String,
         phoneNumber = json['phone_number'] as String,

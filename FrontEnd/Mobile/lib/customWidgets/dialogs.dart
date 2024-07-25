@@ -114,8 +114,10 @@ class Dialogs {
 
   Future<void> addBioDialog(
     TextEditingController controller,
+    String? bio,
     void Function()? onPressed,
   ) async {
+    bio != null ? controller.text = bio : null;
     Get.defaultDialog(
       title: "Add bio",
       titleStyle: TextStyle(

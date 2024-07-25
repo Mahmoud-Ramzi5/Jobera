@@ -38,15 +38,18 @@ class HomeController extends GetxController {
   Future<void> fetchUser() async {
     String? token = sharedPreferences?.getString('access_token');
     try {
-      var response = await dio.get('http://192.168.0.101:8000/api/profile',
-          options: Options(
-            headers: {
-              'Content-Type': 'application/json; charset=UTF-8',
-              'Accept': 'application/json',
-              'Authorization': 'Bearer $token'
-            },
-          ));
+      var response = await dio.get(
+        'http://192.168.43.23:8000/api/profile',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+        ),
+      );
       if (response.statusCode == 200) {
+        print(response.data.toString());
         if (response.data['user']['type'] == 'company') {
           company = Company.fromJson(response.data['user']);
           name = company!.name;
@@ -79,7 +82,7 @@ class HomeController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.101:8000/api/logout',
+        'http://192.168.43.23:8000/api/logout',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

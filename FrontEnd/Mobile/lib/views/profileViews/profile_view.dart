@@ -78,6 +78,7 @@ class ProfileView extends StatelessWidget {
                           ),
                           onPressed: () => Dialogs().addBioDialog(
                             controller.editBioController,
+                            controller.user.description,
                             () => controller
                                 .editBio(controller.editBioController.text),
                           ),
