@@ -256,10 +256,14 @@
             "post_job": "نشر عمل (وظيفة)",
             "li_manage": "إدارة",
             "li_chats": "المحادثات",
+            "li_notifications": "الاشعارات",
             "li_profile": "الملف الشخصي",
             "li_logout": "تسجيل الخروج",
             "li_login": "تسجيل الدخول",
-            "li_register": "إنشاء حساب"
+            "li_register": "إنشاء حساب",
+            "h4_chats": "أجدد المحادثات",
+            "button_chats": "إظهار المحادثات",
+            "card_chat": "لا يوجد رسائل بعد"
         },
         "footer": {
             "footer_logo": "Jobera",

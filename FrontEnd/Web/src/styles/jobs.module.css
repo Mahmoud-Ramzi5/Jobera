@@ -25,7 +25,7 @@
     text-decoration: none;
     border-radius: 20px;
     border-style: outset;
-    border-color: var(--color-rating);
+    border-color: var(--color-foreground);
     margin-block-start: 5px;
     margin-inline-start: 5%;
 }
@@ -41,11 +41,12 @@
 .card {
     height: 180px;
     border-radius: 20px;
+    transition: 0.2s;
 }
 
 .card:hover {
     transition: .2s;
-    box-shadow: 0px 2px 12px #395F87;
+    box-shadow: 0px 2px 12px var(--color-foreground);
 }
 
 .row {
@@ -203,23 +204,23 @@
     outline: none;
 }
 
-
 .favorite_button {
     flex: 0 0 24px;
-    margin-left: 16px;
-  }
-  
-  .icon {
+    margin-inline-start: 16px;
+}
+
+.icon {
     color: #aaa;
     cursor: pointer;
     transition: color 0.3s;
-  }
-  
-  .favorite_icon {
+}
+
+.favorite_icon {
     color: #f44336;
     cursor: pointer;
     transition: color 0.3s;
-  }
+}
+
 /* Screen Size compatiplity */
 @media screen and (max-width: 970px) {
     .left_container {

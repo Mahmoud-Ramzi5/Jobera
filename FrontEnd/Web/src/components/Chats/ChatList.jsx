@@ -1,13 +1,15 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
-import { LoginContext } from "../../utils/Contexts";
-import { FetchUserChats, FetchChatDetails } from "../../apis/ChatApis";
-import { Card } from "react-bootstrap";
-import styles from "./ChatPage.module.css";
-import defPhoto from "../../assets/default.png";
-import { FetchImage } from "../../apis/FileApi";
-// Chat list component
+import { useState, useEffect, useContext, useRef } from 'react';
+import { LoginContext } from '../../utils/Contexts';
+import { FetchUserChats } from '../../apis/ChatApis';
+import { FetchImage } from '../../apis/FileApi';
+import ChatCard from './ChatCard';
+import styles from "./chats.module.css";
+
+
 const ChatList = ({ setSelectedChat, updateList }) => {
+  // Context
   const { accessToken } = useContext(LoginContext);
+  // Define states
   const initialized = useRef(false);
   const [isLoading, setIsLoading] = useState(false);
   const [chats, setChats] = useState([]);
@@ -15,88 +17,47 @@ const ChatList = ({ setSelectedChat, updateList }) => {
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
+    } else {
       setIsLoading(true);
-      FetchUserChats(accessToken)
-        .then((response) => {
-          if (response.status === 200) {
-            setChats(response.data.chats);
-          } else {
-            console.log(response.statusText);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
+
+      FetchUserChats(accessToken).then((response) => {
+        if (response.status === 200) {
+          response.data.chats.map((chat) => {
+            // Check if chat is already in array
+            if (!chats.some(item => chat.id === item.id)) {
+
+              if (chat.other_user.avatar_photo) {
+                FetchImage("", chat.other_user.avatar_photo).then((response) => {
+                  chat.other_user.avatar_photo = response;
+                  setChats((prevState) => ([...prevState, chat]));
+                });
+              }
+              else {
+                setChats((prevState) => ([...prevState, chat]));
+              }
+            }
+          });
+        } else {
+          console.log(response.statusText);
+        }
+      }).then(() => {
+        setIsLoading(false);
+      });
     }
   }, [accessToken, updateList]);
 
-  const handleChatClick = (chat) => {
-    setSelectedChat(chat);
-  };
-
-  const RenderChat = ({ chat }) => {
-    const [photo, setPhoto] = useState(null);
-
-    useEffect(() => {
-      if (chat.other_user) {
-        if (chat.other_user.avatar_photo) {
-          FetchImage("", chat.other_user.avatar_photo).then((response) => {
-            const imageURL = URL.createObjectURL(response);
-            setPhoto(imageURL);
-            console.log(response);
-          });
-        }
-      }
-    }, []);
-    return (
-      <div
-        className={`${styles.chat_item} ${styles.chat_item_border}`}
-        key={chat.id}
-        onClick={() => handleChatClick(chat)}
-      >
-        <div className={styles.avatar}>
-          <form className={styles.profile_picture_container}>
-            {photo ? (
-              <Card.Img
-                className={styles.Card_Img}
-                variant="top"
-                src={photo}
-                alt={defPhoto}
-                style={{ pointerEvents: "none" }}
-              />
-            ) : (
-              <Card.Img
-                className={styles.Card_Img}
-                variant="top"
-                src={defPhoto}
-                style={{ pointerEvents: "none" }}
-              />
-            )}
-          </form>
-        </div>
-        <div className={styles.chat_details}>
-          <h3>
-            {chat.other_user.name ? chat.other_user.name : chat.other_user.full_name}
-          </h3>
-          <p>
-            {chat.last_message ? chat.last_message.message : "No messages yet"}
-          </p>
-        </div>
-      </div>
-    );
-  };
 
   return (
-    <div className={styles.chat_list}>
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        chats.map((chat) => <RenderChat key={chat.id} chat={chat} />)
-      )}
+    <div className={styles.List}>
+      {isLoading ? <p>Loading...</p> :
+        <ul className={styles.chat_list}>
+          {chats.map((chat) => (
+            <ChatCard key={chat.id} chat={chat} onClick={() => setSelectedChat(chat)} />
+          ))}
+        </ul>
+      }
     </div>
   );
 };
+
 export default ChatList;

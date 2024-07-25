@@ -4,10 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { KanbanFill, EnvelopeAtFill, BellFill, List, X } from 'react-bootstrap-icons';
 import { ThemeContext, LoginContext, ProfileContext } from '../utils/Contexts.jsx';
 import { FetchImage } from '../apis/FileApi.jsx';
+import ChatNav from "./Chats/ChatNav.jsx";
 import Logo from '../assets/JoberaLogo.png';
 import defaultUser from '../assets/default.png';
 import styles from '../styles/navbar.module.css';
-import ChatNavWindow from "./Chats/Chats.jsx";
+
 
 const NavBar = () => {
   // Translations
@@ -93,10 +94,11 @@ const NavBar = () => {
                   <span className={styles.chat_list} onClick={() => setShowChatScreen(!showChatScreen)}>
                     <EnvelopeAtFill /> <span className={styles.mobile_item2}>{t('components.nav_bar.li_chats')}</span>
                   </span>
+                  {showChatScreen && <ChatNav />}
                 </li>
                 <li>
                   <a href="#">
-                    <BellFill />
+                    <BellFill /> <span className={styles.mobile_item2}>{t('components.nav_bar.li_notifications')}</span>
                   </a>
                 </li>
                 <span>
@@ -127,7 +129,7 @@ const NavBar = () => {
                       </li>
                     </ul>
                   </li>
-                  {showChatScreen && <ChatNavWindow />}
+
                 </span>
               </>
             ) : (
@@ -184,12 +186,12 @@ const NavUser = ({ ProfileData }) => {
         <img
           src={URL.createObjectURL(avatarPhoto)}
           className={styles.profile_image}
-        ></img>
+        />
       ) : (
         <img
           src={defaultUser}
           className={styles.profile_image}
-        ></img>
+        />
       )}
       <div className={styles.profile_details}>
         <div>

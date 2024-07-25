@@ -256,10 +256,14 @@
             "post_job": "Post a job",
             "li_manage": "Manage",
             "li_chats": "Chats",
+            "li_notifications": "Notifications",
             "li_profile": "My Profile",
             "li_logout": "LogOut",
             "li_login": "Login",
-            "li_register": "Register"
+            "li_register": "Register",
+            "h4_chats": "Recent Chats",
+            "button_chats": "Show Chats",
+            "card_chat": "No messages yet"
         },
         "footer": {
             "footer_logo": "Jobera",
