@@ -146,7 +146,7 @@ class ProfileController extends GetxController {
           e.response!.data['errors'].toString(),
         );
         Future.delayed(
-          const Duration(seconds: 1),
+          const Duration(seconds: 2),
           () {
             Get.back();
           },
@@ -190,7 +190,7 @@ class ProfileController extends GetxController {
         e.response!.data['errors'].toString(),
       );
       Future.delayed(
-        const Duration(seconds: 1),
+        const Duration(seconds: 2),
         () {
           Get.back();
         },
