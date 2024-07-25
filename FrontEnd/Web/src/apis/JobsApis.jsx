@@ -189,7 +189,7 @@ export const ApplyToRegJobAPI = async (
       'description': description,
     }, {
       headers: {
-        'Content-Type': 'multipart/form-data; charset=UTF-8',
+        'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",
         'Authorization': `Bearer ${token}`
       }
@@ -213,7 +213,7 @@ export const ApplyToFreelancingJobAPI = async (
       'salary': salary
     }, {
       headers: {
-        'Content-Type': 'multipart/form-data; charset=UTF-8',
+        'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",
         'Authorization': `Bearer ${token}`
       }
@@ -254,13 +254,28 @@ export const DeleteFreelancingJobAPI = async (token, id) => {
   }
 };
 
+export const BookmarkJob = async (token, id) => {
+  try {
+    const response = await axios.post(`http://127.0.0.1:8000/api/jobs/${id}/bookmark`, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
+
 export const AcceptRegJob = async (token, regJobId, competitorId) => {
   try {
     const response = await axios.post(`http://127.0.0.1:8000/api/regJob/accept/${regJobId}`, {
       'reg_job_competitor_id': competitorId
     }, {
       headers: {
-        'Content-Type': 'multipart/form-data; charset=UTF-8',
+        'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",
         'Authorization': `Bearer ${token}`
       }
@@ -278,7 +293,7 @@ export const AcceptFreelancingJob = async (token, freelancingJobId, competitorId
       'salary': salary
     }, {
       headers: {
-        'Content-Type': 'multipart/form-data; charset=UTF-8',
+        'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",
         'Authorization': `Bearer ${token}`
       }

@@ -44,14 +44,14 @@ const Portfolios = ({ step }) => {
                   setPortfolios((prevState) => ([...prevState, portfolio]));
                 });
               }
-              else if (response.status === 404) {
-                setNotFound(true);
-                navigate('/notfound');
-              }
               else {
                 setPortfolios((prevState) => ([...prevState, portfolio]));
               }
             });
+          }
+          else if (response.status === 404) {
+            setNotFound(true);
+            navigate('/notfound');
           }
           else {
             console.log(response.statusText);

@@ -12,70 +12,6 @@ use App\Http\Resources\ChatCollection;
 
 class ChatController extends Controller
 {
-    public function SendMessage(SendMessageRequest $request)
-    {
-        // Validate request
-        $validated = $request->validated();
-
-        // Get user
-        $user = auth()->user();
-
-        // Check user
-        if ($user == null) {
-            return response()->json([
-                'errors' => ['user' => 'Invalid user']
-            ], 401);
-        }
-        if ($user->id == $validated['reciver_id']) {
-            return response()->json([
-                "message" => "can not send message to your self"
-            ], 400);
-        }
-
-        // Get chat
-        $chat = Chat::where(function ($query) use ($user, $validated) {
-            $query->where('user1_id', $user->id)
-                ->where('user2_id', $validated['reciver_id']);
-        })->orWhere(function ($query) use ($user, $validated) {
-            $query->where('user1_id', $validated['reciver_id'])
-                ->where('user2_id', $user->id);
-        })->first();
-
-        // Check chat
-        if ($chat == null) {
-            $chat = new Chat();
-            $chat->user1_id = $user->id;
-            $chat->user2_id = $validated['reciver_id'];
-            $chat->save();
-        }
-        $validated['user_id'] = $user->id;
-        $validated['chat_id'] = $chat->id;
-        $message = Message::create($validated);
-
-        // Response
-        return response()->json([
-            'message' => new MessageResource($message)
-        ], 201);
-    }
-
-    public function GetChat($id)
-    {
-        // Get chat
-        $chat = Chat::find($id);
-
-        // Check chat
-        if ($chat == null) {
-            return response()->json([
-                'errors' => ['chat' => 'Invalid chat']
-            ], 404);
-        }
-
-        // Response
-        return response()->json([
-            'chat' => new ChatResource($chat)
-        ], 200);
-    }
-
     public function GetAllChats()
     {
         // Get user
@@ -95,6 +31,24 @@ class ChatController extends Controller
         // Response
         return response()->json([
             'chats' => new ChatCollection($chats)
+        ], 200);
+    }
+
+    public function GetChat(Request $request, $id)
+    {
+        // Get chat
+        $chat = Chat::find($id);
+
+        // Check chat
+        if ($chat == null) {
+            return response()->json([
+                'errors' => ['chat' => 'Invalid chat']
+            ], 404);
+        }
+
+        // Response
+        return response()->json([
+            'chat' => new ChatResource($chat)
         ], 200);
     }
 
@@ -126,16 +80,66 @@ class ChatController extends Controller
 
         // Check chat
         if ($chat == null) {
-            $chat = new Chat();
-            $chat->user1_id = $user->id;
-            $chat->user2_id = $validated['reciver_id'];
-            $chat->save();
+            $chat = Chat::create([
+                'user1_id' => $user->id,
+                'user2_id' => $validated['reciver_id']
+            ]);
         }
 
         // Response
         return response()->json([
             "message" => "Chat created successfully",
             "chat" => new ChatResource($chat)
+        ], 201);
+    }
+
+    public function SendMessage(SendMessageRequest $request)
+    {
+        // Validate request
+        $validated = $request->validated();
+
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+        if ($user->id == $validated['reciver_id']) {
+            return response()->json([
+                "message" => "can not send message to your self"
+            ], 400);
+        }
+
+        // Get chat
+        $chat = Chat::where(function ($query) use ($user, $validated) {
+            $query->where('user1_id', $user->id)
+                ->where('user2_id', $validated['reciver_id']);
+        })->orWhere(function ($query) use ($user, $validated) {
+            $query->where('user1_id', $validated['reciver_id'])
+                ->where('user2_id', $user->id);
+        })->first();
+
+        // Check chat
+        if ($chat == null) {
+            $chat = Chat::create([
+                'user1_id' => $user->id,
+                'user2_id' => $validated['reciver_id']
+            ]);
+        }
+
+        // Create message
+        $message = Message::create([
+            'user_id' => $user->id,
+            'chat_id' => $chat->id,
+            'message' => $validated['message']
+        ]);
+
+        // Response
+        return response()->json([
+            'message' => new MessageResource($message)
         ], 201);
     }
 }

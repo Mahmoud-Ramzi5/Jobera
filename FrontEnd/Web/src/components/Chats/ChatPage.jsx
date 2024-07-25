@@ -1,70 +1,71 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
-import { LoginContext } from "../../utils/Contexts";
-import { FetchUserChats, FetchChatDetails, SendMessage } from "../../apis/ChatApis";
-import styles from "./ChatPage.module.css";
-import ChatList from "./ChatList";
+import { useState, useEffect, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
+import { LoginContext, ProfileContext } from '../../utils/Contexts';
+import { FetchChat, SendMessage } from '../../apis/ChatApis';
+import ChatList from './ChatList';
+import Clock from '../../utils/Clock';
+import styles from './chats.module.css';
 
-// Chat window component
+
+const ChatPage = () => {
+  // Define states
+  const [selectedChat, setSelectedChat] = useState(null);
+  const [updateList, setUpdateList] = useState(false);
+
+  return (
+    <div className={styles.chat_page}>
+      <ChatList setSelectedChat={setSelectedChat} updateList={updateList} setUpdateList={setUpdateList} />
+      <ChatWindow selectedChat={selectedChat} setUpdateList={setUpdateList} />
+    </div>
+  );
+};
+
+
 const ChatWindow = ({ selectedChat, setUpdateList }) => {
+  // Translations
+  const { t } = useTranslation('global');
+  // Context
+  const { accessToken } = useContext(LoginContext);
+  const { profile } = useContext(ProfileContext);
+  // Define states
+  const [isLoading, setIsLoading] = useState(false);
+
   const [inputMessage, setInputMessage] = useState("");
   const [messages, setMessages] = useState([]);
-  const { accessToken } = useContext(LoginContext);
-  const initialized = useRef(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (selectedChat) {
       setIsLoading(true);
-      FetchChatDetails(accessToken, selectedChat.id)
-        .then((response) => {
-          if (response.status === 200) {
-            setMessages(response.data.chat.messages);
-          } else {
-            console.log(response.statusText);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        });
-    }
-  }, [selectedChat, accessToken]);
 
-  const handleInputChange = (event) => {
-    setInputMessage(event.target.value);
-  };
-
-  const handleSendMessage = (event) => {
-    event.preventDefault();
-    if (inputMessage.trim() === "") return;
-
-    SendMessage(accessToken, inputMessage, selectedChat.other_user.user_id)
-      .then((response) => {
-        if (response.status === 201) {
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            {
-              id: response.data.message_id, // Assuming response returns the new message ID
-              user: {
-                id: selectedChat.sender.user_id,
-                name: selectedChat.sender.full_name,
-              },
-              message: inputMessage,
-              send_date: new Date().toISOString(), // Assuming the message is sent immediately
-            },
-          ]);
-          setInputMessage("");
-          setUpdateList(true);
+      FetchChat(accessToken, selectedChat.id).then((response) => {
+        if (response.status === 200) {
+          setMessages(response.data.chat.messages);
         } else {
           console.log(response.statusText);
         }
-      })
-      .catch((error) => {
-        console.log(error);
+      }).then(() => {
+        setIsLoading(false);
       });
-  };
+    }
+  }, [selectedChat]);
+
+  const handleSendMessage = (event) => {
+    event.preventDefault();
+    if (inputMessage.trim() === "") { return };
+
+    setIsLoading(true);
+    SendMessage(accessToken, inputMessage, selectedChat.other_user.user_id).then((response) => {
+      if (response.status === 201) {
+        setMessages((prevMessages) => [...prevMessages, response.data.message]);
+        setInputMessage("");
+        setUpdateList(true);
+      } else {
+        console.log(response.statusText);
+      }
+    }).then(() => {
+      setIsLoading(false);
+    });
+  }
 
   const formatTimestamp = (timestamp) => {
     const messageDate = new Date(timestamp);
@@ -92,64 +93,39 @@ const ChatWindow = ({ selectedChat, setUpdateList }) => {
     }
   };
 
+
   return (
     <div className={styles.chat_window}>
       <div className={styles.chat_header}>
         <h3>
-          {selectedChat
-            ? selectedChat.other_user.name
-              ? selectedChat.other_user.name
-              : selectedChat.other_user.full_name
-            : "No chat selected"}
+          {selectedChat ? selectedChat.other_user.name : t('components.chat_page.chat_header')}
         </h3>
       </div>
       <div className={styles.chat_messages}>
-        {isLoading ? (
-          <p>Loading...</p>
-        ) : (
+        {isLoading ? <Clock /> : (
           messages.map((message) => (
-            <div
-              key={message.id}
-              className={`${styles.message} ${
-                message.user.id === selectedChat.sender.user_id ? styles.sender : styles.receiver
-              }`}
-              style={{ alignSelf: message.user.id === selectedChat.sender.user_id ? "flex-end" : "flex-start" }}
-            >
+            <div key={message.id} className={` ${styles.message} 
+                ${message.user.user_id === profile.user_id ? styles.sender : styles.receiver}
+              `}>
               <div className={styles.message_content}>{message.message}</div>
-              <div className={`${styles.timestamp} ${message.user.id === selectedChat.sender.user_id ? styles.sender : styles.receiver}`}>
-                {formatTimestamp(message.send_date)}
-              </div>
+              <div className={`${styles.timestamp}`}>{formatTimestamp(message.send_date)}</div>
             </div>
           ))
         )}
       </div>
-      <div className={styles.chat_input}>
-        <form onSubmit={handleSendMessage} className={styles.chatForm}>
+      {selectedChat &&
+        <form onSubmit={handleSendMessage} className={styles.chat_form}>
           <input
             type="text"
-            placeholder="Type a message..."
+            placeholder={t('components.chat_page.chat_input')}
             value={inputMessage}
-            onChange={handleInputChange}
-            className={styles.chat_input_field}
+            onChange={(event) => setInputMessage(event.target.value)}
           />
           <button type="submit" className={styles.submit_button}>
-            Send
+            {t('components.chat_page.chat_button')}
           </button>
         </form>
-      </div>
-    </div>
-  );
-};
-
-// Main app component
-const ChatPage = () => {
-  const [selectedChat, setSelectedChat] = useState(null);
-  const [updateList, setUpdateList] = useState(false);
-
-  return (
-    <div className={styles.app}>
-      <ChatList setSelectedChat={setSelectedChat} updateList={updateList} />
-      <ChatWindow selectedChat={selectedChat} setUpdateList={setUpdateList} />
+      }
     </div>
   );
 };

@@ -150,7 +150,7 @@
         },
         "redeem_code": {
             "message1": "Charged your wallet successfully",
-            "messsge1": "Something went wrong, please try again later",
+            "messsge2": "Something went wrong, please try again later",
             "title": "Redeem",
             "h3": "Enter redeem code to charge your wallet",
             "input": "Redeem code",
@@ -256,10 +256,14 @@
             "post_job": "Post a job",
             "li_manage": "Manage",
             "li_chats": "Chats",
+            "li_notifications": "Notifications",
             "li_profile": "My Profile",
             "li_logout": "LogOut",
             "li_login": "Login",
-            "li_register": "Register"
+            "li_register": "Register",
+            "h4_chats": "Recent Chats",
+            "button_chats": "Show Chats",
+            "card_chat": "No messages yet"
         },
         "footer": {
             "footer_logo": "Jobera",
@@ -286,6 +290,11 @@
             "privacy&policy": "Privacy & Policy",
             "terms&conditions": "Terms & Conditions",
             "code_of_conduct": "Code of Conduct"
+        },
+        "chat_page": {
+            "chat_header": "No chat selected",
+            "chat_input": "Type a message...",
+            "chat_button": "Send"
         }
     }
 }

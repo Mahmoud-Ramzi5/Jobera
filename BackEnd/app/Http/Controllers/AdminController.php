@@ -29,7 +29,8 @@ class AdminController extends Controller
             if ($check === null) {
                 $redeemCode = RedeemCode::create([
                     'code' => $code,
-                    'value' => $validated['value']
+                    'value' => $validated['value'],
+                    'user_id' => null
                 ]);
                 return response()->json([
                     'message' => 'created succcessfully'
