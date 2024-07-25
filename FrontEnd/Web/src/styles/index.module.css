@@ -101,7 +101,7 @@
     display: block;
     position: relative;
     text-align: center;
-    width: 60%;
+    width: 100%;
     min-height: 1px;
     padding-inline-start: 15px;
     padding-inline-end: 15px;
@@ -109,10 +109,19 @@
     margin-block-end: 10px;
 }
 
-.container2 span {
+.great_title {
     display: block;
     line-height: 1;
-    font-size: 110px;
+    font-size: 90px;
+    font-weight: 700;
+    margin-block-end: 10px;
+    color: var(--color-foreground);
+}
+
+.mini_title {
+    display: block;
+    line-height: 1;
+    font-size: 40px;
     font-weight: 700;
     margin-block-end: 10px;
     color: var(--color-foreground);
@@ -120,7 +129,7 @@
 
 .container2 h2 {
     display: block;
-    font-size: 46px;
+    font-size: 30px;
     font-weight: 700;
     margin-block-end: 23px;
     text-transform: capitalize;
@@ -133,4 +142,28 @@
     line-height: 30px;
     margin-block-end: 15px;
     color: var(--color-foreground);
+}
+
+.two_sides {
+    display: flex;
+    flex-direction: row;
+}
+
+.four_cards {
+    padding-block-start: 50px;
+    width: 70%;
+    display: flex;
+    flex-direction: row;
+}
+
+.card_holder {
+    width: 50%;
+}
+
+.picture {
+    width:50%;
+}
+
+.image {
+
 }
