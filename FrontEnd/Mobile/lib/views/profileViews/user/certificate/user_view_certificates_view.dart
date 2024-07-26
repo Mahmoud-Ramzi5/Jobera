@@ -99,9 +99,8 @@ class UserEditCertificatesView extends StatelessWidget {
                                             children: [
                                               const BodyText(text: 'Date: '),
                                               LabelText(
-                                                text: controller
-                                                    .certificates[index].date,
-                                              ),
+                                                  text:
+                                                      '${controller.certificates[index].date.day}/${controller.certificates[index].date.month}/${controller.certificates[index].date.year}'),
                                             ],
                                           ),
                                         ],

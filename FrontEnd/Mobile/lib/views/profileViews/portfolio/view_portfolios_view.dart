@@ -81,6 +81,8 @@ class ViewPortfoliosView extends StatelessWidget {
                                           ),
                                         ),
                                         ProfilePhotoContainer(
+                                          height: 100,
+                                          width: 100,
                                           child: controller.portfolios[index1]
                                                       .photo ==
                                                   null
@@ -88,11 +90,9 @@ class ViewPortfoliosView extends StatelessWidget {
                                                   Icons.photo,
                                                   color:
                                                       Colors.lightBlue.shade900,
-                                                  size: 100,
+                                                  size: 50,
                                                 )
                                               : CustomImage(
-                                                  height: 100,
-                                                  width: 100,
                                                   path: controller
                                                       .portfolios[index1].photo
                                                       .toString(),

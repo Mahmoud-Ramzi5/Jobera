@@ -9,7 +9,7 @@ class Company {
   final String country;
   final String state;
   final String field;
-  final String foundingDate;
+  final DateTime foundingDate;
   final String type;
   final String? description;
   final String? photo;
@@ -39,7 +39,7 @@ class Company {
         phoneNumber = json['phone_number'] as String,
         country = json['country'] as String,
         state = json['state'] as String,
-        foundingDate = json['founding_date'] as String,
+        foundingDate = DateTime.parse(json['founding_date']),
         field = json['field'] as String,
         type = json['type'] as String,
         description = json['description'] as String?,
@@ -58,7 +58,7 @@ class Company {
         country = '',
         state = '',
         field = '',
-        foundingDate = '',
+        foundingDate = DateTime.now(),
         type = '',
         description = null,
         photo = null,
