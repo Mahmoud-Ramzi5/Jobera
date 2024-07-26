@@ -31,6 +31,17 @@ class RedeemCode extends Model
         'updated_at'
     ];
 
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'value' => 'decimal:2'
+        ];
+    }
 
     // Relations
     public function user(): BelongsTo

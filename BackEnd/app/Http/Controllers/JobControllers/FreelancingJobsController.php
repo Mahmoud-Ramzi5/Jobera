@@ -207,9 +207,10 @@ class FreelancingJobsController extends Controller
                 'errors' => ['user' => 'Unauthorized']
             ], 401);
         }
+
         $validated['user_id'] = $user->id;
         $FreelancingJobCompetitor = FreelancingJobCompetitor::create($validated);
-        
+
         // Response
         return response()->json([
             'job_competitor' => new FreelancingJobCompetitorResource($FreelancingJobCompetitor),

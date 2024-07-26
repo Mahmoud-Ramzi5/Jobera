@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('redeem_codes', function (Blueprint $table) {
             $table->id();
             $table->string('code');
-            $table->double('value');
+            $table->decimal('value', 19, 4);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->timestamps();
 

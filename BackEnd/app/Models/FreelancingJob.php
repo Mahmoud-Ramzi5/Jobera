@@ -18,10 +18,9 @@ class FreelancingJob extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'deadline',
         'min_salary',
         'max_salary',
-        'deadline',
-        'avg_salary',
         'user_id',
         'defJob_id',
         'accepted_user'
@@ -44,7 +43,10 @@ class FreelancingJob extends Model
      */
     protected function casts(): array
     {
-        return [];
+        return [
+            'min_salary' => 'decimal:2',
+            'max_salary' => 'decimal:2',
+        ];
     }
 
     /* Relations */
