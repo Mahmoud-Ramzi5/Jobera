@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string("school");
             $table->dateTime("start_date");
             $table->dateTime("end_date");
-            $table->foreignId("individual_id")->constrained()->cascadeOnDelete();
+            $table->foreignId("individual_id")->constrained('individuals')->cascadeOnDelete();
             $table->string("certificate_file")->nullable();
             $table->timestamps();
         });

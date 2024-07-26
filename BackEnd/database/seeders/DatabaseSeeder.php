@@ -17,6 +17,10 @@ class DatabaseSeeder extends Seeder
 
         $this->call(CountriesSeeder::class);
         $this->call(SkillsSeeder::class);
-        $this->call(JobsSeeder::class);
+        //$this->call(JobsSeeder::class);
+        $this->call(IndividualSeeder::class);
+        $this->call(CompaniesSeeder::class);
+        $this->call(RegJobSeeder::class);
+        $this->call(FreelancingJobSeeder::class);
     }
 }

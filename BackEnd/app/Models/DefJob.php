@@ -17,7 +17,6 @@ class DefJob extends Model
     protected $fillable = [
         'title',
         'description',
-        'location',
         'photo',
         'is_done',
         'state_id'
