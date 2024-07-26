@@ -7,7 +7,7 @@ class BasicInfoComponent extends StatelessWidget {
   final String phoneNumber;
   final String state;
   final String country;
-  final String date;
+  final DateTime date;
   final bool isCompany;
 
   const BasicInfoComponent({
@@ -57,7 +57,7 @@ class BasicInfoComponent extends StatelessWidget {
             Row(
               children: [
                 BodyText(text: isCompany ? 'Founding Date: ' : 'BirthDate:'),
-                LabelText(text: date),
+                LabelText(text: '${date.day}/${date.month}/${date.year}'),
               ],
             )
           ],
@@ -71,8 +71,8 @@ class EducationComponent extends StatelessWidget {
   final String level;
   final String field;
   final String school;
-  final String startDate;
-  final String endDate;
+  final DateTime startDate;
+  final DateTime endDate;
   final String? certificate;
   final void Function()? onPressed;
 
@@ -109,13 +109,17 @@ class EducationComponent extends StatelessWidget {
         Row(
           children: [
             const BodyText(text: 'Start Date: '),
-            LabelText(text: startDate)
+            LabelText(
+              text: '${startDate.day}/${startDate.month}/${startDate.year}',
+            ),
           ],
         ),
         Row(
           children: [
             const BodyText(text: 'End Date: '),
-            LabelText(text: endDate)
+            LabelText(
+              text: '${endDate.day}/${endDate.month}/${endDate.year}',
+            ),
           ],
         ),
         Row(

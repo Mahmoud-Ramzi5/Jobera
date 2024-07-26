@@ -2,8 +2,8 @@ class Education {
   final String level;
   final String field;
   final String school;
-  final String startDate;
-  final String endDate;
+  final DateTime startDate;
+  final DateTime endDate;
   final String? certificateFile;
 
   Education({
@@ -19,15 +19,15 @@ class Education {
       : level = json['level'] as String,
         field = json['field'] as String,
         school = json['school'] as String,
-        startDate = json['start_date'] as String,
-        endDate = json['end_date'] as String,
+        startDate = DateTime.parse(json['start_date']),
+        endDate = DateTime.parse(json['end_date']),
         certificateFile = json['certificate_file'] as String?;
 
   Education.empty()
       : level = '',
         field = '',
         school = '',
-        startDate = '',
-        endDate = '',
+        startDate = DateTime.now(),
+        endDate = DateTime.now(),
         certificateFile = '';
 }

@@ -113,24 +113,25 @@ class CompanyRegisterController extends GetxController {
   ) async {
     Dialogs().loadingDialog();
     try {
-      var response = await dio.post('http://10.0.2.2:8000/api/company/register',
-          data: {
-            "name": name,
-            "field": workField,
-            "email": email,
-            "password": password,
-            "confirm_password": confirmPassword,
-            "state_id": state,
-            "phone_number": phoneNumber,
-            "founding_date": date.toString().split(' ')[0],
-            "type": "company",
-          },
-          options: Options(
-            headers: {
-              'Content-Type': 'application/json; charset=UTF-8',
-              'Accept': 'application/json',
-            },
-          ));
+      var response =
+          await dio.post('http://192.168.0.106:8000/api/company/register',
+              data: {
+                "name": name,
+                "field": workField,
+                "email": email,
+                "password": password,
+                "confirm_password": confirmPassword,
+                "state_id": state,
+                "phone_number": phoneNumber,
+                "founding_date": date.toString().split(' ')[0],
+                "type": "company",
+              },
+              options: Options(
+                headers: {
+                  'Content-Type': 'application/json; charset=UTF-8',
+                  'Accept': 'application/json',
+                },
+              ));
       if (response.statusCode == 201) {
         Get.back();
         sharedPreferences?.setString(

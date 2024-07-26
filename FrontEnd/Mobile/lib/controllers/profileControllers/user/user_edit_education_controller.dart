@@ -43,8 +43,8 @@ class UserEditEducationController extends GetxController {
       selectedLevel = education!.level;
       editFieldController = TextEditingController(text: education!.field);
       editSchoolController = TextEditingController(text: education!.school);
-      startDate = DateTime.parse(education!.startDate);
-      endDate = DateTime.parse(education!.endDate);
+      startDate = education!.startDate;
+      endDate = education!.endDate;
       certficateName = education!.certificateFile == null
           ? null
           : Uri.file(
@@ -130,7 +130,7 @@ class UserEditEducationController extends GetxController {
     );
     try {
       var response = await dio.post(
-        'http://10.0.2.2:8000/api/education',
+        'http://192.168.0.106:8000/api/education',
         data: data,
         options: Options(
           headers: {
