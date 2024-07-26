@@ -207,17 +207,6 @@ class FreelancingJobsController extends Controller
                 'errors' => ['user' => 'Unauthorized']
             ], 401);
         }
-        $freelancingJob=FreelancingJob::where('id',$validated['job_id'])->first();
-        if ($freelancingJob->competitors()->exists()) {
-            $totalSalary = $freelancingJob->competitors()->sum('salary');
-            $numCompetitors = $freelancingJob->competitors()->count();
-            $newAvgSalary = ($totalSalary + $validated['salary']) / ($numCompetitors + 1);
-            $freelancingJob->avg_salary = $newAvgSalary;
-            $freelancingJob->update();
-        } else {
-            $freelancingJob->avg_salary = $validated['salary'];
-            $freelancingJob->update();
-        }
         $validated['user_id'] = $user->id;
         $FreelancingJobCompetitor = FreelancingJobCompetitor::create($validated);
         

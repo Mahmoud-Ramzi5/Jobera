@@ -13,10 +13,9 @@ return new class extends Migration
     {
         Schema::create('freelancing_jobs', function (Blueprint $table) {
             $table->id();
-            $table->double('min_salary');
-            $table->double('max_salary');
+            $table->decimal('min_salary');
+            $table->decimal('max_salary');
             $table->dateTime('deadline');
-            $table->double('avg_salary')->default(0.0);
             $table->foreignId('user_id')->nullable();
             $table->foreignId('defJob_id')->constrained('def_jobs')->cascadeOnDelete();
             $table->foreignId('accepted_user')->nullable()->constrained('users');

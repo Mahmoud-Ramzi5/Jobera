@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('reg_jobs', function (Blueprint $table) {
             $table->id();
-            $table->double('salary');
+            $table->decimal('salary');
             $table->enum('type', RegJobTypes::names());
             $table->foreignId('company_id')->constrained('companies');
             $table->foreignId('defJob_id')->constrained('def_jobs')->cascadeOnDelete();
