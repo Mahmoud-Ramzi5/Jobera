@@ -44,7 +44,7 @@ class Wallet extends Model
         return [
             'current_balance' => 'decimal:2',
             'available_balance' => 'decimal:2',
-            'reserved_balance' => 'decimal:2'
+            'reserved_balance' => 'decimal:2',
         ];
     }
 

@@ -11,7 +11,7 @@ class User {
   final String phoneNumber;
   final String country;
   final String state;
-  final String birthDate;
+  final DateTime birthDate;
   final String gender;
   final String type;
   final String? description;
@@ -50,7 +50,7 @@ class User {
         phoneNumber = json['phone_number'] as String,
         country = json['country'] as String,
         state = json['state'] as String,
-        birthDate = json['birth_date'] as String,
+        birthDate = DateTime.parse(json['birth_date']),
         gender = json['gender'] as String,
         type = json['type'] as String,
         description = json['description'] as String?,
@@ -79,7 +79,7 @@ class User {
         phoneNumber = '',
         country = '',
         state = '',
-        birthDate = '',
+        birthDate = DateTime.now(),
         gender = '',
         type = '',
         description = null,

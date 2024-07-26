@@ -52,6 +52,7 @@ class FreelancingJobResource extends JsonResource
         // Get flagged jobs
         $flagedJobs = $user->FlagedJobs()->pluck('defJob_id')->toArray();
 
+        // Get average salary
         if ($this->competitors()->exists()) {
             $totalSalary = $this->competitors()->sum('salary');
             $numCompetitors = $this->competitors()->count();
@@ -71,7 +72,7 @@ class FreelancingJobResource extends JsonResource
             "min_salary" => $this->min_salary,
             "max_salary" => $this->max_salary,
             "deadline" => $this->deadline,
-            "avg_salary" =>$avg_salary ,
+            "avg_salary" => $avg_salary,
             "job_user" => $company == null ? [
                 'id' => $individual->id,
                 'user_id' => $individual->user_id,

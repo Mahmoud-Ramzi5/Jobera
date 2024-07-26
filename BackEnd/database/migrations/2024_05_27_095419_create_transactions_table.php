@@ -16,7 +16,7 @@ return new class extends Migration
             $table->bigInteger('sender_id')->unsigned();
             $table->bigInteger('receiver_id')->unsigned();
             $table->bigInteger('job_id')->unsigned();
-            $table->double('amount');
+            $table->decimal('amount', 19, 4);
             $table->dateTime('date');
             $table->timestamps();
 

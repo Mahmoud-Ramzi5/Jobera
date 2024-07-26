@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->foreignId('job_id')->constrained('freelancing_jobs')->cascadeOnDelete();
+            $table->decimal('salary', 19, 4);
             $table->text("description");
-            $table->double("salary");
             $table->timestamps();
         });
     }
