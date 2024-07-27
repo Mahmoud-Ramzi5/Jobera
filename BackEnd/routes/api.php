@@ -176,7 +176,7 @@ Route::controller(JobFeedController::class)->group(function () {
         Route::get('/jobFeed/payedFreelance', 'MostPayedFreelancingJobs');
         Route::get('/jobFeed/skills', 'MostNeededSkills');
         Route::get('/jobFeed/companies', 'MostPostingCompanies');
-        Route::get('/jobFeed/stats', 'WebsiteData');
+        Route::get('/jobFeed/stats', 'Stats');
     });
 });
 

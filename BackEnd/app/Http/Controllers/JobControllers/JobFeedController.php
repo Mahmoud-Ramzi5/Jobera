@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\JobControllers;
 
-use App\Models\DefJob;
-use App\Models\RegJob;
-use App\Models\Company;
-use App\Models\FreelancingJob;
 use App\Http\Controllers\Controller;
+use App\Models\Company;
+use App\Models\DefJob;
+use App\Models\FreelancingJob;
 use App\Models\FreelancingJobCompetitor;
+use App\Models\Individual;
+use App\Models\RegJob;
 use App\Models\Skill;
 
 class JobFeedController extends Controller
@@ -25,7 +26,7 @@ class JobFeedController extends Controller
         foreach ($topJobs as $job) {
             $defJob = DefJob::where('id', $job->defJob_id)->first();
             $data[] = [
-                'id'=>$job->defJob_id,
+                'id' => $job->defJob_id,
                 'title' => $defJob->title,
                 'salary' => $job->salary,
             ];
@@ -57,7 +58,7 @@ class JobFeedController extends Controller
             $defJob = DefJob::where('id', $job->defJob_id)->first();
             $accepted_competitor = FreelancingJobCompetitor::where('user_id', $job->accepted_user)->first();
             $data[] = [
-                'id'=>$job->defJob_id,
+                'id' => $job->defJob_id,
                 'title' => $defJob->title,
                 'salary' => $accepted_competitor->salary,
             ];
@@ -90,14 +91,14 @@ class JobFeedController extends Controller
         // Preparing the result
         $mostNeededSkills = [];
         foreach ($skillCounts as $skillName => $count) {
-            $skill=Skill::where('name',$skillName)->first();
-            $mostNeededSkills[] = ['title' => $skillName, 'count' => $count,'skill_id'=>$skill->id];
+            $skill = Skill::where('name', $skillName)->first();
+            $mostNeededSkills[] = ['title' => $skillName, 'count' => $count, 'skill_id' => $skill->id];
         }
 
         $topMostNeededSkills = array_slice($mostNeededSkills, 0, 5);
 
         return response()->json([
-            'data' => $topMostNeededSkills
+            'data' => $topMostNeededSkills,
         ]);
     }
 
@@ -112,28 +113,51 @@ class JobFeedController extends Controller
         $companyCounts = array_count_values($companies);
         arsort($companyCounts);
         foreach ($companyCounts as $companyName => $count) {
-            $company=Company::where('name',$companyName)->first();
-            $MostPostingCompanies[] = ['title' => $companyName, 'count' => $count,'company_id'=>$company->user_id];
+            $company = Company::where('name', $companyName)->first();
+            $MostPostingCompanies[] = ['title' => $companyName, 'count' => $count, 'company_id' => $company->user_id];
         }
         $topMostPostingCompanies = array_slice($MostPostingCompanies, 0, 5);
 
         return response()->json([
-            'data' => $topMostPostingCompanies
+            'data' => $topMostPostingCompanies,
         ]);
     }
 
-    public function WebsiteData()
+    public function Stats()
     {
-        /*
-    return response()->json([
-    "total_freelancingJob_posts"=>,
-    "total_fullTimeJob_posts"=>,
-    "total_partTimeJob_posts"=>,
-    "total_accepted_fullTimeJob_lastWeek"=>,
-    "total_accepted_partTimeJob_lastWeek"=>,
-    "total_accepted_freelancingJob_lastWeek"=>,
-    "total_Exhibiting_companies"=>,
-    ]);
-     */
+        $doneJobs = 0;
+        $runningJobsFreelancing = 0;
+        $runningJobsFullTime = 0;
+        $runningJobsPartTime = 0;
+        $jobs = DefJob::all();
+        foreach ($jobs as $job) {
+            $regJob = RegJob::where('defJob_id', $job->id)->first();
+            $freelancingJob = FreelancingJob::where('defJob_id', $job->id)->first();
+            if (($regJob!=null && $regJob->acceptedIndividual()!=null) ||($freelancingJob!=null && $freelancingJob->acceptedUser()!=null)) {
+                $doneJobs++;
+                continue;
+            }
+            if ($regJob != null) {
+                if ($regJob->type == 'FullTime') {
+                    $runningJobsFullTime++;
+                } else {
+                    $runningJobsPartTime++;
+                }
+
+                continue;
+            }
+            $runningJobsFreelancing++;
+        }
+        $companyRegistered = Company::count();
+        $individualRegistered = Individual::count();
+
+        return response()->json([
+            "total_done_jobs" => $doneJobs,
+            "total_runnning_freelancingJob_posts" => $runningJobsFreelancing,
+            "total_runnning_fullTimeJob_posts" => $runningJobsFullTime,
+            "total_runnning_partTimeJob_posts" => $runningJobsPartTime,
+            "total_exhibiting_companies" => $companyRegistered,
+            "total_registered_individual" => $individualRegistered,
+        ]);
     }
 }
