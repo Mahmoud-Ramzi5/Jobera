@@ -16,7 +16,6 @@ class FreelancingJobSeeder extends Seeder
         FreelancingJob::factory()
             ->count(20)
             ->withCompetitors()
-            ->withSkills()
             ->create();
     }
 }

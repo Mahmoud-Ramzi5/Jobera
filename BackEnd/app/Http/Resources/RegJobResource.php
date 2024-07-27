@@ -24,23 +24,23 @@ class RegJobResource extends JsonResource
             "defJob_id" => $defJob->id,
             "title" => $defJob->title,
             "description" => $defJob->description,
+            "type" => $this->type,
             "photo" => $defJob->photo,
             "is_done" => $defJob->is_done,
             "salary" => $this->salary,
-            "type" => $this->type,
-            "company" => [
+            "job_user" => [
                 'user_id' => $this->company->user_id,
                 "name" => $this->company->name,
                 'avatar_photo' => $this->company->user->avatar_photo,
                 'wallet' => $this->company->user->wallet
             ],
-            "accepted_individual" => $this->acceptedIndividual != null ? [
+            "accepted_user" => $this->acceptedIndividual != null ? [
                 'user_id' => $this->acceptedIndividual->user_id,
-                'full_name' => $this->acceptedIndividual->full_name,
+                'name' => $this->acceptedIndividual->full_name,
                 'avatar_photo' => $this->acceptedIndividual->user->avatar_photo
             ] : null,
             "competitors" => new RegJobCompetitorCollection($this->competitors),
-            "skills" => new SkillCollection($this->skills),
+            "skills" => new SkillCollection($defJob->skills),
             'location' => $defJob->state != null ? [
                 'state' => $defJob->state->state_name,
                 'country' => $defJob->state->country->country_name

@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\User;
-use App\Models\Skill;
 use App\Models\DefJob;
 use App\Models\FreelancingJob;
 use App\Models\FreelancingJobCompetitor;
@@ -30,37 +29,23 @@ class FreelancingJobFactory extends Factory
         // Generate user id except first id
         $user_id1 = User::inRandomOrder()->first()->id;
         while ($user_id1 == 1) {
-            $user_id = User::inRandomOrder()->first()->id;
+            $user_id1 = User::inRandomOrder()->first()->id;
         }
 
         // Generate user id except first id
         $user_id2 = User::inRandomOrder()->first()->id;
         while ($user_id2 == 1) {
-            $user_id = User::inRandomOrder()->first()->id;
+            $user_id2 = User::inRandomOrder()->first()->id;
         }
 
         return [
             'deadline' => $deadline,
             'min_salary' => $minSalary,
             'max_salary' => $maxSalary,
-            'user_id' => $user_id,
-            'defJob_id' => DefJob::factory(),
+            'user_id' => $user_id1,
+            'defJob_id' => DefJob::factory()->withSkills(),
             'accepted_user' => $user_id2,
         ];
-    }
-
-    /**
-     * Define the model's state with skills.
-     *
-     * @return \Illuminate\Database\Eloquent\Factories\Factory
-     */
-
-    public function withSkills(): Factory
-    {
-        return $this->afterCreating(function (FreelancingJob $freelancingJob) {
-            $skills = Skill::inRandomOrder()->take(rand(1, 5))->pluck('id');
-            $freelancingJob->skills()->sync($skills);
-        });
     }
 
     public function withCompetitors()

@@ -51,25 +51,35 @@ class FreelancingJobsController extends Controller
             ], 401);
         }
 
-        $validated['user_id'] = $user->id;
-        $validated['is_done'] = false;
-
         // Check if Remotely
         if ($validated['state_id'] == 0) {
             $validated = Arr::except($validated, 'state_id');
         }
 
-        $job = DefJob::create($validated);
+        // Create DefJob
+        $validated['is_done'] = false;
+        $defJob = DefJob::create($validated);
+        $defJob->skills()->attach($validated['skills']);
+
+        // Check DefJob
+        if ($defJob == null) {
+            return response()->json([
+                'errors' => ['job' => 'Could not create job']
+            ], 400);
+        }
+
         // Handle photo file
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
-            $path = $file->storeAs($user->id . '/FreelancingJob-' . $job->id, $file->getClientOriginalName());
-            $job->photo = $path;
-            $job->save();
+            $path = $file->storeAs($user->id . '/FreelancingJob-' . $defJob->id, $file->getClientOriginalName());
+            $defJob->photo = $path;
+            $defJob->save();
         }
-        $validated['defJob_id'] = $job->id;
+
+        // Create Freelancingjob
+        $validated['user_id'] = $user->id;
+        $validated['defJob_id'] = $defJob->id;
         $Freelancingjob = FreelancingJob::create($validated);
-        $Freelancingjob->skills()->attach($validated['skills']);
 
         // Response
         return response()->json([
@@ -138,15 +148,14 @@ class FreelancingJobsController extends Controller
                 $skills = explode(",", trim($skills, '[]'));
                 if (sizeof($skills) >= 1 && $skills[0] !== "") {
                     foreach ($jobs->items() as $job) {
-                        foreach ($job->skills as $skill) {
+                        foreach ($job->defJob->skills as $skill) {
                             if (
                                 in_array($skill->name, $skills) && !in_array($job, $jobsData)
                                 && $job->defJob->is_done == false
                             ) {
                                 array_push($jobsData, $job);
                             }
-                        }
-                        ;
+                        };
                     }
                 } else {
                     foreach ($jobs->items() as $job) {
@@ -261,6 +270,7 @@ class FreelancingJobsController extends Controller
             ], 401);
         }
 
+        // Create FreelancingJobCompetitor
         $validated['user_id'] = $user->id;
         $validated['job_id'] = $freelancingJob->id;
         $FreelancingJobCompetitor = FreelancingJobCompetitor::create($validated);
@@ -304,7 +314,7 @@ class FreelancingJobsController extends Controller
         }
 
         // Delete job
-        $freelancingJob->delete();
+        $freelancingJob->defJob->delete();
 
         // Response
         return response()->json([
@@ -316,7 +326,6 @@ class FreelancingJobsController extends Controller
     {
         // Validate request
         $validated = $request->validated();
-        $job_competitor = FreelancingJobCompetitor::where('id', $validated['freelancing_job_competitor_id'])->first();
 
         // Get user
         $user = auth()->user();
@@ -338,6 +347,16 @@ class FreelancingJobsController extends Controller
             ], 404);
         }
 
+        // Get competitor
+        $job_competitor = FreelancingJobCompetitor::where('id', $validated['freelancing_job_competitor_id'])->first();
+
+        // Check competitor
+        if ($job_competitor == null) {
+            return response()->json([
+                'errors' => ['job_competitor' => 'Invalid job_competitor']
+            ], 401);
+        }
+
         // Check policy
         $policy = new FreelancingJobPolicy();
         if (!$policy->AcceptUser(User::find($user->id), $freelancingJob, $job_competitor)) {
@@ -346,14 +365,32 @@ class FreelancingJobsController extends Controller
                 'errors' => ['user' => 'Unauthorized']
             ], 401);
         }
-        $freelancingJob->update(['accepted_user' => $job_competitor->user_id]);
 
-        Chat::create([
-            'user1_id' => $freelancingJob->user_id,
-            'user2_id' => $freelancingJob->acceptedUser->id
-        ]);
+        // Update freelancingJob
+        $freelancingJob->accepted_user = $job_competitor->user_id;
+        $freelancingJob->save();
 
-        $something = app(TransactionsController::class)->FreelancingJobTransaction($user->id, $freelancingJob->id, $validated['salary']);
+        // Get Other user
+        $other_user = $job_competitor;
+
+        // Get chat
+        $chat = Chat::where(function ($query) use ($user, $other_user) {
+            $query->where('user1_id', $user->id)
+                ->where('user2_id', $other_user->user_id);
+        })->orWhere(function ($query) use ($user, $other_user) {
+            $query->where('user1_id', $other_user->user_id)
+                ->where('user2_id', $user->id);
+        })->first();
+
+        // Check chat
+        if ($chat == null) {
+            Chat::create([
+                'user1_id' => $user->id,
+                'user2_id' => $other_user->user_id
+            ]);
+        }
+
+        $something = app(TransactionsController::class)->FreelancingJobTransaction($user->id, $freelancingJob->id, $validated['offer']);
 
         // Response
         return response()->json([
@@ -401,8 +438,8 @@ class FreelancingJobsController extends Controller
         // Set is_done to true
         $freelancingJob->defJob->is_done = true;
         $freelancingJob->defJob->save();
-        $freelancingJob->save();
-        $something = app(TransactionsController::class)->AddUserTransaction($validated['sender_id'],$validated['receiver_id'], $freelancingJob->id, $validated['amount']);
+
+        $something = app(TransactionsController::class)->AddUserTransaction($validated['sender_id'], $validated['receiver_id'], $freelancingJob->id, $validated['amount']);
 
         // Response
         return response()->json([

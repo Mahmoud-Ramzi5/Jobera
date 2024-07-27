@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Model;
 
 class DefJob extends Model
@@ -21,7 +22,7 @@ class DefJob extends Model
         'is_done',
         'state_id'
     ];
-        /**
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
@@ -48,4 +49,8 @@ class DefJob extends Model
         return $this->belongsTo(State::class, 'state_id', 'state_id');
     }
 
+    public function skills(): BelongsToMany
+    {
+        return $this->belongsToMany(Skill::class, 'def_job_skill', 'defJob_id', 'skill_id')->withTimestamps();
+    }
 }

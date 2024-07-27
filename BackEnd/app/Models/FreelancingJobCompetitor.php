@@ -18,7 +18,7 @@ class FreelancingJobCompetitor extends Model
     protected $fillable = [
         'user_id',
         'job_id',
-        'salary',
+        'offer',
         'description'
     ];
 
@@ -40,7 +40,7 @@ class FreelancingJobCompetitor extends Model
     protected function casts(): array
     {
         return [
-            'salary' => 'decimal:2'
+            'offer' => 'decimal:2'
         ];
     }
 

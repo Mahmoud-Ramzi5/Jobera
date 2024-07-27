@@ -109,7 +109,7 @@ const PostFreelancing = () => {
 
         navigate('/jobs/Freelancing');
       } else {
-        console.log(response.statusText);
+        console.log(response);
       }
     });
   }

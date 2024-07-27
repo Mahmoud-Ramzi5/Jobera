@@ -50,27 +50,47 @@ class RegJobsController extends Controller
                 'errors' => ['user' => 'Unauthorized']
             ], 401);
         }
-        $company = Company::where('user_id', $user->id)->first();
 
-        $validated['company_id'] = $company->id;
-        $validated['is_done'] = false;
+        // Get company
+        $company = Company::where('user_id', $user->id)->first();
 
         // Check if Remotely
         if ($validated['state_id'] == 0) {
             $validated = Arr::except($validated, 'state_id');
         }
 
-        $job = DefJob::create($validated);
+        // Create DefJob
+        $validated['is_done'] = false;
+        $defJob = DefJob::create($validated);
+        $defJob->skills()->attach($validated['skills']);
+
+        // Check DefJob
+        if ($defJob == null) {
+            return response()->json([
+                'errors' => ['job' => 'Could not create job']
+            ], 400);
+        }
+
         // Handle photo file
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
-            $path = $file->storeAs($user->id . '/' . $validated['type'] . 'Job-' . $job->id, $file->getClientOriginalName());
-            $job->photo = $path;
-            $job->save();
+            $path = $file->storeAs($user->id . '/' . $validated['type'] . 'Job-' . $defJob->id, $file->getClientOriginalName());
+            $defJob->photo = $path;
+            $defJob->save();
         }
-        $validated['defJob_id'] = $job->id;
-        $Regjob = RegJob::create($validated);
-        $Regjob->skills()->attach($validated['skills']);
+
+        // Create regJob
+        $validated['defJob_id'] = $defJob->id;
+        $validated['company_id'] = $company->id;
+        $regJob = RegJob::create($validated);
+
+        // Check regJob
+        if ($regJob == null) {
+            $defJob->delete();
+            return response()->json([
+                'errors' => ['job' => 'Could not create job']
+            ], 400);
+        }
 
         if ($validated['salary'] > 0 && $validated['salary'] <= 2000) {
             $adminShare = $validated['salary'] * 0.15;
@@ -81,9 +101,10 @@ class RegJobsController extends Controller
         } else {
             return response()->json([
                 'message' => 'Error'
-            ], 401);
+            ], 400);
         }
-        $something = app(TransactionsController::class)->RegJobTransaction($user->id, $Regjob->job_id, $adminShare);
+
+        $something = app(TransactionsController::class)->RegJobTransaction($user->id, $regJob->job_id, $adminShare);
 
         // Response
         return response()->json([
@@ -145,15 +166,14 @@ class RegJobsController extends Controller
                 $skills = explode(",", trim($skills, '[]'));
                 if (sizeof($skills) >= 1 && $skills[0] !== "") {
                     foreach ($jobs->items() as $job) {
-                        foreach ($job->skills as $skill) {
+                        foreach ($job->defJob->skills as $skill) {
                             if (
                                 in_array($skill->name, $skills) && !in_array($job, $jobsData)
                                 && $job->defJob->is_done == false
                             ) {
                                 array_push($jobsData, $job);
                             }
-                        }
-                        ;
+                        };
                     }
                 } else {
                     foreach ($jobs->items() as $job) {
@@ -277,6 +297,7 @@ class RegJobsController extends Controller
             ], 401);
         }
 
+        // Create RegJobCompetitor
         $validated['job_id'] = $regJob->id;
         $validated['individual_id'] = $individual->id;
         $RegJobCompetitor = RegJobCompetitor::create($validated);
@@ -320,7 +341,7 @@ class RegJobsController extends Controller
         }
 
         // Delete job
-        $regJob->delete();
+        $regJob->defJob->delete();
 
         // Response
         return response()->json([

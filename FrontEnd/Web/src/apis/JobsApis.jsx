@@ -275,7 +275,7 @@ export const AcceptFreelancingJob = async (token, defJobId, competitorId, salary
   try {
     const response = await axios.post(`http://127.0.0.1:8000/api/FreelancingJob/accept/${defJobId}`, {
       'freelancing_job_competitor_id': competitorId,
-      'salary': salary
+      'offer': salary
     }, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',

@@ -29,7 +29,7 @@ class FreelancingJobCompetitorFactory extends Factory
         return [
             'user_id' => $user_id,
             'job_id' => $freelancingJob->id,
-            'salary' => $this->faker->numberBetween($freelancingJob->min_salary, $freelancingJob->max_salary),
+            'offer' => $this->faker->numberBetween($freelancingJob->min_salary, $freelancingJob->max_salary),
             'description' => $this->faker->sentence
         ];
     }

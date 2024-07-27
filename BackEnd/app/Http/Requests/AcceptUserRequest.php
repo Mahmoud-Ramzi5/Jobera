@@ -23,7 +23,7 @@ class AcceptUserRequest extends FormRequest
     {
         return [
             'freelancing_job_competitor_id' => ['required', 'exists:freelancing_job_competitors,id'],
-            'salary' => ['required'],
+            'offer' => ['required'],
         ];
     }
 }

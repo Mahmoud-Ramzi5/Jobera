@@ -33,8 +33,8 @@ class FreelancingJobResource extends JsonResource
                 'name' => $acceptedCompany->name,
                 'type' => 'company',
                 'avatar_photo' => $acceptedCompany->user->avatar_photo,
-                'salary' => $acceptedCompetitor
-                    ? number_format($acceptedCompetitor->salary, 2)
+                'offer' => $acceptedCompetitor
+                    ? number_format($acceptedCompetitor->offer, 2)
                     : number_format(0, 2)
             ];
         } else if ($acceptedIndividual != null) {
@@ -43,8 +43,8 @@ class FreelancingJobResource extends JsonResource
                 'name' => $acceptedIndividual->full_name,
                 'type' => 'individual',
                 'avatar_photo' => $acceptedIndividual->user->avatar_photo,
-                'salary' => $acceptedCompetitor
-                    ? number_format($acceptedCompetitor->salary, 2)
+                'offer' => $acceptedCompetitor
+                    ? number_format($acceptedCompetitor->offer, 2)
                     : number_format(0, 2)
             ];
         } else {
@@ -56,7 +56,7 @@ class FreelancingJobResource extends JsonResource
 
         // Get average salary
         if ($this->competitors()->exists()) {
-            $avg_salary = number_format($this->competitors()->avg('salary'), 2);
+            $avg_salary = number_format($this->competitors()->avg('offer'), 2);
         } else {
             $avg_salary = number_format(0.0, 2);
         }
@@ -87,7 +87,7 @@ class FreelancingJobResource extends JsonResource
             ],
             "accepted_user" => $acceptedUser,
             "competitors" => new FreelancingJobCompetitorCollection($this->competitors),
-            "skills" => new SkillCollection($this->skills),
+            "skills" => new SkillCollection($defJob->skills),
             'location' => $defJob->state != null ? [
                 'state' => $defJob->state->state_name,
                 'country' => $defJob->state->country->country_name

@@ -24,18 +24,18 @@ class FreelancingJobCompetitorResource extends JsonResource
             "user" => $company == null ? [
                 'user_id' => $individual->user_id,
                 'name' => $individual->full_name,
-                'type' => $individual->type,
+                'type' => 'individual',
                 'rating' => $individual->user->rating,
                 'avatar_photo' => $individual->user->avatar_photo
             ] : [
                 'user_id' => $company->user_id,
                 'name' => $company->name,
-                'type' => $company->type,
+                'type' => 'company',
                 'rating' => $company->user->rating,
                 'avatar_photo' => $company->user->avatar_photo
             ],
             "description" => $this->description,
-            "salary" => $this->salary,
+            "offer" => $this->offer,
             "job_type" => "Freelancing"
         ];
     }

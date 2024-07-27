@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Model;
 
@@ -66,10 +65,5 @@ class RegJob extends Model
     public function competitors(): HasMany
     {
         return $this->hasMany(RegJobCompetitor::class, 'job_id', 'id');
-    }
-
-    public function skills(): BelongsToMany
-    {
-        return $this->belongsToMany(Skill::class, 'reg_job_skill', 'job_id', 'skill_id')->withTimestamps();
     }
 }
