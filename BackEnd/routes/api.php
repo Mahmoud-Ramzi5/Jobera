@@ -172,10 +172,10 @@ Route::controller(ChatController::class)->group(function () {
 
 Route::controller(JobFeedController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
-        Route::get('/jobFeed/payedReg', 'MostPayedRegJobsWeekly');
-        Route::get('/jobFeed/payedFreelance', 'MostPayedFreelancingJobsWeekly');
-        Route::get('/jobFeed/skills', 'MostNeededSkillsWeekly');
-        Route::get('/jobFeed/companies', 'MostPostingCompaniesMonthly');
+        Route::get('/jobFeed/payedReg', 'MostPayedRegJobs');
+        Route::get('/jobFeed/payedFreelance', 'MostPayedFreelancingJobs');
+        Route::get('/jobFeed/skills', 'MostNeededSkills');
+        Route::get('/jobFeed/companies', 'MostPostingCompanies');
         Route::get('/jobFeed/stats', 'WebsiteData');
     });
 });
