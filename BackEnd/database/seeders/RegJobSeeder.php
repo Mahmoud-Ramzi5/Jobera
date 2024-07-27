@@ -16,7 +16,7 @@ class RegJobSeeder extends Seeder
         RegJob::factory()
             ->count(20)
             ->withCompetitors()
-            ->withSkills() 
+            ->withSkills()
             ->create();
     }
 }

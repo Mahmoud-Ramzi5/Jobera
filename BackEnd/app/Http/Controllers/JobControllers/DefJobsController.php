@@ -33,7 +33,7 @@ class DefJobsController extends Controller
 
         // Get all jobs
         $jobs = [];
-        $defJobs = DefJob::paginate(10);
+        $defJobs = DefJob::where('is_done', false)->paginate(10);
         foreach ($defJobs as $defJob) {
             $regJob = RegJob::where('defJob_id', $defJob->id)->first();
             $freelancingJob = FreelancingJob::where('defJob_id', $defJob->id)->first();

@@ -39,7 +39,7 @@ class Review extends Model
     protected function casts(): array
     {
         return [
-
+            'review' => 'decimal:2'
         ];
     }
 

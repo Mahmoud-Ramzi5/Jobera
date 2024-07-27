@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Enums\EducationLevel;
 use App\Models\Individual;
+use App\Enums\EducationLevel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,6 +21,7 @@ class EducationFactory extends Factory
         // Custom list of universities
         $universities = [
             'Harvard University',
+            'Stanford University',
             'Damascus University',
             'Arabic International University',
             'International University of Sceince and Technology',
@@ -31,16 +32,16 @@ class EducationFactory extends Factory
             'Columbia University',
             'California Institute of Technology'
         ];
-        $startDate=$this->faker->date($format = 'Y-m-d', $max = 'now');
+        $startDate = $this->faker->date('Y-m-d', 'now');
         $endDate = $this->faker->dateTimeBetween($startDate, '+8 years')->format('Y-m-d');
         $individual = Individual::latest()->first();
         return [
-            "level"=>$this->faker->randomElement(EducationLevel::names()),
-            "field"=>$this->faker->bs,
-            "school"=>$this->faker->randomElement($universities),
-            "start_date"=>$startDate,
-            "end_date"=>$endDate,
-            "individual_id"=>$individual->id
+            "level" => $this->faker->randomElement(EducationLevel::names()),
+            "field" => $this->faker->bs,
+            "school" => $this->faker->randomElement($universities),
+            "start_date" => $startDate,
+            "end_date" => $endDate,
+            "individual_id" => $individual->id
         ];
     }
 }

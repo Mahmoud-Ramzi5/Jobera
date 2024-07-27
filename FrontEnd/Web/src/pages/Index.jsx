@@ -4,8 +4,10 @@ import Carousel from 'react-bootstrap/Carousel';
 import { LoginContext } from '../utils/Contexts.jsx';
 import LittleCard from '../components/LittleCard.jsx';
 import Slide1 from '../assets/Slide1.png';
-import Slide2 from '../assets/Slide2.png';
-import Slide3 from '../assets/Slide3.png';
+import Slide2 from '../assets/Slide3.png';
+import Slide3 from '../assets/Slide2.png';
+import picture1 from '../assets/typing.gif';
+import picture2 from '../assets/laptop_with_apps.png';
 import styles from '../styles/index.module.css';
 
 const Index = () => {
@@ -58,8 +60,8 @@ const Index = () => {
         <Carousel.Item className={styles.carousel_item} style={{ backgroundImage: `url(${Slide2})`, backgroundSize: 'cover' }}>
           <Carousel.Caption className={styles.carousel_caption}>
             <div className={styles.carousel_container}>
-              <span>Second Slide Label</span>
-              <p>GG</p>
+              <span>No.1 job app in syria</span>
+              <p>Jobera is the most reliable job app in Syria because of it's awesome features and comfortable use</p>
             </div>
           </Carousel.Caption>
         </Carousel.Item>
@@ -67,8 +69,8 @@ const Index = () => {
         <Carousel.Item className={styles.carousel_item} style={{ backgroundImage: `url(${Slide3})`, backgroundSize: 'cover' }}>
           <Carousel.Caption className={styles.carousel_caption}>
             <div className={styles.carousel_container}>
-              <span>Third Slide Label</span>
-              <p>GG</p>
+              <span>We always listen</span>
+              <p>we would love to hear about your experience using the app or the defficulties you encountered to help improve your experience and assure your satisfaction </p>
             </div>
           </Carousel.Caption>
         </Carousel.Item>
@@ -84,19 +86,19 @@ const Index = () => {
           <div className={styles.two_sides}>
             <div className={styles.four_cards}>
               <span className={styles.card_holder}>
-                <LittleCard title={'Posting jobs '} info={'Jobera give you the ability to post jobs based on your needs with the best experience and low costs'} />
+                <LittleCard title={'Posting jobs '} info={'Jobera gives you the ability to post jobs based on your needs easly and provides the best experience along with low costs'} />
                 <LittleCard title={'Viewig jobs'} info={'Jobera makes it easier for you to view varient types of jobs and search through them to get what will suit you best'} />
               </span>
               <span className={styles.card_holder}>
-                <LittleCard title={'Advanced paying system'} info={'you can trust us with your money, The transactions are done smoothly between users and recrded for further view'} />
+                <LittleCard title={'paying system'} info={'you can trust us with your money, The transactions are done smoothly between users and recrded for further view'} />
                 <LittleCard title={'Chat system'} info={'Jobera provides the ability to chat between job maker and job accepters inside the app to make sure work is going smoothly'} />
               </span>
             </div>
             <div className={styles.picture}>
-              <img className={styles.image} src={''}></img>
+              <img className={styles.image} src={picture1}></img>
             </div>
           </div>
-          <div>some kind of div idk something like slider</div>
+          <div className={styles.bar}></div>
           <br />
           <span className={styles.great_title}>Why Jobera?</span>
           <h2>Jobera is the best Job app because of it's awsome features that gives the user the best experience</h2>
@@ -110,12 +112,12 @@ const Index = () => {
                 <LittleCard title={'Job feed'} info={'A page designed specialy to provide the users with the informations about best jobs or the best deals in particular time'} />
               </span>
               <span className={styles.card_holder}>
-                <LittleCard title={'Comfortable system'} info={"It's easy to manage your account and activity like your jobs or the jobs you participated to and even being able to change your information if you want to "} />
+                <LittleCard title={'Comfortable system'} info={"It's easy to manage your account and activity like your jobs or the jobs you participated to and even being able to change your information if you want"} />
                 <LittleCard title={'Interactive interfaces'} info={'Jobera has great interfaces that are responsive, clear and even beautiful which will provide best experience '} />
               </span>
             </div>
             <div className={styles.picture}>
-              <img className={styles.image} src={''}></img>
+              <img className={styles.image} src={picture2}></img>
             </div>
           </div>
         </div>
