@@ -28,7 +28,7 @@ class ApplyFreelancingJobRequest extends FormRequest
         return [
             'job_id' => ['required'],
             'description' => ['required'],
-            'salary' => ['required', 'numeric'/*, "between:{$job->min_salary},{$job->max_salary}"*/]
+            'offer' => ['required', 'numeric'/*, "between:{$job->min_salary},{$job->max_salary}"*/]
         ];
     }
 

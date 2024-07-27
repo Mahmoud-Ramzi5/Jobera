@@ -7,7 +7,6 @@ import {
   FetchJob, ApplyToRegJobAPI, ApplyToFreelancingJobAPI, BookmarkJobAPI,
   AcceptRegJob, AcceptFreelancingJob, FinishFreelancingJob, DeleteRegJobAPI, DeleteFreelancingJobAPI
 } from '../../apis/JobsApis';
-import { FinishedJobTransaction } from '../../apis/TransactionsApis';
 import { FetchImage } from '../../apis/FileApi';
 import { CreateChat } from '../../apis/ChatApis';
 import JobCompetitorCard from './JobCompetitorCard';
@@ -44,7 +43,7 @@ const ShowJob = () => {
   const [isFavorite, setIsFavorite] = useState(false);
 
   const [comment, setComment] = useState('');
-  const [desiredSalary, setDesiredSalary] = useState('');
+  const [offer, setOffer] = useState('');
 
 
   useEffect(() => {
@@ -59,8 +58,6 @@ const ShowJob = () => {
           setIsFavorite(response.data.job.is_flagged);
 
           if (response.data.job.job_user && response.data.job.job_user.user_id === profile.user_id) {
-            setIsJobCreator(true);
-          } else if (response.data.job.company && response.data.job.company.user_id === profile.user_id) {
             setIsJobCreator(true);
           } else {
             setIsJobCreator(false);
@@ -79,7 +76,7 @@ const ShowJob = () => {
           console.log(response.statusText);
         }
 
-        if (response.data.job.accepted_individual || response.data.job.accepted_user) {
+        if ( response.data.job.accepted_user) {
           setAccepted(true);
         }
 
@@ -104,7 +101,7 @@ const ShowJob = () => {
   }, []);
 
   const handleCalculateSalary = (amount) => {
-    setDesiredSalary(amount);
+    setOffer(amount);
     if (amount <= 2000 && amount > 0) {
       setAdminShare(amount * 0.15);
     } else if (amount > 2000 && amount <= 15000) {
@@ -150,7 +147,7 @@ const ShowJob = () => {
 
   const handleNewFreelancer = (event) => {
     event.preventDefault();
-    ApplyToFreelancingJobAPI(accessToken, job.defJob_id, comment, desiredSalary).then((response) => {
+    ApplyToFreelancingJobAPI(accessToken, job.defJob_id, comment, offer).then((response) => {
       if (response.status == 200) {
         console.log('Added a competitor successfully')
         setParticipate(false);
@@ -178,7 +175,7 @@ const ShowJob = () => {
   const handleCancelcompetitor = (event) => {
     event.preventDefault();
     setParticipate(false);
-    setDesiredSalary('');
+    setOffer('');
     setComment('');
   }
 
@@ -194,12 +191,6 @@ const ShowJob = () => {
     });
   }
 
-  const handleFinishJob = (event) => {
-    event.preventDefault();
-    setJobEnded(true);
-    // api to finish job
-  }
-
   const handleFinishFreelancingJob = (event) => {
     event.preventDefault();
     FinishFreelancingJob(
@@ -207,7 +198,7 @@ const ShowJob = () => {
       profile.user_id,
       job.accepted_user.user_id,
       job.defJob_id,
-      parseFloat(job.accepted_user.salary)
+      parseFloat(job.accepted_user.offer)
     ).then((response) => {
       if (response.status == 200) {
         setJobEnded(true);
@@ -255,7 +246,7 @@ const ShowJob = () => {
   if (isLoading) {
     return <Clock />
   }
-console.log(job.accepted_user.user_id);
+  console.log(job.accepted_user);
   return (
     <div className={styles.jobsPage}>
       {jobEnded ? <>job has ended</> :
@@ -293,15 +284,9 @@ console.log(job.accepted_user.user_id);
               </div>
               <div className={styles.name}>
                 {t('components.show_job.name')}{' '}
-                {job.job_user ?
-                  <a className={styles.anchor} href={`/profile/${job.job_user.user_id}/${job.job_user.name}`}>
-                    {job.job_user.name}
-                  </a>
-                  :
-                  <a className={styles.anchor} href={`/profile/${job.company.user_id}/${job.company.name}`}>
-                    {job.company.name}
-                  </a>
-                }
+                <a className={styles.anchor} href={`/profile/${job.job_user.user_id}/${job.job_user.name}`}>
+                  {job.job_user.name}
+                </a>
               </div>
               <div className={styles.type}>
                 {job.type}{' '}{t('components.show_job.type')}
@@ -316,8 +301,7 @@ console.log(job.accepted_user.user_id);
               ) : (
                 <>
                   <div className={styles.salary}>
-                    {t('components.show_job.min_salary')} ${job.min_salary} &nbsp;&nbsp;
-                    &nbsp;&nbsp; {t('components.show_job.min_salary')} ${job.max_salary}
+                    {t('components.show_job.budget')} ${job.min_salary} &nbsp;-&nbsp; ${job.max_salary}
                   </div>
                   <div className={styles.salary}>
                     {t('components.show_job.avg_salary')} ${job.avg_salary}
@@ -345,15 +329,11 @@ console.log(job.accepted_user.user_id);
               <button className={styles.send_button} onClick={handleFinishFreelancingJob}>
                 {t('components.show_job.end_job_button')}
               </button>
-              : accepted && !jobEnded && isJobCreator && job.type != 'Freelancing' ?
-                <button className={styles.send_button} onClick={handleFinishJob}>
-                  {t('components.show_job.end_job_button')}
-                </button>
-                : !accepted && isJobCreator ?
-                  <button className={styles.send_button} onClick={handleDeleteJob}>
-                    {t('components.show_job.delete_job_button')}
-                  </button> :
-                  <></>}
+              : !accepted && isJobCreator ?
+                <button className={styles.send_button} onClick={handleDeleteJob}>
+                  {t('components.show_job.delete_job_button')}
+                </button> :
+                <></>}
           </div>
           <div className={styles.competitors}>
             <div className={styles.name_and_button}>
@@ -366,8 +346,8 @@ console.log(job.accepted_user.user_id);
                     </button>
                   )
                   :
-                  (!accepted && !isCompetitor && job.company &&
-                    job.company.user_id !== profile.user_id && profile.type !== 'company' &&
+                  (!accepted && !isCompetitor && job.job_user &&
+                    job.job_user.user_id !== profile.user_id && profile.type !== 'company' &&
                     <button className={styles.competitor_button} onClick={handleNewCompetitor}>
                       {t('components.show_job.competitor_button')}
                     </button>
@@ -392,11 +372,11 @@ console.log(job.accepted_user.user_id);
                       type='number'
                       placeholder={t('components.show_job.desired_salary')}
                       icon={<CurrencyDollar />}
-                      value={desiredSalary}
+                      value={offer}
                       setChange={handleCalculateSalary}
                     />
                     <br />
-                    <p>{t('components.show_job.tax')} {desiredSalary - adminShare} $</p>
+                    <p>{t('components.show_job.tax')} {offer - adminShare} $</p>
                   </div>
                   <div className={styles.buttons_holder}>
                     <button className={styles.send_button} onClick={handleNewFreelancer}>
@@ -420,29 +400,29 @@ console.log(job.accepted_user.user_id);
             }
             {job.competitors && job.competitors.map((competitor) => (
               <div className={styles.competitor_and_button} key={competitor.competitor_id}>
-                <JobCompetitorCard CompetitorData={competitor} />
+                <JobCompetitorCard CompetitorData={competitor} AcceptedCompetitor={job.accepted_user.user_id}/>
                 <div className={styles.buttons_holder2}>
-                  {job.job_user ?
-                    (job.job_user.user_id === profile.user_id && !accepted &&
-                      job.job_user.wallet.available_balance >= parseFloat(competitor.salary) &&
+
+                  {job.job_user.user_id === profile.user_id && !accepted &&
+                    job.job_user.wallet.available_balance >= parseFloat(competitor.offer) &&
+                    <button className={styles.accept_button}
+                      onClick={(event) => handleAcceptFreelancingCompetitor(event, competitor.competitor_id, parseFloat(competitor.offer))}>
+                      <Check2 />
+                    </button>
+                  }
+                  :
+                  {job.job_user && job.type !== 'freelancing' && job.job_user.user_id === profile.user_id && !accepted &&
+                    <>
                       <button className={styles.accept_button}
-                        onClick={(event) => handleAcceptFreelancingCompetitor(event, competitor.competitor_id, parseFloat(competitor.salary))}>
+                        onClick={(event) => handleAcceptRegCompetitor(event, competitor.competitor_id)}>
                         <Check2 />
                       </button>
-                    )
-                    :
-                    (job.company && job.company.user_id === profile.user_id && !accepted &&
-                      <>
-                        <button className={styles.accept_button}
-                          onClick={(event) => handleAcceptRegCompetitor(event, competitor.competitor_id)}>
-                          <Check2 />
-                        </button>
-                        <button className={styles.chat_button}
-                          onClick={(event) => handleChatWithIndividual(event, competitor)}>
-                          <ChatDots />
-                        </button>
-                      </>
-                    )}
+                      <button className={styles.chat_button}
+                        onClick={(event) => handleChatWithIndividual(event, competitor)}>
+                        <ChatDots />
+                      </button>
+                    </>
+                  }
                 </div>
               </div>
             ))}

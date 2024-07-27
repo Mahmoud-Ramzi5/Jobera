@@ -27,7 +27,7 @@ const JobCard = ({ JobData }) => {
             <h5 className={styles.salary}>{t('pages.jobs.job_card.salary')} ${JobData.salary}</h5>
           ) : (
             <h5 className={styles.salary}>
-              {t('pages.jobs.job_card.min_salary')} ${JobData.min_salary}&nbsp;&nbsp; {t('pages.jobs.job_card.max_salary')} ${JobData.max_salary}
+              {t('pages.jobs.job_card.budget')} ${JobData.min_salary}&nbsp;-&nbsp; ${JobData.max_salary}
             </h5>
           )}
           <p> {t('pages.jobs.job_card.published_by')}{' '}

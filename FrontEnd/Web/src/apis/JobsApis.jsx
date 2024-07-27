@@ -204,13 +204,13 @@ export const ApplyToFreelancingJobAPI = async (
   token,
   job_id,
   description,
-  salary
+  offer
 ) => {
   try {
     const response = await axios.post('http://127.0.0.1:8000/api/FreelancingJob/apply', {
       'job_id': job_id,
       'description': description,
-      'salary': salary
+      'offer': offer
     }, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
