@@ -52,6 +52,7 @@
 
 .carousel_container p {
     animation-delay: 0.4s;
+    font-size: 1.3em;
     margin: 0 auto 30px auto;
     color: #fff;
 }
@@ -150,7 +151,7 @@
 }
 
 .four_cards {
-    padding-block-start: 50px;
+    padding-block-start: 80px;
     width: 70%;
     display: flex;
     flex-direction: row;
@@ -165,5 +166,15 @@
 }
 
 .image {
+    width: 100%;
+    height: 100%;
+    padding-block-start: 50px;
+}
 
+.bar {
+    width: 100%;
+    height: 30px;
+    margin-block-start: 20px;
+    background-color: var(--color-foreground);
+    color: var(--color-background);
 }

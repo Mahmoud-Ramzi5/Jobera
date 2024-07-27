@@ -12,7 +12,7 @@ font-weight: 500;
 font-size: 1.4em;
 text-align: start;
 border-block-end: 0.5px outset orange;
-color:orange
+color: var(--color-better_orange)
 }
 
 .info {
