@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\FreelancingJob;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class FreelancingJobSeeder extends Seeder
 {
@@ -14,8 +14,8 @@ class FreelancingJobSeeder extends Seeder
     public function run(): void
     {
         FreelancingJob::factory()
-        ->count(20) 
-        ->withSkills() 
-        ->create();
+            ->count(20)
+            ->withSkills()
+            ->create();
     }
 }

@@ -91,6 +91,7 @@ const FullTimeRegJobs = () => {
       return;
     }
     if (scrollY + windowHeight >= documentHeight - 100) {
+      filtered.current = false;
       setNextPage(nextPage + 1);
     }
   };

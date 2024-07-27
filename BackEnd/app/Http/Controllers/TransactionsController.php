@@ -91,11 +91,11 @@ class TransactionsController extends Controller
         // }
 
         // // Do the transaction
-        // if ($senderWallet->current_balance > $validated['amount']) {
-        //     $senderWallet->current_balance -= $validated['amount'];
+        // if ($senderWallet->available_balance > $validated['amount']) {
         //     $senderWallet->available_balance -= $validated['amount'];
-        //     $receiverWallet->current_balance += $validated['amount'];
+        //     $senderWallet->total_balance -= $validated['amount'];
         //     $receiverWallet->available_balance += $validated['amount'];
+        //     $receiverWallet->total_balance += $validated['amount'];
         //     $senderWallet->save();
         //     $receiverWallet->save();
         // } else {
@@ -132,11 +132,11 @@ class TransactionsController extends Controller
         }
 
         // Do the transaction
-        if ($senderWallet->current_balance > $amount) {
-            $senderWallet->current_balance -= $amount;
+        if ($senderWallet->available_balance > $amount) {
             $senderWallet->available_balance -= $amount;
-            $receiverWallet->current_balance += $amount;
+            $senderWallet->total_balance -= $amount;
             $receiverWallet->available_balance += $amount;
+            $receiverWallet->total_balance += $amount;
             $senderWallet->save();
             $receiverWallet->save();
         } else {
@@ -249,13 +249,13 @@ class TransactionsController extends Controller
 
         // Do the transaction
         $userShare = $fullAmount - $adminShare;
-        if ($senderWallet->current_balance > $fullAmount) {
-            $senderWallet->current_balance -= $fullAmount;
-            $senderWallet->available_balance -= $adminShare;
+        if ($senderWallet->available_balance > $fullAmount) {
+            $senderWallet->available_balance -= $fullAmount;
+            $senderWallet->total_balance -= $adminShare;
             $senderWallet->reserved_balance += $userShare;
 
-            $receiverWallet->current_balance += $adminShare;
             $receiverWallet->available_balance += $adminShare;
+            $receiverWallet->total_balance += $adminShare;
 
             $senderWallet->save();
             $receiverWallet->save();
@@ -333,9 +333,9 @@ class TransactionsController extends Controller
         $userShare = $fullAmount - $adminShare;
         if ($senderWallet->reserved_balance >= $userShare) {
             $senderWallet->reserved_balance -= $userShare;
-            $senderWallet->available_balance -= $userShare;
-            $receiverWallet->current_balance += $userShare;
+            $senderWallet->total_balance -= $userShare;
             $receiverWallet->available_balance += $userShare;
+            $receiverWallet->total_balance += $userShare;
             $senderWallet->save();
             $receiverWallet->save();
         } else {
@@ -368,33 +368,13 @@ class TransactionsController extends Controller
         $redeemCode = RedeemCode::where('code', $validated['code'])->first();
         if ($redeemCode !== null && $redeemCode->user_id === null) {
             $userWallet = Wallet::where('user_id', $user->id)->first();
+            $userWallet->total_balance += $redeemCode->value;
             $userWallet->available_balance += $redeemCode->value;
-            $userWallet->current_balance += $redeemCode->value;
             $userWallet->save();
             $redeemCode->update(['user_id' => $validated['user_id']]);
             return response()->json([
                 'message' => 'redeem code has been used successfully'
             ], 200);
-        } else {
-            return response()->json([
-                'errors' => ['redeemcode' => 'code not found']
-            ], 404);
-        }
-    }
-
-    public function DeleteRedeemCode($user, $redeemCode)
-    {
-        // Check user
-        if ($user == null) {
-            return response()->json([
-                'errors' => ['user' => 'Invalid user']
-            ], 401);
-        }
-        if ($redeemCode !== null) {
-            $redeemCode->delete();
-            return response()->json([
-                'message' => 'done with the code'
-            ], 204);
         } else {
             return response()->json([
                 'errors' => ['redeemcode' => 'code not found']

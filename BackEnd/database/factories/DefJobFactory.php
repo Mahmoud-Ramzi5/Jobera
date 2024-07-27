@@ -17,10 +17,10 @@ class DefJobFactory extends Factory
     public function definition(): array
     {
         return [
-        'title' => $this->faker->jobTitle,
-        'description' => $this->faker->paragraph,
-        'is_done'=>true,
-        'state_id' => random_int(1,4000)
+            'title' => $this->faker->jobTitle,
+            'description' => $this->faker->paragraph,
+            'is_done' => false,
+            'state_id' => random_int(1, 4000)
         ];
     }
 }

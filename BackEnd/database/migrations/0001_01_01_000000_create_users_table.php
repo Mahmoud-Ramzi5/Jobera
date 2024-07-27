@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('email')->unique();
             $table->string('phone_number')->unique();
-            $table->string('password')->nullable();
-            $table->bigInteger('state_id')->unsigned();
+            $table->string('password');
             $table->text('description')->nullable();
             $table->string('avatar_photo')->nullable();
-            $table->float('rating')->default(0.0)->nullable();
+            $table->decimal('rating', 8, 2)->nullable();
+            $table->unsignedBigInteger('state_id')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

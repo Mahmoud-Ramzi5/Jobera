@@ -34,7 +34,7 @@ class FreelancingJobResource extends JsonResource
                 'name' => $acceptedCompany->name,
                 'type' => $acceptedCompany->type,
                 'avatar_photo' => $acceptedCompany->user->avatar_photo,
-                'salary' => $acceptedCompetitor->salary
+                'salary' => $acceptedCompetitor ? $acceptedCompetitor->salary : 0.0
             ];
         } else if ($acceptedIndividual != null) {
             $acceptedUser = [
@@ -43,7 +43,7 @@ class FreelancingJobResource extends JsonResource
                 'name' => $acceptedIndividual->full_name,
                 'type' => $acceptedIndividual->type,
                 'avatar_photo' => $acceptedIndividual->user->avatar_photo,
-                'salary' => $acceptedCompetitor->salary
+                'salary' => $acceptedCompetitor ? $acceptedCompetitor->salary : 0.0
             ];
         } else {
             $acceptedUser = null;
