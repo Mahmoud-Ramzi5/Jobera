@@ -27,13 +27,25 @@ class FreelancingJobFactory extends Factory
         // Generate a future deadline date
         $deadline = $this->faker->dateTimeBetween('now', '+6 months')->format('Y-m-d');
 
+        // Generate user id except first id
+        $user_id1 = User::inRandomOrder()->first()->id;
+        while ($user_id1 == 1) {
+            $user_id = User::inRandomOrder()->first()->id;
+        }
+
+        // Generate user id except first id
+        $user_id2 = User::inRandomOrder()->first()->id;
+        while ($user_id2 == 1) {
+            $user_id = User::inRandomOrder()->first()->id;
+        }
+
         return [
             'deadline' => $deadline,
             'min_salary' => $minSalary,
             'max_salary' => $maxSalary,
-            'user_id' => User::inRandomOrder()->first()->id,
+            'user_id' => $user_id,
             'defJob_id' => DefJob::factory(),
-            'accepted_user' => User::inRandomOrder()->first()->id,
+            'accepted_user' => $user_id2,
         ];
     }
 
@@ -42,6 +54,7 @@ class FreelancingJobFactory extends Factory
      *
      * @return \Illuminate\Database\Eloquent\Factories\Factory
      */
+
     public function withSkills(): Factory
     {
         return $this->afterCreating(function (FreelancingJob $freelancingJob) {
@@ -49,6 +62,7 @@ class FreelancingJobFactory extends Factory
             $freelancingJob->skills()->sync($skills);
         });
     }
+
     public function withCompetitors()
     {
         return $this->afterCreating(function (FreelancingJob $freelancingJob) {

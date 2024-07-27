@@ -21,7 +21,6 @@ class RegJobResource extends JsonResource
         $flagedJobs = $user->FlagedJobs()->pluck('defJob_id')->toArray();
 
         return [
-            "id" => $this->id,
             "defJob_id" => $defJob->id,
             "title" => $defJob->title,
             "description" => $defJob->description,
@@ -30,17 +29,14 @@ class RegJobResource extends JsonResource
             "salary" => $this->salary,
             "type" => $this->type,
             "company" => [
-                "id" => $this->company->id,
                 'user_id' => $this->company->user_id,
                 "name" => $this->company->name,
                 'avatar_photo' => $this->company->user->avatar_photo,
                 'wallet' => $this->company->user->wallet
             ],
             "accepted_individual" => $this->acceptedIndividual != null ? [
-                'id' => $this->acceptedIndividual->id,
                 'user_id' => $this->acceptedIndividual->user_id,
                 'full_name' => $this->acceptedIndividual->full_name,
-                'type' => $this->acceptedIndividual->type,
                 'avatar_photo' => $this->acceptedIndividual->user->avatar_photo
             ] : null,
             "competitors" => new RegJobCompetitorCollection($this->competitors),

@@ -132,11 +132,11 @@ Route::controller(RegJobsController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::post('/regJob/add', 'PostRegJob');
         Route::get('/regJobs', 'ViewRegJobs');
-        Route::get('/regJobs/{regJob}', 'ShowRegJob');
-        Route::get('/regJobs/{regJob}/competitors', 'ViewRegJobCompetitors');
+        Route::get('/regJobs/{defJob_id}', 'ShowRegJob');
+        Route::get('/regJobs/{defJob_id}/competitors', 'ViewRegJobCompetitors');
         Route::post('/regJob/apply', 'ApplyRegJob');
-        Route::post('/regJob/accept/{regJob}', 'AcceptIndividual');
-        Route::delete('/regJobs/{regJob}', 'DeleteRegJob');
+        Route::post('/regJob/accept/{defJob_id}', 'AcceptIndividual');
+        Route::delete('/regJobs/{defJob_id}', 'DeleteRegJob');
     });
 });
 
@@ -144,12 +144,12 @@ Route::controller(FreelancingJobsController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::post('/FreelancingJob/add', 'PostFreelancingJob');
         Route::get('/FreelancingJobs', 'ViewFreelancingJobs');
-        Route::get('/FreelancingJobs/{freelancingJob}', 'ShowFreelancingJob');
-        Route::get('/FreelancingJobs/{freelancingJob}/competitors', 'ViewFreelancingJobCompetitors');
+        Route::get('/FreelancingJobs/{defJob_id}', 'ShowFreelancingJob');
+        Route::get('/FreelancingJobs/{defJob_id}/competitors', 'ViewFreelancingJobCompetitors');
         Route::post('/FreelancingJob/apply', 'ApplyFreelancingJob');
-        Route::post('/FreelancingJob/accept/{freelancingJob}', 'AcceptUser');
-        Route::post('/FreelancingJob/done/{freelancingJob}', 'FinishedJob');
-        Route::delete('/FreelancingJobs/{freelancingJob}', 'DeleteFreelancingJob');
+        Route::post('/FreelancingJob/accept/{defJob_id}', 'AcceptUser');
+        Route::post('/FreelancingJob/done/{defJob_id}', 'FinishedJob');
+        Route::delete('/FreelancingJobs/{defJob_id}', 'DeleteFreelancingJob');
     });
 });
 

@@ -189,16 +189,36 @@ class FreelancingJobsController extends Controller
         ], 200);
     }
 
-    public function ShowFreelancingJob(Request $request, FreelancingJob $freelancingJob)
+    public function ShowFreelancingJob(Request $request, $defJob_id)
     {
+        // Get freelancingJob
+        $freelancingJob = FreelancingJob::where('defJob_id', $defJob_id)->first();
+
+        // Check freelancingJob
+        if ($freelancingJob == null) {
+            return response()->json([
+                'errors' => ['job' => 'Invalid job']
+            ], 404);
+        }
+
         // Response
         return response()->json([
             'job' => new FreelancingJobResource($freelancingJob),
         ], 200);
     }
 
-    public function ViewFreelancingJobCompetitors(Request $request, FreelancingJob $freelancingJob)
+    public function ViewFreelancingJobCompetitors(Request $request, $defJob_id)
     {
+        // Get freelancingJob
+        $freelancingJob = FreelancingJob::where('defJob_id', $defJob_id)->first();
+
+        // Check freelancingJob
+        if ($freelancingJob == null) {
+            return response()->json([
+                'errors' => ['job' => 'Invalid job']
+            ], 404);
+        }
+
         // Response
         return response()->json([
             'job_competitors' => new FreelancingJobCompetitorCollection($freelancingJob->competitors),
@@ -239,7 +259,7 @@ class FreelancingJobsController extends Controller
         ], 200);
     }
 
-    public function DeleteFreelancingJob(Request $request, FreelancingJob $freelancingJob)
+    public function DeleteFreelancingJob(Request $request, $defJob_id)
     {
         // Get user
         $user = auth()->user();
@@ -249,6 +269,16 @@ class FreelancingJobsController extends Controller
             return response()->json([
                 'errors' => ['user' => 'Invalid user']
             ], 401);
+        }
+
+        // Get freelancingJob
+        $freelancingJob = FreelancingJob::where('defJob_id', $defJob_id)->first();
+
+        // Check freelancingJob
+        if ($freelancingJob == null) {
+            return response()->json([
+                'errors' => ['job' => 'Invalid job']
+            ], 404);
         }
 
         // Check policy
@@ -270,7 +300,7 @@ class FreelancingJobsController extends Controller
         ], 204);
     }
 
-    public function AcceptUser(AcceptUserRequest $request, FreelancingJob $freelancingJob)
+    public function AcceptUser(AcceptUserRequest $request, $defJob_id)
     {
         // Validate request
         $validated = $request->validated();
@@ -284,6 +314,16 @@ class FreelancingJobsController extends Controller
             return response()->json([
                 'errors' => ['user' => 'Invalid user']
             ], 401);
+        }
+
+        // Get freelancingJob
+        $freelancingJob = FreelancingJob::where('defJob_id', $defJob_id)->first();
+
+        // Check freelancingJob
+        if ($freelancingJob == null) {
+            return response()->json([
+                'errors' => ['job' => 'Invalid job']
+            ], 404);
         }
 
         // Check policy
@@ -309,7 +349,7 @@ class FreelancingJobsController extends Controller
         ], 200);
     }
 
-    public function FinishedJob(Request $request, FreelancingJob $freelancingJob)
+    public function FinishedJob(Request $request, $defJob_id)
     {
         // Get user
         $user = auth()->user();
@@ -319,6 +359,16 @@ class FreelancingJobsController extends Controller
             return response()->json([
                 'errors' => ['user' => 'Invalid user']
             ], 401);
+        }
+
+        // Get freelancingJob
+        $freelancingJob = FreelancingJob::where('defJob_id', $defJob_id)->first();
+
+        // Check freelancingJob
+        if ($freelancingJob == null) {
+            return response()->json([
+                'errors' => ['job' => 'Invalid job']
+            ], 404);
         }
 
         // Check policy
@@ -332,6 +382,7 @@ class FreelancingJobsController extends Controller
 
         // Set is_done to true
         $freelancingJob->defJob->is_done = true;
+        $freelancingJob->save();
 
         // Response
         return response()->json([

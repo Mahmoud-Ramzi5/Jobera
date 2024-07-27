@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\FreelancingJob;
 use App\Models\User;
+use App\Models\FreelancingJob;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,13 +18,19 @@ class FreelancingJobCompetitorFactory extends Factory
      */
     public function definition(): array
     {
-        $freelancingJob=FreelancingJob::inRandomOrder()->first();
+        $freelancingJob = FreelancingJob::inRandomOrder()->first();
+
+        // Generate user id except first id
+        $user_id = User::inRandomOrder()->first()->id;
+        while ($user_id == 1) {
+            $user_id = User::inRandomOrder()->first()->id;
+        }
 
         return [
-            'user_id'=>User::inRandomOrder()->first()->id,
-            'job_id'=>$freelancingJob->id,
-            'salary'=>$this->faker->numberBetween($freelancingJob->min_salary, $freelancingJob->max_salary),
-            'description'=>$this->faker->sentence
+            'user_id' => $user_id,
+            'job_id' => $freelancingJob->id,
+            'salary' => $this->faker->numberBetween($freelancingJob->min_salary, $freelancingJob->max_salary),
+            'description' => $this->faker->sentence
         ];
     }
 }

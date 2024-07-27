@@ -15,12 +15,10 @@ class RegJobCompetitorResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "id" => $this->id,
+            "competitor_id" => $this->id,
             "individual" => [
-                'id' => $this->individual->id,
                 'user_id' => $this->individual->user_id,
                 'full_name' => $this->individual->full_name,
-                'type' => $this->individual->type,
                 'rating' => $this->individual->user->rating,
                 'avatar_photo' => $this->individual->user->avatar_photo,
             ],
