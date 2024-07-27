@@ -1,5 +1,59 @@
 {
     "pages": {
+        "Index": {
+            "slide1": {
+                "span": "Find Your Next Dream Job",
+                "p": "Easiest way to find a perfect job",
+                "button1": "Looking For a job?",
+                "button2": "Post a job"
+            },
+            "slide2": {
+                "span": "No.1 Job platform in Syria",
+                "p": "Jobera is the most reliable job platform in Syria because of it's awesome features and comfortable use"
+            },
+            "slide3": {
+                "span": "We always listen",
+                "p": "We would love to hear about your experience using the platform or the difficulties you encountered to help improve your experience and assure your satisfaction"
+            },
+            "great_title1": "What is Jobera?",
+            "h2_1": "Jobera is a platform that specializes in posting and accepting jobs and serves two types of users companies and individuals",
+            "mini_title1": "Jobera's services",
+            "little_card1": {
+                "title": "Posting jobs",
+                "info": "Jobera gives you the ability to post jobs based on your needs easily and provides the best experience along with low costs"
+            },
+            "little_card2": {
+                "title": "Viewing jobs",
+                "info": "Jobera makes it easier for you to view variant types of jobs and search through them to get what will suit you best"
+            },
+            "little_card3": {
+                "title": "Paying system",
+                "info": "You can trust us with your money, The transactions are done smoothly between users and recorded for further view"
+            },
+            "little_card4": {
+                "title": "Chat system",
+                "info": "Jobera provides the ability to chat between job maker and job accepters inside the app to make sure work is going smoothly"
+            },
+            "great_title2": "Why Jobera?",
+            "h2_2": "Jobera is the best Job app because of its awesome features that gives the user the best experience",
+            "mini_title2": "Some of Jobera's features",
+            "little_card5": {
+                "title": "Job feed",
+                "info": "A page designed especially to provide the users with the informations about best jobs or the best deals in particular time"
+            },
+            "little_card6": {
+                "title": "Comfortable system",
+                "info": "It's easy to manage your account information and your activities like the job you posted, bookmarked and applied to"
+            },
+            "little_card7": {
+                "title": "Variant job types",
+                "info": "Jobera provides to the users three types of jobs (fulltime, parttime, freelancing) which can easily be accessed through the navbar"
+            },
+            "little_card8": {
+                "title": "Interactive interfaces",
+                "info": "Jobera has great interfaces that are responsive, clear and even beautiful which will provide best experience"
+            }
+        },
         "Login": {
             "title": "Login",
             "email_input": "Email",
@@ -58,8 +112,7 @@
             "job_card": {
                 "type": "Type:",
                 "salary": "Salary:",
-                "min_salary": "Min salary:",
-                "max_salary": "Max salary:",
+                "budget": "Budget:",
                 "published_by": "Published by:",
                 "publish_date": "Publish date:"
             },
@@ -229,9 +282,8 @@
             "type": "job",
             "description": "Description:",
             "salary": "Salary:",
-            "min_salary": "Min Salary:",
-            "max_salary": "Max Salary:",
-            "avg_salary": "Avg offer salary:",
+            "budget": "Budget:",
+            "avg_salary": "Avg offer:",
             "location": "Job location:",
             "deadline": "Deadline:",
             "publish_date": "Publish date:",
@@ -240,7 +292,7 @@
             "h5": "Competitors",
             "competitor_button": "+ Be a competitor",
             "comment_input": "Add your comment",
-            "desired_salary": "Desired salary",
+            "desired_salary": "Desired offer",
             "tax": "Your share after website taxes:",
             "send_button": "Send",
             "cancel_button": "Cancel"

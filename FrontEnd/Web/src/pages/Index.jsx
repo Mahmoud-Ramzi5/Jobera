@@ -1,16 +1,19 @@
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Carousel from 'react-bootstrap/Carousel';
 import { LoginContext } from '../utils/Contexts.jsx';
-import LittleCard from '../components/LittleCard.jsx';
 import Slide1 from '../assets/Slide1.png';
 import Slide2 from '../assets/Slide3.png';
 import Slide3 from '../assets/Slide2.png';
-import picture1 from '../assets/typing.gif';
-import picture2 from '../assets/laptop_with_apps.png';
+import Picture1 from '../assets/typing.gif';
+import Picture2 from '../assets/laptop_with_apps.png';
 import styles from '../styles/index.module.css';
 
+
 const Index = () => {
+  // Translations
+  const { t } = useTranslation('global');
   // Context
   const { loggedIn } = useContext(LoginContext);
   // Define states
@@ -41,17 +44,18 @@ const Index = () => {
     }
   };
 
+
   return (
     <>
       <Carousel className={styles.carousel} activeIndex={index} onSelect={handleSelect} pause='hover'>
         <Carousel.Item className={styles.carousel_item} style={{ backgroundImage: `url(${Slide1})`, backgroundSize: 'cover' }}>
           <Carousel.Caption className={styles.carousel_caption}>
             <div className={styles.carousel_container}>
-              <span>Find Your Next Dream Job</span>
-              <p>Easiest way to find a perfect job</p>
+              <span>{t('pages.Index.slide1.span')}</span>
+              <p>{t('pages.Index.slide1.p')}</p>
               <div className={styles.carousel_buttons}>
-                <button onClick={handleNavigateJobs}>Looking For a job?</button>
-                <button onClick={handlePostJob}>Post a job</button>
+                <button onClick={handleNavigateJobs}>{t('pages.Index.slide1.button1')}</button>
+                <button onClick={handlePostJob}>{t('pages.Index.slide1.button2')}</button>
               </div>
             </div>
           </Carousel.Caption>
@@ -60,8 +64,8 @@ const Index = () => {
         <Carousel.Item className={styles.carousel_item} style={{ backgroundImage: `url(${Slide2})`, backgroundSize: 'cover' }}>
           <Carousel.Caption className={styles.carousel_caption}>
             <div className={styles.carousel_container}>
-              <span>No.1 job app in syria</span>
-              <p>Jobera is the most reliable job app in Syria because of it's awesome features and comfortable use</p>
+              <span>{t('pages.Index.slide1.span')}</span>
+              <p>{t('pages.Index.slide1.p')}</p>
             </div>
           </Carousel.Caption>
         </Carousel.Item>
@@ -69,8 +73,8 @@ const Index = () => {
         <Carousel.Item className={styles.carousel_item} style={{ backgroundImage: `url(${Slide3})`, backgroundSize: 'cover' }}>
           <Carousel.Caption className={styles.carousel_caption}>
             <div className={styles.carousel_container}>
-              <span>We always listen</span>
-              <p>we would love to hear about your experience using the app or the defficulties you encountered to help improve your experience and assure your satisfaction </p>
+              <span>{t('pages.Index.slide3.span')}</span>
+              <p>{t('pages.Index.slide3.span')}</p>
             </div>
           </Carousel.Caption>
         </Carousel.Item>
@@ -78,51 +82,93 @@ const Index = () => {
 
       <div className={styles.container1}>
         <div className={styles.container2}>
-          <span className={styles.great_title}>What is Jobera?</span>
-          <h2>Jobera is an app that specializes in posting and accepting jobs and surves two types of users companies and individuals</h2>
+          <span className={styles.great_title}>
+            {t('pages.Index.great_title1')}
+          </span>
+          <h2>{t('pages.Index.h2_1')}</h2>
           <br />
           <br />
-          <span className={styles.mini_title}>Jobera's services</span>
+          <span className={styles.mini_title}>
+            {t('pages.Index.mini_title1')}
+          </span>
           <div className={styles.two_sides}>
             <div className={styles.four_cards}>
               <span className={styles.card_holder}>
-                <LittleCard title={'Posting jobs '} info={'Jobera gives you the ability to post jobs based on your needs easly and provides the best experience along with low costs'} />
-                <LittleCard title={'Viewig jobs'} info={'Jobera makes it easier for you to view varient types of jobs and search through them to get what will suit you best'} />
+                <LittleCard
+                  title={t('pages.Index.little_card1.title')}
+                  info={t('pages.Index.little_card1.info')}
+                />
+                <LittleCard
+                  title={t('pages.Index.little_card2.title')}
+                  info={t('pages.Index.little_card2.info')}
+                />
               </span>
               <span className={styles.card_holder}>
-                <LittleCard title={'paying system'} info={'you can trust us with your money, The transactions are done smoothly between users and recrded for further view'} />
-                <LittleCard title={'Chat system'} info={'Jobera provides the ability to chat between job maker and job accepters inside the app to make sure work is going smoothly'} />
+                <LittleCard
+                  title={t('pages.Index.little_card3.title')}
+                  info={t('pages.Index.little_card3.info')}
+                />
+                <LittleCard
+                  title={t('pages.Index.little_card4.title')}
+                  info={t('pages.Index.little_card4.info')}
+                />
               </span>
             </div>
             <div className={styles.picture}>
-              <img className={styles.image} src={picture1}></img>
+              <img className={styles.image} src={Picture1}></img>
             </div>
           </div>
           <div className={styles.bar}></div>
           <br />
-          <span className={styles.great_title}>Why Jobera?</span>
-          <h2>Jobera is the best Job app because of it's awsome features that gives the user the best experience</h2>
+          <span className={styles.great_title}>
+            {t('pages.Index.great_title2')}
+          </span>
+          <h2>{t('pages.Index.h2_2')}</h2>
           <br />
           <br />
-          <span className={styles.mini_title}>Some of Jobera's features</span>
+          <span className={styles.mini_title}>
+            {t('pages.Index.mini_title2')}
+          </span>
           <div className={styles.two_sides}>
             <div className={styles.four_cards}>
               <span className={styles.card_holder}>
-                <LittleCard title={'Varient job types'} info={'Jobera provides to the users three types of jobs (fulltime, parttime, freelancing) which they can easily be accessed through the navbar'} />
-                <LittleCard title={'Job feed'} info={'A page designed specialy to provide the users with the informations about best jobs or the best deals in particular time'} />
+                <LittleCard
+                  title={t('pages.Index.little_card5.title')}
+                  info={t('pages.Index.little_card5.info')}
+                />
+                <LittleCard
+                  title={t('pages.Index.little_card6.title')}
+                  info={t('pages.Index.little_card6.info')}
+                />
               </span>
               <span className={styles.card_holder}>
-                <LittleCard title={'Comfortable system'} info={"It's easy to manage your account and activity like your jobs or the jobs you participated to and even being able to change your information if you want"} />
-                <LittleCard title={'Interactive interfaces'} info={'Jobera has great interfaces that are responsive, clear and even beautiful which will provide best experience '} />
+                <LittleCard
+                  title={t('pages.Index.little_card7.title')}
+                  info={t('pages.Index.little_card7.info')}
+                />
+                <LittleCard
+                  title={t('pages.Index.little_card8.title')}
+                  info={t('pages.Index.little_card8.info')}
+                />
               </span>
             </div>
             <div className={styles.picture}>
-              <img className={styles.image} src={picture2}></img>
+              <img className={styles.image} src={Picture2}></img>
             </div>
           </div>
         </div>
       </div>
     </>
+  );
+};
+
+const LittleCard = ({ title, info }) => {
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.title}>{title}</div>
+      <div className={styles.info}>{info}</div>
+    </div>
   );
 };
 

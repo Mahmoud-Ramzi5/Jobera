@@ -1,16 +1,16 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
-import ScrollUp from "../components/ScrollUp";
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import NavBar from '../components/NavBar.jsx';
+import Footer from '../components/Footer.jsx';
+import ScrollUp from '../components/ScrollUp.jsx';
 
 
-const Layout = () =>{
+const Layout = () => {
   return (
     <>
       <NavBar />
       <Outlet />
-      <ScrollUp/>
+      <ScrollUp />
       <Footer />
     </>
   )

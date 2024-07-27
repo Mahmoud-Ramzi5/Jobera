@@ -1,0 +1,23 @@
+.Arrow {
+    height: 54px;
+    width: 54px;
+    font-size: 1.8em;
+    font-weight: 500;
+    position: fixed;
+    display: flex;
+    text-align: center;
+    border: 3px;
+    border-radius: 18px;
+    border-style: outset;
+    border-color: var(--color-better_orange);
+    background-color: white;
+    inset-inline-start: 90%;
+    inset-block-end: 90px;
+    transition: 0.3s;
+}
+
+.Icon {
+    z-index: 1;
+    cursor: pointer;
+    color: #3E6FA9;
+}

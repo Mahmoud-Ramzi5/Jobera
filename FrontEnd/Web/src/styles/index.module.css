@@ -2,9 +2,9 @@
     inset-block-start: 70px;
     width: 100%;
     height: 90vh;
-    background-color: #3A3B3C;
     overflow: hidden;
     position: relative;
+    background-color: #3A3B3C;
 }
 
 .carousel_item {
@@ -91,19 +91,20 @@
 }
 
 .container1 {
-    display: flex;
     width: 100%;
     padding: 10px;
-    margin-block-start: 100px;
+    display: flex;
+    flex-direction: row;
     justify-content: center;
+    margin-block-start: 100px;
 }
 
 .container2 {
+    width: 100%;
+    min-height: 1px;
     display: block;
     position: relative;
     text-align: center;
-    width: 100%;
-    min-height: 1px;
     padding-inline-start: 15px;
     padding-inline-end: 15px;
     padding-block-end: 20px;
@@ -115,7 +116,7 @@
     line-height: 1;
     font-size: 90px;
     font-weight: 700;
-    margin-block-end: 10px;
+    margin-block-end: 15px;
     color: var(--color-foreground);
 }
 
@@ -137,24 +138,18 @@
     color: var(--color-foreground);
 }
 
-.container2 p {
-    font-size: 15px;
-    font-weight: normal;
-    line-height: 30px;
-    margin-block-end: 15px;
-    color: var(--color-foreground);
-}
-
 .two_sides {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    padding-block-start: 15px;
 }
 
 .four_cards {
-    padding-block-start: 80px;
-    width: 70%;
+    width: 60%;
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 
 .card_holder {
@@ -162,19 +157,81 @@
 }
 
 .picture {
-    width:50%;
+    width: 40%;
+    padding: 4px;
 }
 
 .image {
     width: 100%;
     height: 100%;
-    padding-block-start: 50px;
 }
 
 .bar {
     width: 100%;
     height: 30px;
     margin-block-start: 20px;
-    background-color: var(--color-foreground);
     color: var(--color-background);
+    background-color: var(--color-foreground);
+}
+
+
+/* LittleCard */
+.container {
+    width: 99%;
+    padding: 10px;
+    margin: 2px;
+    border: 2px;
+    border-radius: 20px;
+    border-style: outset;
+    border-color: var(--color-title);
+    min-height: 160px;
+    max-height: 320px;
+}
+
+.title {
+    font-weight: 440;
+    font-size: 22px;
+    text-align: start;
+    border-block-end: 0.5px outset orange;
+    color: var(--color-better_orange)
+}
+
+.info {
+    font-weight: 360;
+    font-size: 18px;
+    padding-block-end: 9px;
+}
+
+/* Screen Size compatiplity */
+@media screen and (max-width: 485px) {
+    .four_cards {
+        width: 100%;
+        flex-direction: column;
+        padding-block-start: 10px;
+    }
+}
+
+@media screen and (max-width: 970px) {
+    .container1 {
+        flex-direction: column;
+    }
+
+    .two_sides {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .four_cards {
+        width: 100%;
+        padding-block-start: 10px;
+    }
+
+    .card_holder {
+        width: 100%;
+    }
+
+    .picture {
+        width: 100%;
+        padding: 25px;
+    }
 }
