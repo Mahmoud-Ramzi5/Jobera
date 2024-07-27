@@ -97,7 +97,14 @@ class FreelancingJobsController extends Controller
         // Response
         if (empty($queryItems)) {
             $jobs = FreelancingJob::paginate(10);
-            $jobsData = $jobs->items();
+            $jobsData = [];
+            foreach ($jobs->items() as $job) {
+                if (!in_array($job, $jobsData) && $job->defJob->is_done == false) {
+                    array_push($jobsData, $job);
+                } else {
+                    continue;
+                }
+            }
         } else {
             // Check if job filtered based on the user that posted the job
             for ($i = 0; $i < count($queryItems); $i++) {
@@ -132,16 +139,31 @@ class FreelancingJobsController extends Controller
                 if (sizeof($skills) >= 1 && $skills[0] !== "") {
                     foreach ($jobs->items() as $job) {
                         foreach ($job->skills as $skill) {
-                            if (in_array($skill->name, $skills) && !in_array($job, $jobsData)) {
+                            if (
+                                in_array($skill->name, $skills) && !in_array($job, $jobsData)
+                                && $job->defJob->is_done == false
+                            ) {
                                 array_push($jobsData, $job);
                             }
                         };
                     }
                 } else {
-                    $jobsData = $jobs->items();
+                    foreach ($jobs->items() as $job) {
+                        if (!in_array($job, $jobsData) && $job->defJob->is_done == false) {
+                            array_push($jobsData, $job);
+                        } else {
+                            continue;
+                        }
+                    }
                 }
             } else {
-                $jobsData = $jobs->items();
+                foreach ($jobs->items() as $job) {
+                    if (!in_array($job, $jobsData) && $job->defJob->is_done == false) {
+                        array_push($jobsData, $job);
+                    } else {
+                        continue;
+                    }
+                }
             }
         }
 
@@ -207,20 +229,10 @@ class FreelancingJobsController extends Controller
                 'errors' => ['user' => 'Unauthorized']
             ], 401);
         }
-        $freelancingJob=FreelancingJob::where('id',$validated['job_id'])->first();
-        if ($freelancingJob->competitors()->exists()) {
-            $totalSalary = $freelancingJob->competitors()->sum('salary');
-            $numCompetitors = $freelancingJob->competitors()->count();
-            $newAvgSalary = ($totalSalary + $validated['salary']) / ($numCompetitors + 1);
-            $freelancingJob->avg_salary = $newAvgSalary;
-            $freelancingJob->update();
-        } else {
-            $freelancingJob->avg_salary = $validated['salary'];
-            $freelancingJob->update();
-        }
+
         $validated['user_id'] = $user->id;
         $FreelancingJobCompetitor = FreelancingJobCompetitor::create($validated);
-        
+
         // Response
         return response()->json([
             'job_competitor' => new FreelancingJobCompetitorResource($FreelancingJobCompetitor),
@@ -317,8 +329,9 @@ class FreelancingJobsController extends Controller
                 'errors' => ['user' => 'Unauthorized']
             ], 401);
         }
-        $DefJob = $freelancingJob->defJob;
-        $DefJob->is_done = true;
+
+        // Set is_done to true
+        $freelancingJob->defJob->is_done = true;
 
         // Response
         return response()->json([

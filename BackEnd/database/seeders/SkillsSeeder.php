@@ -16,147 +16,213 @@ class SkillsSeeder extends Seeder
         DB::table('skills')->insert(array(
             array(
                 'type' => 'IT',
-                'name' => 'Data science'
+                'name' => 'Data science',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'IT',
-                'name' => 'Machine Learning'
+                'name' => 'Machine Learning',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'IT',
-                'name' => 'Frontend Web'
+                'name' => 'Frontend Web',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'IT',
-                'name' => 'FrontEnd Mobile'
+                'name' => 'FrontEnd Mobile',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'IT',
-                'name' => 'Backend'
+                'name' => 'Backend',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'IT',
-                'name' => 'Database'
+                'name' => 'Database',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'IT',
-                'name' => 'Network Administration'
+                'name' => 'Network Administration',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'IT',
-                'name' => 'Cyber security'
+                'name' => 'Cyber security',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'IT',
-                'name' => 'Cloud Computing'
+                'name' => 'Cloud Computing',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'IT',
-                'name' => 'Data Analysis'
+                'name' => 'Data Analysis',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'DESIGN',
-                'name' => 'Adobe Photoshop, Illustrator'
+                'name' => 'Adobe Photoshop, Illustrator',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'DESIGN',
-                'name' => 'Video Editing and Production'
+                'name' => 'Video Editing and Production',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'DESIGN',
-                'name' => 'Video Animation and Motion Graphics'
+                'name' => 'Video Animation and Motion Graphics',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'DESIGN',
-                'name' => 'UI'
+                'name' => 'Illustration and Digital Art',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'DESIGN',
-                'name' => 'Illustration and Digital Art'
+                'name' => 'UI',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'DESIGN',
-                'name' => 'UX'
+                'name' => 'UX',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'BUSINESS',
-                'name' => 'HR'
+                'name' => 'HR',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'BUSINESS',
-                'name' => 'Finance'
+                'name' => 'Finance',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'BUSINESS',
-                'name' => 'sales'
+                'name' => 'sales',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'BUSINESS',
-                'name' => 'Digital Marketing'
+                'name' => 'Digital Marketing',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'BUSINESS',
-                'name' => 'Content Writing and Copywriting'
+                'name' => 'Content Writing and Copywriting',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'BUSINESS',
-                'name' => 'E-commerce'
+                'name' => 'E-commerce',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'LANGUAGES',
-                'name' => 'Translation'
+                'name' => 'English',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'LANGUAGES',
-                'name' => 'English'
+                'name' => 'French',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'LANGUAGES',
-                'name' => 'French'
+                'name' => 'Arabic',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'LANGUAGES',
-                'name' => 'Arabic'
+                'name' => 'Spanish',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'LANGUAGES',
-                'name' => 'Spanish'
-            ),
-            array(
-                'type' => 'LANGUAGES',
-                'name' => 'Dutch'
+                'name' => 'Dutch',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'ENGINEERING',
-                'name' => 'Electrical ENGINEERING'
+                'name' => 'Electrical ENGINEERING',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'ENGINEERING',
-                'name' => 'Mechanical ENGINEERING'
+                'name' => 'Mechanical ENGINEERING',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'ENGINEERING',
-                'name' => 'Civil ENGINEERING'
+                'name' => 'Civil ENGINEERING',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'ENGINEERING',
-                'name' => 'Architecture ENGINEERING'
+                'name' => 'Architecture ENGINEERING',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'ENGINEERING',
-                'name' => 'Petrol ENGINEERING'
+                'name' => 'Petrol ENGINEERING',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'WORKER',
-                'name' => 'plumber'
+                'name' => 'plumber',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'WORKER',
-                'name' => 'electrical'
+                'name' => 'electrical',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
             array(
                 'type' => 'WORKER',
-                'name' => 'carpenter'
+                'name' => 'carpenter',
+                'created_at' => now(),
+                'updated_at' => now(),
             ),
         ));
     }

@@ -203,7 +203,7 @@ const NavUser = ({ ProfileData }) => {
             <></>
           )}
         </div>
-        <div>${ProfileData.wallet.current_balance}</div>
+        <div>${ProfileData.wallet.available_balance}</div>
       </div>
     </div>
   );

@@ -31,10 +31,10 @@ const Wallet = ({ ProfileData }) => {
           </div>
           <div className={styles.wallet_body}>
             <h3>{t('components.profile_cards.wallet.wallet_body1')}
-              {' $'}{ProfileData.wallet.current_balance}
+              {' $'}{ProfileData.wallet.available_balance}
             </h3>
             <h3>{t('components.profile_cards.wallet.wallet_body2')}
-              {' $'}{ProfileData.wallet.available_balance}
+              {' $'}{ProfileData.wallet.total_balance}
             </h3>
           </div>
           <form onSubmit={handleSubmit}>

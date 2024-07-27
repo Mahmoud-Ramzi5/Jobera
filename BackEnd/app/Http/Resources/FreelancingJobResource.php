@@ -34,7 +34,7 @@ class FreelancingJobResource extends JsonResource
                 'name' => $acceptedCompany->name,
                 'type' => $acceptedCompany->type,
                 'avatar_photo' => $acceptedCompany->user->avatar_photo,
-                'salary' => $acceptedCompetitor->salary
+                'salary' => $acceptedCompetitor ? $acceptedCompetitor->salary : 0.0
             ];
         } else if ($acceptedIndividual != null) {
             $acceptedUser = [
@@ -43,7 +43,7 @@ class FreelancingJobResource extends JsonResource
                 'name' => $acceptedIndividual->full_name,
                 'type' => $acceptedIndividual->type,
                 'avatar_photo' => $acceptedIndividual->user->avatar_photo,
-                'salary' => $acceptedCompetitor->salary
+                'salary' => $acceptedCompetitor ? $acceptedCompetitor->salary : 0.0
             ];
         } else {
             $acceptedUser = null;
@@ -51,6 +51,15 @@ class FreelancingJobResource extends JsonResource
 
         // Get flagged jobs
         $flagedJobs = $user->FlagedJobs()->pluck('defJob_id')->toArray();
+
+        // Get average salary
+        if ($this->competitors()->exists()) {
+            $totalSalary = $this->competitors()->sum('salary');
+            $numCompetitors = $this->competitors()->count();
+            $avg_salary = $totalSalary  / $numCompetitors;
+        } else {
+            $avg_salary = 0.0;
+        }
 
         return [
             "id" => $this->id,
@@ -63,7 +72,7 @@ class FreelancingJobResource extends JsonResource
             "min_salary" => $this->min_salary,
             "max_salary" => $this->max_salary,
             "deadline" => $this->deadline,
-            "avg_salary" => $this->avg_salary,
+            "avg_salary" => $avg_salary,
             "job_user" => $company == null ? [
                 'id' => $individual->id,
                 'user_id' => $individual->user_id,

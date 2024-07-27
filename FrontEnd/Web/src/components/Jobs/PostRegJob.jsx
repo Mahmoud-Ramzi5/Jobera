@@ -86,7 +86,7 @@ const PostRegJob = ({ type }) => {
 
   const handleCreate = (event) => {
     event.preventDefault();
-    if (profile.wallet.current_balance >= adminShare) {
+    if (profile.wallet.available_balance >= adminShare) {
       let state_id;
       if (needLocation === 'Remotely') {
         state_id = 0;

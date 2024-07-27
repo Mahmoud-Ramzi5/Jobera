@@ -27,12 +27,13 @@ class ChatsView extends StatelessWidget {
                     )
                   : ListView.builder(
                       itemCount: controller.chats.length,
+                      shrinkWrap: true,
                       itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: GestureDetector(
-                            onTap: () =>
-                                controller.goToChat(controller.chats[index].id),
+                        return GestureDetector(
+                          onTap: () =>
+                              controller.goToChat(controller.chats[index].id),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10),
                             child: Column(
                               children: [
                                 Row(
@@ -41,7 +42,7 @@ class ChatsView extends StatelessWidget {
                                       child: controller.chats[index].photo ==
                                               null
                                           ? Icon(
-                                              Icons.person,
+                                              Icons.messenger_outline,
                                               size: 100,
                                               color: Colors.lightBlue.shade900,
                                             )

@@ -42,7 +42,9 @@ class RegJob extends Model
      */
     protected function casts(): array
     {
-        return [];
+        return [
+            'salary' => 'decimal:2'
+        ];
     }
 
     /* Relations */

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('description');
             $table->unsignedBigInteger('state_id')->nullable();
             $table->string('photo')->nullable();
-            $table->boolean('is_done');
+            $table->boolean('is_done')->default(false);
             $table->timestamps();
 
             $table->foreign('state_id')->references('state_id')->on('states')->onDelete('cascade');

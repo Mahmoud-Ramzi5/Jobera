@@ -65,9 +65,9 @@ class AuthController extends Controller
         $wallet = Wallet::create([
             'id' => $user->id,
             'user_id' => $user->id,
-            'current_balance' => 0.0,
-            'available_balance' => 0.0,
-            'reserved_balance' => 0.0,
+            'total_balance' => 00.0000,
+            'available_balance' => 00.0000,
+            'reserved_balance' => 00.0000,
         ]);
 
         // Check wallet
@@ -139,9 +139,9 @@ class AuthController extends Controller
         $wallet = Wallet::create([
             'id' => $user->id,
             'user_id' => $user->id,
-            'current_balance' => 0.0,
-            'available_balance' => 0.0,
-            'reserved_balance' => 0.0,
+            'total_balance' => 00.0000,
+            'available_balance' => 00.0000,
+            'reserved_balance' => 00.0000,
         ]);
 
         // Check wallet

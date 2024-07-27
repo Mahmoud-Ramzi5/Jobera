@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('reviewer_id')->unsigned();
             $table->bigInteger('reviewed_id')->unsigned();
-            $table->float('review');
+            $table->decimal('review', 8, 2);
             $table->timestamps();
 
             $table->foreign('reviewer_id')->references('id')->on('users')->onDelete('cascade');

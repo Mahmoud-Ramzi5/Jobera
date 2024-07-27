@@ -2,7 +2,7 @@ class Certificate {
   final int id;
   final String name;
   final String organization;
-  final String date;
+  final DateTime date;
   final String file;
 
   Certificate({
@@ -17,13 +17,13 @@ class Certificate {
       : id = json['id'] as int,
         name = json['name'] as String,
         organization = json['organization'] as String,
-        date = json['release_date'] as String,
+        date = DateTime.parse(json['release_date']),
         file = json['file'] as String;
 
   Certificate.empty()
       : id = 0,
         name = '',
         organization = '',
-        date = '',
+        date = DateTime.now(),
         file = '';
 }
