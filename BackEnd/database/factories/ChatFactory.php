@@ -28,6 +28,7 @@ class ChatFactory extends Factory
             'user2_id' => $user2_id->id,
         ];
     }
+
     public function withMessages()
     {
         return $this->afterCreating(function ($chat) {

@@ -44,6 +44,7 @@ class RegJobFactory extends Factory
             $regJob->skills()->sync($skills);
         });
     }
+
     public function withCompetitors()
     {
         return $this->afterCreating(function (RegJob $regJob) {

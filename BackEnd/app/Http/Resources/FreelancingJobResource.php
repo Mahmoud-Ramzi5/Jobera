@@ -29,19 +29,17 @@ class FreelancingJobResource extends JsonResource
             ->where('job_id', $this->id)->first();
         if ($acceptedCompany != null) {
             $acceptedUser = [
-                'id' => $acceptedCompany->id,
                 'user_id' => $acceptedCompany->user_id,
                 'name' => $acceptedCompany->name,
-                'type' => $acceptedCompany->type,
+                'type' => 'company',
                 'avatar_photo' => $acceptedCompany->user->avatar_photo,
                 'salary' => $acceptedCompetitor ? $acceptedCompetitor->salary : 0.0
             ];
         } else if ($acceptedIndividual != null) {
             $acceptedUser = [
-                'id' => $acceptedIndividual->id,
                 'user_id' => $acceptedIndividual->user_id,
                 'name' => $acceptedIndividual->full_name,
-                'type' => $acceptedIndividual->type,
+                'type' => 'individual',
                 'avatar_photo' => $acceptedIndividual->user->avatar_photo,
                 'salary' => $acceptedCompetitor ? $acceptedCompetitor->salary : 0.0
             ];
@@ -62,7 +60,6 @@ class FreelancingJobResource extends JsonResource
         }
 
         return [
-            "id" => $this->id,
             "defJob_id" => $defJob->id,
             "title" => $defJob->title,
             "description" => $defJob->description,
@@ -74,17 +71,15 @@ class FreelancingJobResource extends JsonResource
             "deadline" => $this->deadline,
             "avg_salary" => $avg_salary,
             "job_user" => $company == null ? [
-                'id' => $individual->id,
                 'user_id' => $individual->user_id,
                 'name' => $individual->full_name,
-                'type' => $individual->type,
+                'type' => 'individual',
                 'avatar_photo' => $individual->user->avatar_photo,
                 'wallet' => $individual->user->wallet
             ] : [
-                'id' => $company->id,
                 'user_id' => $company->user_id,
                 'name' => $company->name,
-                'type' => $company->type,
+                'type' => 'company',
                 'avatar_photo' => $company->user->avatar_photo,
                 'wallet' => $company->user->wallet
             ],

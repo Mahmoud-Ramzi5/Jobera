@@ -38,7 +38,7 @@ const DefJobs = () => {
           }
           response.data.jobs.map((job) => {
             // Check if job is already in array
-            if (!jobs.some(item => job.id === item.id)) {
+            if (!jobs.some(item => job.defJob_id === item.defJob_id)) {
 
               // if not add job
               if (job.photo) {

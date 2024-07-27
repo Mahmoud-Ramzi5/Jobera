@@ -18,12 +18,12 @@ class RegJobCompetitorFactory extends Factory
      */
     public function definition(): array
     {
-        $regJob=RegJob::inRandomOrder()->first();
+        $regJob = RegJob::inRandomOrder()->first();
 
         return [
-            'individual_id'=>Individual::inRandomOrder()->first()->id,
-            'job_id'=>$regJob->id,
-            'description'=>$this->faker->sentence
+            'individual_id' => Individual::inRandomOrder()->first()->id,
+            'job_id' => $regJob->id,
+            'description' => $this->faker->sentence
         ];
     }
 }

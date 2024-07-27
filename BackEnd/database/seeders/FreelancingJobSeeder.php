@@ -14,9 +14,9 @@ class FreelancingJobSeeder extends Seeder
     public function run(): void
     {
         FreelancingJob::factory()
-        ->count(20)
-        ->withCompetitors()
-        ->withSkills() 
-        ->create();
+            ->count(20)
+            ->withCompetitors()
+            ->withSkills()
+            ->create();
     }
 }

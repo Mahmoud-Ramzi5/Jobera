@@ -196,16 +196,36 @@ class RegJobsController extends Controller
         ], 200);
     }
 
-    public function ShowRegJob(Request $request, RegJob $regJob)
+    public function ShowRegJob(Request $request, $defJob_id)
     {
+        // Get regJob
+        $regJob = RegJob::where('defJob_id', $defJob_id)->first();
+
+        // Check regJob
+        if ($regJob == null) {
+            return response()->json([
+                'errors' => ['job' => 'Invalid job']
+            ], 404);
+        }
+
         // Response
         return response()->json([
             'job' => new RegJobResource($regJob),
         ], 200);
     }
 
-    public function ViewRegJobCompetitors(Request $request, RegJob $regJob)
+    public function ViewRegJobCompetitors(Request $request, $defJob_id)
     {
+        // Get regJob
+        $regJob = RegJob::where('defJob_id', $defJob_id)->first();
+
+        // Check regJob
+        if ($regJob == null) {
+            return response()->json([
+                'errors' => ['job' => 'Invalid job']
+            ], 404);
+        }
+
         // Response
         return response()->json([
             'job_competitors' => new RegJobCompetitorCollection($regJob->competitors),
@@ -246,7 +266,7 @@ class RegJobsController extends Controller
         ], 200);
     }
 
-    public function DeleteRegJob(Request $request, RegJob $regJob)
+    public function DeleteRegJob(Request $request, $defJob_id)
     {
         // Get user
         $user = auth()->user();
@@ -256,6 +276,16 @@ class RegJobsController extends Controller
             return response()->json([
                 'errors' => ['user' => 'Invalid user']
             ], 401);
+        }
+
+        // Get regJob
+        $regJob = RegJob::where('defJob_id', $defJob_id)->first();
+
+        // Check regJob
+        if ($regJob == null) {
+            return response()->json([
+                'errors' => ['job' => 'Invalid job']
+            ], 404);
         }
 
         // Check policy
@@ -276,11 +306,11 @@ class RegJobsController extends Controller
             "message" => "Job has been deleted successfully"
         ], 204);
     }
-    public function AcceptIndividual(AcceptIndividualRequest $request, RegJob $regJob)
+
+    public function AcceptIndividual(AcceptIndividualRequest $request, $defJob_id)
     {
         // Validate request
         $validated = $request->validated();
-        $job_competitor = RegJobCompetitor::where('id', $validated['reg_job_competitor_id'])->first();
 
         // Get user
         $user = auth()->user();
@@ -292,6 +322,26 @@ class RegJobsController extends Controller
             ], 401);
         }
 
+        // Get regJob
+        $regJob = RegJob::where('defJob_id', $defJob_id)->first();
+
+        // Check regJob
+        if ($regJob == null) {
+            return response()->json([
+                'errors' => ['job' => 'Invalid job']
+            ], 404);
+        }
+
+        // Get competitor
+        $job_competitor = RegJobCompetitor::where('id', $validated['reg_job_competitor_id'])->first();
+
+        // Check competitor
+        if ($job_competitor == null) {
+            return response()->json([
+                'errors' => ['job_competitor' => 'Invalid job_competitor']
+            ], 401);
+        }
+
         // Check policy
         $policy = new RegJobPolicy();
         if (!$policy->AcceptIndividual(User::find($user->id), $regJob, $job_competitor)) {
@@ -300,15 +350,31 @@ class RegJobsController extends Controller
                 'errors' => ['user' => 'Unauthorized']
             ], 401);
         }
-        $regJob->update(['accepted_individual' => $job_competitor->individual_id]);
-        $user2_id = $regJob->acceptedIndividual->user->id;
 
-        Chat::create([
-            'user1_id' => $user->id,
-            'user2_id' => $user2_id
-        ]);
-        $DefJob = $regJob->defJob;
-        $DefJob->is_done = true;
+        // Update regJob
+        $regJob->accepted_individual = $job_competitor->individual_id;
+        $regJob->defJob->is_done = true;
+        $regJob->save();
+
+        // Get Other user
+        $other_user = $job_competitor->individual;
+
+        // Get chat
+        $chat = Chat::where(function ($query) use ($user, $other_user) {
+            $query->where('user1_id', $user->id)
+                ->where('user2_id', $other_user->user_id);
+        })->orWhere(function ($query) use ($user, $other_user) {
+            $query->where('user1_id', $other_user->user_id)
+                ->where('user2_id', $user->id);
+        })->first();
+
+        // Check chat
+        if ($chat == null) {
+            Chat::create([
+                'user1_id' => $user->id,
+                'user2_id' => $other_user->user_id
+            ]);
+        }
 
         // Response
         return response()->json([

@@ -20,16 +20,14 @@ class FreelancingJobCompetitorResource extends JsonResource
         $individual = Individual::where('user_id', $this->user_id)->first();
 
         return [
-            "id" => $this->id,
+            "competitor_id" => $this->id,
             "user" => $company == null ? [
-                'id' => $individual->id,
                 'user_id' => $individual->user_id,
                 'name' => $individual->full_name,
                 'type' => $individual->type,
                 'rating' => $individual->user->rating,
                 'avatar_photo' => $individual->user->avatar_photo
             ] : [
-                'id' => $company->id,
                 'user_id' => $company->user_id,
                 'name' => $company->name,
                 'type' => $company->type,
