@@ -31,7 +31,6 @@ const ShowJob = () => {
   const navigate = useNavigate();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [notFound, setNotFound] = useState(false);
 
   const [photo, setPhoto] = useState(null);
   const [job, setJob] = useState({});
@@ -74,7 +73,6 @@ const ShowJob = () => {
           }
         }
         else if (response.status === 404) {
-          setNotFound(true);
           navigate('/notfound');
         }
         else {
@@ -126,19 +124,20 @@ const ShowJob = () => {
 
   const handleNewJobCompetitor = (event) => {
     event.preventDefault();
-    ApplyToRegJobAPI(accessToken, job.id, comment).then((response) => {
+    ApplyToRegJobAPI(accessToken, job.defJob_id, comment).then((response) => {
       if (response.status == 200) {
         console.log('Added a competitor successfully')
         setParticipate(false);
         window.location.reload(); // Refresh the page after deletion
       } else {
-        console.log(response.statusText);
+        console.log(response);
       }
     })
   }
 
   const handleAcceptRegCompetitor = (event, id) => {
-    AcceptRegJob(accessToken, job.id, id).then((response) => {
+    event.preventDefault();
+    AcceptRegJob(accessToken, job.defJob_id, id).then((response) => {
       if (response.status == 200) {
         console.log('Competitor Accepted')
         setAccepted(true);
@@ -151,23 +150,24 @@ const ShowJob = () => {
 
   const handleNewFreelancer = (event) => {
     event.preventDefault();
-    ApplyToFreelancingJobAPI(accessToken, job.id, comment, desiredSalary).then((response) => {
+    ApplyToFreelancingJobAPI(accessToken, job.defJob_id, comment, desiredSalary).then((response) => {
       if (response.status == 200) {
         console.log('Added a competitor successfully')
         setParticipate(false);
         window.location.reload(); // Refresh the page after deletion
       } else {
-        console.log(response.statusText);
+        console.log(response);
       }
     });
   }
 
   const handleAcceptFreelancingCompetitor = (event, id, salary) => {
     event.preventDefault();
-    AcceptFreelancingJob(accessToken, job.id, id, salary).then((response) => {
+    AcceptFreelancingJob(accessToken, job.defJob_id, id, salary).then((response) => {
       if (response.status == 200) {
         console.log('Competitor Accepted');
         setAccepted(true);
+        window.location.reload();
       }
       else {
         console.log(response);
@@ -205,9 +205,9 @@ const ShowJob = () => {
     FinishedJobTransaction(
       accessToken,
       profile.user_id,
-      job.accepted_user.id,
-      job.id,
-      job.accepted_user.salary
+      job.accepted_user.user_id,
+      job.defJob_id,
+      parseFloat(job.accepted_user.salary)
     ).then((response) => {
       if (response.status == 200) {
         setJobEnded(true);
@@ -221,7 +221,7 @@ const ShowJob = () => {
   const handleDeleteJob = (event) => {
     event.preventDefault();
     if (job.type === 'Freelancing') {
-      DeleteFreelancingJobAPI(accessToken, job.id).then((response) => {
+      DeleteFreelancingJobAPI(accessToken, job.defJob_id).then((response) => {
         if (response.status == 204) {
           console.log('Job deleted');
           navigate('/jobs/Freelancing');
@@ -230,7 +230,7 @@ const ShowJob = () => {
         }
       });
     } else if (job.type !== 'Freelancing') {
-      DeleteRegJobAPI(accessToken, job.id).then((response) => {
+      DeleteRegJobAPI(accessToken, job.defJob_id).then((response) => {
         if (response.status == 204) {
           console.log('Job deleted');
           navigate('/jobs/all');
@@ -255,9 +255,10 @@ const ShowJob = () => {
   if (isLoading) {
     return <Clock />
   }
+console.log(job.defJob_id);
   return (
     <div className={styles.jobsPage}>
-      {notFound ? <></> :
+      {jobEnded ? <>job has ended</> :
         <>
           <div className={styles.pagecontent}>
             <div className={styles.left_side_container}>
@@ -340,11 +341,11 @@ const ShowJob = () => {
             </div>
           </div>
           <div className={styles.cancel_finish_job}>
-            {accepted && isJobCreator && job.type === 'Freelancing' ?
+            {accepted && !jobEnded && isJobCreator && job.type === 'Freelancing' ?
               <button className={styles.send_button} onClick={handleFinishFreelancingJob}>
                 {t('components.show_job.end_job_button')}
               </button>
-              : accepted && isJobCreator && job.type != 'Freelancing' ?
+              : accepted && !jobEnded && isJobCreator && job.type != 'Freelancing' ?
                 <button className={styles.send_button} onClick={handleFinishJob}>
                   {t('components.show_job.end_job_button')}
                 </button>
@@ -418,14 +419,14 @@ const ShowJob = () => {
             </>
             }
             {job.competitors && job.competitors.map((competitor) => (
-              <div className={styles.competitor_and_button} key={competitor.id}>
+              <div className={styles.competitor_and_button} key={competitor.competitor_id}>
                 <JobCompetitorCard CompetitorData={competitor} />
                 <div className={styles.buttons_holder2}>
                   {job.job_user ?
                     (job.job_user.user_id === profile.user_id && !accepted &&
-                      job.job_user.wallet.current_balance >= competitor.salary &&
+                      job.job_user.wallet.available_balance >= parseFloat(competitor.salary) &&
                       <button className={styles.accept_button}
-                        onClick={(event) => handleAcceptFreelancingCompetitor(event, competitor.id, competitor.salary)}>
+                        onClick={(event) => handleAcceptFreelancingCompetitor(event, competitor.competitor_id, parseFloat(competitor.salary))}>
                         <Check2 />
                       </button>
                     )
@@ -433,7 +434,7 @@ const ShowJob = () => {
                     (job.company && job.company.user_id === profile.user_id && !accepted &&
                       <>
                         <button className={styles.accept_button}
-                          onClick={(event) => handleAcceptRegCompetitor(event, competitor.id)}>
+                          onClick={(event) => handleAcceptRegCompetitor(event, competitor.competitor_id)}>
                           <Check2 />
                         </button>
                         <button className={styles.chat_button}

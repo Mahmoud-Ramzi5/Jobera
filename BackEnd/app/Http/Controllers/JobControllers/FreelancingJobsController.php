@@ -145,7 +145,8 @@ class FreelancingJobsController extends Controller
                             ) {
                                 array_push($jobsData, $job);
                             }
-                        };
+                        }
+                        ;
                     }
                 } else {
                     foreach ($jobs->items() as $job) {
@@ -240,6 +241,16 @@ class FreelancingJobsController extends Controller
             ], 401);
         }
 
+        // Get freelancingJob
+        $freelancingJob = FreelancingJob::where('defJob_id', $validated['job_id'])->first();
+
+        // Check freelancingJob
+        if ($freelancingJob == null) {
+            return response()->json([
+                'errors' => ['job' => 'Invalid job']
+            ], 404);
+        }
+
         // Check policy
         $policy = new FreelancingJobPolicy();
 
@@ -251,6 +262,7 @@ class FreelancingJobsController extends Controller
         }
 
         $validated['user_id'] = $user->id;
+        $validated['job_id'] = $freelancingJob->id;
         $FreelancingJobCompetitor = FreelancingJobCompetitor::create($validated);
 
         // Response
