@@ -363,6 +363,12 @@ class FreelancingJobsController extends Controller
 
     public function FinishedJob(Request $request, $defJob_id)
     {
+        $validated = $request->validate([
+            'sender_id' => 'required',
+            'receiver_id' => 'required',
+            'amount' => 'required'
+        ]);
+
         // Get user
         $user = auth()->user();
 
@@ -385,7 +391,7 @@ class FreelancingJobsController extends Controller
 
         // Check policy
         $policy = new FreelancingJobPolicy();
-        if (!$policy->FinishedJob(User::find($user->id), $freelancingJob)) {
+        if (!$policy->FinishedJob(User::find($validated['receiver_id']), $freelancingJob)) {
             // Response
             return response()->json([
                 'errors' => ['user' => 'Unauthorized']
@@ -394,11 +400,13 @@ class FreelancingJobsController extends Controller
 
         // Set is_done to true
         $freelancingJob->defJob->is_done = true;
+        $freelancingJob->defJob->save();
         $freelancingJob->save();
+        $something = app(TransactionsController::class)->AddUserTransaction($validated['sender_id'],$validated['receiver_id'], $freelancingJob->id, $validated['amount']);
 
         // Response
         return response()->json([
-            "message" => "Job is done"
+            "message" => $something
         ], 200);
     }
 }

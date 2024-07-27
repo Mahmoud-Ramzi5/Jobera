@@ -46,12 +46,6 @@ class TransactionsController extends Controller
 
     public function RegJobTransaction($sender_id, $job_id, $amount)
     {
-        // Validate request
-        // $validated = $request->validate([
-        //     'sender_id' => 'required',
-        //     'job_id' => 'required',
-        //     'amount' => 'required'
-        // ]);
 
         // Get user
         $user = auth()->user();
@@ -62,47 +56,6 @@ class TransactionsController extends Controller
                 'errors' => ['user' => 'Invalid user']
             ], 401);
         }
-
-        // if ($user->id != $validated['sender_id']) {
-        //     return response()->json([
-        //         'errors' => ['user' => 'Invalid user']
-        //     ], 401);
-        // }
-
-        // // Get company
-        // $company = Company::where('user_id', $validated['sender_id'])->first();
-
-        // // Check company
-        // if ($company == null) {
-        //     return response()->json([
-        //         'errors' => ['user' => 'Invalid user']
-        //     ], 401);
-        // }
-
-        // // Get wallets to change balances
-        // $senderWallet = Wallet::where('user_id', $validated['sender_id'])->first();
-        // $receiverWallet = Wallet::where('user_id', 1)->first();
-
-        // // Check wallets
-        // if ($senderWallet == null || $receiverWallet == null) {
-        //     return response()->json([
-        //         'message' => 'Error'
-        //     ], 401);
-        // }
-
-        // // Do the transaction
-        // if ($senderWallet->available_balance > $validated['amount']) {
-        //     $senderWallet->available_balance -= $validated['amount'];
-        //     $senderWallet->total_balance -= $validated['amount'];
-        //     $receiverWallet->available_balance += $validated['amount'];
-        //     $receiverWallet->total_balance += $validated['amount'];
-        //     $senderWallet->save();
-        //     $receiverWallet->save();
-        // } else {
-        //     return response()->json([
-        //         'message' => 'Insufficient balance'
-        //     ], 400);
-        // }
 
         if ($user->id != $sender_id) {
             return response()->json([
@@ -152,12 +105,6 @@ class TransactionsController extends Controller
 
     public function FreelancingJobTransaction($sender_id, $job_id, $amount)
     {
-        // Validate request
-        // $validated = $request->validate([
-        //     'sender_id' => 'required',
-        //     'job_id' => 'required',
-        //     'amount' => 'required'
-        // ]);
 
         // Get user
         $user = auth()->user();
@@ -169,44 +116,6 @@ class TransactionsController extends Controller
             ], 401);
         }
 
-        // if ($user->id != $validated['sender_id']) {
-        //     return response()->json([
-        //         'errors' => ['user' => 'Invalid user']
-        //     ], 401);
-        // }
-
-        // // Check if job is freelancing
-        // $freelancing = FreelancingJob::where('id', $validated['job_id'])->first();
-        // if ($freelancing == null) {
-        //     return response()->json([
-        //         'errors' => ['job' => 'Invalid job']
-        //     ], 401);
-        // }
-
-        // // Get wallets to change balances
-        // $senderWallet = Wallet::where('user_id', $validated['sender_id'])->first();
-        // $receiverWallet = Wallet::where('user_id', 1)->first();
-
-        // // Check wallets
-        // if ($senderWallet == null || $receiverWallet == null) {
-        //     return response()->json([
-        //         'message' => 'Error'
-        //     ], 401);
-        // }
-
-        // // Calculate admin share
-        // $fullAmount = $validated['amount'];
-        // if ($fullAmount > 0 && $fullAmount <= 2000) {
-        //     $adminShare = $fullAmount * 0.15;
-        // } else if ($fullAmount > 2000 && $fullAmount <= 15000) {
-        //     $adminShare = $fullAmount * 0.12;
-        // } else if ($fullAmount > 15000) {
-        //     $adminShare = $fullAmount * 0.10;
-        // } else {
-        //     return response()->json([
-        //         'message' => 'Error'
-        //     ], 401);
-        // }
 
         if ($user->id != $sender_id) {
             return response()->json([
@@ -270,15 +179,8 @@ class TransactionsController extends Controller
         ], 200);
     }
 
-    public function AddUserTransaction(Request $request)
+    public function AddUserTransaction($sender_id, $receiver_id, $job_id, $amount)
     {
-        // Validate request
-        $validated = $request->validate([
-            'sender_id' => 'required',
-            'receiver_id' => 'required',
-            'job_id' => 'required',
-            'amount' => 'required'
-        ]);
 
         // Get user
         $user = auth()->user();
@@ -290,14 +192,14 @@ class TransactionsController extends Controller
             ], 401);
         }
 
-        if ($user->id != $validated['sender_id']) {
+        if ($user->id != $sender_id) {
             return response()->json([
                 'errors' => ['user' => 'Invalid user']
             ], 401);
         }
 
         // Check if job is freelancing
-        $freelancing = FreelancingJob::where('id', $validated['job_id'])->first();
+        $freelancing = FreelancingJob::where('id', $job_id)->first();
         if ($freelancing == null) {
             return response()->json([
                 'errors' => ['job' => 'Invalid job']
@@ -305,8 +207,8 @@ class TransactionsController extends Controller
         }
 
         // Get wallets to change balances
-        $senderWallet = Wallet::where('user_id', $validated['sender_id'])->first();
-        $receiverWallet = Wallet::where('user_id', $validated['receiver_id'])->first();
+        $senderWallet = Wallet::where('user_id', $sender_id)->first();
+        $receiverWallet = Wallet::where('user_id', $receiver_id)->first();
 
         // Check wallets
         if ($senderWallet == null || $receiverWallet == null) {
@@ -316,7 +218,7 @@ class TransactionsController extends Controller
         }
 
         // Calculate admin share
-        $fullAmount = $validated['amount'];
+        $fullAmount = $amount;
         if ($fullAmount > 0 && $fullAmount <= 2000) {
             $adminShare = $fullAmount * 0.15;
         } else if ($fullAmount > 2000 && $fullAmount <= 15000) {
@@ -340,7 +242,7 @@ class TransactionsController extends Controller
             $receiverWallet->save();
         } else {
             return response()->json([
-                'message' => $validated['amount']
+                'message' => 'something went wrong'
             ], 400);
         }
 
