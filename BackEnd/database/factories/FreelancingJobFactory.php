@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Skill;
 use App\Models\DefJob;
 use App\Models\FreelancingJob;
+use App\Models\FreelancingJobCompetitor;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -47,6 +48,21 @@ class FreelancingJobFactory extends Factory
         return $this->afterCreating(function (FreelancingJob $freelancingJob) {
             $skills = Skill::inRandomOrder()->take(rand(1, 5))->pluck('id');
             $freelancingJob->skills()->sync($skills);
+        });
+    }
+    public function withCompetitors()
+    {
+        return $this->afterCreating(function (FreelancingJob $freelancingJob) {
+            // Add two random competitors
+            FreelancingJobCompetitor::factory()->count(2)->create([
+                'job_id' => $freelancingJob->id,
+            ]);
+
+            // Add one competitor with the same ID as the accepted user
+            FreelancingJobCompetitor::factory()->create([
+                'job_id' => $freelancingJob->id,
+                'user_id' => $freelancingJob->accepted_user,
+            ]);
         });
     }
 }

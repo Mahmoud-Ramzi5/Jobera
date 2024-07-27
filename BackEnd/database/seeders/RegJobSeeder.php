@@ -14,7 +14,8 @@ class RegJobSeeder extends Seeder
     public function run(): void
     {
         RegJob::factory()
-            ->count(20) 
+            ->count(20)
+            ->withCompetitors()
             ->withSkills() 
             ->create();
     }
