@@ -4,7 +4,7 @@ import styles from '../../styles/JobFeed.module.css';
 import Stats from '../../components/JobFeed/stats';
 import { LoginContext } from '../../utils/Contexts';
 import { useContext } from 'react';
-import { MostNeededSkillsAPI,MostPayedFreelancingJobsAPI,MostPostingCompaniesAPI,MostPayedRegJobsAPI } from '../../apis/JobFeedApis';
+import {  JopFeedAPI } from '../../apis/JobFeedApis';
 
 const JobFeed = () => {
   // Context
@@ -15,34 +15,17 @@ const JobFeed = () => {
   const [MostPostingCompanies,setMostPostingCompanies]=useState([]);
 
   useEffect(() => {
-    MostNeededSkillsAPI(accessToken).then((response)=>{
+    JopFeedAPI(accessToken).then((response)=>{
       if (response.status === 200){
-        setMostNeededSkills(response.data.data);
+        setMostNeededSkills(response.data.MostNeededSkills);
+        setMostPayedFreelancingJobs(response.data.MostPayedFreelancingJobs);
+        setMostPayedRegJobs(response.data.MostPayedRegJobs);
+        setMostPostingCompanies(response.data.MostPostingCompanies)
       }else{
         console.log(response);
       }
     })
-    MostPayedFreelancingJobsAPI(accessToken).then((response)=>{
-      if (response.status === 200){
-        setMostPayedFreelancingJobs(response.data);
-      }else{
-        console.log(response);
-      }
-    })
-    MostPayedRegJobsAPI(accessToken).then((response)=>{
-      if (response.status === 200){
-        setMostPayedRegJobs(response.data);
-      }else{
-        console.log(response);
-      }
-    })
-    MostPostingCompaniesAPI(accessToken).then((response)=>{
-      if (response.status === 200){
-        setMostPostingCompanies(response.data.data);
-      }else{
-        console.log(response);
-      }
-    })
+    
   });
 
   return (

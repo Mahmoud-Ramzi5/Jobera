@@ -177,6 +177,7 @@ Route::controller(JobFeedController::class)->group(function () {
         Route::get('/jobFeed/skills', 'MostNeededSkills');
         Route::get('/jobFeed/companies', 'MostPostingCompanies');
         Route::get('/jobFeed/stats', 'Stats');
+        Route::get('/jobFeed/tops','Tops');
     });
 });
 

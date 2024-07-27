@@ -74,13 +74,15 @@ class JobFeedController extends Controller
         $skills = [];
 
         foreach ($regJobs as $regJob) {
-            foreach ($regJob->skills as $skill) {
+            $defJob=DefJob::where('id',$regJob->defJob_id)->first();
+            foreach ($defJob->skills as $skill) {
                 $skills[] = $skill->name; // Collecting skill names
             }
         }
 
         foreach ($freelancingJobs as $freelancingJob) {
-            foreach ($freelancingJob->skills as $skill) {
+            $defJob=DefJob::where('id',$freelancingJob->defJob_id)->first();
+            foreach ($defJob->skills as $skill) {
                 $skills[] = $skill->name; // Collecting skill names
             }
         }
@@ -97,9 +99,8 @@ class JobFeedController extends Controller
 
         $topMostNeededSkills = array_slice($mostNeededSkills, 0, 5);
 
-        return response()->json([
-            'data' => $topMostNeededSkills,
-        ]);
+        return  $topMostNeededSkills;
+
     }
 
     public function MostPostingCompanies()
@@ -118,9 +119,7 @@ class JobFeedController extends Controller
         }
         $topMostPostingCompanies = array_slice($MostPostingCompanies, 0, 5);
 
-        return response()->json([
-            'data' => $topMostPostingCompanies,
-        ]);
+        return  $topMostPostingCompanies;
     }
 
     public function Stats()
@@ -158,6 +157,14 @@ class JobFeedController extends Controller
             "total_runnning_partTimeJob_posts" => $runningJobsPartTime,
             "total_exhibiting_companies" => $companyRegistered,
             "total_registered_individual" => $individualRegistered,
+        ]);
+    }
+    public function Tops(){
+        return response()->json([
+            "MostPayedRegJobs"=>$this->MostPayedRegJobs(),
+            "MostPostingCompanies"=>$this->MostPostingCompanies(),
+            "MostPayedFreelancingJobs"=>$this->MostPayedFreelancingJobs(),
+            "MostNeededSkills"=>$this->MostNeededSkills()
         ]);
     }
 }
