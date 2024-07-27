@@ -5,7 +5,7 @@ import { PencilSquare, CurrencyDollar, ChatDots, Check2, Bookmark, BookmarkFill 
 import { LoginContext, ProfileContext } from '../../utils/Contexts';
 import {
   FetchJob, ApplyToRegJobAPI, ApplyToFreelancingJobAPI, BookmarkJobAPI,
-  AcceptRegJob, AcceptFreelancingJob, DeleteRegJobAPI, DeleteFreelancingJobAPI
+  AcceptRegJob, AcceptFreelancingJob, FinishFreelancingJob, DeleteRegJobAPI, DeleteFreelancingJobAPI
 } from '../../apis/JobsApis';
 import { FinishedJobTransaction } from '../../apis/TransactionsApis';
 import { FetchImage } from '../../apis/FileApi';
@@ -202,7 +202,7 @@ const ShowJob = () => {
 
   const handleFinishFreelancingJob = (event) => {
     event.preventDefault();
-    FinishedJobTransaction(
+    FinishFreelancingJob(
       accessToken,
       profile.user_id,
       job.accepted_user.user_id,
@@ -255,7 +255,7 @@ const ShowJob = () => {
   if (isLoading) {
     return <Clock />
   }
-console.log(job.defJob_id);
+console.log(job.accepted_user.user_id);
   return (
     <div className={styles.jobsPage}>
       {jobEnded ? <>job has ended</> :
