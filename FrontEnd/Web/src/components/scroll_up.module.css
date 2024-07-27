@@ -1,0 +1,21 @@
+.holder {
+    position: fixed;
+    inset-inline-start: 90%;
+    inset-block-end: 10%;
+    height: 45px;
+    width: 45px;
+    background-color: white;
+    border: 3px;
+    border-radius: 20px;
+    border-style:outset;
+    border-color: var(--color-better_orange);
+}
+
+.button1 {
+    position: relative;
+    font-size: 1.7em;
+    font-weight: 500;
+    z-index: 1;
+    cursor: pointer;
+    color: #3E6FA9;
+}
