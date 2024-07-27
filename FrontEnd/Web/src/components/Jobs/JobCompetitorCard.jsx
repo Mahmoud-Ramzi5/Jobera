@@ -16,7 +16,7 @@ const JobCompetitorCard = ({ CompetitorData, AcceptedCompetitor }) => {
           setPhoto(response);
         });
       }
-      if(CompetitorData.user.user_id===AcceptedCompetitor){
+      if (CompetitorData.user.user_id === AcceptedCompetitor) {
         setAccepted(true);
       }
     }
@@ -78,13 +78,13 @@ const JobCompetitorCard = ({ CompetitorData, AcceptedCompetitor }) => {
         <div className={styles.info_container}>
           <div className={styles.namer}>
             <div className={styles.name}>
-              {accepted && <PersonCheckFill/>}
+              {accepted && <PersonCheckFill />}
               <h4>
-                  <a className={styles.anchor} href={`/profile/${CompetitorData.user.user_id}/${CompetitorData.user.name}`}>{CompetitorData.user.name}</a>
+                <a className={styles.anchor} href={`/profile/${CompetitorData.user.user_id}/${CompetitorData.user.name}`}>{CompetitorData.user.name}</a>
               </h4>
             </div>
             <div className={styles.CompetitorRating}>
-                {RenderStars(CompetitorData.user.rating)}
+              {RenderStars(CompetitorData.user.rating)}
             </div>
             {CompetitorData.job_type == "Freelancing" && (
               <p className={styles.salary}> ${CompetitorData.offer} </p>

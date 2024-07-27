@@ -76,7 +76,7 @@ const ShowJob = () => {
           console.log(response.statusText);
         }
 
-        if ( response.data.job.accepted_user) {
+        if (response.data.job.accepted_user) {
           setAccepted(true);
         }
 
@@ -400,7 +400,7 @@ const ShowJob = () => {
             }
             {job.competitors && job.competitors.map((competitor) => (
               <div className={styles.competitor_and_button} key={competitor.competitor_id}>
-                <JobCompetitorCard CompetitorData={competitor} AcceptedCompetitor={job.accepted_user.user_id}/>
+                <JobCompetitorCard CompetitorData={competitor} AcceptedCompetitor={job.accepted_user.user_id} />
                 <div className={styles.buttons_holder2}>
 
                   {job.job_user.user_id === profile.user_id && !accepted &&
