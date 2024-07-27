@@ -152,7 +152,8 @@ class RegJobsController extends Controller
                             ) {
                                 array_push($jobsData, $job);
                             }
-                        };
+                        }
+                        ;
                     }
                 } else {
                     foreach ($jobs->items() as $job) {
@@ -247,6 +248,16 @@ class RegJobsController extends Controller
             ], 401);
         }
 
+        // Get regJob
+        $regJob = RegJob::where('defJob_id', $validated['job_id'])->first();
+
+        // Check regJob
+        if ($regJob == null) {
+            return response()->json([
+                'errors' => ['job' => 'Invalid job']
+            ], 404);
+        }
+
         // Check policy
         $policy = new RegJobPolicy();
 
@@ -256,7 +267,17 @@ class RegJobsController extends Controller
             ], 401);
         }
 
+        // Get individual
         $individual = Individual::where('user_id', $user->id)->first();
+
+        // Check individual
+        if ($individual == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+
+        $validated['job_id'] = $regJob->id;
         $validated['individual_id'] = $individual->id;
         $RegJobCompetitor = RegJobCompetitor::create($validated);
 
@@ -354,6 +375,7 @@ class RegJobsController extends Controller
         // Update regJob
         $regJob->accepted_individual = $job_competitor->individual_id;
         $regJob->defJob->is_done = true;
+        $regJob->defJob->save();
         $regJob->save();
 
         // Get Other user
