@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\JobControllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\DefJob;
-use App\Models\FreelancingJob;
-use App\Models\FreelancingJobCompetitor;
 use App\Models\RegJob;
+use App\Models\Company;
+use App\Models\FreelancingJob;
+use App\Http\Controllers\Controller;
+use App\Models\FreelancingJobCompetitor;
+use App\Models\Skill;
 
 class JobFeedController extends Controller
 {
@@ -23,6 +25,7 @@ class JobFeedController extends Controller
         foreach ($topJobs as $job) {
             $defJob = DefJob::where('id', $job->defJob_id)->first();
             $data[] = [
+                'id'=>$job->defJob_id,
                 'title' => $defJob->title,
                 'salary' => $job->salary,
             ];
@@ -54,6 +57,7 @@ class JobFeedController extends Controller
             $defJob = DefJob::where('id', $job->defJob_id)->first();
             $accepted_competitor = FreelancingJobCompetitor::where('user_id', $job->accepted_user)->first();
             $data[] = [
+                'id'=>$job->defJob_id,
                 'title' => $defJob->title,
                 'salary' => $accepted_competitor->salary,
             ];
@@ -86,7 +90,8 @@ class JobFeedController extends Controller
         // Preparing the result
         $mostNeededSkills = [];
         foreach ($skillCounts as $skillName => $count) {
-            $mostNeededSkills[] = ['title' => $skillName, 'count' => $count];
+            $skill=Skill::where('name',$skillName)->first();
+            $mostNeededSkills[] = ['title' => $skillName, 'count' => $count,'skill_id'=>$skill->id];
         }
 
         $topMostNeededSkills = array_slice($mostNeededSkills, 0, 5);
@@ -107,7 +112,8 @@ class JobFeedController extends Controller
         $companyCounts = array_count_values($companies);
         arsort($companyCounts);
         foreach ($companyCounts as $companyName => $count) {
-            $MostPostingCompanies[] = ['title' => $companyName, 'count' => $count];
+            $company=Company::where('name',$companyName)->first();
+            $MostPostingCompanies[] = ['title' => $companyName, 'count' => $count,'company_id'=>$company->user_id];
         }
         $topMostPostingCompanies = array_slice($MostPostingCompanies, 0, 5);
 
