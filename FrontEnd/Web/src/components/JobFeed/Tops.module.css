@@ -14,42 +14,52 @@
   box-shadow: 0px 4px 12px var(--color-available);
   margin-bottom: 20px;
   width: 100%;
-  max-width: 700px; /* Increased max-width for the card */
+  max-width: 700px; 
   transition: box-shadow 0.3s ease-in-out;
+  text-align: center; 
 }
 
 .card:hover {
-  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); /* Add hover effect */
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2); 
 }
 
 .jobs_list {
   list-style-type: none;
   padding: 0;
   width: 100%;
-  margin: 0; /* Remove default margin */
+  margin: 0; 
 }
 
 .job_item {
-  background-color: var(--color-background);;
+  background-color: var(--color-background);
   padding: 15px;
   margin-bottom: 15px;
   border-radius: 6px;
   box-shadow: 0px 2px 4px var(--color-types);
   width: 100%;
   transition: background-color 0.3s ease-in-out;
+  text-align: left; 
 }
 
+.job_item a {
+  text-decoration: none; /* Remove default underline */
+  color: inherit; /* Inherit parent color */
+}
 .job_item:hover {
-  background-color: var( --color-scrollbar-track2); /* Add hover effect */
+  background-color: var(--color-scrollbar-track2); 
+}
+
+.job_item h3 {
+  margin-bottom: 5px; 
 }
 
 /* Responsive Styles */
 @media (max-width: 768px) {
   .card {
-    padding: 15px; /* Adjust padding for smaller screens */
+    padding: 15px; 
   }
 
   .job_item {
-    padding: 10px; /* Adjust padding for smaller screens */
+    padding: 10px; 
   }
 }

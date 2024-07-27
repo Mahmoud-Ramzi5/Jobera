@@ -55,7 +55,7 @@ const JobFeed = () => {
           <Tops jobs={MostPayedFreelancingJobs} title="Most Payed Freelancing Jobs" />
         </div>
         <div className={styles.posts}>
-          <Tops jobs={MostPayedRegJobs} title="Most Payed PartTime and FullTime Jobs" />
+          <Tops jobs={MostPayedRegJobs} title="Most Payed Regular Jobs" />
         </div>
         <div className={styles.posts}>
           <Tops jobs={MostPostingCompanies} title="Most Posting Companies" />
