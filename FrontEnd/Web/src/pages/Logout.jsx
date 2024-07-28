@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, useRef } from 'react';
+import { useEffect, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { LoginContext, ProfileContext } from '../utils/Contexts.jsx';
@@ -6,8 +6,8 @@ import { LogoutAPI } from '../apis/AuthApis.jsx';
 
 
 const Logout = () => {
-  const { loggedIn, setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
-  const { profile, setProfile } = useContext(ProfileContext);
+  const { setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
+  const { setProfile } = useContext(ProfileContext);
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
@@ -39,7 +39,6 @@ const Logout = () => {
     // TODO
     <h1>Loading...</h1>
   );
-
 };
 
 export default Logout;

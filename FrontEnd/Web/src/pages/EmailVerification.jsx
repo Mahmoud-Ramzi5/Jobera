@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { CheckLg } from 'react-bootstrap-icons';
 import { VerifyEmailAPI } from '../apis/AuthApis.jsx';
 import Logo from '../assets/JoberaLogo.png';
 import styles from '../styles/emailverfication.module.css';
 
 
-const EmailVerificationMessage = () => {
+const EmailVerification = () => {
+  // Translations
+  const { t } = useTranslation('global');
+  // Define states
   const [isVerified, setVerified] = useState('');
 
   useEffect(() => {
@@ -23,6 +27,7 @@ const EmailVerificationMessage = () => {
     });
   }, []);
 
+
   return (
     <div className={styles.container}>
       <div className={styles.screen}>
@@ -31,10 +36,12 @@ const EmailVerificationMessage = () => {
           {isVerified ? (<>
             <div className={styles.success}>
               <i className={styles.check}><CheckLg size={60} /></i>
-              <span>Email has been verified successfully!</span>
+              <span>{t('pages.email_verification.span')}</span>
             </div>
           </>) : (
-            <p className={styles.pending}>Email verification pending. Please check your inbox.</p>
+            <p className={styles.pending}>
+              {t('pages.email_verification.p')}
+            </p>
           )}
         </div>
 
@@ -44,10 +51,9 @@ const EmailVerificationMessage = () => {
           <span className={`${styles.screen__background__shape} ${styles.screen__background__shape2}`}></span>
           <span className={`${styles.screen__background__shape} ${styles.screen__background__shape1}`}></span>
         </div>
-
       </div>
     </div>
   );
 };
 
-export default EmailVerificationMessage;
+export default EmailVerification;

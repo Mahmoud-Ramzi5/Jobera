@@ -23,7 +23,8 @@ import Certificates from './components/Education&Certificates/Certificates.jsx';
 import CertificateForm from './components/Education&Certificates/Certificate.jsx';
 import ResetPassword from './pages/ResetPassword.jsx';
 import ForgotPassword from './pages/ForgotPassword.jsx';
-import EmailVerificationMessage from './pages/EmailVerification.jsx';
+import EmailVerification from './pages/EmailVerification.jsx';
+import JobFeed from './pages/Jobs/JobFeed.jsx';
 import DefJobs from './pages/Jobs/DefJobs.jsx';
 import FullTimeRegJobs from './pages/Jobs/FullTimeRegJobs.jsx';
 import PartTimeRegJobs from './pages/Jobs/PartTimeRegJobs.jsx';
@@ -33,11 +34,8 @@ import PostJob from './pages/Jobs/PostJob.jsx';
 import Manage from './pages/Manage.jsx';
 import ChatPage from './components/Chats/ChatPage.jsx';
 import RedeemCode from './components/Profile/RedeemCode.jsx';
-
-
-import JobFeed from './pages/Jobs/JobFeed.jsx';
-import NotFound from './components/NotFound.jsx';
-import ErrorPage from './components/ErrorPage.jsx';
+import NotFound from './pages/NotFound.jsx';
+import ErrorPage from './pages/ErrorPage.jsx';
 
 
 function App() {
@@ -152,10 +150,8 @@ function App() {
                   <Route path='/manage' element={<Manage />} />
                   <Route path='/chats' element={<ChatPage />} />
                   <Route path='/redeemcode' element={<RedeemCode />} />
-
                   <Route path='/notfound' element={<NotFound />} />
                   <Route path='/error' element={<ErrorPage />} />
-
                   <Route path="/logout" element={<Logout />} />
                 </Route>
               </Route>
@@ -166,7 +162,7 @@ function App() {
                 <Route path="/auth/:provider/call-back" element={<CallBack />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/ForgetPassword" element={<ForgotPassword />} />
-                <Route path="/emailVerify" element={<EmailVerificationMessage />} />
+                <Route path="/emailVerify" element={<EmailVerification />} />
               </Route>
             </Routes>
           </BrowserRouter>

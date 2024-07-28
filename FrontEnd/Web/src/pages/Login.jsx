@@ -77,7 +77,7 @@ const Login = () => {
             Cookies.set('access_token', token, { secure: true, expires: 1 / 24 });
           }
           // Redirect to dashboard
-            navigate('/dashboard');
+          navigate('/dashboard');
         }
         else {
           console.log(response.statusText);

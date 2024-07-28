@@ -9,15 +9,22 @@
 .screen {
     position: relative;
     height: 500px;
-    width: 670px;
+    width: 600px;
     box-shadow: 0px 0px 24px #395F87;
 }
 
 .screen__shape {
-    background: linear-gradient(90deg, #00C9FF, #E27D48, #3B6D99);
     position: absolute;
-    height: 600px;
-    width: 360px;
+    height: 500px;
+    width: 300px;
+}
+
+html[dir='ltr'] .screen__shape {
+    background: linear-gradient(90deg, #00C9FF, #E27D48, #3B6D99);
+}
+
+html[dir='rtl'] .screen__shape {
+    background: linear-gradient(-90deg, #00C9FF, #E27D48, #3B6D99);
 }
 
 .screen__content {
@@ -37,8 +44,13 @@
     clip-path: inset(0 0 0 0);
 }
 
-.screen__background__shape {
+html[dir='ltr'] .screen__background__shape {
     transform: rotate(45deg);
+    position: absolute;
+}
+
+html[dir='rtl'] .screen__background__shape {
+    transform: rotate(-45deg);
     position: absolute;
 }
 
@@ -48,7 +60,7 @@
     background-color: var(--color-background);
     inset-block-start: -50px;
     inset-inline-end: 120px;
-    border-radius: 0 72px 0 0;
+    border-radius: 72px 72px 0 0;
 }
 
 .screen__background__shape2 {
@@ -63,10 +75,17 @@
 .screen__background__shape3 {
     height: 540px;
     width: 190px;
-    background: linear-gradient(270deg, #E27D48, #4F6E95);
     inset-block-start: -24px;
     inset-inline-end: 0;
     border-radius: 32px;
+}
+
+html[dir='ltr'] .screen__background__shape3 {
+    background: linear-gradient(270deg, #E27D48, #4F6E95);
+}
+
+html[dir='rtl'] .screen__background__shape3 {
+    background: linear-gradient(-270deg, #E27D48, #4F6E95);
 }
 
 .screen__background__shape4 {
@@ -81,29 +100,31 @@
 .img_holder {
     max-width: 500px;
     max-height: 400px;
+    padding-block-start: 30px;
+    padding-inline-start: 10px;
 }
 
-.image{
-    max-width: 500px;
-    max-height: 400px;
+.image {
+    width: 100%;
+    height: 100%;
 }
 
 .title {
     display: flex;
-    padding-inline-start: 40px;
-    padding-block-start: 20px;
+    padding-inline-start: 50px;
+    padding-block-start: 25px;
 }
 
 .no_reason {
-    margin-block-start: 70px;
+    padding-inline-end: 75px;
+    margin-block-start: 50px;
 }
 
 .anchor {
     text-decoration: none;
-    font-size: 1.2em;
+    font-size: 20px;
 }
 
 .anchor:hover {
     text-decoration: underline;
-
 }

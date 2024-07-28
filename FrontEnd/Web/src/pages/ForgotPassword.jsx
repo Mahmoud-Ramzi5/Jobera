@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { PersonFill, ChevronRight, CheckLg, X } from 'react-bootstrap-icons';
 import { ForgotPasswordAPI } from '../apis/AuthApis.jsx';
 import NormalInput from '../components/NormalInput.jsx';
@@ -8,12 +9,14 @@ import styles from '../styles/forgotpassword.module.css';
 
 
 const ForgotPassword = () => {
+  // Translations
+  const { t } = useTranslation('global');
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-  const [failedMessage, setfailedMessage] = useState('');
+  const [failedMessage, setFailedMessage] = useState('');
 
   // Handle form submit
   const handleSubmit = (event) => {
@@ -26,21 +29,24 @@ const ForgotPassword = () => {
     // Perform ForgotPassword logic (Call api)
     ForgotPasswordAPI(email).then((response) => {
       if (response.status === 200) {
-        setSuccessMessage('Reset password email has been sent.');
+        setSuccessMessage(t('pages.forgot_password.success'));
       }
       else {
-        setfailedMessage('Sorry something went wrong');
+        setFailedMessage(t('pages.forgot_password.failed'));
         console.log(response.statusText);
       }
     });
   };
+
 
   return (
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen__content}>
           <img src={Logo} className={styles.logo} alt="logo" />
-          <div className={styles.title}>Forgot Password</div>
+          <div className={styles.title}>
+            {t('pages.forgot_password.title')}
+          </div>
           {failedMessage ? (<>
             <div className={styles.failed}>
               <i className={styles.xmark}><X size={60} /></i>
@@ -54,16 +60,18 @@ const ForgotPassword = () => {
               </div>
             </>) : (
               <form className={styles.ForgotPassword} onSubmit={handleSubmit}>
-                <label className={styles.label1}>Enter your email address and we'll send you an email with instructions to reset your password. </label>
+                <label className={styles.label}>
+                  {t('pages.forgot_password.label')}
+                </label>
                 <NormalInput
                   type='email'
-                  placeholder='Email'
+                  placeholder={t('pages.forgot_password.email')}
                   icon={<PersonFill />}
                   value={email}
                   setChange={setEmail}
                 />
                 <button type="submit" className={styles.ForgotPassword__submit}>
-                  <span>Send reset-link</span>
+                  <span>{t('pages.forgot_password.span')}</span>
                   <i className={styles.button__icon}><ChevronRight /></i>
                 </button>
               </form>
@@ -77,7 +85,6 @@ const ForgotPassword = () => {
           <span className={`${styles.screen__background__shape} ${styles.screen__background__shape2}`}></span>
           <span className={`${styles.screen__background__shape} ${styles.screen__background__shape1}`}></span>
         </div>
-
       </div>
     </div>
   );

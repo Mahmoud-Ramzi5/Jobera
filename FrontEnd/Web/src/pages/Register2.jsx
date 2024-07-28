@@ -29,7 +29,7 @@ const Register2 = () => {
       navigate(`/profile/${profile.user_id}/${profile.name}`);
     }
     else {
-      console.log('error')
+      console.log('error');
     }
   }
 
@@ -97,7 +97,7 @@ const Register2 = () => {
             case 'DONE':
               return ProfilePage();
             default:
-              return <h1>404 Not Found</h1>;
+              return navigate('/notfound');
           }
         })()}
       </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { PersonFill, ChevronRight } from 'react-bootstrap-icons';
 import { FetchEmail, ResetPasswordAPI } from '../apis/AuthApis.jsx';
 import PasswordInput from '../components/PasswordInput.jsx';
@@ -9,6 +10,8 @@ import Inputstyles from '../styles/Input.module.css';
 
 
 const ResetPassword = () => {
+  // Translations
+  const { t } = useTranslation('global');
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
@@ -43,7 +46,7 @@ const ResetPassword = () => {
     event.preventDefault();
 
     if (password != confirmPassword) {
-      alert('The password and Confirm-Password fields should be the same')
+      alert(t('pages.reset_password.alert'));
     }
     else {
       // Perform PasswordReset logic (Call api)
@@ -54,7 +57,7 @@ const ResetPassword = () => {
         confirmPassword)
         .then((response) => {
           if (response.status === 200) {
-            setSuccessMessage('Password has been changed successfully');
+            setSuccessMessage(t('pages.reset_password.success'));
           }
           else {
             console.log(response.statusText);
@@ -67,16 +70,21 @@ const ResetPassword = () => {
     setConfirmPassword('');
   };
 
+
   return (
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen__content}>
           <img src={Logo} className={styles.logo} alt="logo" />
-          <div className={styles.title}>Reset Password</div>
+          <div className={styles.title}>
+            {t('pages.reset_password.title')}
+          </div>
           {successMessage ? (<>
             <div className={styles.success}>
               {successMessage}
-              <button onClick={() => navigate('/login')} className={styles.navigateButton} name="navigate_login">Return to log in</button>
+              <button onClick={() => navigate('/login')} className={styles.navigateButton}>
+                {t('pages.reset_password.button')}
+              </button>
             </div>
           </>) : (
             <form className={styles.reset} onSubmit={handleSubmit}>
@@ -85,17 +93,17 @@ const ResetPassword = () => {
                 <input type="email" className={Inputstyles.input} value={email} readOnly={true} />
               </div>
               <PasswordInput
-                placeholder='Password'
+                placeholder={t('pages.reset_password.password')}
                 value={password}
                 setChange={setPassword}
               />
               <PasswordInput
-                placeholder='Confirm Password'
+                placeholder={t('pages.reset_password.confirm_password')}
                 value={confirmPassword}
                 setChange={setConfirmPassword}
               />
               <button type="submit" className={styles.reset__submit}>
-                <span>Change Password</span>
+                <span>{t('pages.reset_password.span')}</span>
                 <i className={styles.button__icon}><ChevronRight /></i>
               </button>
             </form>
@@ -108,7 +116,6 @@ const ResetPassword = () => {
           <span className={`${styles.screen__background__shape} ${styles.screen__background__shape2}`}></span>
           <span className={`${styles.screen__background__shape} ${styles.screen__background__shape1}`}></span>
         </div>
-
       </div>
     </div>
   );

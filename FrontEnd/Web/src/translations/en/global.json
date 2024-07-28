@@ -92,6 +92,37 @@
             "register_login_div": "Already have an account?",
             "register_login_a": "Log in"
         },
+        "forgot_password": {
+            "title": "Forgot Password",
+            "label": "Enter your email address and we'll send you an email with instructions to reset your password.",
+            "email": "Email",
+            "span": "Send reset-link",
+            "success": "Reset password email has been sent",
+            "failed": "Something went wrong, try again later"
+        },
+        "reset_password": {
+            "title": "Reset Password",
+            "button": "Return to log in",
+            "password": "Password",
+            "confirm_password": "Confirm Password",
+            "span": "Change Password",
+            "alert": "The Password and Confirm-Password fields should be the same",
+            "success": "Password has been changed successfully"
+        },
+        "email_verification": {
+            "span": "Email has been verified successfully!",
+            "p": "Email verification pending, Please wait."
+        },
+        "not_found": {
+            "title": "The selected page was not found",
+            "anchor": "Return to profile"
+        },
+        "error_page": {
+            "An": "An",
+            "error": "error",
+            "title": "has occured, please try again later",
+            "anchor": "Return to profile"
+        },
         "jobs": {
             "job_filter": {
                 "published_by1": "Published By:",
