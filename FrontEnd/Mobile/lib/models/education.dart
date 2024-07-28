@@ -12,7 +12,7 @@ class Education {
     required this.school,
     required this.startDate,
     required this.endDate,
-    required this.certificateFile,
+    this.certificateFile,
   });
 
   Education.fromJson(Map<String, dynamic> json)

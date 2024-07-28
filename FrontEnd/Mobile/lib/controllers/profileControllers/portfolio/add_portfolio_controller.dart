@@ -4,8 +4,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:image_picker/image_picker.dart';
+import 'package:jobera/controllers/appControllers/settings_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
-import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/controllers/profileControllers/portfolio/view_portfolio_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/skill.dart';
@@ -13,7 +13,7 @@ import 'package:jobera/models/skill.dart';
 class AddPortfolioController extends GetxController {
   late GlobalKey<FormState> formField;
   late ViewPortfolioController portfolioController;
-  late GeneralController generalController;
+  late SettingsController settingsController;
   late TextEditingController titleController;
   late TextEditingController descriptionController;
   late TextEditingController linkController;
@@ -28,21 +28,21 @@ class AddPortfolioController extends GetxController {
   Future<void> onInit() async {
     formField = GlobalKey<FormState>();
     portfolioController = Get.find<ViewPortfolioController>();
-    generalController = Get.find<GeneralController>();
+    settingsController = Get.find<SettingsController>();
     titleController = TextEditingController();
     descriptionController = TextEditingController();
     linkController = TextEditingController();
     image = null;
     files = const FilePickerResult([]);
     dio = Dio();
-    skills = await generalController.getAllSkills();
+    skills = await settingsController.getAllSkills();
     update();
     super.onInit();
   }
 
   Future<void> searchSkills(String value) async {
     skills.clear();
-    skills = await generalController.searchSkills(value);
+    skills = await settingsController.searchSkills(value);
     skills.removeWhere(
         (item) => selectedSkills.any((mySkill) => item.name == mySkill.name));
     update();
@@ -65,7 +65,7 @@ class AddPortfolioController extends GetxController {
   }
 
   Future<void> addFiles() async {
-    files = await generalController.pickFiles();
+    files = await settingsController.pickFiles();
     update();
   }
 
@@ -75,7 +75,7 @@ class AddPortfolioController extends GetxController {
   }
 
   Future<void> addPhoto() async {
-    image = await generalController.pickPhotoFromGallery();
+    image = await settingsController.pickPhotoFromGallery();
     if (image != null) {
       displayImage = await image!.readAsBytes();
       update();
@@ -85,7 +85,7 @@ class AddPortfolioController extends GetxController {
   }
 
   Future<void> takePhoto() async {
-    image = await generalController.takePhotoFromCamera();
+    image = await settingsController.takePhotoFromCamera();
     if (image != null) {
       displayImage = await image!.readAsBytes();
       update();

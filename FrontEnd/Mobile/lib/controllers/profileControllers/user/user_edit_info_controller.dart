@@ -2,9 +2,9 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:jobera/controllers/appControllers/settings_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
 import 'package:jobera/controllers/profileControllers/profile_controller.dart';
-import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/country.dart';
 import 'package:jobera/models/state.dart';
@@ -13,7 +13,7 @@ import 'package:jobera/models/user.dart';
 class UserEditInfoController extends GetxController {
   late ProfileController profileController;
   late User user;
-  late GeneralController generalController;
+  late SettingsController settingsController;
   late GlobalKey<FormState> formField;
   late Dio dio;
   late TextEditingController editNameController;
@@ -29,7 +29,7 @@ class UserEditInfoController extends GetxController {
   Future<void> onInit() async {
     profileController = Get.find<ProfileController>();
     user = profileController.user;
-    generalController = Get.find<GeneralController>();
+    settingsController = Get.find<SettingsController>();
     formField = GlobalKey<FormState>();
     dio = Dio();
     editNameController = TextEditingController(text: user.name);
@@ -39,10 +39,10 @@ class UserEditInfoController extends GetxController {
     editPhoneNumberController = TextEditingController(
       text: user.phoneNumber,
     );
-    countries = await generalController.getCountries();
+    countries = await settingsController.getCountries();
     selectedCountry =
         countries.firstWhere((element) => element.countryName == user.country);
-    states = await generalController.getStates(selectedCountry!.countryName);
+    states = await settingsController.getStates(selectedCountry!.countryName);
     selectedState =
         states.firstWhere((element) => element.stateName == user.state);
     loading = false;
@@ -67,7 +67,7 @@ class UserEditInfoController extends GetxController {
     selectedCountry = country;
     selectedState = null;
     states = [];
-    states = await generalController.getStates(country.countryName);
+    states = await settingsController.getStates(country.countryName);
     update();
   }
 

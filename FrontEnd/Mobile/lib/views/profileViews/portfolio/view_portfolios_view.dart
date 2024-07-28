@@ -26,7 +26,7 @@ class ViewPortfoliosView extends StatelessWidget {
             ),
           )
         ],
-        leading: _editController.generalController.isInRegister
+        leading: _editController.settingsController.isInRegister
             ? IconButton(
                 onPressed: () => _editController.finishRegister(),
                 icon: const LabelText(
@@ -49,7 +49,7 @@ class ViewPortfoliosView extends StatelessWidget {
               : SingleChildScrollView(
                   child: Column(
                     children: [
-                      if (_editController.generalController.isInRegister)
+                      if (_editController.settingsController.isInRegister)
                         const LinearProgressIndicator(
                           value: 1,
                         ),
@@ -274,7 +274,7 @@ class ViewPortfoliosView extends StatelessWidget {
                                                             IconButton(
                                                               onPressed: () =>
                                                                   controller
-                                                                      .generalController
+                                                                      .settingsController
                                                                       .fetchFile(
                                                                 controller
                                                                     .portfolios[

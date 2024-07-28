@@ -8,9 +8,9 @@ class AcceptedUser {
   AcceptedUser({
     required this.usedId,
     required this.name,
-    required this.type,
-    required this.photo,
-    required this.offer,
+    this.type,
+    this.photo,
+    this.offer,
   });
 
   AcceptedUser.fromJson(Map<String, dynamic> json)

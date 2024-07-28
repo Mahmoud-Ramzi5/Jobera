@@ -2,15 +2,15 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jobera/controllers/appControllers/settings_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
-import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/country.dart';
 import 'package:jobera/models/state.dart';
 
 class CompanyRegisterController extends GetxController {
   late GlobalKey<FormState> formField;
-  late GeneralController generalController;
+  late SettingsController settingsController;
   late TextEditingController nameController;
   late TextEditingController workFieldController;
   late TextEditingController emailController;
@@ -30,7 +30,7 @@ class CompanyRegisterController extends GetxController {
   @override
   Future<void> onInit() async {
     formField = GlobalKey<FormState>();
-    generalController = Get.find<GeneralController>();
+    settingsController = Get.find<SettingsController>();
     countryCode = CountryCode(dialCode: '+963');
     nameController = TextEditingController();
     workFieldController = TextEditingController();
@@ -42,7 +42,7 @@ class CompanyRegisterController extends GetxController {
     selectedDate = DateTime.now();
     dio = Dio();
     selectedCountry = null;
-    countries = await generalController.getCountries();
+    countries = await settingsController.getCountries();
     loading = false;
     update();
     super.onInit();
@@ -69,7 +69,7 @@ class CompanyRegisterController extends GetxController {
     selectedCountry = country;
     selectedState = null;
     states = [];
-    states = await generalController.getStates(country.countryName);
+    states = await settingsController.getStates(country.countryName);
     update();
   }
 
@@ -139,7 +139,7 @@ class CompanyRegisterController extends GetxController {
           response.data["access_token"].toString(),
         );
         Dialogs().showSuccessDialog('Register Successful', '');
-        generalController.isInRegister = true;
+        settingsController.isInRegister = true;
         Future.delayed(
           const Duration(seconds: 1),
           () {

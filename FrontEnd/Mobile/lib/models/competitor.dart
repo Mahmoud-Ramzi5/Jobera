@@ -15,10 +15,10 @@ class Competitor {
     required this.name,
     required this.description,
     required this.jobType,
-    required this.type,
-    required this.rating,
-    required this.photo,
-    required this.offer,
+    this.type,
+    this.rating,
+    this.photo,
+    this.offer,
   });
 
   Competitor.fromJson(Map<String, dynamic> json)

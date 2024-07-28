@@ -2,8 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
+import 'package:jobera/controllers/appControllers/settings_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
-import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/controllers/profileControllers/profile_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/certificate.dart';
@@ -13,7 +13,7 @@ class UserEditCertificatesController extends GetxController {
   late Dio dio;
   late GlobalKey<FormState> formField;
   List<Certificate> certificates = [];
-  late GeneralController generalController;
+  late SettingsController settingsController;
   late TextEditingController editNameController;
   late TextEditingController editOrganizationController;
   late DateTime editDate;
@@ -27,12 +27,12 @@ class UserEditCertificatesController extends GetxController {
     refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
     dio = Dio();
     formField = GlobalKey<FormState>();
-    generalController = Get.find<GeneralController>();
+    settingsController = Get.find<SettingsController>();
     editNameController = TextEditingController();
     editOrganizationController = TextEditingController();
     editDate = DateTime.now();
     profileController = null;
-    if (!generalController.isInRegister) {
+    if (!settingsController.isInRegister) {
       profileController = Get.find<ProfileController>();
       await fetchCertificates();
     }
@@ -63,7 +63,7 @@ class UserEditCertificatesController extends GetxController {
   }
 
   Future<void> addFile() async {
-    editfile = await generalController.pickFile();
+    editfile = await settingsController.pickFile();
     updateName();
   }
 

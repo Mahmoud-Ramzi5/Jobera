@@ -34,12 +34,12 @@ class ProfileView extends StatelessWidget {
                       PhotoComponent(
                         photo: controller.user.photo,
                         takePhoto: () async {
-                          controller.image = await controller.generalController
+                          controller.image = await controller.settingsController
                               .takePhotoFromCamera();
                           controller.addPhoto();
                         },
                         pickPhoto: () async {
-                          controller.image = await controller.generalController
+                          controller.image = await controller.settingsController
                               .pickPhotoFromGallery();
                           controller.addPhoto();
                         },
@@ -113,7 +113,7 @@ class ProfileView extends StatelessWidget {
                                 if (controller
                                         .user.education!.certificateFile !=
                                     null) {
-                                  controller.generalController.fetchFile(
+                                  controller.settingsController.fetchFile(
                                     controller.user.education!.certificateFile
                                         .toString(),
                                     'education',

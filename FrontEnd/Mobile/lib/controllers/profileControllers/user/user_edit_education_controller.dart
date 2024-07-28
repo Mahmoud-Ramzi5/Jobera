@@ -2,15 +2,15 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
+import 'package:jobera/controllers/appControllers/settings_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
-import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/controllers/profileControllers/profile_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/education.dart';
 
 class UserEditEducationController extends GetxController {
   late ProfileController? profileController;
-  late GeneralController generalController;
+  late SettingsController settingsController;
   late Dio dio;
   late GlobalKey<FormState> formField;
   late Map<String, String> levels;
@@ -27,7 +27,7 @@ class UserEditEducationController extends GetxController {
   @override
   Future<void> onInit() async {
     profileController = null;
-    generalController = Get.find<GeneralController>();
+    settingsController = Get.find<SettingsController>();
     dio = Dio();
     formField = GlobalKey<FormState>();
     levels = {
@@ -37,7 +37,7 @@ class UserEditEducationController extends GetxController {
       'High School Diploma': 'HIGH_SCHOOL_DIPLOMA',
       'High Institute': 'HIGH_INSTITUTE',
     };
-    if (!generalController.isInRegister) {
+    if (!settingsController.isInRegister) {
       profileController = Get.find<ProfileController>();
       education = profileController!.user.education;
       selectedLevel = education!.level;
@@ -87,7 +87,7 @@ class UserEditEducationController extends GetxController {
   }
 
   Future<void> addFile() async {
-    file = await generalController.pickFile();
+    file = await settingsController.pickFile();
     updateName();
   }
 
@@ -142,7 +142,7 @@ class UserEditEducationController extends GetxController {
         ),
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
-        if (generalController.isInRegister) {
+        if (settingsController.isInRegister) {
           Get.offAllNamed('/userViewCertificates');
         } else {
           Get.back();

@@ -38,9 +38,9 @@ class User {
     required this.certificates,
     required this.step,
     required this.wallet,
-    required this.education,
-    required this.description,
-    required this.photo,
+    this.education,
+    this.description,
+    this.photo,
   });
 
   User.fromJson(Map<String, dynamic> json)

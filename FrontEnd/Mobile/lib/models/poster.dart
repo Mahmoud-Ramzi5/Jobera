@@ -10,8 +10,8 @@ class Poster {
   Poster({
     required this.userId,
     required this.name,
-    required this.type,
-    required this.photo,
+    this.type,
+    this.photo,
     required this.wallet,
   });
 

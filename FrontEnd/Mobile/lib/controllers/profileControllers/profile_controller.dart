@@ -2,9 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:image_picker/image_picker.dart';
+import 'package:jobera/controllers/appControllers/settings_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
 import 'package:jobera/controllers/appControllers/home_controller.dart';
-import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/company.dart';
 import 'package:jobera/models/user.dart';
@@ -13,7 +13,7 @@ class ProfileController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   late Dio dio;
   late HomeController homeController;
-  late GeneralController generalController;
+  late SettingsController settingsController;
   late TextEditingController editBioController;
   late XFile? image;
   bool loading = true;
@@ -23,8 +23,8 @@ class ProfileController extends GetxController {
   Future<void> onInit() async {
     refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
     dio = Dio();
-    generalController = Get.find<GeneralController>();
-    if (generalController.isInRegister) {
+    settingsController = Get.find<SettingsController>();
+    if (settingsController.isInRegister) {
       homeController = Get.put(HomeController());
     } else {
       homeController = Get.find<HomeController>();

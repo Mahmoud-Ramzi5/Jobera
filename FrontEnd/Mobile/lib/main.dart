@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/customWidgets/enums.dart';
 import 'package:jobera/controllers/loginControllers/auth_controller.dart';
-import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/controllers/appControllers/settings_controller.dart';
 import 'package:jobera/routes/routes.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,14 +23,13 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SettingsController settingsController = Get.put(SettingsController());
-    final GeneralController generalController = Get.put(GeneralController());
     return GetMaterialApp(
       initialRoute: '/splashScreen',
       getPages: getPages,
       debugShowCheckedModeBanner: false,
       theme: settingsController.theme,
       themeMode: ThemeMode.light,
-      onReady: () => generalController.requestPermissions(),
+      onReady: () => settingsController.requestPermissions(),
     );
   }
 }

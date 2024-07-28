@@ -27,7 +27,7 @@ class UserEditCertificatesView extends StatelessWidget {
             ),
           ),
         ],
-        leading: _editController.generalController.isInRegister
+        leading: _editController.settingsController.isInRegister
             ? IconButton(
                 onPressed: () => Get.offAllNamed('/viewPortfolios'),
                 icon: const LabelText(
@@ -50,7 +50,7 @@ class UserEditCertificatesView extends StatelessWidget {
               : SingleChildScrollView(
                   child: Column(
                     children: [
-                      if (_editController.generalController.isInRegister)
+                      if (_editController.settingsController.isInRegister)
                         const LinearProgressIndicator(
                           value: 0.75,
                         ),
@@ -110,7 +110,7 @@ class UserEditCertificatesView extends StatelessWidget {
                                       children: [
                                         IconButton(
                                           onPressed: () => controller
-                                              .generalController
+                                              .settingsController
                                               .fetchFile(
                                             controller.certificates[index].file,
                                             'certificate',

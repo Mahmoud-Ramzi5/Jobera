@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jobera/controllers/appControllers/settings_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
-import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/company.dart';
 import 'package:jobera/models/user.dart';
@@ -17,9 +17,8 @@ class HomeController extends GetxController {
   late String email;
   late int id;
   late String? photo;
-
   late String step;
-  late GeneralController generalController;
+  late SettingsController settingsController;
 
   @override
   Future<void> onInit() async {
@@ -30,7 +29,7 @@ class HomeController extends GetxController {
     email = '';
     id = 0;
     photo = '';
-    generalController = Get.find<GeneralController>();
+    settingsController = Get.find<SettingsController>();
     await fetchUser();
     super.onInit();
   }
@@ -116,10 +115,10 @@ class HomeController extends GetxController {
   void continueRegister() {
     switch (step) {
       case 'SKILLS':
-        generalController.isInRegister = true;
+        settingsController.isInRegister = true;
         Get.offAllNamed('/userEditSkills');
       case 'EDUCATION':
-        generalController.isInRegister = true;
+        settingsController.isInRegister = true;
         Get.offAllNamed('/userEditEducation');
       default:
         return;

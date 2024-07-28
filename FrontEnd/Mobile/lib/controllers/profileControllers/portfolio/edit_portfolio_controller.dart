@@ -4,8 +4,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:image_picker/image_picker.dart';
+import 'package:jobera/controllers/appControllers/settings_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
-import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/controllers/profileControllers/portfolio/view_portfolio_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/portfolio.dart';
@@ -14,7 +14,7 @@ import 'package:jobera/models/skill.dart';
 
 class EditPortfolioController extends GetxController {
   late Dio dio;
-  late GeneralController generalController;
+  late SettingsController settingsController;
   late ViewPortfolioController portfolioController;
   late GlobalKey<FormState> formField;
   Portfolio portfolio = Portfolio.empty();
@@ -34,7 +34,7 @@ class EditPortfolioController extends GetxController {
   @override
   Future<void> onInit() async {
     dio = Dio();
-    generalController = Get.find<GeneralController>();
+    settingsController = Get.find<SettingsController>();
     portfolioController = Get.find<ViewPortfolioController>();
     formField = GlobalKey<FormState>();
     portfolio = await fetchPortfolio(portfolioController.id);
@@ -46,7 +46,7 @@ class EditPortfolioController extends GetxController {
       hasImage = true;
     }
     usedSkills = portfolio.skills;
-    skills = await generalController.getAllSkills();
+    skills = await settingsController.getAllSkills();
     for (var file in portfolio.files) {
       files.add(file);
     }
@@ -81,7 +81,7 @@ class EditPortfolioController extends GetxController {
 
   Future<void> searchSkills(String value) async {
     skills.clear();
-    skills = await generalController.searchSkills(value);
+    skills = await settingsController.searchSkills(value);
     skills.removeWhere(
         (item) => usedSkills.any((mySkill) => item.name == mySkill.name));
     update();
@@ -104,7 +104,7 @@ class EditPortfolioController extends GetxController {
   }
 
   Future<void> addFiles() async {
-    pickedFiles = await generalController.pickFiles();
+    pickedFiles = await settingsController.pickFiles();
     if (pickedFiles != null) {
       for (var i = 0; i < pickedFiles!.count; i++) {
         files.add(pickedFiles!.files[i]);
@@ -120,7 +120,7 @@ class EditPortfolioController extends GetxController {
   }
 
   Future<void> addPhoto() async {
-    image = await generalController.pickPhotoFromGallery();
+    image = await settingsController.pickPhotoFromGallery();
     if (image != null) {
       hasImage = false;
       displayImage = await image!.readAsBytes();
@@ -131,7 +131,7 @@ class EditPortfolioController extends GetxController {
   }
 
   Future<void> takePhoto() async {
-    image = await generalController.takePhotoFromCamera();
+    image = await settingsController.takePhotoFromCamera();
     if (image != null) {
       hasImage = false;
       displayImage = await image!.readAsBytes();
@@ -173,7 +173,8 @@ class EditPortfolioController extends GetxController {
         }
         for (int i = 0; i < files.length; i++) {
           if (files[i] is PortfolioFile) {
-            var fileBytes = await generalController.downloadFile(files[i].path);
+            var fileBytes =
+                await settingsController.downloadFile(files[i].path);
             data.files.add(
               MapEntry(
                 'files[$i]',

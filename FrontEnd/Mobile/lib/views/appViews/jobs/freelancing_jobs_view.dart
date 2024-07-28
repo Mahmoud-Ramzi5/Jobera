@@ -28,7 +28,9 @@ class FreelancingJobsView extends StatelessWidget {
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                          onTap: () => Get.toNamed('/jobDetails'),
+                          onTap: () => controller.viewDetails(
+                            controller.freelancingJobs[index],
+                          ),
                           child: Card(
                             margin: const EdgeInsets.all(10),
                             shape: RoundedRectangleBorder(

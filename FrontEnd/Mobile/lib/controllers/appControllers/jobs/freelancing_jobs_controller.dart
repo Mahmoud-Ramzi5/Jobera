@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jobera/controllers/appControllers/jobs/job_details_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/freelancing_job.dart';
@@ -21,6 +22,13 @@ class FreelancingJobsController extends GetxController {
     loading = false;
     await fetchFreelancingJobs();
     super.onInit();
+  }
+
+  void viewDetails(FreelancingJob job) {
+    JobDetailsController jobDetailsController = Get.put(JobDetailsController());
+    jobDetailsController.job = job;
+    jobDetailsController.isFreelancing = true;
+    Get.toNamed('/jobDetails');
   }
 
   Future<dynamic> fetchFreelancingJobs() async {

@@ -2,15 +2,15 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
+import 'package:jobera/controllers/appControllers/settings_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
-import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/controllers/profileControllers/user/certificate/user_edit_certificates_controller.dart';
 import 'package:jobera/main.dart';
 
 class UserAddCertificateController extends GetxController {
   late GlobalKey<FormState> formField;
   late UserEditCertificatesController certificatesController;
-  late GeneralController generalController;
+  late SettingsController settingsController;
   late Dio dio;
   late TextEditingController nameController;
   late TextEditingController organizationController;
@@ -21,7 +21,7 @@ class UserAddCertificateController extends GetxController {
   @override
   void onInit() {
     formField = GlobalKey<FormState>();
-    generalController = Get.find<GeneralController>();
+    settingsController = Get.find<SettingsController>();
     certificatesController = Get.find<UserEditCertificatesController>();
     dio = Dio();
     nameController = TextEditingController();
@@ -53,7 +53,7 @@ class UserAddCertificateController extends GetxController {
   }
 
   Future<void> addFile() async {
-    file = await generalController.pickFile();
+    file = await settingsController.pickFile();
     updateName();
   }
 

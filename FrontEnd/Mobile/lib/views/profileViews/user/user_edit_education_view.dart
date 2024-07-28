@@ -33,7 +33,7 @@ class UserEditEducationView extends StatelessWidget {
                 );
               }
             },
-            child: _editController.generalController.isInRegister
+            child: _editController.settingsController.isInRegister
                 ? const LabelText(text: 'Next')
                 : const LabelText(text: 'Submit'),
           )
@@ -49,7 +49,7 @@ class UserEditEducationView extends StatelessWidget {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      if (controller.generalController.isInRegister)
+                      if (controller.settingsController.isInRegister)
                         const LinearProgressIndicator(
                           value: 0.5,
                         ),

@@ -1,15 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jobera/controllers/appControllers/settings_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
-import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/controllers/profileControllers/profile_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/portfolio.dart';
 
 class ViewPortfolioController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
-  late GeneralController generalController;
+  late SettingsController settingsController;
   late Dio dio;
   late ProfileController? profileController;
   List<Portfolio> portfolios = [];
@@ -19,10 +19,10 @@ class ViewPortfolioController extends GetxController {
   @override
   Future<void> onInit() async {
     refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
-    generalController = Get.find<GeneralController>();
+    settingsController = Get.find<SettingsController>();
     dio = Dio();
     profileController = null;
-    if (!generalController.isInRegister) {
+    if (!settingsController.isInRegister) {
       profileController = Get.find<ProfileController>();
       await fetchPortfolios();
     }
@@ -38,7 +38,7 @@ class ViewPortfolioController extends GetxController {
   }
 
   void finishRegister() {
-    generalController.isInRegister = false;
+    settingsController.isInRegister = false;
     Get.offAllNamed('/home');
   }
 

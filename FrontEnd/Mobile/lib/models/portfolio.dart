@@ -17,7 +17,7 @@ class Portfolio {
     required this.link,
     required this.skills,
     required this.files,
-    required this.photo,
+    this.photo,
   });
 
   Portfolio.fromJson(Map<String, dynamic> json)

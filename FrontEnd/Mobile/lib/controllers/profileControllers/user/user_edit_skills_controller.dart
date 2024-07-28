@@ -1,14 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:jobera/controllers/appControllers/settings_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
 import 'package:jobera/controllers/profileControllers/profile_controller.dart';
-import 'package:jobera/controllers/appControllers/general_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/skill_type.dart';
 import 'package:jobera/models/skill.dart';
 
 class UserEditSkillsController extends GetxController {
-  late GeneralController generalController;
+  late SettingsController settingsController;
   late ProfileController? profileController;
   late Dio dio;
   List<Skill> myskills = [];
@@ -18,14 +18,13 @@ class UserEditSkillsController extends GetxController {
 
   @override
   void onInit() async {
-    generalController = Get.find<GeneralController>();
-    //profileController = Get.find<ProfileController>();
-    if (!generalController.isInRegister) {
+    settingsController = Get.find<SettingsController>();
+    if (!settingsController.isInRegister) {
       profileController = Get.put(ProfileController());
     }
     dio = Dio();
     await fetchSkills();
-    skillTypes = await generalController.getSkillTypes();
+    skillTypes = await settingsController.getSkillTypes();
     loading = false;
     update();
     super.onInit();
@@ -43,7 +42,7 @@ class UserEditSkillsController extends GetxController {
   }
 
   Future<void> getSkills(String type) async {
-    skills = await generalController.getSkills(type);
+    skills = await settingsController.getSkills(type);
     skills.removeWhere(
         (item) => myskills.any((mySkill) => item.name == mySkill.name));
     update();
@@ -51,7 +50,7 @@ class UserEditSkillsController extends GetxController {
 
   Future<void> searchSkills(String value) async {
     skills.clear();
-    skills = await generalController.searchSkills(value);
+    skills = await settingsController.searchSkills(value);
     skills.removeWhere(
         (item) => myskills.any((mySkill) => item.name == mySkill.name));
     update();
