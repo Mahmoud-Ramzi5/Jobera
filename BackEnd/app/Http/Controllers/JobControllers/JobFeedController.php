@@ -44,7 +44,7 @@ class JobFeedController extends Controller
         foreach ($freelancingjobs as $freelancingjob) {
             foreach ($freelancingjob->competitors() as $competitor) {
                 if ($competitor->user->id == $freelancingjob->accepted_user) {
-                    $freelancingjob->salary = $competitor->salary;
+                    $freelancingjob->salary = $competitor->offer;
                     break;
                 }
             }
@@ -60,7 +60,7 @@ class JobFeedController extends Controller
             $data[] = [
                 'id' => $job->defJob_id,
                 'title' => $defJob->title,
-                'salary' => $accepted_competitor->salary,
+                'salary' => $accepted_competitor->offer,
             ];
         }
 
