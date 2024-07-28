@@ -42,8 +42,8 @@ class UserEditSkillsView extends StatelessWidget {
                       children: [
                         Padding(
                           padding: const EdgeInsets.all(10),
-                          child: SkillsContainer(
-                            name: 'My Skills:',
+                          child: InfoContainer(
+                            name: 'My Skills',
                             widget: ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: controller.myskills.length,
@@ -112,8 +112,8 @@ class UserEditSkillsView extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10),
-                          child: SkillsContainer(
-                            name: 'Skill Types:',
+                          child: InfoContainer(
+                            name: 'Skill Types',
                             widget: ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: controller.skillTypes.length,
@@ -169,8 +169,8 @@ class UserEditSkillsView extends StatelessWidget {
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10),
-                          child: SkillsContainer(
-                            name: 'Skills:',
+                          child: InfoContainer(
+                            name: 'Skills',
                             widget: ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: controller.skills.length,

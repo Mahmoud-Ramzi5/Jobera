@@ -41,14 +41,19 @@ class ChatView extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                BodyText(
-                                  text: controller.chat.messages[index].message,
+                                Flexible(
+                                  child: BodyText(
+                                    text:
+                                        controller.chat.messages[index].message,
+                                  ),
                                 ),
-                                Text(
-                                  '${controller.chat.messages[index].sendDate.day}/${controller.chat.messages[index].sendDate.month}/${controller.chat.messages[index].sendDate.year} ${controller.chat.messages[index].sendDate.hour}:${controller.chat.messages[index].sendDate.minute}',
-                                  style: TextStyle(
-                                    color: Colors.grey[500],
-                                    fontSize: 12,
+                                Flexible(
+                                  child: Text(
+                                    '${controller.chat.messages[index].sendDate.day}/${controller.chat.messages[index].sendDate.month}/${controller.chat.messages[index].sendDate.year} ${controller.chat.messages[index].sendDate.hour}:${controller.chat.messages[index].sendDate.minute}',
+                                    style: TextStyle(
+                                      color: Colors.grey[500],
+                                      fontSize: 12,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -65,14 +70,19 @@ class ChatView extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                BodyText(
-                                  text: controller.chat.messages[index].message,
+                                Flexible(
+                                  child: BodyText(
+                                    text:
+                                        controller.chat.messages[index].message,
+                                  ),
                                 ),
-                                Text(
-                                  '${controller.chat.messages[index].sendDate.day}/${controller.chat.messages[index].sendDate.month}/${controller.chat.messages[index].sendDate.year} ${controller.chat.messages[index].sendDate.hour}:${controller.chat.messages[index].sendDate.minute}',
-                                  style: TextStyle(
-                                    color: Colors.grey[500],
-                                    fontSize: 12,
+                                Flexible(
+                                  child: Text(
+                                    '${controller.chat.messages[index].sendDate.day}/${controller.chat.messages[index].sendDate.month}/${controller.chat.messages[index].sendDate.year} ${controller.chat.messages[index].sendDate.hour}:${controller.chat.messages[index].sendDate.minute}',
+                                    style: TextStyle(
+                                      color: Colors.grey[500],
+                                      fontSize: 12,
+                                    ),
                                   ),
                                 ),
                               ],

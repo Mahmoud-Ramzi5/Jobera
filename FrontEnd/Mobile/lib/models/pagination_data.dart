@@ -10,8 +10,8 @@ class PaginationData {
   final String firstPageUrl;
   final String currentPageUrl;
   final String lastPageUrl;
-  final dynamic nextPage;
-  final dynamic prevPage;
+  final String? nextPage;
+  final String? prevPage;
   final String path;
 
   PaginationData({
@@ -43,7 +43,25 @@ class PaginationData {
         firstPageUrl = json['first_page_url'] as String,
         currentPageUrl = json['current_page_url'] as String,
         lastPageUrl = json['last_page_url'] as String,
-        nextPage = json['next_page'],
-        prevPage = json['prev_page'],
+        nextPage =
+            json['next_page'] != null ? json['next_page'] as String : null,
+        prevPage =
+            json['prev_page'] != null ? json['prev_page'] as String : null,
         path = json['path'] as String;
+
+  PaginationData.empty()
+      : from = 0,
+        to = 0,
+        perPage = 0,
+        total = 0,
+        firstPage = 0,
+        currentPage = 0,
+        lastPage = 0,
+        hasMorePages = false,
+        firstPageUrl = '',
+        currentPageUrl = '',
+        lastPageUrl = '',
+        nextPage = '',
+        prevPage = '',
+        path = '';
 }

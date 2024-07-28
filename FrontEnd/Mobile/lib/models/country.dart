@@ -2,7 +2,10 @@ class Country {
   final int countryId;
   final String countryName;
 
-  Country({required this.countryId, required this.countryName});
+  Country({
+    required this.countryId,
+    required this.countryName,
+  });
 
   Country.fromJson(Map<String, dynamic> json)
       : countryId = json['country_id'] as int,

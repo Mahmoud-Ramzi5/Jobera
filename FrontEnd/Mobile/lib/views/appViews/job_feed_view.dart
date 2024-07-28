@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jobera/controllers/appControllers/job_feed_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/texts.dart';
 
-class NewsFeedView extends StatelessWidget {
-  const NewsFeedView({super.key});
+class JobFeedView extends StatelessWidget {
+  final JobFeedController _newsFeedController = Get.put(JobFeedController());
+
+  JobFeedView({super.key});
 
   @override
   Widget build(BuildContext context) {

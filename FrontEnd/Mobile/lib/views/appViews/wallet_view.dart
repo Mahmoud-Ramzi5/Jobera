@@ -45,20 +45,16 @@ class WalletView extends StatelessWidget {
                                     const SmallHeadlineText(
                                       text: 'Available Balance:',
                                     ),
-                                    Text(
-                                      '${controller.wallet.currentBalance} SYP',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineMedium,
+                                    MediumHeadlineText(
+                                      text:
+                                          '${controller.wallet.availableBalance} \$',
                                     ),
                                     const SmallHeadlineText(
                                       text: 'Total Balance:',
                                     ),
-                                    Text(
-                                      '${controller.wallet.availableBalance} SYP',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineMedium,
+                                    MediumHeadlineText(
+                                      text:
+                                          '${controller.wallet.availableBalance} \$',
                                     ),
                                   ],
                                 ),

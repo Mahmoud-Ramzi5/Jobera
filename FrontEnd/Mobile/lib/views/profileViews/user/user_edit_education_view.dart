@@ -138,8 +138,8 @@ class UserEditEducationView extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(10),
-                        child: ListContainer(
-                          child: Row(
+                        child: InfoContainer(
+                          widget: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Flexible(

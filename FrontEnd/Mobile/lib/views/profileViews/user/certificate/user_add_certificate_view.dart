@@ -83,11 +83,12 @@ class UserAddCertificateView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: GetBuilder<UserAddCertificateController>(
-                  builder: (controller) => ListContainer(
-                    child: BodyText(
-                        text: _addController.fileName == null
-                            ? 'File:'
-                            : 'File: ${_addController.fileName}'),
+                  builder: (controller) => InfoContainer(
+                    widget: BodyText(
+                      text: controller.fileName == null
+                          ? 'File:'
+                          : 'File: ${controller.fileName}',
+                    ),
                   ),
                 ),
               ),

@@ -156,8 +156,8 @@ class ProfileBackgroundContainer extends StatelessWidget {
   }
 }
 
-class InfoWithEditContainer extends StatelessWidget {
-  final String name;
+class InfoContainer extends StatelessWidget {
+  final String? name;
   final Widget widget;
   final void Function()? onPressed;
   final String? buttonText;
@@ -165,11 +165,11 @@ class InfoWithEditContainer extends StatelessWidget {
   final double? width;
   final double? height;
 
-  const InfoWithEditContainer({
+  const InfoContainer({
     super.key,
-    required this.name,
+    this.name,
     required this.widget,
-    required this.onPressed,
+    this.onPressed,
     this.buttonText,
     this.icon,
     this.width,
@@ -195,12 +195,12 @@ class InfoWithEditContainer extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                BodyText(text: '$name:'),
-                TextButton(
-                  onPressed: onPressed,
-                  child: Row(
-                    children: [
-                      if (buttonText != null)
+                if (name != null) BodyText(text: '$name:'),
+                if (onPressed != null)
+                  TextButton(
+                    onPressed: onPressed,
+                    child: Row(
+                      children: [
                         Padding(
                           padding: const EdgeInsets.all(5),
                           child: Icon(
@@ -208,97 +208,16 @@ class InfoWithEditContainer extends StatelessWidget {
                             color: Colors.orange.shade800,
                           ),
                         ),
-                      LabelText(
-                        text: buttonText.toString(),
-                      ),
-                    ],
+                        LabelText(
+                          text: buttonText.toString(),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
               ],
             ),
             widget
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class SkillsContainer extends StatelessWidget {
-  final String? name;
-  final Widget widget;
-
-  const SkillsContainer({
-    super.key,
-    this.name,
-    required this.widget,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: ShapeDecoration(
-        shape: BeveledRectangleBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(10)),
-          side: BorderSide(color: Colors.orange.shade800),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  BodyText(text: name.toString()),
-                ],
-              ),
-            ),
-            widget
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class ListContainer extends StatelessWidget {
-  final Widget? child;
-  final void Function()? onTap;
-  final double? width;
-  final double? height;
-
-  const ListContainer({
-    super.key,
-    required this.child,
-    this.onTap,
-    this.width,
-    this.height,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.all(10),
-        child: Container(
-          width: width,
-          height: height,
-          decoration: ShapeDecoration(
-            shape: BeveledRectangleBorder(
-              side: BorderSide(color: Colors.orange.shade800),
-            ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(5),
-            child: Center(
-              child: child,
-            ),
-          ),
         ),
       ),
     );
@@ -381,6 +300,36 @@ class NewsFeedContainer extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         child: child,
       ),
+    );
+  }
+}
+
+class ListContainer extends StatelessWidget {
+  final double? height;
+  final double? width;
+  final Widget? child;
+  final Color color;
+
+  const ListContainer({
+    super.key,
+    this.height,
+    this.width,
+    this.child,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      decoration: ShapeDecoration(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: BorderSide(color: color, width: 2),
+        ),
+      ),
+      child: child,
     );
   }
 }

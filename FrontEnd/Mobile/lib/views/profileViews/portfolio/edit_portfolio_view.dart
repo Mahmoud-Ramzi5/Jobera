@@ -134,8 +134,8 @@ class EditPortfolioView extends StatelessWidget {
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(10),
-                            child: SkillsContainer(
-                              name: 'Used Skills Max:5',
+                            child: InfoContainer(
+                              name: 'Used Skills Max=5',
                               widget: ListView.builder(
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount:
@@ -200,7 +200,7 @@ class EditPortfolioView extends StatelessWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(10),
-                            child: SkillsContainer(
+                            child: InfoContainer(
                               name: 'Skills',
                               widget: ExpansionTile(
                                 title: const BodyText(text: 'Expand'),
@@ -285,12 +285,12 @@ class EditPortfolioView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: GetBuilder<EditPortfolioController>(
-                          builder: (controller) => ListContainer(
-                            child: Column(
+                          builder: (controller) => InfoContainer(
+                            widget: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const BodyText(
-                                    text: 'Select files Max:5 files'),
+                                    text: 'Select files Max=5 files'),
                                 ListView.builder(
                                   itemCount: controller.files.length,
                                   shrinkWrap: true,

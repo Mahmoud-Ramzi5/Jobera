@@ -34,8 +34,8 @@ class FreelancingJobResource extends JsonResource
                 'type' => 'company',
                 'avatar_photo' => $acceptedCompany->user->avatar_photo,
                 'offer' => $acceptedCompetitor
-                    ? number_format($acceptedCompetitor->offer, 2)
-                    : number_format(0, 2)
+                    ? number_format($acceptedCompetitor->offer, 2, '.', '')
+                    : number_format(0, 2, '.', '')
             ];
         } else if ($acceptedIndividual != null) {
             $acceptedUser = [
@@ -44,8 +44,8 @@ class FreelancingJobResource extends JsonResource
                 'type' => 'individual',
                 'avatar_photo' => $acceptedIndividual->user->avatar_photo,
                 'offer' => $acceptedCompetitor
-                    ? number_format($acceptedCompetitor->offer, 2)
-                    : number_format(0, 2)
+                    ? number_format($acceptedCompetitor->offer, 2, '.', '')
+                    : number_format(0, 2, '.', '')
             ];
         } else {
             $acceptedUser = null;
@@ -56,9 +56,9 @@ class FreelancingJobResource extends JsonResource
 
         // Get average salary
         if ($this->competitors()->exists()) {
-            $avg_salary = number_format($this->competitors()->avg('offer'), 2);
+            $avg_salary = number_format($this->competitors()->avg('offer'), 2, '.', '');
         } else {
-            $avg_salary = number_format(0.0, 2);
+            $avg_salary = number_format(0.0, 2, '.', '');
         }
 
         return [

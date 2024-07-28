@@ -213,8 +213,8 @@ class UserEditCertificatesView extends StatelessWidget {
                                           child: GetBuilder<
                                               UserEditCertificatesController>(
                                             builder: (controller) =>
-                                                ListContainer(
-                                              child: BodyText(
+                                                InfoContainer(
+                                              widget: BodyText(
                                                 text: controller.editFileName ==
                                                         null
                                                     ? 'File:${controller.certificates[index].file}'

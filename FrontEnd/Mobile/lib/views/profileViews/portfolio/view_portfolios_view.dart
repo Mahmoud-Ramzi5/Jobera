@@ -165,8 +165,8 @@ class ViewPortfoliosView extends StatelessWidget {
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.all(10),
-                                          child: ListContainer(
-                                            child: Padding(
+                                          child: InfoContainer(
+                                            widget: Padding(
                                               padding: const EdgeInsets.all(5),
                                               child: ListView.builder(
                                                 itemCount: controller
@@ -242,8 +242,8 @@ class ViewPortfoliosView extends StatelessWidget {
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.all(10),
-                                          child: ListContainer(
-                                            child: Padding(
+                                          child: InfoContainer(
+                                            widget: Padding(
                                               padding: const EdgeInsets.all(5),
                                               child: controller
                                                       .portfolios[index1]
@@ -272,16 +272,18 @@ class ViewPortfoliosView extends StatelessWidget {
                                                               ),
                                                             ),
                                                             IconButton(
-                                                              onPressed: () => controller
-                                                                  .generalController
-                                                                  .fetchFile(
-                                                                      controller
-                                                                          .portfolios[
-                                                                              index1]
-                                                                          .files[
-                                                                              index]
-                                                                          .path,
-                                                                      'portfolios'),
+                                                              onPressed: () =>
+                                                                  controller
+                                                                      .generalController
+                                                                      .fetchFile(
+                                                                controller
+                                                                    .portfolios[
+                                                                        index1]
+                                                                    .files[
+                                                                        index]
+                                                                    .path,
+                                                                'portfolios',
+                                                              ),
                                                               icon: Icon(
                                                                 Icons.file_open,
                                                                 color: Colors

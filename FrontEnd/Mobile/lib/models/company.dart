@@ -28,8 +28,8 @@ class Company {
     required this.type,
     required this.portfolios,
     required this.wallet,
-    this.description,
-    this.photo,
+    required this.description,
+    required this.photo,
   });
 
   Company.fromJson(Map<String, dynamic> json)

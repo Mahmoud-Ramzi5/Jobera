@@ -9,7 +9,7 @@ import 'package:jobera/customWidgets/list_tiles.dart';
 import 'package:jobera/views/appViews/chats/chats_view.dart';
 import 'package:jobera/views/appViews/jobs/freelancing_jobs_view.dart';
 import 'package:jobera/views/appViews/jobs/regular_jobs_view.dart';
-import 'package:jobera/views/appViews/news_feed_view.dart';
+import 'package:jobera/views/appViews/job_feed_view.dart';
 
 class HomeView extends StatelessWidget {
   final HomeController _homeController = Get.put(HomeController());
@@ -100,7 +100,7 @@ class HomeView extends StatelessWidget {
                 icon: Icon(
                   Icons.newspaper,
                 ),
-                text: "News Feed",
+                text: "Job Feed",
               ),
               Tab(
                 icon: Icon(
@@ -128,7 +128,7 @@ class HomeView extends StatelessWidget {
           onRefresh: () => _homeController.fetchUser(),
           child: TabBarView(
             children: [
-              NewsFeedView(),
+              JobFeedView(),
               RegularJobsView(),
               FreelancingJobsView(),
               ChatsView()

@@ -8,9 +8,9 @@ class Chats {
   Chats({
     required this.id,
     required this.name,
-    this.photo,
-    this.lastMessage,
-    this.lastMessageDate,
+    required this.photo,
+    required this.lastMessage,
+    required this.lastMessageDate,
   });
 
   Chats.fromJson(Map<String, dynamic> json)

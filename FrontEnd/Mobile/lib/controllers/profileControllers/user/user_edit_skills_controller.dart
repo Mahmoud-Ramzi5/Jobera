@@ -19,7 +19,7 @@ class UserEditSkillsController extends GetxController {
   @override
   void onInit() async {
     generalController = Get.find<GeneralController>();
-    profileController = null;
+    //profileController = Get.find<ProfileController>();
     if (!generalController.isInRegister) {
       profileController = Get.put(ProfileController());
     }
@@ -62,7 +62,7 @@ class UserEditSkillsController extends GetxController {
 
     try {
       var response = await dio.get(
-        'http://192.168.0.106:8000/api/user/skills',
+        'http://192.168.39.51:8000/api/user/skills',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -96,7 +96,7 @@ class UserEditSkillsController extends GetxController {
       }
       try {
         var response = await dio.post(
-          'http://192.168.0.106:8000/api/user/skills/edit',
+          'http://192.168.39.51:8000/api/user/skills/edit',
           data: {
             'skills': skillIds,
           },
@@ -132,7 +132,7 @@ class UserEditSkillsController extends GetxController {
       }
       try {
         var response = await dio.post(
-          'http://192.168.0.106:8000/api/user/skills/add',
+          'http://192.168.39.51:8000/api/user/skills/add',
           data: {
             'skills': skillIds,
           },
