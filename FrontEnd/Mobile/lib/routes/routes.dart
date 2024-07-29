@@ -5,6 +5,7 @@ import 'package:jobera/views/appViews/chats/chats_view.dart';
 import 'package:jobera/views/appViews/home_view.dart';
 import 'package:jobera/views/appViews/jobs/freelancing/freelancing_job_details_view.dart';
 import 'package:jobera/views/appViews/jobs/freelancing/freelancing_jobs_view.dart';
+import 'package:jobera/views/appViews/jobs/regular/apply_regular_job_view.dart';
 import 'package:jobera/views/appViews/jobs/regular/regular_job_details_view.dart';
 import 'package:jobera/views/appViews/jobs/regular/regular_jobs_view.dart';
 import 'package:jobera/views/appViews/job_feed_view.dart';
@@ -119,6 +120,10 @@ List<GetPage<dynamic>>? getPages = [
   GetPage(
     name: '/regularJobDetails',
     page: () => RegularJobDetailsView(),
+  ),
+  GetPage(
+    name: '/applyRegularJob',
+    page: () => ApplyRegularJobView(),
   ),
   GetPage(
     name: '/freelancingJobDetails',

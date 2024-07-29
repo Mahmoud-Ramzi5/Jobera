@@ -7,7 +7,7 @@ class ChatsComponent extends StatelessWidget {
   final String? photo;
   final String name;
   final String? lastMessage;
-  final String? lastMessageDate;
+  final DateTime? lastMessageDate;
 
   const ChatsComponent({
     super.key,
@@ -44,20 +44,16 @@ class ChatsComponent extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SmallHeadlineText(text: name),
-                    Flexible(
-                      child: BodyText(
-                        text: lastMessage == null ? '' : lastMessage.toString(),
-                      ),
+                    BodyText(
+                      text: lastMessage == null ? '' : lastMessage.toString(),
                     ),
-                    Flexible(
-                      child: Text(
-                        lastMessageDate == null
-                            ? ''
-                            : lastMessageDate.toString(),
-                        style: const TextStyle(
-                          color: Colors.grey,
-                          fontSize: 12,
-                        ),
+                    Text(
+                      lastMessageDate == null
+                          ? ''
+                          : ' ${lastMessageDate?.day}/${lastMessageDate?.month}/${lastMessageDate?.year} ${lastMessageDate?.hour}:${lastMessageDate?.minute}',
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 12,
                       ),
                     ),
                   ],

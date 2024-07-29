@@ -10,7 +10,7 @@ class Message {
   });
 
   Message.fromJson(Map<String, dynamic> json)
-      : senderId = json['user']['id'] as int,
+      : senderId = json['user']['user_id'] as int,
         message = json['message'] as String,
         sendDate = DateTime.parse(json['send_date']);
 }

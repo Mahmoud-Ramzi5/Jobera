@@ -21,23 +21,6 @@ class RegularJobDetailsView extends StatelessWidget {
           onPressed: () => _regularJobDetailsController.goBack(),
           icon: const Icon(Icons.arrow_back),
         ),
-        actions: [
-          if (_regularJobDetailsController.regularJob.poster.userId ==
-              _regularJobDetailsController.homeController.company?.id)
-            IconButton(
-              onPressed: () => Dialogs().confirmDialog(
-                'Notice:',
-                'Are you sure you want to delete post?',
-                () => _regularJobDetailsController.deleteJob(
-                  _regularJobDetailsController.regularJob.defJobId,
-                ),
-              ),
-              icon: const Icon(
-                Icons.delete,
-                color: Colors.red,
-              ),
-            )
-        ],
       ),
       body: RefreshIndicator(
         key: _regularJobDetailsController.refreshIndicatorKey,
@@ -56,21 +39,40 @@ class RegularJobDetailsView extends StatelessWidget {
                       children: [
                         Column(
                           children: [
-                            Center(
-                              child: ProfilePhotoContainer(
-                                height: 200,
-                                width: 200,
-                                child: controller.regularJob.photo != null
-                                    ? CustomImage(
-                                        path: controller.regularJob.photo
-                                            .toString(),
-                                      )
-                                    : Icon(
-                                        Icons.work,
-                                        color: Colors.lightBlue.shade900,
-                                        size: 100,
+                            ProfilePhotoContainer(
+                              height: 200,
+                              width: 200,
+                              child: controller.regularJob.photo != null
+                                  ? CustomImage(
+                                      path: controller.regularJob.photo
+                                          .toString(),
+                                    )
+                                  : Icon(
+                                      Icons.work,
+                                      color: Colors.lightBlue.shade900,
+                                      size: 100,
+                                    ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                if (controller.regularJob.poster.userId ==
+                                        controller.homeController.company?.id &&
+                                    !controller.regularJob.isDone)
+                                  IconButton(
+                                    onPressed: () => Dialogs().confirmDialog(
+                                      'Notice:',
+                                      'Are you sure you want to delete post?',
+                                      () => controller.deleteJob(
+                                        controller.regularJob.defJobId,
                                       ),
-                              ),
+                                    ),
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                  )
+                              ],
                             ),
                             Padding(
                               padding: const EdgeInsets.all(10),
@@ -160,8 +162,8 @@ class RegularJobDetailsView extends StatelessWidget {
                                           text: 'Salary: ',
                                         ),
                                         LabelText(
-                                          text: controller.regularJob.salary
-                                              .toString(),
+                                          text:
+                                              '${controller.regularJob.salary}\$',
                                         ),
                                       ],
                                     ),
@@ -228,20 +230,13 @@ class RegularJobDetailsView extends StatelessWidget {
                           padding: const EdgeInsets.all(10),
                           child: InfoContainer(
                             buttonText:
-                                controller.regularJob.acceptedUser == null &&
+                                (controller.regularJob.acceptedUser == null &&
                                         !controller.homeController.isCompany &&
-                                        !_regularJobDetailsController.applied
+                                        !_regularJobDetailsController.applied)
                                     ? 'Be a competitor'
                                     : null,
                             icon: Icons.add,
-                            onPressed: () =>
-                                Dialogs().regularJobCompetitorDialog(
-                              controller.commentController,
-                              () => controller.applyRegJob(
-                                controller.regularJob.defJobId,
-                                controller.commentController.text,
-                              ),
-                            ),
+                            onPressed: () => Get.toNamed('/applyRegularJob'),
                             name: 'Competitors',
                             widget: ListView.builder(
                               itemCount:
@@ -259,36 +254,82 @@ class RegularJobDetailsView extends StatelessWidget {
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.all(10),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
+                                          child: Column(
                                             children: [
-                                              ProfilePhotoContainer(
-                                                child: controller
-                                                            .regularJob
-                                                            .competitors[index]
-                                                            .photo !=
-                                                        null
-                                                    ? CustomImage(
-                                                        path: controller
-                                                            .regularJob.photo
-                                                            .toString(),
-                                                      )
-                                                    : Icon(
-                                                        controller
-                                                                    .regularJob
-                                                                    .competitors[
-                                                                        index]
-                                                                    .type ==
-                                                                'company'
-                                                            ? Icons.business
-                                                            : Icons.person,
-                                                        color: Colors
-                                                            .lightBlue.shade900,
-                                                        size: 50,
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  ProfilePhotoContainer(
+                                                    child: controller
+                                                                .regularJob
+                                                                .competitors[
+                                                                    index]
+                                                                .photo !=
+                                                            null
+                                                        ? CustomImage(
+                                                            path: controller
+                                                                .regularJob
+                                                                .photo
+                                                                .toString(),
+                                                          )
+                                                        : Icon(
+                                                            controller
+                                                                        .regularJob
+                                                                        .competitors[
+                                                                            index]
+                                                                        .type ==
+                                                                    'company'
+                                                                ? Icons.business
+                                                                : Icons.person,
+                                                            color: Colors
+                                                                .lightBlue
+                                                                .shade900,
+                                                            size: 50,
+                                                          ),
+                                                  ),
+                                                  Column(
+                                                    children: [
+                                                      IconButton(
+                                                        onPressed: () =>
+                                                            _regularJobDetailsController
+                                                                .acceptUser(
+                                                          _regularJobDetailsController
+                                                              .regularJob
+                                                              .competitors[
+                                                                  index]
+                                                              .userId,
+                                                          _regularJobDetailsController
+                                                              .regularJob
+                                                              .defJobId,
+                                                        ),
+                                                        icon: const Icon(
+                                                          Icons.check,
+                                                          color: Colors.green,
+                                                        ),
                                                       ),
+                                                      IconButton(
+                                                        onPressed: () =>
+                                                            _regularJobDetailsController
+                                                                .createChat(
+                                                          _regularJobDetailsController
+                                                              .regularJob
+                                                              .competitors[
+                                                                  index]
+                                                              .userId,
+                                                        ),
+                                                        icon: Icon(
+                                                          Icons.message,
+                                                          color: Colors
+                                                              .lightBlue
+                                                              .shade900,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
                                               ),
-                                              const BodyText(text: 'Rating:'),
                                               if (controller.regularJob
                                                           .acceptedUser !=
                                                       null &&
@@ -308,6 +349,7 @@ class RegularJobDetailsView extends StatelessWidget {
                                             ],
                                           ),
                                         ),
+                                        const BodyText(text: 'Rating:'),
                                         Row(
                                           children: [
                                             const BodyText(text: 'Name:'),

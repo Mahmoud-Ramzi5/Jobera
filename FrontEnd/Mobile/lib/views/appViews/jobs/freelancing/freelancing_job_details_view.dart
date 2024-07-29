@@ -21,25 +21,6 @@ class FreelancingJobDetailsView extends StatelessWidget {
           onPressed: () => _freelancingJobDetailsController.goBack(),
           icon: const Icon(Icons.arrow_back),
         ),
-        actions: [
-          if (_freelancingJobDetailsController.freelancingJob.poster.userId ==
-                  _freelancingJobDetailsController.homeController.company?.id ||
-              _freelancingJobDetailsController.freelancingJob.poster.userId ==
-                  _freelancingJobDetailsController.homeController.user?.id)
-            IconButton(
-              onPressed: () => Dialogs().confirmDialog(
-                'Notice:',
-                'Are you sure you want to delete post?',
-                () => _freelancingJobDetailsController.deleteJob(
-                  _freelancingJobDetailsController.freelancingJob.defJobId,
-                ),
-              ),
-              icon: const Icon(
-                Icons.delete,
-                color: Colors.red,
-              ),
-            )
-        ],
       ),
       body: RefreshIndicator(
         key: _freelancingJobDetailsController.refreshIndicatorKey,
@@ -73,6 +54,30 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                         size: 100,
                                       ),
                               ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                if (controller.freelancingJob.poster.userId ==
+                                        controller.homeController.company?.id ||
+                                    controller.freelancingJob.poster.userId ==
+                                        controller.homeController.user?.id)
+                                  IconButton(
+                                    onPressed: () => Dialogs().confirmDialog(
+                                      'Notice:',
+                                      'Are you sure you want to delete post?',
+                                      () => _freelancingJobDetailsController
+                                          .deleteJob(
+                                        _freelancingJobDetailsController
+                                            .freelancingJob.defJobId,
+                                      ),
+                                    ),
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                  )
+                              ],
                             ),
                             Padding(
                               padding: const EdgeInsets.all(10),
@@ -254,21 +259,14 @@ class FreelancingJobDetailsView extends StatelessWidget {
                           padding: const EdgeInsets.all(10),
                           child: InfoContainer(
                             buttonText:
-                                controller.freelancingJob.acceptedUser == null
+                                controller.freelancingJob.acceptedUser ==
+                                            null &&
+                                        !controller.homeController.isCompany &&
+                                        !controller.applied
                                     ? 'Be a competitor'
                                     : null,
                             icon: Icons.add,
-                            onPressed: () => Dialogs()
-                                .freelancingJobCompetitorDialog(
-                                    _freelancingJobDetailsController
-                                        .commentController,
-                                    _freelancingJobDetailsController
-                                        .offerController,
-                                    _freelancingJobDetailsController
-                                        .freelancingJob.minOffer,
-                                    _freelancingJobDetailsController
-                                        .freelancingJob.maxOffer,
-                                    () {}),
+                            onPressed: () {},
                             name: 'Competitors',
                             widget: ListView.builder(
                               itemCount:

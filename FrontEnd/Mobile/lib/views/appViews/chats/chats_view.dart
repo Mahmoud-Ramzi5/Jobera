@@ -36,7 +36,7 @@ class ChatsView extends StatelessWidget {
                             name: controller.chats[index].name,
                             lastMessage: controller.chats[index].lastMessage,
                             lastMessageDate:
-                                ' ${controller.chats[index].lastMessageDate?.day}/${controller.chats[index].lastMessageDate?.month}/${controller.chats[index].lastMessageDate?.year} ${controller.chats[index].lastMessageDate?.hour}:${controller.chats[index].lastMessageDate?.minute}',
+                                controller.chats[index].lastMessageDate,
                           ),
                         );
                       },

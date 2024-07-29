@@ -56,18 +56,15 @@ class FreelancingJobDetailsController extends GetxController {
 
   void viewUserProfile(int userId, String userName, String type) {
     if (type == 'company') {
-      if (userId != homeController.company?.id) {
-        homeController.isOtherUserProfile = true;
-        homeController.otherUserId = userId;
-        homeController.otherUserName = userName;
-      }
+      homeController.isOtherUserProfile = true;
+      homeController.otherUserId = userId;
+      homeController.otherUserName = userName;
+
       Get.toNamed('/companyProfile');
     } else {
-      if (userId != homeController.user!.id) {
-        homeController.isOtherUserProfile = true;
-        homeController.otherUserId = userId;
-        homeController.otherUserName = userName;
-      }
+      homeController.isOtherUserProfile = true;
+      homeController.otherUserId = userId;
+      homeController.otherUserName = userName;
       Get.toNamed('/userProfile');
     }
   }

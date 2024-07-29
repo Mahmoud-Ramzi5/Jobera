@@ -220,31 +220,6 @@ class Dialogs {
     );
   }
 
-  Future<void> regularJobCompetitorDialog(
-    TextEditingController commentController,
-    void Function()? onPressed,
-  ) async {
-    Get.defaultDialog(
-      title: 'Add your comment',
-      titleStyle: TextStyle(
-        color: Colors.orange.shade800,
-        fontSize: 20,
-        fontWeight: FontWeight.bold,
-      ),
-      content: CustomTextField(
-        controller: commentController,
-        textInputType: TextInputType.text,
-        obsecureText: false,
-        labelText: 'Comment',
-        icon: const Icon(Icons.abc),
-      ),
-      confirm: OutlinedButton(
-        onPressed: onPressed,
-        child: const LabelText(text: 'send'),
-      ),
-    );
-  }
-
   Future<void> freelancingJobCompetitorDialog(
     TextEditingController commentController,
     TextEditingController offerController,

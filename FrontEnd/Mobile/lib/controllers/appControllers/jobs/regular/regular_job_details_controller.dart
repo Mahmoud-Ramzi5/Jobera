@@ -9,6 +9,7 @@ import 'package:jobera/models/regular_job.dart';
 
 class RegularJobDetailsController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
+  late GlobalKey<FormState> formField;
   late Dio dio;
   late HomeController homeController;
   late RegularJobController regularJobsController;
@@ -20,6 +21,7 @@ class RegularJobDetailsController extends GetxController {
   @override
   Future<void> onInit() async {
     refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+    formField = GlobalKey<FormState>();
     dio = Dio();
     homeController = Get.find<HomeController>();
     regularJobsController = Get.find<RegularJobController>();
@@ -28,11 +30,19 @@ class RegularJobDetailsController extends GetxController {
     await fetchRegularJob(regularJobsController.jobDetailsId);
     loading = false;
     for (var i = 0; i < regularJob.competitors.length; i++) {
-      if (regularJob.competitors[i].userId == homeController.user!.id) {
-        applied = true;
-        break;
+      if (homeController.isCompany) {
+        if (regularJob.competitors[i].userId == homeController.company!.id) {
+          applied = true;
+          break;
+        }
+      } else {
+        if (regularJob.competitors[i].userId == homeController.user!.id) {
+          applied = true;
+          break;
+        }
       }
     }
+
     update();
     super.onInit();
   }
@@ -44,14 +54,15 @@ class RegularJobDetailsController extends GetxController {
   }
 
   void viewUserProfile(int userId, String userName, String type) {
-    if (userId != homeController.user!.id) {
+    if (type == 'company') {
       homeController.isOtherUserProfile = true;
       homeController.otherUserId = userId;
       homeController.otherUserName = userName;
-    }
-    if (type == 'company') {
       Get.toNamed('/companyProfile');
     } else {
+      homeController.isOtherUserProfile = true;
+      homeController.otherUserId = userId;
+      homeController.otherUserName = userName;
       Get.toNamed('/userProfile');
     }
   }
@@ -89,7 +100,6 @@ class RegularJobDetailsController extends GetxController {
   }
 
   Future<dynamic> applyRegJob(int jobId, String comment) async {
-    Dialogs().loadingDialog();
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
@@ -108,9 +118,9 @@ class RegularJobDetailsController extends GetxController {
       );
 
       if (response.statusCode == 200) {
-        regularJobsController.refreshIndicatorKey.currentState!.show();
         refreshIndicatorKey.currentState!.show();
-        Get.back();
+        regularJobsController.refreshIndicatorKey.currentState!.show();
+        applied = true;
         Get.back();
         update();
       }
@@ -138,6 +148,66 @@ class RegularJobDetailsController extends GetxController {
       if (response.statusCode == 204) {
         Get.back();
         regularJobsController.refreshIndicatorKey.currentState!.show();
+      }
+    } on DioException catch (e) {
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response.toString(),
+      );
+    }
+  }
+
+  Future<dynamic> acceptUser(int competitorId, int defJobId) async {
+    String? token = sharedPreferences?.getString('access_token');
+    try {
+      var response = await dio.post(
+        'http://192.168.0.101:8000/api/regJob/accept/$defJobId',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+        data: {
+          "reg_job_competitor_id": competitorId,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        regularJobsController.refreshIndicatorKey.currentState!.show();
+        refreshIndicatorKey.currentState!.show();
+        update();
+      }
+    } on DioException catch (e) {
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response.toString(),
+      );
+    }
+  }
+
+  Future<dynamic> createChat(int recieverId) async {
+    String? token = sharedPreferences?.getString('access_token');
+    try {
+      var response = await dio.post(
+        'http://192.168.0.101:8000/api/chats/create',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+        data: {
+          "reciver_id": recieverId,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        regularJobsController.refreshIndicatorKey.currentState!.show();
+        refreshIndicatorKey.currentState!.show();
+        update();
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
