@@ -8,7 +8,7 @@ import ChatCard from './ChatCard';
 import styles from './chats.module.css';
 
 
-const ChatNav = () => {
+const ChatNav = ({ setShowChatsScreen }) => {
   // Translations
   const { t } = useTranslation('global');
   // Context
@@ -59,7 +59,10 @@ const ChatNav = () => {
               ? "btn btn-outline-dark"
               : "btn btn-outline-light"
           }
-          onClick={() => navigate("/chats")}
+          onClick={() => {
+            navigate("/chats");
+            setShowChatsScreen(false);
+          }}
         >
           {t('components.nav_bar.button_chats')}
         </button>
@@ -68,7 +71,11 @@ const ChatNav = () => {
         {chats.length === 0 ?
           <h4 className={styles.no_chats}>{t('components.nav_bar.no_chats')}</h4>
           : chats.slice(0, 3).map((chat) => (
-            <ChatCard key={chat.id} chat={chat} onClick={() => navigate('/chats')} />
+            <ChatCard key={chat.id} chat={chat}
+              onClick={() => {
+                navigate("/chats");
+                setShowChatsScreen(false);
+              }} />
           ))}
       </ul>
     </div>

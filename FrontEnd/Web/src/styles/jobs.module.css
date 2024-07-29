@@ -95,11 +95,11 @@
 }
 
 .title {
-    max-height: 100px;
     padding: 5px;
     font-weight: 500;
-    margin-block-end: 10px;
+    max-height: 100px;
     overflow-y: hidden;
+    margin-block-end: 10px;
     color: var(--color-title);
 }
 

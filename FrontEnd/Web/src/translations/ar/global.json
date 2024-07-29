@@ -347,7 +347,10 @@
             "h4_chats": "أجدد المحادثات",
             "no_chats": "لا يوجد محادثات بعد",
             "button_chats": "إظهار المحادثات",
-            "card_chat": "لا يوجد رسائل بعد"
+            "card_chat": "لا يوجد رسائل بعد",
+            "h4_notifications": "الإشعارات",
+            "button_notifications": "إظهار الإشعارات",
+            "no_notifications": "لا يوجد إشعارات جديدة"
         },
         "footer": {
             "footer_logo": "Jobera",

@@ -347,7 +347,10 @@
             "h4_chats": "Recent Chats",
             "button_chats": "Show Chats",
             "no_chats": "No chats yet",
-            "card_chat": "No messages yet"
+            "card_chat": "No messages yet",
+            "h4_notifications": "Notifications",
+            "button_notifications": "Show Notifications",
+            "no_notifications": "No new notifications"
         },
         "footer": {
             "footer_logo": "Jobera",

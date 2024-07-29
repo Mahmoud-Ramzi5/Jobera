@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Chat;
 use App\Models\Message;
+use App\Events\NewMessage;
 use Illuminate\Http\Request;
 use App\Http\Requests\SendMessageRequest;
 use App\Http\Resources\MessageResource;
@@ -136,6 +137,9 @@ class ChatController extends Controller
             'chat_id' => $chat->id,
             'message' => $validated['message']
         ]);
+
+        // Push Notification
+        broadcast(new NewMessage($user->id, $validated['reciver_id'], $message));
 
         // Response
         return response()->json([

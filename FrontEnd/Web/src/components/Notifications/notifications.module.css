@@ -1,0 +1,96 @@
+/* NotificationsNav */
+.container {
+    width: 100%;
+    max-width: 400px;
+    min-height: 200px;
+    padding: 20px;
+    position: absolute;
+    margin-inline-start: -60px;
+    border: 1px solid var(--color-foreground);
+    border-radius: 10px;
+    background-color: var(--color-background);
+    box-shadow: 0 5px 10px #00000026;
+}
+
+.notifications_head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-block-end: 10px;
+}
+
+.no_notifications {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-block-start: 40px;
+}
+
+.notifications_head h4 {
+    margin: 0;
+    font-weight: bold;
+    color: var(--color-text);
+}
+
+.notifications_list {
+    margin: 0;
+    padding: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+/* NotificationCard CSS */
+.card {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    margin-block-end: 1px;
+    border-block-end: 1px solid #eee;
+    transition: 0.2s;
+}
+
+.card:hover {
+    transition: .2s;
+    box-shadow: 0px 2px 12px var(--color-foreground);
+}
+
+.card:last-child {
+    border-bottom: none;
+}
+
+.Card_Img {
+    width: 60px;
+    height: 60px;
+    object-fit: fill;
+    border-radius: 15px;
+}
+
+.card_user {
+    font-size: 15px;
+    font-weight: bold;
+    padding: 0px 15px;
+    color: var(--color-text);
+}
+
+.card_message {
+    font-size: 13px;
+    overflow-x: hidden;
+}
+
+/* Screen Size compatiplity */
+@media (max-width: 970px) {
+    .container {
+        position: relative;
+        margin-inline-start: 0px;
+    }
+
+    .card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .card_user {
+        padding: 0;
+    }
+}

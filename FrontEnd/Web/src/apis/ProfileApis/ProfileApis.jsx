@@ -107,19 +107,19 @@ export const GetRegisterStep = async (token) => {
 
 export const review = async (token, reviewer_id, reviewed_id, review) => {
   try {
-    const response = await axios.post(`http://127.0.0.1:8000/api/review`, 
+    const response = await axios.post(`http://127.0.0.1:8000/api/review`,
       {
-        "reviewer_id": reviewer_id ,
-        "reviewed_id" : reviewed_id,
-        "review" :review
+        "reviewer_id": reviewer_id,
+        "reviewed_id": reviewed_id,
+        "review": review
       },
       {
-      headers: {
-        'Content-Type': 'application/json; charset=UTF-8',
-        'Accept': "application/json",
-        'Authorization': `Bearer ${token}`
-      }
-    });
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Accept': "application/json",
+          'Authorization': `Bearer ${token}`
+        }
+      });
     return response;
   } catch (error) {
     return error.response;

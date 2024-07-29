@@ -10,11 +10,12 @@ use Illuminate\Notifications\Notification;
 class EmailVerification extends Notification
 {
     use Queueable;
+
     protected $token;
 
     /**
-    * Create a new notification instance.
-    */
+     * Create a new notification instance.
+     */
     public function __construct($token)
     {
         $this->token = $token;
@@ -35,12 +36,12 @@ class EmailVerification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $resetUrl = url('http://localhost:5173/emailVerify?token='.$this->token);
+        $verifyUrl = url('http://localhost:5173/emailVerify?token=' . $this->token);
 
         return (new MailMessage)
             ->subject('Verification Email Request')
             ->line('You are receiving this email because we want to verify your account.')
-            ->action('Verify your email', $resetUrl)
+            ->action('Verify your email', $verifyUrl)
             ->line('If you do not want to verify your account, no further action is required.');
     }
 

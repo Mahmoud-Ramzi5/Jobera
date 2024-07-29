@@ -71,6 +71,15 @@ nav {
   cursor: pointer;
 }
 
+.chat_list small {
+  font-size: 12px;
+  font-weight: 240;
+  padding: 2px;
+  border-radius: 4px;
+  color: white;
+  background-color: red;
+}
+
 .theme_switch {
   margin-block-start: 20px;
   line-height: 25px;

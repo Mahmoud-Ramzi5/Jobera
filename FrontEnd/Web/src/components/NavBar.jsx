@@ -2,9 +2,11 @@ import { useContext, useState, useEffect } from 'react';
 import ReactSwitch from 'react-switch';
 import { useTranslation } from 'react-i18next';
 import { KanbanFill, EnvelopeAtFill, BellFill, List, X } from 'react-bootstrap-icons';
+import Pusher from 'pusher-js';
 import { ThemeContext, LoginContext, ProfileContext } from '../utils/Contexts.jsx';
 import { FetchImage } from '../apis/FileApi.jsx';
 import ChatNav from "./Chats/ChatNav.jsx";
+import NotificationsNav from './Notifications/NotificationsNav.jsx';
 import Logo from '../assets/JoberaLogo.png';
 import defaultUser from '../assets/default.png';
 import styles from '../styles/navbar.module.css';
@@ -15,10 +17,76 @@ const NavBar = () => {
   const { t } = useTranslation('global');
   // Context
   const { theme, toggleTheme } = useContext(ThemeContext);
-  const { loggedIn } = useContext(LoginContext);
+  const { loggedIn, accessToken } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
   // Define states
-  const [showChatScreen, setShowChatScreen] = useState(false);
+  const [showChatsScreen, setShowChatsScreen] = useState(false);
+
+  const [count, setCount] = useState(0);
+  const [notifications, setNotifications] = useState([]);
+  const [showNotificationsScreen, setShowNotificationsScreen] = useState(false);
+
+  // Open Notifications Channel
+  useEffect(() => {
+    Pusher.logToConsole = true;
+
+    const pusher = new Pusher('181e3fe8a6a1e1e21e6e', {
+      cluster: 'ap2',
+      encrypted: true,
+      authEndpoint: 'http://127.0.0.1:8000/broadcasting/auth',
+      auth: {
+        headers: {
+          'Accept': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Authorization': `Bearer ${accessToken}`
+        }
+      }
+    });
+
+    const channel = pusher.subscribe(`private-user.${profile.user_id}`);
+    channel.bind('App\\Events\\NewMessage', data => {
+      setCount(prevCount => prevCount + 1);
+      setNotifications(prevNotifications => [...prevNotifications, data]);
+      if (data) {
+        NotifyUser(data);
+      }
+    });
+
+    return () => {
+      channel.unbind_all();
+      channel.unsubscribe();
+    };
+  }, []);
+
+  const NotifyUser = async (data) => {
+    if (!'Notifcation' in window) {
+      alert('Browser does not support desktop notification');
+    } else if (Notification.permission === 'granted') {
+      const notification = new Notification(data.other_user.name, {
+        icon: data.other_user.avatar_photo,
+        body: data.message
+      });
+    } else if (Notification.permission !== 'denied') {
+      await Notification.requestPermission().then((permission) => {
+        if (permission === 'granted') {
+          const notification = new Notification(data.other_user.name, {
+            icon: data.other_user.avatar_photo,
+            body: data.message
+          });
+        } else {
+          // var answer = window.confirm('Would you like to enable notifications?');
+          // Notification.permission = answer;
+          // if (answer) {
+          //   const notification = new Notification(data.other_user.name, {
+          //     icon: data.other_user.avatar_photo,
+          //     body: data.message
+          //   });
+          // }
+        }
+      });
+    }
+  }
+
 
   return (
     <nav>
@@ -91,15 +159,20 @@ const NavBar = () => {
                   </a>
                 </li>
                 <li>
-                  <span className={styles.chat_list} onClick={() => setShowChatScreen(!showChatScreen)}>
+                  <span className={styles.chat_list} onClick={() => setShowChatsScreen(!showChatsScreen)}>
                     <EnvelopeAtFill /> <span className={styles.mobile_item2}>{t('components.nav_bar.li_chats')}</span>
                   </span>
-                  {showChatScreen && <ChatNav />}
+                  {showChatsScreen && <ChatNav setShowChatsScreen={setShowChatsScreen} />}
                 </li>
                 <li>
-                  <a href="#">
-                    <BellFill /> <span className={styles.mobile_item2}>{t('components.nav_bar.li_notifications')}</span>
-                  </a>
+                  <span className={styles.chat_list} onClick={() => {
+                    setShowNotificationsScreen(!showNotificationsScreen)
+                    setCount(0);
+                  }}>
+                    <BellFill />{count !== 0 && <small>{count}</small>}{' '}
+                    <span className={styles.mobile_item2}>{t('components.nav_bar.li_notifications')}</span>
+                  </span>
+                  {showNotificationsScreen && <NotificationsNav notifications={notifications} />}
                 </li>
                 <span>
                   <li>

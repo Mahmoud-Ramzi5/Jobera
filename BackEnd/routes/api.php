@@ -4,10 +4,10 @@ use App\Models\State;
 use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ChatController;
-use App\Http\Controllers\TransactionsController;
-use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\TransactionsController;
 use App\Http\Controllers\AuthControllers\AuthController;
 use App\Http\Controllers\AuthControllers\SocialAuthController;
 use App\Http\Controllers\AuthControllers\ForgetPasswordController;
@@ -178,7 +178,7 @@ Route::controller(JobFeedController::class)->group(function () {
         Route::get('/jobFeed/skills', 'MostNeededSkills');
         Route::get('/jobFeed/companies', 'MostPostingCompanies');
         Route::get('/jobFeed/stats', 'Stats');
-        Route::get('/jobFeed/tops','Tops');
+        Route::get('/jobFeed/tops', 'Tops');
     });
 });
 

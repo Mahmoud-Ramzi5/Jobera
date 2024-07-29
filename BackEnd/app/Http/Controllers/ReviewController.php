@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\User;
 use App\Models\Review;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ class ReviewController extends Controller
             'reviewed_id' => 'required',
             'review' => 'required'
         ]);
+
         // Get user
         $user = auth()->user();
 
@@ -23,6 +25,8 @@ class ReviewController extends Controller
                 'errors' => ['user' => 'Invalid user']
             ], 401);
         }
+
+        // Review
         $review = Review::create($validated);
         $userReview = [];
         $userReviews = Review::where('reviewed_id', $validated['reviewed_id'])->get()->all();
@@ -36,9 +40,10 @@ class ReviewController extends Controller
         $user = User::find($validated['reviewed_id']);
         $user->rating = $rating;
         $user->save();
+
+        // Response
         return response()->json([
             'message' => 'rated successfully'
         ], 200);
     }
-
 }

@@ -59,7 +59,7 @@ const ShowJob = () => {
           setJob(response.data.job);
           setJobEnded(response.data.job.is_done);
           setIsFavorite(response.data.job.is_flagged);
-          if(response.data.job.accepted_user){
+          if (response.data.job.accepted_user) {
             setAcceptedUser(response.data.job.accepted_user.user_id);
           }
           if (response.data.job.job_user && response.data.job.job_user.user_id === profile.user_id) {
@@ -256,8 +256,8 @@ const ShowJob = () => {
 
   return (
     <div className={styles.jobsPage}>
-      {jobEnded ? isJobCreator ? <Rating title={'Rate the accepted freelancer'} access={accessToken} 
-          reviewer_id={profile.user_id} reviewed_id={job.accepted_user.user_id} />:<></> :
+      {jobEnded ? isJobCreator ? <Rating title={'Rate the accepted freelancer'} access={accessToken}
+        reviewer_id={profile.user_id} reviewed_id={job.accepted_user.user_id} /> : <></> :
         <>
           <div className={styles.pagecontent}>
             <div className={styles.left_side_container}>
