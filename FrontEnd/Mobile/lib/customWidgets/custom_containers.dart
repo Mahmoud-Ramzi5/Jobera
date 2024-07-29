@@ -205,15 +205,15 @@ class InfoContainer extends StatelessWidget {
                     onPressed: onPressed,
                     child: Row(
                       children: [
+                        LabelText(
+                          text: buttonText.toString(),
+                        ),
                         Padding(
                           padding: const EdgeInsets.all(5),
                           child: Icon(
                             icon,
                             color: Colors.orange.shade800,
                           ),
-                        ),
-                        LabelText(
-                          text: buttonText.toString(),
                         ),
                       ],
                     ),
@@ -333,7 +333,10 @@ class ListContainer extends StatelessWidget {
           side: BorderSide(color: color, width: 2),
         ),
       ),
-      child: child,
+      child: Padding(
+        padding: const EdgeInsets.all(5),
+        child: child,
+      ),
     );
   }
 }

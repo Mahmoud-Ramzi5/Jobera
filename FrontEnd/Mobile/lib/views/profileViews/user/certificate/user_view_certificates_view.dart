@@ -76,10 +76,13 @@ class UserEditCertificatesView extends StatelessWidget {
                             padding: const EdgeInsets.all(10),
                             child: Card(
                               child: ExpansionTile(
-                                trailing: Icon(
-                                  Icons.edit,
-                                  color: Colors.lightBlue.shade900,
-                                ),
+                                trailing:
+                                    controller.homeController.isOtherUserProfile
+                                        ? const Icon(null)
+                                        : Icon(
+                                            Icons.edit,
+                                            color: Colors.lightBlue.shade900,
+                                          ),
                                 title: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -133,24 +136,26 @@ class UserEditCertificatesView extends StatelessWidget {
                                             color: Colors.lightBlue.shade900,
                                           ),
                                         ),
-                                        IconButton(
-                                          onPressed: () =>
-                                              Dialogs().confirmDialog(
-                                            'Notice:',
-                                            'Are you sure you want to delete Certificate?',
-                                            () {
-                                              controller.deleteCertificate(
-                                                controller
-                                                    .certificates[index].id,
-                                              );
-                                              Get.back();
-                                            },
+                                        if (!_editController
+                                            .homeController.isOtherUserProfile)
+                                          IconButton(
+                                            onPressed: () =>
+                                                Dialogs().confirmDialog(
+                                              'Notice:',
+                                              'Are you sure you want to delete Certificate?',
+                                              () {
+                                                controller.deleteCertificate(
+                                                  controller
+                                                      .certificates[index].id,
+                                                );
+                                                Get.back();
+                                              },
+                                            ),
+                                            icon: const Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ),
                                           ),
-                                          icon: const Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
-                                          ),
-                                        ),
                                       ],
                                     ),
                                   ],
@@ -163,125 +168,132 @@ class UserEditCertificatesView extends StatelessWidget {
                                   }
                                 },
                                 children: [
-                                  Form(
-                                    key: _editController.formField,
-                                    child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: CustomTextField(
-                                            controller:
-                                                controller.editNameController,
-                                            textInputType: TextInputType.name,
-                                            obsecureText: false,
-                                            labelText: 'Name',
-                                            icon: const Icon(Icons.abc),
-                                            validator: (p0) => Validation()
-                                                .validateRequiredField(p0),
+                                  if (!_editController
+                                      .homeController.isOtherUserProfile)
+                                    Form(
+                                      key: _editController.formField,
+                                      child: Column(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(10),
+                                            child: CustomTextField(
+                                              controller:
+                                                  controller.editNameController,
+                                              textInputType: TextInputType.name,
+                                              obsecureText: false,
+                                              labelText: 'Name',
+                                              icon: const Icon(Icons.abc),
+                                              validator: (p0) => Validation()
+                                                  .validateRequiredField(p0),
+                                            ),
                                           ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: CustomTextField(
-                                            controller: controller
-                                                .editOrganizationController,
-                                            textInputType: TextInputType.name,
-                                            obsecureText: false,
-                                            labelText: 'Organization',
-                                            icon: const Icon(Icons.school),
-                                            validator: (p0) => Validation()
-                                                .validateRequiredField(p0),
+                                          Padding(
+                                            padding: const EdgeInsets.all(10),
+                                            child: CustomTextField(
+                                              controller: controller
+                                                  .editOrganizationController,
+                                              textInputType: TextInputType.name,
+                                              obsecureText: false,
+                                              labelText: 'Organization',
+                                              icon: const Icon(Icons.school),
+                                              validator: (p0) => Validation()
+                                                  .validateRequiredField(p0),
+                                            ),
                                           ),
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            const BodyText(
-                                                text: 'Select release Date:'),
-                                            Padding(
-                                              padding: const EdgeInsets.all(10),
-                                              child: DateContainer(
-                                                widget: GetBuilder<
-                                                    UserEditCertificatesController>(
-                                                  builder: (controller) =>
-                                                      GestureDetector(
-                                                    onTap: () =>
-                                                        controller.selectDate(
-                                                      context,
-                                                    ),
-                                                    child: BodyText(
-                                                      text:
-                                                          "${controller.editDate}"
-                                                              .split(' ')[0],
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              const BodyText(
+                                                  text: 'Select release Date:'),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(10),
+                                                child: DateContainer(
+                                                  widget: GetBuilder<
+                                                      UserEditCertificatesController>(
+                                                    builder: (controller) =>
+                                                        GestureDetector(
+                                                      onTap: () =>
+                                                          controller.selectDate(
+                                                        context,
+                                                      ),
+                                                      child: BodyText(
+                                                        text:
+                                                            "${controller.editDate}"
+                                                                .split(' ')[0],
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: GetBuilder<
-                                              UserEditCertificatesController>(
-                                            builder: (controller) =>
-                                                InfoContainer(
-                                              widget: BodyText(
-                                                text: controller.editFileName ==
-                                                        null
-                                                    ? 'File:${controller.certificates[index].file}'
-                                                    : 'File: ${controller.editFileName}',
+                                            ],
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.all(10),
+                                            child: GetBuilder<
+                                                UserEditCertificatesController>(
+                                              builder: (controller) =>
+                                                  InfoContainer(
+                                                widget: BodyText(
+                                                  text: controller
+                                                              .editFileName ==
+                                                          null
+                                                      ? 'File:${controller.certificates[index].file}'
+                                                      : 'File: ${controller.editFileName}',
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        Row(
-                                          children: [
-                                            Padding(
-                                              padding: const EdgeInsets.all(10),
-                                              child: OutlinedButton(
-                                                child: const BodyText(
-                                                    text: 'Choose new file'),
-                                                onPressed: () async =>
-                                                    controller.addFile(),
+                                          Row(
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(10),
+                                                child: OutlinedButton(
+                                                  child: const BodyText(
+                                                      text: 'Choose new file'),
+                                                  onPressed: () async =>
+                                                      controller.addFile(),
+                                                ),
                                               ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.all(10),
-                                              child: ElevatedButton(
-                                                child: const BodyText(
-                                                    text: 'Submit'),
-                                                onPressed: () {
-                                                  if (controller.formField
-                                                          .currentState
-                                                          ?.validate() ==
-                                                      true) {
-                                                    controller.editCertificate(
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(10),
+                                                child: ElevatedButton(
+                                                  child: const BodyText(
+                                                      text: 'Submit'),
+                                                  onPressed: () {
+                                                    if (controller.formField
+                                                            .currentState
+                                                            ?.validate() ==
+                                                        true) {
                                                       controller
-                                                          .certificates[index]
-                                                          .id,
-                                                      controller
-                                                          .editNameController
-                                                          .text,
-                                                      controller
-                                                          .editOrganizationController
-                                                          .text,
-                                                      controller.editDate,
-                                                      controller
-                                                          .certificates[index]
-                                                          .file,
-                                                      controller.editfile,
-                                                    );
-                                                  }
-                                                },
+                                                          .editCertificate(
+                                                        controller
+                                                            .certificates[index]
+                                                            .id,
+                                                        controller
+                                                            .editNameController
+                                                            .text,
+                                                        controller
+                                                            .editOrganizationController
+                                                            .text,
+                                                        controller.editDate,
+                                                        controller
+                                                            .certificates[index]
+                                                            .file,
+                                                        controller.editfile,
+                                                      );
+                                                    }
+                                                  },
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    )
                                 ],
                               ),
                             ),

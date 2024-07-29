@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/components/chat_components.dart';
+import 'package:jobera/components/chats_components.dart';
 import 'package:jobera/customWidgets/texts.dart';
 import 'package:jobera/controllers/appControllers/chats/chats_controller.dart';
 

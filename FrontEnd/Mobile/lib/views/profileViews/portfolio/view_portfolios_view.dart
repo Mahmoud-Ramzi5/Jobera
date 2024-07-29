@@ -89,17 +89,19 @@ class ViewPortfoliosView extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
-                                        IconButton(
-                                          onPressed: () {
-                                            controller.id = controller
-                                                .portfolios[index1].id;
-                                            Get.toNamed('/editPortfolio');
-                                          },
-                                          icon: Icon(
-                                            Icons.edit,
-                                            color: Colors.lightBlue.shade900,
+                                        if (!_editController
+                                            .homeController.isOtherUserProfile)
+                                          IconButton(
+                                            onPressed: () {
+                                              controller.id = controller
+                                                  .portfolios[index1].id;
+                                              Get.toNamed('/editPortfolio');
+                                            },
+                                            icon: Icon(
+                                              Icons.edit,
+                                              color: Colors.lightBlue.shade900,
+                                            ),
                                           ),
-                                        ),
                                         ProfilePhotoContainer(
                                           height: 100,
                                           width: 100,
@@ -118,24 +120,26 @@ class ViewPortfoliosView extends StatelessWidget {
                                                       .toString(),
                                                 ),
                                         ),
-                                        IconButton(
-                                          onPressed: () =>
-                                              Dialogs().confirmDialog(
-                                            'Notice:',
-                                            'Are you sure you want to delete Portfolio?',
-                                            () {
-                                              controller.deletePortfolio(
-                                                controller
-                                                    .portfolios[index1].id,
-                                              );
-                                              Get.back();
-                                            },
+                                        if (!_editController
+                                            .homeController.isOtherUserProfile)
+                                          IconButton(
+                                            onPressed: () =>
+                                                Dialogs().confirmDialog(
+                                              'Notice:',
+                                              'Are you sure you want to delete Portfolio?',
+                                              () {
+                                                controller.deletePortfolio(
+                                                  controller
+                                                      .portfolios[index1].id,
+                                                );
+                                                Get.back();
+                                              },
+                                            ),
+                                            icon: const Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ),
                                           ),
-                                          icon: const Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
-                                          ),
-                                        ),
                                       ],
                                     ),
                                     ExpansionTile(

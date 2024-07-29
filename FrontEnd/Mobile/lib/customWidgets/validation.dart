@@ -34,4 +34,21 @@ class Validation {
     }
     return null;
   }
+
+  String? validateOffer(String? value, double min, double max) {
+    if (value!.isEmpty) {
+      return "Required Field";
+    } else if (!value.isNum) {
+      return "Invalid Offer";
+    } else if (double.parse(value) < min || double.parse(value) > max) {
+      return "Not in offer Range";
+    } else if (double.parse(value) > 0 && double.parse(value) < 2000) {
+      return "Your share will be ${0.15 * double.parse(value)}";
+    } else if (double.parse(value) > 2000 && double.parse(value) < 15000) {
+      return "Your share will be ${0.12 * double.parse(value)}";
+    } else if (double.parse(value) > 15000) {
+      return "Your share will be ${0.10 * double.parse(value)}";
+    }
+    return null;
+  }
 }

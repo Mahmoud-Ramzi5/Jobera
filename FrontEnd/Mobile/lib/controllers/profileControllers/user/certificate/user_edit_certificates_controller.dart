@@ -30,12 +30,12 @@ class UserEditCertificatesController extends GetxController {
     dio = Dio();
     formField = GlobalKey<FormState>();
     settingsController = Get.find<SettingsController>();
-    homeController = Get.find<HomeController>();
     editNameController = TextEditingController();
     editOrganizationController = TextEditingController();
     editDate = DateTime.now();
-
+    homeController = Get.put(HomeController());
     if (!settingsController.isInRegister) {
+      homeController = Get.find<HomeController>();
       if (homeController.isOtherUserProfile) {
         await fetchCertificates(
           homeController.otherUserId,

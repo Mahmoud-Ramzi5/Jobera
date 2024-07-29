@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/customWidgets/texts.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
+import 'package:jobera/customWidgets/validation.dart';
 
 class Dialogs {
   Future<void> loadingDialog() async {
@@ -210,10 +211,81 @@ class Dialogs {
         obsecureText: false,
         labelText: 'Code',
         icon: const Icon(Icons.numbers),
+        validator: (p0) => Validation().validateRequiredField(p0),
       ),
       confirm: OutlinedButton(
         onPressed: onPressed,
         child: const LabelText(text: 'Redeem'),
+      ),
+    );
+  }
+
+  Future<void> regularJobCompetitorDialog(
+    TextEditingController commentController,
+    void Function()? onPressed,
+  ) async {
+    Get.defaultDialog(
+      title: 'Add your comment',
+      titleStyle: TextStyle(
+        color: Colors.orange.shade800,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+      content: CustomTextField(
+        controller: commentController,
+        textInputType: TextInputType.text,
+        obsecureText: false,
+        labelText: 'Comment',
+        icon: const Icon(Icons.abc),
+      ),
+      confirm: OutlinedButton(
+        onPressed: onPressed,
+        child: const LabelText(text: 'send'),
+      ),
+    );
+  }
+
+  Future<void> freelancingJobCompetitorDialog(
+    TextEditingController commentController,
+    TextEditingController offerController,
+    double min,
+    double max,
+    void Function()? onPressed,
+  ) async {
+    Get.defaultDialog(
+      title: 'Make your offer',
+      titleStyle: TextStyle(
+        color: Colors.orange.shade800,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+      content: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(5),
+            child: CustomTextField(
+              controller: commentController,
+              textInputType: TextInputType.text,
+              obsecureText: false,
+              labelText: 'Comment',
+              icon: const Icon(Icons.abc),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(5),
+            child: CustomTextField(
+              controller: offerController,
+              textInputType: TextInputType.number,
+              obsecureText: false,
+              labelText: 'Offer',
+              icon: const Icon(Icons.monetization_on),
+            ),
+          ),
+        ],
+      ),
+      confirm: OutlinedButton(
+        onPressed: onPressed,
+        child: const LabelText(text: 'send'),
       ),
     );
   }

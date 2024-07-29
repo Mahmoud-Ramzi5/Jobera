@@ -7,6 +7,7 @@ import 'package:jobera/models/freelancing_job.dart';
 import 'package:jobera/models/pagination_data.dart';
 
 class FreelancingJobsController extends GetxController {
+  late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   late Dio dio;
   late ScrollController scrollController;
   late PaginationData paginationData;
@@ -16,6 +17,7 @@ class FreelancingJobsController extends GetxController {
 
   @override
   Future<void> onInit() async {
+    refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
     dio = Dio();
     scrollController = ScrollController()..addListener(scrollListener);
     paginationData = PaginationData.empty();
