@@ -65,7 +65,7 @@ const ChatNav = () => {
         </button>
       </div>
       <ul className={styles.chat_list}>
-        {chats ?
+        {chats.length === 0 ?
           <h4 className={styles.no_chats}>{t('components.nav_bar.no_chats')}</h4>
           : chats.slice(0, 3).map((chat) => (
             <ChatCard key={chat.id} chat={chat} onClick={() => navigate('/chats')} />

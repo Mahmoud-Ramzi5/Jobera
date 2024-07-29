@@ -57,7 +57,7 @@ const ChatList = ({ setSelectedChat, updateList, setUpdateList }) => {
     <div className={styles.List}>
       {isLoading ? <p>Loading...</p> :
         <ul className={styles.chat_list}>
-          {chats ?
+          {chats.length === 0 ?
             <h4 className={styles.no_chats}>{t('components.nav_bar.no_chats')}</h4>
             : chats.map((chat) => (
               <ChatCard key={chat.id} chat={chat} onClick={() => setSelectedChat(chat)} />
