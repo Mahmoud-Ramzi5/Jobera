@@ -1,6 +1,6 @@
 import { useEffect, useState, useContext } from 'react';
-import {useNavigate, useParams } from 'react-router-dom';
-import { LoginContext } from '../utils/Contexts.jsx';
+import { useNavigate, useParams } from 'react-router-dom';
+import { LoginContext, ProfileContext } from '../utils/Contexts.jsx';
 import { FetchUserProfile } from '../apis/ProfileApis/ProfileApis.jsx';
 import UserInfo from '../components/Profile/UserInfo';
 import Wallet from '../components/Profile/Wallet.jsx';
@@ -16,13 +16,14 @@ import styles from '../styles/profile.module.css';
 const Profile = () => {
   // Context
   const { loggedIn, accessToken } = useContext(LoginContext);
+  const { profile } = useContext(ProfileContext);
   //Navigate
   const navigate = useNavigate();
   // Params
   const { user_id, user_name } = useParams();
   // Define states
   const [isLoading, setIsLoading] = useState(true);
-  const [profile, setProfile] = useState([]);
+  const [profileData, setProfileData] = useState([]);
 
   useEffect(() => {
     if (loggedIn && accessToken) {
@@ -30,7 +31,7 @@ const Profile = () => {
 
       FetchUserProfile(accessToken, user_id, user_name).then((response) => {
         if (response.status === 200) {
-          setProfile(response.data.user);
+          setProfileData(response.data.user);
         }
         else {
           console.log(response.statusText);
@@ -45,26 +46,27 @@ const Profile = () => {
   if (isLoading) {
     return <Clock />
   }
-  if (profile.type === 'individual') {
+  if (profileData.type === 'individual') {
     return (
       <div className={styles.Profile}>
         <div className={styles.leftSideContainer}>
-          <div className={styles.leftSide}><UserInfo ProfileData={profile} /></div>
-          <div className={styles.leftSide}><Wallet ProfileData={profile} /></div>
-          <div className={styles.leftSide}><PortfolioCard ProfileData={profile} /></div>
+          <div className={styles.leftSide}><UserInfo ProfileData={profileData} /></div>
+          {profileData.user_id === profile.user_id &&
+            <div className={styles.leftSide}><Wallet ProfileData={profileData} /></div>}
+          <div className={styles.leftSide}><PortfolioCard ProfileData={profileData} /></div>
         </div>
         <div className={styles.rightSideContainer}>
-          {profile.is_registered ? (<></>) : (
-            <div className={styles.rightSide}><SetUpCard ProfileData={profile} /></div>
+          {profileData.is_registered ? (<></>) : (
+            <div className={styles.rightSide}><SetUpCard ProfileData={profileData} /></div>
           )}
-          <div className={styles.rightSide}><EducationCard ProfileData={profile} /></div>
-          <div className={styles.rightSide}><CertificationsCard ProfileData={profile} /></div>
-          <div className={styles.rightSide}><SkillsCard ProfileData={profile} /></div>
+          <div className={styles.rightSide}><EducationCard ProfileData={profileData} /></div>
+          <div className={styles.rightSide}><CertificationsCard ProfileData={profileData} /></div>
+          <div className={styles.rightSide}><SkillsCard ProfileData={profileData} /></div>
         </div>
       </div>
     );
   }
-  else if (profile.type === 'company') {
+  else if (profileData.type === 'company') {
     return (
       <div className={styles.Profile}>
         <div className={styles.CompanyContainer}>

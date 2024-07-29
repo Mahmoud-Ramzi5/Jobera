@@ -18,7 +18,7 @@ class Transaction extends Model
     protected $fillable = [
         'sender_id',
         'receiver_id',
-        'job_id',
+        'defJob_id',
         'amount',
         'date'
     ];

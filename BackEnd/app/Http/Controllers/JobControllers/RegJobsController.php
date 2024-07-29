@@ -104,7 +104,7 @@ class RegJobsController extends Controller
             ], 400);
         }
 
-        $something = app(TransactionsController::class)->RegJobTransaction($user->id, $regJob->job_id, $adminShare);
+        $something = app(TransactionsController::class)->RegJobTransaction($user->id, $regJob->defJob_id, $adminShare);
 
         // Response
         return response()->json([

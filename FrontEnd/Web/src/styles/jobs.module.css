@@ -95,9 +95,11 @@
 }
 
 .title {
+    max-height: 100px;
     padding: 5px;
     font-weight: 500;
     margin-block-end: 10px;
+    overflow-y: hidden;
     color: var(--color-title);
 }
 

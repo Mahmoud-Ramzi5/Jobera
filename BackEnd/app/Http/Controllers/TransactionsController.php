@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Wallet;
+use App\Models\Transaction;
 use App\Models\Company;
 use App\Models\RedeemCode;
 use App\Models\FreelancingJob;
@@ -44,7 +45,7 @@ class TransactionsController extends Controller
         ], 200);
     }
 
-    public function RegJobTransaction($sender_id, $job_id, $amount)
+    public function RegJobTransaction($sender_id, $defJob_id, $amount)
     {
 
         // Get user
@@ -92,6 +93,14 @@ class TransactionsController extends Controller
             $receiverWallet->total_balance += $amount;
             $senderWallet->save();
             $receiverWallet->save();
+            $transactionParams = [
+                'sender_id' => $senderWallet->id,
+                'receiver_id' => 1,
+                'defJob_id' => $defJob_id,
+                'amount' => $amount,
+                'date' => now()
+            ];
+            $transaction = Transaction::create($transactionParams);
         } else {
             return response()->json([
                 'message' => 'Insufficient balance'
@@ -99,7 +108,7 @@ class TransactionsController extends Controller
         }
 
         return response()->json([
-            'message' => 'Transaction done successfully'
+            'message' => $transaction
         ], 200);
     }
 
@@ -168,6 +177,14 @@ class TransactionsController extends Controller
 
             $senderWallet->save();
             $receiverWallet->save();
+            $transactionParams = [
+                'sender_id' => $senderWallet->id,
+                'receiver_id' => 1,
+                'defJob_id' => $job_id,
+                'amount' => $adminShare,
+                'date' => now()
+            ];
+            $transaction = Transaction::create($transactionParams);
         } else {
             return response()->json([
                 'message' => 'Insufficient balance'
@@ -175,7 +192,7 @@ class TransactionsController extends Controller
         }
 
         return response()->json([
-            'message' => 'Transaction done successfully'
+            'message' => $transaction
         ], 200);
     }
 
@@ -240,6 +257,14 @@ class TransactionsController extends Controller
             $receiverWallet->total_balance += $userShare;
             $senderWallet->save();
             $receiverWallet->save();
+            $transactionParams = [
+                'sender_id' => $senderWallet->id,
+                'receiver_id' => $receiver_id,
+                'defJob_id' => $job_id,
+                'amount' => $userShare,
+                'date' => now()
+            ];
+            $transaction = Transaction::create($transactionParams);
         } else {
             return response()->json([
                 'message' => 'something went wrong'
@@ -247,7 +272,7 @@ class TransactionsController extends Controller
         }
 
         return response()->json([
-            'message' => 'Transaction done successfully'
+            'message' => $transaction
         ], 200);
     }
 

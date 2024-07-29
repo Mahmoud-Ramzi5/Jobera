@@ -41,6 +41,7 @@ const ShowJob = () => {
   const [adminShare, setAdminShare] = useState(0);
   const [isJobCreator, setIsJobCreator] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [acceptedUser, setAcceptedUser] = useState(null);
 
   const [comment, setComment] = useState('');
   const [offer, setOffer] = useState('');
@@ -56,7 +57,9 @@ const ShowJob = () => {
           setJob(response.data.job);
           setJobEnded(response.data.job.is_done);
           setIsFavorite(response.data.job.is_flagged);
-
+          if(response.data.job.accepted_user){
+            setAcceptedUser(response.data.job.accepted_user.user_id);
+          }
           if (response.data.job.job_user && response.data.job.job_user.user_id === profile.user_id) {
             setIsJobCreator(true);
           } else {
@@ -246,7 +249,7 @@ const ShowJob = () => {
   if (isLoading) {
     return <Clock />
   }
-  console.log(job.accepted_user);
+
   return (
     <div className={styles.jobsPage}>
       {jobEnded ? <>job has ended</> :
@@ -400,10 +403,10 @@ const ShowJob = () => {
             }
             {job.competitors && job.competitors.map((competitor) => (
               <div className={styles.competitor_and_button} key={competitor.competitor_id}>
-                <JobCompetitorCard CompetitorData={competitor} AcceptedCompetitor={job.accepted_user.user_id} />
+                <JobCompetitorCard CompetitorData={competitor} AcceptedCompetitor={acceptedUser} />
                 <div className={styles.buttons_holder2}>
 
-                  {job.job_user.user_id === profile.user_id && !accepted &&
+                  {job.job_user.user_id === profile.user_id && !accepted && job.type === 'Freelancing' &&
                     job.job_user.wallet.available_balance >= parseFloat(competitor.offer) &&
                     <button className={styles.accept_button}
                       onClick={(event) => handleAcceptFreelancingCompetitor(event, competitor.competitor_id, parseFloat(competitor.offer))}>
@@ -411,7 +414,7 @@ const ShowJob = () => {
                     </button>
                   }
                   :
-                  {job.job_user && job.type !== 'freelancing' && job.job_user.user_id === profile.user_id && !accepted &&
+                  {job.job_user && job.type !== 'Freelancing' && job.job_user.user_id === profile.user_id && !accepted &&
                     <>
                       <button className={styles.accept_button}
                         onClick={(event) => handleAcceptRegCompetitor(event, competitor.competitor_id)}>

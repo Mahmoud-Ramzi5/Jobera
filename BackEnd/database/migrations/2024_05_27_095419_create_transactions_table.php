@@ -15,14 +15,14 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('sender_id')->unsigned();
             $table->bigInteger('receiver_id')->unsigned();
-            $table->bigInteger('job_id')->unsigned();
+            $table->bigInteger('defJob_id')->unsigned();
             $table->decimal('amount', 19, 4);
             $table->dateTime('date');
             $table->timestamps();
 
             $table->foreign('sender_id')->references('id')->on('wallets')->onDelete('cascade');
             $table->foreign('receiver_id')->references('id')->on('wallets')->onDelete('cascade');
-            $table->foreign('job_id')->references('id')->on('freelancing_jobs')->onDelete('cascade');
+            $table->foreign('defJob_id')->references('id')->on('def_jobs')->onDelete('cascade');
         });
     }
 
