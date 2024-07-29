@@ -107,7 +107,7 @@ const PostRegJob = ({ type }) => {
       ).then((response) => {
         if (response.status === 201) {
           console.log(response.data);
-
+          
           // Reset the form fields
           setTitle('');
           setDescription('');
@@ -119,6 +119,7 @@ const PostRegJob = ({ type }) => {
           setSkillIds([]);
 
           navigate('/jobs/all');
+          window.location.reload();
         } else {
           console.log(response);
         }

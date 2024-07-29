@@ -219,6 +219,7 @@ const ShowJob = () => {
         if (response.status == 204) {
           console.log('Job deleted');
           navigate('/jobs/Freelancing');
+          window.location.reload();
         } else {
           console.log(response);
         }
@@ -228,6 +229,7 @@ const ShowJob = () => {
         if (response.status == 204) {
           console.log('Job deleted');
           navigate('/jobs/all');
+          window.location.reload();
         } else {
           console.log(response);
         }
