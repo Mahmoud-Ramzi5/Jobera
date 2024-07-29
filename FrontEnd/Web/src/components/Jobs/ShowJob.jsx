@@ -15,6 +15,7 @@ import Clock from '../../utils/Clock';
 import img_holder from '../../assets/upload.png';
 import styles from './show_job.module.css';
 import Inputstyles from '../../styles/Input.module.css'
+import Rating from '../Rating';
 
 
 const ShowJob = () => {
@@ -42,6 +43,7 @@ const ShowJob = () => {
   const [isJobCreator, setIsJobCreator] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [acceptedUser, setAcceptedUser] = useState(null);
+  const [canRate, setCanRate] = useState(false);
 
   const [comment, setComment] = useState('');
   const [offer, setOffer] = useState('');
@@ -205,7 +207,7 @@ const ShowJob = () => {
     ).then((response) => {
       if (response.status == 200) {
         setJobEnded(true);
-        window.location.reload();
+        setCanRate(true);
       } else {
         console.log(response);
       }
@@ -254,7 +256,8 @@ const ShowJob = () => {
 
   return (
     <div className={styles.jobsPage}>
-      {jobEnded ? <>job has ended</> :
+      {jobEnded ? isJobCreator ? <Rating title={'Rate the accepted freelancer'} access={accessToken} 
+          reviewer_id={profile.user_id} reviewed_id={job.accepted_user.user_id} />:<></> :
         <>
           <div className={styles.pagecontent}>
             <div className={styles.left_side_container}>
@@ -407,7 +410,6 @@ const ShowJob = () => {
               <div className={styles.competitor_and_button} key={competitor.competitor_id}>
                 <JobCompetitorCard CompetitorData={competitor} AcceptedCompetitor={acceptedUser} />
                 <div className={styles.buttons_holder2}>
-
                   {job.job_user.user_id === profile.user_id && !accepted && job.type === 'Freelancing' &&
                     job.job_user.wallet.available_balance >= parseFloat(competitor.offer) &&
                     <button className={styles.accept_button}
