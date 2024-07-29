@@ -2,9 +2,10 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
+import 'package:jobera/controllers/appControllers/home_controller.dart';
 import 'package:jobera/controllers/appControllers/settings_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
-import 'package:jobera/controllers/profileControllers/profile_controller.dart';
+import 'package:jobera/controllers/profileControllers/user/user_profile_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/certificate.dart';
 
@@ -12,12 +13,13 @@ class UserEditCertificatesController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   late Dio dio;
   late GlobalKey<FormState> formField;
-  List<Certificate> certificates = [];
   late SettingsController settingsController;
+  late HomeController homeController;
   late TextEditingController editNameController;
   late TextEditingController editOrganizationController;
   late DateTime editDate;
-  late ProfileController? profileController;
+  late UserProfileController userProfileController;
+  List<Certificate> certificates = [];
   String? editFileName;
   FilePickerResult? editfile;
   bool loading = true;
@@ -28,13 +30,24 @@ class UserEditCertificatesController extends GetxController {
     dio = Dio();
     formField = GlobalKey<FormState>();
     settingsController = Get.find<SettingsController>();
+    homeController = Get.find<HomeController>();
     editNameController = TextEditingController();
     editOrganizationController = TextEditingController();
     editDate = DateTime.now();
-    profileController = null;
+
     if (!settingsController.isInRegister) {
-      profileController = Get.find<ProfileController>();
-      await fetchCertificates();
+      if (homeController.isOtherUserProfile) {
+        await fetchCertificates(
+          homeController.otherUserId,
+          homeController.otherUserName,
+        );
+      } else {
+        userProfileController = Get.find<UserProfileController>();
+        await fetchCertificates(
+          userProfileController.user.id,
+          userProfileController.user.name,
+        );
+      }
     }
     loading = false;
     update();
@@ -49,7 +62,9 @@ class UserEditCertificatesController extends GetxController {
   }
 
   void goBack() {
-    profileController!.refreshIndicatorKey.currentState!.show();
+    if (!homeController.isOtherUserProfile) {
+      userProfileController.refreshIndicatorKey.currentState!.show();
+    }
     Get.back();
   }
 
@@ -74,11 +89,11 @@ class UserEditCertificatesController extends GetxController {
     update();
   }
 
-  Future<dynamic> fetchCertificates() async {
+  Future<dynamic> fetchCertificates(int userId, String userName) async {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.0.101:8000/api/certificates/${profileController!.user.id}/${profileController!.user.name}',
+        'http://192.168.0.101:8000/api/certificates/$userId/$userName',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

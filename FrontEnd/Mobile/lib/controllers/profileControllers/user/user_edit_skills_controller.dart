@@ -2,14 +2,14 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:jobera/controllers/appControllers/settings_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
-import 'package:jobera/controllers/profileControllers/profile_controller.dart';
+import 'package:jobera/controllers/profileControllers/user/user_profile_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/skill_type.dart';
 import 'package:jobera/models/skill.dart';
 
 class UserEditSkillsController extends GetxController {
   late SettingsController settingsController;
-  late ProfileController? profileController;
+  late UserProfileController? profileController;
   late Dio dio;
   List<Skill> myskills = [];
   late List<SkillType> skillTypes = [];
@@ -22,7 +22,7 @@ class UserEditSkillsController extends GetxController {
     profileController = null;
     dio = Dio();
     if (!settingsController.isInRegister) {
-      profileController = Get.find<ProfileController>();
+      profileController = Get.find<UserProfileController>();
       await fetchSkills();
     }
     skillTypes = await settingsController.getSkillTypes();

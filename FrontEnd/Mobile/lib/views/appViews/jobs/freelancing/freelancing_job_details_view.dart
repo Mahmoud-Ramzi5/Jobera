@@ -106,7 +106,8 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                       const BodyText(text: 'Published by: '),
                                       Flexible(
                                         child: TextButton(
-                                          onPressed: () {},
+                                          onPressed: () =>
+                                              controller.viewUserProfile(),
                                           child: Text(
                                             controller
                                                 .freelancingJob.poster.name,

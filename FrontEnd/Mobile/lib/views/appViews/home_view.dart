@@ -69,9 +69,16 @@ class HomeView extends StatelessWidget {
                 height: 1,
               ),
               MenuListTile(
-                  title: "Profile",
-                  icon: Icons.person,
-                  onTap: () => Get.toNamed('/profile')),
+                title: "Profile",
+                icon: Icons.person,
+                onTap: () {
+                  if (_homeController.isCompany) {
+                    Get.toNamed('/companyProfile');
+                  } else {
+                    Get.toNamed('/userProfile');
+                  }
+                },
+              ),
               MenuListTile(
                 title: "Wallet",
                 icon: Icons.wallet,

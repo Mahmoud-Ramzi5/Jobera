@@ -25,7 +25,14 @@ class FreelancingJobDetailsController extends GetxController {
   }
 
   void viewUserProfile() {
-    homeController.isOtherProfile = true;
+    homeController.isOtherUserProfile = true;
+    homeController.otherUserId = freelancingJob.poster.userId;
+    homeController.otherUserName = freelancingJob.poster.name;
+    if (freelancingJob.poster.type == 'company') {
+      Get.toNamed('/companyProfile');
+    } else {
+      Get.toNamed('/userProfile');
+    }
   }
 
   Future<dynamic> fetchRegularJob(int id) async {

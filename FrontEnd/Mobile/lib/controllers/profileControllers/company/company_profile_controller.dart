@@ -2,35 +2,43 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:image_picker/image_picker.dart';
+import 'package:jobera/controllers/appControllers/home_controller.dart';
 import 'package:jobera/controllers/appControllers/settings_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
-import 'package:jobera/controllers/appControllers/home_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/company.dart';
-import 'package:jobera/models/user.dart';
 
-class ProfileController extends GetxController {
+class CompanyProfileController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
-  late Dio dio;
-  late HomeController homeController;
   late SettingsController settingsController;
+  late HomeController homeController;
+  late Dio dio;
+  late Company company;
   late TextEditingController editBioController;
   late XFile? image;
   bool loading = true;
-  dynamic user;
 
   @override
   Future<void> onInit() async {
     refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
-    dio = Dio();
     settingsController = Get.find<SettingsController>();
     if (settingsController.isInRegister) {
       homeController = Get.put(HomeController());
     } else {
       homeController = Get.find<HomeController>();
     }
+    dio = Dio();
+
+    company = Company.empty();
+    if (homeController.isOtherUserProfile) {
+      await fetchOtherUserProfile(
+        homeController.otherUserId,
+        homeController.otherUserName,
+      );
+    } else {
+      await fetchProfile();
+    }
     editBioController = TextEditingController();
-    await fetchProfile();
     image = null;
     super.onInit();
   }
@@ -59,11 +67,32 @@ class ProfileController extends GetxController {
             },
           ));
       if (response.statusCode == 200) {
-        if (homeController.isCompany) {
-          user = Company.fromJson(response.data['user']);
-        } else {
-          user = User.fromJson(response.data['user']);
-        }
+        company = Company.fromJson(response.data['user']);
+        loading = false;
+        update();
+      }
+    } on DioException catch (e) {
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response!.data['errors'].toString(),
+      );
+    }
+  }
+
+  Future<void> fetchOtherUserProfile(int userId, String userName) async {
+    String? token = sharedPreferences?.getString('access_token');
+    try {
+      var response = await dio.get(
+          'http://192.168.0.101:8000/api/profile/$userId/$userName',
+          options: Options(
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Accept': 'application/json',
+              'Authorization': 'Bearer $token'
+            },
+          ));
+      if (response.statusCode == 200) {
+        company = Company.fromJson(response.data['user']);
         loading = false;
         update();
       }

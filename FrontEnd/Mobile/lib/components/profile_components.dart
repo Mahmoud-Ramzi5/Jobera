@@ -3,26 +3,24 @@ import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_image.dart';
 import 'package:jobera/customWidgets/texts.dart';
 
-class BasicInfoComponent extends StatelessWidget {
-  final String fieldOrGender;
+class UserBasicInfoComponent extends StatelessWidget {
+  final String gender;
   final String email;
   final String phoneNumber;
   final String state;
   final String country;
   final DateTime date;
-  final bool isCompany;
-  final bool isOtherProfile;
+  final bool isOtherUserProfile;
 
-  const BasicInfoComponent({
+  const UserBasicInfoComponent({
     super.key,
-    required this.fieldOrGender,
+    required this.gender,
     required this.email,
     required this.phoneNumber,
     required this.state,
     required this.country,
-    required this.isCompany,
     required this.date,
-    required this.isOtherProfile,
+    required this.isOtherUserProfile,
   });
 
   @override
@@ -32,15 +30,15 @@ class BasicInfoComponent extends StatelessWidget {
       children: [
         Row(
           children: [
-            BodyText(text: isCompany ? 'Field: ' : 'Gender: '),
+            const BodyText(text: 'Gender: '),
             Flexible(
               child: LabelText(
-                text: isCompany ? fieldOrGender : fieldOrGender.toLowerCase(),
+                text: gender,
               ),
             ),
           ],
         ),
-        if (!isOtherProfile)
+        if (!isOtherUserProfile)
           Row(
             children: [
               const BodyText(text: 'Email: '),
@@ -49,7 +47,7 @@ class BasicInfoComponent extends StatelessWidget {
               ),
             ],
           ),
-        if (!isOtherProfile)
+        if (!isOtherUserProfile)
           Row(
             children: [
               const BodyText(text: 'Phone Number: '),
@@ -64,7 +62,77 @@ class BasicInfoComponent extends StatelessWidget {
         ),
         Row(
           children: [
-            BodyText(text: isCompany ? 'Founding Date: ' : 'BirthDate: '),
+            const BodyText(text: 'BirthDate: '),
+            Flexible(
+              child: LabelText(text: '${date.day}/${date.month}/${date.year}'),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class CompanyBasicInfoComponent extends StatelessWidget {
+  final String field;
+  final String email;
+  final String phoneNumber;
+  final String state;
+  final String country;
+  final DateTime date;
+  final bool isOtherUserProfile;
+
+  const CompanyBasicInfoComponent({
+    super.key,
+    required this.field,
+    required this.email,
+    required this.phoneNumber,
+    required this.state,
+    required this.country,
+    required this.date,
+    required this.isOtherUserProfile,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            const BodyText(text: 'Field: '),
+            Flexible(
+              child: LabelText(
+                text: field,
+              ),
+            ),
+          ],
+        ),
+        if (!isOtherUserProfile)
+          Row(
+            children: [
+              const BodyText(text: 'Email: '),
+              Flexible(
+                child: LabelText(text: email),
+              ),
+            ],
+          ),
+        if (!isOtherUserProfile)
+          Row(
+            children: [
+              const BodyText(text: 'Phone Number: '),
+              Flexible(child: LabelText(text: phoneNumber)),
+            ],
+          ),
+        Row(
+          children: [
+            const BodyText(text: 'Location: '),
+            Flexible(child: LabelText(text: '$state - $country')),
+          ],
+        ),
+        Row(
+          children: [
+            const BodyText(text: 'Founding Date: '),
             Flexible(
               child: LabelText(text: '${date.day}/${date.month}/${date.year}'),
             ),

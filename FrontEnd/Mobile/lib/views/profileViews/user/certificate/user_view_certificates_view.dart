@@ -19,13 +19,14 @@ class UserEditCertificatesView extends StatelessWidget {
       appBar: AppBar(
         title: const TitleText(text: 'Certificates'),
         actions: [
-          IconButton(
-            onPressed: () => Get.toNamed('/userAddCertificate'),
-            icon: const Icon(
-              Icons.add,
-              color: Colors.white,
+          if (!_editController.homeController.isOtherUserProfile)
+            IconButton(
+              onPressed: () => Get.toNamed('/userAddCertificate'),
+              icon: const Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
             ),
-          ),
         ],
         leading: _editController.settingsController.isInRegister
             ? IconButton(
@@ -41,7 +42,19 @@ class UserEditCertificatesView extends StatelessWidget {
       ),
       body: RefreshIndicator(
         key: _editController.refreshIndicatorKey,
-        onRefresh: () => _editController.fetchCertificates(),
+        onRefresh: () async {
+          if (_editController.homeController.isOtherUserProfile) {
+            await _editController.fetchCertificates(
+              _editController.homeController.otherUserId,
+              _editController.homeController.otherUserName,
+            );
+          } else {
+            await _editController.fetchCertificates(
+              _editController.userProfileController.user.id,
+              _editController.userProfileController.user.name,
+            );
+          }
+        },
         child: GetBuilder<UserEditCertificatesController>(
           builder: (controller) => controller.loading
               ? const Center(

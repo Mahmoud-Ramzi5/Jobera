@@ -3,15 +3,15 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/controllers/appControllers/settings_controller.dart';
+import 'package:jobera/controllers/profileControllers/company/company_profile_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
-import 'package:jobera/controllers/profileControllers/profile_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/company.dart';
 import 'package:jobera/models/country.dart';
 import 'package:jobera/models/state.dart';
 
 class CompanyEditInfoController extends GetxController {
-  late ProfileController profileController;
+  late CompanyProfileController profileController;
   late Company company;
   late SettingsController settingsController;
   late GlobalKey<FormState> formField;
@@ -28,8 +28,8 @@ class CompanyEditInfoController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    profileController = Get.find<ProfileController>();
-    company = profileController.user;
+    profileController = Get.find<CompanyProfileController>();
+    company = profileController.company;
     settingsController = Get.find<SettingsController>();
     formField = GlobalKey<FormState>();
     dio = Dio();

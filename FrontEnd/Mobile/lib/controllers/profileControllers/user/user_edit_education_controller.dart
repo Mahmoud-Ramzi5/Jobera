@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide MultipartFile, FormData;
 import 'package:jobera/controllers/appControllers/settings_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
-import 'package:jobera/controllers/profileControllers/profile_controller.dart';
+import 'package:jobera/controllers/profileControllers/user/user_profile_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/education.dart';
 
 class UserEditEducationController extends GetxController {
-  late ProfileController? profileController;
+  late UserProfileController? profileController;
   late SettingsController settingsController;
   late Dio dio;
   late GlobalKey<FormState> formField;
@@ -39,7 +39,7 @@ class UserEditEducationController extends GetxController {
     };
     education = Education.empty();
     if (!settingsController.isInRegister) {
-      profileController = Get.find<ProfileController>();
+      profileController = Get.find<UserProfileController>();
       await fetchEducation();
       selectedLevel = education.level;
       editFieldController = TextEditingController(text: education.field);

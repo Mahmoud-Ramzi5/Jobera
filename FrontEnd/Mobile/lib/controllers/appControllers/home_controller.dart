@@ -18,7 +18,9 @@ class HomeController extends GetxController {
   late String? photo;
   late String step;
   late SettingsController settingsController;
-  bool isOtherProfile = false;
+  bool isOtherUserProfile = false;
+  int otherUserId = 0;
+  String otherUserName = '';
   bool isCompany = false;
 
   @override

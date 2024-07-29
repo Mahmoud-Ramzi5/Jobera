@@ -25,7 +25,10 @@ class RegularJobDetailsController extends GetxController {
   }
 
   void viewUserProfile() {
-    homeController.isOtherProfile = true;
+    homeController.isOtherUserProfile = true;
+    homeController.otherUserId = regularJob.poster.userId;
+    homeController.otherUserName = regularJob.poster.name;
+    Get.toNamed('/companyProfile');
   }
 
   Future<dynamic> fetchRegularJob(int id) async {

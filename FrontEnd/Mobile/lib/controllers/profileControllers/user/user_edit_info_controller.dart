@@ -4,14 +4,14 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:jobera/controllers/appControllers/settings_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
-import 'package:jobera/controllers/profileControllers/profile_controller.dart';
+import 'package:jobera/controllers/profileControllers/user/user_profile_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/country.dart';
 import 'package:jobera/models/state.dart';
 import 'package:jobera/models/user.dart';
 
 class UserEditInfoController extends GetxController {
-  late ProfileController profileController;
+  late UserProfileController profileController;
   late User user;
   late SettingsController settingsController;
   late GlobalKey<FormState> formField;
@@ -27,7 +27,7 @@ class UserEditInfoController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    profileController = Get.find<ProfileController>();
+    profileController = Get.find<UserProfileController>();
     user = profileController.user;
     settingsController = Get.find<SettingsController>();
     formField = GlobalKey<FormState>();

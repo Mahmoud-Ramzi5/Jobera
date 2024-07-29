@@ -154,7 +154,7 @@ class UserRegisterController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Register Failed',
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }

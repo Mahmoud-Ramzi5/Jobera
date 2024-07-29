@@ -18,13 +18,14 @@ class ViewPortfoliosView extends StatelessWidget {
       appBar: AppBar(
         title: const TitleText(text: 'Portfolios'),
         actions: [
-          IconButton(
-            onPressed: () => Get.toNamed('/addPortfolio'),
-            icon: const Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-          )
+          if (!_editController.homeController.isOtherUserProfile)
+            IconButton(
+              onPressed: () => Get.toNamed('/addPortfolio'),
+              icon: const Icon(
+                Icons.add,
+                color: Colors.white,
+              ),
+            )
         ],
         leading: _editController.settingsController.isInRegister
             ? IconButton(
@@ -40,7 +41,26 @@ class ViewPortfoliosView extends StatelessWidget {
       ),
       body: RefreshIndicator(
         key: _editController.refreshIndicatorKey,
-        onRefresh: () => _editController.fetchPortfolios(),
+        onRefresh: () async {
+          if (_editController.homeController.isOtherUserProfile) {
+            await _editController.fetchPortfolios(
+              _editController.homeController.otherUserId,
+              _editController.homeController.otherUserName,
+            );
+          } else {
+            if (_editController.homeController.isCompany) {
+              await _editController.fetchPortfolios(
+                _editController.companyProfileController!.company.id,
+                _editController.companyProfileController!.company.name,
+              );
+            } else {
+              await _editController.fetchPortfolios(
+                _editController.userProfileController!.user.id,
+                _editController.userProfileController!.user.name,
+              );
+            }
+          }
+        },
         child: GetBuilder<ViewPortfolioController>(
           builder: (controller) => controller.loading
               ? const Center(

@@ -127,18 +127,19 @@ class ProfileBackgroundContainer extends StatelessWidget {
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: IconButton(
-              onPressed: onPressed,
-              icon: const Icon(
-                Icons.add_a_photo,
-                color: Colors.cyan,
+          if (onPressed != null)
+            Align(
+              alignment: Alignment.bottomRight,
+              child: IconButton(
+                onPressed: onPressed,
+                icon: const Icon(
+                  Icons.add_a_photo,
+                  color: Colors.cyan,
+                ),
               ),
             ),
-          ),
           Container(
-            padding: const EdgeInsets.all(6),
+            padding: const EdgeInsets.all(5),
             decoration: const ShapeDecoration(
               shape: BeveledRectangleBorder(
                 side: BorderSide(color: Colors.cyan),
@@ -199,7 +200,7 @@ class InfoContainer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 if (name != null) BodyText(text: '$name:'),
-                if (onPressed != null)
+                if (buttonText != null)
                   TextButton(
                     onPressed: onPressed,
                     child: Row(

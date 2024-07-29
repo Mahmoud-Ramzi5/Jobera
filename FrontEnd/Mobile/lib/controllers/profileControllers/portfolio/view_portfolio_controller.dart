@@ -1,17 +1,21 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jobera/controllers/appControllers/home_controller.dart';
 import 'package:jobera/controllers/appControllers/settings_controller.dart';
+import 'package:jobera/controllers/profileControllers/company/company_profile_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
-import 'package:jobera/controllers/profileControllers/profile_controller.dart';
+import 'package:jobera/controllers/profileControllers/user/user_profile_controller.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/portfolio.dart';
 
 class ViewPortfolioController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   late SettingsController settingsController;
+  late HomeController homeController;
   late Dio dio;
-  late ProfileController? profileController;
+  late UserProfileController? userProfileController;
+  late CompanyProfileController? companyProfileController;
   List<Portfolio> portfolios = [];
   int id = 0;
   bool loading = true;
@@ -20,11 +24,31 @@ class ViewPortfolioController extends GetxController {
   Future<void> onInit() async {
     refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
     settingsController = Get.find<SettingsController>();
+    homeController = Get.find<HomeController>();
     dio = Dio();
-    profileController = null;
     if (!settingsController.isInRegister) {
-      profileController = Get.find<ProfileController>();
-      await fetchPortfolios();
+      if (homeController.isOtherUserProfile) {
+        await fetchPortfolios(
+          homeController.otherUserId,
+          homeController.otherUserName,
+        );
+      } else {
+        if (homeController.isCompany) {
+          companyProfileController = Get.find<CompanyProfileController>();
+          userProfileController = null;
+          await fetchPortfolios(
+            companyProfileController!.company.id,
+            companyProfileController!.company.name,
+          );
+        } else {
+          userProfileController = Get.find<UserProfileController>();
+          companyProfileController = null;
+          await fetchPortfolios(
+            userProfileController!.user.id,
+            userProfileController!.user.name,
+          );
+        }
+      }
     }
     loading = false;
     update();
@@ -32,7 +56,13 @@ class ViewPortfolioController extends GetxController {
   }
 
   void goBack() {
-    profileController!.refreshIndicatorKey.currentState!.show();
+    if (!homeController.isOtherUserProfile) {
+      if (homeController.isCompany) {
+        companyProfileController!.refreshIndicatorKey.currentState!.show();
+      } else {
+        userProfileController!.refreshIndicatorKey.currentState!.show();
+      }
+    }
     Get.back();
   }
 
@@ -41,11 +71,11 @@ class ViewPortfolioController extends GetxController {
     Get.offAllNamed('/home');
   }
 
-  Future<dynamic> fetchPortfolios() async {
+  Future<dynamic> fetchPortfolios(int userId, String userName) async {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.0.101:8000/api/portfolios/${profileController!.user.id}/${profileController!.user.name}',
+        'http://192.168.0.101:8000/api/portfolios/$userId/$userName',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
