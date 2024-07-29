@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/components/profile_components.dart';
+import 'package:jobera/customWidgets/custom_image.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
 import 'package:jobera/customWidgets/texts.dart';
 import 'package:jobera/controllers/profileControllers/profile_controller.dart';
@@ -31,19 +32,33 @@ class ProfileView extends StatelessWidget {
               : SingleChildScrollView(
                   child: Column(
                     children: [
-                      PhotoComponent(
-                        photo: controller.user.photo,
-                        takePhoto: () async {
-                          controller.image = await controller.settingsController
-                              .takePhotoFromCamera();
-                          controller.addPhoto();
-                        },
-                        pickPhoto: () async {
-                          controller.image = await controller.settingsController
-                              .pickPhotoFromGallery();
-                          controller.addPhoto();
-                        },
-                        removePhoto: () async => await controller.removePhoto(),
+                      ProfileBackgroundContainer(
+                        child: controller.user.photo == null
+                            ? Icon(
+                                controller.homeController.isCompany
+                                    ? Icons.business
+                                    : Icons.person,
+                                size: 100,
+                                color: Colors.lightBlue.shade900,
+                              )
+                            : CustomImage(
+                                path: controller.user.photo.toString(),
+                              ),
+                        onPressed: () => Dialogs().addPhotoDialog(
+                          () async {
+                            controller.image = await controller
+                                .settingsController
+                                .takePhotoFromCamera();
+                            controller.addPhoto();
+                          },
+                          () async {
+                            controller.image = await controller
+                                .settingsController
+                                .pickPhotoFromGallery();
+                            controller.addPhoto();
+                          },
+                          () async => await controller.removePhoto(),
+                        ),
                       ),
                       SmallHeadlineText(text: controller.user.name),
                       const SmallHeadlineText(text: 'Rating:'),
@@ -58,12 +73,16 @@ class ProfileView extends StatelessWidget {
                                 ? '${controller.user.description}'
                                 : '',
                           ),
-                          onPressed: () => Dialogs().addBioDialog(
-                            controller.editBioController,
-                            controller.user.description,
-                            () => controller
-                                .editBio(controller.editBioController.text),
-                          ),
+                          onPressed: () {
+                            if (!controller.homeController.isOtherProfile) {
+                              Dialogs().addBioDialog(
+                                controller.editBioController,
+                                controller.user.description,
+                                () => controller
+                                    .editBio(controller.editBioController.text),
+                              );
+                            }
+                          },
                         ),
                       ),
                       Padding(
@@ -74,6 +93,8 @@ class ProfileView extends StatelessWidget {
                           icon: Icons.edit,
                           widget: BasicInfoComponent(
                             isCompany: controller.homeController.isCompany,
+                            isOtherProfile:
+                                controller.homeController.isOtherProfile,
                             fieldOrGender: controller.homeController.isCompany
                                 ? controller.user.field
                                 : controller.user.gender,
@@ -86,10 +107,12 @@ class ProfileView extends StatelessWidget {
                                 : controller.user.birthDate,
                           ),
                           onPressed: () {
-                            if (controller.homeController.isCompany) {
-                              Get.toNamed('/companyEditInfo');
-                            } else {
-                              Get.toNamed('/userEditInfo');
+                            if (!controller.homeController.isOtherProfile) {
+                              if (controller.homeController.isCompany) {
+                                Get.toNamed('/companyEditInfo');
+                              } else {
+                                Get.toNamed('/userEditInfo');
+                              }
                             }
                           },
                         ),
@@ -121,7 +144,11 @@ class ProfileView extends StatelessWidget {
                                 }
                               },
                             ),
-                            onPressed: () => Get.toNamed('/userEditEducation'),
+                            onPressed: () {
+                              if (!controller.homeController.isOtherProfile) {
+                                Get.toNamed('/userEditEducation');
+                              }
+                            },
                           ),
                         ),
                       if (!controller.homeController.isCompany)
@@ -170,7 +197,11 @@ class ProfileView extends StatelessWidget {
                                 );
                               },
                             ),
-                            onPressed: () => Get.toNamed('/userEditSkills'),
+                            onPressed: () {
+                              if (!controller.homeController.isOtherProfile) {
+                                Get.toNamed('/userEditSkills');
+                              }
+                            },
                           ),
                         ),
                       if (!controller.homeController.isCompany)
@@ -185,25 +216,26 @@ class ProfileView extends StatelessWidget {
                               shrinkWrap: true,
                               itemBuilder: (context, index) {
                                 return Padding(
-                                    padding: const EdgeInsets.all(10),
-                                    child: ListContainer(
-                                      color: Colors.lightBlue.shade900,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          LargeHeadlineText(
-                                            text: controller
-                                                .user.certificates[index].name,
-                                          ),
-                                          Icon(
-                                            Icons.card_membership,
-                                            color: Colors.orange.shade800,
-                                            size: 50,
-                                          ),
-                                        ],
-                                      ),
-                                    ));
+                                  padding: const EdgeInsets.all(10),
+                                  child: ListContainer(
+                                    color: Colors.lightBlue.shade900,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        LargeHeadlineText(
+                                          text: controller
+                                              .user.certificates[index].name,
+                                        ),
+                                        Icon(
+                                          Icons.card_membership,
+                                          color: Colors.orange.shade800,
+                                          size: 50,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
                               },
                             ),
                             onPressed: () =>

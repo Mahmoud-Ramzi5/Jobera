@@ -14,7 +14,7 @@ class UserEditEducationController extends GetxController {
   late Dio dio;
   late GlobalKey<FormState> formField;
   late Map<String, String> levels;
-  Education? education;
+  late Education education;
   String? selectedLevel;
   TextEditingController editFieldController = TextEditingController();
   TextEditingController editSchoolController = TextEditingController();
@@ -37,18 +37,19 @@ class UserEditEducationController extends GetxController {
       'High School Diploma': 'HIGH_SCHOOL_DIPLOMA',
       'High Institute': 'HIGH_INSTITUTE',
     };
+    education = Education.empty();
     if (!settingsController.isInRegister) {
       profileController = Get.find<ProfileController>();
-      education = profileController!.user.education;
-      selectedLevel = education!.level;
-      editFieldController = TextEditingController(text: education!.field);
-      editSchoolController = TextEditingController(text: education!.school);
-      startDate = education!.startDate;
-      endDate = education!.endDate;
-      certficateName = education!.certificateFile == null
+      await fetchEducation();
+      selectedLevel = education.level;
+      editFieldController = TextEditingController(text: education.field);
+      editSchoolController = TextEditingController(text: education.school);
+      startDate = education.startDate;
+      endDate = education.endDate;
+      certficateName = education.certificateFile == null
           ? null
           : Uri.file(
-              education!.certificateFile.toString(),
+              education.certificateFile.toString(),
             ).pathSegments.last;
       file = null;
     }
@@ -105,6 +106,31 @@ class UserEditEducationController extends GetxController {
     Get.back();
   }
 
+  Future<void> fetchEducation() async {
+    String? token = sharedPreferences?.getString('access_token');
+    try {
+      var response = await dio.get(
+        'http://192.168.0.101:8000/api/education',
+        options: Options(
+          headers: {
+            'Content-Type':
+                'multipart/form-data; application/json; charset=UTF-8',
+            'Accept': "application/json",
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        education = Education.fromJson(response.data['education']);
+      }
+    } on DioException catch (e) {
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response!.data['errors'].toString(),
+      );
+    }
+  }
+
   Future<void> editEducation(
     String level,
     String field,
@@ -130,7 +156,7 @@ class UserEditEducationController extends GetxController {
     );
     try {
       var response = await dio.post(
-        'http://192.168.39.51:8000/api/education',
+        'http://192.168.0.101:8000/api/education',
         data: data,
         options: Options(
           headers: {
@@ -145,8 +171,8 @@ class UserEditEducationController extends GetxController {
         if (settingsController.isInRegister) {
           Get.offAllNamed('/userViewCertificates');
         } else {
-          Get.back();
           profileController!.refreshIndicatorKey.currentState!.show();
+          Get.back();
         }
       }
     } on DioException catch (e) {

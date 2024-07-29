@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/components/jobs_components.dart';
-import 'package:jobera/controllers/appControllers/jobs/regular_jobs_controller.dart';
+import 'package:jobera/controllers/appControllers/jobs/freelancing/freelancing_jobs_controller.dart';
 import 'package:jobera/customWidgets/texts.dart';
 
-class RegularJobsView extends StatelessWidget {
-  final RegularJobController _regularJobController =
-      Get.put(RegularJobController());
+class FreelancingJobsView extends StatelessWidget {
+  final FreelancingJobsController _freelancingJobsController =
+      Get.put(FreelancingJobsController());
 
-  RegularJobsView({super.key});
+  FreelancingJobsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<RegularJobController>(
+    return GetBuilder<FreelancingJobsController>(
       builder: (controller) => Scaffold(
         body: controller.loading
             ? const Center(
@@ -24,12 +24,12 @@ class RegularJobsView extends StatelessWidget {
                   children: [
                     ListView.builder(
                       physics: const NeverScrollableScrollPhysics(),
-                      itemCount: controller.regularJobs.length,
+                      itemCount: controller.freelancingJobs.length,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () => controller.viewDetails(
-                            controller.regularJobs[index],
+                            controller.freelancingJobs[index],
                           ),
                           child: Card(
                             margin: const EdgeInsets.all(10),
@@ -38,22 +38,22 @@ class RegularJobsView extends StatelessWidget {
                                 Radius.circular(10),
                               ),
                               side: BorderSide(
-                                color: controller.regularJobs[index].type ==
-                                        'FullTime'
-                                    ? Colors.lightBlue.shade900
-                                    : Colors.orange.shade800,
+                                color: Colors.lightBlue.shade900,
                                 width: 2,
                               ),
                             ),
-                            child: RegularJobComponent(
-                              photo: controller.regularJobs[index].photo,
-                              jobTitle: controller.regularJobs[index].title,
-                              jobType: controller.regularJobs[index].type,
+                            child: FreelancingJobComponent(
+                              photo: controller.freelancingJobs[index].photo,
+                              jobTitle: controller.freelancingJobs[index].title,
+                              jobType: controller.freelancingJobs[index].type,
                               publishedBy:
-                                  controller.regularJobs[index].poster.name,
-                              date: controller.regularJobs[index].publishDate,
-                              salary: controller.regularJobs[index].salary,
-                              onPressed: () {},
+                                  controller.freelancingJobs[index].poster.name,
+                              date:
+                                  controller.freelancingJobs[index].publishDate,
+                              minOffer:
+                                  controller.freelancingJobs[index].minOffer,
+                              maxOffer:
+                                  controller.freelancingJobs[index].maxOffer,
                             ),
                           ),
                         );

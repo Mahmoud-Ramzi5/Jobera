@@ -3,9 +3,10 @@ import 'package:jobera/middleware/middleware.dart';
 import 'package:jobera/views/appViews/chats/chat_view.dart';
 import 'package:jobera/views/appViews/chats/chats_view.dart';
 import 'package:jobera/views/appViews/home_view.dart';
-import 'package:jobera/views/appViews/jobs/freelancing_jobs_view.dart';
-import 'package:jobera/views/appViews/jobs/job_details_view.dart';
-import 'package:jobera/views/appViews/jobs/regular_jobs_view.dart';
+import 'package:jobera/views/appViews/jobs/freelancing/freelancing_job_details_view.dart';
+import 'package:jobera/views/appViews/jobs/freelancing/freelancing_jobs_view.dart';
+import 'package:jobera/views/appViews/jobs/regular/regular_job_details_view.dart';
+import 'package:jobera/views/appViews/jobs/regular/regular_jobs_view.dart';
 import 'package:jobera/views/appViews/job_feed_view.dart';
 import 'package:jobera/views/appViews/wallet_view.dart';
 import 'package:jobera/views/loginViews/forgot_password_view.dart';
@@ -111,8 +112,12 @@ List<GetPage<dynamic>>? getPages = [
     page: () => FreelancingJobsView(),
   ),
   GetPage(
-    name: '/jobDetails',
-    page: () => JobDetailsView(),
+    name: '/regularJobDetails',
+    page: () => RegularJobDetailsView(),
+  ),
+  GetPage(
+    name: '/freelancingJobDetails',
+    page: () => FreelancingJobDetailsView(),
   ),
   GetPage(
     name: '/chat',

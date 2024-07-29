@@ -1,48 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_image.dart';
-import 'package:jobera/customWidgets/dialogs.dart';
 import 'package:jobera/customWidgets/texts.dart';
-
-class PhotoComponent extends StatelessWidget {
-  final String? photo;
-  final void Function()? takePhoto;
-  final void Function()? pickPhoto;
-  final void Function()? removePhoto;
-
-  const PhotoComponent({
-    super.key,
-    this.photo,
-    this.takePhoto,
-    this.pickPhoto,
-    this.removePhoto,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        ProfileBackgroundContainer(
-          child: photo == null
-              ? Icon(
-                  Icons.person,
-                  size: 100,
-                  color: Colors.lightBlue.shade900,
-                )
-              : CustomImage(
-                  path: photo.toString(),
-                ),
-          onPressed: () => Dialogs().addPhotoDialog(
-            takePhoto,
-            pickPhoto,
-            removePhoto,
-          ),
-        ),
-      ],
-    );
-  }
-}
 
 class BasicInfoComponent extends StatelessWidget {
   final String fieldOrGender;
@@ -52,6 +11,7 @@ class BasicInfoComponent extends StatelessWidget {
   final String country;
   final DateTime date;
   final bool isCompany;
+  final bool isOtherProfile;
 
   const BasicInfoComponent({
     super.key,
@@ -62,6 +22,7 @@ class BasicInfoComponent extends StatelessWidget {
     required this.country,
     required this.isCompany,
     required this.date,
+    required this.isOtherProfile,
   });
 
   @override
@@ -79,20 +40,22 @@ class BasicInfoComponent extends StatelessWidget {
             ),
           ],
         ),
-        Row(
-          children: [
-            const BodyText(text: 'Email: '),
-            Flexible(
-              child: LabelText(text: email),
-            ),
-          ],
-        ),
-        Row(
-          children: [
-            const BodyText(text: 'Phone Number: '),
-            Flexible(child: LabelText(text: phoneNumber)),
-          ],
-        ),
+        if (!isOtherProfile)
+          Row(
+            children: [
+              const BodyText(text: 'Email: '),
+              Flexible(
+                child: LabelText(text: email),
+              ),
+            ],
+          ),
+        if (!isOtherProfile)
+          Row(
+            children: [
+              const BodyText(text: 'Phone Number: '),
+              Flexible(child: LabelText(text: phoneNumber)),
+            ],
+          ),
         Row(
           children: [
             const BodyText(text: 'Location: '),

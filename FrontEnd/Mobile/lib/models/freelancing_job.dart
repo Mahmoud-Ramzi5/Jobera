@@ -76,4 +76,24 @@ class FreelancingJob {
             : null,
         publishDate = DateTime.parse(json['publish_date']),
         isFlagged = json['is_flagged'];
+
+  FreelancingJob.empty()
+      : defJobId = 0,
+        title = '',
+        description = '',
+        type = '',
+        photo = null,
+        isDone = false,
+        minOffer = 0.0,
+        maxOffer = 0.0,
+        deadline = DateTime.now(),
+        avgOffer = null,
+        poster = Poster.empty(),
+        acceptedUser = null,
+        competitors = [],
+        requiredSkills = [],
+        state = null,
+        country = null,
+        publishDate = DateTime.now(),
+        isFlagged = false;
 }

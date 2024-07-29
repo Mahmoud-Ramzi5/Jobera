@@ -7,8 +7,8 @@ import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_image.dart';
 import 'package:jobera/customWidgets/list_tiles.dart';
 import 'package:jobera/views/appViews/chats/chats_view.dart';
-import 'package:jobera/views/appViews/jobs/freelancing_jobs_view.dart';
-import 'package:jobera/views/appViews/jobs/regular_jobs_view.dart';
+import 'package:jobera/views/appViews/jobs/freelancing/freelancing_jobs_view.dart';
+import 'package:jobera/views/appViews/jobs/regular/regular_jobs_view.dart';
 import 'package:jobera/views/appViews/job_feed_view.dart';
 
 class HomeView extends StatelessWidget {

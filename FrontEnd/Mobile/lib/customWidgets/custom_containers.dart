@@ -98,8 +98,11 @@ class ProfileBackgroundContainer extends StatelessWidget {
   final Widget child;
   final void Function()? onPressed;
 
-  const ProfileBackgroundContainer(
-      {super.key, required this.child, this.onPressed});
+  const ProfileBackgroundContainer({
+    super.key,
+    required this.child,
+    this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {

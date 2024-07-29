@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/controllers/appControllers/jobs/job_details_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/freelancing_job.dart';
@@ -13,6 +12,7 @@ class FreelancingJobsController extends GetxController {
   late PaginationData paginationData;
   List<FreelancingJob> freelancingJobs = [];
   bool loading = true;
+  int jobDetailsId = 0;
 
   @override
   Future<void> onInit() async {
@@ -24,18 +24,16 @@ class FreelancingJobsController extends GetxController {
     super.onInit();
   }
 
-  void viewDetails(FreelancingJob job) {
-    JobDetailsController jobDetailsController = Get.put(JobDetailsController());
-    jobDetailsController.job = job;
-    jobDetailsController.isFreelancing = true;
-    Get.toNamed('/jobDetails');
+  void viewDetails(FreelancingJob freelancingJob) {
+    jobDetailsId = freelancingJob.defJobId;
+    Get.toNamed('/freelancingJobDetails');
   }
 
   Future<dynamic> fetchFreelancingJobs() async {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.39.51:8000/api/FreelancingJobs',
+        'http://192.168.0.101:8000/api/FreelancingJobs',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -64,7 +62,7 @@ class FreelancingJobsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.39.51:8000/api/FreelancingJobs?page=$page',
+        'http://192.168.0.101:8000/api/FreelancingJobs?page=$page',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

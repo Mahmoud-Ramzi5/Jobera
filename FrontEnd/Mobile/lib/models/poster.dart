@@ -23,4 +23,11 @@ class Poster {
             ? json['avatar_photo'] as String
             : null,
         wallet = Wallet.fromJson(json['wallet']);
+
+  Poster.empty()
+      : userId = 0,
+        name = '',
+        type = null,
+        photo = null,
+        wallet = Wallet.empty();
 }

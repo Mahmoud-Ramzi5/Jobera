@@ -10,7 +10,6 @@ import 'package:jobera/models/user.dart';
 class HomeController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   late Dio dio;
-  late bool isCompany;
   User? user;
   Company? company;
   late String name;
@@ -19,12 +18,13 @@ class HomeController extends GetxController {
   late String? photo;
   late String step;
   late SettingsController settingsController;
+  bool isOtherProfile = false;
+  bool isCompany = false;
 
   @override
   Future<void> onInit() async {
     refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
     dio = Dio();
-    isCompany = false;
     name = '';
     email = '';
     id = 0;
@@ -38,7 +38,7 @@ class HomeController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.39.51:8000/api/profile',
+        'http://192.168.0.101:8000/api/profile',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -80,7 +80,7 @@ class HomeController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.39.51:8000/api/logout',
+        'http://192.168.0.101:8000/api/logout',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
