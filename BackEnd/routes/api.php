@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthControllers\AuthController;
 use App\Http\Controllers\AuthControllers\SocialAuthController;
@@ -178,6 +179,12 @@ Route::controller(JobFeedController::class)->group(function () {
         Route::get('/jobFeed/companies', 'MostPostingCompanies');
         Route::get('/jobFeed/stats', 'Stats');
         Route::get('/jobFeed/tops','Tops');
+    });
+});
+
+Route::controller(ReviewController::class)->group(function () {
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/review', 'MakeReview');
     });
 });
 

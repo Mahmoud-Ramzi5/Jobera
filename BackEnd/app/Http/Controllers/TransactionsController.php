@@ -108,7 +108,7 @@ class TransactionsController extends Controller
         }
 
         return response()->json([
-            'message' => $transaction
+            'message' => 'money transfered smoothly'
         ], 200);
     }
 
@@ -192,7 +192,7 @@ class TransactionsController extends Controller
         }
 
         return response()->json([
-            'message' => $transaction
+            'message' => 'money transfered smoothly'
         ], 200);
     }
 
@@ -272,7 +272,7 @@ class TransactionsController extends Controller
         }
 
         return response()->json([
-            'message' => $transaction
+            'message' => 'money transfered smoothly'
         ], 200);
     }
 
