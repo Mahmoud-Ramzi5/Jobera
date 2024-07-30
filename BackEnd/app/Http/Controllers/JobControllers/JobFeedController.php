@@ -157,26 +157,22 @@ class JobFeedController extends Controller
     public function Stats()
     {
         $doneJobs = 0;
-        $doneFreelancingJobs=0;
-        $doneFullTimeJobs=0;
-        $donePartTimeJobs=0;
-        $runningJobsFreelancing = 0;
         $runningJobsFullTime = 0;
         $runningJobsPartTime = 0;
-        $jobs = DefJob::all();
-        foreach ($jobs as $job) {
-            $regJob = RegJob::where('defJob_id', $job->id)->first();
-            $freelancingJob = FreelancingJob::where('defJob_id', $job->id)->first();
-            if ($job->is_done) {
+        $runningJobsFreelancing = 0;
+
+        // Get user's count
+        $companyRegistered = Company::count();
+        $individualRegistered = Individual::count();
+
+        // Get Jobs
+        $defJobs = DefJob::all();
+
+        foreach ($defJobs as $defJob) {
+            $regJob = RegJob::where('defJob_id', $defJob->id)->first();
+            $freelancingJob = FreelancingJob::where('defJob_id', $defJob->id)->first();
+            if ($defJob->is_done) {
                 $doneJobs++;
-                if($freelancingJob!=null){
-                    $doneFreelancingJobs++;
-                }else if($regJob!=null){
-                    if($regJob->type == 'FullTime')
-                        $doneFullTimeJobs++;
-                    else
-                        $donePartTimeJobs++;
-                }                
                 continue;
             }
             if ($regJob != null) {
@@ -191,20 +187,15 @@ class JobFeedController extends Controller
                 $runningJobsFreelancing++;
             }
         }
-        $companyRegistered = Company::count();
-        $individualRegistered = Individual::count();
 
         // Response
         return response()->json([
             "total_done_jobs" => $doneJobs,
             "total_exhibiting_companies" => $companyRegistered,
             "total_registered_individual" => $individualRegistered,
-            "total_running_freelancingJob_posts"=>$runningJobsFreelancing,
-            "total_running_fullTimeJob_posts" => $runningJobsFullTime,
-            "total_running_partTimeJob_posts" => $runningJobsPartTime,
-            "done_freelancingJobs"=>$doneFreelancingJobs,
-            "done_fullTimeJobs"=>$doneFullTimeJobs,
-            "done_partTimeJobs"=>$donePartTimeJobs,
+            "total_runnning_fullTimeJob_posts" => $runningJobsFullTime,
+            "total_runnning_partTimeJob_posts" => $runningJobsPartTime,
+            "total_runnning_freelancingJob_posts" => $runningJobsFreelancing,
         ]);
     }
 }
