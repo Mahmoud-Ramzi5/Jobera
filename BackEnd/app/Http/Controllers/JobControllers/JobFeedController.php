@@ -191,6 +191,8 @@ class JobFeedController extends Controller
                 $runningJobsFreelancing++;
             }
         }
+        $companyRegistered = Company::count();
+        $individualRegistered = Individual::count();
 
         // Response
         return response()->json([
@@ -199,19 +201,9 @@ class JobFeedController extends Controller
             "total_registered_individual" => $individualRegistered,
             "total_runnning_fullTimeJob_posts" => $runningJobsFullTime,
             "total_runnning_partTimeJob_posts" => $runningJobsPartTime,
-            "total_exhibiting_companies" => $companyRegistered,
-            "total_registered_individual" => $individualRegistered,
             "done_freelancingJobs"=>$doneFreelancingJobs,
             "done_fullTimeJobs"=>$doneFullTimeJobs,
             "done_partTimeJobs"=>$donePartTimeJobs,
-        ]);
-    }
-    public function Tops(){
-        return response()->json([
-            "MostPayedRegJobs"=>$this->MostPayedRegJobs(),
-            "MostPostingCompanies"=>$this->MostPostingCompanies(),
-            "MostPayedFreelancingJobs"=>$this->MostPayedFreelancingJobs(),
-            "MostNeededSkills"=>$this->MostNeededSkills()
         ]);
     }
 }
