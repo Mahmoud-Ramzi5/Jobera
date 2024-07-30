@@ -48,9 +48,9 @@ const Home = () => {
       setDone_jobs(response.data.total_done_jobs);
       setExhibiting_companies(response.data.total_exhibiting_companies);
       setRegistered_individual(response.data.total_registered_individual);
-      setRunnning_freelancingJob(response.data.total_runnning_freelancingJob_posts);
-      setRunnning_fullTimeJob(response.data.total_runnning_fullTimeJob_posts);
-      setRunnning_partTimeJob(response.data.total_runnning_partTimeJob_posts);
+      setRunnning_freelancingJob(response.data.total_running_freelancingJob_posts);
+      setRunnning_fullTimeJob(response.data.total_running_fullTimeJob_posts);
+      setRunnning_partTimeJob(response.data.total_running_partTimeJob_posts);
       setDone_freelancingJobs(response.data.done_freelancingJobs);
       setDone_fullTimeJobs(response.data.done_fullTimeJobs);
       setDone_partTimeJobs(response.data.done_partTimeJobs);
