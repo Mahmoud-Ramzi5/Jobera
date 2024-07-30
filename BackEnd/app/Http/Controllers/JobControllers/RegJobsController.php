@@ -131,7 +131,7 @@ class RegJobsController extends Controller
 
         // Response
         if (empty($queryItems)) {
-            $jobs = RegJob::paginate(10);
+            $jobs = RegJob::orderByDesc('created_at')->paginate(10);
             $jobsData = [];
             foreach ($jobs->items() as $job) {
                 if (!in_array($job, $jobsData) && $job->defJob->is_done == false) {
@@ -157,7 +157,7 @@ class RegJobsController extends Controller
             }
 
             // Get jobs
-            $jobs = RegJob::where($queryItems)->paginate(10);
+            $jobs = RegJob::where($queryItems)->orderByDesc('created_at')->paginate(10);
             $jobsData = [];
 
             // Check skills

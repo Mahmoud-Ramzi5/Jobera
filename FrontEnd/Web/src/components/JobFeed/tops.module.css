@@ -1,0 +1,49 @@
+.tops_card {
+  width: 100%;
+  max-width: 720px;
+  padding: 24px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: var(--color--titles);
+  margin-block-end: 24px;
+  box-shadow: 0px 4px 12px var(--color-available);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.jobs_list {
+  width: 100%;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.job_item {
+  width: 100%;
+  padding: 15px;
+  text-align: start;
+  border-radius: 6px;
+  background-color: var(--color-background);
+  box-shadow: 0px 2px 4px var(--color-types);
+  margin-block-end: 15px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.job_item a {
+  text-decoration: none;
+  /* Remove default underline */
+  color: inherit;
+  /* Inherit parent color */
+}
+
+.job_item:hover {
+  background-color: var(--color-scrollbar-track2);
+}
+
+.job_item h4 {
+  margin-block-end: 6px;
+}

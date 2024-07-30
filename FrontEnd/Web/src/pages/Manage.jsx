@@ -1,12 +1,15 @@
-import { useEffect, useState, useRef, useContext } from "react";
-import { Link } from "react-router-dom";
-import { LoginContext } from "../utils/Contexts";
-import { JobYouPosted, JobYouApplied, BookmarkedJobs } from "../apis/JobsApis";
-import JobCard from "../components/Jobs/JobCard";
-import JobFilter from "../components/Jobs/JobFilter";
-import JobCompetitorCard from "../components/Jobs/JobCompetitorCard";
-import Clock from "../utils/Clock";
-import styles from "../styles/manage.module.css";
+import { useEffect, useState, useRef, useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { FunnelFill, Bookmark, BookmarkFill } from 'react-bootstrap-icons';
+import { LoginContext, ProfileContext } from '../utils/Contexts';
+import { PostedJobs, JobYouApplied, BookmarkedJobs, BookmarkJobAPI } from '../apis/JobsApis';
+import Posts from '../components/Manage/Posts';
+import JobCard from '../components/Jobs/JobCard';
+import JobFilter from '../components/Jobs/JobFilter';
+import JobCompetitorCard from '../components/Jobs/JobCompetitorCard';
+import Clock from '../utils/Clock';
+import styles from '../styles/manage.module.css';
+
 
 const Manage = () => {
   // Define states
@@ -14,161 +17,29 @@ const Manage = () => {
 
   return (
     <div className={styles.manage}>
-      <div className={styles.tabContainer}>
+      <div className={styles.tab_container}>
         <button
-          className={`${styles.tabButton} ${currentPage === "Posts" ? styles.tabButtonActive : ""}`}
+          className={`${styles.tab_button} ${currentPage === "Posts" ? styles.tab_button_active : ""}`}
           onClick={() => setCurrentPage("Posts")}
         >
           Posts
         </button>
         <button
-          className={`${styles.tabButton} ${currentPage === "Offers" ? styles.tabButtonActive : ""}`}
+          className={`${styles.tab_button} ${currentPage === "Offers" ? styles.tab_button_active : ""}`}
           onClick={() => setCurrentPage("Offers")}
         >
           Offers
         </button>
         <button
-          className={`${styles.tabButton} ${currentPage === "Bookmarks" ? styles.tabButtonActive : ""}`}
+          className={`${styles.tab_button} ${currentPage === "Bookmarks" ? styles.tab_button_active : ""}`}
           onClick={() => setCurrentPage("Bookmarks")}
         >
           Bookmarks
         </button>
       </div>
-
-
-      <div className={styles.content}>
-        {currentPage === "Posts" && <Posts />}
-        {currentPage === "Offers" && <Offers />}
-        {currentPage === "Bookmarks" && <Bookmarks />}
-      </div>
-    </div>
-  );
-};
-
-const Posts = () => {
-  // Context
-  const { accessToken } = useContext(LoginContext);
-  // Define states
-  const initialized = useRef(false);
-  const filtered = useRef(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [newFilter, setNewFilter] = useState(false);
-  const [filter, setFilter] = useState({
-    userName: "",
-    companyName: "",
-    minSalary: 0,
-    maxSalary: 100000,
-    fromDeadline: "",
-    toDeadline: "",
-    skills: [],
-  });
-
-  const [regjobs, setRegJobs] = useState([]);
-  const [freelancingjobs, setFreelancingJobs] = useState([]);
-  const [jobType, setJobType] = useState("all");
-
-  useEffect(() => {
-    if (!initialized.current) {
-      initialized.current = true;
-    } else {
-      setIsLoading(true);
-      JobYouPosted(accessToken)
-        .then((response) => {
-          if (response.status === 200) {
-            setRegJobs(response.data.RegJobs);
-            setFreelancingJobs(response.data.FreelancingJobs);
-          } else {
-            console.log(response.statusText);
-          }
-        })
-        .then(() => {
-          setIsLoading(false);
-        });
-    }
-  }, []);
-
-  const handleFilterSubmit = (event) => {
-    setJobs([]);
-    setNextPage(1);
-    setIsDone(false);
-    setNewFilter(true);
-    filtered.current = false;
-
-    // Update jobType based on the selected radio button
-    const selectedJobType = document.querySelector(
-      'input[name="jobType"]:checked'
-    ).value;
-    setJobType(selectedJobType);
-  };
-
-  return (
-    <div>
-      <div className={styles.slider}>
-        <input
-          type="radio"
-          id="all"
-          name="jobType"
-          value="all"
-          checked={jobType === "all"}
-          onChange={() => setJobType("all")}
-        />
-        <label htmlFor="all">All</label>
-
-        <input
-          type="radio"
-          id="regjobs"
-          name="jobType"
-          value="regjobs"
-          checked={jobType === "regjobs"}
-          onChange={() => setJobType("regjobs")}
-        />
-        <label htmlFor="regjobs">RegJobs</label>
-
-        <input
-          type="radio"
-          id="freelancing"
-          name="jobType"
-          value="freelancing"
-          checked={jobType === "freelancing"}
-          onChange={() => setJobType("freelancing")}
-        />
-        <label htmlFor="freelancing">Freelancing</label>
-      </div>
-
-      <div className={styles.screen}>
-        <JobFilter
-          JobType={jobType === "freelancing" ? "Freelancing" : ""}
-          filter={filter}
-          setFilter={setFilter}
-          handleFilterSubmit={handleFilterSubmit}
-          NoPublishedBy={true}
-        />
-
-        <div className={styles.mid_container}>
-          {(jobType === "all" || jobType === "regjobs") &&
-            regjobs.map((job) => (
-              <Link
-                key={job.defJob_id}
-                className={styles.job_card}
-                to={`/job/${job.defJob_id}`}
-              >
-                <JobCard JobData={job} />
-              </Link>
-            ))}
-          {(jobType === "all" || jobType === "freelancing") &&
-            freelancingjobs.map((job) => (
-              <Link
-                key={job.defJob_id}
-                className={styles.job_card}
-                to={`/job/${job.defJob_id}`}
-              >
-                <JobCard JobData={job} />
-              </Link>
-            ))}
-          {isLoading && <Clock />}
-        </div>
-      </div>
+      {currentPage === "Posts" ? <Posts />
+        : currentPage === "Offers" ? <Offers />
+          : currentPage === "Bookmarks" && <Bookmarks />}
     </div>
   );
 };
@@ -400,5 +271,7 @@ const Bookmarks = () => {
     </div>
   );
 };
+
+
 
 export default Manage;

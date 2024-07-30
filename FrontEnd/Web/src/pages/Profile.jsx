@@ -70,8 +70,8 @@ const Profile = () => {
     return (
       <div className={styles.Profile}>
         <div className={styles.CompanyContainer}>
-          <div className={styles.leftSide}><UserInfo ProfileData={profile} /></div>
-          <div className={styles.leftSide}><PortfolioCard ProfileData={profile} /></div>
+          <div className={styles.leftSide}><UserInfo ProfileData={profileData} /></div>
+          <div className={styles.leftSide}><PortfolioCard ProfileData={profileData} /></div>
         </div>
       </div>
     );

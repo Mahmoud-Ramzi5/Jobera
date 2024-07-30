@@ -3,123 +3,155 @@
 namespace App\Http\Controllers\JobControllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Company;
-use App\Models\DefJob;
-use App\Models\FreelancingJob;
-use App\Models\FreelancingJobCompetitor;
+
 use App\Models\Individual;
-use App\Models\RegJob;
+use App\Models\Company;
 use App\Models\Skill;
+use App\Models\DefJob;
+use App\Models\RegJob;
+use App\Models\FreelancingJob;
+
 
 class JobFeedController extends Controller
 {
     public function MostPayedRegJobs()
     {
-        $data = [];
-        $regjobs = RegJob::whereNotNull('accepted_individual')
-            ->get();
-        $regjobs = $regjobs->sortByDesc('salary');
+        // Get highest-paying regular jobs
+        $topJobs = [];
+        $regJobs = RegJob::whereNotNull('accepted_individual')->get();
 
-        // Assuming you want to retrieve the top 5 highest-paying regular jobs
-        $topJobs = $regjobs->take(5);
+        // Retrieve the top 5 highest-paying regular jobs
+        $regJobs = $regJobs->sortByDesc('salary')->take(5);
 
-        foreach ($topJobs as $job) {
-            $defJob = DefJob::where('id', $job->defJob_id)->first();
-            $data[] = [
+        foreach ($regJobs as $job) {
+            array_push($topJobs, [
                 'id' => $job->defJob_id,
-                'title' => $defJob->title,
+                'title' => $job->defJob->title,
                 'salary' => $job->salary,
-            ];
+            ]);
         }
 
-        return $data;
+        // Return
+        return $topJobs;
     }
 
     public function MostPayedFreelancingJobs()
     {
+        // Get highest-paying freelancing jobs
         $data = [];
-        $freelancingjobs = FreelancingJob::whereNotNull('accepted_user')
-            ->get();
+        $topJobs = [];
+        $freelancingJobs = FreelancingJob::whereNotNull('accepted_user')->get();
 
-        foreach ($freelancingjobs as $freelancingjob) {
-            foreach ($freelancingjob->competitors() as $competitor) {
-                if ($competitor->user->id == $freelancingjob->accepted_user) {
-                    $freelancingjob->salary = $competitor->offer;
+        foreach ($freelancingJobs as $freelancingJob) {
+            foreach ($freelancingJob->competitors as $competitor) {
+                if ($competitor->user_id == $freelancingJob->accepted_user) {
+                    array_push($data, [
+                        'id' => $freelancingJob->defJob_id,
+                        'title' => $freelancingJob->defJob->title,
+                        'salary' => $competitor->offer,
+                    ]);
                     break;
                 }
             }
         }
-        $freelancingjobs = $freelancingjobs->sortByDesc('salary');
 
-        // Assuming you want to retrieve the top 5 highest-paying freelancing jobs
-        $topJobs = $freelancingjobs->take(5);
+        // Retrieve the top 5 highest-paying freelancing jobs
+        $data = collect($data)->sortByDesc('salary')->take(5);
 
-        foreach ($topJobs as $job) {
-            $defJob = DefJob::where('id', $job->defJob_id)->first();
-            $accepted_competitor = FreelancingJobCompetitor::where('user_id', $job->accepted_user)->first();
-            $data[] = [
-                'id' => $job->defJob_id,
-                'title' => $defJob->title,
-                'salary' => $accepted_competitor->offer,
-            ];
+        foreach ($data as $job) {
+            array_push($topJobs, $job);
         }
 
-        return $data;
+        // Return
+        return $topJobs;
     }
 
     public function MostNeededSkills()
     {
-        $freelancingJobs = FreelancingJob::whereNotNull('accepted_user')->get();
-        $regJobs = RegJob::whereNotNull('accepted_individual')->get();
+        // Get skills
         $skills = [];
+        $regJobs = RegJob::whereNotNull('accepted_individual')->get();
+        $freelancingJobs = FreelancingJob::whereNotNull('accepted_user')->get();
 
         foreach ($regJobs as $regJob) {
-            $defJob=DefJob::where('id',$regJob->defJob_id)->first();
-            foreach ($defJob->skills as $skill) {
-                $skills[] = $skill->name; // Collecting skill names
+            foreach ($regJob->defJob->skills as $skill) {
+                array_push($skills, $skill->name); // Collecting skill names
             }
         }
 
         foreach ($freelancingJobs as $freelancingJob) {
-            $defJob=DefJob::where('id',$freelancingJob->defJob_id)->first();
-            foreach ($defJob->skills as $skill) {
-                $skills[] = $skill->name; // Collecting skill names
+            foreach ($freelancingJob->defJob->skills as $skill) {
+                array_push($skills, $skill->name); // Collecting skill names
             }
         }
 
+        // Counts the occurrences of each distinct skill name in an array
         $skillCounts = array_count_values($skills);
+
+        // sort array
         arsort($skillCounts);
 
         // Preparing the result
         $mostNeededSkills = [];
         foreach ($skillCounts as $skillName => $count) {
             $skill = Skill::where('name', $skillName)->first();
-            $mostNeededSkills[] = ['title' => $skillName, 'count' => $count, 'skill_id' => $skill->id];
+            array_push($mostNeededSkills, [
+                'skill_id' => $skill->id,
+                'title' => $skillName,
+                'count' => $count,
+            ]);
         }
 
-        $topMostNeededSkills = array_slice($mostNeededSkills, 0, 5);
+        // Get the top 5 skills
+        $topSkills = array_slice($mostNeededSkills, 0, 5);
 
-        return  $topMostNeededSkills;
-
+        // Return
+        return  $topSkills;
     }
 
     public function MostPostingCompanies()
     {
-        $regJobs = RegJob::whereNotNull('accepted_individual')
-            ->get();
+        // Get companies
         $companies = [];
+        $regJobs = RegJob::whereNotNull('accepted_individual')->get();
+
         foreach ($regJobs as $regJob) {
-            $companies[] = $regJob->company->name;
+            array_push($companies, $regJob->company->name);
         }
+
+        // Counts the occurrences of each distinct company name in an array
         $companyCounts = array_count_values($companies);
+
+        // sort array
         arsort($companyCounts);
+
+        // Preparing the result
+        $MostPostingCompanies = [];
         foreach ($companyCounts as $companyName => $count) {
             $company = Company::where('name', $companyName)->first();
-            $MostPostingCompanies[] = ['title' => $companyName, 'count' => $count, 'company_id' => $company->user_id];
+            array_push($MostPostingCompanies, [
+                'company_id' => $company->user_id,
+                'title' => $companyName,
+                'count' => $count,
+            ]);
         }
-        $topMostPostingCompanies = array_slice($MostPostingCompanies, 0, 5);
 
-        return  $topMostPostingCompanies;
+        // Get the top 5 companies
+        $topCompanies = array_slice($MostPostingCompanies, 0, 5);
+
+        // Return
+        return  $topCompanies;
+    }
+
+    public function Tops()
+    {
+        // Response
+        return response()->json([
+            "MostPayedRegJobs" => $this->MostPayedRegJobs(),
+            "MostPostingCompanies" => $this->MostPostingCompanies(),
+            "MostPayedFreelancingJobs" => $this->MostPayedFreelancingJobs(),
+            "MostNeededSkills" => $this->MostNeededSkills()
+        ]);
     }
 
     public function Stats()
@@ -153,17 +185,18 @@ class JobFeedController extends Controller
                 } else {
                     $runningJobsPartTime++;
                 }
-
                 continue;
             }
-            $runningJobsFreelancing++;
+            if ($freelancingJob != null) {
+                $runningJobsFreelancing++;
+            }
         }
-        $companyRegistered = Company::count();
-        $individualRegistered = Individual::count();
 
+        // Response
         return response()->json([
             "total_done_jobs" => $doneJobs,
-            "total_runnning_freelancingJob_posts" => $runningJobsFreelancing,
+            "total_exhibiting_companies" => $companyRegistered,
+            "total_registered_individual" => $individualRegistered,
             "total_runnning_fullTimeJob_posts" => $runningJobsFullTime,
             "total_runnning_partTimeJob_posts" => $runningJobsPartTime,
             "total_exhibiting_companies" => $companyRegistered,

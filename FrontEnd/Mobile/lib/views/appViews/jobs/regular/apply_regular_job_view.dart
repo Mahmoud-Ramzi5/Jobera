@@ -42,7 +42,7 @@ class ApplyRegularJobView extends StatelessWidget {
                   );
                 }
               },
-              child: const LabelText(text: 'Apply'),
+              child: const LabelText(text: 'send'),
             ),
           ],
         ),

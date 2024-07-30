@@ -56,20 +56,42 @@ class FreelancingJobDetailsView extends StatelessWidget {
                               ),
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 if (controller.freelancingJob.poster.userId ==
                                         controller.homeController.company?.id ||
                                     controller.freelancingJob.poster.userId ==
-                                        controller.homeController.user?.id)
+                                            controller
+                                                .homeController.user?.id &&
+                                        controller
+                                                .freelancingJob.acceptedUser !=
+                                            null &&
+                                        !controller.freelancingJob.isDone)
+                                  OutlinedButton(
+                                    onPressed: () => controller.endJob(
+                                      controller.freelancingJob.defJobId,
+                                      controller.freelancingJob.poster.userId,
+                                      controller
+                                          .freelancingJob.acceptedUser!.usedId,
+                                      controller
+                                          .freelancingJob.acceptedUser!.offer,
+                                    ),
+                                    child: const BodyText(text: 'End Job'),
+                                  ),
+                                if (controller.freelancingJob.poster.userId ==
+                                        controller.homeController.company?.id ||
+                                    controller.freelancingJob.poster.userId ==
+                                            controller
+                                                .homeController.user?.id &&
+                                        controller
+                                                .freelancingJob.acceptedUser ==
+                                            null)
                                   IconButton(
                                     onPressed: () => Dialogs().confirmDialog(
                                       'Notice:',
                                       'Are you sure you want to delete post?',
-                                      () => _freelancingJobDetailsController
-                                          .deleteJob(
-                                        _freelancingJobDetailsController
-                                            .freelancingJob.defJobId,
+                                      () => controller.deleteJob(
+                                        controller.freelancingJob.defJobId,
                                       ),
                                     ),
                                     icon: const Icon(
@@ -258,15 +280,17 @@ class FreelancingJobDetailsView extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(10),
                           child: InfoContainer(
-                            buttonText:
-                                controller.freelancingJob.acceptedUser ==
-                                            null &&
-                                        !controller.homeController.isCompany &&
-                                        !controller.applied
-                                    ? 'Be a competitor'
-                                    : null,
+                            buttonText: controller
+                                            .freelancingJob.acceptedUser ==
+                                        null &&
+                                    controller.freelancingJob.poster.userId !=
+                                        controller.homeController.id &&
+                                    !controller.applied
+                                ? 'Be a competitor'
+                                : null,
                             icon: Icons.add,
-                            onPressed: () {},
+                            onPressed: () =>
+                                Get.toNamed('/applyFreelancingJob'),
                             name: 'Competitors',
                             widget: ListView.builder(
                               itemCount:
@@ -286,7 +310,7 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                           padding: const EdgeInsets.all(10),
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               ProfilePhotoContainer(
                                                 child: controller
@@ -314,7 +338,6 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                                         size: 50,
                                                       ),
                                               ),
-                                              const BodyText(text: 'Rating:'),
                                               if (controller.freelancingJob
                                                           .acceptedUser !=
                                                       null &&
@@ -330,10 +353,43 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                                   Icons.verified_user,
                                                   color:
                                                       Colors.lightBlue.shade900,
-                                                )
+                                                ),
+                                              if (controller.freelancingJob
+                                                          .poster.userId ==
+                                                      controller
+                                                          .homeController.id &&
+                                                  controller.freelancingJob
+                                                          .acceptedUser ==
+                                                      null)
+                                                Column(
+                                                  children: [
+                                                    IconButton(
+                                                      onPressed: () =>
+                                                          controller.acceptUser(
+                                                              controller
+                                                                  .freelancingJob
+                                                                  .competitors[
+                                                                      index]
+                                                                  .competitorId,
+                                                              controller
+                                                                  .freelancingJob
+                                                                  .defJobId,
+                                                              controller
+                                                                  .freelancingJob
+                                                                  .competitors[
+                                                                      index]
+                                                                  .offer),
+                                                      icon: const Icon(
+                                                        Icons.check,
+                                                        color: Colors.green,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                             ],
                                           ),
                                         ),
+                                        const BodyText(text: 'Rating:'),
                                         Row(
                                           children: [
                                             const BodyText(text: 'Name:'),
@@ -367,7 +423,8 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                         Row(
                                           children: [
                                             const BodyText(
-                                                text: 'Description:'),
+                                              text: 'Description:',
+                                            ),
                                             Flexible(
                                               child: LabelText(
                                                 text: controller
@@ -380,7 +437,9 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                         ),
                                         Row(
                                           children: [
-                                            const BodyText(text: 'Offer:'),
+                                            const BodyText(
+                                              text: 'Offer:',
+                                            ),
                                             Flexible(
                                               child: LabelText(
                                                 text:

@@ -199,7 +199,7 @@ class InfoContainer extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                if (name != null) BodyText(text: '$name:'),
+                if (name != null) BodyText(text: '$name'),
                 if (buttonText != null)
                   TextButton(
                     onPressed: onPressed,

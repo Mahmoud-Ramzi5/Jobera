@@ -6,6 +6,7 @@ import { CheckToken } from './apis/AuthApis.jsx';
 import { FetchProfile } from './apis/ProfileApis/ProfileApis.jsx';
 import PrivateRoutes from './utils/PrivateRoutes.jsx';
 import AnonymousRoutes from './utils/AnonymousRoutes.jsx';
+import Clock from './utils/Clock.jsx';
 import Layout from './utils/Layout.jsx';
 import Index from './pages/Index.jsx';
 import Register from './pages/Register.jsx';
@@ -121,7 +122,7 @@ function App() {
   }, [theme]);
 
   if (isLoading) {
-    return <div id='loader'><div className="clock-loader"></div></div>
+    return <Clock />
   }
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>

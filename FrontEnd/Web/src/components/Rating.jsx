@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { review } from '../apis/ProfileApis/ProfileApis';
 import { StarFill } from 'react-bootstrap-icons';
 import styles from './rating.module.css'
-const Rating = ({ title, access, reviewer_id, reviewed_id }) => {
+const Rating = ({ title, access, reviewer_id, reviewed_id, jobEnded }) => {
     const navigate = useNavigate();
     const [done, setDone] = useState(false);
     const [rating, setRating] = useState(null);
@@ -21,6 +21,7 @@ const Rating = ({ title, access, reviewer_id, reviewed_id }) => {
             if (response.status == 200) {
                 console.log('rate added successfully')
                 setDone(true);
+                jobEnded(true);
                 navigate('/jobs/Freelancing')
             } else {
                 console.log(response);
@@ -28,7 +29,6 @@ const Rating = ({ title, access, reviewer_id, reviewed_id }) => {
         })
     }
 
-    console.log(rating);
     if (done === false) {
         return (
             <div className={styles.container}>
@@ -39,6 +39,7 @@ const Rating = ({ title, access, reviewer_id, reviewed_id }) => {
                         return (
                             <label>
                                 <input
+                                    className={styles.my_stars}
                                     type='radio'
                                     name='rating'
                                     value={currentRating}
@@ -53,7 +54,7 @@ const Rating = ({ title, access, reviewer_id, reviewed_id }) => {
                 </div>
                 <div className={styles.button_holder}>
                     <button className={styles.submit} onClick={handleRate}>rate</button>
-                    <button className={styles.submit} onClick={() => { setDone(true); navigate('/jobs/Freelancing')}}>cancel</button>
+                    <button className={styles.submit} onClick={() => { setDone(true); jobEnded(true); navigate('/jobs/Freelancing') }}>cancel</button>
                 </div>
             </div>
         )

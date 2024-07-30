@@ -206,7 +206,6 @@ const ShowJob = () => {
       parseFloat(job.accepted_user.offer)
     ).then((response) => {
       if (response.status == 200) {
-        setJobEnded(true);
         setCanRate(true);
       } else {
         console.log(response);
@@ -256,8 +255,8 @@ const ShowJob = () => {
 
   return (
     <div className={styles.jobsPage}>
-      {jobEnded ? isJobCreator ? <Rating title={'Rate the accepted freelancer'} access={accessToken}
-        reviewer_id={profile.user_id} reviewed_id={job.accepted_user.user_id} /> : <></> :
+      {jobEnded ? <>i think this will work</> : isJobCreator && canRate ? <Rating title={'Rate the accepted freelancer'} access={accessToken}
+        reviewer_id={profile.user_id} reviewed_id={job.accepted_user.user_id} jobEnded={setJobEnded} /> :
         <>
           <div className={styles.pagecontent}>
             <div className={styles.left_side_container}>

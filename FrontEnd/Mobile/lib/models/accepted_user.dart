@@ -20,5 +20,5 @@ class AcceptedUser {
         photo = json['avatar_photo'] != null
             ? json['avatar_photo'] as String
             : null,
-        offer = json['salary'] != null ? double.parse(json['salary']) : null;
+        offer = json['offer'] != null ? double.parse(json['offer']) : null;
 }

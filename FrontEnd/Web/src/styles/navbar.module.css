@@ -2,7 +2,6 @@ nav {
   position: fixed;
   z-index: 99;
   width: 100%;
-
   background: var(--color-navbar);
 }
 
@@ -52,7 +51,7 @@ nav {
 }
 
 .nav_links li a,
-.chat_list {
+.span_list {
   color: #f2f2f2;
   text-decoration: inherit;
   font-size: 20px;
@@ -63,15 +62,15 @@ nav {
 }
 
 .nav_links li a:hover,
-.chat_list:hover {
+.span_list:hover {
   background: #3A3B3C;
 }
 
-.chat_list {
+.span_list {
   cursor: pointer;
 }
 
-.chat_list small {
+.span_list small {
   font-size: 12px;
   font-weight: 240;
   padding: 2px;
@@ -216,7 +215,7 @@ nav input {
   }
 
   .nav_links li a,
-  .chat_list {
+  .span_list {
     padding: 0 20px;
     font-size: 20px;
     display: block;

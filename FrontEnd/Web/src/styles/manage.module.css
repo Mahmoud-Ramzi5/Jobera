@@ -1,149 +1,129 @@
 .manage {
-    inset-block-start: 75px;
-    position: relative;
-    margin-block-end: 100px;
-    min-height: 100vh;
+  inset-block-start: 75px;
+  position: relative;
+  margin-block-end: 100px;
+  min-height: 100vh;
+}
+
+.tab_container {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  margin-block-end: 10px;
+}
+
+.tab_button {
+  width: 32%;
+  padding: 8px;
+  font-size: 16px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.tab_button:hover {
+  color: #0073e6;
+  background-color: #e0e0e0;
+}
+
+.tab_button_active {
+  color: #e0e0e0;
+  border-color: #005bb5;
+  background-color: #0073e6;
+}
+
+.tab_button:not(.tab_button_active) {
+  color: #333333;
+}
+
+.content {
+  padding: 10px;
 }
 
 .screen {
-    display: flex;
-}
-
-.slider {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 20px;
-  }
-  
-  .slider label {
-    position: relative;
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: var(--color--titles);
-    border: 2px solid transparent;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s;
-  }
-  
-  .slider input[type="radio"] {
-    display: none;
-  }
-  
-  .slider label:hover {
-    background-color: var(--color--titles);
-  }
-  
-  .slider input[type="radio"]:checked + label {
-    background-color: var(--color--title);
-    color: var(--color--titles);
-    border-color: var(--color--title);
-  }
-  
-  .slider label span {
-    display: block;
-    padding-left: 10px;
-  }
-  
-  .slider label::before {
-    content: "";
-    position: absolute;
-    left: 10px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: var(--color--titles);
-    border: 2px solid var(--color--title);
-    transition: transform 0.3s;
-  }
-  
-  .slider input[type="radio"]:checked + label::before {
-    transform: scale(1.2);
-    background-color: var(--color--titles);
-    border-color: var(--color--title);
-  }
-  
-
-.content {
-    padding: 10px;
-    background-color: var(--color--titles);
-}
-
-.mid_container {
-    width: 100%;
-    padding: 10px 15px;
-    display: flex;
-    flex-direction: column;
-}
-
-.job_card {
-    width: 90%;
-    border: 2px;
-    border-radius: 20px;
-    border-style: outset;
-    border-color: var(--color-rating);
-    margin-block-start: 5px;
-    margin-inline-start: 5%;
-}
-
-.job_card a {
-    text-decoration: none;
+  display: flex;
 }
 
 .show_button {
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    margin-block-start: 5px;
-    margin-block-end: 15px;
-    margin-inline-start: 7.5%;
-    text-decoration: underline;
-    color: var(--color-button);
-    background-color: transparent;
-    transition: 0.2s;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  margin-block-start: 5px;
+  margin-block-end: 15px;
+  margin-inline-start: 7.5%;
+  text-decoration: underline;
+  color: var(--color-button);
+  background-color: transparent;
+  transition: 0.2s;
 }
 
 .show_button:hover {
-    font-size: 16px;
-    transition: 0.2s;
+  font-size: 16px;
+  transition: 0.2s;
 }
 
 .show_offer_info {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.tabContainer {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-bottom: 20px;
-  }
-  
-  .tabButton {
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #f0f0f0;
-    border: 2px solid transparent;
-    border-radius: 25px;
-    cursor: pointer;
-    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
-  }
-  
-  .tabButton:hover {
-    background-color: #e0e0e0;
-  }
-  
-  .tabButtonActive {
-    background-color: #0073e6;
-    color: #fff;
-    border-color: #005bb5;
-  }
-  
-  .tabButton:not(.tabButtonActive) {
-    color: #333;
-  }
-  
+
+/* JobSlider */
+.slider {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.slider label {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: var(--color--titles);
+  border: 2px solid transparent;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.slider input[type="radio"] {
+  display: none;
+}
+
+.slider label:hover {
+  background-color: var(--color--titles);
+}
+
+.slider input[type="radio"]:checked+label {
+  background-color: var(--color--title);
+  color: var(--color--titles);
+  border-color: var(--color--title);
+}
+
+.slider label span {
+  display: block;
+  padding-left: 10px;
+}
+
+.slider label::before {
+  content: "";
+  position: absolute;
+  left: 10px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--color--titles);
+  border: 2px solid var(--color--title);
+  transition: transform 0.3s;
+}
+
+.slider input[type="radio"]:checked+label::before {
+  transform: scale(1.2);
+  background-color: var(--color--titles);
+  border-color: var(--color--title);
+}
