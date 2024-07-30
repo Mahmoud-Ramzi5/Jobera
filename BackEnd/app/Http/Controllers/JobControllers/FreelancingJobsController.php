@@ -106,7 +106,7 @@ class FreelancingJobsController extends Controller
 
         // Response
         if (empty($queryItems)) {
-            $jobs = FreelancingJob::paginate(10);
+            $jobs = FreelancingJob::orderByDesc('created_at')->paginate(10);
             $jobsData = [];
             foreach ($jobs->items() as $job) {
                 if (!in_array($job, $jobsData) && $job->defJob->is_done == false) {
@@ -138,8 +138,8 @@ class FreelancingJobsController extends Controller
                 }
             }
 
-            // Get the job
-            $jobs = FreelancingJob::where($queryItems)->paginate(10);
+            // Get jobs
+            $jobs = FreelancingJob::where($queryItems)->orderByDesc('created_at')->paginate(10);
             $jobsData = [];
 
             // Check skills

@@ -8,6 +8,7 @@ use App\Models\Company;
 use App\Models\DefJob;
 use App\Models\RegJob;
 use App\Models\FreelancingJob;
+use App\Filters\JobFilter;
 use Illuminate\Http\Request;
 use App\Http\Resources\RegJobResource;
 use App\Http\Resources\RegJobCollection;
@@ -33,7 +34,7 @@ class DefJobsController extends Controller
 
         // Get all jobs
         $jobs = [];
-        $defJobs = DefJob::where('is_done', false)->paginate(10);
+        $defJobs = DefJob::where('is_done', false)->orderByDesc('created_at')->paginate(10);
         foreach ($defJobs as $defJob) {
             $regJob = RegJob::where('defJob_id', $defJob->id)->first();
             $freelancingJob = FreelancingJob::where('defJob_id', $defJob->id)->first();
@@ -109,7 +110,7 @@ class DefJobsController extends Controller
         ], 200);
     }
 
-    public function PostedJobs()
+    public function PostedJobs(Request $request)
     {
         // Get user
         $user = auth()->user();
@@ -121,23 +122,94 @@ class DefJobsController extends Controller
             ], 401);
         }
 
+        // Filter
+        $filter = new JobFilter();
+        $queryItems = $filter->transform($request);
+
         // Check company
         $company = Company::where('user_id', $user->id)->first();
 
-        // Check RegJobs
-        $RegJobs = [];
-        if ($company) {
-            $RegJobs = $company->regJobs;
-        }
-
-        // Check FreelancingJobs
-        $FreelancingJobs = FreelancingJob::where('user_id', $user->id)->get();
+        // Initialize jobs
+        $defJobs = [];
+        $defJobsData = [];
 
         // Response
-        return response()->json([
-            "RegJobs" => new RegJobCollection($RegJobs),
-            "FreelancingJobs" => new FreelancingJobCollection($FreelancingJobs),
-        ], 200);
+        if (!empty($queryItems)) {
+            // Check Job Type
+            $type = $queryItems[0][2];
+            if (isset($type)) {
+                if ($company && $type == 'FullTime') {
+                    $defJobs = RegJob::where('user_id', $user->id)
+                        ->where($queryItems)->paginate(10);
+                } else if ($company && $type == 'PartTime') {
+                    $defJobs = RegJob::where('user_id', $user->id)
+                        ->where($queryItems)->paginate(10);
+                } else {
+                    unset($queryItems[0]);
+                    $defJobs = FreelancingJob::where('user_id', $user->id)
+                        ->where($queryItems)->paginate(10);
+                }
+
+                // Check skills
+                $skills = $request->input('skills');
+                if (isset($skills)) {
+                    $skills = explode(",", trim($skills, '[]'));
+                    if (sizeof($skills) >= 1 && $skills[0] !== "") {
+                        if (sizeof($defJobs->items()) > 0) {
+                            foreach ($defJobs->items() as $job) {
+                                foreach ($job->defJob->skills as $skill) {
+                                    if (in_array($skill->name, $skills) && !in_array($job, $defJobsData)) {
+                                        array_push($defJobsData, $job);
+                                    }
+                                };
+                            }
+                        }
+                    } else {
+                        if (sizeof($defJobs->items()) > 0) {
+                            foreach ($defJobs->items() as $job) {
+                                if (!in_array($job, $defJobsData)) {
+                                    array_push($defJobsData, $job);
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if (sizeof($defJobs->items()) > 0) {
+                        foreach ($defJobs->items() as $job) {
+                            if (!in_array($job, $defJobsData)) {
+                                array_push($defJobsData, $job);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Custom Response
+            return response()->json([
+                'jobs' => new FreelancingJobCollection($defJobsData),
+                'pagination_data' => [
+                    'from' => $defJobs->firstItem(),
+                    'to' => $defJobs->lastItem(),
+                    'per_page' => $defJobs->perPage(),
+                    'total' => $defJobs->total(),
+                    'first_page' => 1,
+                    'current_page' => $defJobs->currentPage(),
+                    'last_page' => $defJobs->lastPage(),
+                    'has_more_pages' => $defJobs->hasMorePages(),
+                    'first_page_url' => $defJobs->url(1),
+                    'current_page_url' => $defJobs->url($defJobs->currentPage()),
+                    'last_page_url' => $defJobs->url($defJobs->lastPage()),
+                    'next_page' => $defJobs->nextPageUrl(),
+                    'prev_page' => $defJobs->previousPageUrl(),
+                    'path' => $defJobs->path()
+                ]
+            ], 200);
+        } else {
+            // Response
+            return response()->json([
+                'errors' => ['type' => 'Invalid Type'],
+            ], 404);
+        }
     }
 
     public function AppliedJobs()
