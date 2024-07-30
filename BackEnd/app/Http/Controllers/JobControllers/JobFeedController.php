@@ -125,6 +125,9 @@ class JobFeedController extends Controller
     public function Stats()
     {
         $doneJobs = 0;
+        $doneFreelancingJobs=0;
+        $doneFullTimeJobs=0;
+        $donePartTimeJobs=0;
         $runningJobsFreelancing = 0;
         $runningJobsFullTime = 0;
         $runningJobsPartTime = 0;
@@ -132,8 +135,16 @@ class JobFeedController extends Controller
         foreach ($jobs as $job) {
             $regJob = RegJob::where('defJob_id', $job->id)->first();
             $freelancingJob = FreelancingJob::where('defJob_id', $job->id)->first();
-            if (($regJob!=null && $regJob->acceptedIndividual()!=null) ||($freelancingJob!=null && $freelancingJob->acceptedUser()!=null)) {
+            if ($job->is_done) {
                 $doneJobs++;
+                if($freelancingJob!=null){
+                    $doneFreelancingJobs++;
+                }else if($regJob!=null){
+                    if($regJob->type == 'FullTime')
+                        $doneFullTimeJobs++;
+                    else
+                        $donePartTimeJobs++;
+                }                
                 continue;
             }
             if ($regJob != null) {
@@ -157,6 +168,9 @@ class JobFeedController extends Controller
             "total_runnning_partTimeJob_posts" => $runningJobsPartTime,
             "total_exhibiting_companies" => $companyRegistered,
             "total_registered_individual" => $individualRegistered,
+            "done_freelancingJobs"=>$doneFreelancingJobs,
+            "done_fullTimeJobs"=>$doneFullTimeJobs,
+            "done_partTimeJobs"=>$donePartTimeJobs,
         ]);
     }
     public function Tops(){

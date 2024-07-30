@@ -36,6 +36,7 @@ import ChatPage from './components/Chats/ChatPage.jsx';
 import RedeemCode from './components/Profile/RedeemCode.jsx';
 import NotFound from './pages/NotFound.jsx';
 import ErrorPage from './pages/ErrorPage.jsx';
+import Admin from './pages/AdminPage.jsx';
 
 
 function App() {
@@ -157,6 +158,7 @@ function App() {
               </Route>
 
               <Route element={<AnonymousRoutes />}>
+              <Route path="/admin" element={<Admin />}/>
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/auth/:provider/call-back" element={<CallBack />} />

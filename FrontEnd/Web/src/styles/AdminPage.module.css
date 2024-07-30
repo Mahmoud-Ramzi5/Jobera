@@ -1,0 +1,330 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #1d2634;
+    color: #9e9ea4;
+    font-family: 'Montserrat', sans-serif;
+  }
+  
+  .icon {
+    vertical-align: middle;
+    line-height: 1px;
+    font-size: 20px;
+  }
+  .icon_header {
+    vertical-align: middle;
+    line-height: 1px;
+    font-size: 26px;
+  }
+  .icon, .icon_header {
+    margin-right: 5px;
+  }
+  
+  .close_icon {
+    color: red;
+    margin-left: 30px;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  
+  .grid_container {
+    display: grid;
+    grid-template-columns: 260px 1fr 1fr 1fr;
+    grid-template-rows: 60px 1fr;
+    grid-template-areas:
+      'header header header header'
+      'sidebar main main main';
+    height: calc(100vh - 60px); /* Adjusting the height to exclude the header */
+  }
+  
+  .header {
+    grid-area: header;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    box-shadow: 0 6px 7px -3px rgba(0, 0, 0, 0.35);
+    background-color: var(--color-better_orange);
+  }
+
+  .menu_icon {
+    display: none;
+  }
+
+  .welcome {
+    align-self: center;
+    display: flex;
+    position: relative;
+    justify-content: center;
+  }
+
+  /* Update the CSS to make the dropdown list wider and improve item alignment */
+  .personContainer .dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: var(--color-background);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    padding: 8px;
+    min-width: 150px; /* Set a minimum width for the dropdown list */
+  }
+
+  .personContainer .dropdown ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0; /* Remove default margin */
+  }
+
+  .personContainer .dropdown ul li {
+    cursor: pointer;
+    padding: 8px;
+    margin: 0; /* Remove default margin */
+    text-align: left; /* Align text to the left */
+    color: var(--color-foreground);
+  }
+
+  /* Adjust the alignment of the personContainer */
+  .personContainer {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-right: 10px; /* Add margin to separate from the bell icon */
+  }
+
+  .personContainer p {
+    margin: 0;
+    margin-right: 10px; /* Adjust margin for spacing */
+  }
+
+  .header_right {
+    width:100%;
+    align-items: right;
+    display: flex;
+    justify-content: right;
+    position: relative;
+  }
+
+  .header_right .icon {
+    margin-right: 10px; /* Adjust the spacing between the icons */
+  }
+
+  /* Media query for responsive design */
+  @media screen and (max-width: 768px) {
+    .menu_icon {
+      display: block;
+    }
+
+    .header_left {
+      display: none;
+    }
+  }
+  
+/* Sidebar */
+.sidebar {
+    grid-area: sidebar;
+    height: 100%;
+    background-color: var( --color-better_orange);
+    overflow-y: auto;
+    transition: all 0.5s;
+    -webkit-transition: all 0.5s;
+    position: fixed; /* Ensure the sidebar stays fixed */
+    top: 0;
+    left: 0;
+    width: 250px; /* Set a fixed width for the sidebar */
+  }
+  
+  .sidebar_title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 30px;
+    margin-bottom: 30px;
+    color: var(--color-title) /* Adjust text color */
+  }
+  
+  .sidebar_title > span {
+    display: none;
+  }
+  
+  .logo {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo img {
+    margin-right: 10px;
+    height: 50px;
+  }
+  
+  .logo a {
+    color: var(--color-title);
+    font-size: 24px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  
+  .sidebar_brand {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  
+  .sidebar_list {
+    padding: 0;
+    list-style-type: none;
+  }
+  
+  .sidebar_list_item {
+    padding: 15px 30px;
+    font-size: 18px;
+  }
+  
+  .sidebar_list_item:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+  }
+  
+  .sidebar_list_item > a {
+    text-decoration: none;
+    color: var(--color-title);
+  }
+  
+  .sidebar_responsive {
+    display: block !important;
+    z-index: 12;
+  }
+  .theme_switch {
+    margin-block-start: 20px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    line-height: 25px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  
+  
+  /* Main  */  
+  .main_container {
+    grid-area: main;
+    overflow-y: auto;
+    padding: 20px 20px;
+    color: var(--color-backgroundV2);
+  }
+  
+  .main_title {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .main_cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 20px;
+    margin: 15px 0;
+  }
+  
+  .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding: 8px 15px;
+    border-radius: 5px;
+  }
+  
+  .card:first-child {
+    background-color: #2962ff;
+  }
+  
+  .card:nth-child(2) {
+    background-color: #ff6d00;
+  }
+  
+  .card:nth-child(3) {
+    background-color: #38b13e;
+  }
+  
+  .card:nth-child(4) {
+    background-color: #d50000;
+  }
+  .card:nth-child(5) {
+    background-color: #550a9c;
+  }
+  .card:nth-child(6) {
+    background-color: #8b3003;
+  }
+  .card:nth-child(7) {
+    background-color: #076e28;
+  }
+  .card:nth-child(8) {
+    background-color: #7b0c04;
+  }
+  
+  .card_inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .card_inner > .card_icon {
+    font-size: 25px;
+  }
+  
+  .charts {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 60px;
+    height: 300px;
+  }
+  
+  /* End Main  */
+  
+  
+  /* Medium <= 992px */
+    
+  @media screen and (max-width: 992px) {
+    .grid_container {
+      grid-template-columns: 1fr;
+      grid-template-rows: 0.2fr 3fr;
+      grid-template-areas:
+        'header'
+        'main';
+    }
+  
+    #sidebar {
+      display: none;
+    }
+  
+    .menu_icon {
+      display: inline;
+    }
+  
+    .sidebar_title > span {
+      display: inline;
+    }
+  }
+  /* Small <= 768px */
+    
+  @media screen and (max-width: 768px) {
+    .main_cards {
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 0;
+    }
+  
+    .charts {
+      grid-template-columns: 1fr;
+      margin-top: 30px;
+    }
+  }
+  
+  /* Extra Small <= 576px */
+  
+  @media screen and (max-width: 576px) {
+    .hedaer_left {
+      display: none;
+    }
+  }
