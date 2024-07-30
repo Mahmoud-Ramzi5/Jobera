@@ -173,6 +173,24 @@
                 "left": "Skills left:",
                 "button": "Submit"
             }
+        },
+        "job_feed": {
+            "tops": {
+                "title1": "Most Needed Skills",
+                "title2": "Most Payed Regular Jobs",
+                "title3": "Most Payed Freelancing Jobs",
+                "title4": "Most Posting Companies",
+                "salary": "Salary:",
+                "count": "Count:"
+            },
+            "stats": {
+                "label1": "Done Jobs",
+                "label2": "Exhibiting Companies",
+                "label3": "Registered Individuals",
+                "label4": "Running FullTime Jobs",
+                "label5": "Running PartTime Jobs",
+                "label6": "Runnning Freelancing Jobs"
+            }
         }
     },
     "components": {

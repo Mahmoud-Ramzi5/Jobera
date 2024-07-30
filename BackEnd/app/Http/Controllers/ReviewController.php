@@ -28,7 +28,6 @@ class ReviewController extends Controller
 
         // Review
         $review = Review::create($validated);
-        $userReview = [];
         $userReviews = Review::where('reviewed_id', $validated['reviewed_id'])->get()->all();
         $count = 0;
         $sumRating = 0;
