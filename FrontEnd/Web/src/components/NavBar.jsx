@@ -59,7 +59,7 @@ const NavBar = () => {
   }, []);
 
   const NotifyUser = async (data) => {
-    if (!'Notifcation' in window) {
+    if (!('Notifcation' in window)) {
       alert('Browser does not support desktop notification');
     } else if (Notification.permission === 'granted') {
       const notification = new Notification(data.other_user.name, {
@@ -73,15 +73,6 @@ const NavBar = () => {
             icon: data.other_user.avatar_photo,
             body: data.message
           });
-        } else {
-          // var answer = window.confirm('Would you like to enable notifications?');
-          // Notification.permission = answer;
-          // if (answer) {
-          //   const notification = new Notification(data.other_user.name, {
-          //     icon: data.other_user.avatar_photo,
-          //     body: data.message
-          //   });
-          // }
         }
       });
     }
@@ -154,21 +145,23 @@ const NavBar = () => {
             {loggedIn ? (
               <>
                 <li>
-                  <a href="/manage">
+                  <a href="/manage" title={t('components.nav_bar.li_manage')}>
                     <KanbanFill /> <span className={styles.mobile_item2}>{t('components.nav_bar.li_manage')}</span>
                   </a>
                 </li>
                 <li>
-                  <span className={styles.chat_list} onClick={() => setShowChatsScreen(!showChatsScreen)}>
+                  <span title={t('components.nav_bar.li_chats')} className={styles.span_list}
+                    onClick={() => setShowChatsScreen(!showChatsScreen)}>
                     <EnvelopeAtFill /> <span className={styles.mobile_item2}>{t('components.nav_bar.li_chats')}</span>
                   </span>
                   {showChatsScreen && <ChatNav setShowChatsScreen={setShowChatsScreen} />}
                 </li>
                 <li>
-                  <span className={styles.chat_list} onClick={() => {
-                    setShowNotificationsScreen(!showNotificationsScreen)
-                    setCount(0);
-                  }}>
+                  <span title={t('components.nav_bar.li_notifications')} className={styles.span_list}
+                    onClick={() => {
+                      setShowNotificationsScreen(!showNotificationsScreen)
+                      setCount(0);
+                    }}>
                     <BellFill />{count !== 0 && <small>{count}</small>}{' '}
                     <span className={styles.mobile_item2}>{t('components.nav_bar.li_notifications')}</span>
                   </span>
