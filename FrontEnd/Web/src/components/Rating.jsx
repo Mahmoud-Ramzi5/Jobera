@@ -39,6 +39,7 @@ const Rating = ({ title, access, reviewer_id, reviewed_id, jobEnded }) => {
                         return (
                             <label>
                                 <input
+                                    className={styles.my_stars}
                                     type='radio'
                                     name='rating'
                                     value={currentRating}

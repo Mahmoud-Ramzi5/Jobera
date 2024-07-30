@@ -21,7 +21,7 @@
     text-align: center;
 }
 
-input[type=radio] {
+input.my_stars {
     display: none;
 }
 
