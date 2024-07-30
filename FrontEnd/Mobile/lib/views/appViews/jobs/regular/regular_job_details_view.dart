@@ -230,9 +230,11 @@ class RegularJobDetailsView extends StatelessWidget {
                           padding: const EdgeInsets.all(10),
                           child: InfoContainer(
                             buttonText:
-                                (controller.regularJob.acceptedUser == null &&
+                                controller.regularJob.acceptedUser == null &&
                                         !controller.homeController.isCompany &&
-                                        !_regularJobDetailsController.applied)
+                                        !controller.applied &&
+                                        controller.regularJob.poster.userId !=
+                                            controller.homeController.id
                                     ? 'Be a competitor'
                                     : null,
                             icon: Icons.add,
@@ -289,63 +291,72 @@ class RegularJobDetailsView extends StatelessWidget {
                                                             size: 50,
                                                           ),
                                                   ),
-                                                  Column(
-                                                    children: [
-                                                      IconButton(
-                                                        onPressed: () =>
-                                                            _regularJobDetailsController
-                                                                .acceptUser(
-                                                          _regularJobDetailsController
+                                                  if (controller.regularJob
+                                                              .poster.userId ==
+                                                          controller
+                                                              .homeController
+                                                              .id &&
+                                                      controller.regularJob
+                                                              .acceptedUser ==
+                                                          null)
+                                                    Column(
+                                                      children: [
+                                                        IconButton(
+                                                          onPressed: () =>
+                                                              controller
+                                                                  .acceptUser(
+                                                            controller
+                                                                .regularJob
+                                                                .competitors[
+                                                                    index]
+                                                                .competitorId,
+                                                            controller
+                                                                .regularJob
+                                                                .defJobId,
+                                                          ),
+                                                          icon: const Icon(
+                                                            Icons.check,
+                                                            color: Colors.green,
+                                                          ),
+                                                        ),
+                                                        IconButton(
+                                                          onPressed: () =>
+                                                              controller
+                                                                  .createChat(
+                                                            controller
+                                                                .regularJob
+                                                                .competitors[
+                                                                    index]
+                                                                .userId,
+                                                          ),
+                                                          icon: Icon(
+                                                            Icons.message,
+                                                            color: Colors
+                                                                .lightBlue
+                                                                .shade900,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  if (controller.regularJob
+                                                              .acceptedUser !=
+                                                          null &&
+                                                      controller
+                                                              .regularJob
+                                                              .acceptedUser!
+                                                              .usedId ==
+                                                          controller
                                                               .regularJob
                                                               .competitors[
                                                                   index]
-                                                              .userId,
-                                                          _regularJobDetailsController
-                                                              .regularJob
-                                                              .defJobId,
-                                                        ),
-                                                        icon: const Icon(
-                                                          Icons.check,
-                                                          color: Colors.green,
-                                                        ),
-                                                      ),
-                                                      IconButton(
-                                                        onPressed: () =>
-                                                            _regularJobDetailsController
-                                                                .createChat(
-                                                          _regularJobDetailsController
-                                                              .regularJob
-                                                              .competitors[
-                                                                  index]
-                                                              .userId,
-                                                        ),
-                                                        icon: Icon(
-                                                          Icons.message,
-                                                          color: Colors
-                                                              .lightBlue
-                                                              .shade900,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  )
+                                                              .userId)
+                                                    Icon(
+                                                      Icons.verified_user,
+                                                      color: Colors
+                                                          .lightBlue.shade900,
+                                                    ),
                                                 ],
                                               ),
-                                              if (controller.regularJob
-                                                          .acceptedUser !=
-                                                      null &&
-                                                  controller
-                                                          .regularJob
-                                                          .acceptedUser!
-                                                          .usedId ==
-                                                      controller
-                                                          .regularJob
-                                                          .competitors[index]
-                                                          .userId)
-                                                Icon(
-                                                  Icons.verified_user,
-                                                  color:
-                                                      Colors.lightBlue.shade900,
-                                                ),
                                             ],
                                           ),
                                         ),

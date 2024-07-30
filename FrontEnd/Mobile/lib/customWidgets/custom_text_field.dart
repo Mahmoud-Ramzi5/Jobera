@@ -11,6 +11,7 @@ class CustomTextField extends StatelessWidget {
   final int? maxLength;
   final String? initialValue;
   final String? hintText;
+  final void Function(String)? onChanged;
 
   const CustomTextField({
     super.key,
@@ -24,6 +25,7 @@ class CustomTextField extends StatelessWidget {
     this.maxLength,
     this.initialValue,
     this.hintText,
+    this.onChanged,
   });
 
   @override
@@ -74,6 +76,7 @@ class CustomTextField extends StatelessWidget {
       style: Theme.of(context).textTheme.bodyLarge,
       validator: validator,
       maxLength: maxLength,
+      onChanged: onChanged,
     );
   }
 }

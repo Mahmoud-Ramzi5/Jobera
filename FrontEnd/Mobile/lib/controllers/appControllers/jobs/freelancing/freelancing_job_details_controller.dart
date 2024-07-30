@@ -9,24 +9,28 @@ import 'package:jobera/models/freelancing_job.dart';
 
 class FreelancingJobDetailsController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
+  late GlobalKey<FormState> formField;
   late Dio dio;
   late HomeController homeController;
   late FreelancingJobsController freelancingJobsController;
   late FreelancingJob freelancingJob;
   late TextEditingController commentController;
   late TextEditingController offerController;
+  late double share;
   bool applied = false;
   bool loading = true;
 
   @override
   Future<void> onInit() async {
     refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
+    formField = GlobalKey<FormState>();
     dio = Dio();
     homeController = Get.find<HomeController>();
     freelancingJobsController = Get.find<FreelancingJobsController>();
     freelancingJob = FreelancingJob.empty();
     commentController = TextEditingController();
     offerController = TextEditingController();
+    share = 0.0;
     await fetchFreelancingJob(freelancingJobsController.jobDetailsId);
     loading = false;
     for (var i = 0; i < freelancingJob.competitors.length; i++) {
@@ -76,11 +80,31 @@ class FreelancingJobDetailsController extends GetxController {
     Get.back();
   }
 
+  void calculateShare() {
+    if (offerController.text.isNotEmpty) {
+      if (double.parse(offerController.text) > 0 &&
+          double.parse(offerController.text) < 2000) {
+        share = double.parse(offerController.text) -
+            0.15 * double.parse(offerController.text);
+      } else if (double.parse(offerController.text) > 2000 &&
+          double.parse(offerController.text) < 15000) {
+        share = double.parse(offerController.text) -
+            0.12 * double.parse(offerController.text);
+      } else if (double.parse(offerController.text) > 15000) {
+        share = double.parse(offerController.text) -
+            0.10 * double.parse(offerController.text);
+      }
+    } else {
+      share = 0.0;
+    }
+    update();
+  }
+
   Future<dynamic> fetchFreelancingJob(int jobId) async {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.0.101:8000/api/FreelancingJobs/$jobId',
+        'http://192.168.1.104:8000/api/FreelancingJobs/$jobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -101,12 +125,15 @@ class FreelancingJobDetailsController extends GetxController {
     }
   }
 
-  Future<dynamic> applyRegJob(int jobId, String comment) async {
-    Dialogs().loadingDialog();
+  Future<dynamic> applyFreelancingJob(
+    int jobId,
+    String comment,
+    double offer,
+  ) async {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.101:8000/api/regJob/apply',
+        'http://192.168.1.104:8000/api/FreelancingJob/apply',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -117,13 +144,14 @@ class FreelancingJobDetailsController extends GetxController {
         data: {
           "job_id": jobId,
           "description": comment,
+          "offer": offer,
         },
       );
 
       if (response.statusCode == 200) {
-        freelancingJobsController.refreshIndicatorKey.currentState!.show();
         refreshIndicatorKey.currentState!.show();
-        Get.back();
+        freelancingJobsController.refreshIndicatorKey.currentState!.show();
+        applied = true;
         Get.back();
         update();
       }
@@ -139,7 +167,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.delete(
-        'http://192.168.0.101:8000/api/FreelancingJobs/$jobId',
+        'http://192.168.1.104:8000/api/FreelancingJobs/$jobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -151,6 +179,77 @@ class FreelancingJobDetailsController extends GetxController {
       if (response.statusCode == 204) {
         Get.back();
         freelancingJobsController.refreshIndicatorKey.currentState!.show();
+      }
+    } on DioException catch (e) {
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response.toString(),
+      );
+    }
+  }
+
+  Future<dynamic> acceptUser(
+    int competitorId,
+    int defJobId,
+    double? offer,
+  ) async {
+    String? token = sharedPreferences?.getString('access_token');
+    try {
+      var response = await dio.post(
+        'http://192.168.1.104:8000/api/FreelancingJob/accept/$defJobId',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+        data: {
+          "freelancing_job_competitor_id": competitorId,
+          "offer": offer,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        refreshIndicatorKey.currentState!.show();
+        freelancingJobsController.refreshIndicatorKey.currentState!.show();
+        update();
+      }
+    } on DioException catch (e) {
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response.toString(),
+      );
+    }
+  }
+
+  Future<dynamic> endJob(
+    int defJobId,
+    int senderId,
+    int recieverId,
+    double? offer,
+  ) async {
+    String? token = sharedPreferences?.getString('access_token');
+    try {
+      var response = await dio.post(
+        'http://192.168.1.104:8000/api/FreelancingJob/done/$defJobId',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+        data: {
+          "sender_id": senderId,
+          "receiver_id": recieverId,
+          "amount": offer,
+        },
+      );
+      if (response.statusCode == 200) {
+        refreshIndicatorKey.currentState!.show();
+        freelancingJobsController.refreshIndicatorKey.currentState!.show();
+        update();
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
