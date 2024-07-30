@@ -3,7 +3,13 @@ import {
   BsFillArchiveFill,
   BsFillGrid3X3GapFill,
   BsPeopleFill,
-  BsFillBellFill
+  BsFillBellFill,
+  BsBuilding,
+  BsLaptop,
+  BsLaptopFill,
+  BsSuitcase,
+  BsBriefcase,
+  BsBagFill
 } from 'react-icons/bs';
 import {
   BarChart,
@@ -67,56 +73,56 @@ const Home = () => {
                 <div className={styles.card}>
                     <div className={styles.card_inner}>
                         <h3>Individuals</h3>
-                        <BsFillArchiveFill className={styles.card_icon} />
+                        <BsPeopleFill className={styles.card_icon} />
                     </div>
                     <h1>{registered_individual}</h1>
                 </div>
                 <div className={styles.card}>
                     <div className={styles.card_inner}>
                         <h3>Running Freelancing Jobs</h3>
-                        <BsPeopleFill className={styles.card_icon} />
+                        <BsLaptop className={styles.card_icon} />
                     </div>
                     <h1>{runnning_freelancingJob}</h1>
                 </div>
                 <div className={styles.card}>
                     <div className={styles.card_inner}>
                         <h3>Running PartTime Jobs</h3>
-                        <BsFillBellFill className={styles.card_icon} />
+                        <BsBriefcase  className={styles.card_icon} />
                     </div>
                     <h1>{runnning_partTimeJob}</h1>
                 </div>
                 <div className={styles.card}>
                     <div className={styles.card_inner}>
                         <h3>Running FullTime Jobs</h3>
-                        <BsFillBellFill className={styles.card_icon} />
+                        <BsBagFill className={styles.card_icon} />
                     </div>
                     <h1>{runnning_fullTimeJob}</h1>
                 </div>
                 <div className={styles.card}>
                     <div className={styles.card_inner}>
                         <h3>Companies</h3>
-                        <BsFillGrid3X3GapFill className={styles.card_icon} />
+                        <BsBuilding className={styles.card_icon} />
                     </div>
                     <h1>{exhibiting_companies}</h1>
                 </div>
                 <div className={styles.card}>
                     <div className={styles.card_inner}>
                         <h3>Done Freelancing Jobs</h3>
-                        <BsFillBellFill className={styles.card_icon} />
+                        <BsLaptop className={styles.card_icon} />
                     </div>
                     <h1>{done_freelancingJobs}</h1>
                 </div>
                 <div className={styles.card}>
                     <div className={styles.card_inner}>
                         <h3>Done PartTime Jobs</h3>
-                        <BsFillBellFill className={styles.card_icon} />
+                        <BsBriefcase className={styles.card_icon} />
                     </div>
                     <h1>{done_partTimeJobs}</h1>
                 </div>
                 <div className={styles.card}>
                     <div className={styles.card_inner}>
                         <h3>Done FullTime Jobs</h3>
-                        <BsFillBellFill className={styles.card_icon} />
+                        <BsBagFill className={styles.card_icon} />
                     </div>
                     <h1>{done_fullTimeJobs}</h1>
                 </div>

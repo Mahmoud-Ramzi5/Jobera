@@ -17,9 +17,13 @@ import Logo from '../../assets/JoberaLogo.png';
 import ReactSwitch from "react-switch";
 import { useContext } from 'react';
 import { ThemeContext } from "../../utils/Contexts";
+import { Link } from "react-router-dom";
 
-const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
+const Sidebar = ({ openSidebarToggle, OpenSidebar,setActiveComponent }) => {
     const { theme, toggleTheme } = useContext(ThemeContext);
+    const handleItemClick = (component) => {
+        setActiveComponent(component);
+      };
   return (
     <div className={styles.sidebar}>
     <aside
@@ -40,40 +44,26 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar }) => {
       </div>
 
       <ul className={styles.sidebar_list}>
-        <li className={styles.sidebar_list_item}>
-          <a href="">
+        <li className={styles.sidebar_list_item} onClick={() => handleItemClick('Dashboard')}>
             <BsGrid1X2Fill className={styles.icon} /> Dashboard
-          </a>
         </li>
-        <li className={styles.sidebar_list_item}>
-          <a href="">
+        <li className={styles.sidebar_list_item} onClick={() => handleItemClick('Jobs')}>
             <BsBriefcaseFill className={styles.icon} /> Jobs
-          </a>
         </li>
-        <li className={styles.sidebar_list_item}>
-          <a href="">
+        <li className={styles.sidebar_list_item} onClick={() => handleItemClick('Skills')}>
             <BsFillGrid3X3GapFill className={styles.icon} /> Skills
-          </a>
         </li>
-        <li className={styles.sidebar_list_item}>
-          <a href="">
+        <li className={styles.sidebar_list_item} onClick={() => handleItemClick('Users')}>
             <BsPeopleFill className={styles.icon} /> Users
-          </a>
         </li>
-        <li className={styles.sidebar_list_item}>
-          <a href="">
+        <li className={styles.sidebar_list_item} onClick={() => handleItemClick('Wallet')}>
             <BsWalletFill className={styles.icon} /> Wallet
-          </a>
         </li>
-        <li className={styles.sidebar_list_item}>
-          <a href="">
+        <li className={styles.sidebar_list_item} onClick={() => handleItemClick('Reports')}>
             <BsMenuButtonWideFill className={styles.icon} /> Reports
-          </a>
         </li>
-        <li className={styles.sidebar_list_item}>
-          <a href="">
+        <li className={styles.sidebar_list_item} onClick={() => handleItemClick('Settings')}>
             <BsFillGearFill className={styles.icon} /> Setting
-          </a>
         </li>
         <li className={styles.theme_switch}>
               <ReactSwitch
