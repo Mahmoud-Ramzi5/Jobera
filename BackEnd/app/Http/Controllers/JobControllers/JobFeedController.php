@@ -199,6 +199,7 @@ class JobFeedController extends Controller
             "total_done_jobs" => $doneJobs,
             "total_exhibiting_companies" => $companyRegistered,
             "total_registered_individual" => $individualRegistered,
+            "total_running_freelancingJob_posts"=>$runningJobsFreelancing,
             "total_runnning_fullTimeJob_posts" => $runningJobsFullTime,
             "total_runnning_partTimeJob_posts" => $runningJobsPartTime,
             "done_freelancingJobs"=>$doneFreelancingJobs,
