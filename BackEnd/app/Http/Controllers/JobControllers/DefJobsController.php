@@ -8,6 +8,8 @@ use App\Models\Company;
 use App\Models\DefJob;
 use App\Models\RegJob;
 use App\Models\FreelancingJob;
+use App\Models\RegJobCompetitor;
+use App\Models\FreelancingJobCompetitor;
 use App\Filters\JobFilter;
 use Illuminate\Http\Request;
 use App\Http\Resources\RegJobResource;
@@ -130,8 +132,9 @@ class DefJobsController extends Controller
         $company = Company::where('user_id', $user->id)->first();
 
         // Initialize jobs
-        $defJobs = [];
-        $defJobsData = [];
+        $jobs = [];
+        $jobsData = [];
+        $jobType = 'RegularJob';
 
         // Response
         if (!empty($queryItems)) {
@@ -139,14 +142,15 @@ class DefJobsController extends Controller
             $type = $queryItems[0][2];
             if (isset($type)) {
                 if ($company && $type == 'FullTime') {
-                    $defJobs = RegJob::where('user_id', $user->id)
+                    $jobs = RegJob::where('user_id', $user->id)
                         ->where($queryItems)->paginate(10);
                 } else if ($company && $type == 'PartTime') {
-                    $defJobs = RegJob::where('user_id', $user->id)
+                    $jobs = RegJob::where('user_id', $user->id)
                         ->where($queryItems)->paginate(10);
                 } else {
                     unset($queryItems[0]);
-                    $defJobs = FreelancingJob::where('user_id', $user->id)
+                    $jobType = 'Freelancing';
+                    $jobs = FreelancingJob::where('user_id', $user->id)
                         ->where($queryItems)->paginate(10);
                 }
 
@@ -154,65 +158,76 @@ class DefJobsController extends Controller
                 $skills = $request->input('skills');
                 if (isset($skills)) {
                     $skills = explode(",", trim($skills, '[]'));
-                    if (sizeof($skills) >= 1 && $skills[0] !== "") {
-                        if (sizeof($defJobs->items()) > 0) {
-                            foreach ($defJobs->items() as $job) {
-                                foreach ($job->defJob->skills as $skill) {
-                                    if (in_array($skill->name, $skills) && !in_array($job, $defJobsData)) {
-                                        array_push($defJobsData, $job);
+                    if (sizeof($skills) >= 1 && $skills[0] != "") {
+                        foreach ($jobs->items() as $job) {
+                            foreach ($job->defJob->skills as $skill) {
+                                if (in_array($skill->name, $skills) && !in_array($job, $jobsData)) {
+                                    if ($jobType == 'RegularJob') {
+                                        array_push($jobsData, new RegJobResource($job));
+                                    } else {
+                                        array_push($jobsData, new FreelancingJobResource($job));
                                     }
-                                };
-                            }
+                                }
+                            };
                         }
                     } else {
-                        if (sizeof($defJobs->items()) > 0) {
-                            foreach ($defJobs->items() as $job) {
-                                if (!in_array($job, $defJobsData)) {
-                                    array_push($defJobsData, $job);
+                        foreach ($jobs->items() as $job) {
+                            if (!in_array($job, $jobsData)) {
+                                if ($jobType == 'RegularJob') {
+                                    array_push($jobsData, new RegJobResource($job));
+                                } else {
+                                    array_push($jobsData, new FreelancingJobResource($job));
                                 }
                             }
                         }
                     }
                 } else {
-                    if (sizeof($defJobs->items()) > 0) {
-                        foreach ($defJobs->items() as $job) {
-                            if (!in_array($job, $defJobsData)) {
-                                array_push($defJobsData, $job);
+                    foreach ($jobs->items() as $job) {
+                        if (!in_array($job, $jobsData)) {
+                            if ($jobType == 'RegularJob') {
+                                array_push($jobsData, new RegJobResource($job));
+                            } else {
+                                array_push($jobsData, new FreelancingJobResource($job));
                             }
                         }
                     }
                 }
+            } else {
+                // Response
+                return response()->json([
+                    'errors' => ['type' => 'Invalid JobType'],
+                ], 404);
             }
 
             // Custom Response
             return response()->json([
-                'jobs' => new FreelancingJobCollection($defJobsData),
+                'jobs' => $jobsData,
                 'pagination_data' => [
-                    'from' => $defJobs->firstItem(),
-                    'to' => $defJobs->lastItem(),
-                    'per_page' => $defJobs->perPage(),
-                    'total' => $defJobs->total(),
+                    'from' => $jobs->firstItem(),
+                    'to' => $jobs->lastItem(),
+                    'per_page' => $jobs->perPage(),
+                    'total' => $jobs->total(),
                     'first_page' => 1,
-                    'current_page' => $defJobs->currentPage(),
-                    'last_page' => $defJobs->lastPage(),
-                    'has_more_pages' => $defJobs->hasMorePages(),
-                    'first_page_url' => $defJobs->url(1),
-                    'current_page_url' => $defJobs->url($defJobs->currentPage()),
-                    'last_page_url' => $defJobs->url($defJobs->lastPage()),
-                    'next_page' => $defJobs->nextPageUrl(),
-                    'prev_page' => $defJobs->previousPageUrl(),
-                    'path' => $defJobs->path()
+                    'current_page' => $jobs->currentPage(),
+                    'last_page' => $jobs->lastPage(),
+                    'has_more_pages' => $jobs->hasMorePages(),
+                    'first_page_url' => $jobs->url(1),
+                    'current_page_url' => $jobs->url($jobs->currentPage()),
+                    'last_page_url' => $jobs->url($jobs->lastPage()),
+                    'next_page' => $jobs->nextPageUrl(),
+                    'prev_page' => $jobs->previousPageUrl(),
+                    'path' => $jobs->path()
                 ]
             ], 200);
         } else {
             // Response
             return response()->json([
-                'errors' => ['type' => 'Invalid Type'],
+                'errors' => ['type' => 'Invalid JobType'],
             ], 404);
         }
     }
 
-    public function AppliedJobs()
+    public function AppliedJobs(Request $request)
     {
         // Get user
         $user = auth()->user();
@@ -224,78 +239,327 @@ class DefJobsController extends Controller
             ], 401);
         }
 
+        // Filter
+        $filter = new JobFilter();
+        $queryItems = $filter->transform($request);
+
         // Check Individual
         $individual = Individual::where('user_id', $user->id)->first();
 
-        // Check RegJobs
-        $regJobsApplied = [];
-        if ($individual != null) {
-            $RegJobs = RegJob::all();
-            foreach ($RegJobs as $RegJob) {
-                if ($RegJob->accepted_individual == $individual->id) {
-                    array_push($regJobsApplied, [
-                        "regJob" => new RegJobResource($RegJob),
-                        "status" => "Accepted"
-                    ]);
-                    continue;
-                }
-                $competitors = $RegJob->competitors;
-                foreach ($competitors as $competitor) {
-                    if ($competitor->individual_id == $individual->id) {
-                        if ($RegJob->accepted_individual != null) {
-                            array_push($regJobsApplied, [
-                                "regJob" => new RegJobResource($RegJob),
-                                "status" => "Refused",
-                                "offer" => new RegJobCompetitorResource($competitor)
-                            ]);
-                            continue;
-                        }
-                        array_push($regJobsApplied, [
-                            "regJob" => new RegJobResource($RegJob),
-                            "status" => "Pending",
-                            "offer" => new RegJobCompetitorResource($competitor)
-                        ]);
-                    }
-                }
-            }
-        }
-
-        // Check FreelancingJobs
-        $freelancingJobsApplied = [];
-        $FreelancingJobs = FreelancingJob::all();
-        foreach ($FreelancingJobs as $freelancingJob) {
-            if ($freelancingJob->accepted_user == $user->id) {
-                array_push($freelancingJobsApplied, [
-                    "freelancingJob" => new FreelancingJobResource($freelancingJob),
-                    "status" => "Accepted"
-                ]);
-                continue;
-            }
-            $competitors = $freelancingJob->competitors;
-            foreach ($competitors as $competitor) {
-                if ($competitor->user_id == $user->id) {
-                    if ($freelancingJob->acceptedUser != null) {
-                        array_push($freelancingJobsApplied, [
-                            "freelancingJob" => new FreelancingJobResource($freelancingJob),
-                            "status" => "Refused",
-                            "offer" => new FreelancingJobCompetitorResource($competitor)
-                        ]);
-                        continue;
-                    }
-                    array_push($freelancingJobsApplied, [
-                        "freelancingJob" => new FreelancingJobResource($freelancingJob),
-                        "status" => "Pending",
-                        "offer" => new FreelancingJobCompetitorResource($competitor)
-                    ]);
-                }
-            }
-        }
+        // Initialize jobs
+        $jobs = [];
+        $jobsData = [];
+        $competitors = [];
+        $jobType = 'RegularJob';
 
         // Response
-        return response()->json([
-            "RegJobs" => $regJobsApplied,
-            "FreelancingJobs" => $freelancingJobsApplied
-        ], 200);
+        if (!empty($queryItems)) {
+            // Check Job Type
+            $type = $queryItems[0][2];
+            if (isset($type)) {
+                if ($individual && ($type == 'FullTime' || $type == 'PartTime')) {
+                    $competitors = RegJobCompetitor::where('individual_id', $individual->id)->paginate(10);
+                } else {
+                    unset($queryItems[0]);
+                    $jobType = 'Freelancing';
+                    $competitors = FreelancingJobCompetitor::where('user_id', $user->id)->paginate(10);
+                }
+
+                // Check skills
+                $skills = $request->input('skills');
+                if (isset($skills)) {
+                    $skills = explode(",", trim($skills, '[]'));
+                    if (sizeof($skills) >= 1 && $skills[0] != "") {
+                        if ($jobType == 'RegularJob') {
+                            foreach ($competitors as $competitor) {
+                                $job = RegJob::where('id', $competitor->job_id)
+                                    ->where($queryItems)->first();
+
+                                foreach ($job->defJob->skills as $skill) {
+                                    if (in_array($skill->name, $skills) && !in_array($job, $jobsData)) {
+                                        if ($job->accepted_individual != null) {
+                                            if ($job->accepted_individual == $individual->id) {
+                                                array_push($jobsData, [
+                                                    "user_offer" => new RegJobCompetitorResource($competitor),
+                                                    "job_data" => [
+                                                        "defJob_id" => $job->defJob_id,
+                                                        "title" => $job->defJob->title,
+                                                        "photo" => $job->defJob->photo,
+                                                        "status" => "Accepted"
+                                                    ]
+                                                ]);
+                                            } else {
+                                                array_push($jobsData, [
+                                                    "user_offer" => new RegJobCompetitorResource($competitor),
+                                                    "job_data" => [
+                                                        "defJob_id" => $job->defJob_id,
+                                                        "title" => $job->defJob->title,
+                                                        "photo" => $job->defJob->photo,
+                                                        "status" => "Refused"
+                                                    ]
+                                                ]);
+                                            }
+                                        } else {
+                                            array_push($jobsData, [
+                                                "user_offer" => new RegJobCompetitorResource($competitor),
+                                                "job_data" => [
+                                                    "defJob_id" => $job->defJob_id,
+                                                    "title" => $job->defJob->title,
+                                                    "photo" => $job->defJob->photo,
+                                                    "status" => "Pending"
+                                                ]
+                                            ]);
+                                        }
+                                    }
+                                }
+                            }
+                        } else {
+                            foreach ($competitors as $competitor) {
+                                $job = FreelancingJob::where('id', $competitor->job_id)
+                                    ->where($queryItems)->first();
+
+                                foreach ($job->defJob->skills as $skill) {
+                                    if (in_array($skill->name, $skills) && !in_array($job, $jobsData)) {
+                                        if ($job->accepted_user != null) {
+                                            if ($job->accepted_user == $user->id) {
+                                                array_push($jobsData, [
+                                                    "user_offer" => new FreelancingJobCompetitorResource($competitor),
+                                                    "job_data" => [
+                                                        "defJob_id" => $job->defJob_id,
+                                                        "title" => $job->defJob->title,
+                                                        "photo" => $job->defJob->photo,
+                                                        "status" => "Accepted"
+                                                    ]
+                                                ]);
+                                            } else {
+                                                array_push($jobsData, [
+                                                    "user_offer" => new FreelancingJobCompetitorResource($competitor),
+                                                    "job_data" => [
+                                                        "defJob_id" => $job->defJob_id,
+                                                        "title" => $job->defJob->title,
+                                                        "photo" => $job->defJob->photo,
+                                                        "status" => "Refused"
+                                                    ]
+                                                ]);
+                                            }
+                                        } else {
+                                            array_push($jobsData, [
+                                                "user_offer" => new FreelancingJobCompetitorResource($competitor),
+                                                "job_data" => [
+                                                    "defJob_id" => $job->defJob_id,
+                                                    "title" => $job->defJob->title,
+                                                    "photo" => $job->defJob->photo,
+                                                    "status" => "Pending"
+                                                ]
+                                            ]);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        if ($jobType == 'RegularJob') {
+                            foreach ($competitors as $competitor) {
+                                $job = RegJob::where('id', $competitor->job_id)
+                                    ->where($queryItems)->first();
+
+                                if (!in_array($job, $jobsData)) {
+                                    if ($job->accepted_individual != null) {
+                                        if ($job->accepted_individual == $individual->id) {
+                                            array_push($jobsData, [
+                                                "user_offer" => new RegJobCompetitorResource($competitor),
+                                                "job_data" => [
+                                                    "defJob_id" => $job->defJob_id,
+                                                    "title" => $job->defJob->title,
+                                                    "photo" => $job->defJob->photo,
+                                                    "status" => "Accepted"
+                                                ]
+                                            ]);
+                                        } else {
+                                            array_push($jobsData, [
+                                                "user_offer" => new RegJobCompetitorResource($competitor),
+                                                "job_data" => [
+                                                    "defJob_id" => $job->defJob_id,
+                                                    "title" => $job->defJob->title,
+                                                    "photo" => $job->defJob->photo,
+                                                    "status" => "Refused"
+                                                ]
+                                            ]);
+                                        }
+                                    } else {
+                                        array_push($jobsData, [
+                                            "user_offer" => new RegJobCompetitorResource($competitor),
+                                            "job_data" => [
+                                                "defJob_id" => $job->defJob_id,
+                                                "title" => $job->defJob->title,
+                                                "photo" => $job->defJob->photo,
+                                                "status" => "Pending"
+                                            ]
+                                        ]);
+                                    }
+                                }
+                            }
+                        } else {
+                            foreach ($competitors as $competitor) {
+                                $job = FreelancingJob::where('id', $competitor->job_id)
+                                    ->where($queryItems)->first();
+
+                                if (!in_array($job, $jobsData)) {
+                                    if ($job->accepted_user != null) {
+                                        if ($job->accepted_user == $user->id) {
+                                            array_push($jobsData, [
+                                                "user_offer" => new FreelancingJobCompetitorResource($competitor),
+                                                "job_data" => [
+                                                    "defJob_id" => $job->defJob_id,
+                                                    "title" => $job->defJob->title,
+                                                    "photo" => $job->defJob->photo,
+                                                    "status" => "Accepted"
+                                                ]
+                                            ]);
+                                        } else {
+                                            array_push($jobsData, [
+                                                "user_offer" => new FreelancingJobCompetitorResource($competitor),
+                                                "job_data" => [
+                                                    "defJob_id" => $job->defJob_id,
+                                                    "title" => $job->defJob->title,
+                                                    "photo" => $job->defJob->photo,
+                                                    "status" => "Refused"
+                                                ]
+                                            ]);
+                                        }
+                                    } else {
+                                        array_push($jobsData, [
+                                            "user_offer" => new FreelancingJobCompetitorResource($competitor),
+                                            "job_data" => [
+                                                "defJob_id" => $job->defJob_id,
+                                                "title" => $job->defJob->title,
+                                                "photo" => $job->defJob->photo,
+                                                "status" => "Pending"
+                                            ]
+                                        ]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if ($jobType == 'RegularJob') {
+                        foreach ($competitors as $competitor) {
+                            $job = RegJob::where('id', $competitor->job_id)
+                                ->where($queryItems)->first();
+
+                            if (!in_array($job, $jobsData)) {
+                                if ($job->accepted_individual != null) {
+                                    if ($job->accepted_individual == $individual->id) {
+                                        array_push($jobsData, [
+                                            "user_offer" => new RegJobCompetitorResource($competitor),
+                                            "job_data" => [
+                                                "defJob_id" => $job->defJob_id,
+                                                "title" => $job->defJob->title,
+                                                "photo" => $job->defJob->photo,
+                                                "status" => "Accepted"
+                                            ]
+                                        ]);
+                                    } else {
+                                        array_push($jobsData, [
+                                            "user_offer" => new RegJobCompetitorResource($competitor),
+                                            "job_data" => [
+                                                "defJob_id" => $job->defJob_id,
+                                                "title" => $job->defJob->title,
+                                                "photo" => $job->defJob->photo,
+                                                "status" => "Refused"
+                                            ]
+                                        ]);
+                                    }
+                                } else {
+                                    array_push($jobsData, [
+                                        "user_offer" => new RegJobCompetitorResource($competitor),
+                                        "job_data" => [
+                                            "defJob_id" => $job->defJob_id,
+                                            "title" => $job->defJob->title,
+                                            "photo" => $job->defJob->photo,
+                                            "status" => "Pending"
+                                        ]
+                                    ]);
+                                }
+                            }
+                        }
+                    } else {
+                        foreach ($competitors as $competitor) {
+                            $job = FreelancingJob::where('id', $competitor->job_id)
+                                ->where($queryItems)->first();
+
+                            if (!in_array($job, $jobsData)) {
+                                if ($job->accepted_user != null) {
+                                    if ($job->accepted_user == $user->id) {
+                                        array_push($jobsData, [
+                                            "user_offer" => new FreelancingJobCompetitorResource($competitor),
+                                            "job_data" => [
+                                                "defJob_id" => $job->defJob_id,
+                                                "title" => $job->defJob->title,
+                                                "photo" => $job->defJob->photo,
+                                                "status" => "Accepted"
+                                            ]
+                                        ]);
+                                    } else {
+                                        array_push($jobsData, [
+                                            "user_offer" => new FreelancingJobCompetitorResource($competitor),
+                                            "job_data" => [
+                                                "defJob_id" => $job->defJob_id,
+                                                "title" => $job->defJob->title,
+                                                "photo" => $job->defJob->photo,
+                                                "status" => "Refused"
+                                            ]
+                                        ]);
+                                    }
+                                } else {
+                                    array_push($jobsData, [
+                                        "user_offer" => new FreelancingJobCompetitorResource($competitor),
+                                        "job_data" => [
+                                            "defJob_id" => $job->defJob_id,
+                                            "title" => $job->defJob->title,
+                                            "photo" => $job->defJob->photo,
+                                            "status" => "Pending"
+                                        ]
+                                    ]);
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                // Response
+                return response()->json([
+                    'errors' => ['type' => 'Invalid JobType'],
+                ], 404);
+            }
+
+            // Custom Response
+            return response()->json([
+                'jobs' => $jobsData,
+                'pagination_data' => [
+                    'from' => $competitors->firstItem(),
+                    'to' => $competitors->lastItem(),
+                    'per_page' => $competitors->perPage(),
+                    'total' => $competitors->total(),
+                    'first_page' => 1,
+                    'current_page' => $competitors->currentPage(),
+                    'last_page' => $competitors->lastPage(),
+                    'has_more_pages' => $competitors->hasMorePages(),
+                    'first_page_url' => $competitors->url(1),
+                    'current_page_url' => $competitors->url($competitors->currentPage()),
+                    'last_page_url' => $competitors->url($competitors->lastPage()),
+                    'next_page' => $competitors->nextPageUrl(),
+                    'prev_page' => $competitors->previousPageUrl(),
+                    'path' => $competitors->path()
+                ]
+            ], 200);
+        } else {
+            // Response
+            return response()->json([
+                'errors' => ['type' => 'Invalid JobType'],
+            ], 404);
+        }
     }
 
     public function FlagedJobs()

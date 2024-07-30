@@ -2,11 +2,11 @@ import { useEffect, useState, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { FunnelFill, Bookmark, BookmarkFill } from 'react-bootstrap-icons';
 import { LoginContext, ProfileContext } from '../utils/Contexts';
-import { PostedJobs, JobYouApplied, BookmarkedJobs, BookmarkJobAPI } from '../apis/JobsApis';
+import { PostedJobs, AppliedJobs, BookmarkedJobs, BookmarkJobAPI } from '../apis/JobsApis';
 import Posts from '../components/Manage/Posts';
+import Offers from '../components/Manage/Offers';
 import JobCard from '../components/Jobs/JobCard';
 import JobFilter from '../components/Jobs/JobFilter';
-import JobCompetitorCard from '../components/Jobs/JobCompetitorCard';
 import Clock from '../utils/Clock';
 import styles from '../styles/manage.module.css';
 
@@ -44,153 +44,6 @@ const Manage = () => {
   );
 };
 
-const Offers = () => {
-  // Context
-  const { accessToken } = useContext(LoginContext);
-  // Define states
-  const initialized = useRef(false);
-  const filtered = useRef(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [showMore, setShowMore] = useState(false);
-
-  const [newFilter, setNewFilter] = useState(false);
-  const [filter, setFilter] = useState({
-    userName: "",
-    companyName: "",
-    minSalary: 0,
-    maxSalary: 100000,
-    fromDeadline: "",
-    toDeadline: "",
-    skills: [],
-  });
-
-  const [regjobs, setRegJobs] = useState([]);
-  const [freelancingjobs, setFreelancingJobs] = useState([]);
-  const [jobType, setJobType] = useState("all");
-
-  useEffect(() => {
-    if (!initialized.current) {
-      initialized.current = true;
-    } else {
-      setIsLoading(true);
-      JobYouApplied(accessToken)
-        .then((response) => {
-          if (response.status === 200) {
-            setRegJobs(response.data.RegJobs);
-            setFreelancingJobs(response.data.FreelancingJobs);
-          } else {
-            console.log(response.statusText);
-          }
-        })
-        .then(() => {
-          setIsLoading(false);
-        });
-    }
-  }, []);
-
-  const handleFilterSubmit = (event) => {
-    setRegJobs([]);
-    setFreelancingJobs([]);
-    setNewFilter(true);
-    filtered.current = false;
-
-    // Update jobType based on the selected radio button
-    const selectedJobType = document.querySelector(
-      'input[name="jobType"]:checked'
-    ).value;
-    setJobType(selectedJobType);
-  };
-
-  return (
-    <div>
-      <div className={styles.slider}>
-        <input
-          type="radio"
-          id="all"
-          name="jobType"
-          value="all"
-          checked={jobType === "all"}
-          onChange={() => setJobType("all")}
-        />
-        <label htmlFor="all">All</label>
-
-        <input
-          type="radio"
-          id="regjobs"
-          name="jobType"
-          value="regjobs"
-          checked={jobType === "regjobs"}
-          onChange={() => setJobType("regjobs")}
-        />
-        <label htmlFor="regjobs">RegJobs</label>
-
-        <input
-          type="radio"
-          id="freelancing"
-          name="jobType"
-          value="freelancing"
-          checked={jobType === "freelancing"}
-          onChange={() => setJobType("freelancing")}
-        />
-        <label htmlFor="freelancing">Freelancing</label>
-      </div>
-
-      <div className={styles.screen}>
-        <JobFilter
-          JobType={jobType === "freelancing" ? "Freelancing" : ""}
-          filter={filter}
-          setFilter={setFilter}
-          handleFilterSubmit={handleFilterSubmit}
-        />
-
-        <div className={styles.mid_container}>
-          {(jobType === "all" || jobType === "regjobs") &&
-            regjobs.map((job) => (
-              <Link
-                key={job.regJob.defJob_id}
-                className={styles.job_card}
-                to={`/job/${job.regJob.defJob_id}`}
-              >
-                <JobCard JobData={job.regJob} />
-              </Link>
-            ))}
-          {(jobType === "all" || jobType === "freelancing") &&
-            freelancingjobs.map((job) => (
-              <div
-                key={job.freelancingJob.defJob_id}
-                className={styles.job_card}
-              >
-                <Link to={`/job/${job.freelancingJob.defJob_id}`}>
-                  <JobCard JobData={job.freelancingJob} />
-                </Link>
-                {showMore ? (
-                  <>
-                    <span className={styles.show_offer_info}>
-                      <JobCompetitorCard CompetitorData={job.offer} />
-                    </span>
-                    <button
-                      className={styles.show_button}
-                      onClick={() => setShowMore(false)}
-                    >
-                      Show less
-                    </button>
-                  </>
-                ) : (
-                  <button
-                    className={styles.show_button}
-                    onClick={() => setShowMore(true)}
-                  >
-                    Show Offer
-                  </button>
-                )}
-              </div>
-            ))}
-          {isLoading && <Clock />}
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const Bookmarks = () => {
   // Context
@@ -219,17 +72,15 @@ const Bookmarks = () => {
       initialized.current = true;
     } else {
       setIsLoading(true);
-      BookmarkedJobs(accessToken)
-        .then((response) => {
-          if (response.status === 200) {
-            setJobs(response.data.jobs);
-          } else {
-            console.log(response.statusText);
-          }
-        })
-        .then(() => {
-          setIsLoading(false);
-        });
+      BookmarkedJobs(accessToken).then((response) => {
+        if (response.status === 200) {
+          setJobs(response.data.jobs);
+        } else {
+          console.log(response.statusText);
+        }
+      }).then(() => {
+        setIsLoading(false);
+      });
     }
   }, []);
 
@@ -239,12 +90,6 @@ const Bookmarks = () => {
     setIsDone(false);
     setNewFilter(true);
     filtered.current = false;
-
-    // Update jobType based on the selected radio button
-    const selectedJobType = document.querySelector(
-      'input[name="jobType"]:checked'
-    ).value;
-    setJobType(selectedJobType);
   };
 
   return (
@@ -271,7 +116,5 @@ const Bookmarks = () => {
     </div>
   );
 };
-
-
 
 export default Manage;

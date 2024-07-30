@@ -159,7 +159,7 @@ function App() {
               </Route>
 
               <Route element={<AnonymousRoutes />}>
-              <Route path="/admin" element={<Admin />}/>
+                <Route path="/admin" element={<Admin />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/auth/:provider/call-back" element={<CallBack />} />

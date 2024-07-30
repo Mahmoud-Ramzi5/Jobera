@@ -1,16 +1,17 @@
 import { useEffect, useState, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { FunnelFill, Bookmark, BookmarkFill } from 'react-bootstrap-icons';
-import { LoginContext, ProfileContext } from '../../utils/Contexts';
-import { PostedJobs, BookmarkJobAPI } from '../../apis/JobsApis';
-import JobCard from '../Jobs/JobCard';
-import JobFilter from '../Jobs/JobFilter';
-import JobSlider from './JobSlider';
-import Clock from '../../utils/Clock';
-import styles from '../../styles/jobs.module.css';
+import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
+import { AppliedJobs, BookmarkJobAPI } from '../../apis/JobsApis.jsx';
+import OfferCard from './OfferCard.jsx';
+import JobFilter from '../Jobs/JobFilter.jsx';
+import JobSlider from './JobSlider.jsx';
+import Clock from '../../utils/Clock.jsx';
+import styles1 from '../../styles/jobs.module.css';
+import styles2 from '../../styles/manage.module.css';
 
 
-const Posts = () => {
+const Offers = () => {
   // Context
   const { accessToken } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
@@ -40,7 +41,7 @@ const Posts = () => {
       filtered.current = true;
       setIsLoading(true);
 
-      PostedJobs(accessToken, nextPage, filter).then((response) => {
+      AppliedJobs(accessToken, nextPage, filter).then((response) => {
         if (response.status === 200) {
           setData(response.data.pagination_data);
           if (!response.data.pagination_data.has_more_pages) {
@@ -74,10 +75,17 @@ const Posts = () => {
   }, [nextPage, newFilter]);
 
   const handleBookmark = (defJobId) => {
+    var wantedJob = {};
+    jobs.map((job) => {
+      if (job.job_data.defJob_id === defJobId) {
+        wantedJob = job.job_data
+      }
+    });
     BookmarkJobAPI(accessToken, defJobId).then((response) => {
       if (response.status === 200) {
-        setJobs(jobs.map((job) => (job.defJob_id === defJobId ?
-          { ...job, is_flagged: response.data.is_flagged }
+        wantedJob.is_flagged = response.data.is_flagged;
+        setJobs(jobs.map((job) => (job.job_data.defJob_id === defJobId ?
+          { ...job, job_data: wantedJob }
           : job)
         ));
       } else {
@@ -130,55 +138,47 @@ const Posts = () => {
         type="radio"
         name="slider"
         id="open_filter"
-        className={styles.menu_btn}
+        className={styles1.menu_btn}
       />
       <input
         type="radio"
         name="slider"
         id="close_filter"
-        className={styles.close_btn}
+        className={styles1.close_btn}
       />
       <JobFilter
         JobType={filter.type}
         filter={filter}
         setFilter={setFilter}
         handleFilterSubmit={handleFilterSubmit}
-        NoPublishedBy={true}
       />
-      <div className={styles.right_container}>
-        {profile.type === 'company' &&
+      <div className={styles1.right_container}>
+        {profile.type === 'individual' &&
           <JobSlider
             filter={filter}
             handleJobType={handleJobType}
           />}
         {jobs.map((job) => (
-          <div key={job.defJob_id}
-            className={styles.job_card}
+          <span key={job.job_data.defJob_id}
+            className={styles2.show_offer_info}
           >
-            <Link to={`/job/${job.defJob_id}`}>
-              <JobCard JobData={job} />
-            </Link>
-            <button onClick={() => handleBookmark(job.defJob_id)}
-              className={`${styles.favorite_button} ${job.is_flagged ? 'active' : ''}`}
-            >
-              {job.is_flagged ? <BookmarkFill size={27} /> : <Bookmark size={27} />}
-            </button>
-          </div>
+            <OfferCard JobData={job.job_data} CompetitorData={job.user_offer} />
+          </span>
         ))}
         {isLoading ? <Clock />
-          : isDone && <h5 className={styles.done}>
+          : isDone && <h5 className={styles1.done}>
             done
           </h5>
         }
         <label
           htmlFor="open_filter"
-          className={`${styles.btn} ${styles.menu_btn}`}
+          className={`${styles1.btn} ${styles1.menu_btn}`}
         >
           <FunnelFill size={29} />
         </label>
-      </div>
+      </div >
     </div>
   );
 }
 
-export default Posts;
+export default Offers;

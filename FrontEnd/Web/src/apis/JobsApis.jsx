@@ -362,9 +362,31 @@ export const PostedJobs = async (token, page, filter) => {
   }
 };
 
-export const JobYouApplied = async (token) => {
+export const AppliedJobs = async (token, page, filter) => {
+  let apiUrl = `http://127.0.0.1:8000/api/manage/applied?page=${page}`;
+  if (filter.type !== null) {
+    apiUrl = `${apiUrl}&type[eq]=${filter.type}`;
+  }
+  if (filter.userName !== null) {
+    apiUrl = `${apiUrl}&user_name[like]=${filter.userName}`;
+  }
+  if (filter.companyName !== null) {
+    apiUrl = `${apiUrl}&company_name[like]=${filter.companyName}`;
+  }
+  if (filter.minSalary >= 0 && filter.maxSalary >= 0) {
+    apiUrl = `${apiUrl}&min_salary[gte]=${filter.minSalary}&max_salary[lte]=${filter.maxSalary}`;
+  }
+  if (filter.fromDeadline !== '') {
+    apiUrl = `${apiUrl}&deadline[gte]=${filter.fromDeadline}`;
+  }
+  if (filter.toDeadline !== '') {
+    apiUrl = `${apiUrl}&deadline[lte]=${filter.toDeadline}`;
+  }
+  if (filter.skills.length !== 0) {
+    apiUrl = `${apiUrl}&skills=${filter.skills}`;
+  }
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/api/manage/applied`, {
+    const response = await axios.get(apiUrl, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
         'Accept': "application/json",
