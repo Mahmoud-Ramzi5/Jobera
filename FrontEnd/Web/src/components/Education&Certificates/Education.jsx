@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { MortarboardFill, ChevronDown } from 'react-bootstrap-icons';
+import { BsMortarboardFill, BsChevronDown } from 'react-icons/bs';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { LoginContext } from '../../utils/Contexts.jsx';
@@ -127,7 +127,7 @@ const EducationForm = ({ step }) => {
             <div className={styles.row}>
               <label htmlFor="level">{t('components.education.level')}</label>
               <div className={styles.dropdown_container}>
-                <i className={styles.dropdown_icon}><ChevronDown /></i>
+                <i className={styles.dropdown_icon}><BsChevronDown /></i>
                 <select
                   id="level"
                   name="level"

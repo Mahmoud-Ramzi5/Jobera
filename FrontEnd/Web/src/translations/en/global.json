@@ -400,6 +400,11 @@
             "chat_header": "No chat selected",
             "chat_input": "Type a message...",
             "chat_button": "Send"
+        },
+        "offer": {
+            "type": "Type:",
+            "offer": "Offer:",
+            "status": "Status:"
         }
     }
 }

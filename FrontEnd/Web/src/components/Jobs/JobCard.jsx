@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import img_holder from '../../assets/upload.png';
+import img_holder from '../../assets/noImage.jpg';
 import styles from '../../styles/jobs.module.css';
 
 

@@ -1,7 +1,10 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Fonts, PencilSquare, CurrencyDollar, GeoAltFill, Globe } from 'react-bootstrap-icons';
+import {
+  BsFonts, BsPencilSquare, BsCurrencyDollar,
+  BsGeoAltFill, BsGlobe
+} from 'react-icons/bs';
 import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { FetchCountries, FetchStates } from '../../apis/AuthApis.jsx';
 import { FetchAllSkills, SearchSkills } from '../../apis/SkillsApis.jsx';
@@ -189,12 +192,12 @@ const PostRegJob = ({ type }) => {
             <NormalInput
               type='text'
               placeholder={t('pages.post_job.form.title')}
-              icon={<Fonts />}
+              icon={<BsFonts />}
               value={title}
               setChange={setTitle}
             />
             <div className={Inputstyles.field}>
-              <i className={Inputstyles.icon}><PencilSquare /></i>
+              <i className={Inputstyles.icon}><BsPencilSquare /></i>
               <textarea
                 placeholder={t('pages.post_job.form.description')}
                 value={description}
@@ -206,7 +209,7 @@ const PostRegJob = ({ type }) => {
             <NormalInput
               type='number'
               placeholder={t('pages.post_job.form.reg.salary')}
-              icon={<CurrencyDollar />}
+              icon={<BsCurrencyDollar />}
               value={salary}
               setChange={handleCalculateSalary}
             />
@@ -251,7 +254,7 @@ const PostRegJob = ({ type }) => {
         {needLocation === 'Location' ? (
           <div className={styles.register__row}>
             <div className={Inputstyles.field}>
-              <i className={Inputstyles.icon}><Globe /></i>
+              <i className={Inputstyles.icon}><BsGlobe /></i>
               <select onChange={handleCountrySelect} value={country} className={Inputstyles.input} required>
                 <option key={0} value='' disabled>{t('pages.post_job.form.country_input')}</option>
                 {(countries.length === 0) ? <></> : countries.map((country) => {
@@ -260,7 +263,7 @@ const PostRegJob = ({ type }) => {
               </select>
             </div>
             <div className={Inputstyles.field}>
-              <i className={Inputstyles.icon}><GeoAltFill /></i>
+              <i className={Inputstyles.icon}><BsGeoAltFill /></i>
               <select onChange={(event) => setState(event.target.value)} value={state} className={Inputstyles.input} required>
                 <option key={0} value='' disabled>{t('pages.post_job.form.city_input')}</option>
                 {(states.length === 0) ? <></> : states.map((state) => {

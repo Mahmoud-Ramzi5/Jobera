@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CheckLg } from 'react-bootstrap-icons';
+import { BsCheckLg } from 'react-icons/bs';
 import { VerifyEmailAPI } from '../apis/AuthApis.jsx';
 import Logo from '../assets/JoberaLogo.png';
 import styles from '../styles/emailverfication.module.css';
@@ -35,7 +35,7 @@ const EmailVerification = () => {
           <img src={Logo} className={styles.logo} alt="logo" />
           {isVerified ? (<>
             <div className={styles.success}>
-              <i className={styles.check}><CheckLg size={60} /></i>
+              <i className={styles.check}><BsCheckLg size={60} /></i>
               <span>{t('pages.email_verification.span')}</span>
             </div>
           </>) : (

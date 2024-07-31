@@ -6,7 +6,7 @@ import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { FetchImage } from '../../apis/FileApi.jsx';
 import { ShowPortfoliosAPI } from '../../apis/ProfileApis/PortfolioApis.jsx';
 import Clock from '../../utils/Clock.jsx';
-import img_holder from '../../assets/upload.png';
+import img_holder from '../../assets/noImage.jpg';
 import styles from './portfolios.module.css';
 import portfolio_style from './portfolio.module.css';
 

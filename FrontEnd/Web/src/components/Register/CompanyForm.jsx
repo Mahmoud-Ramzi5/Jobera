@@ -2,9 +2,9 @@ import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
-  PersonFill, EnvelopeFill, TelephoneFill, Globe,
-  GeoAltFill, Calendar3, SuitcaseFill, ChevronRight, X
-} from 'react-bootstrap-icons';
+  BsPersonFill, BsEnvelopeFill, BsTelephoneFill, BsGlobe,
+  BsGeoAltFill, BsCalendar3, BsSuitcaseFill, BsChevronRight, BsX
+} from 'react-icons/bs';
 import Cookies from 'js-cookie';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -129,7 +129,7 @@ const CompanyForm = () => {
     <div>
       {message ?
         <div className={styles.message}>
-          <i className={styles.xmark}><X size={60} /></i>
+          <i className={styles.xmark}><BsX size={60} /></i>
           <br />
           <span>An error happened or the email is already taken</span>
         </div> :
@@ -138,14 +138,14 @@ const CompanyForm = () => {
             <NormalInput
               type="text"
               placeholder={t('pages.Register.company_form.name_input')}
-              icon={<PersonFill />}
+              icon={<BsPersonFill />}
               value={name}
               setChange={setName}
             />
             <NormalInput
               type="text"
               placeholder={t('pages.Register.company_form.field_input')}
-              icon={<SuitcaseFill />}
+              icon={<BsSuitcaseFill />}
               value={field}
               setChange={setField}
             />
@@ -154,7 +154,7 @@ const CompanyForm = () => {
             <NormalInput
               type="text"
               placeholder={t('pages.Register.email_input')}
-              icon={<EnvelopeFill />}
+              icon={<BsEnvelopeFill />}
               value={email}
               setChange={setEmail}
             />
@@ -178,7 +178,7 @@ const CompanyForm = () => {
           </div>
           <div className={styles.register__row}>
             <div className={Inputstyles.field}>
-              <i className={Inputstyles.icon}><Globe /></i>
+              <i className={Inputstyles.icon}><BsGlobe /></i>
               <select onChange={handleCountrySelect} value={country} className={Inputstyles.input} required>
                 <option key={0} value='' disabled>{t('pages.Register.country_input')}</option>
                 {(countries.length === 0) ? <></> : countries.map((country) => {
@@ -187,7 +187,7 @@ const CompanyForm = () => {
               </select>
             </div>
             <div className={Inputstyles.field}>
-              <i className={Inputstyles.icon}><GeoAltFill /></i>
+              <i className={Inputstyles.icon}><BsGeoAltFill /></i>
               <select onChange={(event) => setState(event.target.value)} value={state} className={Inputstyles.input} required>
                 <option key={0} value='' disabled>{t('pages.Register.city_input')}</option>
                 {(states.length === 0) ? <></> : states.map((state) => {
@@ -199,7 +199,7 @@ const CompanyForm = () => {
           <div className={styles.register__row}>
             <div className={Inputstyles.field}>
               <DatePicker
-                icon={<Calendar3 />}
+                icon={<BsCalendar3 />}
                 dateFormat='dd/MM/yyyy'
                 className={Inputstyles.input}
                 wrapperClassName={styles.date_picker}
@@ -219,7 +219,7 @@ const CompanyForm = () => {
           </div>
           <button type="submit" className={styles.register__submit}>
             <span>{t('pages.Register.button')}</span>
-            <i className={styles.button__icon}><ChevronRight /></i>
+            <i className={styles.button__icon}><BsChevronRight /></i>
           </button>
         </form>
       }

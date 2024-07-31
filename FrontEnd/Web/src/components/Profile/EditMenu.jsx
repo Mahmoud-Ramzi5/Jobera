@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'react-bootstrap';
-import { PersonFill, BuildingFill, Globe, GeoAltFill } from 'react-bootstrap-icons';
+import { BsPersonFill, BsBuildingFill, BsGlobe, BsGeoAltFill } from 'react-icons/bs';
 import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { FetchCountries, FetchStates } from '../../apis/AuthApis.jsx';
 import { EditProfile } from '../../apis/ProfileApis/ProfileApis.jsx';
@@ -121,7 +121,7 @@ const EditMenu = ({ data, onClose }) => {
             <NormalInput
               type="text"
               placeholder="Full Name"
-              icon={<PersonFill />}
+              icon={<BsPersonFill />}
               value={FullName}
               setChange={setFullName}
             />
@@ -129,7 +129,7 @@ const EditMenu = ({ data, onClose }) => {
             <NormalInput
               type="text"
               placeholder="Name"
-              icon={<BuildingFill />}
+              icon={<BsBuildingFill />}
               value={name}
               setChange={setName}
             />
@@ -144,7 +144,7 @@ const EditMenu = ({ data, onClose }) => {
         </div>
         <div className={styles.edit__row}>
           <div className={Inputstyles.field}>
-            <i className={Inputstyles.icon}><Globe /></i>
+            <i className={Inputstyles.icon}><BsGlobe /></i>
             <select onChange={handleCountrySelect} value={country} className={Inputstyles.input} required>
               <option key={0} value='' disabled>Country</option>
               {(countries.length === 0) ? <></> : countries.map((country) => {
@@ -153,7 +153,7 @@ const EditMenu = ({ data, onClose }) => {
             </select>
           </div>
           <div className={Inputstyles.field}>
-            <i className={Inputstyles.icon}><GeoAltFill /></i>
+            <i className={Inputstyles.icon}><BsGeoAltFill /></i>
             <select onChange={(event) => setState(event.target.value)} value={state} className={Inputstyles.input} required>
               <option key={0} value='' disabled>City</option>
               {(states.length === 0) ? <></> : states.map((state) => {

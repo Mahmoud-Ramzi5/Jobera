@@ -1,7 +1,10 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { PencilSquare, CurrencyDollar, ChatDots, Check2, Bookmark, BookmarkFill } from 'react-bootstrap-icons';
+import {
+  BsPencilSquare, BsCurrencyDollar, BsChatDots,
+  BsCheck2, BsBookmark, BsBookmarkFill
+} from 'react-icons/bs';
 import { LoginContext, ProfileContext } from '../../utils/Contexts';
 import {
   FetchJob, ApplyToRegJobAPI, ApplyToFreelancingJobAPI, BookmarkJobAPI,
@@ -284,7 +287,7 @@ const ShowJob = () => {
               <div className={styles.titleholder}>
                 <div className={styles.title}>
                   <button onClick={handleFavorite} className={`${styles.favorite_button} ${isFavorite ? 'active' : ''}`}>
-                    {isFavorite ? <BookmarkFill size={27} /> : <Bookmark size={27} />}
+                    {isFavorite ? <BsBookmarkFill size={27} /> : <BsBookmark size={27} />}
                   </button>
                   {job.title}
                 </div>
@@ -363,7 +366,7 @@ const ShowJob = () => {
             </div>
             {participate && <>
               <div className={Inputstyles.field}>
-                <i className={Inputstyles.icon}><PencilSquare /></i>
+                <i className={Inputstyles.icon}><BsPencilSquare /></i>
                 <textarea
                   placeholder={t('components.show_job.comment_input')}
                   value={comment}
@@ -378,7 +381,7 @@ const ShowJob = () => {
                     <NormalInput
                       type='number'
                       placeholder={t('components.show_job.desired_salary')}
-                      icon={<CurrencyDollar />}
+                      icon={<BsCurrencyDollar />}
                       value={offer}
                       setChange={handleCalculateSalary}
                     />
@@ -413,7 +416,7 @@ const ShowJob = () => {
                     job.job_user.wallet.available_balance >= parseFloat(competitor.offer) &&
                     <button className={styles.accept_button}
                       onClick={(event) => handleAcceptFreelancingCompetitor(event, competitor.competitor_id, parseFloat(competitor.offer))}>
-                      <Check2 />
+                      <BsCheck2 />
                     </button>
                   }
                   :
@@ -421,11 +424,11 @@ const ShowJob = () => {
                     <>
                       <button className={styles.accept_button}
                         onClick={(event) => handleAcceptRegCompetitor(event, competitor.competitor_id)}>
-                        <Check2 />
+                        <BsCheck2 />
                       </button>
                       <button className={styles.chat_button}
                         onClick={(event) => handleChatWithIndividual(event, competitor)}>
-                        <ChatDots />
+                        <BsChatDots />
                       </button>
                     </>
                   }

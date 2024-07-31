@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FetchImage } from '../../apis/FileApi';
-import img_holder from '../../assets/default.png';
+import img_holder from '../../assets/noImage.jpg';
 import styles from './offers.module.css';
 
 
 const OfferCard = ({ JobData, CompetitorData }) => {
+  // Translations
+  const { t } = useTranslation('global');
+  // Define states
   const [photo, setPhoto] = useState(null);
 
   useEffect(() => {
@@ -45,17 +49,17 @@ const OfferCard = ({ JobData, CompetitorData }) => {
                 {JobData.title}
               </h3>
               <h6 className={styles.type}>
-                Type: {CompetitorData.job_type}
+                {t('components.offer.type')} {CompetitorData.job_type}
               </h6>
             </div>
             <div className={styles.container2}>
               {CompetitorData.job_type == "Freelancing" && (
                 <span className={styles.offer}>
-                  Offer: ${CompetitorData.offer}
+                  {t('components.offer.offer')} ${CompetitorData.offer}
                 </span>
               )}
               <h6 className={styles.status}>
-                Status: {JobData.status}
+                {t('components.offer.status')} {JobData.status}
               </h6>
             </div>
           </div>

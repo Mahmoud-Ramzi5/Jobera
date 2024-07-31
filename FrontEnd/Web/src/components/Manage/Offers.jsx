@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { FunnelFill, Bookmark, BookmarkFill } from 'react-bootstrap-icons';
+import { useTranslation } from 'react-i18next';
+import { BsFunnelFill } from 'react-icons/bs';
 import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { AppliedJobs, BookmarkJobAPI } from '../../apis/JobsApis.jsx';
 import OfferCard from './OfferCard.jsx';
@@ -12,6 +13,8 @@ import styles2 from './offers.module.css';
 
 
 const Offers = () => {
+  // Translations
+  const { t } = useTranslation('global');
   // Context
   const { accessToken } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
@@ -170,14 +173,14 @@ const Offers = () => {
         ))}
         {isLoading ? <Clock />
           : isDone && <h5 className={styles1.done}>
-            done
+            {t('pages.jobs.done')}
           </h5>
         }
         <label
           htmlFor="open_filter"
           className={`${styles1.btn} ${styles1.menu_btn}`}
         >
-          <FunnelFill size={29} />
+          <BsFunnelFill size={29} />
         </label>
       </div >
     </div>

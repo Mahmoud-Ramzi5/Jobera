@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { review } from '../apis/ProfileApis/ProfileApis';
-import { StarFill } from 'react-bootstrap-icons';
+import { BsStarFill } from 'react-icons/bs';
 import styles from './rating.module.css'
 const Rating = ({ title, access, reviewer_id, reviewed_id, jobEnded }) => {
     const navigate = useNavigate();
@@ -44,7 +44,7 @@ const Rating = ({ title, access, reviewer_id, reviewed_id, jobEnded }) => {
                                     name='rating'
                                     value={currentRating}
                                     onClick={() => { setRating(currentRating) }} />
-                                <StarFill className={styles.star}
+                                <BsStarFill className={styles.star}
                                     color={currentRating <= (hover || rating) ? "#567EF5" : "#FFFFFF"}
                                     onMouseEnter={() => setHover(currentRating)}
                                     onMouseLeave={() => setHover(null)} />

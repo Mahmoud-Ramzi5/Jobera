@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowUp } from 'react-bootstrap-icons';
+import { BsArrowUp } from 'react-icons/bs';
 import styles from './ScrollUp.module.css';
 
 
@@ -32,7 +32,7 @@ const ScrollUp = () => {
     return (
         <i className={styles.Arrow} onClick={scrollToTop}
             style={{ display: visible ? 'inline' : 'none' }}>
-            <ArrowUp className={styles.Icon} />
+            <BsArrowUp className={styles.Icon} />
         </i>
     );
 };

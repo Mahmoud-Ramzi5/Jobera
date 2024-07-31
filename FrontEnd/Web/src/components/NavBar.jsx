@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import ReactSwitch from 'react-switch';
 import { useTranslation } from 'react-i18next';
-import { KanbanFill, EnvelopeAtFill, BellFill, List, X } from 'react-bootstrap-icons';
+import { BsKanbanFill, BsEnvelopeAtFill, BsBellFill, BsList, BsX } from 'react-icons/bs';
 import Pusher from 'pusher-js';
 import { ThemeContext, LoginContext, ProfileContext } from '../utils/Contexts.jsx';
 import { FetchImage } from '../apis/FileApi.jsx';
@@ -140,19 +140,19 @@ const NavBar = () => {
               htmlFor="close_btn"
               className={`${styles.btn} ${styles.close_btn}`}
             >
-              <X size={31} />
+              <BsX size={31} />
             </label>
             {loggedIn ? (
               <>
                 <li>
                   <a href="/manage" title={t('components.nav_bar.li_manage')}>
-                    <KanbanFill /> <span className={styles.mobile_item2}>{t('components.nav_bar.li_manage')}</span>
+                    <BsKanbanFill /> <span className={styles.mobile_item2}>{t('components.nav_bar.li_manage')}</span>
                   </a>
                 </li>
                 <li>
                   <span title={t('components.nav_bar.li_chats')} className={styles.span_list}
                     onClick={() => setShowChatsScreen(!showChatsScreen)}>
-                    <EnvelopeAtFill /> <span className={styles.mobile_item2}>{t('components.nav_bar.li_chats')}</span>
+                    <BsEnvelopeAtFill /> <span className={styles.mobile_item2}>{t('components.nav_bar.li_chats')}</span>
                   </span>
                   {showChatsScreen && <ChatNav setShowChatsScreen={setShowChatsScreen} />}
                 </li>
@@ -162,7 +162,7 @@ const NavBar = () => {
                       setShowNotificationsScreen(!showNotificationsScreen)
                       setCount(0);
                     }}>
-                    <BellFill />{count !== 0 && <small>{count}</small>}{' '}
+                    <BsBellFill />{count !== 0 && <small>{count}</small>}{' '}
                     <span className={styles.mobile_item2}>{t('components.nav_bar.li_notifications')}</span>
                   </span>
                   {showNotificationsScreen && <NotificationsNav notifications={notifications} />}
@@ -223,7 +223,7 @@ const NavBar = () => {
           htmlFor="menu_btn"
           className={`${styles.btn} ${styles.menu_btn}`}
         >
-          <List size={29} />
+          <BsList size={29} />
         </label>
       </div>
     </nav>

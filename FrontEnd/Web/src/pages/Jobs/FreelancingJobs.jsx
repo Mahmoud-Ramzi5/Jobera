@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { FunnelFill, Bookmark, BookmarkFill } from 'react-bootstrap-icons';
+import { BsFunnelFill, BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import { LoginContext } from '../../utils/Contexts.jsx';
 import { FetchFreelancingJobs, BookmarkJobAPI } from '../../apis/JobsApis.jsx';
 import { FetchImage } from '../../apis/FileApi.jsx';
@@ -145,7 +145,7 @@ const FreelancingJobs = () => {
             <button onClick={() => handleBookmark(job.defJob_id)}
               className={`${styles.favorite_button} ${job.is_flagged ? 'active' : ''}`}
             >
-              {job.is_flagged ? <BookmarkFill size={27} /> : <Bookmark size={27} />}
+              {job.is_flagged ? <BsBookmarkFill size={27} /> : <BsBookmark size={27} />}
             </button>
           </div>
         ))}
@@ -159,7 +159,7 @@ const FreelancingJobs = () => {
         htmlFor="open_filter"
         className={`${styles.btn} ${styles.menu_btn}`}
       >
-        <FunnelFill size={29} />
+        <BsFunnelFill size={29} />
       </label>
     </div>
   );

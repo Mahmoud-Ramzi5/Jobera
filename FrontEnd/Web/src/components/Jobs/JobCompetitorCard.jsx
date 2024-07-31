@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Star, StarFill, StarHalf, PersonCheckFill } from 'react-bootstrap-icons';
+import { BsStar, BsStarFill, BsStarHalf, BsPersonCheckFill } from 'react-icons/bs';
 import { FetchImage } from '../../apis/FileApi';
 import img_holder from '../../assets/default.png';
 import styles from './JobCompetitorCard.module.css';
@@ -31,7 +31,7 @@ const JobCompetitorCard = ({ CompetitorData, AcceptedCompetitor }) => {
       for (let i = 0; i < fullStars; i++) {
         stars.push(
           <i key={i}>
-            <StarFill />
+            <BsStarFill />
           </i>
         );
       }
@@ -39,7 +39,7 @@ const JobCompetitorCard = ({ CompetitorData, AcceptedCompetitor }) => {
       if (hasHalfStar) {
         stars.push(
           <i key="half">
-            <StarHalf />
+            <BsStarHalf />
           </i>
         );
       }
@@ -47,7 +47,7 @@ const JobCompetitorCard = ({ CompetitorData, AcceptedCompetitor }) => {
       for (let i = 0; i < 5; i++) {
         stars.push(
           <i key={i}>
-            <Star />
+            <BsStar />
           </i>
         );
       }
@@ -78,7 +78,7 @@ const JobCompetitorCard = ({ CompetitorData, AcceptedCompetitor }) => {
         <div className={styles.info_container}>
           <div className={styles.namer}>
             <div className={styles.name}>
-              {accepted && <PersonCheckFill />}
+              {accepted && <BsPersonCheckFill />}
               <h4>
                 <a className={styles.anchor} href={`/profile/${CompetitorData.user.user_id}/${CompetitorData.user.name}`}>{CompetitorData.user.name}</a>
               </h4>

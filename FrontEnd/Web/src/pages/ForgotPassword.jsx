@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { PersonFill, ChevronRight, CheckLg, X } from 'react-bootstrap-icons';
+import { BsPersonFill, BsChevronRight, BsCheckLg, BsX } from 'react-icons/bs';
 import { ForgotPasswordAPI } from '../apis/AuthApis.jsx';
 import NormalInput from '../components/NormalInput.jsx';
 import Logo from '../assets/JoberaLogo.png';
@@ -49,13 +49,13 @@ const ForgotPassword = () => {
           </div>
           {failedMessage ? (<>
             <div className={styles.failed}>
-              <i className={styles.xmark}><X size={60} /></i>
+              <i className={styles.xmark}><BsX size={60} /></i>
               <span>{failedMessage}</span>
             </div>
           </>) : (<>
             {successMessage ? (<>
               <div className={styles.success}>
-                <i className={styles.check}><CheckLg size={60} /></i>
+                <i className={styles.check}><BsCheckLg size={60} /></i>
                 <span>{successMessage}</span>
               </div>
             </>) : (
@@ -66,13 +66,13 @@ const ForgotPassword = () => {
                 <NormalInput
                   type='email'
                   placeholder={t('pages.forgot_password.email')}
-                  icon={<PersonFill />}
+                  icon={<BsPersonFill />}
                   value={email}
                   setChange={setEmail}
                 />
                 <button type="submit" className={styles.ForgotPassword__submit}>
                   <span>{t('pages.forgot_password.span')}</span>
-                  <i className={styles.button__icon}><ChevronRight /></i>
+                  <i className={styles.button__icon}><BsChevronRight /></i>
                 </button>
               </form>
             )}

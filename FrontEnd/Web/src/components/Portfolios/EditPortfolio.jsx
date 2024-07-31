@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Fonts, PencilSquare, Link45deg, Files } from 'react-bootstrap-icons';
+import { BsFonts, BsPencilSquare, BsLink45Deg, BsFiles } from 'react-icons/bs';
 import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { FetchAllSkills, SearchSkills } from '../../apis/SkillsApis.jsx';
 import { AddPortfolioAPI, EditPortfolioAPI } from '../../apis/ProfileApis/PortfolioApis.jsx';
@@ -238,12 +238,12 @@ const EditPortfolio = () => {
                 <NormalInput
                   type='text'
                   placeholder={t('components.edit_portfolio.title_input')}
-                  icon={<Fonts />}
+                  icon={<BsFonts />}
                   value={title}
                   setChange={setTitle}
                 />
                 <div className={Inputstyles.field}>
-                  <i className={Inputstyles.icon}><PencilSquare /></i>
+                  <i className={Inputstyles.icon}><BsPencilSquare /></i>
                   <textarea
                     placeholder={t('components.edit_portfolio.description_input')}
                     value={description}
@@ -255,7 +255,7 @@ const EditPortfolio = () => {
                 <NormalInput
                   type='text'
                   placeholder={t('components.edit_portfolio.link_input')}
-                  icon={<Link45deg />}
+                  icon={<BsLink45Deg />}
                   value={link}
                   setChange={setLink}
                 />
@@ -279,7 +279,7 @@ const EditPortfolio = () => {
                   />
                 </div>
                 <div className={Inputstyles.field}>
-                  <i className={Inputstyles.icon}><Files /></i>
+                  <i className={Inputstyles.icon}><BsFiles /></i>
                   <input
                     id='files'
                     type='file'

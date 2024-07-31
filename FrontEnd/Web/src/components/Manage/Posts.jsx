@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { FunnelFill, Bookmark, BookmarkFill } from 'react-bootstrap-icons';
+import { useTranslation } from 'react-i18next';
+import { BsFunnelFill, BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import { LoginContext, ProfileContext } from '../../utils/Contexts';
 import { PostedJobs, BookmarkJobAPI } from '../../apis/JobsApis';
 import { FetchImage } from '../../apis/FileApi';
@@ -12,6 +13,8 @@ import styles from '../../styles/jobs.module.css';
 
 
 const Posts = () => {
+  // Translations
+  const { t } = useTranslation('global');
   // Context
   const { accessToken } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
@@ -163,20 +166,20 @@ const Posts = () => {
             <button onClick={() => handleBookmark(job.defJob_id)}
               className={`${styles.favorite_button} ${job.is_flagged ? 'active' : ''}`}
             >
-              {job.is_flagged ? <BookmarkFill size={27} /> : <Bookmark size={27} />}
+              {job.is_flagged ? <BsBookmarkFill size={27} /> : <BsBookmark size={27} />}
             </button>
           </div>
         ))}
         {isLoading ? <Clock />
           : isDone && <h5 className={styles.done}>
-            done
+            {t('pages.jobs.done')}
           </h5>
         }
         <label
           htmlFor="open_filter"
           className={`${styles.btn} ${styles.menu_btn}`}
         >
-          <FunnelFill size={29} />
+          <BsFunnelFill size={29} />
         </label>
       </div>
     </div>
