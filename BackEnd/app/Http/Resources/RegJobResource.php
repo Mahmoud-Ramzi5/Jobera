@@ -18,7 +18,7 @@ class RegJobResource extends JsonResource
         $defJob = $this->defJob;
 
         // Get flagged jobs
-        $flagedJobs = $user->FlagedJobs()->pluck('defJob_id')->toArray();
+        $bookmarkedJobs = $user->bookmarkedJobs()->pluck('defJob_id')->toArray();
 
         return [
             "defJob_id" => $defJob->id,
@@ -46,7 +46,7 @@ class RegJobResource extends JsonResource
                 'country' => $defJob->state->country->country_name
             ] : null,
             'publish_date' => $defJob->created_at,
-            "is_flagged" => in_array($defJob->id, $flagedJobs) ? true : false
+            "is_flagged" => in_array($defJob->id, $bookmarkedJobs) ? true : false
         ];
     }
 }

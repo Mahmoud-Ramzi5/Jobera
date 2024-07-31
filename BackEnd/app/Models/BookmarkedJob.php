@@ -4,30 +4,29 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Model;
 
-class DefJob extends Model
+class BookmarkedJob extends Model
 {
     use HasFactory;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'title',
-        'description',
-        'photo',
-        'is_done',
-        'state_id'
+        'user_id',
+        'defJob_id',
     ];
+
     /**
      * The attributes that should be hidden for serialization.
      *
      * @var array<int, string>
      */
     protected $hidden = [
+        'created_at',
         'updated_at'
     ];
 
@@ -38,24 +37,17 @@ class DefJob extends Model
      */
     protected function casts(): array
     {
-        return [
-            'is_done' => 'boolean'
-        ];
+        return [];
     }
 
     /* Relations */
-    public function state(): BelongsTo
+    public function defJob(): BelongsTo
     {
-        return $this->belongsTo(State::class, 'state_id', 'state_id');
+        return $this->belongsTo(DefJob::class, 'defJob_id', 'id');
     }
 
-    public function skills(): BelongsToMany
+    public function user(): BelongsTo
     {
-        return $this->belongsToMany(Skill::class, 'def_job_skill', 'defJob_id', 'skill_id')->withTimestamps();
-    }
-
-    public function bookmarkedBy(): BelongsToMany
-    {
-        return $this->BelongsToMany(User::class, 'bookmarked_jobs', 'defJob_id', 'user_id')->withTimestamps();
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 }

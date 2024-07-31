@@ -157,9 +157,9 @@ class JobFeedController extends Controller
     public function Stats()
     {
         $doneJobs = 0;
-        $doneFreelancingJobs=0;
-        $doneFullTimeJobs=0;
-        $donePartTimeJobs=0;
+        $doneFullTimeJobs = 0;
+        $donePartTimeJobs = 0;
+        $doneFreelancingJobs = 0;
         $runningJobsFullTime = 0;
         $runningJobsPartTime = 0;
         $runningJobsFreelancing = 0;
@@ -176,14 +176,15 @@ class JobFeedController extends Controller
             $freelancingJob = FreelancingJob::where('defJob_id', $defJob->id)->first();
             if ($defJob->is_done) {
                 $doneJobs++;
-                if($freelancingJob!=null){
-                    $doneFreelancingJobs++;
-                }else if($regJob!=null){
-                    if($regJob->type == 'FullTime')
+                if ($regJob != null) {
+                    if ($regJob->type == 'FullTime') {
                         $doneFullTimeJobs++;
-                    else
+                    } else {
                         $donePartTimeJobs++;
-                }                
+                    }
+                } else if ($freelancingJob != null) {
+                    $doneFreelancingJobs++;
+                }
                 continue;
             }
             if ($regJob != null) {
@@ -204,12 +205,12 @@ class JobFeedController extends Controller
             "total_done_jobs" => $doneJobs,
             "total_exhibiting_companies" => $companyRegistered,
             "total_registered_individual" => $individualRegistered,
+            "done_fullTimeJobs" => $doneFullTimeJobs,
+            "done_partTimeJobs" => $donePartTimeJobs,
+            "done_freelancingJobs" => $doneFreelancingJobs,
             "total_running_fullTimeJob_posts" => $runningJobsFullTime,
             "total_running_partTimeJob_posts" => $runningJobsPartTime,
             "total_running_freelancingJob_posts" => $runningJobsFreelancing,
-            "done_freelancingJobs"=>$doneFreelancingJobs,
-            "done_fullTimeJobs"=>$doneFullTimeJobs,
-            "done_partTimeJobs"=>$donePartTimeJobs,
         ]);
     }
 }

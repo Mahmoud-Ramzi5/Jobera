@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\JobControllers;
 
+use App\Models\BookmarkedJob;
 use App\Http\Controllers\Controller;
 use App\Models\Individual;
 use App\Models\Company;
@@ -562,7 +563,7 @@ class DefJobsController extends Controller
         }
     }
 
-    public function FlagedJobs()
+    public function BookmarkedJobs()
     {
         // Get user
         $user = auth()->user();
@@ -574,9 +575,9 @@ class DefJobsController extends Controller
             ], 401);
         }
 
-        // Get FlagedJobs
+        // Get flagged jobs
         $jobs = [];
-        $defJobs = $user->FlagedJobs;
+        $defJobs = $user->bookmarkedJobs;
         foreach ($defJobs as $defJob) {
             $regJob = RegJob::where('defJob_id', $defJob->id)->first();
             $freelancingJob = FreelancingJob::where('defJob_id', $defJob->id)->first();
@@ -595,7 +596,7 @@ class DefJobsController extends Controller
         ], 200);
     }
 
-    public function FlagJob(Request $request, $id)
+    public function BookmarkJob(Request $request, $id)
     {
         // Get user
         $user = auth()->user();
@@ -618,18 +619,18 @@ class DefJobsController extends Controller
         }
 
         // Get flagged jobs
-        $flagedJobs = $user->FlagedJobs()->pluck('defJob_id')->toArray();
+        $bookmarkedJobs = $user->bookmarkedJobs()->pluck('defJob_id')->toArray();
 
         // Check if job is already flagged
-        if (in_array($defJob->id, $flagedJobs)) {
-            $user->FlagedJobs()->detach($defJob->id);
+        if (in_array($defJob->id, $bookmarkedJobs)) {
+            $user->bookmarkedJobs()->detach($defJob->id);
 
             // Response
             return response()->json([
                 "is_flagged" => false
             ], 200);
         } else {
-            $user->FlagedJobs()->attach($defJob->id);
+            $user->bookmarkedJobs()->attach($defJob->id);
 
             // Response
             return response()->json([

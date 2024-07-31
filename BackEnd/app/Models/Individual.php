@@ -46,9 +46,7 @@ class Individual extends User
      */
     protected function casts(): array
     {
-        return [
-
-        ];
+        return [];
     }
 
     /* Special Function */
@@ -88,5 +86,10 @@ class Individual extends User
     public function certificates(): HasMany
     {
         return $this->hasMany(Certificate::class, 'individual_id', 'id');
+    }
+
+    public function as_RegJobCompetitor(): HasMany
+    {
+        return $this->hasMany(RegJobCompetitor::class, 'individual_id', 'id');
     }
 }
