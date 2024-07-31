@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\JobControllers;
 
-use App\Models\BookmarkedJob;
 use App\Http\Controllers\Controller;
 use App\Models\Individual;
 use App\Models\Company;
@@ -11,6 +10,7 @@ use App\Models\RegJob;
 use App\Models\FreelancingJob;
 use App\Models\RegJobCompetitor;
 use App\Models\FreelancingJobCompetitor;
+use App\Models\BookmarkedJob;
 use App\Filters\JobFilter;
 use Illuminate\Http\Request;
 use App\Http\Resources\RegJobResource;
@@ -144,15 +144,15 @@ class DefJobsController extends Controller
             if (isset($type)) {
                 if ($company && $type == 'FullTime') {
                     $jobs = RegJob::where('user_id', $user->id)
-                        ->where($queryItems)->paginate(10);
+                        ->where($queryItems)->orderByDesc('created_at')->paginate(10);
                 } else if ($company && $type == 'PartTime') {
                     $jobs = RegJob::where('user_id', $user->id)
-                        ->where($queryItems)->paginate(10);
+                        ->where($queryItems)->orderByDesc('created_at')->paginate(10);
                 } else {
                     unset($queryItems[0]);
                     $jobType = 'Freelancing';
                     $jobs = FreelancingJob::where('user_id', $user->id)
-                        ->where($queryItems)->paginate(10);
+                        ->where($queryItems)->orderByDesc('created_at')->paginate(10);
                 }
 
                 // Check skills
@@ -259,11 +259,13 @@ class DefJobsController extends Controller
             $type = $queryItems[0][2];
             if (isset($type)) {
                 if ($individual && ($type == 'FullTime' || $type == 'PartTime')) {
-                    $competitors = RegJobCompetitor::where('individual_id', $individual->id)->paginate(10);
+                    $competitors = RegJobCompetitor::where('individual_id', $individual->id)
+                        ->orderByDesc('created_at')->paginate(10);
                 } else {
                     unset($queryItems[0]);
                     $jobType = 'Freelancing';
-                    $competitors = FreelancingJobCompetitor::where('user_id', $user->id)->paginate(10);
+                    $competitors = FreelancingJobCompetitor::where('user_id', $user->id)
+                        ->orderByDesc('created_at')->paginate(10);
                 }
 
                 // Check skills
@@ -577,10 +579,11 @@ class DefJobsController extends Controller
 
         // Get flagged jobs
         $jobs = [];
-        $defJobs = $user->bookmarkedJobs;
-        foreach ($defJobs as $defJob) {
-            $regJob = RegJob::where('defJob_id', $defJob->id)->first();
-            $freelancingJob = FreelancingJob::where('defJob_id', $defJob->id)->first();
+        $bookmarkedJobs = BookmarkedJob::where('user_id', $user->id)
+            ->orderByDesc('created_at')->paginate(10);
+        foreach ($bookmarkedJobs as $defJob) {
+            $regJob = RegJob::where('defJob_id', $defJob->defJob_id)->first();
+            $freelancingJob = FreelancingJob::where('defJob_id', $defJob->defJob_id)->first();
             if ($regJob != null) {
                 array_push($jobs, new RegJobResource($regJob));
             } else if ($freelancingJob != null) {
@@ -590,9 +593,25 @@ class DefJobsController extends Controller
             }
         }
 
-        // Response
+        // Custom Response
         return response()->json([
-            "jobs" => $jobs
+            'jobs' => $jobs,
+            'pagination_data' => [
+                'from' => $bookmarkedJobs->firstItem(),
+                'to' => $bookmarkedJobs->lastItem(),
+                'per_page' => $bookmarkedJobs->perPage(),
+                'total' => $bookmarkedJobs->total(),
+                'first_page' => 1,
+                'current_page' => $bookmarkedJobs->currentPage(),
+                'last_page' => $bookmarkedJobs->lastPage(),
+                'has_more_pages' => $bookmarkedJobs->hasMorePages(),
+                'first_page_url' => $bookmarkedJobs->url(1),
+                'current_page_url' => $bookmarkedJobs->url($bookmarkedJobs->currentPage()),
+                'last_page_url' => $bookmarkedJobs->url($bookmarkedJobs->lastPage()),
+                'next_page' => $bookmarkedJobs->nextPageUrl(),
+                'prev_page' => $bookmarkedJobs->previousPageUrl(),
+                'path' => $bookmarkedJobs->path()
+            ]
         ], 200);
     }
 
