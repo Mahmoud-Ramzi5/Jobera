@@ -147,11 +147,12 @@ const Posts = () => {
         NoPublishedBy={true}
       />
       <div className={styles.right_container}>
-        {profile.type === 'company' &&
-          <JobSlider
-            filter={filter}
-            handleJobType={handleJobType}
-          />}
+        <JobSlider
+          filter={filter}
+          manageType={'Posts'}
+          profileType={profile.type}
+          handleJobType={handleJobType}
+        />
         {jobs.map((job) => (
           <div key={job.defJob_id}
             className={styles.job_card}

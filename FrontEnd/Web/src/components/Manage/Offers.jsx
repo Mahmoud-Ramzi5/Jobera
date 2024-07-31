@@ -153,11 +153,12 @@ const Offers = () => {
         handleFilterSubmit={handleFilterSubmit}
       />
       <div className={styles1.right_container}>
-        {profile.type === 'individual' &&
-          <JobSlider
-            filter={filter}
-            handleJobType={handleJobType}
-          />}
+        <JobSlider
+          filter={filter}
+          manageType={'Offers'}
+          profileType={profile.type}
+          handleJobType={handleJobType}
+        />
         {jobs.map((job) => (
           <span key={job.job_data.defJob_id}
             className={styles2.show_offer_info}
