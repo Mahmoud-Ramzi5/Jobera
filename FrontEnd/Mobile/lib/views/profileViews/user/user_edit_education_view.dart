@@ -79,7 +79,7 @@ class UserEditEducationView extends StatelessWidget {
                           textInputType: TextInputType.name,
                           obsecureText: false,
                           labelText: 'Field',
-                          icon: const Icon(Icons.school),
+                          icon: Icons.school,
                           validator: (p0) =>
                               Validation().validateRequiredField(p0),
                         ),
@@ -91,7 +91,7 @@ class UserEditEducationView extends StatelessWidget {
                           textInputType: TextInputType.name,
                           obsecureText: false,
                           labelText: 'School',
-                          icon: const Icon(Icons.account_balance),
+                          icon: Icons.account_balance,
                           validator: (p0) =>
                               Validation().validateRequiredField(p0),
                         ),

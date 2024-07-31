@@ -94,7 +94,7 @@ class ChatView extends StatelessWidget {
                         textInputType: TextInputType.text,
                         obsecureText: false,
                         hintText: 'Type a message...',
-                        icon: const Icon(Icons.chat_bubble),
+                        icon: Icons.chat_bubble,
                       ),
                     ),
                     Padding(

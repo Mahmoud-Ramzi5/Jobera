@@ -182,7 +182,7 @@ class UserEditCertificatesView extends StatelessWidget {
                                               textInputType: TextInputType.name,
                                               obsecureText: false,
                                               labelText: 'Name',
-                                              icon: const Icon(Icons.abc),
+                                              icon: Icons.abc,
                                               validator: (p0) => Validation()
                                                   .validateRequiredField(p0),
                                             ),
@@ -195,7 +195,7 @@ class UserEditCertificatesView extends StatelessWidget {
                                               textInputType: TextInputType.name,
                                               obsecureText: false,
                                               labelText: 'Organization',
-                                              icon: const Icon(Icons.school),
+                                              icon: Icons.school,
                                               validator: (p0) => Validation()
                                                   .validateRequiredField(p0),
                                             ),

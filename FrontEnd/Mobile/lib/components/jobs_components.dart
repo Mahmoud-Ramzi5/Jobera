@@ -40,6 +40,8 @@ class RegularJobComponent extends StatelessWidget {
                   child: photo != null
                       ? CustomImage(
                           path: photo.toString(),
+                          height: 100,
+                          width: 100,
                         )
                       : Icon(
                           Icons.work,
@@ -142,6 +144,8 @@ class FreelancingJobComponent extends StatelessWidget {
                 child: ProfilePhotoContainer(
                   child: photo != null
                       ? CustomImage(
+                          height: 100,
+                          width: 100,
                           path: photo.toString(),
                         )
                       : Icon(

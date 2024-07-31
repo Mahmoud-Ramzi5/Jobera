@@ -104,7 +104,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.104:8000/api/FreelancingJobs/$jobId',
+        'http://192.168.137.49:8000/api/FreelancingJobs/$jobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -133,7 +133,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.1.104:8000/api/FreelancingJob/apply',
+        'http://192.168.137.49:8000/api/FreelancingJob/apply',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -167,7 +167,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.delete(
-        'http://192.168.1.104:8000/api/FreelancingJobs/$jobId',
+        'http://192.168.137.49:8000/api/FreelancingJobs/$jobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -196,7 +196,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.1.104:8000/api/FreelancingJob/accept/$defJobId',
+        'http://192.168.137.49:8000/api/FreelancingJob/accept/$defJobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -232,7 +232,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.1.104:8000/api/FreelancingJob/done/$defJobId',
+        'http://192.168.137.49:8000/api/FreelancingJob/done/$defJobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

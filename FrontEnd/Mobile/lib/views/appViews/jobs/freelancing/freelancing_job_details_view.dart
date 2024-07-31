@@ -21,6 +21,29 @@ class FreelancingJobDetailsView extends StatelessWidget {
           onPressed: () => _freelancingJobDetailsController.goBack(),
           icon: const Icon(Icons.arrow_back),
         ),
+        actions: [
+          if (_freelancingJobDetailsController.freelancingJob.poster.userId ==
+                  _freelancingJobDetailsController.homeController.company?.id ||
+              _freelancingJobDetailsController.freelancingJob.poster.userId ==
+                      _freelancingJobDetailsController
+                          .homeController.user?.id &&
+                  _freelancingJobDetailsController
+                          .freelancingJob.acceptedUser ==
+                      null)
+            IconButton(
+              onPressed: () => Dialogs().confirmDialog(
+                'Notice:',
+                'Are you sure you want to delete post?',
+                () => _freelancingJobDetailsController.deleteJob(
+                  _freelancingJobDetailsController.freelancingJob.defJobId,
+                ),
+              ),
+              icon: const Icon(
+                Icons.delete,
+                color: Colors.red,
+              ),
+            )
+        ],
       ),
       body: RefreshIndicator(
         key: _freelancingJobDetailsController.refreshIndicatorKey,
@@ -56,17 +79,16 @@ class FreelancingJobDetailsView extends StatelessWidget {
                               ),
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                if (controller.freelancingJob.poster.userId ==
-                                        controller.homeController.company?.id ||
-                                    controller.freelancingJob.poster.userId ==
-                                            controller
-                                                .homeController.user?.id &&
+                                if ((controller.freelancingJob.poster.userId ==
+                                            controller.homeController.id ||
                                         controller
-                                                .freelancingJob.acceptedUser !=
-                                            null &&
-                                        !controller.freelancingJob.isDone)
+                                                .freelancingJob.poster.userId ==
+                                            controller.homeController.id) &&
+                                    controller.freelancingJob.acceptedUser !=
+                                        null &&
+                                    !controller.freelancingJob.isDone)
                                   OutlinedButton(
                                     onPressed: () => controller.endJob(
                                       controller.freelancingJob.defJobId,
@@ -78,27 +100,6 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                     ),
                                     child: const BodyText(text: 'End Job'),
                                   ),
-                                if (controller.freelancingJob.poster.userId ==
-                                        controller.homeController.company?.id ||
-                                    controller.freelancingJob.poster.userId ==
-                                            controller
-                                                .homeController.user?.id &&
-                                        controller
-                                                .freelancingJob.acceptedUser ==
-                                            null)
-                                  IconButton(
-                                    onPressed: () => Dialogs().confirmDialog(
-                                      'Notice:',
-                                      'Are you sure you want to delete post?',
-                                      () => controller.deleteJob(
-                                        controller.freelancingJob.defJobId,
-                                      ),
-                                    ),
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    ),
-                                  )
                               ],
                             ),
                             Padding(

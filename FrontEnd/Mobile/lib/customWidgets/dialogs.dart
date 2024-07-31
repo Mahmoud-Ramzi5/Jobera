@@ -131,7 +131,7 @@ class Dialogs {
         textInputType: TextInputType.text,
         obsecureText: false,
         labelText: 'Bio',
-        icon: const Icon(Icons.description),
+        icon: Icons.description,
       ),
       cancel: OutlinedButton(
         onPressed: () => Get.back(),
@@ -210,7 +210,7 @@ class Dialogs {
         textInputType: TextInputType.text,
         obsecureText: false,
         labelText: 'Code',
-        icon: const Icon(Icons.numbers),
+        icon: Icons.numbers,
         validator: (p0) => Validation().validateRequiredField(p0),
       ),
       confirm: OutlinedButton(

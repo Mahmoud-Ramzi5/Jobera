@@ -27,7 +27,7 @@ class JobFeedView extends StatelessWidget {
                       const Padding(
                         padding: EdgeInsets.all(10),
                         child: LargeHeadlineText(
-                          text: 'Top Jobs :',
+                          text: 'Top Jobs',
                         ),
                       ),
                       ListView.builder(

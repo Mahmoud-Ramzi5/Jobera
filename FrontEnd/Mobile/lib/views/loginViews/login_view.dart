@@ -31,7 +31,7 @@ class LoginView extends StatelessWidget {
                     controller: _loginController.emailController,
                     obsecureText: false,
                     textInputType: TextInputType.emailAddress,
-                    icon: const Icon(Icons.email),
+                    icon: Icons.email,
                     labelText: 'Email',
                     validator: (p0) => Validation().validateEmail(p0),
                   ),
@@ -42,7 +42,7 @@ class LoginView extends StatelessWidget {
                         controller: _loginController.passwordController,
                         obsecureText: _loginController.passwordToggle,
                         textInputType: TextInputType.visiblePassword,
-                        icon: const Icon(Icons.key),
+                        icon: Icons.key,
                         labelText: 'Password',
                         inkWell: controller.passwordInkwell(),
                         validator: (p0) =>
