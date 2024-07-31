@@ -1,5 +1,17 @@
+.show_offer_info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.show_offer_info a {
+  width: 100%;
+  padding: 20px;
+  text-decoration: none;
+}
+
 .offer_card {
-  width: 90%;
+  width: 100%;
   padding: 20px;
   margin-block-end: 15px;
   border: 2px;
@@ -7,6 +19,13 @@
   border-style: outset;
   border-color: var(--color-foreground);
   border-radius: 10px;
+  transition: .2s;
+}
+
+.offer_card:hover {
+  cursor: pointer;
+  transition: .2s;
+  box-shadow: 0px 2px 12px var(--color-foreground);
 }
 
 .offer_card .content {

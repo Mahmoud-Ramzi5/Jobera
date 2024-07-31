@@ -42,9 +42,7 @@ const OfferCard = ({ JobData, CompetitorData }) => {
           <div className={styles.info_container}>
             <div className={styles.container1}>
               <h3 className={styles.title}>
-                <a className={styles.anchor} href={`/job/${JobData.defJob_id}`}>
-                  {JobData.title}
-                </a>
+                {JobData.title}
               </h3>
               <h6 className={styles.type}>
                 Type: {CompetitorData.job_type}

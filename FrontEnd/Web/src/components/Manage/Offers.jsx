@@ -8,7 +8,7 @@ import JobFilter from '../Jobs/JobFilter.jsx';
 import JobSlider from './JobSlider.jsx';
 import Clock from '../../utils/Clock.jsx';
 import styles1 from '../../styles/jobs.module.css';
-import styles2 from '../../styles/manage.module.css';
+import styles2 from './offers.module.css';
 
 
 const Offers = () => {
@@ -162,7 +162,9 @@ const Offers = () => {
           <span key={job.job_data.defJob_id}
             className={styles2.show_offer_info}
           >
-            <OfferCard JobData={job.job_data} CompetitorData={job.user_offer} />
+            <Link to={`/job/${job.job_data.defJob_id}`}>
+              <OfferCard JobData={job.job_data} CompetitorData={job.user_offer} />
+            </Link>
           </span>
         ))}
         {isLoading ? <Clock />
