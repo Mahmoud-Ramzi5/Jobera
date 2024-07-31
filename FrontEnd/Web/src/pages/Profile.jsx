@@ -71,6 +71,8 @@ const Profile = () => {
       <div className={styles.Profile}>
         <div className={styles.CompanyContainer}>
           <div className={styles.leftSide}><UserInfo ProfileData={profileData} /></div>
+          {profileData.user_id === profile.user_id &&
+            <div className={styles.leftSide}><Wallet ProfileData={profileData} /></div>}
           <div className={styles.leftSide}><PortfolioCard ProfileData={profileData} /></div>
         </div>
       </div>
