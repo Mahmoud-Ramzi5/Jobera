@@ -12,7 +12,7 @@ class RegularJobDetailsController extends GetxController {
   late GlobalKey<FormState> formField;
   late Dio dio;
   late HomeController homeController;
-  late RegularJobController regularJobsController;
+  late RegularJobsController regularJobsController;
   late RegularJob regularJob;
   late TextEditingController commentController;
   bool applied = false;
@@ -24,7 +24,7 @@ class RegularJobDetailsController extends GetxController {
     formField = GlobalKey<FormState>();
     dio = Dio();
     homeController = Get.find<HomeController>();
-    regularJobsController = Get.find<RegularJobController>();
+    regularJobsController = Get.find<RegularJobsController>();
     regularJob = RegularJob.empty();
     commentController = TextEditingController();
     await fetchRegularJob(regularJobsController.jobDetailsId);
@@ -78,7 +78,7 @@ class RegularJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.104:8000/api/regJobs/$id',
+        'http://192.168.137.49:8000/api/regJobs/$id',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -103,7 +103,7 @@ class RegularJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.1.104:8000/api/regJob/apply',
+        'http://192.168.137.49:8000/api/regJob/apply',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -136,7 +136,7 @@ class RegularJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.delete(
-        'http://192.168.1.104:8000/api/rggJobs/$jobId',
+        'http://192.168.137.49:8000/api/rggJobs/$jobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -161,7 +161,7 @@ class RegularJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.1.104:8000/api/regJob/accept/$defJobId',
+        'http://192.168.137.49:8000/api/regJob/accept/$defJobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -191,7 +191,7 @@ class RegularJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.1.104:8000/api/chats/create',
+        'http://192.168.137.49:8000/api/chats/create',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

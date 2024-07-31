@@ -29,7 +29,7 @@ class ApplyFreelancingJobView extends StatelessWidget {
                 textInputType: TextInputType.text,
                 obsecureText: false,
                 labelText: 'Comment',
-                icon: const Icon(Icons.abc),
+                icon: Icons.abc,
                 validator: (p0) => Validation().validateRequiredField(p0),
               ),
             ),
@@ -40,7 +40,7 @@ class ApplyFreelancingJobView extends StatelessWidget {
                 textInputType: TextInputType.number,
                 obsecureText: false,
                 labelText: 'Offer',
-                icon: const Icon(Icons.monetization_on),
+                icon: Icons.monetization_on,
                 validator: (p0) => Validation().validateOffer(
                   p0,
                   _freelancingJobDetailsController.freelancingJob.minOffer,

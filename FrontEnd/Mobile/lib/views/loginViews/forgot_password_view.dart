@@ -31,7 +31,7 @@ class ForgotPasswordView extends StatelessWidget {
                     textInputType: TextInputType.emailAddress,
                     obsecureText: false,
                     labelText: 'Email',
-                    icon: const Icon(Icons.email),
+                    icon: Icons.email,
                     validator: (p0) => Validation().validateEmail(p0),
                   ),
                 ),

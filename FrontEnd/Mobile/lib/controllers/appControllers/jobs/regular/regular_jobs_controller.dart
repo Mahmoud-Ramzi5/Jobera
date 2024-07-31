@@ -6,7 +6,7 @@ import 'package:jobera/main.dart';
 import 'package:jobera/models/pagination_data.dart';
 import 'package:jobera/models/regular_job.dart';
 
-class RegularJobController extends GetxController {
+class RegularJobsController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   late Dio dio;
   late ScrollController scrollController;
@@ -35,7 +35,7 @@ class RegularJobController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.104:8000/api/regJobs',
+        'http://192.168.137.49:8000/api/regJobs',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -64,7 +64,7 @@ class RegularJobController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.104:8000/api/regJobs?page=$page',
+        'http://192.168.137.49:8000/api/regJobs?page=$page',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

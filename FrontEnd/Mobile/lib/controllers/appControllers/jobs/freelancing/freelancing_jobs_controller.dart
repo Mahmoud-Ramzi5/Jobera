@@ -35,7 +35,7 @@ class FreelancingJobsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.104:8000/api/FreelancingJobs',
+        'http://192.168.137.49:8000/api/FreelancingJobs',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -64,7 +64,7 @@ class FreelancingJobsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.104:8000/api/FreelancingJobs?page=$page',
+        'http://192.168.137.49:8000/api/FreelancingJobs?page=$page',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

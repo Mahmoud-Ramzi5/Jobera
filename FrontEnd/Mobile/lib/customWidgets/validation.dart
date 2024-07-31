@@ -26,11 +26,11 @@ class Validation {
     return null;
   }
 
-  String? validatePhoneNumber(String? value) {
+  String? validateNumber(String? value) {
     if (value!.isEmpty) {
       return "Required Field";
     } else if (!value.isNum) {
-      return "Invalid Phone Number";
+      return "Invalid Number";
     }
     return null;
   }

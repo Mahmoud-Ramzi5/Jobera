@@ -6,7 +6,7 @@ class CustomTextField extends StatelessWidget {
   final bool obsecureText;
   final String? Function(String?)? validator;
   final String? labelText;
-  final Icon icon;
+  final IconData icon;
   final InkWell? inkWell;
   final int? maxLength;
   final String? initialValue;
@@ -42,7 +42,10 @@ class CustomTextField extends StatelessWidget {
         labelText: labelText,
         labelStyle: Theme.of(context).textTheme.bodyLarge,
         border: const OutlineInputBorder(),
-        prefixIcon: icon,
+        prefixIcon: Icon(
+          icon,
+          color: Colors.lightBlue.shade900,
+        ),
         prefixIconColor: Colors.lightBlue.shade900,
         suffixIcon: inkWell,
         suffixIconColor: Colors.lightBlue.shade900,

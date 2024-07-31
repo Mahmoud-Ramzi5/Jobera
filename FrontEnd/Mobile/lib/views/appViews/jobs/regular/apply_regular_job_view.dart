@@ -27,7 +27,7 @@ class ApplyRegularJobView extends StatelessWidget {
                 textInputType: TextInputType.text,
                 obsecureText: false,
                 labelText: 'Comment',
-                icon: const Icon(Icons.abc),
+                icon: Icons.abc,
                 validator: (p0) => Validation().validateRequiredField(p0),
               ),
             ),

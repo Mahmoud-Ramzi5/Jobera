@@ -101,7 +101,7 @@ class EditPortfolioView extends StatelessWidget {
                           textInputType: TextInputType.name,
                           obsecureText: false,
                           labelText: 'Title',
-                          icon: const Icon(Icons.abc),
+                          icon: Icons.abc,
                           validator: (p0) =>
                               Validation().validateRequiredField(p0),
                         ),
@@ -113,7 +113,7 @@ class EditPortfolioView extends StatelessWidget {
                           textInputType: TextInputType.name,
                           obsecureText: false,
                           labelText: 'Description',
-                          icon: const Icon(Icons.description),
+                          icon: Icons.description,
                           validator: (p0) =>
                               Validation().validateRequiredField(p0),
                         ),
@@ -125,7 +125,7 @@ class EditPortfolioView extends StatelessWidget {
                           textInputType: TextInputType.name,
                           obsecureText: false,
                           labelText: 'Link',
-                          icon: const Icon(Icons.link),
+                          icon: Icons.link,
                           validator: (p0) =>
                               Validation().validateRequiredField(p0),
                         ),

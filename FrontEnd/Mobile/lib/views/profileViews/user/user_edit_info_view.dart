@@ -52,7 +52,7 @@ class UserEditInfoView extends StatelessWidget {
                           textInputType: TextInputType.name,
                           obsecureText: false,
                           labelText: 'Name',
-                          icon: const Icon(Icons.abc),
+                          icon: Icons.abc,
                           validator: (p0) =>
                               Validation().validateRequiredField(p0),
                         ),
@@ -75,9 +75,9 @@ class UserEditInfoView extends StatelessWidget {
                                 textInputType: TextInputType.phone,
                                 obsecureText: false,
                                 labelText: 'Phone Number',
-                                icon: const Icon(Icons.phone),
+                                icon: Icons.phone,
                                 validator: (p0) =>
-                                    Validation().validatePhoneNumber(p0),
+                                    Validation().validateNumber(p0),
                               ),
                             ),
                           ],

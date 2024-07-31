@@ -5,8 +5,8 @@ import 'package:jobera/controllers/appControllers/jobs/regular/regular_jobs_cont
 import 'package:jobera/customWidgets/texts.dart';
 
 class RegularJobsView extends StatelessWidget {
-  final RegularJobController _regularJobController =
-      Get.put(RegularJobController());
+  final RegularJobsController _regularJobController =
+      Get.put(RegularJobsController());
 
   RegularJobsView({super.key});
 
@@ -15,7 +15,7 @@ class RegularJobsView extends StatelessWidget {
     return RefreshIndicator(
       key: _regularJobController.refreshIndicatorKey,
       onRefresh: () async => await _regularJobController.fetchRegularJobs(),
-      child: GetBuilder<RegularJobController>(
+      child: GetBuilder<RegularJobsController>(
         builder: (controller) => Scaffold(
           body: controller.loading
               ? const Center(
