@@ -22,14 +22,15 @@ class FreelancingJobDetailsView extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
         ),
         actions: [
-          if (_freelancingJobDetailsController.freelancingJob.poster.userId ==
-                  _freelancingJobDetailsController.homeController.company?.id ||
-              _freelancingJobDetailsController.freelancingJob.poster.userId ==
+          if ((_freelancingJobDetailsController.freelancingJob.poster.userId ==
                       _freelancingJobDetailsController
-                          .homeController.user?.id &&
+                          .homeController.company?.id ||
                   _freelancingJobDetailsController
-                          .freelancingJob.acceptedUser ==
-                      null)
+                          .freelancingJob.poster.userId ==
+                      _freelancingJobDetailsController
+                          .homeController.user?.id) &&
+              _freelancingJobDetailsController.freelancingJob.acceptedUser ==
+                  null)
             IconButton(
               onPressed: () => Dialogs().confirmDialog(
                 'Notice:',
@@ -142,12 +143,16 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                     Row(
                                       children: [
                                         const BodyText(text: 'Location: '),
-                                        controller.freelancingJob.state != null
-                                            ? LabelText(
-                                                text:
-                                                    '${controller.freelancingJob.country}-${controller.freelancingJob.state}',
-                                              )
-                                            : const LabelText(text: 'Remotely'),
+                                        if (controller.freelancingJob.state !=
+                                            null)
+                                          Flexible(
+                                            child: LabelText(
+                                              text:
+                                                  '${controller.freelancingJob.country}-${controller.freelancingJob.state}',
+                                            ),
+                                          )
+                                        else
+                                          const LabelText(text: 'Remotely'),
                                       ],
                                     ),
                                     Row(
@@ -394,28 +399,31 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                         Row(
                                           children: [
                                             const BodyText(text: 'Name:'),
-                                            TextButton(
-                                              onPressed: () =>
-                                                  controller.viewUserProfile(
-                                                controller.freelancingJob
-                                                    .competitors[index].userId,
-                                                controller.freelancingJob
-                                                    .competitors[index].name,
-                                                controller.freelancingJob
-                                                    .competitors[index].type
-                                                    .toString(),
-                                              ),
-                                              child: Text(
-                                                controller.freelancingJob
-                                                    .competitors[index].name,
-                                                style: TextStyle(
-                                                  color: Colors.orange.shade800,
-                                                  decoration:
-                                                      TextDecoration.underline,
-                                                  decorationColor:
-                                                      Colors.lightBlue.shade900,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
+                                            Flexible(
+                                              child: TextButton(
+                                                onPressed: () =>
+                                                    controller.viewUserProfile(
+                                                  controller
+                                                      .freelancingJob
+                                                      .competitors[index]
+                                                      .userId,
+                                                  controller.freelancingJob
+                                                      .competitors[index].name,
+                                                  controller.freelancingJob
+                                                      .competitors[index].type
+                                                      .toString(),
+                                                ),
+                                                child: Text(
+                                                  controller.freelancingJob
+                                                      .competitors[index].name,
+                                                  style: TextStyle(
+                                                    color:
+                                                        Colors.orange.shade800,
+                                                    decoration: TextDecoration
+                                                        .underline,
+                                                    decorationColor: Colors
+                                                        .lightBlue.shade900,
+                                                  ),
                                                 ),
                                               ),
                                             ),

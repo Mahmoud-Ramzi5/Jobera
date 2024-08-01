@@ -26,7 +26,7 @@ class HomeView extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () => Get.toNamed('/postJob'),
-              child: const LabelText(text: 'Post'),
+              child: const LabelText(text: 'Post Job'),
             ),
           ],
         ),

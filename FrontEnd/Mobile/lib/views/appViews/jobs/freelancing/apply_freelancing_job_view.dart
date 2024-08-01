@@ -69,8 +69,7 @@ class ApplyFreelancingJobView extends StatelessWidget {
                   _freelancingJobDetailsController.applyFreelancingJob(
                     _freelancingJobDetailsController.freelancingJob.defJobId,
                     _freelancingJobDetailsController.commentController.text,
-                    double.parse(
-                        _freelancingJobDetailsController.offerController.text),
+                    _freelancingJobDetailsController.offerController.text,
                   );
                 }
               },

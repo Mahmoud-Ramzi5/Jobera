@@ -14,18 +14,29 @@ class FreelancingJobsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       key: _freelancingJobsController.refreshIndicatorKey,
-      onRefresh: () async =>
-          await _freelancingJobsController.fetchFreelancingJobs(),
+      onRefresh: () async => await _freelancingJobsController.refreshView(),
       child: GetBuilder<FreelancingJobsController>(
         builder: (controller) => Scaffold(
-          body: controller.loading
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : SingleChildScrollView(
-                  controller: controller.scrollController,
-                  child: Column(
+          body: SingleChildScrollView(
+            controller: controller.scrollController,
+            child: controller.loading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : Column(
                     children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            onPressed: () => Get.toNamed(
+                              '/freelancingJobsFilter',
+                            ),
+                            icon: const Icon(Icons.filter_alt),
+                            color: Colors.lightBlue.shade900,
+                          ),
+                        ],
+                      ),
                       ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: controller.freelancingJobs.length,
@@ -68,10 +79,19 @@ class FreelancingJobsView extends StatelessWidget {
                           ? const Center(
                               child: CircularProgressIndicator(),
                             )
-                          : const BodyText(text: 'No more jobs')
+                          : SingleChildScrollView(
+                              child: SizedBox(
+                                height: Get.height,
+                                child: BodyText(
+                                  text: controller.freelancingJobs.isEmpty
+                                      ? 'No jobs to show'
+                                      : 'No more jobs',
+                                ),
+                              ),
+                            )
                     ],
                   ),
-                ),
+          ),
         ),
       ),
     );

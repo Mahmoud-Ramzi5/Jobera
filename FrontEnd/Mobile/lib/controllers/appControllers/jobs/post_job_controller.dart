@@ -174,7 +174,7 @@ class PostJobController extends GetxController {
     String title,
     String description,
     int stateId,
-    double salary,
+    String salary,
     String type,
     List<Skill> skills,
     XFile? image,
@@ -186,7 +186,7 @@ class PostJobController extends GetxController {
           "title": title,
           "description": description,
           'state_id': stateId,
-          "salary": salary,
+          "salary": double.parse(salary),
           "type": type,
         },
       );
@@ -210,7 +210,7 @@ class PostJobController extends GetxController {
 
       try {
         var response = await dio.post(
-          'http://192.168.137.49:8000/api/regJob/add',
+          'http://192.168.0.108:8000/api/regJob/add',
           data: data,
           options: Options(
             headers: {
@@ -238,8 +238,8 @@ class PostJobController extends GetxController {
     String title,
     String description,
     int stateId,
-    double minSalary,
-    double maxSalary,
+    String minSalary,
+    String maxSalary,
     DateTime deadline,
     List<Skill> skills,
     XFile? image,
@@ -251,8 +251,8 @@ class PostJobController extends GetxController {
           'title': title,
           'description': description,
           'state_id': stateId,
-          'min_salary': minSalary,
-          'max_salary': maxSalary,
+          'min_salary': double.parse(minSalary),
+          'max_salary': double.parse(maxSalary),
           'deadline': deadline.toString().split(' ')[0],
         },
       );
@@ -276,7 +276,7 @@ class PostJobController extends GetxController {
 
       try {
         var response = await dio.post(
-          'http://192.168.137.49:8000/api/FreelancingJob/add',
+          'http://192.168.0.108:8000/api/FreelancingJob/add',
           data: data,
           options: Options(
             headers: {

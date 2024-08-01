@@ -382,7 +382,7 @@ class PostJobView extends StatelessWidget {
                                 controller.selectedCountry != null
                                     ? controller.selectedState!.stateId
                                     : 0,
-                                double.parse(controller.salaryController.text),
+                                controller.salaryController.text,
                                 controller.selectedWorkTime,
                                 controller.selectedSkills,
                                 controller.image,
@@ -394,10 +394,8 @@ class PostJobView extends StatelessWidget {
                                 controller.selectedCountry != null
                                     ? controller.selectedState!.stateId
                                     : 0,
-                                double.parse(
-                                    controller.minOfferController.text),
-                                double.parse(
-                                    controller.maxOfferController.text),
+                                controller.minOfferController.text,
+                                controller.maxOfferController.text,
                                 controller.selectedDate,
                                 controller.selectedSkills,
                                 controller.image,
