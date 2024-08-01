@@ -132,14 +132,6 @@ class RegJobsController extends Controller
         // Response
         if (empty($queryItems)) {
             $jobs = RegJob::orderByDesc('created_at')->paginate(10);
-            $jobsData = [];
-            foreach ($jobs->items() as $job) {
-                if (!in_array($job, $jobsData) && $job->defJob->is_done == false) {
-                    array_push($jobsData, $job);
-                } else {
-                    continue;
-                }
-            }
         } else {
             // Check if job filtered based on the company that posted the job
             for ($i = 0; $i < count($queryItems); $i++) {
@@ -156,48 +148,29 @@ class RegJobsController extends Controller
                 }
             }
 
-            // Get jobs
-            $jobs = RegJob::where($queryItems)->orderByDesc('created_at')->paginate(10);
-            $jobsData = [];
-
             // Check skills
             $skills = $request->input('skills');
             if (isset($skills)) {
                 $skills = explode(",", trim($skills, '[]'));
-                if (sizeof($skills) >= 1 && $skills[0] !== "") {
-                    foreach ($jobs->items() as $job) {
-                        foreach ($job->defJob->skills as $skill) {
-                            if (
-                                in_array($skill->name, $skills) && !in_array($job, $jobsData)
-                                && $job->defJob->is_done == false
-                            ) {
-                                array_push($jobsData, $job);
-                            }
-                        };
-                    }
+                if (sizeof($skills) >= 1 && $skills[0] != "") {
+                    // Get jobs
+                    $jobs = RegJob::where($queryItems)->with('defJob.skills')
+                        ->wherehas('defJob.skills', function ($query) use ($skills) {
+                            $query->whereIn('name', $skills);
+                        })->orderByDesc('created_at')->paginate(10);
                 } else {
-                    foreach ($jobs->items() as $job) {
-                        if (!in_array($job, $jobsData) && $job->defJob->is_done == false) {
-                            array_push($jobsData, $job);
-                        } else {
-                            continue;
-                        }
-                    }
+                    // Get jobs
+                    $jobs = RegJob::where($queryItems)->orderByDesc('created_at')->paginate(10);
                 }
             } else {
-                foreach ($jobs->items() as $job) {
-                    if (!in_array($job, $jobsData) && $job->defJob->is_done == false) {
-                        array_push($jobsData, $job);
-                    } else {
-                        continue;
-                    }
-                }
+                // Get jobs
+                $jobs = RegJob::where($queryItems)->orderByDesc('created_at')->paginate(10);
             }
         }
 
         // Custom Response
         return response()->json([
-            'jobs' => new RegJobCollection($jobsData),
+            'jobs' => new RegJobCollection($jobs->items()),
             'pagination_data' => [
                 'from' => $jobs->firstItem(),
                 'to' => $jobs->lastItem(),
