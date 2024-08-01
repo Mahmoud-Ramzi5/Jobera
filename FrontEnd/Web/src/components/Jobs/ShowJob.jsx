@@ -259,7 +259,7 @@ const ShowJob = () => {
 
   return (
     <div className={styles.jobsPage}>
-      {jobEnded ? <>i think this will work</> : isJobCreator && canRate ? <Rating title={'Rate the accepted freelancer'} access={accessToken}
+      {jobEnded ? <>i think this will work</> : isJobCreator && canRate ? <Rating title={'Rate the accepted freelancer'}
         reviewer_id={profile.user_id} reviewed_id={job.accepted_user.user_id} jobEnded={setJobEnded} /> :
         <>
           <div className={styles.pagecontent}>

@@ -1,10 +1,12 @@
 
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { LoginContext } from '../utils/Contexts';
 import { review } from '../apis/ProfileApis/ProfileApis';
 import { BsStarFill } from 'react-icons/bs';
 import styles from './rating.module.css'
-const Rating = ({ title, access, reviewer_id, reviewed_id, jobEnded }) => {
+const Rating = ({ title, reviewer_id, reviewed_id, jobEnded }) => {
+    const { accessToken } = useContext(LoginContext);
     const navigate = useNavigate();
     const [done, setDone] = useState(false);
     const [rating, setRating] = useState(null);
@@ -13,7 +15,7 @@ const Rating = ({ title, access, reviewer_id, reviewed_id, jobEnded }) => {
     const handleRate = (event) => {
         event.preventDefault();
         review(
-            access,
+            accessToken,
             reviewer_id,
             reviewed_id,
             rating
