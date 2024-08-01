@@ -14,8 +14,26 @@ class RegJobSeeder extends Seeder
     public function run(): void
     {
         RegJob::factory()
-            ->count(20)
+            ->count(10)
             ->withCompetitors()
             ->create();
+
+        RegJob::factory()
+            ->count(10)
+            ->withCompetitors()
+            ->create()
+            ->each(function ($regJob) {
+                $regJob->defJob->is_done = true;
+                $regJob->defJob->save();
+            });
+
+        RegJob::factory()
+            ->count(10)
+            ->withCompetitors()
+            ->create()
+            ->each(function ($regJob) {
+                $regJob->accepted_individual = null;
+                $regJob->save();
+            });
     }
 }

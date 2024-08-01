@@ -52,12 +52,12 @@ const Offers = () => {
           }
           response.data.jobs.map((job) => {
             // Check if job is already in array
-            if (!jobs.some(item => job.defJob_id === item.defJob_id)) {
+            if (!jobs.some(item => job.job_data.defJob_id === item.job_data.defJob_id)) {
 
               // if not add job
-              if (job.photo) {
-                FetchImage("", job.photo).then((response) => {
-                  job.photo = response;
+              if (job.job_data.photo) {
+                FetchImage("", job.job_data.photo).then((response) => {
+                  job.job_data.photo = response;
                   setJobs((prevState) => ([...prevState, job]));
                 });
               }

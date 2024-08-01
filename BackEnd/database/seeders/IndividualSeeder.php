@@ -34,11 +34,11 @@ class IndividualSeeder extends Seeder
 
         // Other Individuals
         $skills = Skill::all();
-        Individual::factory()->count(15)->create()->each(function ($individual) use ($skills) {
+        Individual::factory()->count(25)->create()->each(function ($individual) use ($skills) {
             $individual->skills()->attach(
                 $skills->random(rand(1, 5))->pluck('id')->toArray()
             );
-            $balance = mt_rand(100000, 1000000) / 100;
+            $balance = mt_rand(10000000, 100000000) / 100;
             Wallet::create([
                 'user_id' => $individual->user_id,
                 'total_balance' => $balance,

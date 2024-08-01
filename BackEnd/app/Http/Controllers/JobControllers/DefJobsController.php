@@ -258,7 +258,8 @@ class DefJobsController extends Controller
             // Check Job Type
             $type = $queryItems[0][2];
             if (isset($type)) {
-                if ($individual && ($type == 'FullTime' || $type == 'PartTime')) {
+                if ($individual && ($type == 'RegularJob')) {
+                    unset($queryItems[0]);
                     $competitors = RegJobCompetitor::where('individual_id', $individual->id)
                         ->orderByDesc('created_at')->paginate(10);
                 } else {
