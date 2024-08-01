@@ -86,11 +86,6 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Review::class, 'reviewed_id', 'id');
     }
 
-    public function redeemCodes(): HasMany
-    {
-        return $this->hasMany(RedeemCode::class, 'user_id', 'id');
-    }
-
     public function as_FreelancingCompetitor(): HasMany
     {
         return $this->hasMany(FreelancingJobCompetitor::class, 'user_id', 'id');

@@ -23,7 +23,6 @@ const RedeemCode = () => {
     UseRedeemCode(
       accessToken,
       redeemCode,
-      profile.user_id
     ).then((response) => {
       if (response.status === 200) {
         console.log(response);

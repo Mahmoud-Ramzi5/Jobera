@@ -44,12 +44,10 @@ export const FinishedJobTransaction = async (
 export const UseRedeemCode = async (
   token,
   code,
-  user_id
 ) => {
   try {
     const response = await axios.post(`http://127.0.0.1:8000/api/redeemcode`, {
       'code': code,
-      'user_id':user_id
     }, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',

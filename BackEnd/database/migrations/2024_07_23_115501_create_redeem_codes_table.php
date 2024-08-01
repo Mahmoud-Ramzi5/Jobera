@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('code');
             $table->decimal('value', 19, 4);
-            $table->unsignedBigInteger('user_id')->nullable();
+            $table->unsignedBigInteger('wallet_id')->nullable();
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('wallet_id')->references('id')->on('wallets')->onDelete('cascade');
         });
     }
 
