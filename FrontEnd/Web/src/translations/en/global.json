@@ -150,7 +150,8 @@
             "done": "No more jobs to show"
         },
         "post_job": {
-            "heading": "Post a job",
+            "heading1": "Post a",
+            "heading2": "job",
             "title_fulltime": "FullTime",
             "title_parttime": "PartTime",
             "title_freelancing": "Freelancing",

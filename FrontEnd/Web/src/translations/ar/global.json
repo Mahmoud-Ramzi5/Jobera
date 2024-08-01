@@ -150,7 +150,8 @@
             "done": "لا يوجد المزيد من الوظائف لعرضها"
         },
         "post_job": {
-            "heading": "نشر عمل (وظيفة)",
+            "heading1": "نشر عمل",
+            "heading2": "",
             "title_fulltime": "دوام كامل",
             "title_parttime": "دوام جزئي",
             "title_freelancing": "عمل حر",
