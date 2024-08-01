@@ -417,6 +417,27 @@ export const BookmarkedJobs = async (token) => {
   }
 };
 
+export const ChangeOffer = async(
+  token,
+  defJob_id,
+  offer
+) => {
+  try {
+    const response = await axios.post('http://127.0.0.1:8000/api/FreelancingJobs/offer', {
+      'defJob_id': defJob_id,
+      'offer': offer,
+    }, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
 //
 // export const FetchRegJobCompetitors = async (token, id) => {
 //   try {

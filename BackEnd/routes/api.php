@@ -151,6 +151,7 @@ Route::controller(FreelancingJobsController::class)->group(function () {
         Route::post('/FreelancingJob/accept/{defJob_id}', 'AcceptUser');
         Route::post('/FreelancingJob/done/{defJob_id}', 'FinishedJob');
         Route::delete('/FreelancingJobs/{defJob_id}', 'DeleteFreelancingJob');
+        Route::post('/FreelancingJobs/offer', 'ChangeOffer');
     });
 });
 

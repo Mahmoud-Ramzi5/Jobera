@@ -155,7 +155,8 @@ class FreelancingJobsController extends Controller
                             ) {
                                 array_push($jobsData, $job);
                             }
-                        };
+                        }
+                        ;
                     }
                 } else {
                     foreach ($jobs->items() as $job) {
@@ -356,6 +357,12 @@ class FreelancingJobsController extends Controller
                 'errors' => ['job_competitor' => 'Invalid job_competitor']
             ], 401);
         }
+        //Check for different offers
+        if($validated['offer'] != $job_competitor->offer){
+            return response()->json([
+                'errors' => ['error' => 'please refresh the competitor changed his offer']
+            ], 401);
+        }
 
         // Check policy
         $policy = new FreelancingJobPolicy();
@@ -444,6 +451,55 @@ class FreelancingJobsController extends Controller
         // Response
         return response()->json([
             "message" => $something
+        ], 200);
+    }
+
+    public function ChangeOffer(Request $request)
+    {
+        $validated = $request->validate([
+            'defJob_id' => 'required',
+            'offer' => 'required',
+        ]);
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+
+        // Get freelancingJob
+        $freelancingJob = FreelancingJob::where('defJob_id', $validated['defJob_id'])->first();
+
+        // Check freelancingJob
+        if ($freelancingJob == null) {
+            return response()->json([
+                'errors' => ['job' => 'Invalid job']
+            ], 404);
+        }
+
+        // Get competitor
+        $job_competitor = FreelancingJobCompetitor::where('user_id', $user->id)->where('job_id', $freelancingJob->id)->first();
+
+        // Check competitor
+        if ($job_competitor == null) {
+            return response()->json([
+                'errors' => ['job_competitor' => 'Invalid job_competitor']
+            ], 401);
+        }
+
+        //Check if accepted
+        if($freelancingJob->accepted_user == $user->id){
+            return response()->json([
+                'errors' => ['error' => 'cant change offer you are already accepted']
+            ], 401);
+        }
+        $job_competitor->offer = $validated['offer'];
+        $job_competitor->save();
+        return response()->json([
+            'message' => ['offer' => 'offer changed successfully']
         ], 200);
     }
 }

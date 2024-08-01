@@ -47,6 +47,7 @@ const ShowJob = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [acceptedUser, setAcceptedUser] = useState(null);
   const [canRate, setCanRate] = useState(false);
+  const [currentUser, setCurrentUser] = useState(profile.user_id);
 
   const [comment, setComment] = useState('');
   const [offer, setOffer] = useState('');
@@ -410,7 +411,7 @@ const ShowJob = () => {
             }
             {job.competitors && job.competitors.map((competitor) => (
               <div className={styles.competitor_and_button} key={competitor.competitor_id}>
-                <JobCompetitorCard CompetitorData={competitor} AcceptedCompetitor={acceptedUser} />
+                <JobCompetitorCard CompetitorData={competitor} AcceptedCompetitor={acceptedUser} CurrentUser={currentUser} JobId={job.defJob_id}/>
                 <div className={styles.buttons_holder2}>
                   {job.job_user.user_id === profile.user_id && !accepted && job.type === 'Freelancing' &&
                     job.job_user.wallet.available_balance >= parseFloat(competitor.offer) &&
