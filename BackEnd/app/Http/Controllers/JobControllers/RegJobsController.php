@@ -131,7 +131,24 @@ class RegJobsController extends Controller
 
         // Response
         if (empty($queryItems)) {
-            $jobs = RegJob::orderByDesc('created_at')->paginate(10);
+            // Check skills
+            $skills = $request->input('skills');
+            if (isset($skills)) {
+                $skills = explode(",", trim($skills, '[]'));
+                if (sizeof($skills) >= 1 && $skills[0] != "") {
+                    // Get jobs
+                    $jobs = RegJob::where($queryItems)->with('defJob.skills')
+                        ->wherehas('defJob.skills', function ($query) use ($skills) {
+                            $query->whereIn('name', $skills);
+                        })->orderByDesc('created_at')->paginate(10);
+                } else {
+                    // Get jobs
+                    $jobs = RegJob::where($queryItems)->orderByDesc('created_at')->paginate(10);
+                }
+            } else {
+                // Get jobs
+                $jobs = RegJob::where($queryItems)->orderByDesc('created_at')->paginate(10);
+            }
         } else {
             // Check if job filtered based on the company that posted the job
             for ($i = 0; $i < count($queryItems); $i++) {

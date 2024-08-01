@@ -106,7 +106,24 @@ class FreelancingJobsController extends Controller
 
         // Response
         if (empty($queryItems)) {
-            $jobs = FreelancingJob::orderByDesc('created_at')->paginate(10);
+            // Check skills
+            $skills = $request->input('skills');
+            if (isset($skills)) {
+                $skills = explode(",", trim($skills, '[]'));
+                if (sizeof($skills) >= 1 && $skills[0] != "") {
+                    // Get jobs
+                    $jobs = FreelancingJob::where($queryItems)->with('defJob.skills')
+                        ->wherehas('defJob.skills', function ($query) use ($skills) {
+                            $query->whereIn('name', $skills);
+                        })->orderByDesc('created_at')->paginate(10);
+                } else {
+                    // Get jobs
+                    $jobs = FreelancingJob::where($queryItems)->orderByDesc('created_at')->paginate(10);
+                }
+            } else {
+                // Get jobs
+                $jobs = FreelancingJob::where($queryItems)->orderByDesc('created_at')->paginate(10);
+            }
         } else {
             // Check if job filtered based on the user that posted the job
             for ($i = 0; $i < count($queryItems); $i++) {
@@ -330,7 +347,7 @@ class FreelancingJobsController extends Controller
             ], 401);
         }
         //Check for different offers
-        if($validated['offer'] != $job_competitor->offer){
+        if ($validated['offer'] != $job_competitor->offer) {
             return response()->json([
                 'errors' => ['error' => 'please refresh the competitor changed his offer']
             ], 401);
@@ -463,7 +480,7 @@ class FreelancingJobsController extends Controller
         }
 
         //Check if accepted
-        if($freelancingJob->accepted_user == $user->id){
+        if ($freelancingJob->accepted_user == $user->id) {
             return response()->json([
                 'errors' => ['error' => 'cant change offer you are already accepted']
             ], 401);
