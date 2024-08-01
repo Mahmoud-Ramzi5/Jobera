@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Chat;
 use App\Models\Message;
 use App\Events\NewMessage;
+use App\Events\NewNotification;
 use Illuminate\Http\Request;
 use App\Http\Requests\SendMessageRequest;
 use App\Http\Resources\MessageResource;
@@ -139,7 +140,61 @@ class ChatController extends Controller
         ]);
 
         // Push Notification
-        broadcast(new NewMessage($user->id, $validated['reciver_id'], $message));
+        broadcast(new NewMessage($message));
+        broadcast(new NewNotification($user->id, $validated['reciver_id'], $message));
+
+        // $beamsClient = new \Pusher\PushNotifications\PushNotifications(array(
+        //     "instanceId" => "488b218d-2a72-4d5b-8940-346df9234336",
+        //     "secretKey" => "4C9B94F31677EFBD2238FD2FE9D1D810C4DBB3215DF995C7ED106B7373CE3D03",
+        // ));
+
+        // $publishResponse = $beamsClient->publishToInterests(
+        //     array("hello", "donuts"),
+        //     array(
+        //         "fcm" => array(
+        //             "notification" => array(
+        //                 "title" => "Hi!",
+        //                 "body" => "This is my first Push Notification!"
+        //             )
+        //         ),
+        //         "apns" => array("aps" => array(
+        //             "alert" => array(
+        //                 "title" => "Hi!",
+        //                 "body" => "This is my first Push Notification!"
+        //             )
+        //         )),
+        //         "web" => array(
+        //             "notification" => array(
+        //                 "title" => "Hi!",
+        //                 "body" => "This is my first Push Notification!"
+        //             )
+        //         )
+        //     )
+        // );
+
+        // $publishResponse = $beamsClient->publishToUsers(
+        //     array("user-" . $validated['reciver_id'], "user-" . $user->id),
+        //     array(
+        //         "fcm" => array(
+        //             "notification" => array(
+        //                 "title" => "Hi!",
+        //                 "body" => "This is my first Push Notification!"
+        //             )
+        //         ),
+        //         "apns" => array("aps" => array(
+        //             "alert" => array(
+        //                 "title" => "Hi!",
+        //                 "body" => "This is my first Push Notification!"
+        //             )
+        //         )),
+        //         "web" => array(
+        //             "notification" => array(
+        //                 "title" => "Hi!",
+        //                 "body" => "This is my first Push Notification!"
+        //             )
+        //         )
+        //     )
+        // );
 
         // Response
         return response()->json([

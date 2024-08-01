@@ -3,6 +3,7 @@ import ReactSwitch from 'react-switch';
 import { useTranslation } from 'react-i18next';
 import { BsKanbanFill, BsEnvelopeAtFill, BsBellFill, BsList, BsX } from 'react-icons/bs';
 import Pusher from 'pusher-js';
+import * as PusherPushNotifications from "@pusher/push-notifications-web";
 import { ThemeContext, LoginContext, ProfileContext } from '../utils/Contexts.jsx';
 import { FetchImage } from '../apis/FileApi.jsx';
 import ChatNav from "./Chats/ChatNav.jsx";
@@ -44,7 +45,7 @@ const NavBar = () => {
     });
 
     const channel = pusher.subscribe(`private-user.${profile.user_id}`);
-    channel.bind('App\\Events\\NewMessage', data => {
+    channel.bind('App\\Events\\NewNotification', data => {
       setCount(prevCount => prevCount + 1);
       setNotifications(prevNotifications => [...prevNotifications, data]);
       if (data) {
@@ -52,11 +53,28 @@ const NavBar = () => {
       }
     });
 
+    // const beamsClient = new PusherPushNotifications.Client({
+    //   instanceId: "488b218d-2a72-4d5b-8940-346df9234336",
+    // });
+
+    // beamsClient
+    //   .getUserId()
+    //   .then((userId) => {
+    //     console.log("User ID:", userId)
+    //     // Check if the Beams user matches the user that is currently logged in
+    //     if (userId !== `user-${profile.user_id}`) {
+    //       // Unregister for notifications
+    //       return beamsClient.stop();
+    //     }
+    //   })
+    //   .catch(console.error);
+
+
     return () => {
       channel.unbind_all();
       channel.unsubscribe();
     };
-  }, []);
+  }, [profile]);
 
   const NotifyUser = async (data) => {
     if (!('Notifcation' in window)) {

@@ -48,4 +48,9 @@ return [
         'client_secret' => env('LINKEDIN_CLIENT_SECRET'),
         'redirect' => env('LINKEDIN_REDIRECT_URL'),
     ],
+
+    'pusher' => [
+        'beams_instance_id' => env('BEAMS_INSTANCE_ID'),
+        'beams_secret_key' => env('BEAMS_SECRET_KEY'),
+    ],
 ];

@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import * as PusherPushNotifications from "@pusher/push-notifications-web";
 import { ThemeContext, LoginContext, ProfileContext } from './utils/Contexts.jsx';
 import { CheckToken } from './apis/AuthApis.jsx';
 import { FetchProfile } from './apis/ProfileApis/ProfileApis.jsx';
@@ -115,6 +116,32 @@ function App() {
       });
     }
   }, [loggedIn]);
+
+
+  // useEffect(() => {
+  //   const beamsTokenProvider = new PusherPushNotifications.TokenProvider({
+  //     url: "http://127.0.0.1:8000/api/pusher/beams-auth",
+  //     queryParams: {},
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Access-Control-Allow-Origin': '*',
+  //       'Authorization': `Bearer ${accessToken}`,
+  //     },
+  //   });
+
+  //   const beamsClient = new PusherPushNotifications.Client({
+  //     instanceId: "488b218d-2a72-4d5b-8940-346df9234336",
+  //   });
+
+  //   beamsClient
+  //     .start()
+  //     .then(() => beamsClient.setUserId(`user-${profile.user_id}`, beamsTokenProvider))
+  //     // .then((beamsClient) => beamsClient.getDeviceId())
+  //     // .then((deviceId) => console.log("Device ID:", deviceId))
+  //     // .then(() => beamsClient.getDeviceInterests())
+  //     // .then((interests) => console.log("Current interests:", interests))
+  //     .catch(console.error);
+  // }, [profile]);
 
   useEffect(() => {
     localStorage.setItem('Theme', theme);

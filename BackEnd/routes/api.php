@@ -211,3 +211,23 @@ Route::get('/image/{user_id}/{folder}/{image}', function (Request $request, $use
 Route::controller(AdminController::class)->group(function () {
     Route::post('/generate', 'GenerateCode');
 });
+
+
+
+// Pusher
+Route::middleware('auth:api')->get('/pusher/beams-auth', function (Request $request) {
+    $beamsClient = new \Pusher\PushNotifications\PushNotifications(array(
+        "instanceId" => "488b218d-2a72-4d5b-8940-346df9234336",
+        "secretKey" => "4C9B94F31677EFBD2238FD2FE9D1D810C4DBB3215DF995C7ED106B7373CE3D03",
+    ));
+
+    $userID = auth()->user()->id; // If you use a different auth system, do your checks here
+    $userIDInQueryParam = $request->input('user_id');
+
+    if ('user-' . $userID != $userIDInQueryParam) {
+        return response('Inconsistent request', 401);
+    } else {
+        $beamsToken = $beamsClient->generateToken($userID);
+        return response()->json($beamsToken);
+    }
+});
