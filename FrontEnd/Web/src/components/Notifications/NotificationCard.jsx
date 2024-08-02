@@ -1,50 +1,24 @@
-import { useEffect, useRef } from 'react';
-import { FetchImage } from '../../apis/FileApi';
+
 import defaultUser from '../../assets/default.png';
 import styles from './notifications.module.css';
 
 
 const NotificationCard = ({ notification, onClick }) => {
-  // Define states
-  const initialized = useRef(false);
-
-  useEffect(() => {
-    if (!initialized.current) {
-      initialized.current = true;
-
-      if (notification.other_user.avatar_photo) {
-        FetchImage("", notification.other_user.avatar_photo).then((response) => {
-          notification.other_user.avatar_photo = response;
-        });
-      }
-    }
-  }, []);
 
   return (
     <li className={styles.card} onClick={onClick}>
-      {notification.other_user.avatar_photo ? (
-        <img
-          className={styles.Card_Img}
-          variant="top"
-          src={URL.createObjectURL(notification.other_user.avatar_photo)}
-          alt={"Profile Picture"}
-          style={{ pointerEvents: "none" }}
-        />
-      ) : (
-        <img
-          className={styles.Card_Img}
-          variant="top"
-          src={defaultUser}
-          alt={"Default Picture"}
-          style={{ pointerEvents: "none" }}
-        />
-      )}
-      <div className={styles.card_user}>
-        {notification.other_user.name}
+      <div className={styles.card_title}>
+        <div className={styles.card_user}>
+          {notification.data.sender_name}
+        </div>
+        <div className={styles.card_date}>
+          {notification.created_at.split('T')[0]}{' '}
+          {notification.created_at.split('T')[1].split('.')[0]}
+        </div>
       </div>
-      <div className={styles.card_message}>
-        {notification.message}
-      </div>
+      <h6 className={styles.card_message}>
+        {notification.data.message}
+      </h6>
     </li>
   );
 };

@@ -41,13 +41,15 @@
 
 /* NotificationCard CSS */
 .card {
-    display: flex;
-    align-items: center;
     padding: 10px;
     cursor: pointer;
     margin-block-end: 1px;
     border-block-end: 1px solid #eee;
     transition: 0.2s;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0;
 }
 
 .card:hover {
@@ -66,16 +68,29 @@
     border-radius: 15px;
 }
 
+.card_title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .card_user {
-    font-size: 15px;
+    font-size: 17px;
     font-weight: bold;
     padding: 0px 15px;
     color: var(--color-text);
 }
 
+.card_date {
+    font-size: 11px;
+}
+
 .card_message {
     font-size: 13px;
+    padding: 0;
+    margin: 0;
     overflow-x: hidden;
+    padding-inline-start: 15px;
 }
 
 /* Screen Size compatiplity */

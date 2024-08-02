@@ -81,15 +81,26 @@ class NewNotification implements ShouldBroadcastNow // ShouldBroadcast
     {
         // Create notification
         $otherUser = User::find($this->otherUser_id);
-        $notification = new DBNotification($this->message);
-        $otherUser->notify($notification);
+        $otherUser->notify(new DBNotification($this->message));
 
         // Check sender
         $company = Company::where('user_id', $this->message->user_id)->first();
         $individual = Individual::where('user_id', $this->message->user_id)->first();
 
         return [
-            $notification
+            'notification' => [
+                'id' => 'id',
+                'data' => [
+                    'chat_id' => $this->message->chat_id,
+                    'sender_id' => $this->message->user_id,
+                    'sender_name' => ($company == null ?
+                        $individual->full_name : $company->name),
+                    'message' => $this->message->message,
+                ],
+                'read_at' => null,
+                'created_at' => now(),
+                'updated_at' => now()
+            ]
         ];
     }
 }

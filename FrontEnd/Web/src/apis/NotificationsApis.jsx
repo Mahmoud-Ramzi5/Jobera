@@ -16,6 +16,21 @@ export const FetchNotifications = async (token) => {
     }
 };
 
+export const FetchUnreadNotifications = async (token) => {
+    try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/notifications-nr`, {
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Accept': "application/json",
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+    } catch (error) {
+        return error.response;
+    }
+};
+
 export const MarkNotification = async (token, notification_id) => {
     try {
         const response = await axios.post('http://127.0.0.1:8000/api/notifications',

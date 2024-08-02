@@ -5,6 +5,7 @@ import { BsKanbanFill, BsEnvelopeAtFill, BsBellFill, BsList, BsX } from 'react-i
 import Pusher from 'pusher-js';
 import * as PusherPushNotifications from "@pusher/push-notifications-web";
 import { ThemeContext, LoginContext, ProfileContext } from '../utils/Contexts.jsx';
+import { FetchUnreadNotifications } from '../apis/NotificationsApis.jsx';
 import { FetchImage } from '../apis/FileApi.jsx';
 import ChatNav from "./Chats/ChatNav.jsx";
 import NotificationsNav from './Notifications/NotificationsNav.jsx';
@@ -27,6 +28,21 @@ const NavBar = () => {
   const [notifications, setNotifications] = useState([]);
   const [showNotificationsScreen, setShowNotificationsScreen] = useState(false);
 
+  useEffect(() => {
+    if (loggedIn && accessToken) {
+      // Get Notifications
+      FetchUnreadNotifications(accessToken).then((response) => {
+        if (response.status === 200) {
+          setNotifications(response.data.notifications);
+          setCount(response.data.notifications.length);
+        }
+        else {
+          console.log(response.statusText);
+        }
+      });
+    }
+  }, [loggedIn])
+
   // Open Notifications Channel
   useEffect(() => {
     if (profile) {
@@ -46,9 +62,19 @@ const NavBar = () => {
       });
 
       const channel = pusher.subscribe(`private-user.${profile.user_id}`);
-      channel.bind('NewNotification', data => {
+      channel.bind('NewNotification', (data) => {
         setCount(prevCount => prevCount + 1);
-        setNotifications(prevNotifications => [...prevNotifications, data]);
+
+        // Get Notifications
+        GetUnreadNotifications(accessToken).then((response) => {
+          if (response.status === 200) {
+            setNotifications(response.data.notifications);
+          }
+          else {
+            console.log(response.statusText);
+          }
+        });
+
         if (data) {
           NotifyUser(data);
         }
@@ -82,16 +108,14 @@ const NavBar = () => {
     if (!('Notifcation' in window)) {
       alert('Browser does not support desktop notification');
     } else if (Notification.permission === 'granted') {
-      const notification = new Notification(data.other_user.name, {
-        icon: data.other_user.avatar_photo,
-        body: data.message
+      const notification = new Notification(data.notification.data.sender_name, {
+        body: data.notification.data.message
       });
     } else if (Notification.permission !== 'denied') {
       await Notification.requestPermission().then((permission) => {
         if (permission === 'granted') {
-          const notification = new Notification(data.other_user.name, {
-            icon: data.other_user.avatar_photo,
-            body: data.message
+          const notification = new Notification(data.notification.data.sender_name, {
+            body: data.notification.data.message
           });
         }
       });

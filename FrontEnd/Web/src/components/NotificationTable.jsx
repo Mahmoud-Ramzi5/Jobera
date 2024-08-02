@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { BsEye, BsTrash } from 'react-icons/bs';
 import { LoginContext, ProfileContext } from '../utils/Contexts';
-import { FetchNotifications, MarkNotification, DeleteNotification } from '../apis/NotificationApis';
+import { FetchNotifications, MarkNotification, DeleteNotification } from '../apis/NotificationsApis';
 import Clock from '../utils/Clock';
 import styles from './notification_table.module.css';
 const NotificationTable = () => {

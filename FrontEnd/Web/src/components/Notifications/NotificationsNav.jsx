@@ -1,6 +1,7 @@
-import React from 'react';
+import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ThemeContext } from '../../utils/Contexts';
 import NotificationCard from './NotificationCard';
 import styles from './notifications.module.css';
 
@@ -8,13 +9,14 @@ import styles from './notifications.module.css';
 const NotificationsNav = ({ notifications }) => {
   // Translations
   const { t } = useTranslation('global');
-
+  // Context
+  const { theme } = useContext(ThemeContext);
 
   return (
     <div className={styles.container}>
       <div className={styles.notifications_head}>
         <h4>{t('components.nav_bar.h4_notifications')}</h4>
-        {/* <button
+        <button
           type="button"
           className={
             theme === "theme-light"
@@ -24,7 +26,7 @@ const NotificationsNav = ({ notifications }) => {
           onClick={() => console.log('Show Notifications')}
         >
           {t('components.nav_bar.button_notifications')}
-        </button> */}
+        </button>
       </div>
       <ul className={styles.notifications_list}>
         {notifications.length === 0 ?
