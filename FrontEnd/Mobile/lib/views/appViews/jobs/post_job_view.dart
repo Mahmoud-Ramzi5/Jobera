@@ -17,10 +17,50 @@ class PostJobView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<PostJobController>(
-      builder: (controller) => Scaffold(
-        appBar: AppBar(),
-        body: controller.loading
+    return Scaffold(
+      appBar: AppBar(
+        title: const TitleText(text: 'Post Job'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              if (_postJobController.formField.currentState?.validate() ==
+                  true) {
+                if (_postJobController.selectedJobType == 'regular') {
+                  _postJobController.addRegJob(
+                    _postJobController.jobTitleController.text,
+                    _postJobController.descriptionController.text,
+                    _postJobController.selectedCountry != null
+                        ? _postJobController.selectedState!.stateId
+                        : 0,
+                    _postJobController.salaryController.text,
+                    _postJobController.selectedWorkTime,
+                    _postJobController.selectedSkills,
+                    _postJobController.image,
+                  );
+                } else {
+                  _postJobController.addFreelancingJob(
+                    _postJobController.jobTitleController.text,
+                    _postJobController.descriptionController.text,
+                    _postJobController.selectedCountry != null
+                        ? _postJobController.selectedState!.stateId
+                        : 0,
+                    _postJobController.minOfferController.text,
+                    _postJobController.maxOfferController.text,
+                    _postJobController.selectedDate,
+                    _postJobController.selectedSkills,
+                    _postJobController.image,
+                  );
+                }
+              }
+            },
+            child: const LabelText(
+              text: 'Post',
+            ),
+          )
+        ],
+      ),
+      body: GetBuilder<PostJobController>(
+        builder: (controller) => controller.loading
             ? const Center(
                 child: CircularProgressIndicator(),
               )
@@ -371,42 +411,6 @@ class PostJobView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      OutlinedButton(
-                        onPressed: () {
-                          if (controller.formField.currentState?.validate() ==
-                              true) {
-                            if (controller.selectedJobType == 'regular') {
-                              controller.addRegJob(
-                                controller.jobTitleController.text,
-                                controller.descriptionController.text,
-                                controller.selectedCountry != null
-                                    ? controller.selectedState!.stateId
-                                    : 0,
-                                controller.salaryController.text,
-                                controller.selectedWorkTime,
-                                controller.selectedSkills,
-                                controller.image,
-                              );
-                            } else {
-                              controller.addFreelancingJob(
-                                controller.jobTitleController.text,
-                                controller.descriptionController.text,
-                                controller.selectedCountry != null
-                                    ? controller.selectedState!.stateId
-                                    : 0,
-                                controller.minOfferController.text,
-                                controller.maxOfferController.text,
-                                controller.selectedDate,
-                                controller.selectedSkills,
-                                controller.image,
-                              );
-                            }
-                          }
-                        },
-                        child: const BodyText(
-                          text: 'Post',
-                        ),
-                      )
                     ],
                   ),
                 ),
