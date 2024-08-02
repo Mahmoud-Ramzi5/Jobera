@@ -3,14 +3,12 @@
 namespace App\Http\Controllers\JobControllers;
 
 use App\Http\Controllers\Controller;
-
-use App\Models\Individual;
 use App\Models\Company;
-use App\Models\Skill;
 use App\Models\DefJob;
-use App\Models\RegJob;
 use App\Models\FreelancingJob;
-
+use App\Models\Individual;
+use App\Models\RegJob;
+use App\Models\Skill;
 
 class JobFeedController extends Controller
 {
@@ -106,7 +104,7 @@ class JobFeedController extends Controller
         $topSkills = array_slice($mostNeededSkills, 0, 5);
 
         // Return
-        return  $topSkills;
+        return $topSkills;
     }
 
     public function MostPostingCompanies()
@@ -140,7 +138,7 @@ class JobFeedController extends Controller
         $topCompanies = array_slice($MostPostingCompanies, 0, 5);
 
         // Return
-        return  $topCompanies;
+        return $topCompanies;
     }
 
     public function Tops()
@@ -150,16 +148,16 @@ class JobFeedController extends Controller
             "MostPayedRegJobs" => $this->MostPayedRegJobs(),
             "MostPostingCompanies" => $this->MostPostingCompanies(),
             "MostPayedFreelancingJobs" => $this->MostPayedFreelancingJobs(),
-            "MostNeededSkills" => $this->MostNeededSkills()
+            "MostNeededSkills" => $this->MostNeededSkills(),
         ]);
     }
 
     public function Stats()
     {
         $doneJobs = 0;
-        $doneFreelancingJobs=0;
-        $doneFullTimeJobs=0;
-        $donePartTimeJobs=0;
+        $doneFreelancingJobs = 0;
+        $doneFullTimeJobs = 0;
+        $donePartTimeJobs = 0;
         $runningJobsFullTime = 0;
         $runningJobsPartTime = 0;
         $runningJobsFreelancing = 0;
@@ -176,14 +174,16 @@ class JobFeedController extends Controller
             $freelancingJob = FreelancingJob::where('defJob_id', $defJob->id)->first();
             if ($defJob->is_done) {
                 $doneJobs++;
-                if($freelancingJob!=null){
+                if ($freelancingJob != null) {
                     $doneFreelancingJobs++;
-                }else if($regJob!=null){
-                    if($regJob->type == 'FullTime')
+                } else if ($regJob != null) {
+                    if ($regJob->type == 'FullTime') {
                         $doneFullTimeJobs++;
-                    else
+                    } else {
                         $donePartTimeJobs++;
-                }                
+                    }
+
+                }
                 continue;
             }
             if ($regJob != null) {
@@ -198,18 +198,20 @@ class JobFeedController extends Controller
                 $runningJobsFreelancing++;
             }
         }
-
+        $stats = [
+            ["data" => $doneJobs, "name" => "All Done Jobs"],
+            ["data" => $companyRegistered, "name" => "Exhibiting Companies"],
+            ["data" => $individualRegistered, "name" => "Registered Individuals"],
+            ["data" => $runningJobsFullTime, "name" => "Total Running FullTime Job"],
+            ["data" => $runningJobsPartTime, "name" => "Total Running PartTime Job"],
+            ["data" => $runningJobsFreelancing, "name" => "Total Running Freelancing Job"],
+            ["data" => $doneFreelancingJobs, "name" => "Done Freelancing Jobs"],
+            ["data" => $doneFullTimeJobs, "name" => "Done FullTime Jobs"],
+            ["data" => $donePartTimeJobs, "name" => "Done PartTime Jobs"],
+        ];
         // Response
         return response()->json([
-            "total_done_jobs" => $doneJobs,
-            "total_exhibiting_companies" => $companyRegistered,
-            "total_registered_individual" => $individualRegistered,
-            "total_running_fullTimeJob_posts" => $runningJobsFullTime,
-            "total_running_partTimeJob_posts" => $runningJobsPartTime,
-            "total_running_freelancingJob_posts" => $runningJobsFreelancing,
-            "done_freelancingJobs"=>$doneFreelancingJobs,
-            "done_fullTimeJobs"=>$doneFullTimeJobs,
-            "done_partTimeJobs"=>$donePartTimeJobs,
+            "stats" => $stats,
         ]);
     }
 }
