@@ -39,6 +39,7 @@ import RedeemCode from './components/Profile/RedeemCode.jsx';
 import NotFound from './pages/NotFound.jsx';
 import ErrorPage from './pages/ErrorPage.jsx';
 import Admin from './pages/AdminPage.jsx';
+import NotificationTable from './components/NotificationTable.jsx';
 
 
 function App() {
@@ -182,6 +183,7 @@ function App() {
                   <Route path='/notfound' element={<NotFound />} />
                   <Route path='/error' element={<ErrorPage />} />
                   <Route path="/logout" element={<Logout />} />
+                  <Route path="/Test" element={<NotificationTable/>} />
                 </Route>
               </Route>
 

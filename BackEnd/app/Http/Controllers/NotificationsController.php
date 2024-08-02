@@ -72,7 +72,7 @@ class NotificationsController extends Controller
         ], 200);
     }
 
-    public function DeleteNotifications(Request $request, $notification_id)
+    public function DeleteNotification(Request $request, $id)
     {
         // Get User
         $user = auth()->user();
@@ -85,11 +85,11 @@ class NotificationsController extends Controller
         }
 
         // delete Notification
-        $user->notifications()->where('id', $notification_id)->delete();
+        $user->notifications()->where('id', $id)->delete();
 
         // Response
         return response()->json([
             'message' => 'Notification has been deleted sucessfully',
-        ], 200);
+        ], 204);
     }
 }

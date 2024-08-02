@@ -1,0 +1,83 @@
+.screen {
+    inset-block-start: 70px;
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-block-end: 70px;
+}
+
+.content {
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+
+.notifications_table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.notifications_table th,
+.notifications_table td {
+    padding: 10px;
+    border-block-end: 1px solid #ccc;
+}
+
+.notifications_table th {
+    text-align: inset-inline-start;
+    font-weight: bold;
+}
+
+.notifications_table tbody tr:hover {
+    background-color: var(--color-scrollbar-thump);
+}
+
+
+.view_button,
+.delete_button {
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    margin-inline-start: 10px;
+    cursor: pointer;
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.view_button {
+    background-color: #007bff;
+}
+
+.delete_button {
+    background-color: #ff0000;
+}
+
+.read_message {
+    margin-inline-start: 15px;
+    display: inline-flex;
+    padding-inline-end: 15px;
+    align-items: center;
+    text-decoration: none;
+    transition: 0.3s ease;
+}
+
+.mark_all {
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color:var(--color-button);
+    font-size: 0.95em;
+    border-radius: 4px;
+    text-decoration: underline;
+}
+
+.mark_all:hover {
+    color:white;
+    background-color:#007bff;
+}
