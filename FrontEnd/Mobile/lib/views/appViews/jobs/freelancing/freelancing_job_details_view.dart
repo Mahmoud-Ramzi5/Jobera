@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 import 'package:jobera/controllers/appControllers/jobs/freelancing/freelancing_job_details_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_image.dart';
+import 'package:jobera/customWidgets/custom_text_field.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
 import 'package:jobera/customWidgets/texts.dart';
+import 'package:jobera/customWidgets/validation.dart';
 
 class FreelancingJobDetailsView extends StatelessWidget {
   final FreelancingJobDetailsController _freelancingJobDetailsController =
@@ -21,6 +23,30 @@ class FreelancingJobDetailsView extends StatelessWidget {
           onPressed: () => _freelancingJobDetailsController.goBack(),
           icon: const Icon(Icons.arrow_back),
         ),
+        actions: [
+          if ((_freelancingJobDetailsController.freelancingJob.poster.userId ==
+                      _freelancingJobDetailsController
+                          .homeController.company?.id ||
+                  _freelancingJobDetailsController
+                          .freelancingJob.poster.userId ==
+                      _freelancingJobDetailsController
+                          .homeController.user?.id) &&
+              _freelancingJobDetailsController.freelancingJob.acceptedUser ==
+                  null)
+            IconButton(
+              onPressed: () => Dialogs().confirmDialog(
+                'Notice:',
+                'Are you sure you want to delete post?',
+                () => _freelancingJobDetailsController.deleteJob(
+                  _freelancingJobDetailsController.freelancingJob.defJobId,
+                ),
+              ),
+              icon: const Icon(
+                Icons.delete,
+                color: Colors.red,
+              ),
+            )
+        ],
       ),
       body: RefreshIndicator(
         key: _freelancingJobDetailsController.refreshIndicatorKey,
@@ -56,17 +82,16 @@ class FreelancingJobDetailsView extends StatelessWidget {
                               ),
                             ),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                if (controller.freelancingJob.poster.userId ==
-                                        controller.homeController.company?.id ||
-                                    controller.freelancingJob.poster.userId ==
-                                            controller
-                                                .homeController.user?.id &&
+                                if ((controller.freelancingJob.poster.userId ==
+                                            controller.homeController.id ||
                                         controller
-                                                .freelancingJob.acceptedUser !=
-                                            null &&
-                                        !controller.freelancingJob.isDone)
+                                                .freelancingJob.poster.userId ==
+                                            controller.homeController.id) &&
+                                    controller.freelancingJob.acceptedUser !=
+                                        null &&
+                                    !controller.freelancingJob.isDone)
                                   OutlinedButton(
                                     onPressed: () => controller.endJob(
                                       controller.freelancingJob.defJobId,
@@ -78,27 +103,6 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                     ),
                                     child: const BodyText(text: 'End Job'),
                                   ),
-                                if (controller.freelancingJob.poster.userId ==
-                                        controller.homeController.company?.id ||
-                                    controller.freelancingJob.poster.userId ==
-                                            controller
-                                                .homeController.user?.id &&
-                                        controller
-                                                .freelancingJob.acceptedUser ==
-                                            null)
-                                  IconButton(
-                                    onPressed: () => Dialogs().confirmDialog(
-                                      'Notice:',
-                                      'Are you sure you want to delete post?',
-                                      () => controller.deleteJob(
-                                        controller.freelancingJob.defJobId,
-                                      ),
-                                    ),
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    ),
-                                  )
                               ],
                             ),
                             Padding(
@@ -141,12 +145,16 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                     Row(
                                       children: [
                                         const BodyText(text: 'Location: '),
-                                        controller.freelancingJob.state != null
-                                            ? LabelText(
-                                                text:
-                                                    '${controller.freelancingJob.country}-${controller.freelancingJob.state}',
-                                              )
-                                            : const LabelText(text: 'Remotely'),
+                                        if (controller.freelancingJob.state !=
+                                            null)
+                                          Flexible(
+                                            child: LabelText(
+                                              text:
+                                                  '${controller.freelancingJob.country}-${controller.freelancingJob.state}',
+                                            ),
+                                          )
+                                        else
+                                          const LabelText(text: 'Remotely'),
                                       ],
                                     ),
                                     Row(
@@ -393,28 +401,31 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                         Row(
                                           children: [
                                             const BodyText(text: 'Name:'),
-                                            TextButton(
-                                              onPressed: () =>
-                                                  controller.viewUserProfile(
-                                                controller.freelancingJob
-                                                    .competitors[index].userId,
-                                                controller.freelancingJob
-                                                    .competitors[index].name,
-                                                controller.freelancingJob
-                                                    .competitors[index].type
-                                                    .toString(),
-                                              ),
-                                              child: Text(
-                                                controller.freelancingJob
-                                                    .competitors[index].name,
-                                                style: TextStyle(
-                                                  color: Colors.orange.shade800,
-                                                  decoration:
-                                                      TextDecoration.underline,
-                                                  decorationColor:
-                                                      Colors.lightBlue.shade900,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
+                                            Flexible(
+                                              child: TextButton(
+                                                onPressed: () =>
+                                                    controller.viewUserProfile(
+                                                  controller
+                                                      .freelancingJob
+                                                      .competitors[index]
+                                                      .userId,
+                                                  controller.freelancingJob
+                                                      .competitors[index].name,
+                                                  controller.freelancingJob
+                                                      .competitors[index].type
+                                                      .toString(),
+                                                ),
+                                                child: Text(
+                                                  controller.freelancingJob
+                                                      .competitors[index].name,
+                                                  style: TextStyle(
+                                                    color:
+                                                        Colors.orange.shade800,
+                                                    decoration: TextDecoration
+                                                        .underline,
+                                                    decorationColor: Colors
+                                                        .lightBlue.shade900,
+                                                  ),
                                                 ),
                                               ),
                                             ),
@@ -447,7 +458,95 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                               ),
                                             ),
                                           ],
-                                        )
+                                        ),
+                                        if (controller
+                                                    .freelancingJob
+                                                    .competitors[index]
+                                                    .userId ==
+                                                controller.homeController.id &&
+                                            controller.freelancingJob
+                                                    .acceptedUser ==
+                                                null &&
+                                            controller.isEditOffer)
+                                          Padding(
+                                            padding: const EdgeInsets.all(10),
+                                            child: Form(
+                                              key: controller.formField,
+                                              child: CustomTextField(
+                                                controller: controller
+                                                    .editOfferController,
+                                                textInputType:
+                                                    TextInputType.number,
+                                                obsecureText: false,
+                                                icon: Icons.monetization_on,
+                                                labelText: 'Offer',
+                                                validator: (p0) =>
+                                                    Validation().validateOffer(
+                                                  p0,
+                                                  controller
+                                                      .freelancingJob.minOffer,
+                                                  controller
+                                                      .freelancingJob.maxOffer,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        if (controller
+                                                    .freelancingJob
+                                                    .competitors[index]
+                                                    .userId ==
+                                                controller.homeController.id &&
+                                            controller.freelancingJob
+                                                    .acceptedUser ==
+                                                null &&
+                                            !controller.isEditOffer)
+                                          OutlinedButton(
+                                            onPressed: () =>
+                                                controller.editOffer(index),
+                                            child: const BodyText(
+                                                text: 'Change Offer'),
+                                          ),
+                                        if (controller
+                                                    .freelancingJob
+                                                    .competitors[index]
+                                                    .userId ==
+                                                controller.homeController.id &&
+                                            controller.freelancingJob
+                                                    .acceptedUser ==
+                                                null &&
+                                            controller.isEditOffer)
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              OutlinedButton(
+                                                onPressed: () => controller
+                                                    .cancelEditOffer(),
+                                                child: const BodyText(
+                                                  text: 'Cancel',
+                                                ),
+                                              ),
+                                              OutlinedButton(
+                                                onPressed: () {
+                                                  if (controller.formField
+                                                          .currentState
+                                                          ?.validate() ==
+                                                      true) {
+                                                    controller.changeOffer(
+                                                      controller.freelancingJob
+                                                          .defJobId,
+                                                      controller
+                                                          .editOfferController
+                                                          .text,
+                                                    );
+                                                  }
+                                                },
+                                                child: const BodyText(
+                                                  text: 'Send',
+                                                ),
+                                              ),
+                                            ],
+                                          )
                                       ],
                                     ),
                                   ),

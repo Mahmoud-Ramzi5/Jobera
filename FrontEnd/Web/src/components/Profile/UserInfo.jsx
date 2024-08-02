@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card, Button } from 'react-bootstrap';
-import { Star, StarFill, StarHalf } from 'react-bootstrap-icons';
+import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { LoginContext, ProfileContext } from '../../utils/Contexts';
@@ -85,7 +85,7 @@ const UserInfo = ({ ProfileData }) => {
       for (let i = 0; i < fullStars; i++) {
         stars.push(
           <i key={i}>
-            <StarFill />
+            <BsStarFill />
           </i>
         );
       }
@@ -93,7 +93,7 @@ const UserInfo = ({ ProfileData }) => {
       if (hasHalfStar) {
         stars.push(
           <i key="half">
-            <StarHalf />
+            <BsStarHalf />
           </i>
         );
       }
@@ -102,7 +102,7 @@ const UserInfo = ({ ProfileData }) => {
       for (let i = 0; i < 5; i++) {
         stars.push(
           <i key={i}>
-            <Star />
+            <BsStar />
           </i>
         );
       }

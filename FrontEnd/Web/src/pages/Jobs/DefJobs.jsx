@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Bookmark, BookmarkFill } from 'react-bootstrap-icons';
+import { BsBookmark, BsBookmarkFill } from 'react-icons/bs';
 import { LoginContext } from '../../utils/Contexts.jsx';
 import { FetchJobs, BookmarkJobAPI } from '../../apis/JobsApis.jsx';
 import { FetchImage } from '../../apis/FileApi.jsx';
@@ -108,7 +108,7 @@ const DefJobs = () => {
             <button onClick={() => handleBookmark(job.defJob_id)}
               className={`${styles.favorite_button} ${job.is_flagged ? 'active' : ''}`}
             >
-              {job.is_flagged ? <BookmarkFill size={27} /> : <Bookmark size={27} />}
+              {job.is_flagged ? <BsBookmarkFill size={27} /> : <BsBookmark size={27} />}
             </button>
           </div>
         ))}

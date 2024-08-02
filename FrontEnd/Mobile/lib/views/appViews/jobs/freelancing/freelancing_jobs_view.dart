@@ -14,8 +14,7 @@ class FreelancingJobsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       key: _freelancingJobsController.refreshIndicatorKey,
-      onRefresh: () async =>
-          await _freelancingJobsController.fetchFreelancingJobs(),
+      onRefresh: () async => await _freelancingJobsController.refreshView(),
       child: GetBuilder<FreelancingJobsController>(
         builder: (controller) => Scaffold(
           body: controller.loading
@@ -26,6 +25,18 @@ class FreelancingJobsView extends StatelessWidget {
                   controller: controller.scrollController,
                   child: Column(
                     children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            onPressed: () => Get.toNamed(
+                              '/freelancingJobsFilter',
+                            ),
+                            icon: const Icon(Icons.filter_alt),
+                            color: Colors.lightBlue.shade900,
+                          ),
+                        ],
+                      ),
                       ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: controller.freelancingJobs.length,
@@ -53,8 +64,10 @@ class FreelancingJobsView extends StatelessWidget {
                                 jobType: controller.freelancingJobs[index].type,
                                 publishedBy: controller
                                     .freelancingJobs[index].poster.name,
-                                date: controller
+                                publishDate: controller
                                     .freelancingJobs[index].publishDate,
+                                deadline:
+                                    controller.freelancingJobs[index].deadline,
                                 minOffer:
                                     controller.freelancingJobs[index].minOffer,
                                 maxOffer:
@@ -68,7 +81,16 @@ class FreelancingJobsView extends StatelessWidget {
                           ? const Center(
                               child: CircularProgressIndicator(),
                             )
-                          : const BodyText(text: 'No more jobs')
+                          : SingleChildScrollView(
+                              child: SizedBox(
+                                height: Get.height,
+                                child: BodyText(
+                                  text: controller.freelancingJobs.isEmpty
+                                      ? 'No jobs to show'
+                                      : 'No more jobs',
+                                ),
+                              ),
+                            )
                     ],
                   ),
                 ),

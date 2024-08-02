@@ -40,6 +40,8 @@ class RegularJobComponent extends StatelessWidget {
                   child: photo != null
                       ? CustomImage(
                           path: photo.toString(),
+                          height: 100,
+                          width: 100,
                         )
                       : Icon(
                           Icons.work,
@@ -109,7 +111,8 @@ class FreelancingJobComponent extends StatelessWidget {
   final String jobTitle;
   final String jobType;
   final String publishedBy;
-  final DateTime date;
+  final DateTime publishDate;
+  final DateTime deadline;
   final double minOffer;
   final double maxOffer;
   final void Function()? onPressed;
@@ -120,7 +123,8 @@ class FreelancingJobComponent extends StatelessWidget {
     required this.jobTitle,
     required this.jobType,
     required this.publishedBy,
-    required this.date,
+    required this.publishDate,
+    required this.deadline,
     required this.minOffer,
     required this.maxOffer,
     this.onPressed,
@@ -142,6 +146,8 @@ class FreelancingJobComponent extends StatelessWidget {
                 child: ProfilePhotoContainer(
                   child: photo != null
                       ? CustomImage(
+                          height: 100,
+                          width: 100,
                           path: photo.toString(),
                         )
                       : Icon(
@@ -186,11 +192,28 @@ class FreelancingJobComponent extends StatelessWidget {
             ],
           ),
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const BodyText(
-                text: 'Date: ',
+              Row(
+                children: [
+                  const BodyText(
+                    text: 'Date: ',
+                  ),
+                  LabelText(
+                      text:
+                          '${publishDate.day}/${publishDate.month}/${publishDate.year}'),
+                ],
               ),
-              LabelText(text: '${date.day}/${date.month}/${date.year}'),
+              Row(
+                children: [
+                  const BodyText(
+                    text: 'Deadline: ',
+                  ),
+                  LabelText(
+                      text:
+                          '${deadline.day}/${deadline.month}/${deadline.year}'),
+                ],
+              ),
             ],
           ),
           Row(

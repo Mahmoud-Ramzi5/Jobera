@@ -38,13 +38,48 @@
   color: #333333;
 }
 
-.content {
-  padding: 10px;
+
+/* JobSlider */
+.slider {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  margin-block-end: 10px;
 }
 
-.screen {
+.slider label {
+  width: 30%;
+  padding: 10px;
+  font-size: 15px;
+  font-weight: 600;
   display: flex;
+  justify-content: center;
+  border: 1px solid transparent;
+  border-radius: 15px;
+  cursor: pointer;
+  color: #333333;
+  background-color: #f0f0f0;
+  transition: background-color 0.3s, border-color 0.3s;
 }
+
+.slider input[type="radio"] {
+  display: none;
+}
+
+.slider label:hover {
+  background-color: #e0e0e0;
+}
+
+.slider input[type="radio"]:checked+label {
+  color: var(--color-title);
+  border-color: var(--color-title);
+}
+
+.slider label span {
+  display: block;
+  padding-inline-start: 10px;
+}
+
 
 .show_button {
   border: none;
@@ -62,68 +97,4 @@
 .show_button:hover {
   font-size: 16px;
   transition: 0.2s;
-}
-
-.show_offer_info {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* JobSlider */
-.slider {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 20px;
-}
-
-.slider label {
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding: 10px 20px;
-  font-size: 16px;
-  background-color: var(--color--titles);
-  border: 2px solid transparent;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: background-color 0.3s, border-color 0.3s;
-}
-
-.slider input[type="radio"] {
-  display: none;
-}
-
-.slider label:hover {
-  background-color: var(--color--titles);
-}
-
-.slider input[type="radio"]:checked+label {
-  background-color: var(--color--title);
-  color: var(--color--titles);
-  border-color: var(--color--title);
-}
-
-.slider label span {
-  display: block;
-  padding-left: 10px;
-}
-
-.slider label::before {
-  content: "";
-  position: absolute;
-  left: 10px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: var(--color--titles);
-  border: 2px solid var(--color--title);
-  transition: transform 0.3s;
-}
-
-.slider input[type="radio"]:checked+label::before {
-  transform: scale(1.2);
-  background-color: var(--color--titles);
-  border-color: var(--color--title);
 }

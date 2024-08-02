@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X } from 'react-bootstrap-icons';
+import { BsX } from 'react-icons/bs';
 import { FetchAllSkills } from '../../apis/SkillsApis.jsx';
 import { SlicedCheckBox } from '../../components/SlicingInput.jsx';
 import Slider from '../../components/Slider.jsx';
@@ -65,7 +65,7 @@ const JobFilter = ({ JobType, filter, setFilter, handleFilterSubmit, NoPublished
         htmlFor="close_filter"
         className={`${styles.btn} ${styles.close_btn}`}
       >
-        <X size={31} />
+        <BsX size={31} />
       </label>
       {NoPublishedBy ? <></> :
         <div>

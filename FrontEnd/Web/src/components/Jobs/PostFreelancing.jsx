@@ -1,7 +1,10 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Fonts, PencilSquare, CurrencyDollar, Calendar3, GeoAltFill, Globe } from 'react-bootstrap-icons';
+import {
+  BsFonts, BsPencilSquare, BsCurrencyDollar,
+  BsCalendar3, BsGeoAltFill, BsGlobe
+} from 'react-icons/bs';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { LoginContext } from '../../utils/Contexts.jsx';
@@ -176,12 +179,12 @@ const PostFreelancing = () => {
                 <NormalInput
                   type='text'
                   placeholder={t('pages.post_job.form.title')}
-                  icon={<Fonts />}
+                  icon={<BsFonts />}
                   value={title}
                   setChange={setTitle}
                 />
                 <div className={Inputstyles.field}>
-                  <i className={Inputstyles.icon}><PencilSquare /></i>
+                  <i className={Inputstyles.icon}><BsPencilSquare /></i>
                   <textarea
                     placeholder={t('pages.post_job.form.description')}
                     value={description}
@@ -193,14 +196,14 @@ const PostFreelancing = () => {
                 <NormalInput
                   type='number'
                   placeholder={t('pages.post_job.form.freelancing.min_salary')}
-                  icon={<CurrencyDollar />}
+                  icon={<BsCurrencyDollar />}
                   value={minSalary}
                   setChange={setMinSalary}
                 />
                 <NormalInput
                   type='number'
                   placeholder={t('pages.post_job.form.freelancing.max_salary')}
-                  icon={<CurrencyDollar />}
+                  icon={<BsCurrencyDollar />}
                   value={maxSalary}
                   setChange={setMaxSalary}
                 />
@@ -229,7 +232,7 @@ const PostFreelancing = () => {
                 <div className={Inputstyles.field}>
                   <h6>{t('pages.post_job.form.freelancing.deadline')}</h6>
                   <DatePicker
-                    icon={<Calendar3 />}
+                    icon={<BsCalendar3 />}
                     dateFormat='dd/MM/yyyy'
                     className={Inputstyles.input}
                     wrapperClassName={styles.date_picker}
@@ -263,7 +266,7 @@ const PostFreelancing = () => {
             {needLocation == 'Location' ? (
               <div className={styles.register__row}>
                 <div className={Inputstyles.field}>
-                  <i className={Inputstyles.icon}><Globe /></i>
+                  <i className={Inputstyles.icon}><BsGlobe /></i>
                   <select onChange={handleCountrySelect} value={country} className={Inputstyles.input} required>
                     <option key={0} value='' disabled>{t('pages.post_job.form.country_input')}</option>
                     {(countries.length === 0) ? <></> : countries.map((country) => {
@@ -272,7 +275,7 @@ const PostFreelancing = () => {
                   </select>
                 </div>
                 <div className={Inputstyles.field}>
-                  <i className={Inputstyles.icon}><GeoAltFill /></i>
+                  <i className={Inputstyles.icon}><BsGeoAltFill /></i>
                   <select onChange={(event) => setState(event.target.value)} value={state} className={Inputstyles.input} required>
                     <option key={0} value='' disabled>{t('pages.post_job.form.city_input')}</option>
                     {(states.length === 0) ? <></> : states.map((state) => {

@@ -44,8 +44,8 @@ class RedeemCode extends Model
     }
 
     // Relations
-    public function user(): BelongsTo
+    public function wallet(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
+        return $this->belongsTo(Wallet::class, 'wallet_id', 'id');
     }
 }

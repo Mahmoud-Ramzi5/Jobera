@@ -97,8 +97,8 @@ html[dir='rtl'] .screen__background__shape3 {
     color: green;
 }
 
-.xmark{
-    color:red;
+.xmark {
+    color: red;
 }
 
 .message {
@@ -264,11 +264,51 @@ html[dir='rtl'] .button__icon {
 }
 
 .social__login__icon {
-    padding: 20px 10px;
+    padding: 30px 10px;
     color: #fff;
     text-decoration: none;
 }
 
-.social__login__icon:hover {
-    transform: scale(1.7);
+.google__icon .google_icon_white {
+    display: inline;
+    font-size: 20px;
+    transition: 0.1s;
+}
+
+.google__icon .google_icon_colored {
+    display: none;
+    transition: 0.1s;
+}
+
+.google__icon:hover .google_icon_colored {
+    display: inline;
+    font-size: 30px;
+    transition: 0.1s;
+}
+
+.google__icon:hover .google_icon_white {
+    display: none;
+    transition: 0.1s;
+}
+
+.facebook__icon {
+    font-size: 20px;
+    transition: 0.1s;
+}
+
+.facebook__icon:hover {
+    font-size: 30px;
+    transition: 0.1s;
+    color: #3B5998;
+}
+
+.linkedin__icon {
+    font-size: 20px;
+    transition: 0.1s;
+}
+
+.linkedin__icon:hover {
+    font-size: 30px;
+    transition: 0.1s;
+    color: #04669A;
 }

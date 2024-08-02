@@ -14,8 +14,8 @@ class CompaniesSeeder extends Seeder
      */
     public function run(): void
     {
-        Company::factory()->count(5)->create()->each(function ($company) {
-            $balance = mt_rand(100000, 10000000) / 100;
+        Company::factory()->count(10)->create()->each(function ($company) {
+            $balance = mt_rand(10000000, 1000000000) / 100;
             Wallet::create([
                 'user_id' => $company->user_id,
                 'total_balance' => $balance,

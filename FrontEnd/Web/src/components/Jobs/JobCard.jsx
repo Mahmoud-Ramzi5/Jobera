@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import img_holder from '../../assets/upload.png';
+import img_holder from '../../assets/noImage.jpg';
 import styles from '../../styles/jobs.module.css';
 
 
@@ -36,6 +36,9 @@ const JobCard = ({ JobData }) => {
           <p> {t('pages.jobs.job_card.publish_date')}{' '}
             {JobData.publish_date.split('T')[0]}
           </p>
+          {JobData.deadline && <p>
+            {t('pages.jobs.job_card.deadline')}{' '}{JobData.deadline}
+          </p>}
         </div>
       </div>
       }

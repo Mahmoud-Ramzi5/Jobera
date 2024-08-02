@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -28,7 +28,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'state_id',
         'description',
         'avatar_photo',
-        'rating'
     ];
 
     /**
@@ -86,13 +85,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Review::class, 'reviewed_id', 'id');
     }
 
-    public function redeemCodes(): HasMany
+    public function as_FreelancingCompetitor(): HasMany
     {
-        return $this->hasMany(RedeemCode::class, 'user_id', 'id');
+        return $this->hasMany(FreelancingJobCompetitor::class, 'user_id', 'id');
     }
 
-    public function FlagedJobs(): BelongsToMany
+    public function bookmarkedJobs(): BelongsToMany
     {
-        return $this->belongsToMany(DefJob::class, 'flaged_jobs', 'user_id', 'defJob_id');
+        return $this->BelongsToMany(defJob::class, 'bookmarked_jobs', 'user_id', 'defJob_id')->withTimestamps();
     }
 }

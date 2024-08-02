@@ -21,6 +21,24 @@ class RegularJobDetailsView extends StatelessWidget {
           onPressed: () => _regularJobDetailsController.goBack(),
           icon: const Icon(Icons.arrow_back),
         ),
+        actions: [
+          if (_regularJobDetailsController.regularJob.poster.userId ==
+                  _regularJobDetailsController.homeController.company?.id &&
+              !_regularJobDetailsController.regularJob.isDone)
+            IconButton(
+              onPressed: () => Dialogs().confirmDialog(
+                'Notice:',
+                'Are you sure you want to delete post?',
+                () => _regularJobDetailsController.deleteJob(
+                  _regularJobDetailsController.regularJob.defJobId,
+                ),
+              ),
+              icon: const Icon(
+                Icons.delete,
+                color: Colors.red,
+              ),
+            )
+        ],
       ),
       body: RefreshIndicator(
         key: _regularJobDetailsController.refreshIndicatorKey,
@@ -52,27 +70,6 @@ class RegularJobDetailsView extends StatelessWidget {
                                       color: Colors.lightBlue.shade900,
                                       size: 100,
                                     ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                if (controller.regularJob.poster.userId ==
-                                        controller.homeController.company?.id &&
-                                    !controller.regularJob.isDone)
-                                  IconButton(
-                                    onPressed: () => Dialogs().confirmDialog(
-                                      'Notice:',
-                                      'Are you sure you want to delete post?',
-                                      () => controller.deleteJob(
-                                        controller.regularJob.defJobId,
-                                      ),
-                                    ),
-                                    icon: const Icon(
-                                      Icons.delete,
-                                      color: Colors.red,
-                                    ),
-                                  )
-                              ],
                             ),
                             Padding(
                               padding: const EdgeInsets.all(10),
@@ -113,12 +110,15 @@ class RegularJobDetailsView extends StatelessWidget {
                                     Row(
                                       children: [
                                         const BodyText(text: 'Location: '),
-                                        controller.regularJob.state != null
-                                            ? LabelText(
-                                                text:
-                                                    '${controller.regularJob.country}-${controller.regularJob.state}',
-                                              )
-                                            : const LabelText(text: 'Remotely'),
+                                        if (controller.regularJob.state != null)
+                                          Flexible(
+                                            child: LabelText(
+                                              text:
+                                                  '${controller.regularJob.country}-${controller.regularJob.state}',
+                                            ),
+                                          )
+                                        else
+                                          const LabelText(text: 'Remotely'),
                                       ],
                                     ),
                                     Row(
@@ -364,28 +364,33 @@ class RegularJobDetailsView extends StatelessWidget {
                                         Row(
                                           children: [
                                             const BodyText(text: 'Name:'),
-                                            TextButton(
-                                              onPressed: () =>
-                                                  controller.viewUserProfile(
-                                                controller.regularJob
-                                                    .competitors[index].userId,
-                                                controller.regularJob
-                                                    .competitors[index].name,
-                                                controller.regularJob
-                                                    .competitors[index].type
-                                                    .toString(),
-                                              ),
-                                              child: Text(
-                                                controller.regularJob
-                                                    .competitors[index].name,
-                                                style: TextStyle(
-                                                  color: Colors.orange.shade800,
-                                                  decoration:
-                                                      TextDecoration.underline,
-                                                  decorationColor:
-                                                      Colors.lightBlue.shade900,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
+                                            Flexible(
+                                              child: TextButton(
+                                                onPressed: () =>
+                                                    controller.viewUserProfile(
+                                                  controller
+                                                      .regularJob
+                                                      .competitors[index]
+                                                      .userId,
+                                                  controller.regularJob
+                                                      .competitors[index].name,
+                                                  controller.regularJob
+                                                      .competitors[index].type
+                                                      .toString(),
+                                                ),
+                                                child: Text(
+                                                  controller.regularJob
+                                                      .competitors[index].name,
+                                                  style: TextStyle(
+                                                    color:
+                                                        Colors.orange.shade800,
+                                                    decoration: TextDecoration
+                                                        .underline,
+                                                    decorationColor: Colors
+                                                        .lightBlue.shade900,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                  ),
                                                 ),
                                               ),
                                             ),

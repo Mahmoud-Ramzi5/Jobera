@@ -56,7 +56,7 @@ class LoginController extends GetxController {
     Dialogs().loadingDialog();
     try {
       var response = await dio.post(
-        'http://192.168.1.104:8000/api/login',
+        'http://192.168.0.108:8000/api/login',
         data: {"email": email, "password": password, "remember": remeberMe},
         options: Options(
           headers: {
@@ -85,7 +85,7 @@ class LoginController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Login Failed',
-        e.toString(),
+        e.response.toString(),
       );
     }
   }
@@ -97,7 +97,7 @@ class LoginController extends GetxController {
       if (googleSignInAccount != null) {
         try {
           var response = await dio.post(
-            'http://192.168.1.104:8000/api/auth/android/google',
+            'http://192.168.0.108:8000/api/auth/android/google',
             data: {
               'provider_id': googleSignInAccount.id,
               'email': googleSignInAccount.email,

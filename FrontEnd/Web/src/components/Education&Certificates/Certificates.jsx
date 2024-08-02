@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Eye, Pencil, Trash } from 'react-bootstrap-icons';
+import { BsEye, BsPencil, BsTrash } from 'react-icons/bs';
 import { LoginContext, ProfileContext } from '../../utils/Contexts';
 import { ShowCertificatesAPI, DeleteCertificateAPI } from '../../apis/ProfileApis/EducationApis.jsx';
 import { FetchFile } from '../../apis/FileApi';
@@ -117,7 +117,7 @@ const Certificates = ({ step }) => {
             onClick={async () => { FetchFile("", certificate.file); }}
             className={styles.view_button}
           >
-            <Eye />
+            <BsEye />
           </button>
           {profile.user_id == user_id || typeof user_id === 'undefined' ?
             <>
@@ -125,13 +125,13 @@ const Certificates = ({ step }) => {
                 onClick={handleEdit}
                 className={styles.edit_button}
               >
-                <Pencil />
+                <BsPencil />
               </button>
               <button
                 onClick={handleDelete}
                 className={styles.delete_button}
               >
-                <Trash />
+                <BsTrash />
               </button>
             </> : <></>}
         </td>

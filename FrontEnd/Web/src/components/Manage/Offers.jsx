@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { FunnelFill, Bookmark, BookmarkFill } from 'react-bootstrap-icons';
+import { useTranslation } from 'react-i18next';
+import { BsFunnelFill } from 'react-icons/bs';
 import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { AppliedJobs, BookmarkJobAPI } from '../../apis/JobsApis.jsx';
 import OfferCard from './OfferCard.jsx';
@@ -8,10 +9,12 @@ import JobFilter from '../Jobs/JobFilter.jsx';
 import JobSlider from './JobSlider.jsx';
 import Clock from '../../utils/Clock.jsx';
 import styles1 from '../../styles/jobs.module.css';
-import styles2 from '../../styles/manage.module.css';
+import styles2 from './offers.module.css';
 
 
 const Offers = () => {
+  // Translations
+  const { t } = useTranslation('global');
   // Context
   const { accessToken } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
@@ -49,12 +52,12 @@ const Offers = () => {
           }
           response.data.jobs.map((job) => {
             // Check if job is already in array
-            if (!jobs.some(item => job.defJob_id === item.defJob_id)) {
+            if (!jobs.some(item => job.job_data.defJob_id === item.job_data.defJob_id)) {
 
               // if not add job
-              if (job.photo) {
-                FetchImage("", job.photo).then((response) => {
-                  job.photo = response;
+              if (job.job_data.photo) {
+                FetchImage("", job.job_data.photo).then((response) => {
+                  job.job_data.photo = response;
                   setJobs((prevState) => ([...prevState, job]));
                 });
               }
@@ -153,28 +156,31 @@ const Offers = () => {
         handleFilterSubmit={handleFilterSubmit}
       />
       <div className={styles1.right_container}>
-        {profile.type === 'individual' &&
-          <JobSlider
-            filter={filter}
-            handleJobType={handleJobType}
-          />}
+        <JobSlider
+          filter={filter}
+          manageType={'Offers'}
+          profileType={profile.type}
+          handleJobType={handleJobType}
+        />
         {jobs.map((job) => (
           <span key={job.job_data.defJob_id}
             className={styles2.show_offer_info}
           >
-            <OfferCard JobData={job.job_data} CompetitorData={job.user_offer} />
+            <Link to={`/job/${job.job_data.defJob_id}`}>
+              <OfferCard JobData={job.job_data} CompetitorData={job.user_offer} />
+            </Link>
           </span>
         ))}
         {isLoading ? <Clock />
           : isDone && <h5 className={styles1.done}>
-            done
+            {t('pages.jobs.done')}
           </h5>
         }
         <label
           htmlFor="open_filter"
           className={`${styles1.btn} ${styles1.menu_btn}`}
         >
-          <FunnelFill size={29} />
+          <BsFunnelFill size={29} />
         </label>
       </div >
     </div>

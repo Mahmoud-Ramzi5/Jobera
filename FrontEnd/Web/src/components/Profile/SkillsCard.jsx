@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Card } from 'react-bootstrap';
-import { PenFill } from 'react-bootstrap-icons';
+import { BsPenFill } from 'react-icons/bs';
 import { ProfileContext } from '../../utils/Contexts';
 import { SlicedArray } from '../SlicingInput';
 import styles from './cards.module.css';
@@ -34,7 +34,7 @@ const SkillsCard = ({ ProfileData }) => {
                   state: { edit: true }
                 }
                 )}>
-                <i className={styles.pen}><PenFill /></i>
+                <i className={styles.pen}><BsPenFill /></i>
               </button>
             }
           </div>

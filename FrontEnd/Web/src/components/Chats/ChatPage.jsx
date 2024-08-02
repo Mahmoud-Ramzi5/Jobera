@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import Pusher from 'pusher-js';
 import { LoginContext, ProfileContext } from '../../utils/Contexts';
 import { FetchChat, SendMessage } from '../../apis/ChatApis';
 import ChatList from './ChatList';
@@ -11,6 +12,7 @@ const ChatPage = () => {
   // Define states
   const [selectedChat, setSelectedChat] = useState(null);
   const [updateList, setUpdateList] = useState(false);
+
 
   return (
     <div className={styles.chat_page}>
@@ -47,23 +49,46 @@ const ChatWindow = ({ selectedChat, setUpdateList }) => {
         setIsLoading(false);
       });
     }
+
+    if (selectedChat) {
+      Pusher.logToConsole = true;
+
+      const pusher = new Pusher('181e3fe8a6a1e1e21e6e', {
+        cluster: 'ap2',
+        encrypted: true,
+        authEndpoint: 'http://127.0.0.1:8000/broadcasting/auth',
+        auth: {
+          headers: {
+            'Accept': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': `Bearer ${accessToken}`
+          }
+        }
+      });
+
+      const channel = pusher.subscribe(`private-chat.${selectedChat.id}`);
+      channel.bind('App\\Events\\NewMessage', data => {
+        setMessages(prevMessages => [...prevMessages, data.message]);
+      });
+
+      return () => {
+        channel.unbind_all();
+        channel.unsubscribe();
+      };
+    }
   }, [selectedChat]);
 
   const handleSendMessage = (event) => {
     event.preventDefault();
     if (inputMessage.trim() === "") { return };
 
-    setIsLoading(true);
     SendMessage(accessToken, inputMessage, selectedChat.other_user.user_id).then((response) => {
       if (response.status === 201) {
-        setMessages((prevMessages) => [...prevMessages, response.data.message]);
         setInputMessage("");
         setUpdateList(true);
       } else {
-        console.log(response.statusText);
+        console.log(response);
       }
-    }).then(() => {
-      setIsLoading(false);
     });
   }
 
@@ -93,6 +118,11 @@ const ChatWindow = ({ selectedChat, setUpdateList }) => {
     }
   };
 
+  useEffect(() => {
+    const Chat_Area = document.getElementById('Chat_Area');
+    Chat_Area.scrollTo(0, Chat_Area.scrollHeight);
+  }, [messages]);
+
 
   return (
     <div className={styles.chat_window}>
@@ -101,7 +131,7 @@ const ChatWindow = ({ selectedChat, setUpdateList }) => {
           {selectedChat ? selectedChat.other_user.name : t('components.chat_page.chat_header')}
         </h3>
       </div>
-      <div className={styles.chat_messages}>
+      <div id='Chat_Area' className={styles.chat_messages}>
         {isLoading ? <Clock /> : (
           messages.map((message) => (
             <div key={message.id} className={` ${styles.message} 

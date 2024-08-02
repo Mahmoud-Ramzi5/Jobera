@@ -1,8 +1,9 @@
 import { useContext, useState, useEffect } from 'react';
 import ReactSwitch from 'react-switch';
 import { useTranslation } from 'react-i18next';
-import { KanbanFill, EnvelopeAtFill, BellFill, List, X } from 'react-bootstrap-icons';
+import { BsKanbanFill, BsEnvelopeAtFill, BsBellFill, BsList, BsX } from 'react-icons/bs';
 import Pusher from 'pusher-js';
+import * as PusherPushNotifications from "@pusher/push-notifications-web";
 import { ThemeContext, LoginContext, ProfileContext } from '../utils/Contexts.jsx';
 import { FetchImage } from '../apis/FileApi.jsx';
 import ChatNav from "./Chats/ChatNav.jsx";
@@ -44,7 +45,7 @@ const NavBar = () => {
     });
 
     const channel = pusher.subscribe(`private-user.${profile.user_id}`);
-    channel.bind('App\\Events\\NewMessage', data => {
+    channel.bind('App\\Events\\NewNotification', data => {
       setCount(prevCount => prevCount + 1);
       setNotifications(prevNotifications => [...prevNotifications, data]);
       if (data) {
@@ -52,11 +53,28 @@ const NavBar = () => {
       }
     });
 
+    // const beamsClient = new PusherPushNotifications.Client({
+    //   instanceId: "488b218d-2a72-4d5b-8940-346df9234336",
+    // });
+
+    // beamsClient
+    //   .getUserId()
+    //   .then((userId) => {
+    //     console.log("User ID:", userId)
+    //     // Check if the Beams user matches the user that is currently logged in
+    //     if (userId !== `user-${profile.user_id}`) {
+    //       // Unregister for notifications
+    //       return beamsClient.stop();
+    //     }
+    //   })
+    //   .catch(console.error);
+
+
     return () => {
       channel.unbind_all();
       channel.unsubscribe();
     };
-  }, []);
+  }, [profile]);
 
   const NotifyUser = async (data) => {
     if (!('Notifcation' in window)) {
@@ -140,19 +158,19 @@ const NavBar = () => {
               htmlFor="close_btn"
               className={`${styles.btn} ${styles.close_btn}`}
             >
-              <X size={31} />
+              <BsX size={31} />
             </label>
             {loggedIn ? (
               <>
                 <li>
                   <a href="/manage" title={t('components.nav_bar.li_manage')}>
-                    <KanbanFill /> <span className={styles.mobile_item2}>{t('components.nav_bar.li_manage')}</span>
+                    <BsKanbanFill /> <span className={styles.mobile_item2}>{t('components.nav_bar.li_manage')}</span>
                   </a>
                 </li>
                 <li>
                   <span title={t('components.nav_bar.li_chats')} className={styles.span_list}
                     onClick={() => setShowChatsScreen(!showChatsScreen)}>
-                    <EnvelopeAtFill /> <span className={styles.mobile_item2}>{t('components.nav_bar.li_chats')}</span>
+                    <BsEnvelopeAtFill /> <span className={styles.mobile_item2}>{t('components.nav_bar.li_chats')}</span>
                   </span>
                   {showChatsScreen && <ChatNav setShowChatsScreen={setShowChatsScreen} />}
                 </li>
@@ -162,7 +180,7 @@ const NavBar = () => {
                       setShowNotificationsScreen(!showNotificationsScreen)
                       setCount(0);
                     }}>
-                    <BellFill />{count !== 0 && <small>{count}</small>}{' '}
+                    <BsBellFill />{count !== 0 && <small>{count}</small>}{' '}
                     <span className={styles.mobile_item2}>{t('components.nav_bar.li_notifications')}</span>
                   </span>
                   {showNotificationsScreen && <NotificationsNav notifications={notifications} />}
@@ -223,7 +241,7 @@ const NavBar = () => {
           htmlFor="menu_btn"
           className={`${styles.btn} ${styles.menu_btn}`}
         >
-          <List size={29} />
+          <BsList size={29} />
         </label>
       </div>
     </nav>

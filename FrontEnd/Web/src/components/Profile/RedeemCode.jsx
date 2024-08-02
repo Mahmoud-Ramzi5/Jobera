@@ -1,6 +1,6 @@
 import { useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ChevronRight, CreditCard, CheckLg, X } from 'react-bootstrap-icons';
+import { BsChevronRight, BsCreditCard, BsCheckLg, BsX } from 'react-icons/bs';
 import { LoginContext, ProfileContext } from '../../utils/Contexts';
 import { UseRedeemCode } from '../../apis/TransactionsApis';
 import NormalInput from '../NormalInput';
@@ -23,7 +23,6 @@ const RedeemCode = () => {
     UseRedeemCode(
       accessToken,
       redeemCode,
-      profile.user_id
     ).then((response) => {
       if (response.status === 200) {
         console.log(response);
@@ -41,13 +40,13 @@ const RedeemCode = () => {
         <div className={styles.screen__content}>
           {message ? message === 'success' ?
             <div className={styles.message}>
-              <i className={styles.check}><CheckLg size={60} /></i>
+              <i className={styles.check}><BsCheckLg size={60} /></i>
               <br />
               <span>{t('components.redeem_code.message1')}</span>
             </div>
             :
             <div className={styles.message}>
-              <i className={styles.xmark}><X size={60} /></i>
+              <i className={styles.xmark}><BsX size={60} /></i>
               <br />
               <span>{t('components.redeem_code.message2')}</span>
             </div>
@@ -62,13 +61,13 @@ const RedeemCode = () => {
                   <NormalInput
                     type="text"
                     placeholder={t('components.redeem_code.input')}
-                    icon={<CreditCard />}
+                    icon={<BsCreditCard />}
                     value={redeemCode}
                     setChange={setRedeemCode}
                   />
                   <button type="submit" className={styles.form__submit}>
                     <span>{t('components.redeem_code.button')}</span>
-                    <i className={styles.button__icon}><ChevronRight /></i>
+                    <i className={styles.button__icon}><BsChevronRight /></i>
                   </button>
                 </form>
               </div>

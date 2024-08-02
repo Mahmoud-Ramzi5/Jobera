@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card, Button } from 'react-bootstrap';
-import { ChevronRight } from 'react-bootstrap-icons';
+import { Card } from 'react-bootstrap';
+import { BsChevronRight } from 'react-icons/bs';
 import { ProfileContext } from '../../utils/Contexts';
 import wallet from '../../assets/wallet.png';
 import styles from './wallet.module.css';
@@ -42,7 +42,7 @@ const Wallet = ({ ProfileData }) => {
               <div className={styles.redeem}>
                 <button type="submit" className={styles.redeem_submit}>
                   <span>{t('components.profile_cards.wallet.button')}</span>
-                  <i className={styles.button__icon}><ChevronRight /></i>
+                  <i className={styles.button__icon}><BsChevronRight /></i>
                 </button>
               </div>
               : <></>}

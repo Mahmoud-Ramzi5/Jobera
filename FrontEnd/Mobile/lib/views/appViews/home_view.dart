@@ -22,7 +22,14 @@ class HomeView extends StatelessWidget {
       length: 4,
       initialIndex: 0,
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          actions: [
+            TextButton(
+              onPressed: () => Get.toNamed('/postJob'),
+              child: const LabelText(text: 'Post Job'),
+            ),
+          ],
+        ),
         drawer: Drawer(
           child: ListView(
             children: [

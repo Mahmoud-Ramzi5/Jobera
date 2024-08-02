@@ -367,19 +367,22 @@ export const AppliedJobs = async (token, page, filter) => {
   if (filter.type !== null) {
     apiUrl = `${apiUrl}&type[eq]=${filter.type}`;
   }
-  if (filter.userName !== null) {
+  if (filter.type === 'Freelancing' && filter.userName !== null) {
     apiUrl = `${apiUrl}&user_name[like]=${filter.userName}`;
   }
-  if (filter.companyName !== null) {
+  if ((filter.type === 'RegularJob') && filter.companyName !== null) {
     apiUrl = `${apiUrl}&company_name[like]=${filter.companyName}`;
   }
-  if (filter.minSalary >= 0 && filter.maxSalary >= 0) {
+  if (filter.type === 'Freelancing' && filter.minSalary >= 0 && filter.maxSalary >= 0) {
     apiUrl = `${apiUrl}&min_salary[gte]=${filter.minSalary}&max_salary[lte]=${filter.maxSalary}`;
   }
-  if (filter.fromDeadline !== '') {
+  if ((filter.type === 'RegularJob') && filter.minSalary >= 0 && filter.maxSalary >= 0) {
+    apiUrl = `${apiUrl}&salary[gte]=${filter.minSalary}&salary[lte]=${filter.maxSalary}`;
+  }
+  if (filter.type === 'Freelancing' && filter.fromDeadline !== '') {
     apiUrl = `${apiUrl}&deadline[gte]=${filter.fromDeadline}`;
   }
-  if (filter.toDeadline !== '') {
+  if (filter.type === 'Freelancing' && filter.toDeadline !== '') {
     apiUrl = `${apiUrl}&deadline[lte]=${filter.toDeadline}`;
   }
   if (filter.skills.length !== 0) {
@@ -414,6 +417,27 @@ export const BookmarkedJobs = async (token) => {
   }
 };
 
+export const ChangeOffer = async(
+  token,
+  defJob_id,
+  offer
+) => {
+  try {
+    const response = await axios.post('http://127.0.0.1:8000/api/FreelancingJobs/offer', {
+      'defJob_id': defJob_id,
+      'offer': offer,
+    }, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
 //
 // export const FetchRegJobCompetitors = async (token, id) => {
 //   try {

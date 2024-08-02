@@ -36,7 +36,7 @@ class UserRegisterView extends StatelessWidget {
                         textInputType: TextInputType.name,
                         obsecureText: false,
                         labelText: 'Full Name',
-                        icon: const Icon(Icons.abc),
+                        icon: Icons.abc,
                         validator: (p0) =>
                             Validation().validateRequiredField(p0),
                       ),
@@ -47,7 +47,7 @@ class UserRegisterView extends StatelessWidget {
                           textInputType: TextInputType.emailAddress,
                           obsecureText: false,
                           labelText: 'Email',
-                          icon: const Icon(Icons.email),
+                          icon: Icons.email,
                           validator: (p0) => Validation().validateEmail(p0),
                         ),
                       ),
@@ -60,7 +60,7 @@ class UserRegisterView extends StatelessWidget {
                               textInputType: TextInputType.visiblePassword,
                               obsecureText: controller.passwordToggle,
                               labelText: 'Password',
-                              icon: const Icon(Icons.key),
+                              icon: Icons.key,
                               inkWell: controller.passwordInkwell(),
                               validator: (p0) =>
                                   Validation().validateRequiredField(p0),
@@ -73,7 +73,7 @@ class UserRegisterView extends StatelessWidget {
                               textInputType: TextInputType.visiblePassword,
                               obsecureText: controller.passwordToggle,
                               labelText: 'Confirm Password',
-                              icon: const Icon(Icons.key),
+                              icon: Icons.key,
                               inkWell: controller.passwordInkwell(),
                               validator: (p0) =>
                                   Validation().validateConfirmPassword(
@@ -103,9 +103,9 @@ class UserRegisterView extends StatelessWidget {
                                 textInputType: TextInputType.phone,
                                 obsecureText: false,
                                 labelText: 'Phone Number',
-                                icon: const Icon(Icons.phone),
+                                icon: Icons.phone,
                                 validator: (p0) =>
-                                    Validation().validatePhoneNumber(p0),
+                                    Validation().validateNumber(p0),
                               ),
                             ),
                           ],

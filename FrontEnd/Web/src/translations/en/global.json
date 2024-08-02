@@ -145,12 +145,14 @@
                 "salary": "Salary:",
                 "budget": "Budget:",
                 "published_by": "Published by:",
-                "publish_date": "Publish date:"
+                "publish_date": "Publish date:",
+                "deadline": "Deadline:"
             },
             "done": "No more jobs to show"
         },
         "post_job": {
-            "heading": "Post a job",
+            "heading1": "Post a",
+            "heading2": "job",
             "title_fulltime": "FullTime",
             "title_parttime": "PartTime",
             "title_freelancing": "Freelancing",
@@ -400,6 +402,11 @@
             "chat_header": "No chat selected",
             "chat_input": "Type a message...",
             "chat_button": "Send"
+        },
+        "offer": {
+            "type": "Type:",
+            "offer": "Offer:",
+            "status": "Status:"
         }
     }
 }

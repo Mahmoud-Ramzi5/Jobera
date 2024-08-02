@@ -41,13 +41,8 @@ class Skill extends Model
         return $this->belongsToMany(Portfolio::class, 'portfolio_skill', 'skill_id', 'portfolio_id')->withTimestamps();
     }
 
-    public function RegJobs(): BelongsToMany
+    public function defJobs(): BelongsToMany
     {
-        return $this->belongsToMany(RegJob::class, 'reg_job_skill', 'skill_id', 'job_id')->withTimestamps();
-    }
-
-    public function FreelancingJobs(): BelongsToMany
-    {
-        return $this->belongsToMany(FreelancingJob::class, 'freelancing_job_skill', 'job_id', 'individual_id')->withTimestamps();
+        return $this->belongsToMany(DefJob::class, 'def_job_skill', 'skill_id', 'job_id')->withTimestamps();
     }
 }

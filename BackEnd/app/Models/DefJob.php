@@ -53,4 +53,9 @@ class DefJob extends Model
     {
         return $this->belongsToMany(Skill::class, 'def_job_skill', 'defJob_id', 'skill_id')->withTimestamps();
     }
+
+    public function bookmarkedBy(): BelongsToMany
+    {
+        return $this->BelongsToMany(User::class, 'bookmarked_jobs', 'defJob_id', 'user_id')->withTimestamps();
+    }
 }

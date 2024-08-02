@@ -63,4 +63,9 @@ class Wallet extends Model
     {
         return $this->hasMany(Transaction::class, 'receiver_id', 'user_id');
     }
+
+    public function redeemCodes(): HasMany
+    {
+        return $this->hasMany(RedeemCode::class, 'wallet_id', 'id');
+    }
 }

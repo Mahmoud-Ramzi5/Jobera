@@ -106,14 +106,23 @@ class FreelancingJobsController extends Controller
 
         // Response
         if (empty($queryItems)) {
-            $jobs = FreelancingJob::orderByDesc('created_at')->paginate(10);
-            $jobsData = [];
-            foreach ($jobs->items() as $job) {
-                if (!in_array($job, $jobsData) && $job->defJob->is_done == false) {
-                    array_push($jobsData, $job);
+            // Check skills
+            $skills = $request->input('skills');
+            if (isset($skills)) {
+                $skills = explode(",", trim($skills, '[]'));
+                if (sizeof($skills) >= 1 && $skills[0] != "") {
+                    // Get jobs
+                    $jobs = FreelancingJob::where($queryItems)->with('defJob.skills')
+                        ->wherehas('defJob.skills', function ($query) use ($skills) {
+                            $query->whereIn('name', $skills);
+                        })->orderByDesc('created_at')->paginate(10);
                 } else {
-                    continue;
+                    // Get jobs
+                    $jobs = FreelancingJob::where($queryItems)->orderByDesc('created_at')->paginate(10);
                 }
+            } else {
+                // Get jobs
+                $jobs = FreelancingJob::where($queryItems)->orderByDesc('created_at')->paginate(10);
             }
         } else {
             // Check if job filtered based on the user that posted the job
@@ -138,48 +147,29 @@ class FreelancingJobsController extends Controller
                 }
             }
 
-            // Get jobs
-            $jobs = FreelancingJob::where($queryItems)->orderByDesc('created_at')->paginate(10);
-            $jobsData = [];
-
             // Check skills
             $skills = $request->input('skills');
             if (isset($skills)) {
                 $skills = explode(",", trim($skills, '[]'));
-                if (sizeof($skills) >= 1 && $skills[0] !== "") {
-                    foreach ($jobs->items() as $job) {
-                        foreach ($job->defJob->skills as $skill) {
-                            if (
-                                in_array($skill->name, $skills) && !in_array($job, $jobsData)
-                                && $job->defJob->is_done == false
-                            ) {
-                                array_push($jobsData, $job);
-                            }
-                        };
-                    }
+                if (sizeof($skills) >= 1 && $skills[0] != "") {
+                    // Get jobs
+                    $jobs = FreelancingJob::where($queryItems)->with('defJob.skills')
+                        ->wherehas('defJob.skills', function ($query) use ($skills) {
+                            $query->whereIn('name', $skills);
+                        })->orderByDesc('created_at')->paginate(10);
                 } else {
-                    foreach ($jobs->items() as $job) {
-                        if (!in_array($job, $jobsData) && $job->defJob->is_done == false) {
-                            array_push($jobsData, $job);
-                        } else {
-                            continue;
-                        }
-                    }
+                    // Get jobs
+                    $jobs = FreelancingJob::where($queryItems)->orderByDesc('created_at')->paginate(10);
                 }
             } else {
-                foreach ($jobs->items() as $job) {
-                    if (!in_array($job, $jobsData) && $job->defJob->is_done == false) {
-                        array_push($jobsData, $job);
-                    } else {
-                        continue;
-                    }
-                }
+                // Get jobs
+                $jobs = FreelancingJob::where($queryItems)->orderByDesc('created_at')->paginate(10);
             }
         }
 
         // Custom Response
         return response()->json([
-            'jobs' => new FreelancingJobCollection($jobsData),
+            'jobs' => new FreelancingJobCollection($jobs->items()),
             'pagination_data' => [
                 'from' => $jobs->firstItem(),
                 'to' => $jobs->lastItem(),
@@ -356,6 +346,12 @@ class FreelancingJobsController extends Controller
                 'errors' => ['job_competitor' => 'Invalid job_competitor']
             ], 401);
         }
+        //Check for different offers
+        if ($validated['offer'] != $job_competitor->offer) {
+            return response()->json([
+                'errors' => ['error' => 'please refresh the competitor changed his offer']
+            ], 401);
+        }
 
         // Check policy
         $policy = new FreelancingJobPolicy();
@@ -444,6 +440,55 @@ class FreelancingJobsController extends Controller
         // Response
         return response()->json([
             "message" => $something
+        ], 200);
+    }
+
+    public function ChangeOffer(Request $request)
+    {
+        $validated = $request->validate([
+            'defJob_id' => 'required',
+            'offer' => 'required',
+        ]);
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+
+        // Get freelancingJob
+        $freelancingJob = FreelancingJob::where('defJob_id', $validated['defJob_id'])->first();
+
+        // Check freelancingJob
+        if ($freelancingJob == null) {
+            return response()->json([
+                'errors' => ['job' => 'Invalid job']
+            ], 404);
+        }
+
+        // Get competitor
+        $job_competitor = FreelancingJobCompetitor::where('user_id', $user->id)->where('job_id', $freelancingJob->id)->first();
+
+        // Check competitor
+        if ($job_competitor == null) {
+            return response()->json([
+                'errors' => ['job_competitor' => 'Invalid job_competitor']
+            ], 401);
+        }
+
+        //Check if accepted
+        if ($freelancingJob->accepted_user == $user->id) {
+            return response()->json([
+                'errors' => ['error' => 'cant change offer you are already accepted']
+            ], 401);
+        }
+        $job_competitor->offer = $validated['offer'];
+        $job_competitor->save();
+        return response()->json([
+            'message' => ['offer' => 'offer changed successfully']
         ], 200);
     }
 }

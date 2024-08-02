@@ -16,9 +16,11 @@ class FreelancingJobDetailsController extends GetxController {
   late FreelancingJob freelancingJob;
   late TextEditingController commentController;
   late TextEditingController offerController;
+  late TextEditingController editOfferController;
   late double share;
   bool applied = false;
   bool loading = true;
+  bool isEditOffer = false;
 
   @override
   Future<void> onInit() async {
@@ -30,6 +32,7 @@ class FreelancingJobDetailsController extends GetxController {
     freelancingJob = FreelancingJob.empty();
     commentController = TextEditingController();
     offerController = TextEditingController();
+    editOfferController = TextEditingController();
     share = 0.0;
     await fetchFreelancingJob(freelancingJobsController.jobDetailsId);
     loading = false;
@@ -100,11 +103,23 @@ class FreelancingJobDetailsController extends GetxController {
     update();
   }
 
+  void editOffer(int index) {
+    isEditOffer = true;
+    editOfferController.text =
+        freelancingJob.competitors[index].offer.toString();
+    update();
+  }
+
+  void cancelEditOffer() {
+    isEditOffer = false;
+    update();
+  }
+
   Future<dynamic> fetchFreelancingJob(int jobId) async {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.104:8000/api/FreelancingJobs/$jobId',
+        'http://192.168.0.108:8000/api/FreelancingJobs/$jobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -128,12 +143,12 @@ class FreelancingJobDetailsController extends GetxController {
   Future<dynamic> applyFreelancingJob(
     int jobId,
     String comment,
-    double offer,
+    String offer,
   ) async {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.1.104:8000/api/FreelancingJob/apply',
+        'http://192.168.0.108:8000/api/FreelancingJob/apply',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -144,7 +159,7 @@ class FreelancingJobDetailsController extends GetxController {
         data: {
           "job_id": jobId,
           "description": comment,
-          "offer": offer,
+          "offer": double.parse(offer),
         },
       );
 
@@ -167,7 +182,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.delete(
-        'http://192.168.1.104:8000/api/FreelancingJobs/$jobId',
+        'http://192.168.0.108:8000/api/FreelancingJobs/$jobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -196,7 +211,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.1.104:8000/api/FreelancingJob/accept/$defJobId',
+        'http://192.168.0.108:8000/api/FreelancingJob/accept/$defJobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -232,7 +247,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.1.104:8000/api/FreelancingJob/done/$defJobId',
+        'http://192.168.0.108:8000/api/FreelancingJob/done/$defJobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -247,6 +262,40 @@ class FreelancingJobDetailsController extends GetxController {
         },
       );
       if (response.statusCode == 200) {
+        refreshIndicatorKey.currentState!.show();
+        freelancingJobsController.refreshIndicatorKey.currentState!.show();
+        update();
+      }
+    } on DioException catch (e) {
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response.toString(),
+      );
+    }
+  }
+
+  Future<dynamic> changeOffer(
+    int defJobId,
+    String offer,
+  ) async {
+    String? token = sharedPreferences?.getString('access_token');
+    try {
+      var response = await dio.post(
+        'http://192.168.0.108:8000/api/FreelancingJobs/offer',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+        data: {
+          'defJob_id': defJobId,
+          'offer': double.parse(offer),
+        },
+      );
+      if (response.statusCode == 200) {
+        isEditOffer = false;
         refreshIndicatorKey.currentState!.show();
         freelancingJobsController.refreshIndicatorKey.currentState!.show();
         update();

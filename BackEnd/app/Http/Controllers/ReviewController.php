@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Review;
 use Illuminate\Http\Request;
 
@@ -20,7 +19,10 @@ class ReviewController extends Controller
         $user = auth()->user();
 
         // Check user
-        if ($user == null) {
+        if (
+            $user == null ||
+            $user->id != $validated['reviewer_id']
+        ) {
             return response()->json([
                 'errors' => ['user' => 'Invalid user']
             ], 401);
@@ -28,17 +30,13 @@ class ReviewController extends Controller
 
         // Review
         $review = Review::create($validated);
-        $userReviews = Review::where('reviewed_id', $validated['reviewed_id'])->get()->all();
-        $count = 0;
-        $sumRating = 0;
-        foreach ($userReviews as $userReview) {
-            $sumRating += $userReview->review;
-            $count += 1;
+
+        // Check review
+        if ($review == null) {
+            return response()->json([
+                'errors' => ['review' => 'raiting failed']
+            ], 401);
         }
-        $rating = $sumRating / $count;
-        $user = User::find($validated['reviewed_id']);
-        $user->rating = $rating;
-        $user->save();
 
         // Response
         return response()->json([

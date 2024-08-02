@@ -124,8 +124,8 @@ Route::controller(DefJobsController::class)->group(function () {
 
         Route::get('/manage/posted', 'PostedJobs');
         Route::get('/manage/applied', 'AppliedJobs');
-        Route::get('/manage/bookmarked', 'FlagedJobs');
-        Route::post('/jobs/{id}/bookmark', 'FlagJob');
+        Route::get('/manage/bookmarked', 'BookmarkedJobs');
+        Route::post('/jobs/{id}/bookmark', 'BookmarkJob');
     });
 });
 
@@ -151,6 +151,7 @@ Route::controller(FreelancingJobsController::class)->group(function () {
         Route::post('/FreelancingJob/accept/{defJob_id}', 'AcceptUser');
         Route::post('/FreelancingJob/done/{defJob_id}', 'FinishedJob');
         Route::delete('/FreelancingJobs/{defJob_id}', 'DeleteFreelancingJob');
+        Route::post('/FreelancingJobs/offer', 'ChangeOffer');
     });
 });
 
@@ -173,10 +174,6 @@ Route::controller(ChatController::class)->group(function () {
 
 Route::controller(JobFeedController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
-        Route::get('/jobFeed/payedReg', 'MostPayedRegJobs');
-        Route::get('/jobFeed/payedFreelance', 'MostPayedFreelancingJobs');
-        Route::get('/jobFeed/skills', 'MostNeededSkills');
-        Route::get('/jobFeed/companies', 'MostPostingCompanies');
         Route::get('/jobFeed/stats', 'Stats');
         Route::get('/jobFeed/tops', 'Tops');
     });
@@ -209,4 +206,24 @@ Route::get('/image/{user_id}/{folder}/{image}', function (Request $request, $use
 // Routes for admin can only be accessed through postman
 Route::controller(AdminController::class)->group(function () {
     Route::post('/generate', 'GenerateCode');
+});
+
+
+
+// Pusher
+Route::middleware('auth:api')->get('/pusher/beams-auth', function (Request $request) {
+    $beamsClient = new \Pusher\PushNotifications\PushNotifications(array(
+        "instanceId" => "488b218d-2a72-4d5b-8940-346df9234336",
+        "secretKey" => "4C9B94F31677EFBD2238FD2FE9D1D810C4DBB3215DF995C7ED106B7373CE3D03",
+    ));
+
+    $userID = auth()->user()->id; // If you use a different auth system, do your checks here
+    $userIDInQueryParam = $request->input('user_id');
+
+    if ('user-' . $userID != $userIDInQueryParam) {
+        return response('Inconsistent request', 401);
+    } else {
+        $beamsToken = $beamsClient->generateToken($userID);
+        return response()->json($beamsToken);
+    }
 });

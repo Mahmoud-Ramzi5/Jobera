@@ -145,12 +145,14 @@
                 "salary": "الراتب",
                 "budget": "الميزانية",
                 "published_by": "الناشر",
-                "publish_date": "تاريخ النشر"
+                "publish_date": "تاريخ النشر",
+                "deadline": "موعد التسليم"
             },
             "done": "لا يوجد المزيد من الوظائف لعرضها"
         },
         "post_job": {
-            "heading": "نشر عمل (وظيفة)",
+            "heading1": "نشر عمل",
+            "heading2": "",
             "title_fulltime": "دوام كامل",
             "title_parttime": "دوام جزئي",
             "title_freelancing": "عمل حر",
@@ -400,6 +402,11 @@
             "chat_header": "لم يتم تحديد أي محادثة",
             "chat_input": "اكتب رسالة...",
             "chat_button": "إرسال"
+        },
+        "offer": {
+            "type": "النوع",
+            "offer": "العرض",
+            "status": "الحالة"
         }
     }
 }

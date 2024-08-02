@@ -1,7 +1,11 @@
 import { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { PersonFill, ChevronRight, X, CheckLg } from 'react-bootstrap-icons';
+import { FcGoogle } from "react-icons/fc";
+import {
+  BsPersonFill, BsChevronRight, BsX, BsCheckLg,
+  BsGoogle, BsFacebook, BsLinkedin
+} from 'react-icons/bs';
 import Cookies from 'js-cookie';
 import { LoginContext, ProfileContext } from '../utils/Contexts.jsx';
 import { FetchProviders, LoginAPI } from '../apis/AuthApis.jsx';
@@ -101,12 +105,12 @@ const Login = () => {
           <img src={Logo} className={styles.logo} alt="logo" />
           {message ? message === 'login successfully' ?
             <div className={styles.message}>
-              <i className={styles.check}><CheckLg size={60} /></i>
+              <i className={styles.check}><BsCheckLg size={60} /></i>
               <br />
               <span>Login successfully</span>
             </div> :
             <div className={styles.message}>
-              <i className={styles.xmark}><X size={60} /></i>
+              <i className={styles.xmark}><BsX size={60} /></i>
               <br />
               <span>Make sure that the email and password are correct</span>
             </div>
@@ -116,7 +120,7 @@ const Login = () => {
                 <NormalInput
                   type='text'
                   placeholder={t('pages.Login.email_input')}
-                  icon={<PersonFill />}
+                  icon={<BsPersonFill />}
                   value={email}
                   setChange={setEmail}
                 />
@@ -141,7 +145,7 @@ const Login = () => {
 
                 <button type="submit" className={styles.login__submit}>
                   <span>{t('pages.Login.button')}</span>
-                  <i className={styles.button__icon}><ChevronRight /></i>
+                  <i className={styles.button__icon}><BsChevronRight /></i>
                 </button>
               </form>
 
@@ -152,9 +156,18 @@ const Login = () => {
               <div className={styles.social__login}>
                 <h5>{t('pages.Login.social')}</h5>
                 <div className={styles.social__icons}>
-                  <a href={GoogleUrl} className={`${styles.social__login__icon} fab fa-google`}></a>
-                  <a href={FacebookUrl} className={`${styles.social__login__icon} fab fa-facebook`}></a>
-                  <a href={LinkedinUrl} className={`${styles.social__login__icon} fab fa-linkedin`}></a>
+                  <a href={GoogleUrl} className={styles.social__login__icon}>
+                    <i className={styles.google__icon}>
+                      <BsGoogle className={styles.google_icon_white} />
+                      <FcGoogle className={styles.google_icon_colored} />
+                    </i>
+                  </a>
+                  <a href={FacebookUrl} className={styles.social__login__icon}>
+                    <BsFacebook className={styles.facebook__icon} />
+                  </a>
+                  <a href={LinkedinUrl} className={styles.social__login__icon}>
+                    <BsLinkedin className={styles.linkedin__icon} />
+                  </a>
                 </div>
               </div>
             </>}

@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { PersonFill, ChevronRight } from 'react-bootstrap-icons';
+import { BsPersonFill, BsChevronRight } from 'react-icons/bs';
 import { FetchEmail, ResetPasswordAPI } from '../apis/AuthApis.jsx';
 import PasswordInput from '../components/PasswordInput.jsx';
 import Logo from '../assets/JoberaLogo.png';
@@ -89,7 +89,7 @@ const ResetPassword = () => {
           </>) : (
             <form className={styles.reset} onSubmit={handleSubmit}>
               <div className={Inputstyles.field}>
-                <i className={Inputstyles.icon}><PersonFill /></i>
+                <i className={Inputstyles.icon}><BsPersonFill /></i>
                 <input type="email" className={Inputstyles.input} value={email} readOnly={true} />
               </div>
               <PasswordInput
@@ -104,7 +104,7 @@ const ResetPassword = () => {
               />
               <button type="submit" className={styles.reset__submit}>
                 <span>{t('pages.reset_password.span')}</span>
-                <i className={styles.button__icon}><ChevronRight /></i>
+                <i className={styles.button__icon}><BsChevronRight /></i>
               </button>
             </form>
           )}

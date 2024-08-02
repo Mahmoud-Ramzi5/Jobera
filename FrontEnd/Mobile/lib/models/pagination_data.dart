@@ -1,6 +1,6 @@
 class PaginationData {
-  final int from;
-  final int to;
+  final int? from;
+  final int? to;
   final int perPage;
   final int total;
   final int firstPage;
@@ -15,8 +15,8 @@ class PaginationData {
   final String path;
 
   PaginationData({
-    required this.from,
-    required this.to,
+    this.from,
+    this.to,
     required this.perPage,
     required this.total,
     required this.firstPage,
@@ -26,14 +26,14 @@ class PaginationData {
     required this.firstPageUrl,
     required this.currentPageUrl,
     required this.lastPageUrl,
-    required this.nextPage,
-    required this.prevPage,
+    this.nextPage,
+    this.prevPage,
     required this.path,
   });
 
   PaginationData.fromJson(Map<String, dynamic> json)
-      : from = json['from'] as int,
-        to = json['to'] as int,
+      : from = json['from'] != null ? json['from'] as int : 0,
+        to = json['to'] != null ? json['to'] as int : 0,
         perPage = json['per_page'] as int,
         total = json['total'] as int,
         firstPage = json['first_page'] as int,

@@ -280,7 +280,6 @@ class TransactionsController extends Controller
     {
         $validated = $request->validate([
             'code' => 'required',
-            'user_id' => 'required'
         ]);
 
         // Get user
@@ -293,12 +292,12 @@ class TransactionsController extends Controller
             ], 401);
         }
         $redeemCode = RedeemCode::where('code', $validated['code'])->first();
-        if ($redeemCode !== null && $redeemCode->user_id === null) {
+        if ($redeemCode !== null && $redeemCode->wallet_id === null) {
             $userWallet = Wallet::where('user_id', $user->id)->first();
             $userWallet->total_balance += $redeemCode->value;
             $userWallet->available_balance += $redeemCode->value;
             $userWallet->save();
-            $redeemCode->update(['user_id' => $validated['user_id']]);
+            $redeemCode->update(['wallet_id' => $userWallet->id]);
             return response()->json([
                 'message' => 'redeem code has been used successfully'
             ], 200);

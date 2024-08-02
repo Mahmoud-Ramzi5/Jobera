@@ -26,11 +26,11 @@ class Validation {
     return null;
   }
 
-  String? validatePhoneNumber(String? value) {
+  String? validateNumber(String? value) {
     if (value!.isEmpty) {
       return "Required Field";
     } else if (!value.isNum) {
-      return "Invalid Phone Number";
+      return "Invalid Number";
     }
     return null;
   }
@@ -39,9 +39,9 @@ class Validation {
     if (value!.isEmpty) {
       return "Required Field";
     } else if (!value.isNum) {
-      return "Invalid Offer";
+      return "Invalid offer";
     } else if (double.parse(value) < min || double.parse(value) > max) {
-      return "Not in offer Range";
+      return "Not in offer range";
     }
     return null;
   }

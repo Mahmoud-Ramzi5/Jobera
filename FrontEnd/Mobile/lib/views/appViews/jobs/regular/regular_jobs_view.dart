@@ -5,8 +5,8 @@ import 'package:jobera/controllers/appControllers/jobs/regular/regular_jobs_cont
 import 'package:jobera/customWidgets/texts.dart';
 
 class RegularJobsView extends StatelessWidget {
-  final RegularJobController _regularJobController =
-      Get.put(RegularJobController());
+  final RegularJobsController _regularJobController =
+      Get.put(RegularJobsController());
 
   RegularJobsView({super.key});
 
@@ -14,8 +14,8 @@ class RegularJobsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       key: _regularJobController.refreshIndicatorKey,
-      onRefresh: () async => await _regularJobController.fetchRegularJobs(),
-      child: GetBuilder<RegularJobController>(
+      onRefresh: () async => _regularJobController.refreshView(),
+      child: GetBuilder<RegularJobsController>(
         builder: (controller) => Scaffold(
           body: controller.loading
               ? const Center(
@@ -25,6 +25,16 @@ class RegularJobsView extends StatelessWidget {
                   controller: controller.scrollController,
                   child: Column(
                     children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            onPressed: () => Get.toNamed('/regularJobsFilter'),
+                            icon: const Icon(Icons.filter_alt),
+                            color: Colors.lightBlue.shade900,
+                          ),
+                        ],
+                      ),
                       ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: controller.regularJobs.length,
@@ -66,7 +76,18 @@ class RegularJobsView extends StatelessWidget {
                           ? const Center(
                               child: CircularProgressIndicator(),
                             )
-                          : const BodyText(text: 'No more jobs')
+                          : SingleChildScrollView(
+                              child: SizedBox(
+                                height: Get.height,
+                                child: Center(
+                                  child: BodyText(
+                                    text: controller.regularJobs.isEmpty
+                                        ? 'No jobs to show'
+                                        : 'No more jobs',
+                                  ),
+                                ),
+                              ),
+                            )
                     ],
                   ),
                 ),
