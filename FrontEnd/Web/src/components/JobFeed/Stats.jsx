@@ -1,13 +1,12 @@
-import { useEffect, useState, useContext, useRef } from 'react';
-import { useTranslation } from 'react-i18next';
-import { LoginContext } from '../../utils/Contexts.jsx';
-import { StatsAPI } from '../../apis/JobFeedApis.jsx';
-import styles from './stats.module.css';
-
+import { useEffect, useState, useContext, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import { LoginContext } from "../../utils/Contexts.jsx";
+import { StatsAPI } from "../../apis/JobFeedApis.jsx";
+import styles from "./stats.module.css";
 
 const Stats = () => {
   // Translations
-  const { t } = useTranslation('global');
+  const { t } = useTranslation("global");
   // Context
   const { accessToken } = useContext(LoginContext);
   // Define states
@@ -18,6 +17,7 @@ const Stats = () => {
   const [runnning_fullTimeJob, setRunnning_fullTimeJob] = useState(0);
   const [runnning_partTimeJob, setRunnning_partTimeJob] = useState(0);
   const [runnning_freelancingJob, setRunnning_freelancingJob] = useState(0);
+  const [stats_data, setStatsData] = useState([]);
 
   useEffect(() => {
     if (!initialized.current) {
@@ -25,12 +25,7 @@ const Stats = () => {
 
       StatsAPI(accessToken).then((response) => {
         if (response.status === 200) {
-          setDone_jobs(response.data.total_done_jobs);
-          setExhibiting_companies(response.data.total_exhibiting_companies);
-          setRegistered_individual(response.data.total_registered_individual);
-          setRunnning_fullTimeJob(response.data.total_running_fullTimeJob_posts);
-          setRunnning_partTimeJob(response.data.total_running_partTimeJob_posts);
-          setRunnning_freelancingJob(response.data.total_running_freelancingJob_posts);
+          setStatsData(response.data.stats);
         } else {
           console.log(response.statusText);
         }
@@ -38,63 +33,23 @@ const Stats = () => {
     }
   }, []);
 
-
   return (
     <div className={styles.stats_container}>
-      <div className={styles.card}>
-        <div className={styles.content}>
-          <img className="block" src="saturn-assets/images/stats/chat-icon-1.svg" alt="" />
-          <div>
-            <span className={styles.number}>{done_jobs}</span>
-            <span className={styles.label}>{t('pages.job_feed.stats.label1')}</span>
+      {stats_data.map((stat, index) => (
+        <div key={index} className={styles.card}>
+          <div className={styles.content}>
+            <img
+              className="block"
+              src="saturn-assets/images/stats/chat-icon-1.svg"
+              alt=""
+            />
+            <div>
+              <span className={styles.number}>{stat.data}</span>
+              <span className={styles.label}>{stat.name}</span>
+            </div>
           </div>
         </div>
-      </div>
-      <div className={`${styles.card} ${styles.selfEnd}`}>
-        <div className={styles.content}>
-          <img className="block" src="saturn-assets/images/stats/chat-icon-3.svg" alt="" />
-          <div>
-            <span className={styles.number}>{exhibiting_companies}</span>
-            <span className={styles.label}>{t('pages.job_feed.stats.label2')}</span>
-          </div>
-        </div>
-      </div>
-      <div className={styles.card}>
-        <div className={styles.content}>
-          <img className="block" src="saturn-assets/images/stats/chat-icon-2.svg" alt="" />
-          <div>
-            <span className={styles.number}>{registered_individual}</span>
-            <span className={styles.label}>{t('pages.job_feed.stats.label3')}</span>
-          </div>
-        </div>
-      </div>
-      <div className={styles.card}>
-        <div className={styles.content}>
-          <img className="block" src="saturn-assets/images/stats/chat-icon-2.svg" alt="" />
-          <div>
-            <span className={styles.number}>{runnning_fullTimeJob}</span>
-            <span className={styles.label}>{t('pages.job_feed.stats.label4')}</span>
-          </div>
-        </div>
-      </div>
-      <div className={styles.card}>
-        <div className={styles.content}>
-          <img className="block" src="saturn-assets/images/stats/chat-icon-2.svg" alt="" />
-          <div>
-            <span className={styles.number}>{runnning_partTimeJob}</span>
-            <span className={styles.label}>{t('pages.job_feed.stats.label5')}</span>
-          </div>
-        </div>
-      </div>
-      <div className={styles.card}>
-        <div className={styles.content}>
-          <img className="block" src="saturn-assets/images/stats/chat-icon-2.svg" alt="" />
-          <div>
-            <span className={styles.number}>{runnning_freelancingJob}</span>
-            <span className={styles.label}>{t('pages.job_feed.stats.label6')}</span>
-          </div>
-        </div>
-      </div>
+      ))}
     </div>
   );
 };
