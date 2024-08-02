@@ -36,6 +36,9 @@ const JobCard = ({ JobData }) => {
           <p> {t('pages.jobs.job_card.publish_date')}{' '}
             {JobData.publish_date.split('T')[0]}
           </p>
+          {JobData.deadline && <p>
+            {t('pages.jobs.job_card.deadline')}{' '}{JobData.deadline}
+          </p>}
         </div>
       </div>
       }

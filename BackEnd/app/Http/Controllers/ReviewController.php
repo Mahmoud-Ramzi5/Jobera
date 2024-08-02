@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Review;
 use Illuminate\Http\Request;
 
@@ -20,7 +19,10 @@ class ReviewController extends Controller
         $user = auth()->user();
 
         // Check user
-        if ($user == null) {
+        if (
+            $user == null ||
+            $user->id != $validated['reviewer_id']
+        ) {
             return response()->json([
                 'errors' => ['user' => 'Invalid user']
             ], 401);

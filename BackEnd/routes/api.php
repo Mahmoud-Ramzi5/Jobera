@@ -174,10 +174,6 @@ Route::controller(ChatController::class)->group(function () {
 
 Route::controller(JobFeedController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
-        Route::get('/jobFeed/payedReg', 'MostPayedRegJobs');
-        Route::get('/jobFeed/payedFreelance', 'MostPayedFreelancingJobs');
-        Route::get('/jobFeed/skills', 'MostNeededSkills');
-        Route::get('/jobFeed/companies', 'MostPostingCompanies');
         Route::get('/jobFeed/stats', 'Stats');
         Route::get('/jobFeed/tops', 'Tops');
     });

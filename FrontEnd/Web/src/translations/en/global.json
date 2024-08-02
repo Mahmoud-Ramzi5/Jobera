@@ -145,7 +145,8 @@
                 "salary": "Salary:",
                 "budget": "Budget:",
                 "published_by": "Published by:",
-                "publish_date": "Publish date:"
+                "publish_date": "Publish date:",
+                "deadline": "Deadline:"
             },
             "done": "No more jobs to show"
         },
