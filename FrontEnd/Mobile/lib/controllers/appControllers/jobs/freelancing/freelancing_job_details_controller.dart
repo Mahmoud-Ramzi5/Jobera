@@ -16,9 +16,11 @@ class FreelancingJobDetailsController extends GetxController {
   late FreelancingJob freelancingJob;
   late TextEditingController commentController;
   late TextEditingController offerController;
+  late TextEditingController editOfferController;
   late double share;
   bool applied = false;
   bool loading = true;
+  bool isEditOffer = false;
 
   @override
   Future<void> onInit() async {
@@ -30,6 +32,7 @@ class FreelancingJobDetailsController extends GetxController {
     freelancingJob = FreelancingJob.empty();
     commentController = TextEditingController();
     offerController = TextEditingController();
+    editOfferController = TextEditingController();
     share = 0.0;
     await fetchFreelancingJob(freelancingJobsController.jobDetailsId);
     loading = false;
@@ -97,6 +100,18 @@ class FreelancingJobDetailsController extends GetxController {
     } else {
       share = 0.0;
     }
+    update();
+  }
+
+  void editOffer(int index) {
+    isEditOffer = true;
+    editOfferController.text =
+        freelancingJob.competitors[index].offer.toString();
+    update();
+  }
+
+  void cancelEditOffer() {
+    isEditOffer = false;
     update();
   }
 
@@ -247,6 +262,40 @@ class FreelancingJobDetailsController extends GetxController {
         },
       );
       if (response.statusCode == 200) {
+        refreshIndicatorKey.currentState!.show();
+        freelancingJobsController.refreshIndicatorKey.currentState!.show();
+        update();
+      }
+    } on DioException catch (e) {
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response.toString(),
+      );
+    }
+  }
+
+  Future<dynamic> changeOffer(
+    int defJobId,
+    String offer,
+  ) async {
+    String? token = sharedPreferences?.getString('access_token');
+    try {
+      var response = await dio.post(
+        'http://192.168.0.108:8000/api/FreelancingJobs/offer',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+        data: {
+          'defJob_id': defJobId,
+          'offer': double.parse(offer),
+        },
+      );
+      if (response.statusCode == 200) {
+        isEditOffer = false;
         refreshIndicatorKey.currentState!.show();
         freelancingJobsController.refreshIndicatorKey.currentState!.show();
         update();

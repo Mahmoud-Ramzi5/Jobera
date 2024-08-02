@@ -17,13 +17,13 @@ class FreelancingJobsView extends StatelessWidget {
       onRefresh: () async => await _freelancingJobsController.refreshView(),
       child: GetBuilder<FreelancingJobsController>(
         builder: (controller) => Scaffold(
-          body: SingleChildScrollView(
-            controller: controller.scrollController,
-            child: controller.loading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Column(
+          body: controller.loading
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : SingleChildScrollView(
+                  controller: controller.scrollController,
+                  child: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
@@ -64,8 +64,10 @@ class FreelancingJobsView extends StatelessWidget {
                                 jobType: controller.freelancingJobs[index].type,
                                 publishedBy: controller
                                     .freelancingJobs[index].poster.name,
-                                date: controller
+                                publishDate: controller
                                     .freelancingJobs[index].publishDate,
+                                deadline:
+                                    controller.freelancingJobs[index].deadline,
                                 minOffer:
                                     controller.freelancingJobs[index].minOffer,
                                 maxOffer:
@@ -91,7 +93,7 @@ class FreelancingJobsView extends StatelessWidget {
                             )
                     ],
                   ),
-          ),
+                ),
         ),
       ),
     );

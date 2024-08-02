@@ -17,8 +17,8 @@ class FreelancingJobsController extends GetxController {
   late TextEditingController nameController;
   late TextEditingController minOfferController;
   late TextEditingController maxOfferController;
-  late DateTime dateFrom;
-  late DateTime dateTo;
+  DateTime? dateFrom;
+  DateTime? dateTo;
   List<FreelancingJob> freelancingJobs = [];
   bool loading = true;
   int jobDetailsId = 0;
@@ -26,8 +26,6 @@ class FreelancingJobsController extends GetxController {
   List<bool> selectedSkills = [];
   List<String> skillNames = [];
   bool isFiltered = false;
-  String from = '';
-  String to = '';
 
   @override
   Future<void> onInit() async {
@@ -39,15 +37,15 @@ class FreelancingJobsController extends GetxController {
     nameController = TextEditingController();
     minOfferController = TextEditingController();
     maxOfferController = TextEditingController();
-    dateFrom = DateTime.now();
-    dateTo = DateTime.now();
+    dateFrom = null;
+    dateTo = null;
     await fetchFreelancingJobs(1);
     skills = await settingsController.getAllSkills();
     for (var i = 0; i < skills.length; i++) {
       selectedSkills.add(false);
     }
     loading = false;
-
+    update();
     super.onInit();
   }
 
@@ -84,7 +82,6 @@ class FreelancingJobsController extends GetxController {
     );
     if (picked != null && picked != dateFrom) {
       dateFrom = picked;
-      from = '${dateFrom.year} / ${dateFrom.month} / ${dateFrom.day}';
     }
     update();
   }
@@ -99,7 +96,6 @@ class FreelancingJobsController extends GetxController {
     );
     if (picked != null && picked != dateTo) {
       dateTo = picked;
-      to = '${dateTo.year} / ${dateTo.month} / ${dateTo.day}';
     }
     update();
   }
@@ -116,8 +112,6 @@ class FreelancingJobsController extends GetxController {
     maxOfferController.clear();
     dateFrom = DateTime.now();
     dateTo = DateTime.now();
-    from = '';
-    to = '';
     skillNames.clear();
     for (var i = 0; i < skills.length; i++) {
       selectedSkills[i] = false;
@@ -163,8 +157,8 @@ class FreelancingJobsController extends GetxController {
     String name,
     String minOffer,
     String maxOffer,
-    String from,
-    String to,
+    DateTime? dateFrom,
+    DateTime? dateTo,
     List<String> skillnames,
   ) async {
     isFiltered = true;
@@ -177,16 +171,15 @@ class FreelancingJobsController extends GetxController {
         url = '$url&salary[gte]=$minOffer&salary[lte]=$maxOffer';
       }
     }
-    if (from != '') {
-      url = '$url&deadline[gte]=$from';
+    if (dateFrom != null) {
+      url = '$url&deadline[gte]=${dateFrom.toString().split(' ')[0]}';
     }
-    if (to != '') {
-      url = '$url&deadline[lte]=$to';
+    if (dateTo != null) {
+      url = '$url&deadline[lte]=${dateTo.toString().split(' ')[0]}';
     }
     if (skillNames.isNotEmpty) {
       url = '$url&skills=$skillnames';
     }
-    print(url.toString());
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
@@ -200,7 +193,6 @@ class FreelancingJobsController extends GetxController {
         ),
       );
       if (response.statusCode == 200) {
-        print(response.data);
         for (var job in response.data['jobs']) {
           freelancingJobs.add(
             FreelancingJob.fromJson(job),
@@ -229,8 +221,8 @@ class FreelancingJobsController extends GetxController {
           nameController.text,
           minOfferController.text,
           maxOfferController.text,
-          from,
-          to,
+          dateFrom!,
+          dateTo!,
           skillNames,
         );
       } else {

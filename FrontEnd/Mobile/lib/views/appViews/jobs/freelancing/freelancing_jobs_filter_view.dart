@@ -75,7 +75,9 @@ class FreelancingJobsFilterView extends StatelessWidget {
                                   context,
                                 ),
                                 child: BodyText(
-                                  text: "${controller.dateFrom}".split(' ')[0],
+                                  text: controller.dateFrom != null
+                                      ? "${controller.dateFrom}".split(' ')[0]
+                                      : 'Pick Date',
                                 ),
                               ),
                             ),
@@ -94,7 +96,9 @@ class FreelancingJobsFilterView extends StatelessWidget {
                                   context,
                                 ),
                                 child: BodyText(
-                                  text: "${controller.dateTo}".split(' ')[0],
+                                  text: controller.dateTo != null
+                                      ? "${controller.dateTo}".split(' ')[0]
+                                      : 'Pick Date',
                                 ),
                               ),
                             ),
@@ -149,8 +153,8 @@ class FreelancingJobsFilterView extends StatelessWidget {
                     controller.nameController.text,
                     controller.minOfferController.text,
                     controller.maxOfferController.text,
-                    controller.from,
-                    controller.to,
+                    controller.dateFrom,
+                    controller.dateTo,
                     controller.skillNames,
                   );
                 },

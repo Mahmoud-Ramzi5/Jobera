@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 import 'package:jobera/controllers/appControllers/jobs/freelancing/freelancing_job_details_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_image.dart';
+import 'package:jobera/customWidgets/custom_text_field.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
 import 'package:jobera/customWidgets/texts.dart';
+import 'package:jobera/customWidgets/validation.dart';
 
 class FreelancingJobDetailsView extends StatelessWidget {
   final FreelancingJobDetailsController _freelancingJobDetailsController =
@@ -456,7 +458,95 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                               ),
                                             ),
                                           ],
-                                        )
+                                        ),
+                                        if (controller
+                                                    .freelancingJob
+                                                    .competitors[index]
+                                                    .userId ==
+                                                controller.homeController.id &&
+                                            controller.freelancingJob
+                                                    .acceptedUser ==
+                                                null &&
+                                            controller.isEditOffer)
+                                          Padding(
+                                            padding: const EdgeInsets.all(10),
+                                            child: Form(
+                                              key: controller.formField,
+                                              child: CustomTextField(
+                                                controller: controller
+                                                    .editOfferController,
+                                                textInputType:
+                                                    TextInputType.number,
+                                                obsecureText: false,
+                                                icon: Icons.monetization_on,
+                                                labelText: 'Offer',
+                                                validator: (p0) =>
+                                                    Validation().validateOffer(
+                                                  p0,
+                                                  controller
+                                                      .freelancingJob.minOffer,
+                                                  controller
+                                                      .freelancingJob.maxOffer,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        if (controller
+                                                    .freelancingJob
+                                                    .competitors[index]
+                                                    .userId ==
+                                                controller.homeController.id &&
+                                            controller.freelancingJob
+                                                    .acceptedUser ==
+                                                null &&
+                                            !controller.isEditOffer)
+                                          OutlinedButton(
+                                            onPressed: () =>
+                                                controller.editOffer(index),
+                                            child: const BodyText(
+                                                text: 'Change Offer'),
+                                          ),
+                                        if (controller
+                                                    .freelancingJob
+                                                    .competitors[index]
+                                                    .userId ==
+                                                controller.homeController.id &&
+                                            controller.freelancingJob
+                                                    .acceptedUser ==
+                                                null &&
+                                            controller.isEditOffer)
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              OutlinedButton(
+                                                onPressed: () => controller
+                                                    .cancelEditOffer(),
+                                                child: const BodyText(
+                                                  text: 'Cancel',
+                                                ),
+                                              ),
+                                              OutlinedButton(
+                                                onPressed: () {
+                                                  if (controller.formField
+                                                          .currentState
+                                                          ?.validate() ==
+                                                      true) {
+                                                    controller.changeOffer(
+                                                      controller.freelancingJob
+                                                          .defJobId,
+                                                      controller
+                                                          .editOfferController
+                                                          .text,
+                                                    );
+                                                  }
+                                                },
+                                                child: const BodyText(
+                                                  text: 'Send',
+                                                ),
+                                              ),
+                                            ],
+                                          )
                                       ],
                                     ),
                                   ),
