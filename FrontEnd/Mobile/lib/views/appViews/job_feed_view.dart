@@ -5,100 +5,348 @@ import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/texts.dart';
 
 class JobFeedView extends StatelessWidget {
-  final JobFeedController _newsFeedController = Get.put(JobFeedController());
+  final JobFeedController newsFeedController = Get.put(JobFeedController());
 
   JobFeedView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Center(
-                child: NewsFeedContainer(
-                  width: Get.width - 10,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.all(10),
-                        child: LargeHeadlineText(
-                          text: 'Top Jobs',
-                        ),
-                      ),
-                      ListView.builder(
-                        itemCount: 5,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return const Padding(
-                            padding: EdgeInsets.all(5),
-                            child: SizedBox(
-                              width: 100,
-                              child: Card(
-                                child: Padding(
-                                  padding: EdgeInsets.all(10),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      LargeHeadlineText(text: 'test'),
-                                      Row(
-                                        children: [
-                                          SmallHeadlineText(text: 'Salary: '),
-                                          MediumHeadlineText(text: '500000 SYP')
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
+      body: GetBuilder<JobFeedController>(
+        builder: (controller) => controller.loading
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: NewsFeedContainer(
+                        width: Get.width - 10,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: MediumHeadlineText(
+                                text: 'Most Payed Freelancing Jobs:',
                               ),
                             ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    NewsFeedContainer(
-                      height: 150,
-                      width: 150,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          LargeHeadlineText(text: '999'),
-                          SmallHeadlineText(text: 'test'),
-                        ],
+                            ListView.builder(
+                              itemCount:
+                                  controller.mostPayedFreeLancingJobs.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: SizedBox(
+                                    width: 100,
+                                    child: GestureDetector(
+                                      onTap: () =>
+                                          controller.viewFreelancingJob(
+                                        controller
+                                            .mostPayedFreeLancingJobs[index].id,
+                                      ),
+                                      child: Card(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SmallHeadlineText(
+                                                text: controller
+                                                    .mostPayedFreeLancingJobs[
+                                                        index]
+                                                    .title,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  const SmallHeadlineText(
+                                                      text: 'Salary: '),
+                                                  MediumHeadlineText(
+                                                    text:
+                                                        '${controller.mostPayedFreeLancingJobs[index].salary}\$',
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    NewsFeedContainer(
-                      height: 150,
-                      width: 150,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          LargeHeadlineText(text: '999'),
-                          SmallHeadlineText(text: 'test'),
-                        ],
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: NewsFeedContainer(
+                        width: Get.width - 10,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: MediumHeadlineText(
+                                text: 'Most Payed Regular Jobs:',
+                              ),
+                            ),
+                            ListView.builder(
+                              itemCount: controller.mostPayedRegJobs.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: SizedBox(
+                                    width: 100,
+                                    child: GestureDetector(
+                                      onTap: () => controller.viewRegularJob(
+                                        controller.mostPayedRegJobs[index].id,
+                                      ),
+                                      child: Card(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SmallHeadlineText(
+                                                text: controller
+                                                    .mostPayedRegJobs[index]
+                                                    .title,
+                                              ),
+                                              Row(
+                                                children: [
+                                                  const SmallHeadlineText(
+                                                    text: 'Offer: ',
+                                                  ),
+                                                  MediumHeadlineText(
+                                                    text:
+                                                        '${controller.mostPayedRegJobs[index].salary}\$',
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: NewsFeedContainer(
+                        width: Get.width - 10,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: MediumHeadlineText(
+                                text: 'Most Posting Companies:',
+                              ),
+                            ),
+                            ListView.builder(
+                              itemCount: controller.mostPostingComapnies.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: SizedBox(
+                                    width: 100,
+                                    child: GestureDetector(
+                                      onTap: () =>
+                                          controller.viewCompanyProfile(
+                                        controller
+                                            .mostPostingComapnies[index].id,
+                                        controller
+                                            .mostPostingComapnies[index].title,
+                                      ),
+                                      child: Card(
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              SmallHeadlineText(
+                                                  text: controller
+                                                      .mostPostingComapnies[
+                                                          index]
+                                                      .title),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceEvenly,
+                                                children: [
+                                                  MediumHeadlineText(
+                                                    text:
+                                                        '${controller.mostPostingComapnies[index].count}',
+                                                  ),
+                                                  const SmallHeadlineText(
+                                                    text: 'Posts',
+                                                  ),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: NewsFeedContainer(
+                        width: Get.width - 10,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.all(10),
+                              child: MediumHeadlineText(
+                                text: 'Most Needed Skills:',
+                              ),
+                            ),
+                            ListView.builder(
+                              itemCount: controller.mostNeededSkills.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(5),
+                                  child: SizedBox(
+                                    width: 100,
+                                    child: Card(
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SmallHeadlineText(
+                                              text: controller
+                                                  .mostNeededSkills[index]
+                                                  .title,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                MediumHeadlineText(
+                                                  text:
+                                                      '${controller.mostNeededSkills[index].count}',
+                                                ),
+                                                const SmallHeadlineText(
+                                                  text: 'Times',
+                                                ),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: ListView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: controller.stats.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          final firstIndex = index * 2;
+                          final secondIndex = firstIndex + 1;
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              if (firstIndex < controller.stats.length)
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: NewsFeedContainer(
+                                    height: 150,
+                                    width: 150,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SmallHeadlineText(
+                                          text:
+                                              '${controller.stats[firstIndex].stat}',
+                                        ),
+                                        LabelText(
+                                          text:
+                                              controller.stats[firstIndex].name,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              if (secondIndex < controller.stats.length)
+                                Padding(
+                                  padding: const EdgeInsets.all(10),
+                                  child: NewsFeedContainer(
+                                    height: 150,
+                                    width: 150,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SmallHeadlineText(
+                                          text:
+                                              '${controller.stats[secondIndex].stat}',
+                                        ),
+                                        LabelText(
+                                          text: controller
+                                              .stats[secondIndex].name,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          );
+                        },
                       ),
                     ),
                   ],
                 ),
-              )
-            ],
-          ),
-        ),
+              ),
       ),
     );
   }
