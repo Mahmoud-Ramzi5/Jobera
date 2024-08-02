@@ -29,51 +29,53 @@ const NavBar = () => {
 
   // Open Notifications Channel
   useEffect(() => {
-    Pusher.logToConsole = true;
+    if (profile) {
+      Pusher.logToConsole = true;
 
-    const pusher = new Pusher('181e3fe8a6a1e1e21e6e', {
-      cluster: 'ap2',
-      encrypted: true,
-      authEndpoint: 'http://127.0.0.1:8000/broadcasting/auth',
-      auth: {
-        headers: {
-          'Accept': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Authorization': `Bearer ${accessToken}`
+      const pusher = new Pusher('181e3fe8a6a1e1e21e6e', {
+        cluster: 'ap2',
+        encrypted: true,
+        authEndpoint: 'http://127.0.0.1:8000/broadcasting/auth',
+        auth: {
+          headers: {
+            'Accept': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': `Bearer ${accessToken}`
+          }
         }
-      }
-    });
+      });
 
-    const channel = pusher.subscribe(`private-user.${profile.user_id}`);
-    channel.bind('App\\Events\\NewNotification', data => {
-      setCount(prevCount => prevCount + 1);
-      setNotifications(prevNotifications => [...prevNotifications, data]);
-      if (data) {
-        NotifyUser(data);
-      }
-    });
+      const channel = pusher.subscribe(`private-user.${profile.user_id}`);
+      channel.bind('NewNotification', data => {
+        setCount(prevCount => prevCount + 1);
+        setNotifications(prevNotifications => [...prevNotifications, data]);
+        if (data) {
+          NotifyUser(data);
+        }
+      });
 
-    // const beamsClient = new PusherPushNotifications.Client({
-    //   instanceId: "488b218d-2a72-4d5b-8940-346df9234336",
-    // });
+      // const beamsClient = new PusherPushNotifications.Client({
+      //   instanceId: "488b218d-2a72-4d5b-8940-346df9234336",
+      // });
 
-    // beamsClient
-    //   .getUserId()
-    //   .then((userId) => {
-    //     console.log("User ID:", userId)
-    //     // Check if the Beams user matches the user that is currently logged in
-    //     if (userId !== `user-${profile.user_id}`) {
-    //       // Unregister for notifications
-    //       return beamsClient.stop();
-    //     }
-    //   })
-    //   .catch(console.error);
+      // beamsClient
+      //   .getUserId()
+      //   .then((userId) => {
+      //     console.log("User ID:", userId)
+      //     // Check if the Beams user matches the user that is currently logged in
+      //     if (userId !== `user-${profile.user_id}`) {
+      //       // Unregister for notifications
+      //       return beamsClient.stop();
+      //     }
+      //   })
+      //   .catch(console.error);
 
 
-    return () => {
-      channel.unbind_all();
-      channel.unsubscribe();
-    };
+      return () => {
+        channel.unbind_all();
+        channel.unsubscribe();
+      };
+    }
   }, [profile]);
 
   const NotifyUser = async (data) => {

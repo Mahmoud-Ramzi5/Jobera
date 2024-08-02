@@ -46,7 +46,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
   const [accessToken, setAccessToken] = useState(null);
-  const [profile, setProfile] = useState({});
+  const [profile, setProfile] = useState(null);
   const [theme, setTheme] = useState('theme-light');
 
   const toggleTheme = () => {

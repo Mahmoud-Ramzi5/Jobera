@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\AuthControllers\AuthController;
 use App\Http\Controllers\AuthControllers\SocialAuthController;
 use App\Http\Controllers\AuthControllers\ForgetPasswordController;
@@ -182,6 +183,14 @@ Route::controller(JobFeedController::class)->group(function () {
 Route::controller(ReviewController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::post('/review', 'MakeReview');
+    });
+});
+
+Route::controller(NotificationsController::class)->group(function () {
+    Route::middleware('auth:api')->group(function () {
+        Route::get('/notifications', 'GetUserNotifications');
+        Route::post('/notifications', 'MarkNotificationsAsRead');
+        Route::delete('/notifications', 'DeleteNotifications');
     });
 });
 

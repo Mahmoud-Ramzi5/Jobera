@@ -26,7 +26,7 @@ class NewMessage implements ShouldBroadcastNow // ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * The chat instance.
+     * The message instance.
      *
      * @var \App\Models\Message
      */
@@ -43,13 +43,21 @@ class NewMessage implements ShouldBroadcastNow // ShouldBroadcast
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
+     * @return array<int, \Illuminate\Broadcasting\PrivateChannel>
      */
     public function broadcastOn(): array
     {
         return [
             new PrivateChannel('chat.' . $this->message->chat_id),
         ];
+    }
+
+    /**
+     * The event's broadcast name.
+     */
+    public function broadcastAs(): string
+    {
+        return 'NewMessage';
     }
 
     /**

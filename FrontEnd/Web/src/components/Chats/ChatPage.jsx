@@ -67,7 +67,7 @@ const ChatWindow = ({ selectedChat, setUpdateList }) => {
       });
 
       const channel = pusher.subscribe(`private-chat.${selectedChat.id}`);
-      channel.bind('App\\Events\\NewMessage', data => {
+      channel.bind('NewMessage', data => {
         setMessages(prevMessages => [...prevMessages, data.message]);
       });
 
