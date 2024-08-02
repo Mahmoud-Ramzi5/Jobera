@@ -24,6 +24,24 @@ class NotificationsController extends Controller
         ], 200);
     }
 
+    public function GetUnreadNotifications()
+    {
+        // Get User
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+
+        // Response
+        return response()->json([
+            'notifications' => $user->unreadNotifications,
+        ], 200);
+    }
+
     public function MarkNotificationsAsRead(Request $request)
     {
         // Validate request
@@ -50,17 +68,12 @@ class NotificationsController extends Controller
 
         // Response
         return response()->json([
-            'message' => 'Notifications marked sucessfully',
+            'message' => 'Notifications has been marked sucessfully',
         ], 200);
     }
 
-    public function DeleteNotifications(Request $request)
+    public function DeleteNotifications(Request $request, $notification_id)
     {
-        // Validate request
-        $validated = $request->validate([
-            'notification_id' => 'required'
-        ]);
-
         // Get User
         $user = auth()->user();
 
@@ -71,16 +84,12 @@ class NotificationsController extends Controller
             ], 401);
         }
 
-        // delete Notifications
-        if ($validated['notification_id'] == 'all') {
-            $user->notifications()->delete();
-        } else {
-            $user->notifications()->where('id', $validated['notification_id'])->delete();;
-        }
+        // delete Notification
+        $user->notifications()->where('id', $notification_id)->delete();
 
         // Response
         return response()->json([
-            'message' => 'Notifications marked sucessfully',
+            'message' => 'Notification has been deleted sucessfully',
         ], 200);
     }
 }

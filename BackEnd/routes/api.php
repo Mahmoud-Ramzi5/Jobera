@@ -189,8 +189,9 @@ Route::controller(ReviewController::class)->group(function () {
 Route::controller(NotificationsController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('/notifications', 'GetUserNotifications');
+        Route::get('/notifications-nr', 'GetUnreadNotifications');
         Route::post('/notifications', 'MarkNotificationsAsRead');
-        Route::delete('/notifications', 'DeleteNotifications');
+        Route::delete('/notification/{id}', 'DeleteNotification');
     });
 });
 
