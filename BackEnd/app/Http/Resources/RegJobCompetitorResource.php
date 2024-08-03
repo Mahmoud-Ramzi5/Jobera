@@ -19,7 +19,7 @@ class RegJobCompetitorResource extends JsonResource
             "user" => [
                 'user_id' => $this->individual->user_id,
                 'name' => $this->individual->full_name,
-                'rating' => $this->individual->user->rating,
+                'rating' => number_format($this->individual->user->reviewedBy->avg('review'), 2, '.', ''),
                 'avatar_photo' => $this->individual->user->avatar_photo,
             ],
             "description" => $this->description,
