@@ -53,7 +53,7 @@ class JobFeedController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.0.108:8000/api/jobFeed/tops',
+        'http://192.168.43.23:8000/api/jobFeed/tops',
         options: Options(
           headers: {
             'Content-Type':
@@ -92,7 +92,7 @@ class JobFeedController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.0.108:8000/api/jobFeed/stats',
+        'http://192.168.43.23:8000/api/jobFeed/stats',
         options: Options(
           headers: {
             'Content-Type':

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:jobera/components/jobs_components.dart';
 import 'package:jobera/controllers/appControllers/jobs/freelancing/freelancing_job_details_controller.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_image.dart';
@@ -63,173 +65,75 @@ class FreelancingJobDetailsView extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     child: Column(
                       children: [
-                        Column(
-                          children: [
-                            Center(
-                              child: ProfilePhotoContainer(
-                                height: 200,
-                                width: 200,
-                                child: controller.freelancingJob.photo != null
-                                    ? CustomImage(
-                                        path: controller.freelancingJob.photo
-                                            .toString(),
-                                      )
-                                    : Icon(
-                                        Icons.laptop,
-                                        color: Colors.lightBlue.shade900,
-                                        size: 100,
-                                      ),
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                if ((controller.freelancingJob.poster.userId ==
-                                            controller.homeController.id ||
-                                        controller
-                                                .freelancingJob.poster.userId ==
-                                            controller.homeController.id) &&
-                                    controller.freelancingJob.acceptedUser !=
-                                        null &&
-                                    !controller.freelancingJob.isDone)
-                                  OutlinedButton(
-                                    onPressed: () => controller.endJob(
+                        Center(
+                          child: ProfilePhotoContainer(
+                            height: 200,
+                            width: 200,
+                            child: controller.freelancingJob.photo != null
+                                ? CustomImage(
+                                    path: controller.freelancingJob.photo
+                                        .toString(),
+                                  )
+                                : Icon(
+                                    Icons.laptop,
+                                    color: Colors.lightBlue.shade900,
+                                    size: 100,
+                                  ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if ((controller.freelancingJob.poster.userId ==
+                                          controller.homeController.id ||
+                                      controller.freelancingJob.poster.userId ==
+                                          controller.homeController.id) &&
+                                  controller.freelancingJob.acceptedUser !=
+                                      null &&
+                                  !controller.freelancingJob.isDone)
+                                OutlinedButton(
+                                  onPressed: () async {
+                                    await controller.endJob(
                                       controller.freelancingJob.defJobId,
                                       controller.freelancingJob.poster.userId,
                                       controller
                                           .freelancingJob.acceptedUser!.usedId,
                                       controller
                                           .freelancingJob.acceptedUser!.offer,
-                                    ),
-                                    child: const BodyText(text: 'End Job'),
-                                  ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: InfoContainer(
-                                name: 'Details',
-                                widget: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const BodyText(text: 'Job Title: '),
-                                        Flexible(
-                                          child: LabelText(
-                                            text:
-                                                controller.freelancingJob.title,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const BodyText(text: 'Job Type: '),
-                                        LabelText(
-                                          text: controller.freelancingJob.type,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const BodyText(text: 'Description: '),
-                                        Flexible(
-                                          child: LabelText(
-                                            text: controller
-                                                .freelancingJob.description,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const BodyText(text: 'Location: '),
-                                        if (controller.freelancingJob.state !=
-                                            null)
-                                          Flexible(
-                                            child: LabelText(
-                                              text:
-                                                  '${controller.freelancingJob.country}-${controller.freelancingJob.state}',
-                                            ),
-                                          )
-                                        else
-                                          const LabelText(text: 'Remotely'),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const BodyText(text: 'Deadline: '),
-                                        LabelText(
-                                          text:
-                                              '${controller.freelancingJob.deadline.day}/${controller.freelancingJob.deadline.month}/${controller.freelancingJob.deadline.year}',
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const BodyText(text: 'Published by: '),
-                                        Flexible(
-                                          child: TextButton(
-                                            onPressed: () =>
-                                                controller.viewUserProfile(
-                                              controller
-                                                  .freelancingJob.poster.userId,
-                                              controller
-                                                  .freelancingJob.poster.name,
-                                              controller
-                                                  .freelancingJob.poster.type
-                                                  .toString(),
-                                            ),
-                                            child: Text(
-                                              controller
-                                                  .freelancingJob.poster.name,
-                                              style: TextStyle(
-                                                color: Colors.orange.shade800,
-                                                decoration:
-                                                    TextDecoration.underline,
-                                                decorationColor:
-                                                    Colors.lightBlue.shade900,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const BodyText(text: 'Publish Date: '),
-                                        LabelText(
-                                          text:
-                                              '${controller.freelancingJob.publishDate.day}/${controller.freelancingJob.publishDate.month}/${controller.freelancingJob.publishDate.year}',
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const BodyText(
-                                          text: 'Offer Range:',
-                                        ),
-                                        LabelText(
-                                          text:
-                                              '${controller.freelancingJob.minOffer}\$-${controller.freelancingJob.maxOffer}\$',
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const BodyText(text: 'Avg offer: '),
-                                        LabelText(
-                                          text:
-                                              '${controller.freelancingJob.avgOffer}\$',
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                    );
+                                    await controller.rateUser(
+                                      controller.freelancingJob.poster.userId,
+                                      controller
+                                          .freelancingJob.acceptedUser!.usedId,
+                                    );
+                                  },
+                                  child: const BodyText(text: 'End Job'),
                                 ),
-                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: FreelancingJobDetailsComponent(
+                            jobTitle: controller.freelancingJob.title,
+                            jobType: controller.freelancingJob.type,
+                            description: controller.freelancingJob.description,
+                            deadline: controller.freelancingJob.deadline,
+                            publishedBy: controller.freelancingJob.poster.name,
+                            publishDate: controller.freelancingJob.publishDate,
+                            minOffer: controller.freelancingJob.minOffer,
+                            maxOffer: controller.freelancingJob.maxOffer,
+                            avgOffer: controller.freelancingJob.avgOffer,
+                            state: controller.freelancingJob.state,
+                            country: controller.freelancingJob.country,
+                            onPressed: () => controller.viewUserProfile(
+                              controller.freelancingJob.poster.userId,
+                              controller.freelancingJob.poster.name,
+                              controller.freelancingJob.poster.type.toString(),
                             ),
-                          ],
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10),
@@ -397,7 +301,30 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                             ],
                                           ),
                                         ),
-                                        const BodyText(text: 'Rating:'),
+                                        Row(
+                                          children: [
+                                            const BodyText(text: 'Rating:'),
+                                            RatingBar.builder(
+                                              initialRating: controller
+                                                      .freelancingJob
+                                                      .competitors[index]
+                                                      .rating ??
+                                                  0.0,
+                                              allowHalfRating: true,
+                                              itemCount: 5,
+                                              itemBuilder: (context, index) {
+                                                return Icon(
+                                                  Icons.star,
+                                                  color:
+                                                      Colors.lightBlue.shade900,
+                                                );
+                                              },
+                                              itemSize: 25,
+                                              ignoreGestures: true,
+                                              onRatingUpdate: (value) {},
+                                            ),
+                                          ],
+                                        ),
                                         Row(
                                           children: [
                                             const BodyText(text: 'Name:'),
@@ -504,7 +431,8 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                             onPressed: () =>
                                                 controller.editOffer(index),
                                             child: const BodyText(
-                                                text: 'Change Offer'),
+                                              text: 'Change Offer',
+                                            ),
                                           ),
                                         if (controller
                                                     .freelancingJob

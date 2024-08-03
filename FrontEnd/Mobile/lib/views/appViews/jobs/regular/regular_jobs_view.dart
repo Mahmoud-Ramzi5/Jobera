@@ -58,15 +58,19 @@ class RegularJobsView extends StatelessWidget {
                                   width: 2,
                                 ),
                               ),
-                              child: RegularJobComponent(
-                                photo: controller.regularJobs[index].photo,
-                                jobTitle: controller.regularJobs[index].title,
-                                jobType: controller.regularJobs[index].type,
-                                publishedBy:
-                                    controller.regularJobs[index].poster.name,
-                                date: controller.regularJobs[index].publishDate,
-                                salary: controller.regularJobs[index].salary,
-                                onPressed: () {},
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: RegularJobComponent(
+                                  photo: controller.regularJobs[index].photo,
+                                  jobTitle: controller.regularJobs[index].title,
+                                  jobType: controller.regularJobs[index].type,
+                                  publishedBy:
+                                      controller.regularJobs[index].poster.name,
+                                  date:
+                                      controller.regularJobs[index].publishDate,
+                                  salary: controller.regularJobs[index].salary,
+                                  onPressed: () {},
+                                ),
                               ),
                             ),
                           );

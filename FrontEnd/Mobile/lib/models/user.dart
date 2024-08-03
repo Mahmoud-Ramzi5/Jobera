@@ -22,6 +22,8 @@ class User {
   final List<Portfolio> portfolios;
   final String step;
   final Wallet wallet;
+  final double? rating;
+  final int reviewsCount;
 
   User({
     required this.id,
@@ -33,14 +35,16 @@ class User {
     required this.birthDate,
     required this.gender,
     required this.type,
+    this.description,
+    this.photo,
+    this.education,
     required this.skills,
     required this.portfolios,
     required this.certificates,
     required this.step,
     required this.wallet,
-    this.education,
-    this.description,
-    this.photo,
+    this.rating,
+    required this.reviewsCount,
   });
 
   User.fromJson(Map<String, dynamic> json)
@@ -70,7 +74,9 @@ class User {
             (Portfolio.fromJson(portfolio)),
         ],
         step = json['register_step'],
-        wallet = Wallet.fromJson(json['wallet']);
+        wallet = Wallet.fromJson(json['wallet']),
+        rating = json['rating'] != null ? double.parse(json['rating']) : null,
+        reviewsCount = json['reviews'] as int;
 
   User.empty()
       : id = 0,
@@ -89,5 +95,7 @@ class User {
         certificates = [],
         portfolios = [],
         step = '',
-        wallet = Wallet.empty();
+        wallet = Wallet.empty(),
+        rating = null,
+        reviewsCount = 0;
 }
