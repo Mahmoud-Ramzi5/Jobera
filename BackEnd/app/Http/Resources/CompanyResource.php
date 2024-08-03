@@ -35,7 +35,7 @@ class CompanyResource extends JsonResource
             'type' => 'company',
             'description' => $user->description,
             'avatar_photo' => $user->avatar_photo,
-            'rating' => $user->reviewedBy->avg('review'),
+            'rating' => number_format($user->reviewedBy->avg('review'), 2, '.', ''),
             'reviews' => $user->reviewedBy->count(),
             'wallet' => $user->wallet,
             'portfolios' => new PortfolioCollection($user->portfolios),
