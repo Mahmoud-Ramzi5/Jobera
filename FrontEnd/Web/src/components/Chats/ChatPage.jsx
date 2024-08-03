@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useParams } from 'react-router-dom';
 import Pusher from 'pusher-js';
 import { LoginContext, ProfileContext } from '../../utils/Contexts';
 import { FetchChat, SendMessage } from '../../apis/ChatApis';
@@ -12,7 +13,6 @@ const ChatPage = () => {
   // Define states
   const [selectedChat, setSelectedChat] = useState(null);
   const [updateList, setUpdateList] = useState(false);
-
 
   return (
     <div className={styles.chat_page}>
@@ -85,7 +85,6 @@ const ChatWindow = ({ selectedChat, setUpdateList }) => {
     SendMessage(accessToken, inputMessage, selectedChat.other_user.user_id).then((response) => {
       if (response.status === 201) {
         setInputMessage("");
-        setUpdateList(true);
       } else {
         console.log(response);
       }
@@ -119,6 +118,10 @@ const ChatWindow = ({ selectedChat, setUpdateList }) => {
   };
 
   useEffect(() => {
+    // Update List
+    setUpdateList(true);
+
+    // Scroll to new message
     const Chat_Area = document.getElementById('Chat_Area');
     Chat_Area.scrollTo(0, Chat_Area.scrollHeight);
   }, [messages]);

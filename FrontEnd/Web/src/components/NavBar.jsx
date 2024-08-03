@@ -28,9 +28,9 @@ const NavBar = () => {
   const [notifications, setNotifications] = useState([]);
   const [showNotificationsScreen, setShowNotificationsScreen] = useState(false);
 
+  // Get Notifications
   useEffect(() => {
     if (loggedIn && accessToken) {
-      // Get Notifications
       FetchUnreadNotifications(accessToken).then((response) => {
         if (response.status === 200) {
           setNotifications(response.data.notifications);
@@ -63,18 +63,8 @@ const NavBar = () => {
 
       const channel = pusher.subscribe(`private-user.${profile.user_id}`);
       channel.bind('NewNotification', (data) => {
+        setNotifications((prevNotifications) => [data.notification, ...prevNotifications]);
         setCount(prevCount => prevCount + 1);
-
-        // Get Notifications
-        GetUnreadNotifications(accessToken).then((response) => {
-          if (response.status === 200) {
-            setNotifications(response.data.notifications);
-          }
-          else {
-            console.log(response.statusText);
-          }
-        });
-
         if (data) {
           NotifyUser(data);
         }
@@ -204,12 +194,12 @@ const NavBar = () => {
                   <span title={t('components.nav_bar.li_notifications')} className={styles.span_list}
                     onClick={() => {
                       setShowNotificationsScreen(!showNotificationsScreen)
-                      setCount(0);
                     }}>
                     <BsBellFill />{count !== 0 && <small>{count}</small>}{' '}
                     <span className={styles.mobile_item2}>{t('components.nav_bar.li_notifications')}</span>
                   </span>
-                  {showNotificationsScreen && <NotificationsNav notifications={notifications} />}
+                  {showNotificationsScreen && <NotificationsNav notifications={notifications}
+                    setShowScreen={setShowNotificationsScreen} setCount={setCount} />}
                 </li>
                 <span>
                   <li>
@@ -239,7 +229,6 @@ const NavBar = () => {
                       </li>
                     </ul>
                   </li>
-
                 </span>
               </>
             ) : (
@@ -274,12 +263,13 @@ const NavBar = () => {
   );
 };
 
+
 const NavUser = ({ ProfileData }) => {
-  const [avatarPhotoPath, setAvatarPhotoPath] = useState(
-    ProfileData.avatar_photo
-  );
-  const [avatarPhoto, setAvatarPhoto] = useState(null);
+  // Context
   const { accessToken } = useContext(LoginContext);
+  // Define states
+  const [avatarPhoto, setAvatarPhoto] = useState(null);
+  const [avatarPhotoPath, setAvatarPhotoPath] = useState(ProfileData.avatar_photo);
 
   useEffect(() => {
     if (avatarPhotoPath) {
@@ -289,6 +279,7 @@ const NavUser = ({ ProfileData }) => {
       setAvatarPhotoPath(null);
     }
   }, []);
+
 
   return (
     <div className={styles.profile}>

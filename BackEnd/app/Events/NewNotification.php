@@ -2,10 +2,8 @@
 
 namespace App\Events;
 
-use App\Models\Message;
 use App\Models\User;
-use App\Models\Company;
-use App\Models\Individual;
+use App\Models\Message;
 
 use App\Notifications\NewNotification as DBNotification;
 
@@ -83,24 +81,12 @@ class NewNotification implements ShouldBroadcastNow // ShouldBroadcast
         $otherUser = User::find($this->otherUser_id);
         $otherUser->notify(new DBNotification($this->message));
 
-        // Check sender
-        $company = Company::where('user_id', $this->message->user_id)->first();
-        $individual = Individual::where('user_id', $this->message->user_id)->first();
+        // Get The new Notification
+        $notification = $otherUser->notifications->first();
 
+        // Notification
         return [
-            'notification' => [
-                'id' => 'id',
-                'data' => [
-                    'chat_id' => $this->message->chat_id,
-                    'sender_id' => $this->message->user_id,
-                    'sender_name' => ($company == null ?
-                        $individual->full_name : $company->name),
-                    'message' => $this->message->message,
-                ],
-                'read_at' => null,
-                'created_at' => now(),
-                'updated_at' => now()
-            ]
+            'notification' => $notification
         ];
     }
 }

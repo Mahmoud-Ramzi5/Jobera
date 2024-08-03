@@ -35,11 +35,11 @@ import ShowJob from './components/Jobs/ShowJob.jsx';
 import PostJob from './pages/Jobs/PostJob.jsx';
 import Manage from './pages/Manage.jsx';
 import ChatPage from './components/Chats/ChatPage.jsx';
+import NotificationsPage from './components/Notifications/NotificationsPage.jsx';
 import RedeemCode from './components/Profile/RedeemCode.jsx';
 import NotFound from './pages/NotFound.jsx';
 import ErrorPage from './pages/ErrorPage.jsx';
 import Admin from './pages/AdminPage.jsx';
-import NotificationTable from './components/NotificationTable.jsx';
 
 
 function App() {
@@ -179,11 +179,11 @@ function App() {
                   <Route path='/job/:id' element={<ShowJob />} />
                   <Route path='/manage' element={<Manage />} />
                   <Route path='/chats' element={<ChatPage />} />
+                  <Route path="/notifications" element={<NotificationsPage />} />
                   <Route path='/redeemcode' element={<RedeemCode />} />
                   <Route path='/notfound' element={<NotFound />} />
                   <Route path='/error' element={<ErrorPage />} />
                   <Route path="/logout" element={<Logout />} />
-                  <Route path="/Test" element={<NotificationTable/>} />
                 </Route>
               </Route>
 
