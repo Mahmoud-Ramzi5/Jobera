@@ -15,6 +15,20 @@ export const FetchJobs = async (token, page, filter) => {
     return error.response;
   }
 };
+export const FetchJobsNoPagination = async (token) => {
+  try {
+    const response = await axios.get(`http://127.0.0.1:8000/api/jobs/all`, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    return response;
+  } catch (error) {
+    return error.response;
+  }
+};
 
 export const FetchFullTimeJobs = async (token, page, filter) => {
   let apiUrl = `http://127.0.0.1:8000/api/regJobs?page=${page}&type[eq]=FullTime`;

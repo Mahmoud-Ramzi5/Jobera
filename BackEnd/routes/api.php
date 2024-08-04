@@ -93,6 +93,7 @@ Route::controller(SkillsController::class)->group(function () {
         Route::post('/user/skills/edit', 'EditUserSkills');
     });
     Route::post('/skills', 'AddSkill');
+    Route::post('/skills/{skillId}', 'EditSkill');
 });
 
 Route::controller(EducationController::class)->group(function () {
@@ -120,12 +121,14 @@ Route::controller(PortfolioController::class)->group(function () {
 Route::controller(DefJobsController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('/jobs', 'ShowAllJobs');
+        Route::get('/jobs/all', 'ShowJobsWithoutPagination');
         Route::get('/jobs/{id}', 'ShowSpecificJob');
 
         Route::get('/manage/posted', 'PostedJobs');
         Route::get('/manage/applied', 'AppliedJobs');
         Route::get('/manage/bookmarked', 'BookmarkedJobs');
         Route::post('/jobs/{id}/bookmark', 'BookmarkJob');
+
     });
 });
 
@@ -206,6 +209,7 @@ Route::get('/image/{user_id}/{folder}/{image}', function (Request $request, $use
 // Routes for admin can only be accessed through postman
 Route::controller(AdminController::class)->group(function () {
     Route::post('/generate', 'GenerateCode');
+    Route::get('/users','Users');
 });
 
 

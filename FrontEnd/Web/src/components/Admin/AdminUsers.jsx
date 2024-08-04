@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext, useRef } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Eye, Pencil, Trash } from "react-bootstrap-icons";
+import { ChatFill, Eye, Pencil, Trash } from "react-bootstrap-icons";
 import { LoginContext, ProfileContext } from "../../utils/Contexts";
 import {
   ShowCertificatesAPI,
@@ -9,6 +9,7 @@ import {
 } from "../../apis/ProfileApis/EducationApis.jsx";
 import Clock from "../../utils/Clock.jsx";
 import styles from "../../styles/AdminPage.module.css";
+import { FetchAllUsers } from "../../apis/AdminApis.jsx";
 
 const AdminUsers = () => {
   // Translations
@@ -20,138 +21,78 @@ const AdminUsers = () => {
   const { user_id, user_name } = useParams();
   // Define states
   const initialized = useRef(false);
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const [userType, setUserType] = useState("individual");
-  const [edit, setEdit] = useState(true);
+
   const [isLoading, setIsLoading] = useState(true);
 
-  const [certificates, setCertificates] = useState([]);
+  const [userData, setUserData] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
       setIsLoading(true);
-
-      if (typeof user_id !== "undefined" || typeof user_name !== "undefined") {
-        ShowCertificatesAPI(accessToken, user_id, user_name)
-          .then((response) => {
-            if (response.status === 200) {
-              setCertificates(response.data.certificates);
-            } else {
-              console.log(response.statusText);
-              navigate("/notfound");
-            }
-          })
-          .then(() => {
-            setIsLoading(false);
-          });
-      } else {
-        ShowCertificatesAPI(accessToken, profile.user_id, profile.full_name)
-          .then((response) => {
-            if (response.status === 200) {
-              setCertificates(response.data.certificates);
-            } else {
-              console.log(response.statusText);
-            }
-          })
-          .then(() => {
-            setIsLoading(false);
-          });
-      }
-
-      if (location.state !== null) {
-        setEdit(location.state.edit);
-      }
+      FetchAllUsers("eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOThmZWU2YjBhNWM4NjQ1MzdmMDcxYzE1NmFiYmJjODIwOWYxNTg3OTIzMzM1Mjc2OGI5Zjk0OTBkYTI2YzQ2ODJiYzFjYjg5NTliOThkMTYiLCJpYXQiOjE3MTMwMjAxMjUuMTY3NTgsIm5iZiI6MTcxMzAyMDEyNS4xNjc1ODIsImV4cCI6MTc0NDU1NjEyNS4xNTg0MjYsInN1YiI6IjIiLCJzY29wZXMiOltdfQ.mPoISxA7AjSEFBHC1cFdAazZeY86STejWLYCX_L0BuORV05hUvtjHEiB-TXR6mU9-iAdY_sqKuGbAlw1Ep9XXjEu-ALd8n1ixag6wlo470IqCTr8iMHnOt_3YqQwS84jnhwWytCT2wWmW4fBm9JcbGcNslTspZk51cqtX_HamfotXdYjYrD8JgBMU7ui0yP-T1B0F7TAalIBwEPzADVu6U_7UZnGSRUJfkiCTygdsJxIqGLywxlrqrYUmsKwWspbEH0svj6y9wKPAedHxumSydpDo9o51YBQUHiFjHr0NvzcBrKtj6Tdzfucwi4IeVrPI0HsoymcudptApsgKRFWO7RZlefQnKXDC8Z_-h4kz5f7KFZOk60hDQwpuCTXJEIUG3fKf2TGsK5iCw8co1siJiJLouGWU61ymCrES_uNMHzmn3oaZqTULgadSD3l_PqKfO05ckpZY5d76NIlmrWFrTh2Rqb-Qa7vokfBxAnuqAADy9u2MblXVY2LNiuUwFJAgTMUuxqE0lUvPgTOxaLQ1m_UelO90VoFKXfdUb9O9zrzobiaoMQmzsolGwckcIh-LR1iwAz3HDmp0de_wGhY2oXTuBbwjWkb4Hp6wpn3oXU5FkEY7jrTfrDULpHV8UNwE8-H7qrPiER7muj8kFl67KEVggzrKOs3WxLxZL2_1eI")
+        .then((response) => {
+          if (response.status === 200) {
+            setUserData(response.data);
+          } else {
+            console.log(response.statusText);
+          }
+          setIsLoading(false);
+        });
     }
   }, []);
 
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
   };
-
-  const handleEdit = (event) => {
-    event.preventDefault();
-    if (typeof user_id !== "undefined" || typeof user_name !== "undefined") {
-      navigate(`/profile/${user_id}/${user_name}`);
-    } else {
-      navigate(`/profile/${profile.user_id}/${profile.full_name}`);
-    }
+  const handleUserTypeChange = (type) => {
+    setJobType(type);
   };
 
-  const handleStep3 = (event) => {
-    event.preventDefault();
-    step("PORTFOLIO");
-  };
-
-  const filteredCertificates = certificates.filter((certificate) =>
-    certificate.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  const RenderCertificate = (certificate) => {
-    const handleEdit = (event) => {
-      navigate("/edit-certificate", {
-        state: { edit: edit, add: false, certificate },
-      });
-    };
-
-    const handleDelete = (event) => {
-      DeleteCertificateAPI(accessToken, certificate.id).then((response) => {
-        if (response.status == 204) {
-          window.location.reload(); // Refresh the page after deletion
-        } else {
-          console.log(response.statusText);
-        }
-      });
-    };
-
-    return (
-        <tr key={certificate.id}>
-          {currentColumns.map((column) => (
-            <td key={column.key}>{certificate[column.key]}</td>
-          ))}
-          <td>
-            {/* Actions buttons */}
-            <button onClick={() => handleViewCertificate(certificate)} className={styles.view_button}>
-              <Eye />
-            </button>
-            {isAdmin &&
-              <React.Fragment>
-                <button onClick={() => handleEditCertificate(certificate)} className={styles.edit_button}>
-                  <Pencil />
-                </button>
-                <button onClick={() => handleDelete(certificate.id)} className={styles.delete_button}>
-                  <Trash />
-                </button>
-              </React.Fragment>
-            }
-          </td>
-        </tr>
-    );
-  };
 
   const columnStructure = {
     company: [
-      { key: "title", label: "Title" },
-      { key: "company", label: "Company" },
-      { key: "post_date", label: "Post Date" },
-      { key: "accepted_user", label: "Accepted User" },
+      { key: "name", label: "Name" },
+      { key: "phone_number", label: "Phone Number" },
+      { key: "country", label: "Country" },
+      { key: "state", label: "State" },
+      { key: "field", label: "Field" },
+      { key: "founding_date", label: "Founding Date" },
+      { key: "rating", label: "Rating" },
+      { key: "is_verified", label: "Verified" },
     ],
     individual: [
-      { key: "title", label: "Title" },
-      { key: "company", label: "Company" },
-      { key: "post_date", label: "Post Date" },
-      { key: "accepted_user", label: "Accepted User" },
+      { key: "full_name", label: "Full Name" },
+      { key: "phone_number", label: "Phone Number" },
+      { key: "country", label: "Country" },
+      { key: "state", label: "State" },
+      { key: "birth_date", label: "Birth Date" },
+      { key: "gender", label: "Gender" },
+      { key: "rating", label: "Rating" },
+      { key: "is_verified", label: "Verified" },
     ]
   };
 
   const currentColumns = columnStructure[userType];
 
+  const filteredUsers = userData && userData[userType]
+    ? userData[userType].filter(user => user.type == 'individual' ?
+      user.full_name.toLowerCase().includes(searchQuery.toLowerCase()) :
+      user.name.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    : [];
+
+  const handleDelete = (user_id) => {
+    console.log(user_id)
+  }
+
   if (isLoading) {
     return <Clock />;
   }
+  console.log(userData[userType])
   return (
     <div className={styles.screen}>
       <div className={styles.content}>
@@ -160,7 +101,7 @@ const AdminUsers = () => {
           <div className={styles.search_bar}>
             <input
               type="text"
-              placeholder={t("components.certificates.search_input")}
+              placeholder={t("name")}
               value={searchQuery}
               onChange={handleSearch}
               className={styles.search_input}
@@ -194,10 +135,35 @@ const AdminUsers = () => {
               {currentColumns.map((column) => (
                 <th key={column.key}>{column.label}</th>
               ))}
-              <th>Actions</th> {/* This is a fixed column for actions */}
+              <th>Actions</th>
             </tr>
           </thead>
-          <tbody>{filteredCertificates.map(RenderCertificate)}</tbody>
+          <tbody>{filteredUsers.length > 0 ? (
+            filteredUsers.map((user) => <tr key={user.user_id}>
+              {currentColumns.map((column) => (
+                <td key={column.key}>
+                  {column.key == "rating" ? user[column.key] == null ? 0 : user[column.key] :
+                    column.key == "is_verified" ? column.key == true ? "True" : "False" :
+                      user[column.key]
+                  }
+                </td>
+              ))}
+              <td>
+              <button onClick={handleDelete} className={styles.edit_button} >
+                  <ChatFill />
+                </button>
+                <button onClick={handleDelete} className={styles.delete_button} >
+                  <Trash />
+                </button>
+
+              </td>
+            </tr>)
+          ) : (
+            <tr>
+              <td colSpan={currentColumns.length + 1}>No users found</td>
+            </tr>
+          )}
+          </tbody>
         </table>
       </div>
     </div>

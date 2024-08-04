@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ProfileControllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateSkillRequest;
 use App\Models\Individual;
 use App\Models\Skill;
 use App\Enums\SkillTypes;
@@ -206,4 +207,42 @@ class SkillsController extends Controller
             'errors' => ['user' => 'Invalid user']
         ], 401);
     }
+    public function EditSkill(UpdateSkillRequest $request,Skill $skill){
+       // Get user
+       $user = auth()->user();
+
+       // Check user
+       if ($user == null) {
+           return response()->json([
+               'errors' => ['user' => 'Invalid user']
+           ], 401);
+       }
+
+       // Get individual
+       $individual = Individual::where('user_id', $user->id)->first();
+
+       // Check individual
+       if ($individual == null) {
+           return response()->json([
+               'errors' => ['user' => 'Invalid user']
+           ], 401);
+       }
+
+       if ($individual->type == 'admin') {
+           // Validate request
+           $validated = $request->validated();
+           $skill->update($validated);
+
+           // Response
+           return response()->json([
+               "message" => "Skill updated successfully",
+               "skill" => new SkillResource($skill)
+           ], 200);
+       }
+
+       // Response
+       return response()->json([
+           'errors' => ['user' => 'Invalid user']
+       ], 401);
+   }
 }

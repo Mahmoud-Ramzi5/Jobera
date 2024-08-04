@@ -338,7 +338,7 @@ body {
   
   .certificates_table th,
   .certificates_table td {
-    padding: 12px 15px;
+    padding: 6px 8px;
     border: 1px solid #ddd;
     text-align: left;
   }
@@ -348,14 +348,15 @@ body {
   }
   
   .certificates_table tr:nth-child(even) {
-    background-color: #f2f2f2;
+    background-color: var(--color-background);
   }
   
   .certificates_table tr:hover {
-    background-color: #e9ecef;
+    background-color: var(--color-better_orange);
   }
   
   /* Action Buttons */
+  .create_button,
   .view_button,
   .edit_button,
   .delete_button {
@@ -364,6 +365,14 @@ body {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
+  }
+  .create_button {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .create_button:hover {
+    background-color: #0056b3;
   }
   
   .view_button {

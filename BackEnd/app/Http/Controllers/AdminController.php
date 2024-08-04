@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Company;
+use App\Models\Individual;
 use App\Models\RedeemCode;
 use Illuminate\Http\Request;
+use App\Http\Resources\CompanyCollection;
+use App\Http\Resources\IndividualCollection;
 
 class AdminController extends Controller
 {
@@ -41,5 +45,14 @@ class AdminController extends Controller
                 ]);
             }
         }
+    }
+    public function Users()
+    {
+        $individuals=Individual::all();
+        $companies=Company::all();
+        return response()->json([
+            "individual"=>new IndividualCollection($individuals),
+            "company"=>new CompanyCollection($companies)
+        ]);
     }
 }

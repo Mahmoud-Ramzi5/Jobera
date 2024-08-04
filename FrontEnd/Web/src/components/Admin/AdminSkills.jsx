@@ -1,12 +1,9 @@
-import { useEffect, useState, useContext, useRef } from "react";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Eye, Pencil, Trash } from "react-bootstrap-icons";
-import { LoginContext, ProfileContext } from "../../utils/Contexts";
-import {
-  ShowCertificatesAPI,
-  DeleteCertificateAPI,
-} from "../../apis/ProfileApis/EducationApis.jsx";
+import { Pen, Trash } from "react-bootstrap-icons";
+import { LoginContext } from "../../utils/Contexts";
+import { FetchAllSkills } from "../../apis/SkillsApis.jsx";
+import SkillForm from "./SkillForm";
 import Clock from "../../utils/Clock.jsx";
 import styles from "../../styles/AdminPage.module.css";
 
@@ -15,158 +12,122 @@ const AdminSkills = () => {
   const { t } = useTranslation("global");
   // Context
   const { accessToken } = useContext(LoginContext);
-  const { profile } = useContext(ProfileContext);
-  // Params
-  const { user_id, user_name } = useParams();
   // Define states
   const initialized = useRef(false);
-  const navigate = useNavigate();
-  const location = useLocation();
 
-  const [jobType, setJobType] = useState("fullTimeJob");
-  const [edit, setEdit] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
-
-  const [certificates, setCertificates] = useState([]);
+  const [skills, setSkills] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedSkill, setSelectedSkill] = useState(null);
+  const [showSkillForm, setShowSkillForm] = useState(false);
 
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
       setIsLoading(true);
-
-      if (typeof user_id !== "undefined" || typeof user_name !== "undefined") {
-        ShowCertificatesAPI(accessToken, user_id, user_name)
-          .then((response) => {
-            if (response.status === 200) {
-              setCertificates(response.data.certificates);
-            } else {
-              console.log(response.statusText);
-              navigate("/notfound");
-            }
-          })
-          .then(() => {
-            setIsLoading(false);
-          });
-      } else {
-        ShowCertificatesAPI(accessToken, profile.user_id, profile.full_name)
-          .then((response) => {
-            if (response.status === 200) {
-              setCertificates(response.data.certificates);
-            } else {
-              console.log(response.statusText);
-            }
-          })
-          .then(() => {
-            setIsLoading(false);
-          });
-      }
-
-      if (location.state !== null) {
-        setEdit(location.state.edit);
-      }
+      FetchAllSkills("eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOThmZWU2YjBhNWM4NjQ1MzdmMDcxYzE1NmFiYmJjODIwOWYxNTg3OTIzMzM1Mjc2OGI5Zjk0OTBkYTI2YzQ2ODJiYzFjYjg5NTliOThkMTYiLCJpYXQiOjE3MTMwMjAxMjUuMTY3NTgsIm5iZiI6MTcxMzAyMDEyNS4xNjc1ODIsImV4cCI6MTc0NDU1NjEyNS4xNTg0MjYsInN1YiI6IjIiLCJzY29wZXMiOltdfQ.mPoISxA7AjSEFBHC1cFdAazZeY86STejWLYCX_L0BuORV05hUvtjHEiB-TXR6mU9-iAdY_sqKuGbAlw1Ep9XXjEu-ALd8n1ixag6wlo470IqCTr8iMHnOt_3YqQwS84jnhwWytCT2wWmW4fBm9JcbGcNslTspZk51cqtX_HamfotXdYjYrD8JgBMU7ui0yP-T1B0F7TAalIBwEPzADVu6U_7UZnGSRUJfkiCTygdsJxIqGLywxlrqrYUmsKwWspbEH0svj6y9wKPAedHxumSydpDo9o51YBQUHiFjHr0NvzcBrKtj6Tdzfucwi4IeVrPI0HsoymcudptApsgKRFWO7RZlefQnKXDC8Z_-h4kz5f7KFZOk60hDQwpuCTXJEIUG3fKf2TGsK5iCw8co1siJiJLouGWU61ymCrES_uNMHzmn3oaZqTULgadSD3l_PqKfO05ckpZY5d76NIlmrWFrTh2Rqb-Qa7vokfBxAnuqAADy9u2MblXVY2LNiuUwFJAgTMUuxqE0lUvPgTOxaLQ1m_UelO90VoFKXfdUb9O9zrzobiaoMQmzsolGwckcIh-LR1iwAz3HDmp0de_wGhY2oXTuBbwjWkb4Hp6wpn3oXU5FkEY7jrTfrDULpHV8UNwE8-H7qrPiER7muj8kFl67KEVggzrKOs3WxLxZL2_1eI")
+        .then((response) => {
+          if (response.status === 200) {
+            setSkills(response.data.skills);
+          } else {
+            console.log(response.statusText);
+          }
+          setIsLoading(false);
+        });
     }
-  }, []);
+  }, [accessToken]);
 
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
   };
 
-  const handleEdit = (event) => {
-    event.preventDefault();
-    if (typeof user_id !== "undefined" || typeof user_name !== "undefined") {
-      navigate(`/profile/${user_id}/${user_name}`);
-    } else {
-      navigate(`/profile/${profile.user_id}/${profile.full_name}`);
-    }
+  const handleCreate = () => {
+    setSelectedSkill(null);
+    setShowSkillForm(true);
   };
 
-  const handleStep3 = (event) => {
-    event.preventDefault();
-    step("PORTFOLIO");
+  const handleEdit = (skill) => {
+    setSelectedSkill(skill);
+    setShowSkillForm(true);
   };
 
-  const filteredCertificates = certificates.filter((certificate) =>
-    certificate.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  const RenderCertificate = (certificate) => {
-    const handleEdit = (event) => {
-      navigate("/edit-certificate", {
-        state: { edit: edit, add: false, certificate },
-      });
-    };
-
-    const handleDelete = (event) => {
-      DeleteCertificateAPI(accessToken, certificate.id).then((response) => {
-        if (response.status == 204) {
-          window.location.reload(); // Refresh the page after deletion
-        } else {
-          console.log(response.statusText);
-        }
-      });
-    };
-
-    return (
-        <tr key={certificate.id}>
-          {currentColumns.map((column) => (
-            <td key={column.key}>{certificate[column.key]}</td>
-          ))}
-          <td>
-            {/* Actions buttons */}
-            <button onClick={() => handleViewCertificate(certificate)} className={styles.view_button}>
-              <Eye />
-            </button>
-            {isAdmin &&
-              <React.Fragment>
-                <button onClick={() => handleEditCertificate(certificate)} className={styles.edit_button}>
-                  <Pencil />
-                </button>
-                <button onClick={() => handleDelete(certificate.id)} className={styles.delete_button}>
-                  <Trash />
-                </button>
-              </React.Fragment>
-            }
-          </td>
-        </tr>
-    );
+  const handleCancel = () => {
+    setShowSkillForm(false);
   };
-
-  const currentColumns = [
-    { key: "name", label: "Name" },
-    { key: "type", label: "Type" },
-    {key:"count",label:"Count"}
-  ];
 
   if (isLoading) {
     return <Clock />;
   }
+
   return (
     <div className={styles.screen}>
       <div className={styles.content}>
-        <div>
-          <h1>Skills</h1>
-          <div className={styles.search_bar}>
-            <input
-              type="text"
-              placeholder={t("components.certificates.search_input")}
-              value={searchQuery}
-              onChange={handleSearch}
-              className={styles.search_input}
-            />
-          </div>
-        </div>
-        <table className={styles.certificates_table}>
-          <thead>
-            <tr>
-              {currentColumns.map((column) => (
-                <th key={column.key}>{column.label}</th>
-              ))}
-              <th>Actions</th> {/* This is a fixed column for actions */}
-            </tr>
-          </thead>
-          <tbody>{filteredCertificates.map(RenderCertificate)}</tbody>
-        </table>
+        {showSkillForm ? (
+          <SkillForm
+            handleSave={(newSkill) => {
+              // Handle save logic here
+              console.log(newSkill);
+              handleCancel();
+            }}
+            skillToEdit={selectedSkill}
+          />
+        ) : (
+          <>
+            <h1>Skills</h1>
+            <div className={styles.search_bar}>
+              <input
+                type="text"
+                placeholder={t("skill name")}
+                value={searchQuery}
+                onChange={handleSearch}
+                className={styles.search_input}
+              />
+              <button className={styles.create_button} onClick={handleCreate}>
+                Create
+              </button>
+            </div>
+            <table className={styles.certificates_table}>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Count</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {skills && skills.length > 0 ? (
+                  skills
+                    .filter((skill) =>
+                      skill.name.toLowerCase().includes(searchQuery.toLowerCase())
+                    )
+                    .map((skill) => (
+                      <tr key={skill.id}>
+                        <td>{skill.name}</td>
+                        <td>{skill.type}</td>
+                        <td>{skill.count}</td>
+                        <td>
+                          <button
+                            className={styles.edit_button}
+                            onClick={() => handleEdit(skill)}
+                          >
+                            <Pen />
+                          </button>
+                          <button onClick={() => handleDelete(skill.id)} className={styles.delete_button}>
+                            <Trash />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                ) : (
+                  <tr>
+                    <td colSpan={4}>No skills found</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </>
+        )}
       </div>
     </div>
   );

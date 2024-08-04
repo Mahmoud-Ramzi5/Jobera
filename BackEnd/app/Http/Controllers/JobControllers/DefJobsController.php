@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers\JobControllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Individual;
-use App\Models\Company;
-use App\Models\DefJob;
-use App\Models\RegJob;
-use App\Models\FreelancingJob;
-use App\Models\RegJobCompetitor;
-use App\Models\FreelancingJobCompetitor;
-use App\Models\BookmarkedJob;
 use App\Filters\JobFilter;
-use Illuminate\Http\Request;
-use App\Http\Resources\RegJobResource;
-use App\Http\Resources\RegJobCollection;
-use App\Http\Resources\RegJobCompetitorResource;
-use App\Http\Resources\FreelancingJobResource;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\FreelancingJobCollection;
 use App\Http\Resources\FreelancingJobCompetitorResource;
-
+use App\Http\Resources\FreelancingJobResource;
+use App\Http\Resources\RegJobCollection;
+use App\Http\Resources\RegJobCompetitorResource;
+use App\Http\Resources\RegJobResource;
+use App\Models\BookmarkedJob;
+use App\Models\Company;
+use App\Models\DefJob;
+use App\Models\FreelancingJob;
+use App\Models\FreelancingJobCompetitor;
+use App\Models\Individual;
+use App\Models\RegJob;
+use App\Models\RegJobCompetitor;
+use Illuminate\Http\Request;
 
 class DefJobsController extends Controller
 {
@@ -69,6 +68,30 @@ class DefJobsController extends Controller
                 'prev_page' => $defJobs->previousPageUrl(),
                 'path' => $defJobs->path(),
             ],
+        ], 200);
+    }
+    public function ShowJobsWithoutPagination(Request $request)
+    {
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user'],
+            ], 401);
+        }
+
+        // Get all jobs without pagination
+        $freelancingJobs = FreelancingJob::all();
+        $fullTimeJobs = RegJob::where('type', 'FullTime')->get();
+        $partTimeJobs = RegJob::where('type', 'PartTime')->get();
+
+        // Response
+        return response()->json([
+            "Freelancing" => new FreelancingJobCollection($freelancingJobs),
+            "FullTime" => new RegJobCollection( $fullTimeJobs),
+            "PartTime" => new RegJobCollection($partTimeJobs),
         ], 200);
     }
 
@@ -221,7 +244,7 @@ class DefJobsController extends Controller
             // Custom Response
             return response()->json([
                 'jobs' => $jobType == 'RegularJob' ? new RegJobCollection($jobs->items())
-                    : new FreelancingJobCollection($jobs->items()),
+                : new FreelancingJobCollection($jobs->items()),
                 'pagination_data' => [
                     'from' => $jobs->firstItem(),
                     'to' => $jobs->lastItem(),
@@ -236,8 +259,8 @@ class DefJobsController extends Controller
                     'last_page_url' => $jobs->url($jobs->lastPage()),
                     'next_page' => $jobs->nextPageUrl(),
                     'prev_page' => $jobs->previousPageUrl(),
-                    'path' => $jobs->path()
-                ]
+                    'path' => $jobs->path(),
+                ],
             ], 200);
         } else {
             // Response
@@ -289,8 +312,8 @@ class DefJobsController extends Controller
                                 ->wherehas('competitors', function ($query) use ($individual) {
                                     $query->where('individual_id', $individual->id);
                                 })->wherehas('defJob.skills', function ($query) use ($skills) {
-                                    $query->whereIn('name', $skills);
-                                })->orderByDesc('created_at')->paginate(10);
+                                $query->whereIn('name', $skills);
+                            })->orderByDesc('created_at')->paginate(10);
                         } else {
                             // Get jobs
                             $jobs = RegJob::where('accepted_individual', $individual->id)
@@ -320,8 +343,8 @@ class DefJobsController extends Controller
                                 ->wherehas('competitors', function ($query) use ($individual) {
                                     $query->where('individual_id', $individual->id);
                                 })->wherehas('defJob.skills', function ($query) use ($skills) {
-                                    $query->whereIn('name', $skills);
-                                })->orderByDesc('created_at')->paginate(10);
+                                $query->whereIn('name', $skills);
+                            })->orderByDesc('created_at')->paginate(10);
                         } else {
                             // Get jobs
                             $jobs = RegJob::where('accepted_individual', $individual->id)
@@ -352,8 +375,8 @@ class DefJobsController extends Controller
                                 ->wherehas('competitors', function ($query) use ($user) {
                                     $query->where('user_id', $user->id);
                                 })->wherehas('defJob.skills', function ($query) use ($skills) {
-                                    $query->whereIn('name', $skills);
-                                })->orderByDesc('created_at')->paginate(10);
+                                $query->whereIn('name', $skills);
+                            })->orderByDesc('created_at')->paginate(10);
                         } else {
                             // Get jobs
                             $jobs = FreelancingJob::where('accepted_user', $user->id)
@@ -390,8 +413,8 @@ class DefJobsController extends Controller
                                     "defJob_id" => $job->defJob_id,
                                     "title" => $job->defJob->title,
                                     "photo" => $job->defJob->photo,
-                                    "status" => "Accepted"
-                                ]
+                                    "status" => "Accepted",
+                                ],
                             ]);
                         } else {
                             array_push($jobsData, [
@@ -400,8 +423,8 @@ class DefJobsController extends Controller
                                     "defJob_id" => $job->defJob_id,
                                     "title" => $job->defJob->title,
                                     "photo" => $job->defJob->photo,
-                                    "status" => "Refused"
-                                ]
+                                    "status" => "Refused",
+                                ],
                             ]);
                         }
                     } else {
@@ -411,8 +434,8 @@ class DefJobsController extends Controller
                                 "defJob_id" => $job->defJob_id,
                                 "title" => $job->defJob->title,
                                 "photo" => $job->defJob->photo,
-                                "status" => "Pending"
-                            ]
+                                "status" => "Pending",
+                            ],
                         ]);
                     }
                 }
@@ -429,8 +452,8 @@ class DefJobsController extends Controller
                                     "defJob_id" => $job->defJob_id,
                                     "title" => $job->defJob->title,
                                     "photo" => $job->defJob->photo,
-                                    "status" => "Accepted"
-                                ]
+                                    "status" => "Accepted",
+                                ],
                             ]);
                         } else {
                             array_push($jobsData, [
@@ -439,8 +462,8 @@ class DefJobsController extends Controller
                                     "defJob_id" => $job->defJob_id,
                                     "title" => $job->defJob->title,
                                     "photo" => $job->defJob->photo,
-                                    "status" => "Refused"
-                                ]
+                                    "status" => "Refused",
+                                ],
                             ]);
                         }
                     } else {
@@ -450,8 +473,8 @@ class DefJobsController extends Controller
                                 "defJob_id" => $job->defJob_id,
                                 "title" => $job->defJob->title,
                                 "photo" => $job->defJob->photo,
-                                "status" => "Pending"
-                            ]
+                                "status" => "Pending",
+                            ],
                         ]);
                     }
                 }
@@ -473,8 +496,8 @@ class DefJobsController extends Controller
                     'last_page_url' => $jobs->url($jobs->lastPage()),
                     'next_page' => $jobs->nextPageUrl(),
                     'prev_page' => $jobs->previousPageUrl(),
-                    'path' => $jobs->path()
-                ]
+                    'path' => $jobs->path(),
+                ],
             ], 200);
         } else {
             // Response
@@ -529,8 +552,8 @@ class DefJobsController extends Controller
                 'last_page_url' => $bookmarkedJobs->url($bookmarkedJobs->lastPage()),
                 'next_page' => $bookmarkedJobs->nextPageUrl(),
                 'prev_page' => $bookmarkedJobs->previousPageUrl(),
-                'path' => $bookmarkedJobs->path()
-            ]
+                'path' => $bookmarkedJobs->path(),
+            ],
         ], 200);
     }
 
@@ -565,14 +588,14 @@ class DefJobsController extends Controller
 
             // Response
             return response()->json([
-                "is_flagged" => false
+                "is_flagged" => false,
             ], 200);
         } else {
             $user->bookmarkedJobs()->attach($defJob->id);
 
             // Response
             return response()->json([
-                "is_flagged" => true
+                "is_flagged" => true,
             ], 200);
         }
     }
