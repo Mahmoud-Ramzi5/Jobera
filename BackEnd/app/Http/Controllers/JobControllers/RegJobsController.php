@@ -137,17 +137,26 @@ class RegJobsController extends Controller
                 $skills = explode(",", trim($skills, '[]'));
                 if (sizeof($skills) >= 1 && $skills[0] != "") {
                     // Get jobs
-                    $jobs = RegJob::where($queryItems)->with('defJob.skills')
+                    $jobs = RegJob::where($queryItems)->with('defJob')
+                        ->wherehas('defJob', function ($query) {
+                            $query->where('is_done', false);
+                        })->with('defJob.skills')
                         ->wherehas('defJob.skills', function ($query) use ($skills) {
                             $query->whereIn('name', $skills);
                         })->orderByDesc('created_at')->paginate(10);
                 } else {
                     // Get jobs
-                    $jobs = RegJob::where($queryItems)->orderByDesc('created_at')->paginate(10);
+                    $jobs = RegJob::where($queryItems)->with('defJob')
+                        ->wherehas('defJob', function ($query) {
+                            $query->where('is_done', false);
+                        })->orderByDesc('created_at')->paginate(10);
                 }
             } else {
                 // Get jobs
-                $jobs = RegJob::where($queryItems)->orderByDesc('created_at')->paginate(10);
+                $jobs = RegJob::where($queryItems)->with('defJob')
+                    ->wherehas('defJob', function ($query) {
+                        $query->where('is_done', false);
+                    })->orderByDesc('created_at')->paginate(10);
             }
         } else {
             // Check if job filtered based on the company that posted the job
@@ -171,17 +180,26 @@ class RegJobsController extends Controller
                 $skills = explode(",", trim($skills, '[]'));
                 if (sizeof($skills) >= 1 && $skills[0] != "") {
                     // Get jobs
-                    $jobs = RegJob::where($queryItems)->with('defJob.skills')
+                    $jobs = RegJob::where($queryItems)->with('defJob')
+                        ->wherehas('defJob', function ($query) {
+                            $query->where('is_done', false);
+                        })->with('defJob.skills')
                         ->wherehas('defJob.skills', function ($query) use ($skills) {
                             $query->whereIn('name', $skills);
                         })->orderByDesc('created_at')->paginate(10);
                 } else {
                     // Get jobs
-                    $jobs = RegJob::where($queryItems)->orderByDesc('created_at')->paginate(10);
+                    $jobs = RegJob::where($queryItems)->with('defJob')
+                        ->wherehas('defJob', function ($query) {
+                            $query->where('is_done', false);
+                        })->orderByDesc('created_at')->paginate(10);
                 }
             } else {
                 // Get jobs
-                $jobs = RegJob::where($queryItems)->orderByDesc('created_at')->paginate(10);
+                $jobs = RegJob::where($queryItems)->with('defJob')
+                    ->wherehas('defJob', function ($query) {
+                        $query->where('is_done', false);
+                    })->orderByDesc('created_at')->paginate(10);
             }
         }
 

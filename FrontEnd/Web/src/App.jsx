@@ -35,6 +35,7 @@ import ShowJob from './components/Jobs/ShowJob.jsx';
 import PostJob from './pages/Jobs/PostJob.jsx';
 import Manage from './pages/Manage.jsx';
 import ChatPage from './components/Chats/ChatPage.jsx';
+import NotificationsPage from './components/Notifications/NotificationsPage.jsx';
 import RedeemCode from './components/Profile/RedeemCode.jsx';
 import NotFound from './pages/NotFound.jsx';
 import ErrorPage from './pages/ErrorPage.jsx';
@@ -46,7 +47,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [loggedIn, setLoggedIn] = useState(false);
   const [accessToken, setAccessToken] = useState(null);
-  const [profile, setProfile] = useState({});
+  const [profile, setProfile] = useState(null);
   const [theme, setTheme] = useState('theme-light');
 
   const toggleTheme = () => {
@@ -178,6 +179,7 @@ function App() {
                   <Route path='/job/:id' element={<ShowJob />} />
                   <Route path='/manage' element={<Manage />} />
                   <Route path='/chats' element={<ChatPage />} />
+                  <Route path="/notifications" element={<NotificationsPage />} />
                   <Route path='/redeemcode' element={<RedeemCode />} />
                   <Route path='/notfound' element={<NotFound />} />
                   <Route path='/error' element={<ErrorPage />} />

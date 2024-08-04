@@ -57,21 +57,26 @@ class FreelancingJobsView extends StatelessWidget {
                                   width: 2,
                                 ),
                               ),
-                              child: FreelancingJobComponent(
-                                photo: controller.freelancingJobs[index].photo,
-                                jobTitle:
-                                    controller.freelancingJobs[index].title,
-                                jobType: controller.freelancingJobs[index].type,
-                                publishedBy: controller
-                                    .freelancingJobs[index].poster.name,
-                                publishDate: controller
-                                    .freelancingJobs[index].publishDate,
-                                deadline:
-                                    controller.freelancingJobs[index].deadline,
-                                minOffer:
-                                    controller.freelancingJobs[index].minOffer,
-                                maxOffer:
-                                    controller.freelancingJobs[index].maxOffer,
+                              child: Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: FreelancingJobComponent(
+                                  photo:
+                                      controller.freelancingJobs[index].photo,
+                                  jobTitle:
+                                      controller.freelancingJobs[index].title,
+                                  jobType:
+                                      controller.freelancingJobs[index].type,
+                                  publishedBy: controller
+                                      .freelancingJobs[index].poster.name,
+                                  publishDate: controller
+                                      .freelancingJobs[index].publishDate,
+                                  deadline: controller
+                                      .freelancingJobs[index].deadline,
+                                  minOffer: controller
+                                      .freelancingJobs[index].minOffer,
+                                  maxOffer: controller
+                                      .freelancingJobs[index].maxOffer,
+                                ),
                               ),
                             ),
                           );

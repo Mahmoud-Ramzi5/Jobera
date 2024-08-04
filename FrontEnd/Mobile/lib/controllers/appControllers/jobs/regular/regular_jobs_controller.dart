@@ -90,7 +90,7 @@ class RegularJobsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.0.108:8000/api/regJobs?page=$page',
+        'http://192.168.43.23:8000/api/regJobs?page=$page',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -125,7 +125,7 @@ class RegularJobsController extends GetxController {
     List<String> skillNames,
   ) async {
     isFiltered = true;
-    String url = 'http://192.168.0.108:8000/api/regJobs?page=$page';
+    String url = 'http://192.168.43.23:8000/api/regJobs?page=$page';
     if (name.isNotEmpty) {
       url = '$url&company_name[like]=$name';
     }

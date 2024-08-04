@@ -15,32 +15,35 @@ class ChatsView extends StatelessWidget {
       body: RefreshIndicator(
         key: _chatsController.refreshIndicatorKey,
         onRefresh: () => _chatsController.fetchChats(),
-        child: GetBuilder<ChatsController>(
-          builder: (controller) => controller.loading
-              ? const Center(
-                  child: CircularProgressIndicator(),
-                )
-              : controller.chats.isEmpty
-                  ? const Center(
-                      child: MediumHeadlineText(text: 'No Chats'),
-                    )
-                  : ListView.builder(
-                      itemCount: controller.chats.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () =>
-                              controller.goToChat(controller.chats[index].id),
-                          child: ChatsComponent(
-                            photo: controller.chats[index].photo,
-                            name: controller.chats[index].name,
-                            lastMessage: controller.chats[index].lastMessage,
-                            lastMessageDate:
-                                controller.chats[index].lastMessageDate,
-                          ),
-                        );
-                      },
-                    ),
+        child: SizedBox(
+          height: Get.height,
+          child: GetBuilder<ChatsController>(
+            builder: (controller) => controller.loading
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : controller.chats.isEmpty
+                    ? const Center(
+                        child: MediumHeadlineText(text: 'No Chats'),
+                      )
+                    : ListView.builder(
+                        itemCount: controller.chats.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () =>
+                                controller.goToChat(controller.chats[index].id),
+                            child: ChatsComponent(
+                              photo: controller.chats[index].photo,
+                              name: controller.chats[index].name,
+                              lastMessage: controller.chats[index].lastMessage,
+                              lastMessageDate:
+                                  controller.chats[index].lastMessageDate,
+                            ),
+                          );
+                        },
+                      ),
+          ),
         ),
       ),
     );

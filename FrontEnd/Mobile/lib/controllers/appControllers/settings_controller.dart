@@ -64,7 +64,7 @@ class SettingsController extends GetxController {
   Future<dynamic> getCountries() async {
     try {
       var response = await dio.get(
-        'http://192.168.0.108:8000/api/countries',
+        'http://192.168.43.23:8000/api/countries',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -88,7 +88,7 @@ class SettingsController extends GetxController {
   Future<dynamic> getStates(String countryName) async {
     try {
       var response = await dio.post(
-        'http://192.168.0.108:8000/api/states',
+        'http://192.168.43.23:8000/api/states',
         data: {"country_name": countryName},
         options: Options(
           headers: {
@@ -113,7 +113,7 @@ class SettingsController extends GetxController {
   Future<dynamic> getSkillTypes() async {
     try {
       var response = await dio.get(
-        'http://192.168.0.108:8000/api/skills/types',
+        'http://192.168.43.23:8000/api/skills/types',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -135,7 +135,7 @@ class SettingsController extends GetxController {
   Future<dynamic> getSkills(String type) async {
     try {
       var response = await dio.get(
-        'http://192.168.0.108:8000/api/skills?type[eq]=$type',
+        'http://192.168.43.23:8000/api/skills?type[eq]=$type',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -157,7 +157,7 @@ class SettingsController extends GetxController {
   Future<dynamic> getAllSkills() async {
     try {
       var response = await dio.get(
-        'http://192.168.0.108:8000/api/skills',
+        'http://192.168.43.23:8000/api/skills',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -183,7 +183,7 @@ class SettingsController extends GetxController {
   Future<dynamic> searchSkills(String name) async {
     try {
       var response = await dio.get(
-        'http://192.168.0.108:8000/api/skills?name[like]=$name',
+        'http://192.168.43.23:8000/api/skills?name[like]=$name',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -205,7 +205,7 @@ class SettingsController extends GetxController {
   Future<dynamic> downloadFile(String fileName) async {
     try {
       final response = await dio.get(
-        'http://192.168.0.108:8000/api/file/$fileName',
+        'http://192.168.43.23:8000/api/file/$fileName',
         options: Options(
           responseType: ResponseType.bytes, // important
           headers: {

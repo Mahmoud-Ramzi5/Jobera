@@ -41,7 +41,7 @@ class IndividualResource extends JsonResource
             'type' => 'individual',
             'description' => $user->description,
             'avatar_photo' => $user->avatar_photo,
-            'rating' => $user->reviewedBy->avg('review'),
+            'rating' => number_format($user->reviewedBy->avg('review'), 2, '.', ''),
             'reviews' => $user->reviewedBy->count(),
             'wallet' => $user->wallet,
             'skills' => new SkillCollection($this->skills),

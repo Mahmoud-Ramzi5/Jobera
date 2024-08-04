@@ -141,7 +141,7 @@ class ChatController extends Controller
 
         // Push Notification
         broadcast(new NewMessage($message));
-        broadcast(new NewNotification($user->id, $validated['reciver_id'], $message));
+        broadcast(new NewNotification($validated['reciver_id'], $message));
 
         // $beamsClient = new \Pusher\PushNotifications\PushNotifications(array(
         //     "instanceId" => "488b218d-2a72-4d5b-8940-346df9234336",

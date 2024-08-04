@@ -2,11 +2,10 @@
 
 namespace App\Events;
 
+use App\Models\User;
 use App\Models\Message;
-use App\Models\Company;
-use App\Models\Individual;
-use App\Http\Resources\CompanyResource;
-use App\Http\Resources\IndividualResource;
+
+use App\Notifications\NewNotification as DBNotification;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -29,21 +28,14 @@ class NewNotification implements ShouldBroadcastNow // ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
-     * The chat instance.
-     *
-     * @var
-     */
-    protected $currentUser;
-
-    /**
-     * The chat instance.
+     * The reciver_id.
      *
      * @var int
      */
-    protected int $otherUser;
+    protected $otherUser_id;
 
     /**
-     * The chat instance.
+     * The message instance.
      *
      * @var \App\Models\Message
      */
@@ -52,30 +44,30 @@ class NewNotification implements ShouldBroadcastNow // ShouldBroadcast
     /**
      * Create a new event instance.
      */
-    public function __construct(int $currentUser_id, int $otherUser_id, Message $message)
+    public function __construct(int $otherUser_id, Message $message)
     {
-        $company = Company::where('user_id', $currentUser_id)->first();
-        $individual = Individual::where('user_id', $currentUser_id)->first();
-        if ($company == null) {
-            $this->currentUser = new IndividualResource($individual);
-        } else {
-            $this->currentUser = new CompanyResource($company);
-        }
-
-        $this->otherUser = $otherUser_id;
         $this->message = $message;
+        $this->otherUser_id = $otherUser_id;
     }
 
     /**
      * Get the channels the event should broadcast on.
      *
-     * @return array<int, \Illuminate\Broadcasting\Channel>
+     * @return array<int, \Illuminate\Broadcasting\PrivateChannel>
      */
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('user.' . $this->otherUser),
+            new PrivateChannel('user.' . $this->otherUser_id),
         ];
+    }
+
+    /**
+     * The event's broadcast name.
+     */
+    public function broadcastAs(): string
+    {
+        return 'NewNotification';
     }
 
     /**
@@ -85,15 +77,16 @@ class NewNotification implements ShouldBroadcastNow // ShouldBroadcast
      */
     public function broadcastWith(): array
     {
+        // Create notification
+        $otherUser = User::find($this->otherUser_id);
+        $otherUser->notify(new DBNotification($this->message));
+
+        // Get The new Notification
+        $notification = $otherUser->notifications->first();
+
+        // Notification
         return [
-            'chat_id' => $this->message->chat_id,
-            'other_user' => [
-                'user_id' => $this->currentUser->user_id,
-                'name' => ($this->currentUser->type == "individual" ?
-                    $this->currentUser->full_name : $this->currentUser->name),
-                'avatar_photo' => $this->currentUser->avatar_photo
-            ],
-            'message' => $this->message->message
+            'notification' => $notification
         ];
     }
 }

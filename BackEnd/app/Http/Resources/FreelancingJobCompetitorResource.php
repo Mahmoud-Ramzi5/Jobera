@@ -25,13 +25,13 @@ class FreelancingJobCompetitorResource extends JsonResource
                 'user_id' => $individual->user_id,
                 'name' => $individual->full_name,
                 'type' => 'individual',
-                'rating' => $individual->user->rating,
+                'rating' => number_format($individual->user->reviewedBy->avg('review'), 2, '.', ''),
                 'avatar_photo' => $individual->user->avatar_photo
             ] : [
                 'user_id' => $company->user_id,
                 'name' => $company->name,
                 'type' => 'company',
-                'rating' => $company->user->rating,
+                'rating' => number_format($company->user->reviewedBy->avg('review'), 2, '.', ''),
                 'avatar_photo' => $company->user->avatar_photo
             ],
             "description" => $this->description,

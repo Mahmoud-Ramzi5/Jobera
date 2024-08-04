@@ -15,6 +15,8 @@ class Company {
   final String? photo;
   final List<Portfolio> portfolios;
   final Wallet wallet;
+  final double? rating;
+  final int reviewsCount;
 
   Company({
     required this.id,
@@ -26,10 +28,12 @@ class Company {
     required this.field,
     required this.foundingDate,
     required this.type,
-    required this.portfolios,
-    required this.wallet,
     this.description,
     this.photo,
+    required this.portfolios,
+    required this.wallet,
+    this.rating,
+    required this.reviewsCount,
   });
 
   Company.fromJson(Map<String, dynamic> json)
@@ -48,7 +52,9 @@ class Company {
           for (var portfolio in json['portfolios'])
             (Portfolio.fromJson(portfolio)),
         ],
-        wallet = Wallet.fromJson(json['wallet']);
+        wallet = Wallet.fromJson(json['wallet']),
+        rating = json['rating'] != null ? double.parse(json['rating']) : null,
+        reviewsCount = json['reviews'] as int;
 
   Company.empty()
       : id = 0,
@@ -63,5 +69,7 @@ class Company {
         description = null,
         photo = null,
         portfolios = [],
-        wallet = Wallet.empty();
+        wallet = Wallet.empty(),
+        rating = null,
+        reviewsCount = 0;
 }

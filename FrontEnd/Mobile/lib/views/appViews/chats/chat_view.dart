@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jobera/components/chats_components.dart';
 import 'package:jobera/customWidgets/texts.dart';
 import 'package:jobera/controllers/appControllers/chats/chat_controller.dart';
-import 'package:jobera/customWidgets/custom_containers.dart';
-import 'package:jobera/customWidgets/custom_text_field.dart';
 
 class ChatView extends StatelessWidget {
   final ChatController _chatController = Get.find<ChatController>();
@@ -33,83 +32,28 @@ class ChatView extends StatelessWidget {
                   itemBuilder: (context, index) {
                     if (controller.chat.messages[index].senderId ==
                         controller.homeController.id) {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          MessageContainer(
-                            color: Colors.orange.shade800,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                BodyText(
-                                  text: controller.chat.messages[index].message,
-                                ),
-                                Text(
-                                  '${controller.chat.messages[index].sendDate.day}/${controller.chat.messages[index].sendDate.month}/${controller.chat.messages[index].sendDate.year} ${controller.chat.messages[index].sendDate.hour}:${controller.chat.messages[index].sendDate.minute}',
-                                  style: TextStyle(
-                                    color: Colors.grey[500],
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
+                      return MessageComponent(
+                        color: Colors.orange.shade800,
+                        message: controller.chat.messages[index].message,
+                        date: controller.chat.messages[index].sendDate,
                       );
                     } else {
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          MessageContainer(
-                            color: Colors.lightBlue.shade900,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                BodyText(
-                                  text: controller.chat.messages[index].message,
-                                ),
-                                Text(
-                                  '${controller.chat.messages[index].sendDate.day}/${controller.chat.messages[index].sendDate.month}/${controller.chat.messages[index].sendDate.year} ${controller.chat.messages[index].sendDate.hour}:${controller.chat.messages[index].sendDate.minute}',
-                                  style: TextStyle(
-                                    color: Colors.grey[500],
-                                    fontSize: 12,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        ],
+                      return MessageComponent(
+                        color: Colors.lightBlue.shade900,
+                        message: controller.chat.messages[index].message,
+                        date: controller.chat.messages[index].sendDate,
                       );
                     }
                   },
                 ),
               ),
-              SendMessageContainer(
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: CustomTextField(
-                        controller: controller.messageController,
-                        textInputType: TextInputType.text,
-                        obsecureText: false,
-                        hintText: 'Type a message...',
-                        icon: Icons.chat_bubble,
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: ElevatedButton(
-                        onPressed: () => controller.sendMessage(
-                          controller.chat.reciverId,
-                          controller.messageController.text,
-                        ),
-                        child: const Text('Send'),
-                      ),
-                    ),
-                  ],
+              SendMessageComponenet(
+                messageController: controller.messageController,
+                onPressed: () => controller.sendMessage(
+                  controller.chat.reciverId,
+                  controller.messageController.text,
                 ),
-              ),
+              )
             ],
           ),
         ),

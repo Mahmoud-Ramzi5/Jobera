@@ -1,9 +1,11 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:jobera/controllers/appControllers/home_controller.dart';
 import 'package:jobera/controllers/appControllers/jobs/freelancing/freelancing_jobs_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
+import 'package:jobera/customWidgets/texts.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/freelancing_job.dart';
 
@@ -18,9 +20,9 @@ class FreelancingJobDetailsController extends GetxController {
   late TextEditingController offerController;
   late TextEditingController editOfferController;
   late double share;
+  late bool isEditOffer;
   bool applied = false;
   bool loading = true;
-  bool isEditOffer = false;
 
   @override
   Future<void> onInit() async {
@@ -34,6 +36,7 @@ class FreelancingJobDetailsController extends GetxController {
     offerController = TextEditingController();
     editOfferController = TextEditingController();
     share = 0.0;
+    isEditOffer = false;
     await fetchFreelancingJob(freelancingJobsController.jobDetailsId);
     loading = false;
     for (var i = 0; i < freelancingJob.competitors.length; i++) {
@@ -50,6 +53,7 @@ class FreelancingJobDetailsController extends GetxController {
         }
       }
     }
+
     update();
     super.onInit();
   }
@@ -119,7 +123,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.0.108:8000/api/FreelancingJobs/$jobId',
+        'http://192.168.43.23:8000/api/FreelancingJobs/$jobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -148,7 +152,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.108:8000/api/FreelancingJob/apply',
+        'http://192.168.43.23:8000/api/FreelancingJob/apply',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -182,7 +186,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.delete(
-        'http://192.168.0.108:8000/api/FreelancingJobs/$jobId',
+        'http://192.168.43.23:8000/api/FreelancingJobs/$jobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -211,7 +215,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.108:8000/api/FreelancingJob/accept/$defJobId',
+        'http://192.168.43.23:8000/api/FreelancingJob/accept/$defJobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -247,7 +251,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.108:8000/api/FreelancingJob/done/$defJobId',
+        'http://192.168.43.23:8000/api/FreelancingJob/done/$defJobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -281,7 +285,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.108:8000/api/FreelancingJobs/offer',
+        'http://192.168.43.23:8000/api/FreelancingJobs/offer',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -306,5 +310,73 @@ class FreelancingJobDetailsController extends GetxController {
         e.response.toString(),
       );
     }
+  }
+
+  Future<dynamic> rateUser(
+    int reviewerId,
+    int reviewedId,
+  ) async {
+    double rating = 0.0;
+    Get.defaultDialog(
+      title: 'Rate this freelancer',
+      titleStyle: TextStyle(
+        color: Colors.orange.shade800,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+      content: RatingBar.builder(
+        allowHalfRating: false,
+        itemCount: 5,
+        itemBuilder: (context, index) {
+          return Icon(
+            Icons.star,
+            color: Colors.lightBlue.shade900,
+          );
+        },
+        onRatingUpdate: (value) {
+          rating = value;
+        },
+      ),
+      cancel: OutlinedButton(
+        onPressed: () => Get.back(),
+        child: const LabelText(text: 'cancel'),
+      ),
+      confirm: OutlinedButton(
+        onPressed: () async {
+          try {
+            String? token = sharedPreferences?.getString('access_token');
+            var response = await dio.post(
+              'http://192.168.43.23:8000/api/review',
+              options: Options(
+                headers: {
+                  'Content-Type': 'application/json; charset=UTF-8',
+                  'Accept': 'application/json',
+                  'Authorization': 'Bearer $token',
+                },
+              ),
+              data: {
+                "reviewer_id": reviewerId,
+                "reviewed_id": reviewedId,
+                "review": rating,
+              },
+            );
+
+            if (response.statusCode == 200) {
+              refreshIndicatorKey.currentState!.show();
+              freelancingJobsController.refreshIndicatorKey.currentState!
+                  .show();
+              Get.back();
+              update();
+            }
+          } on DioException catch (e) {
+            Dialogs().showErrorDialog(
+              'Error',
+              e.response.toString(),
+            );
+          }
+        },
+        child: const LabelText(text: 'Rate'),
+      ),
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:jobera/components/profile_components.dart';
 import 'package:jobera/controllers/profileControllers/company/company_profile_controller.dart';
@@ -62,7 +63,30 @@ class CompanyProfileView extends StatelessWidget {
                               ),
                       ),
                       SmallHeadlineText(text: controller.company.name),
-                      const SmallHeadlineText(text: 'Rating:'),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const SmallHeadlineText(text: 'Rating:'),
+                          RatingBar.builder(
+                            initialRating: controller.company.rating ?? 0.0,
+                            allowHalfRating: true,
+                            itemCount: 5,
+                            itemBuilder: (context, index) {
+                              return Icon(
+                                Icons.star,
+                                color: Colors.lightBlue.shade900,
+                              );
+                            },
+                            itemSize: 30,
+                            ignoreGestures: true,
+                            onRatingUpdate: (value) {},
+                          ),
+                          BodyText(
+                            text:
+                                '(${controller.company.reviewsCount} Reviews)',
+                          ),
+                        ],
+                      ),
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: InfoContainer(

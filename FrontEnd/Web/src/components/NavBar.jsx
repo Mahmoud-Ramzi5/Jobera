@@ -5,6 +5,7 @@ import { BsKanbanFill, BsEnvelopeAtFill, BsBellFill, BsList, BsX } from 'react-i
 import Pusher from 'pusher-js';
 import * as PusherPushNotifications from "@pusher/push-notifications-web";
 import { ThemeContext, LoginContext, ProfileContext } from '../utils/Contexts.jsx';
+import { FetchUnreadNotifications } from '../apis/NotificationsApis.jsx';
 import { FetchImage } from '../apis/FileApi.jsx';
 import ChatNav from "./Chats/ChatNav.jsx";
 import NotificationsNav from './Notifications/NotificationsNav.jsx';
@@ -27,69 +28,84 @@ const NavBar = () => {
   const [notifications, setNotifications] = useState([]);
   const [showNotificationsScreen, setShowNotificationsScreen] = useState(false);
 
+  // Get Notifications
+  useEffect(() => {
+    if (loggedIn && accessToken) {
+      FetchUnreadNotifications(accessToken).then((response) => {
+        if (response.status === 200) {
+          setNotifications(response.data.notifications);
+          setCount(response.data.notifications.length);
+        }
+        else {
+          console.log(response.statusText);
+        }
+      });
+    }
+  }, [loggedIn])
+
   // Open Notifications Channel
   useEffect(() => {
-    Pusher.logToConsole = true;
+    if (profile) {
+      Pusher.logToConsole = true;
 
-    const pusher = new Pusher('181e3fe8a6a1e1e21e6e', {
-      cluster: 'ap2',
-      encrypted: true,
-      authEndpoint: 'http://127.0.0.1:8000/broadcasting/auth',
-      auth: {
-        headers: {
-          'Accept': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Authorization': `Bearer ${accessToken}`
+      const pusher = new Pusher('181e3fe8a6a1e1e21e6e', {
+        cluster: 'ap2',
+        encrypted: true,
+        authEndpoint: 'http://127.0.0.1:8000/broadcasting/auth',
+        auth: {
+          headers: {
+            'Accept': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': `Bearer ${accessToken}`
+          }
         }
-      }
-    });
+      });
 
-    const channel = pusher.subscribe(`private-user.${profile.user_id}`);
-    channel.bind('App\\Events\\NewNotification', data => {
-      setCount(prevCount => prevCount + 1);
-      setNotifications(prevNotifications => [...prevNotifications, data]);
-      if (data) {
-        NotifyUser(data);
-      }
-    });
+      const channel = pusher.subscribe(`private-user.${profile.user_id}`);
+      channel.bind('NewNotification', (data) => {
+        setNotifications((prevNotifications) => [data.notification, ...prevNotifications]);
+        setCount(prevCount => prevCount + 1);
+        if (data) {
+          NotifyUser(data);
+        }
+      });
 
-    // const beamsClient = new PusherPushNotifications.Client({
-    //   instanceId: "488b218d-2a72-4d5b-8940-346df9234336",
-    // });
+      // const beamsClient = new PusherPushNotifications.Client({
+      //   instanceId: "488b218d-2a72-4d5b-8940-346df9234336",
+      // });
 
-    // beamsClient
-    //   .getUserId()
-    //   .then((userId) => {
-    //     console.log("User ID:", userId)
-    //     // Check if the Beams user matches the user that is currently logged in
-    //     if (userId !== `user-${profile.user_id}`) {
-    //       // Unregister for notifications
-    //       return beamsClient.stop();
-    //     }
-    //   })
-    //   .catch(console.error);
+      // beamsClient
+      //   .getUserId()
+      //   .then((userId) => {
+      //     console.log("User ID:", userId)
+      //     // Check if the Beams user matches the user that is currently logged in
+      //     if (userId !== `user-${profile.user_id}`) {
+      //       // Unregister for notifications
+      //       return beamsClient.stop();
+      //     }
+      //   })
+      //   .catch(console.error);
 
 
-    return () => {
-      channel.unbind_all();
-      channel.unsubscribe();
-    };
+      return () => {
+        channel.unbind_all();
+        channel.unsubscribe();
+      };
+    }
   }, [profile]);
 
   const NotifyUser = async (data) => {
     if (!('Notifcation' in window)) {
       alert('Browser does not support desktop notification');
     } else if (Notification.permission === 'granted') {
-      const notification = new Notification(data.other_user.name, {
-        icon: data.other_user.avatar_photo,
-        body: data.message
+      const notification = new Notification(data.notification.data.sender_name, {
+        body: data.notification.data.message
       });
     } else if (Notification.permission !== 'denied') {
       await Notification.requestPermission().then((permission) => {
         if (permission === 'granted') {
-          const notification = new Notification(data.other_user.name, {
-            icon: data.other_user.avatar_photo,
-            body: data.message
+          const notification = new Notification(data.notification.data.sender_name, {
+            body: data.notification.data.message
           });
         }
       });
@@ -178,12 +194,12 @@ const NavBar = () => {
                   <span title={t('components.nav_bar.li_notifications')} className={styles.span_list}
                     onClick={() => {
                       setShowNotificationsScreen(!showNotificationsScreen)
-                      setCount(0);
                     }}>
                     <BsBellFill />{count !== 0 && <small>{count}</small>}{' '}
                     <span className={styles.mobile_item2}>{t('components.nav_bar.li_notifications')}</span>
                   </span>
-                  {showNotificationsScreen && <NotificationsNav notifications={notifications} />}
+                  {showNotificationsScreen && <NotificationsNav notifications={notifications}
+                    setShowScreen={setShowNotificationsScreen} setCount={setCount} />}
                 </li>
                 <span>
                   <li>
@@ -213,7 +229,6 @@ const NavBar = () => {
                       </li>
                     </ul>
                   </li>
-
                 </span>
               </>
             ) : (
@@ -248,12 +263,13 @@ const NavBar = () => {
   );
 };
 
+
 const NavUser = ({ ProfileData }) => {
-  const [avatarPhotoPath, setAvatarPhotoPath] = useState(
-    ProfileData.avatar_photo
-  );
-  const [avatarPhoto, setAvatarPhoto] = useState(null);
+  // Context
   const { accessToken } = useContext(LoginContext);
+  // Define states
+  const [avatarPhoto, setAvatarPhoto] = useState(null);
+  const [avatarPhotoPath, setAvatarPhotoPath] = useState(ProfileData.avatar_photo);
 
   useEffect(() => {
     if (avatarPhotoPath) {
@@ -263,6 +279,7 @@ const NavUser = ({ ProfileData }) => {
       setAvatarPhotoPath(null);
     }
   }, []);
+
 
   return (
     <div className={styles.profile}>
