@@ -88,7 +88,7 @@ class CompanyEditInfoController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.43.23:8000/api/profile/edit',
+        'http://192.168.0.107:8000/api/profile/edit',
         data: {
           "name": name,
           "field": field,

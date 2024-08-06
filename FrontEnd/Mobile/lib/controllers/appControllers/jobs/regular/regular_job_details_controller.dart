@@ -78,7 +78,7 @@ class RegularJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.43.23:8000/api/regJobs/$id',
+        'http://192.168.0.107:8000/api/regJobs/$id',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -103,7 +103,7 @@ class RegularJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.43.23:8000/api/regJob/apply',
+        'http://192.168.0.107:8000/api/regJob/apply',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -136,7 +136,7 @@ class RegularJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.delete(
-        'http://192.168.43.23:8000/api/rggJobs/$jobId',
+        'http://192.168.0.107:8000/api/rggJobs/$jobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -161,7 +161,7 @@ class RegularJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.43.23:8000/api/regJob/accept/$defJobId',
+        'http://192.168.0.107:8000/api/regJob/accept/$defJobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -191,7 +191,7 @@ class RegularJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.43.23:8000/api/chats/create',
+        'http://192.168.0.107:8000/api/chats/create',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

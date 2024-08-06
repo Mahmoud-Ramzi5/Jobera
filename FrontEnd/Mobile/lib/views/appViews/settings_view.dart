@@ -32,10 +32,6 @@ class SettingsView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SettingsListTile(
-                    title: "Notifications",
-                    icon: Icons.notifications_none_rounded,
-                  ),
                 ],
               ),
             ],
