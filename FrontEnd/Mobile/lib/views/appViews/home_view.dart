@@ -92,6 +92,11 @@ class HomeView extends StatelessWidget {
                 onTap: () => Get.toNamed('/wallet'),
               ),
               MenuListTile(
+                title: "Notifications",
+                icon: Icons.notifications_none_rounded,
+                onTap: () => Get.toNamed('/notifications'),
+              ),
+              MenuListTile(
                 title: "Settings",
                 icon: Icons.settings,
                 onTap: () => Get.toNamed('/settings'),
