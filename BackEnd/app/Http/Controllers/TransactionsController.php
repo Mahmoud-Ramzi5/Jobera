@@ -34,14 +34,10 @@ class TransactionsController extends Controller
         }
 
         // Get user's sentTransactions
-        $sent = $wallet->sentTransactions;
-
-        // Get user's receivedTransactions
-        $received = $wallet->receivedTransactions;
+        $transactions = Transaction::where('sender_id',$wallet->id)->orwhere('receiver_id',$wallet->id)->orderByDesc('created_at')->get();
 
         return response()->json([
-            'sent_transactions' => $sent,
-            'received_transactions' => $received
+            'transactions' => $transactions,
         ], 200);
     }
 
