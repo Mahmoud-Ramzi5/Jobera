@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TransactionCollection;
+use App\Http\Resources\TransactionResource;
+use App\Models\Transaction;
 use App\Models\User;
 use App\Models\Company;
 use App\Models\Individual;
 use App\Models\RedeemCode;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 use App\Http\Resources\CompanyCollection;
 use App\Http\Resources\IndividualCollection;
@@ -53,6 +57,12 @@ class AdminController extends Controller
         return response()->json([
             "individual"=>new IndividualCollection($individuals),
             "company"=>new CompanyCollection($companies)
+        ]);
+    }
+    public function GetAllTransactions(){
+        $transactions=Transaction::all();
+        return response()->json([
+            'transactions' => new TransactionCollection($transactions)
         ]);
     }
 }
