@@ -40,6 +40,7 @@ class CompanyResource extends JsonResource
             'wallet' => $user->wallet,
             'portfolios' => new PortfolioCollection($user->portfolios),
             'is_verified' => $is_verified,
+            'notifications_count' => $user->unreadNotifications()->count()
         ];
     }
 }
