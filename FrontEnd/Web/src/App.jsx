@@ -41,6 +41,7 @@ import NotFound from './pages/NotFound.jsx';
 import ErrorPage from './pages/ErrorPage.jsx';
 import Admin from './pages/AdminPage.jsx';
 import TransactionsPage from './components/TransactionsPage.jsx';
+import AdminRoutes from './utils/AdminRoutes.jsx';
 
 
 function App() {
@@ -108,6 +109,7 @@ function App() {
       setIsLoading(true);
       FetchProfile(accessToken).then((response) => {
         if (response.status === 200) {
+          console.log(response.data);
           setProfile(response.data.user);
         }
         else {
@@ -159,6 +161,9 @@ function App() {
         <ProfileContext.Provider value={{ profile, setProfile }}>
           <BrowserRouter>
             <Routes>
+            <Route element={<AdminRoutes />}>
+                <Route path="/admin" element={<Admin />} />
+            </Route>
               <Route element={<Layout />}>
                 <Route path="/" element={<Index />} />
                 <Route element={<PrivateRoutes />}>
@@ -190,7 +195,6 @@ function App() {
               </Route>
 
               <Route element={<AnonymousRoutes />}>
-                <Route path="/admin" element={<Admin />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/auth/:provider/call-back" element={<CallBack />} />

@@ -7,10 +7,12 @@ import AdminJobs from '../components/Admin/AdminJobs';
 import AdminSkills from '../components/Admin/AdminSkills';
 import AdminUsers from '../components/Admin/AdminUsers';
 import AdminWalet from '../components/Admin/AdminWallet';
-
+import { useContext } from 'react';
+import { ProfileContext } from '../utils/Contexts';
 const Admin = () => {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
   const [activeComponent, setActiveComponent] = useState('Home');
+  const { profile } = useContext(ProfileContext);
 
   const OpenSidebar = () => {
     setOpenSidebarToggle(!openSidebarToggle);
