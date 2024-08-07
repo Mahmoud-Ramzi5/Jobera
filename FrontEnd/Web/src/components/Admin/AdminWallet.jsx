@@ -1,13 +1,13 @@
 import { useEffect, useState, useContext, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { ChatFill, Trash } from "react-bootstrap-icons";
-import { LoginContext, ProfileContext } from "../../utils/Contexts";
+import { ChatFill, Eye, Pencil, Trash } from "react-bootstrap-icons";
+import { LoginContext, ProfileContext } from "../../utils/Contexts.jsx";
 import Clock from "../../utils/Clock.jsx";
 import styles from "../../styles/AdminPage.module.css";
 import { FetchAllUsers } from "../../apis/AdminApis.jsx";
 
-const AdminUsers = () => {
+const AdminWalet = () => {
   // Translations
   const { t } = useTranslation("global");
   // Context
@@ -18,7 +18,7 @@ const AdminUsers = () => {
   // Define states
   const initialized = useRef(false);
 
-  const [userType, setUserType] = useState("individual");
+  const [userType, setUserType] = useState("All");
 
   const [isLoading, setIsLoading] = useState(true);
 
@@ -50,32 +50,25 @@ const AdminUsers = () => {
 
 
   const columnStructure = {
-    company: [
-      { key: "name", label: "Name" },
-      { key: "phone_number", label: "Phone Number" },
-      { key: "country", label: "Country" },
-      { key: "state", label: "State" },
-      { key: "field", label: "Field" },
-      { key: "founding_date", label: "Founding Date" },
-      { key: "rating", label: "Rating" },
-      { key: "is_verified", label: "Verified" },
+    Admin: [
+      { key: "sender.name", label: "Sender Name" },
+      { key: "job.title", label: "Job title" },
+      { key: "amount", label: "Amount" },
+      { key: "date", label: "Date" },  
     ],
-    individual: [
-      { key: "full_name", label: "Full Name" },
-      { key: "phone_number", label: "Phone Number" },
-      { key: "country", label: "Country" },
-      { key: "state", label: "State" },
-      { key: "birth_date", label: "Birth Date" },
-      { key: "gender", label: "Gender" },
-      { key: "rating", label: "Rating" },
-      { key: "is_verified", label: "Verified" },
+    All: [
+      { key: "sender.name", label: "Sender Name" },
+      { key: "receiver.name", label: "Receiver Name" },
+      { key: "job.title", label: "Job title" },
+      { key: "amount", label: "Amount" },
+      { key: "date", label: "Date" },
     ]
   };
 
   const currentColumns = columnStructure[userType];
 
   const filteredUsers = userData && userData[userType]
-    ? userData[userType].filter(user => user.type == 'individual' ?
+    ? userData[userType].filter(user => user.type == 'All' ?
       user.full_name.toLowerCase().includes(searchQuery.toLowerCase()) :
       user.name.toLowerCase().includes(searchQuery.toLowerCase())
     )
@@ -93,7 +86,7 @@ const AdminUsers = () => {
     <div className={styles.screen}>
       <div className={styles.content}>
         <div>
-          <h1>Users</h1>
+          <h1>Transactions</h1>
           <div className={styles.search_bar}>
             <input
               type="text"
@@ -106,23 +99,23 @@ const AdminUsers = () => {
           <div className={styles.slider}>
             <input
               type="radio"
-              id="individual"
+              id="All"
               name="userType"
-              value="individual"
-              checked={userType === "individual"}
-              onChange={() => setUserType("individual")}
+              value="All"
+              checked={userType === "All"}
+              onChange={() => setUserType("All")}
             />
-            <label htmlFor="individual">Individual</label>
+            <label htmlFor="All">All</label>
 
             <input
               type="radio"
-              id="company"
+              id="Admin"
               name="userType"
-              value="company"
-              checked={userType === "company"}
-              onChange={() => setUserType("company")}
+              value="Admin"
+              checked={userType === "Admin"}
+              onChange={() => setUserType("Admin")}
             />
-            <label htmlFor="company">Company</label>
+            <label htmlFor="Admin">Admin's</label>
           </div>
         </div>
         <table className={styles.certificates_table}>
@@ -166,4 +159,4 @@ const AdminUsers = () => {
   );
 };
 
-export default AdminUsers;
+export default AdminWalet;

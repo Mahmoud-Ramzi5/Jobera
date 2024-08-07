@@ -57,7 +57,7 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar,setActiveComponent }) => {
             <BsPeopleFill className={styles.icon} /> Users
         </li>
         <li className={styles.sidebar_list_item} onClick={() => handleItemClick('Wallet')}>
-            <BsWalletFill className={styles.icon} /> Wallet
+            <BsWalletFill className={styles.icon} /> Transactions
         </li>
         <li className={styles.sidebar_list_item} onClick={() => handleItemClick('Reports')}>
             <BsMenuButtonWideFill className={styles.icon} /> Reports

@@ -220,6 +220,7 @@ Route::get('/image/{user_id}/{folder}/{image}', function (Request $request, $use
 Route::controller(AdminController::class)->group(function () {
     Route::post('/generate', 'GenerateCode');
     Route::get('/users','Users');
+    Route::get('/transactions/all','GetAllTransactions');
 });
 
 

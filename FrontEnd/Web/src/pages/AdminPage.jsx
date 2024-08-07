@@ -6,6 +6,7 @@ import styles from '../styles/AdminPage.module.css';
 import AdminJobs from '../components/Admin/AdminJobs';
 import AdminSkills from '../components/Admin/AdminSkills';
 import AdminUsers from '../components/Admin/AdminUsers';
+import AdminWalet from '../components/Admin/AdminWallet';
 
 const Admin = () => {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
@@ -25,7 +26,7 @@ const Admin = () => {
       case 'Users':
         return <AdminUsers />;
       case 'Wallet':
-        return <></>;
+        return <AdminWalet/>;
       case 'Reports':
         return <></>;
       case 'Settings':
