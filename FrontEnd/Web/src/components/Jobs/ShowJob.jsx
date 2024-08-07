@@ -14,11 +14,11 @@ import { FetchImage } from '../../apis/FileApi';
 import { CreateChat } from '../../apis/ChatApis';
 import JobCompetitorCard from './JobCompetitorCard';
 import NormalInput from '../NormalInput';
+import Rating from '../Rating.jsx';
 import Clock from '../../utils/Clock';
 import img_holder from '../../assets/upload.png';
 import styles from './show_job.module.css';
 import Inputstyles from '../../styles/Input.module.css'
-import Rating from '../Rating';
 
 
 const ShowJob = () => {
@@ -259,7 +259,7 @@ const ShowJob = () => {
 
   return (
     <div className={styles.jobsPage}>
-      {!jobEnded && isJobCreator && canRate ? <Rating title={'Rate the accepted freelancer'}
+      {!jobEnded && isJobCreator && canRate ? <Rating title={t('components.rating.title')}
         reviewer_id={profile.user_id} reviewed_id={job.accepted_user.user_id} jobEnded={setJobEnded} /> :
         <>
           <div className={styles.pagecontent}>
@@ -411,7 +411,7 @@ const ShowJob = () => {
             }
             {job.competitors && job.competitors.map((competitor) => (
               <div className={styles.competitor_and_button} key={competitor.competitor_id}>
-                <JobCompetitorCard CompetitorData={competitor} AcceptedCompetitor={acceptedUser} CurrentUser={currentUser} JobId={job.defJob_id}/>
+                <JobCompetitorCard CompetitorData={competitor} AcceptedCompetitor={acceptedUser} CurrentUser={currentUser} JobId={job.defJob_id} />
                 <div className={styles.buttons_holder2}>
                   {job.job_user.user_id === profile.user_id && !accepted && job.type === 'Freelancing' &&
                     job.job_user.wallet.available_balance >= parseFloat(competitor.offer) &&

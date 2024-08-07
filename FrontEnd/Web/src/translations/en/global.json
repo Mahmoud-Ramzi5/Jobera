@@ -428,6 +428,11 @@
             "th3": "Job title",
             "th4": "Amount",
             "th5": "Date"
+        },
+        "rating": {
+            "title": "Please, rate the accepted freelancer",
+            "button_rate": "Rate",
+            "button_cancel": "Cancel"
         }
     }
 }

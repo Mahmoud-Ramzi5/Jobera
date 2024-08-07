@@ -14,12 +14,10 @@ class JobFeedController extends Controller
 {
     public function MostPayedRegJobs()
     {
-        // Get highest-paying regular jobs
+        // Get the top 5 highest-paying regular jobs
         $topJobs = [];
-        $regJobs = RegJob::whereNotNull('accepted_individual')->get();
-
-        // Retrieve the top 5 highest-paying regular jobs
-        $regJobs = $regJobs->sortByDesc('salary')->take(5);
+        $regJobs = RegJob::select('salary', 'defJob_id')->with('defJob:id,title')
+            ->whereNotNull('accepted_individual')->orderByDesc('salary')->get()->take(5);
 
         foreach ($regJobs as $job) {
             array_push($topJobs, [
@@ -182,7 +180,6 @@ class JobFeedController extends Controller
                     } else {
                         $donePartTimeJobs++;
                     }
-
                 }
                 continue;
             }
