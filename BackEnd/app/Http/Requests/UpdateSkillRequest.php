@@ -5,6 +5,8 @@ namespace App\Http\Requests;
 use App\Enums\SkillTypes;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateSkillRequest extends FormRequest
 {
@@ -27,5 +29,12 @@ class UpdateSkillRequest extends FormRequest
             "name" => ['sometimes'],
             "type" => ['sometimes', Rule::in(SkillTypes::names())]
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'errors' => $validator->errors()
+        ], 422));
     }
 }

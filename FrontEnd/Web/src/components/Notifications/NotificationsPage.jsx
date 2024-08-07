@@ -29,7 +29,7 @@ const NotificationsPage = () => {
         if (response.status === 200) {
           setNotifications(response.data.notifications);
           response.data.notifications.map((notification) => {
-            if (notification.read_at !== null) {
+            if (notification.read_at === null) {
               setNotRead(true);
             }
           })
@@ -46,10 +46,10 @@ const NotificationsPage = () => {
   const handleMarkAllNotifications = (event) => {
     event.preventDefault();
     MarkNotification(accessToken, 'all').then((response) => {
-      if (response.status == 200) {
+      if (response.status === 200) {
         window.location.reload();
       } else {
-        console.log(response);
+        console.log(response.statusText);
       }
     });
   }
@@ -58,10 +58,10 @@ const NotificationsPage = () => {
     const handleMarkAsRead = (event) => {
       event.preventDefault();
       MarkNotification(accessToken, notification.id).then((response) => {
-        if (response.status == 200) {
+        if (response.status === 200) {
           window.location.reload();
         } else {
-          console.log(response);
+          console.log(response.statusText);
         }
       });
     };
@@ -72,7 +72,7 @@ const NotificationsPage = () => {
         if (response.status == 204) {
           window.location.reload(); // Refresh the page after deletion
         } else {
-          console.log(response);
+          console.log(response.statusText);
         }
       });
     };
@@ -91,7 +91,9 @@ const NotificationsPage = () => {
             <button onClick={handleMarkAsRead} className={styles.view_button}>
               <BsEye />
             </button>
-            : <h6 className={styles.read_message}>Read</h6>
+            : <h6 className={styles.read_message}>
+              {t('components.notifications.read')}
+            </h6>
           }
           {profile.user_id == notification.notifiable_id &&
             <button onClick={handleDelete} className={styles.delete_button}>
@@ -113,12 +115,12 @@ const NotificationsPage = () => {
         <table className={styles.notifications_table}>
           <thead>
             <tr>
-              <th style={{ width: '20%' }}>From:</th>
-              <th style={{ width: '40%' }}>Message</th>
-              <th style={{ width: '20%' }}>Date</th>
-              <th style={{ width: '20%' }}>Read and delete {notRead && <><br />
+              <th style={{ width: '20%' }}>{t('components.notifications.th1')}</th>
+              <th style={{ width: '40%' }}>{t('components.notifications.th2')}</th>
+              <th style={{ width: '20%' }}>{t('components.notifications.th3')}</th>
+              <th style={{ width: '20%' }}>{t('components.notifications.th4')}{notRead && <><br />
                 <div onClick={handleMarkAllNotifications} className={styles.mark_all}>
-                  Mark all as read
+                  {t('components.notifications.div')}
                 </div>
               </>}
               </th>

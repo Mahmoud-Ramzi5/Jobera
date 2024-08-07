@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+
 export const FetchSkillTypes = async () => {
     try {
         const response = await axios.get('http://127.0.0.1:8000/api/skills/types', {
@@ -55,10 +56,11 @@ export const SearchSkills = async (name) => {
         return error.response;
     }
 };
-export const AddNewSkillApI= async(name,type)=>{
-    try{
-        const response = await axios.post(`http://127.0.0.1:8000/api/skills`,{
-            "name":name,"type":type
+
+export const AddNewSkillApI = async (name, type) => {
+    try {
+        const response = await axios.post(`http://127.0.0.1:8000/api/skills`, {
+            "name": name, "type": type
         }, {
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
@@ -67,14 +69,15 @@ export const AddNewSkillApI= async(name,type)=>{
         });
         return response;
 
-    }catch (error) {
+    } catch (error) {
         return error.response;
     }
-}
-export const EditSkillAPI= async(name,type,skillId)=>{
-    try{
-        const response = await axios.post(`http://127.0.0.1:8000/api/skills/${skillId}`,{
-            "name":name,"type":type
+};
+
+export const EditSkillAPI = async (name, type, skillId) => {
+    try {
+        const response = await axios.post(`http://127.0.0.1:8000/api/skills/${skillId}`, {
+            "name": name, "type": type
         }, {
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
@@ -83,7 +86,7 @@ export const EditSkillAPI= async(name,type,skillId)=>{
         });
         return response;
 
-    }catch (error) {
+    } catch (error) {
         return error.response;
     }
-}
+};
