@@ -17,15 +17,16 @@ class TransactionResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $sender = User::where('id', $this->sender->user->id)->first();
-        $receiver = User::where('id', $this->receiver->user->id)->first();
-        $individualSender = Individual::where('user_id', $sender->id)->first();
-        $individualReceiver = Individual::where('user_id', $receiver->id)->first();
-        $CompanySender = Company::where('user_id', $sender->id)->first();
-        $CompanyReceiver = Company::where('user_id', $receiver->id)->first();
+        $sender = User::select('id')->where('id', $this->sender->user->id)->first();
+        $receiver = User::select('id')->where('id', $this->receiver->user->id)->first();
+        $individualSender = Individual::select('full_name')->where('user_id', $sender->id)->first();
+        $individualReceiver = Individual::select('full_name')->where('user_id', $receiver->id)->first();
+        $CompanySender = Company::select('name')->where('user_id', $sender->id)->first();
+        $CompanyReceiver = Company::select('name')->where('user_id', $receiver->id)->first();
         $senderName = $individualSender ? $individualSender->full_name : $CompanySender->name;
         $receiverName = $individualReceiver ? $individualReceiver->full_name : $CompanyReceiver->name;
         return [
+            "id" => $this->id,
             "sender" => [
                 "id" => $sender->id,
                 "name" => $senderName,
@@ -36,7 +37,7 @@ class TransactionResource extends JsonResource
             ],
             "job" => [
                 "id" => $this->defJob_id,
-                "title" => $this->freelancing_job->title,
+                "title" => $this->def_job->title,
             ],
             "amount" => $this->amount,
             "date" => $this->date,

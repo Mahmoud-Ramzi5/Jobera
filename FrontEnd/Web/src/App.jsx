@@ -40,6 +40,7 @@ import RedeemCode from './components/Profile/RedeemCode.jsx';
 import NotFound from './pages/NotFound.jsx';
 import ErrorPage from './pages/ErrorPage.jsx';
 import Admin from './pages/AdminPage.jsx';
+import TransactionsPage from './components/TransactionsPage.jsx';
 
 
 function App() {
@@ -180,6 +181,7 @@ function App() {
                   <Route path='/manage' element={<Manage />} />
                   <Route path='/chats' element={<ChatPage />} />
                   <Route path="/notifications" element={<NotificationsPage />} />
+                  <Route path="/transactions" element={<TransactionsPage />} />
                   <Route path='/redeemcode' element={<RedeemCode />} />
                   <Route path='/notfound' element={<NotFound />} />
                   <Route path='/error' element={<ErrorPage />} />
