@@ -80,8 +80,12 @@ const Login = () => {
             // 1 Hour
             Cookies.set('access_token', token, { secure: true, expires: 1 / 24 });
           }
+          if(response.data.user.type==="admin"){
+            navigate('/admin');
+          }else{         
           // Redirect to dashboard
           navigate('/dashboard');
+          }
         }
         else {
           console.log(response.statusText);

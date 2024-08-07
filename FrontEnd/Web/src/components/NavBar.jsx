@@ -112,7 +112,6 @@ const NavBar = () => {
     }
   }
 
-
   return (
     <nav>
       <div className={styles.wrapper}>
@@ -218,11 +217,11 @@ const NavBar = () => {
                     <ul className={styles.drop_menu}>
                       <li>
                         <a href={
-                          profile.type === "individual" ?
+                          profile?profile.type === "individual" ?
                             `/profile/${profile.user_id}/${profile.full_name}` :
                             profile.type === "company" ?
                               `/profile/${profile.user_id}/${profile.name}` :
-                              '#'}>{t('components.nav_bar.li_profile')}</a>
+                              '/admin':'#'}>{t('components.nav_bar.li_profile')}</a>
                       </li>
                       <li>
                         <a href="/logout">{t('components.nav_bar.li_logout')}</a>

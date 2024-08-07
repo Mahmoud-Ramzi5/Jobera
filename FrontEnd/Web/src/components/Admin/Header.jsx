@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
 import { BsFillBellFill, BsFillEnvelopeFill, BsPersonCircle, BsSearch, BsJustify } from 'react-icons/bs';
 import styles from '../../styles/AdminPage.module.css';
+import { LogoutAPI } from '../../apis/AuthApis';
+import { ProfileContext , LoginContext } from '../../utils/Contexts';
+import { useContext } from 'react';
 
 const Header = ({ OpenSidebar }) => {
   const [showDropdown, setShowDropdown] = useState(false);
+  const { setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
+  const { setProfile } = useContext(ProfileContext);
 
   const handlePersonClick = () => {
     setShowDropdown(!showDropdown);
@@ -11,7 +16,22 @@ const Header = ({ OpenSidebar }) => {
 
   const handleLogout = () => {
     // Implement your logout logic here
-    console.log('Logout clicked');
+    // Perform Logout logic (Call api)
+    LogoutAPI(accessToken).then((response) => {
+      if (response.status === 200) {
+        // Logout user and delete Token
+        setLoggedIn(false);
+        setAccessToken(null);
+        Cookies.remove('access_token');
+        setProfile({});
+      }
+      else {
+        console.log(response.statusText);
+      }
+    }).then(() => {
+      // Redirect to index
+      navigate('/');
+    });
   };
 
   return (

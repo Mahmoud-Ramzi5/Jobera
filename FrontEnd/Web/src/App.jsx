@@ -41,6 +41,7 @@ import RedeemCode from './components/Profile/RedeemCode.jsx';
 import NotFound from './pages/NotFound.jsx';
 import ErrorPage from './pages/ErrorPage.jsx';
 import Admin from './pages/AdminPage.jsx';
+import AdminRoutes from './utils/AdminRoutes.jsx';
 
 
 function App() {
@@ -159,6 +160,9 @@ function App() {
         <ProfileContext.Provider value={{ profile, setProfile }}>
           <BrowserRouter>
             <Routes>
+            <Route element={<AdminRoutes />}>
+                <Route path="/admin" element={<Admin />} />
+            </Route>
               <Route element={<Layout />}>
                 <Route path="/" element={<Index />} />
                 <Route element={<PrivateRoutes />}>
@@ -190,7 +194,6 @@ function App() {
               </Route>
 
               <Route element={<AnonymousRoutes />}>
-                <Route path="/admin" element={<Admin />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/auth/:provider/call-back" element={<CallBack />} />

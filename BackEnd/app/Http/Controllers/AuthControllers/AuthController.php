@@ -3,21 +3,21 @@
 namespace App\Http\Controllers\AuthControllers;
 
 use App\Http\Controllers\Controller;
-
-use App\Models\User;
-use App\Models\Individual;
-use App\Models\Company;
-use App\Models\Wallet;
-use Carbon\Carbon;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
+use App\Http\Requests\CompanyRegisterRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
-use App\Http\Requests\CompanyRegisterRequest;
-use App\Http\Resources\IndividualResource;
+use App\Http\Resources\AdminResource;
 use App\Http\Resources\CompanyResource;
+use App\Http\Resources\IndividualResource;
+use App\Models\Company;
+use App\Models\Individual;
+use App\Models\User;
+use App\Models\Wallet;
 use App\Notifications\EmailVerification;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -42,7 +42,7 @@ class AuthController extends Controller
         if ($user == null) {
             // Response
             return response()->json([
-                'errors' => ['user' => 'Invalid user']
+                'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
 
@@ -57,7 +57,7 @@ class AuthController extends Controller
 
             // Response
             return response()->json([
-                'errors' => ['user' => 'Invalid user']
+                'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
 
@@ -78,7 +78,7 @@ class AuthController extends Controller
 
             // Response
             return response()->json([
-                'errors' => ['user' => 'Invalid user']
+                'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
 
@@ -91,7 +91,7 @@ class AuthController extends Controller
             "message" => "Individual registered",
             "individual" => new IndividualResource($individual),
             "access_token" => $token,
-            "token_type" => "bearer"
+            "token_type" => "bearer",
         ], 201);
     }
 
@@ -116,7 +116,7 @@ class AuthController extends Controller
         if ($user == null) {
             // Response
             return response()->json([
-                'errors' => ['user' => 'Invalid user']
+                'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
 
@@ -131,7 +131,7 @@ class AuthController extends Controller
 
             // Response
             return response()->json([
-                'errors' => ['user' => 'Invalid user']
+                'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
 
@@ -152,7 +152,7 @@ class AuthController extends Controller
 
             // Response
             return response()->json([
-                'errors' => ['user' => 'Invalid user']
+                'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
 
@@ -165,7 +165,7 @@ class AuthController extends Controller
             "message" => "Company registered",
             "company" => new CompanyResource($company),
             "access_token" => $token,
-            "token_type" => "bearer"
+            "token_type" => "bearer",
         ], 201);
     }
 
@@ -179,7 +179,7 @@ class AuthController extends Controller
         if (!Auth::attempt($validated)) {
             // Invalid email or password
             return response()->json([
-                'errors' => ['data' => 'Invalid email or password']
+                'errors' => ['data' => 'Invalid email or password'],
             ], 401);
         }
 
@@ -189,7 +189,7 @@ class AuthController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'errors' => ['user' => 'Invalid user']
+                'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
 
@@ -221,6 +221,13 @@ class AuthController extends Controller
                 "token_type" => "bearer",
                 "expires_at" => $expiration,
             ], 200);
+        } else {
+            return response()->json([
+                "user" => new AdminResource($user),
+                "access_token" => $token->accessToken,
+                "token_type" => "bearer",
+                "expires_at" => $expiration,
+            ]);
         }
     }
 
@@ -253,7 +260,7 @@ class AuthController extends Controller
 
         // Response
         return response()->json([
-            "message" => "Verification email has been sent"
+            "message" => "Verification email has been sent",
         ], 200);
     }
 
@@ -265,7 +272,7 @@ class AuthController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'errors' => ['user' => 'Invalid user']
+                'errors' => ['user' => 'Invalid user'],
             ], 404);
         }
 
@@ -292,7 +299,7 @@ class AuthController extends Controller
     public function IsExpired(Request $request)
     {
         return response()->json([
-            'message' => 'Token is valid'
+            'message' => 'Token is valid',
         ], 200);
     }
 
@@ -304,13 +311,13 @@ class AuthController extends Controller
         // Check email verification
         if ($user->email_verified_at) {
             return response()->json([
-                'message' => 'Verified'
+                'message' => 'Verified',
             ], 200);
         }
 
         // Response
         return response()->json([
-            'message' => 'Not Verified'
+            'message' => 'Not Verified',
         ], 401);
     }
 
@@ -322,7 +329,7 @@ class AuthController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'user' => 'Invalid user'
+                'user' => 'Invalid user',
             ], 401);
         }
 
@@ -332,13 +339,13 @@ class AuthController extends Controller
         // Check individual
         if ($individual == null) {
             return response()->json([
-                'errors' => ['user' => 'Invalid user']
+                'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
 
         // Response
         return response()->json([
-            'step' => $individual->register_step()
+            'step' => $individual->register_step(),
         ], 200);
     }
 }
