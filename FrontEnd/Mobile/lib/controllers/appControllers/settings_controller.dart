@@ -166,10 +166,9 @@ class SettingsController extends GetxController {
         ),
       );
       if (response.statusCode == 200) {
-        List<Skill> skills = [];
-        for (var skill in response.data['skills']) {
-          skills.add(Skill.fromJson(skill));
-        }
+        List<Skill> skills = [
+          for (var skill in response.data['skills']) Skill.fromJson(skill)
+        ];
         return skills;
       }
     } on DioException catch (e) {

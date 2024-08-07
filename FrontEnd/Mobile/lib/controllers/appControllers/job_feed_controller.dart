@@ -64,21 +64,23 @@ class JobFeedController extends GetxController {
         ),
       );
       if (response.statusCode == 200) {
-        for (var mostPayedRegJob in response.data['MostPayedRegJobs']) {
-          mostPayedRegJobs.add(MostPayedRegJobs.fromJson(mostPayedRegJob));
-        }
-        for (var mostPayedFreelancingJob
-            in response.data['MostPayedFreelancingJobs']) {
-          mostPayedFreeLancingJobs
-              .add(MostPayedFreelancingJobs.fromJson(mostPayedFreelancingJob));
-        }
-        for (var mostPostingCompanie in response.data['MostPostingCompanies']) {
-          mostPostingComapnies
-              .add(MostPostingCompanies.fromJson(mostPostingCompanie));
-        }
-        for (var mostNeededSkill in response.data['MostNeededSkills']) {
-          mostNeededSkills.add(MostNeededSkills.fromJson(mostNeededSkill));
-        }
+        mostPayedRegJobs = [
+          for (var mostPayedRegJob in response.data['MostPayedRegJobs'])
+            MostPayedRegJobs.fromJson(mostPayedRegJob)
+        ];
+        mostPayedFreeLancingJobs = [
+          for (var mostPayedFreelancingJob
+              in response.data['MostPayedFreelancingJobs'])
+            MostPayedFreelancingJobs.fromJson(mostPayedFreelancingJob)
+        ];
+        mostPostingComapnies = [
+          for (var mostPostingCompanie in response.data['MostPostingCompanies'])
+            MostPostingCompanies.fromJson(mostPostingCompanie)
+        ];
+        mostNeededSkills = [
+          for (var mostNeededSkill in response.data['MostNeededSkills'])
+            MostNeededSkills.fromJson(mostNeededSkill)
+        ];
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(

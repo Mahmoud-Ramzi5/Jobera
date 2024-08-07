@@ -106,12 +106,13 @@ class FreelancingJobsController extends GetxController {
   }
 
   Future<void> resetFilter() async {
+    isFiltered = false;
     freelancingJobs.clear();
     nameController.clear();
     minOfferController.clear();
     maxOfferController.clear();
-    dateFrom = DateTime.now();
-    dateTo = DateTime.now();
+    dateFrom = null;
+    dateTo = null;
     skillNames.clear();
     for (var i = 0; i < skills.length; i++) {
       selectedSkills[i] = false;
@@ -217,12 +218,12 @@ class FreelancingJobsController extends GetxController {
         paginationData.hasMorePages) {
       if (isFiltered) {
         filterJobs(
-          1,
+          paginationData.currentPage + 1,
           nameController.text,
           minOfferController.text,
           maxOfferController.text,
-          dateFrom!,
-          dateTo!,
+          dateFrom,
+          dateTo,
           skillNames,
         );
       } else {

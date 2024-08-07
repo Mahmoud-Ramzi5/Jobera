@@ -18,6 +18,7 @@ class HomeController extends GetxController {
   late String? photo;
   late String step;
   late SettingsController settingsController;
+  late int notificationsCount;
   bool isOtherUserProfile = false;
   int otherUserId = 0;
   String otherUserName = '';
@@ -32,6 +33,7 @@ class HomeController extends GetxController {
     id = 0;
     photo = '';
     settingsController = Get.find<SettingsController>();
+    notificationsCount = 0;
     await fetchUser();
     super.onInit();
   }
@@ -58,6 +60,7 @@ class HomeController extends GetxController {
           photo = company!.photo;
           step = '';
           isCompany = true;
+          notificationsCount = company!.notificationsCount;
         } else if (response.data['user']['type'] == 'individual') {
           user = User.fromJson(response.data['user']);
           name = user!.name;
@@ -66,6 +69,7 @@ class HomeController extends GetxController {
           photo = user!.photo;
           step = user!.step;
           isCompany = false;
+          notificationsCount = user!.notificationsCount;
           continueRegister();
         }
       }
