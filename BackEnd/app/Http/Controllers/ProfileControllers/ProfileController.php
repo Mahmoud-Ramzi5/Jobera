@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\ProfileControllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\AdminResource;
 use App\Models\Individual;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Http\Requests\EditProfileRequest;
 use App\Http\Resources\IndividualResource;
 use App\Http\Resources\CompanyResource;
+use App\Http\Resources\AdminResource;
 
 class ProfileController extends Controller
 {
@@ -24,9 +24,9 @@ class ProfileController extends Controller
                 'errors' => ['user' => 'Invalid user']
             ], 401);
         }
-        if($user->id==1){
+        if ($user->id == 1) {
             return response()->json([
-                'user'=>new AdminResource($user)
+                'user' => new AdminResource($user)
             ]);
         }
 

@@ -3,21 +3,22 @@
 namespace App\Http\Controllers\AuthControllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\CompanyRegisterRequest;
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\RegisterRequest;
-use App\Http\Resources\AdminResource;
-use App\Http\Resources\CompanyResource;
-use App\Http\Resources\IndividualResource;
-use App\Models\Company;
-use App\Models\Individual;
+
 use App\Models\User;
+use App\Models\Individual;
+use App\Models\Company;
 use App\Models\Wallet;
-use App\Notifications\EmailVerification;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\CompanyRegisterRequest;
+use App\Http\Resources\IndividualResource;
+use App\Http\Resources\CompanyResource;
+use App\Http\Resources\AdminResource;
+use App\Notifications\EmailVerification;
 
 class AuthController extends Controller
 {
@@ -221,14 +222,15 @@ class AuthController extends Controller
                 "token_type" => "bearer",
                 "expires_at" => $expiration,
             ], 200);
-        } else {
-            return response()->json([
-                "user" => new AdminResource($user),
-                "access_token" => $token->accessToken,
-                "token_type" => "bearer",
-                "expires_at" => $expiration,
-            ]);
         }
+
+        // Response
+        return response()->json([
+            "user" => new AdminResource($user),
+            "access_token" => $token->accessToken,
+            "token_type" => "bearer",
+            "expires_at" => $expiration,
+        ], 200);
     }
 
     public function Logout(Request $request)

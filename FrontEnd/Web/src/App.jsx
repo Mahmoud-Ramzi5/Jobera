@@ -7,6 +7,7 @@ import { CheckToken } from './apis/AuthApis.jsx';
 import { FetchProfile } from './apis/ProfileApis/ProfileApis.jsx';
 import PrivateRoutes from './utils/PrivateRoutes.jsx';
 import AnonymousRoutes from './utils/AnonymousRoutes.jsx';
+import AdminRoutes from './utils/AdminRoutes.jsx';
 import Clock from './utils/Clock.jsx';
 import Layout from './utils/Layout.jsx';
 import Index from './pages/Index.jsx';
@@ -41,7 +42,6 @@ import RedeemCode from './components/Profile/RedeemCode.jsx';
 import NotFound from './pages/NotFound.jsx';
 import ErrorPage from './pages/ErrorPage.jsx';
 import Admin from './pages/AdminPage.jsx';
-import AdminRoutes from './utils/AdminRoutes.jsx';
 
 
 function App() {
@@ -160,9 +160,9 @@ function App() {
         <ProfileContext.Provider value={{ profile, setProfile }}>
           <BrowserRouter>
             <Routes>
-            <Route element={<AdminRoutes />}>
+              <Route element={<AdminRoutes />}>
                 <Route path="/admin" element={<Admin />} />
-            </Route>
+              </Route>
               <Route element={<Layout />}>
                 <Route path="/" element={<Index />} />
                 <Route element={<PrivateRoutes />}>
