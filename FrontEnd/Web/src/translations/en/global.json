@@ -148,6 +148,11 @@
                 "publish_date": "Publish date:",
                 "deadline": "Deadline:"
             },
+            "job_slider": {
+                "full_time": "FullTime",
+                "part_time": "PartTime",
+                "freelancing": "Freelancing"
+            },
             "done": "No more jobs to show"
         },
         "post_job": {
@@ -407,6 +412,14 @@
             "type": "Type:",
             "offer": "Offer:",
             "status": "Status:"
+        },
+        "notifications": {
+            "th1": "From:",
+            "th2": "Message",
+            "th3": "Date",
+            "th4": "Read and delete",
+            "div": "Mark all as read",
+            "read": "Read"
         }
     }
 }

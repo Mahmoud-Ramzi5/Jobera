@@ -56,8 +56,8 @@ class Transaction extends Model
         return $this->belongsTo(Wallet::class, 'receiver_id', 'id');
     }
 
-    public function freelancing_job(): BelongsTo
+    public function def_job(): BelongsTo
     {
-        return $this->belongsTo(FreelancingJob::class, 'job_id', 'id');
+        return $this->belongsTo(DefJob::class, 'defJob_id', 'id');
     }
 }

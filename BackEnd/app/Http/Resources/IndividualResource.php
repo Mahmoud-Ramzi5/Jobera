@@ -50,7 +50,8 @@ class IndividualResource extends JsonResource
             'portfolios' => new PortfolioCollection($user->portfolios),
             'is_verified' => $is_verified,
             'is_registered' => $is_registered,
-            'register_step' => $this->register_step()
+            'register_step' => $this->register_step(),
+            'notifications_count' => $user->unreadNotifications()->count()
         ];
     }
 }

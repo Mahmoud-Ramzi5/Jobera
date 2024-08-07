@@ -16,19 +16,19 @@ class SkillResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $count=0;
+        $count = 0;
         $regJobs = RegJob::all();
         $freelancingJobs = FreelancingJob::all();
         foreach ($regJobs as $regJob) {
             foreach ($regJob->defJob->skills as $skill) {
-                if($skill->name==$this->name)
+                if ($skill->name == $this->name)
                     $count++;
             }
         }
 
         foreach ($freelancingJobs as $freelancingJob) {
             foreach ($freelancingJob->defJob->skills as $skill) {
-                if($skill->name==$this->name)
+                if ($skill->name == $this->name)
                     $count++;
             }
         }
@@ -37,7 +37,7 @@ class SkillResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "type" => $this->type,
-            "count"=>$count
+            "count" => $count
         ];
     }
 }

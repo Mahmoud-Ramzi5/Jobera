@@ -1,0 +1,35 @@
+/* TransactionsPage */
+.page_screen {
+    inset-block-start: 70px;
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-block-end: 70px;
+}
+
+.page_content {
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.transactions_table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.transactions_table th,
+.transactions_table td {
+    padding: 10px;
+    border-block-end: 1px solid #ccc;
+}
+
+.transactions_table th {
+    text-align: inset-inline-start;
+    font-weight: bold;
+}
+
+.transactions_table tbody tr:hover {
+    background-color: var(--color-scrollbar-thump);
+}

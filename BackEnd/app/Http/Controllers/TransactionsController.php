@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\TransactionCollection;
+use App\Http\Resources\TransactionResource;
 use App\Models\Wallet;
 use App\Models\Transaction;
 use App\Models\Company;
@@ -37,7 +39,7 @@ class TransactionsController extends Controller
         $transactions = Transaction::where('sender_id',$wallet->id)->orwhere('receiver_id',$wallet->id)->orderByDesc('created_at')->get();
 
         return response()->json([
-            'transactions' => $transactions,
+            'transactions' => new TransactionCollection($transactions),
         ], 200);
     }
 

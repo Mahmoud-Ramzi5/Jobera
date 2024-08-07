@@ -7,7 +7,7 @@ import ChatCard from './ChatCard';
 import styles from './chats.module.css';
 
 
-const ChatList = ({ setSelectedChat, updateList, setUpdateList }) => {
+const ChatList = ({ Chats, setSelectedChat }) => {
   // Translations
   const { t } = useTranslation('global');
   // Context
@@ -17,49 +17,48 @@ const ChatList = ({ setSelectedChat, updateList, setUpdateList }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [chats, setChats] = useState([]);
 
-  useEffect(() => {
-    if (!initialized.current) {
-      initialized.current = true;
-    }
-    else {
-      setChats([]);
-      setIsLoading(true);
+  // useEffect(() => {
+  //   if (!initialized.current) {
+  //     initialized.current = true;
+  //   }
+  //   else {
+  //     setChats([]);
+  //     setIsLoading(true);
 
-      FetchUserChats(accessToken).then((response) => {
-        if (response.status === 200) {
-          response.data.chats.map((chat) => {
-            // Check if chat is already in array
-            if (!chats.some(item => chat.id === item.id)) {
+  //     FetchUserChats(accessToken).then((response) => {
+  //       if (response.status === 200) {
+  //         response.data.chats.map((chat) => {
+  //           // Check if chat is already in array
+  //           if (!chats.some(item => chat.id === item.id)) {
 
-              if (chat.other_user.avatar_photo) {
-                FetchImage("", chat.other_user.avatar_photo).then((response) => {
-                  chat.other_user.avatar_photo = response;
-                  setChats((prevState) => ([...prevState, chat]));
-                });
-              }
-              else {
-                setChats((prevState) => ([...prevState, chat]));
-              }
-            }
-          });
-        } else {
-          console.log(response.statusText);
-        }
-      }).then(() => {
-        setIsLoading(false);
-        setUpdateList(false);
-      });
-    }
-  }, [accessToken, updateList]);
+  //             if (chat.other_user.avatar_photo) {
+  //               FetchImage("", chat.other_user.avatar_photo).then((response) => {
+  //                 chat.other_user.avatar_photo = response;
+  //                 setChats((prevState) => ([...prevState, chat]));
+  //               });
+  //             }
+  //             else {
+  //               setChats((prevState) => ([...prevState, chat]));
+  //             }
+  //           }
+  //         });
+  //       } else {
+  //         console.log(response.statusText);
+  //       }
+  //     }).then(() => {
+  //       setIsLoading(false);
+  //     });
+  //   }
+  // }, [accessToken]);
 
 
   return (
     <div className={styles.List}>
       {isLoading ? <p>Loading...</p> :
         <ul className={styles.chat_list}>
-          {chats.length === 0 ?
+          {Chats.length === 0 ?
             <h4 className={styles.no_chats}>{t('components.nav_bar.no_chats')}</h4>
-            : chats.map((chat) => (
+            : Chats.map((chat) => (
               <ChatCard key={chat.id} chat={chat} onClick={() => setSelectedChat(chat)} />
             ))}
         </ul>

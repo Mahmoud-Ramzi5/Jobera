@@ -115,7 +115,7 @@
 }
 
 .notifications_table th {
-    text-align: inset-inline-start;
+    text-align: start;
     font-weight: bold;
 }
 
@@ -126,9 +126,9 @@
 .view_button,
 .delete_button {
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     padding: 10px 20px;
-    margin-inline-start: 10px;
+    margin: 0px 5px;
     cursor: pointer;
     color: #ffffff;
     display: inline-flex;
@@ -146,28 +146,28 @@
 }
 
 .read_message {
-    margin-inline-start: 15px;
     display: inline-flex;
-    padding-inline-end: 15px;
     align-items: center;
     text-decoration: none;
     transition: 0.3s ease;
+    padding-inline-end: 15px;
+    margin-inline-start: 15px;
 }
 
 .mark_all {
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    text-decoration: none;
-    color: var(--color-button);
-    font-size: 0.95em;
-    border-radius: 4px;
+    padding: 0px 5px;
+    font-size: 15px;
+    border-radius: 5px;
+    color: var(--color-rating);
     text-decoration: underline;
 }
 
 .mark_all:hover {
-    color: white;
-    background-color: #007bff;
+    text-decoration: none;
+    text-shadow: 0 1px 10px var(--color-typeschecked);
 }
 
 

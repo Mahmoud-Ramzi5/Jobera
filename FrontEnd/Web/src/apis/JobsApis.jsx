@@ -15,6 +15,7 @@ export const FetchJobs = async (token, page, filter) => {
     return error.response;
   }
 };
+
 export const FetchJobsNoPagination = async (token) => {
   try {
     const response = await axios.get(`http://127.0.0.1:8000/api/jobs/all`, {
@@ -431,7 +432,7 @@ export const BookmarkedJobs = async (token) => {
   }
 };
 
-export const ChangeOffer = async(
+export const ChangeOffer = async (
   token,
   defJob_id,
   offer

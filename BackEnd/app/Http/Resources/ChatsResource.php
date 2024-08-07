@@ -7,7 +7,7 @@ use App\Models\Individual;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ChatResource extends JsonResource
+class ChatsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -50,7 +50,7 @@ class ChatResource extends JsonResource
                     $otherUser->full_name : $otherUser->name),
                 'avatar_photo' => $otherUser->avatar_photo
             ],
-            'messages' => new MessageCollection($this->messages),
+            'last_message' => new MessageResource($this->messages->last())
         ];
     }
 }

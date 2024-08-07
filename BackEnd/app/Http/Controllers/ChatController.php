@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\SendMessageRequest;
 use App\Http\Resources\MessageResource;
 use App\Http\Resources\ChatResource;
-use App\Http\Resources\ChatCollection;
+use App\Http\Resources\ChatsCollection;
 
 class ChatController extends Controller
 {
@@ -32,7 +32,7 @@ class ChatController extends Controller
 
         // Response
         return response()->json([
-            'chats' => new ChatCollection($chats)
+            'chats' => new ChatsCollection($chats)
         ], 200);
     }
 
