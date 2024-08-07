@@ -1,5 +1,5 @@
 class Notifications {
-  final int id;
+  final String id;
   final String type;
   final String notifiableType;
   final int notifiableId;
@@ -24,15 +24,15 @@ class Notifications {
   });
 
   Notifications.fromJson(Map<String, dynamic> json)
-      : id = json['id'] as int,
+      : id = json['id'] as String,
         type = json['type'] as String,
         notifiableType = json['notifiable_type'] as String,
         notifiableId = json['notifiable_id'] as int,
-        chatId = json['chat_id'] as int,
-        senderId = json['sender_id'] as int,
-        senderName = json['sender_name'] as String,
-        message = json['message'] as String,
+        chatId = json['data']['chat_id'] as int,
+        senderId = json['data']['sender_id'] as int,
+        senderName = json['data']['sender_name'] as String,
+        message = json['data']['message'] as String,
         readAt =
             json['read_at'] != null ? DateTime.parse(json['read_at']) : null,
-        createdAt = DateTime.parse(json['created_ar']);
+        createdAt = DateTime.parse(json['created_at']);
 }

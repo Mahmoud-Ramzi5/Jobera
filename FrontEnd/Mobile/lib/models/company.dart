@@ -17,6 +17,7 @@ class Company {
   final Wallet wallet;
   final double? rating;
   final int reviewsCount;
+  final int notificationsCount;
 
   Company({
     required this.id,
@@ -34,6 +35,7 @@ class Company {
     required this.wallet,
     this.rating,
     required this.reviewsCount,
+    required this.notificationsCount,
   });
 
   Company.fromJson(Map<String, dynamic> json)
@@ -54,7 +56,8 @@ class Company {
         ],
         wallet = Wallet.fromJson(json['wallet']),
         rating = json['rating'] != null ? double.parse(json['rating']) : null,
-        reviewsCount = json['reviews'] as int;
+        reviewsCount = json['reviews'] as int,
+        notificationsCount = json['notifications_count'] as int;
 
   Company.empty()
       : id = 0,
@@ -71,5 +74,6 @@ class Company {
         portfolios = [],
         wallet = Wallet.empty(),
         rating = null,
-        reviewsCount = 0;
+        reviewsCount = 0,
+        notificationsCount = 0;
 }

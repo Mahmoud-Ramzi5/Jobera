@@ -74,6 +74,7 @@ class RegularJobsController extends GetxController {
   }
 
   Future<void> resetFilter() async {
+    isFiltered = false;
     regularJobs.clear();
     nameController.clear();
     minSalaryController.clear();

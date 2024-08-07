@@ -227,7 +227,8 @@
                 "wallet_title": "Personal Wallet",
                 "wallet_body1": "Available balance:",
                 "wallet_body2": "Total balance:",
-                "button": "Redeem Code"
+                "button1": "Transactions",
+                "button2": "Redeem Code"
             },
             "skills": {
                 "title": "Skills",
@@ -420,6 +421,13 @@
             "th4": "Read and delete",
             "div": "Mark all as read",
             "read": "Read"
+        },
+        "transactions": {
+            "th1": "From:",
+            "th2": "To:",
+            "th3": "Job title",
+            "th4": "Amount",
+            "th5": "Date"
         }
     }
 }

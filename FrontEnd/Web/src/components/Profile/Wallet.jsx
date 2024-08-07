@@ -15,11 +15,6 @@ const Wallet = ({ ProfileData }) => {
   const { profile } = useContext(ProfileContext);
   const Navigate = useNavigate();
 
-  // Handle form submit
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    Navigate('/redeemcode')
-  }
 
   return (
     <Card className={styles.wallet_card}>
@@ -37,16 +32,21 @@ const Wallet = ({ ProfileData }) => {
               {' $'}{ProfileData.wallet.total_balance}
             </h3>
           </div>
-          <form onSubmit={handleSubmit}>
-            {profile.user_id === ProfileData.user_id ?
-              <div className={styles.redeem}>
-                <button type="submit" className={styles.redeem_submit}>
-                  <span>{t('components.profile_cards.wallet.button')}</span>
-                  <i className={styles.button__icon}><BsChevronRight /></i>
-                </button>
-              </div>
-              : <></>}
-          </form>
+          {profile.user_id === ProfileData.user_id && <>
+            <div className={styles.wallet_buttons}>
+              <button type="submit" className={styles.transactions}
+                onClick={() => Navigate('/transactions')}
+              >
+                <span>{t('components.profile_cards.wallet.button1')}</span>
+              </button>
+              <button type="submit" className={styles.redeem_code}
+                onClick={() => Navigate('/redeemcode')}
+              >
+                <span>{t('components.profile_cards.wallet.button2')}</span>
+                <i className={styles.button__icon}><BsChevronRight /></i>
+              </button>
+            </div>
+          </>}
         </div>
       </div>
     </Card>

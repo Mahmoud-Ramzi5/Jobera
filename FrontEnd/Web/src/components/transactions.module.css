@@ -1,4 +1,4 @@
-/* TransactionsPage */
+/* Transactions */
 .page_screen {
     inset-block-start: 70px;
     width: 100%;
@@ -26,7 +26,7 @@
 }
 
 .transactions_table th {
-    text-align: inset-inline-start;
+    text-align: start;
     font-weight: bold;
 }
 

@@ -36,11 +36,11 @@ import PostJob from './pages/Jobs/PostJob.jsx';
 import Manage from './pages/Manage.jsx';
 import ChatPage from './components/Chats/ChatPage.jsx';
 import NotificationsPage from './components/Notifications/NotificationsPage.jsx';
+import Transactions from './components/Transactions.jsx';
 import RedeemCode from './components/Profile/RedeemCode.jsx';
 import NotFound from './pages/NotFound.jsx';
 import ErrorPage from './pages/ErrorPage.jsx';
 import Admin from './pages/AdminPage.jsx';
-import TransactionsPage from './components/TransactionsPage.jsx';
 import AdminRoutes from './utils/AdminRoutes.jsx';
 
 
@@ -109,7 +109,6 @@ function App() {
       setIsLoading(true);
       FetchProfile(accessToken).then((response) => {
         if (response.status === 200) {
-          console.log(response.data);
           setProfile(response.data.user);
         }
         else {
@@ -186,7 +185,7 @@ function App() {
                   <Route path='/manage' element={<Manage />} />
                   <Route path='/chats' element={<ChatPage />} />
                   <Route path="/notifications" element={<NotificationsPage />} />
-                  <Route path="/transactions" element={<TransactionsPage />} />
+                  <Route path="/transactions" element={<Transactions />} />
                   <Route path='/redeemcode' element={<RedeemCode />} />
                   <Route path='/notfound' element={<NotFound />} />
                   <Route path='/error' element={<ErrorPage />} />

@@ -23,6 +23,7 @@ class AddPortfolioController extends GetxController {
   List<Skill> skills = [];
   Uint8List displayImage = Uint8List(0);
   late Dio dio;
+  bool loading = true;
 
   @override
   Future<void> onInit() async {
@@ -36,6 +37,7 @@ class AddPortfolioController extends GetxController {
     files = const FilePickerResult([]);
     dio = Dio();
     skills = await settingsController.getAllSkills();
+    loading = false;
     update();
     super.onInit();
   }
