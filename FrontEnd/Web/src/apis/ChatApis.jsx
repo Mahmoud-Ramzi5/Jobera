@@ -31,10 +31,10 @@ export const FetchChat = async (token, chatId) => {
   }
 };
 
-export const CreateChat = async (token, reciver_id) => {
+export const CreateChat = async (token, receiver_id) => {
   try {
     const response = await axios.post('http://127.0.0.1:8000/api/chats/create', {
-      "reciver_id": reciver_id,
+      "receiver_id": receiver_id,
     }, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',
@@ -48,11 +48,11 @@ export const CreateChat = async (token, reciver_id) => {
   }
 };
 
-export const SendMessage = async (token, message, reciver_id) => {
+export const SendMessage = async (token, message, receiver_id) => {
   try {
     const response = await axios.post('http://127.0.0.1:8000/api/chats/sendMessage', {
       "message": message,
-      "reciver_id": reciver_id
+      "receiver_id": receiver_id
     }, {
       headers: {
         'Content-Type': 'application/json; charset=UTF-8',

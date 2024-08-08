@@ -58,7 +58,7 @@ class ChatController extends Controller
     {
         // Validate request
         $validated = $request->validate([
-            'reciver_id' => ['required', 'exists:users,id']
+            'receiver_id' => ['required', 'exists:users,id']
         ]);
 
         // Get user
@@ -74,9 +74,9 @@ class ChatController extends Controller
         // Get chat
         $chat = Chat::where(function ($query) use ($user, $validated) {
             $query->where('user1_id', $user->id)
-                ->where('user2_id', $validated['reciver_id']);
+                ->where('user2_id', $validated['receiver_id']);
         })->orWhere(function ($query) use ($user, $validated) {
-            $query->where('user1_id', $validated['reciver_id'])
+            $query->where('user1_id', $validated['receiver_id'])
                 ->where('user2_id', $user->id);
         })->first();
 
@@ -84,7 +84,7 @@ class ChatController extends Controller
         if ($chat == null) {
             $chat = Chat::create([
                 'user1_id' => $user->id,
-                'user2_id' => $validated['reciver_id']
+                'user2_id' => $validated['receiver_id']
             ]);
         }
 
@@ -109,18 +109,18 @@ class ChatController extends Controller
                 'errors' => ['user' => 'Invalid user']
             ], 401);
         }
-        if ($user->id == $validated['reciver_id']) {
+        if ($user->id == $validated['receiver_id']) {
             return response()->json([
-                "message" => "can not send message to your self"
+                "message" => "can not send message to yourself"
             ], 400);
         }
 
         // Get chat
         $chat = Chat::where(function ($query) use ($user, $validated) {
             $query->where('user1_id', $user->id)
-                ->where('user2_id', $validated['reciver_id']);
+                ->where('user2_id', $validated['receiver_id']);
         })->orWhere(function ($query) use ($user, $validated) {
-            $query->where('user1_id', $validated['reciver_id'])
+            $query->where('user1_id', $validated['receiver_id'])
                 ->where('user2_id', $user->id);
         })->first();
 
@@ -128,20 +128,21 @@ class ChatController extends Controller
         if ($chat == null) {
             $chat = Chat::create([
                 'user1_id' => $user->id,
-                'user2_id' => $validated['reciver_id']
+                'user2_id' => $validated['receiver_id']
             ]);
         }
 
         // Create message
         $message = Message::create([
-            'user_id' => $user->id,
-            'chat_id' => $chat->id,
-            'message' => $validated['message']
+            'message' => $validated['message'],
+            'sender_id' => $user->id,
+            'receiver_id' => $validated['receiver_id'],
+            'chat_id' => $chat->id
         ]);
 
         // Push Notification
         broadcast(new NewMessage($message));
-        broadcast(new NewNotification($validated['reciver_id'], $message));
+        broadcast(new NewNotification($validated['receiver_id'], $message));
 
         // $beamsClient = new \Pusher\PushNotifications\PushNotifications(array(
         //     "instanceId" => "488b218d-2a72-4d5b-8940-346df9234336",
@@ -173,7 +174,7 @@ class ChatController extends Controller
         // );
 
         // $publishResponse = $beamsClient->publishToUsers(
-        //     array("user-" . $validated['reciver_id'], "user-" . $user->id),
+        //     array("user-" . $validated['receiver_id'], "user-" . $user->id),
         //     array(
         //         "fcm" => array(
         //             "notification" => array(
