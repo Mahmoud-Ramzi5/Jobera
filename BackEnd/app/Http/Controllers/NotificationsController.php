@@ -85,7 +85,11 @@ class NotificationsController extends Controller
         }
 
         // delete Notification
-        $user->notifications()->where('id', $id)->delete();
+        if ($id == 'all') {
+            $user->notifications()->delete();
+        } else {
+            $user->notifications()->where('id', $id)->delete();
+        }
 
         // Response
         return response()->json([
