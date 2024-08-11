@@ -1,37 +1,24 @@
 import React, { useState } from 'react';
-import { BsFillBellFill, BsFillEnvelopeFill, BsPersonCircle, BsSearch, BsJustify } from 'react-icons/bs';
+import { BsFillBellFill, BsPersonCircle, BsJustify, BsEnvelopeAtFill } from 'react-icons/bs';
 import styles from '../../styles/AdminPage.module.css';
 import { LogoutAPI } from '../../apis/AuthApis';
-import { ProfileContext , LoginContext } from '../../utils/Contexts';
+import { LoginContext } from '../../utils/Contexts';
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import ChatNav from '../Chats/ChatNav';
 
 const Header = ({ OpenSidebar }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const { setLoggedIn, accessToken, setAccessToken } = useContext(LoginContext);
-  const { setProfile } = useContext(ProfileContext);
+  const navigate = useNavigate();
+  const [showChatsScreen, setShowChatsScreen] = useState(false);
 
   const handlePersonClick = () => {
     setShowDropdown(!showDropdown);
   };
 
   const handleLogout = () => {
-    // Implement your logout logic here
-    // Perform Logout logic (Call api)
-    LogoutAPI(accessToken).then((response) => {
-      if (response.status === 200) {
-        // Logout user and delete Token
-        setLoggedIn(false);
-        setAccessToken(null);
-        Cookies.remove('access_token');
-        setProfile({});
-      }
-      else {
-        console.log(response.statusText);
-      }
-    }).then(() => {
-      // Redirect to index
-      navigate('/');
-    });
+    navigate('/logout');
   };
 
   return (
@@ -45,11 +32,15 @@ const Header = ({ OpenSidebar }) => {
           {showDropdown && (
             <div className={styles.dropdown}>
               <ul>
-                <li onClick={handleLogout}>Log Out</li>  
+                <li onClick={handleLogout}>Log Out</li>
               </ul>
             </div>
           )}
         </div>
+        <span title="Chats" className={styles.span_list} onClick={() => setShowChatsScreen(!showChatsScreen)}>
+          <BsEnvelopeAtFill /> <span className={styles.mobile_item2}></span>
+        </span>
+        {showChatsScreen && <ChatNav setShowChatsScreen={setShowChatsScreen} />}
         <BsFillBellFill className={styles.icon} />
       </div>
     </header>

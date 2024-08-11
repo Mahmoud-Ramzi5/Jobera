@@ -59,7 +59,20 @@ body {
     justify-content: center;
   }
 
-  /* Update the CSS to make the dropdown list wider and improve item alignment */
+  .header_right {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .personContainer {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-right: 10px;
+  }
+
   .personContainer .dropdown {
     position: absolute;
     top: 100%;
@@ -68,46 +81,30 @@ body {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     padding: 8px;
-    min-width: 150px; /* Set a minimum width for the dropdown list */
+    min-width: 150px;
   }
 
   .personContainer .dropdown ul {
     list-style-type: none;
     padding: 0;
-    margin: 0; /* Remove default margin */
+    margin: 0;
   }
 
   .personContainer .dropdown ul li {
     cursor: pointer;
     padding: 8px;
-    margin: 0; /* Remove default margin */
-    text-align: left; /* Align text to the left */
+    margin: 0;
+    text-align: left;
     color: var(--color-foreground);
-  }
-
-  /* Adjust the alignment of the personContainer */
-  .personContainer {
-    display: flex;
-    align-items: center;
-    position: relative;
-    margin-right: 10px; /* Add margin to separate from the bell icon */
   }
 
   .personContainer p {
     margin: 0;
-    margin-right: 10px; /* Adjust margin for spacing */
-  }
-
-  .header_right {
-    width:100%;
-    align-items: right;
-    display: flex;
-    justify-content: right;
-    position: relative;
+    margin-right: 10px;
   }
 
   .header_right .icon {
-    margin-right: 10px; /* Adjust the spacing between the icons */
+    margin-right: 10px;
   }
 
   /* Media query for responsive design */
@@ -120,6 +117,37 @@ body {
       display: none;
     }
   }
+  .span_list {
+    color: var(--color-foreground);
+    text-decoration: inherit;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: 0.5s;
+  }
+  
+  .nav_links li a:hover,
+  .span_list:hover {
+    background: #3A3B3C;
+  }
+  
+  .span_list {
+    cursor: pointer;
+  }
+  
+  .span_list small {
+    font-size: 12px;
+    font-weight: 240;
+    padding: 2px;
+    border-radius: 4px;
+    color: var(--color-foreground);
+    background-color: red;
+  }
+  .mobile_item,
+.mobile_item2 {
+  display: none;
+}
   
 /* Sidebar */
 .sidebar {

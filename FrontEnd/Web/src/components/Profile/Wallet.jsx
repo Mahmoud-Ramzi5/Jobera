@@ -15,7 +15,7 @@ const Wallet = ({ ProfileData }) => {
   const { profile } = useContext(ProfileContext);
   const Navigate = useNavigate();
 
-
+console.log(ProfileData);
   return (
     <Card className={styles.wallet_card}>
       <div className={styles.wallet_inside}>
