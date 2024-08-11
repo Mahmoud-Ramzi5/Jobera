@@ -114,7 +114,7 @@ class CompanyRegisterController extends GetxController {
     Dialogs().loadingDialog();
     try {
       var response =
-          await dio.post('http://192.168.0.107:8000/api/company/register',
+          await dio.post('http://192.168.1.108:8000/api/company/register',
               data: {
                 "name": name,
                 "field": workField,

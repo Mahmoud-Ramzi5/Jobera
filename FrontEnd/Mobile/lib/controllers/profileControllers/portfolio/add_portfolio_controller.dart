@@ -153,7 +153,7 @@ class AddPortfolioController extends GetxController {
       }
       try {
         var response = await dio.post(
-          'http://192.168.0.107:8000/api/portfolio/add',
+          'http://192.168.1.108:8000/api/portfolio/add',
           data: data,
           options: Options(
             headers: {

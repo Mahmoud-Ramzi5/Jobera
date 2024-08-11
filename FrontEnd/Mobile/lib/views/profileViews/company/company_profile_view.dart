@@ -114,7 +114,7 @@ class CompanyProfileView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: InfoContainer(
-                          name: 'Basic Info',
+                          name: 'Basic Info:',
                           buttonText:
                               controller.homeController.isOtherUserProfile
                                   ? null
@@ -138,7 +138,7 @@ class CompanyProfileView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: InfoContainer(
-                          name: 'Portfolios',
+                          name: 'Portfolios:',
                           buttonText: 'View',
                           widget: GridView.builder(
                             gridDelegate:

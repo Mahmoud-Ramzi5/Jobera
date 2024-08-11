@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
 import 'package:jobera/main.dart';
+import 'package:jobera/models/transaction.dart';
 import 'package:jobera/models/wallet.dart';
 
 class WalletController extends GetxController {
@@ -11,6 +12,7 @@ class WalletController extends GetxController {
   late Wallet wallet;
   late TextEditingController codeController;
   bool loading = true;
+  List<Transaction> transactions = [];
 
   @override
   Future<void> onInit() async {
@@ -19,6 +21,7 @@ class WalletController extends GetxController {
     wallet = Wallet.empty();
     codeController = TextEditingController();
     await fetchWallet();
+    await fetchTransactions();
     loading = false;
     update();
     super.onInit();
@@ -28,7 +31,7 @@ class WalletController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.0.107:8000/api/profile/wallet',
+        'http://192.168.1.108:8000/api/profile/wallet',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -54,7 +57,7 @@ class WalletController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.107:8000/api/redeemcode',
+        'http://192.168.1.108:8000/api/redeemcode',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -93,6 +96,33 @@ class WalletController extends GetxController {
           Get.back();
           Get.back();
         },
+      );
+    }
+  }
+
+  Future<void> fetchTransactions() async {
+    String? token = sharedPreferences?.getString('access_token');
+    try {
+      var response = await dio.get(
+        'http://192.168.1.108:8000/api/transactions',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        transactions = [
+          for (var transaction in response.data['transactions'])
+            Transaction.fromJson(transaction),
+        ];
+      }
+    } on DioException catch (e) {
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response!.data['errors'].toString(),
       );
     }
   }
