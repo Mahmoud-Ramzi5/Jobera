@@ -433,6 +433,73 @@
             "title": "Please, rate the accepted freelancer",
             "button_rate": "Rate",
             "button_cancel": "Cancel"
+        },
+        "admin": {
+            "jobs_table": {
+                "h1": "Jobs",
+                "search": "Search...",
+                "actions": "Actions",
+                "not_accepted": "Not Accepted",
+                "no_jobs": "No jobs found",
+                "column_structure": {
+                    "title": "Title",
+                    "company": "Company",
+                    "client": "Client",
+                    "post_date": "Post Date",
+                    "deadline": "Deadline",
+                    "salary": "Salary",
+                    "avg_salary": "Average Salary",
+                    "accepted_user": "Accepted User"
+                }
+            },
+            "skills_table": {
+                "h1": "Skills",
+                "search": "Search...",
+                "create": "Create",
+                "no_skills": "No skills found",
+                "table": {
+                    "th1": "Name",
+                    "th2": "Type",
+                    "th3": "Count",
+                    "th4": "Actions"
+                }
+            },
+            "users_table": {
+                "h1": "Users",
+                "search": "Name...",
+                "individual": "Individual",
+                "company": "Company",
+                "actions": "Actions",
+                "no_users": "No users found",
+                "column_structure": {
+                    "name": "Name",
+                    "full_name": "Full Name",
+                    "phone_number": "Phone Number",
+                    "country": "Country",
+                    "state": "State",
+                    "field": "Field",
+                    "founding_date": "Founding Date",
+                    "birth_date": "Birth Date",
+                    "gender": "Gender",
+                    "rating": "Rating",
+                    "is_verified": "Verified"
+                }
+            },
+            "wallet_table": {
+                "h1": "Transactions",
+                "search": "Search...",
+                "all": "All",
+                "admin_s": "Admin's",
+                "actions": "Actions",
+                "no_transactions": "No transactions found",
+                "column_structure": {
+                    "sender_name": "Sender Name",
+                    "receiver_name": "Receiver Name",
+                    "job_title": "Job title",
+                    "amount": "Amount",
+                    "date": "Date"
+                }
+            }
         }
     }
 }
