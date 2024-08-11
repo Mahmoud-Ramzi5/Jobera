@@ -24,7 +24,11 @@ class TransactionResource extends JsonResource
         $CompanySender = Company::select('name')->where('user_id', $sender->id)->first();
         $CompanyReceiver = Company::select('name')->where('user_id', $receiver->id)->first();
         $senderName = $individualSender ? $individualSender->full_name : $CompanySender->name;
-        $receiverName = $individualReceiver ? $individualReceiver->full_name : $CompanyReceiver->name;
+        if ($receiver->id == 1) {
+            $receiverName = 'admin';
+        } else {
+            $receiverName = $individualReceiver ? $individualReceiver->full_name : $CompanyReceiver->name;
+        }
         return [
             "id" => $this->id,
             "sender" => [

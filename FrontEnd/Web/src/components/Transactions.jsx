@@ -42,7 +42,7 @@ const Transactions = () => {
         <td>{transaction.receiver.name}</td>
         <td>{transaction.job.title}</td>
         <td>{transaction.amount}</td>
-        <td>{transaction.date}</td>
+        <td>{transaction.date.split('T')[0]}<br />{transaction.date.split('T')[1].split('.')[0]}</td>
       </tr>
     );
   };
