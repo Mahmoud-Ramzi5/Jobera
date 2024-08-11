@@ -172,6 +172,7 @@ Route::controller(ChatController::class)->group(function () {
         Route::get('/chats/{id}', 'GetChat');
         Route::post('/chats/create', 'CreateChat');
         Route::post('/chats/sendMessage', 'SendMessage');
+        Route::post('/chat/messages', 'MarkMessagesAsRead');
     });
 });
 
@@ -198,6 +199,14 @@ Route::controller(NotificationsController::class)->group(function () {
 });
 
 
+// Routes for admin can only be accessed through postman
+Route::controller(AdminController::class)->group(function () {
+    Route::get('/users', 'Users');
+    Route::post('/generate', 'GenerateCode');
+    Route::get('/transactions/all', 'GetAllTransactions');
+});
+
+
 Route::get('/file/{user_id}/{folder}/{file}', function (Request $request, $user_id, $folder, $file) {
     $path = storage_path('app/' . $user_id . '/' . $folder . '/' . $file);
     if ($path == null) {
@@ -212,14 +221,6 @@ Route::get('/image/{user_id}/{folder}/{image}', function (Request $request, $use
         return null;
     }
     return response()->file($path);
-});
-
-
-// Routes for admin can only be accessed through postman
-Route::controller(AdminController::class)->group(function () {
-    Route::post('/generate', 'GenerateCode');
-    Route::get('/users', 'Users');
-    Route::get('/transactions/all', 'GetAllTransactions');
 });
 
 

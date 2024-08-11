@@ -191,12 +191,12 @@ class InfoContainer extends StatelessWidget {
           side: BorderSide(color: Colors.orange.shade800),
         ),
       ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 if (name != null) BodyText(text: '$name'),
@@ -220,9 +220,12 @@ class InfoContainer extends StatelessWidget {
                   ),
               ],
             ),
-            widget
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+            child: widget,
+          )
+        ],
       ),
     );
   }

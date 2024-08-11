@@ -16,8 +16,10 @@ class Message extends Model
      */
     protected $fillable = [
         'message',
-        'user_id',
-        'chat_id'
+        'sender_id',
+        'receiver_id',
+        'chat_id',
+        'read_at'
     ];
 
     /**
@@ -38,11 +40,22 @@ class Message extends Model
     {
         return [
             'created_at' => 'datetime',
+            'read_at' => 'datetime'
         ];
     }
 
     /* Relations */
-    public function Chat(): BelongsTo
+    public function sender(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'sender_id', 'id');
+    }
+
+    public function receiver(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'receiver_id', 'id');
+    }
+
+    public function chat(): BelongsTo
     {
         return $this->belongsTo(Chat::class, 'chat_id', 'id');
     }

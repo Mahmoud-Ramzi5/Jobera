@@ -123,7 +123,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.0.107:8000/api/FreelancingJobs/$jobId',
+        'http://192.168.1.108:8000/api/FreelancingJobs/$jobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -152,7 +152,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.107:8000/api/FreelancingJob/apply',
+        'http://192.168.1.108:8000/api/FreelancingJob/apply',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -186,7 +186,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.delete(
-        'http://192.168.0.107:8000/api/FreelancingJobs/$jobId',
+        'http://192.168.1.108:8000/api/FreelancingJobs/$jobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -215,7 +215,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.107:8000/api/FreelancingJob/accept/$defJobId',
+        'http://192.168.1.108:8000/api/FreelancingJob/accept/$defJobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -245,13 +245,13 @@ class FreelancingJobDetailsController extends GetxController {
   Future<dynamic> endJob(
     int defJobId,
     int senderId,
-    int recieverId,
+    int receiverId,
     double? offer,
   ) async {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.107:8000/api/FreelancingJob/done/$defJobId',
+        'http://192.168.1.108:8000/api/FreelancingJob/done/$defJobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -261,7 +261,7 @@ class FreelancingJobDetailsController extends GetxController {
         ),
         data: {
           "sender_id": senderId,
-          "receiver_id": recieverId,
+          "receiver_id": receiverId,
           "amount": offer,
         },
       );
@@ -285,7 +285,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.0.107:8000/api/FreelancingJobs/offer',
+        'http://192.168.1.108:8000/api/FreelancingJobs/offer',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -346,7 +346,7 @@ class FreelancingJobDetailsController extends GetxController {
           try {
             String? token = sharedPreferences?.getString('access_token');
             var response = await dio.post(
-              'http://192.168.0.107:8000/api/review',
+              'http://192.168.1.108:8000/api/review',
               options: Options(
                 headers: {
                   'Content-Type': 'application/json; charset=UTF-8',

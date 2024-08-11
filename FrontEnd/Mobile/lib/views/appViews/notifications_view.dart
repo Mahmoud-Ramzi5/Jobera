@@ -34,7 +34,9 @@ class NotificationsView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () => controller.markNotification(
+                              'all',
+                            ),
                             child: Row(
                               children: [
                                 const BodyText(text: 'Mark all as read '),
@@ -46,7 +48,9 @@ class NotificationsView extends StatelessWidget {
                             ),
                           ),
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () => controller.deleteNotification(
+                              'all',
+                            ),
                             child: const Row(
                               children: [
                                 BodyText(text: 'Delete all '),

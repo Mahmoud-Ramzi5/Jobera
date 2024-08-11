@@ -68,7 +68,7 @@ const ChatNav = ({ setShowChatsScreen }) => {
         </button>
       </div>
       <ul className={styles.chat_list}>
-        {chats.length === 0 ?
+        {isLoading ? <>Loading...</> : chats.length === 0 ?
           <h4 className={styles.no_chats}>{t('components.nav_bar.no_chats')}</h4>
           : chats.slice(0, 3).map((chat) => (
             <ChatCard key={chat.id} chat={chat}
