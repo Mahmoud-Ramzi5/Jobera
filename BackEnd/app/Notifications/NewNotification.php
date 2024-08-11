@@ -56,12 +56,12 @@ class NewNotification extends Notification
      */
     public function toArray(object $notifiable): array
     {
-        $company = Company::where('user_id', $this->message->user_id)->first();
-        $individual = Individual::where('user_id', $this->message->user_id)->first();
+        $company = Company::select('name')->where('user_id', $this->message->sender_id)->first();
+        $individual = Individual::select('full_name')->where('user_id', $this->message->sender_id)->first();
 
         return [
             'chat_id' => $this->message->chat_id,
-            'sender_id' => $this->message->user_id,
+            'sender_id' => $this->message->sender_id,
             'sender_name' => ($company == null ?
                 $individual->full_name : $company->name),
             'message' => $this->message->message

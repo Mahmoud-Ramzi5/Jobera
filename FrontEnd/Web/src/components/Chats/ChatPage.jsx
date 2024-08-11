@@ -188,7 +188,7 @@ const ChatWindow = ({ chat, messages, setMessages }) => {
         <div id='Chat_Area' className={styles.chat_messages}>
           {messages.map((message) => (
             <div key={message.id} className={` ${styles.message} 
-                ${message.user.user_id === profile.user_id ? styles.sender : styles.receiver}
+                ${message.sender.user_id === profile.user_id ? styles.sender : styles.receiver}
               `}>
               <div className={styles.message_content}>{message.message}</div>
               <div className={`${styles.timestamp}`}>{formatTimestamp(message.send_date)}</div>
