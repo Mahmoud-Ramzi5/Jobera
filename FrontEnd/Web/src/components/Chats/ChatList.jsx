@@ -1,65 +1,41 @@
-import { useState, useEffect, useContext, useRef } from 'react';
+import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { LoginContext } from '../../utils/Contexts';
-import { FetchUserChats } from '../../apis/ChatApis';
-import { FetchImage } from '../../apis/FileApi';
+import { MarkMessagesAsRead } from '../../apis/ChatApis';
 import ChatCard from './ChatCard';
 import styles from './chats.module.css';
 
 
-const ChatList = ({ Chats, setSelectedChat }) => {
+const ChatList = ({ chats, setChats, setSelectedChat, isLoading }) => {
   // Translations
   const { t } = useTranslation('global');
   // Context
   const { accessToken } = useContext(LoginContext);
-  // Define states
-  const initialized = useRef(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [chats, setChats] = useState([]);
 
-  // useEffect(() => {
-  //   if (!initialized.current) {
-  //     initialized.current = true;
-  //   }
-  //   else {
-  //     setChats([]);
-  //     setIsLoading(true);
-
-  //     FetchUserChats(accessToken).then((response) => {
-  //       if (response.status === 200) {
-  //         response.data.chats.map((chat) => {
-  //           // Check if chat is already in array
-  //           if (!chats.some(item => chat.id === item.id)) {
-
-  //             if (chat.other_user.avatar_photo) {
-  //               FetchImage("", chat.other_user.avatar_photo).then((response) => {
-  //                 chat.other_user.avatar_photo = response;
-  //                 setChats((prevState) => ([...prevState, chat]));
-  //               });
-  //             }
-  //             else {
-  //               setChats((prevState) => ([...prevState, chat]));
-  //             }
-  //           }
-  //         });
-  //       } else {
-  //         console.log(response.statusText);
-  //       }
-  //     }).then(() => {
-  //       setIsLoading(false);
-  //     });
-  //   }
-  // }, [accessToken]);
+  const handleChatSelect = (chat) => {
+    setSelectedChat(chat);
+    MarkMessagesAsRead(accessToken, chat.id).then((response) => {
+      if (response.status === 200) {
+        setChats(chats.map((chat2) => (chat2.id === chat.id ?
+          { ...chat2, unread_messages: 0 }
+          : chat2)
+        ));
+        setSelectedChat(chat);
+      } else {
+        console.log(response);
+      }
+    });
+  }
 
 
   return (
     <div className={styles.List}>
       {isLoading ? <p>Loading...</p> :
         <ul className={styles.chat_list}>
-          {Chats.length === 0 ?
+          {chats.length === 0 ?
             <h4 className={styles.no_chats}>{t('components.nav_bar.no_chats')}</h4>
-            : Chats.map((chat) => (
-              <ChatCard key={chat.id} chat={chat} onClick={() => setSelectedChat(chat)} />
+            : chats.map((chat) => (
+              <ChatCard key={chat.id} chat={chat} onClick={() => handleChatSelect(chat)} />
             ))}
         </ul>
       }

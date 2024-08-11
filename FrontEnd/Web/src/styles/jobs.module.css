@@ -98,7 +98,8 @@
     padding: 5px;
     font-weight: 500;
     max-height: 100px;
-    overflow-y: hidden;
+    white-space: wrap;
+    overflow: hidden;
     margin-block-end: 10px;
     color: var(--color-title);
 }

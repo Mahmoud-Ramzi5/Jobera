@@ -49,8 +49,10 @@
 
 /* ChatCard CSS */
 .card {
+  width: 100%;
   display: flex;
   align-items: center;
+  position: relative;
   padding: 10px;
   cursor: pointer;
   margin-block-end: 1px;
@@ -75,17 +77,37 @@
 }
 
 .card_user {
+  width: 100%;
+  min-width: 90px;
+  max-width: 135px;
   font-size: 15px;
   font-weight: bold;
   padding: 0px 15px;
+  white-space: nowrap;
+  overflow-x: hidden;
   color: var(--color-text);
 }
 
 .card_message {
   font-size: 13px;
+  white-space: nowrap;
   overflow-x: hidden;
 }
 
+.card_unread {
+  height: 17px;
+  width: 17px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  border-radius: 11px;
+  color: white;
+  background-color: red;
+  margin-inline-start: -5px;
+  margin-block-end: 50px;
+}
 
 /* ChatPage */
 .chat_page {

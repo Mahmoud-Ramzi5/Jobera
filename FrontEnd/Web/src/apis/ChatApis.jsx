@@ -64,3 +64,19 @@ export const SendMessage = async (token, message, receiver_id) => {
     return error.response;
   }
 };
+
+export const MarkMessagesAsRead = async (token, chat_id) => {
+  try {
+    const response = await axios.post('http://127.0.0.1:8000/api/chat/messages', {
+      "chat_id": chat_id
+    }, {
+      headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Accept': "application/json",
+        'Authorization': `Bearer ${token}`
+      }
+    }); return response;
+  } catch (error) {
+    return error.response;
+  }
+};

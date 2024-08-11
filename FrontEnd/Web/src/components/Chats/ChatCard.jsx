@@ -8,6 +8,7 @@ const ChatCard = ({ chat, onClick }) => {
   // Translations
   const { t } = useTranslation('global');
 
+
   return (
     <li className={styles.card} onClick={onClick}>
       {chat.other_user.avatar_photo ? (
@@ -27,6 +28,11 @@ const ChatCard = ({ chat, onClick }) => {
           style={{ pointerEvents: "none" }}
         />
       )}
+      {chat.unread_messages !== 0 &&
+        <small className={styles.card_unread}>
+          {chat.unread_messages}
+        </small>
+      }
       <div className={styles.card_user}>
         {chat.other_user.name}
       </div>

@@ -25,7 +25,7 @@ class TransactionResource extends JsonResource
         $CompanyReceiver = Company::select('name')->where('user_id', $receiver->id)->first();
         $senderName = $individualSender ? $individualSender->full_name : $CompanySender->name;
         if ($receiver->id == 1) {
-            $receiverName = 'admin';
+            $receiverName = 'Jobera';
         } else {
             $receiverName = $individualReceiver ? $individualReceiver->full_name : $CompanyReceiver->name;
         }

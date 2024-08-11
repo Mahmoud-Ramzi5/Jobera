@@ -144,6 +144,11 @@ class ChatController extends Controller
         broadcast(new NewMessage($message));
         broadcast(new NewNotification($validated['receiver_id'], $message));
 
+        // Response
+        return response()->json([
+            'message' => new MessageResource($message)
+        ], 201);
+
         // $beamsClient = new \Pusher\PushNotifications\PushNotifications(array(
         //     "instanceId" => "488b218d-2a72-4d5b-8940-346df9234336",
         //     "secretKey" => "4C9B94F31677EFBD2238FD2FE9D1D810C4DBB3215DF995C7ED106B7373CE3D03",
@@ -196,10 +201,37 @@ class ChatController extends Controller
         //         )
         //     )
         // );
+    }
+
+    public function MarkMessagesAsRead(Request $request)
+    {
+        // Validate request
+        $validated = $request->validate([
+            'chat_id' => 'required'
+        ]);
+
+        // Get User
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user']
+            ], 401);
+        }
+
+        // mark Messages
+        $messages = Message::whereNull('read_at')->where('receiver_id', $user->id)
+            ->where('chat_id', $validated['chat_id'])->get();
+
+        foreach ($messages as $message) {
+            $message->read_at = now();
+            $message->save();
+        }
 
         // Response
         return response()->json([
-            'message' => new MessageResource($message)
-        ], 201);
+            'message' => 'Notifications has been marked sucessfully',
+        ], 200);
     }
 }

@@ -98,7 +98,7 @@ const ChatPage = () => {
 
   return (
     <div className={styles.chat_page}>
-      <ChatList Chats={chats} setSelectedChat={setSelectedChat} />
+      <ChatList chats={chats} setChats={setChats} setSelectedChat={setSelectedChat} isLoading={isLoading} />
       <ChatWindow chat={selectedChat} messages={selectedChatMessages} setMessages={setSelectedChatMessages} />
     </div>
   );
@@ -113,6 +113,7 @@ const ChatWindow = ({ chat, messages, setMessages }) => {
   const { profile } = useContext(ProfileContext);
   // Define states
   const [isLoading, setIsLoading] = useState(false);
+  const [sendMessage, setSendMessage] = useState(false);
   const [inputMessage, setInputMessage] = useState("");
 
   useEffect(() => {
@@ -133,6 +134,7 @@ const ChatWindow = ({ chat, messages, setMessages }) => {
 
   const handleSendMessage = (event) => {
     event.preventDefault();
+    setSendMessage(true);
     if (inputMessage.trim() === "") { return };
 
     SendMessage(accessToken, inputMessage, chat.other_user.user_id).then((response) => {
@@ -141,6 +143,8 @@ const ChatWindow = ({ chat, messages, setMessages }) => {
       } else {
         console.log(response);
       }
+    }).then(() => {
+      setSendMessage(false);
     });
   }
 
@@ -203,9 +207,11 @@ const ChatWindow = ({ chat, messages, setMessages }) => {
               value={inputMessage}
               onChange={(event) => setInputMessage(event.target.value)}
             />
-            <button type="submit" className={styles.submit_button}>
-              {t('components.chat_page.chat_button')}
-            </button>
+            {!sendMessage &&
+              <button type="submit" className={styles.submit_button}>
+                {t('components.chat_page.chat_button')}
+              </button>
+            }
           </form>
         }
       </>}

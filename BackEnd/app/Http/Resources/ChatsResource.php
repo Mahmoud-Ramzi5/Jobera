@@ -50,6 +50,9 @@ class ChatsResource extends JsonResource
                     $otherUser->full_name : $otherUser->name),
                 'avatar_photo' => $otherUser->avatar_photo
             ],
+            'unread_messages' => $this->messages()
+                ->where('receiver_id', $user->id)
+                ->whereNull('read_at')->count(),
             'last_message' => new MessageResource($this->messages->last())
         ];
     }
