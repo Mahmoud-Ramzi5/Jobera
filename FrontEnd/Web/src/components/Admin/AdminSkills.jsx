@@ -2,7 +2,7 @@ import { useState, useEffect, useContext, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { BsPen, BsTrash } from "react-icons/bs";
 import { LoginContext } from "../../utils/Contexts";
-import { FetchAllSkills } from "../../apis/SkillsApis.jsx";
+import { DeleteSkillAPI, FetchAllSkills } from "../../apis/SkillsApis.jsx";
 import SkillForm from "./SkillForm";
 import Clock from "../../utils/Clock.jsx";
 import styles from "../../styles/AdminPage.module.css";
@@ -55,6 +55,15 @@ const AdminSkills = () => {
   const handleCancel = () => {
     setShowSkillForm(false);
   };
+  const handleDelete = (skill_id) => {
+      DeleteSkillAPI(accessToken, skill_id).then((response) => {
+        if (response.status == 204) {
+          window.location.reload(); // Refresh the page after deletion
+        } else {
+          console.log(response.statusText);
+        }
+      });
+  };
 
 
   if (isLoading) {
@@ -69,6 +78,7 @@ const AdminSkills = () => {
               // Handle save logic here
               console.log(newSkill);
               handleCancel();
+              window.location.reload();
             }}
             skillToEdit={selectedSkill}
           />

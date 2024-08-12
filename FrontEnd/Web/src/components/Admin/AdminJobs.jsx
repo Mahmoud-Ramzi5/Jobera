@@ -227,7 +227,7 @@ const AdminJobs = () => {
                           <BsEyeFill />
                         </button>
                         <button
-                          onClick={handleDelete}
+                          onClick={()=>handleDelete(job.defJob_id)}
                           className={styles.delete_button}
                         >
                           <BsTrash />

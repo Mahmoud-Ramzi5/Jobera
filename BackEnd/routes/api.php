@@ -92,9 +92,11 @@ Route::controller(SkillsController::class)->group(function () {
         Route::get('/user/skills', 'GetUserSkills');
         Route::post('/user/skills/add', 'AddUserSkills');
         Route::post('/user/skills/edit', 'EditUserSkills');
-    });
-    Route::post('/skills', 'AddSkill');
-    Route::post('/skills/{skillId}', 'EditSkill');
+
+        Route::post('/skills', 'AddSkill');
+        Route::post('/skills/{skill}', 'EditSkill');
+        Route::delete('/skills/{skill}', 'DeleteSkill');
+    });  
 });
 
 Route::controller(EducationController::class)->group(function () {

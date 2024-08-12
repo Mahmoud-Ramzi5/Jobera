@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../components/Admin/Header';
 import Sidebar from '../components/Admin/Sidebar';
 import Home from '../components/Admin/Home';
@@ -9,14 +9,20 @@ import AdminUsers from '../components/Admin/AdminUsers';
 import AdminWalet from '../components/Admin/AdminWallet';
 import { useContext } from 'react';
 import { ProfileContext } from '../utils/Contexts';
+import { useParams } from 'react-router-dom';
 const Admin = () => {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
   const [activeComponent, setActiveComponent] = useState('Home');
   const { profile } = useContext(ProfileContext);
+  const { currentState } = useParams();
 
   const OpenSidebar = () => {
     setOpenSidebarToggle(!openSidebarToggle);
   };
+  useEffect(() => {
+    if(currentState!=null)
+      activeComponent=currentState;
+   }, []);
   const renderComponent = () => {
     switch (activeComponent) {
       case 'Dashboard':

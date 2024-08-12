@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\RegJobCompetitor;
-use App\Models\User;
-use App\Models\RegJob;
 use App\Models\Company;
 use App\Models\Individual;
+use App\Models\RegJob;
+use App\Models\RegJobCompetitor;
+use App\Models\User;
 
 class RegJobPolicy
 {
@@ -60,10 +60,10 @@ class RegJobPolicy
     public function DeleteRegJob(User $user, RegJob $regJob)
     {
         $company = Company::where('user_id', $user->id)->first();
-        if ($company == null) {
+        if ($company == null && $user->id != 1) {
             return false;
         }
-        if ($company->id == $regJob->company_id) {
+        if ( $user->id == 1 ||$company->id == $regJob->company_id ) {
             return true;
         }
         return false;
@@ -77,8 +77,10 @@ class RegJobPolicy
         }
         if ($company->id == $regJob->company_id) {
             $competitors = $regJob->competitors()->pluck('id')->toArray();
-            if (in_array($regJobCompetitor->id, $competitors))
+            if (in_array($regJobCompetitor->id, $competitors)) {
                 return true;
+            }
+
         }
         return false;
     }
