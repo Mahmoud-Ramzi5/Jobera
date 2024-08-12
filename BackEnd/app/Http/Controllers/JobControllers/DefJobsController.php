@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers\JobControllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Individual;
-use App\Models\Company;
-use App\Models\DefJob;
-use App\Models\RegJob;
-use App\Models\FreelancingJob;
-use App\Models\RegJobCompetitor;
-use App\Models\FreelancingJobCompetitor;
-use App\Models\BookmarkedJob;
 use App\Filters\JobFilter;
-use Illuminate\Http\Request;
-use App\Http\Resources\RegJobResource;
-use App\Http\Resources\RegJobCollection;
-use App\Http\Resources\RegJobCompetitorResource;
-use App\Http\Resources\FreelancingJobResource;
+use App\Http\Controllers\Controller;
 use App\Http\Resources\FreelancingJobCollection;
 use App\Http\Resources\FreelancingJobCompetitorResource;
-
+use App\Http\Resources\FreelancingJobResource;
+use App\Http\Resources\RegJobCollection;
+use App\Http\Resources\RegJobCompetitorResource;
+use App\Http\Resources\RegJobResource;
+use App\Models\BookmarkedJob;
+use App\Models\Company;
+use App\Models\DefJob;
+use App\Models\FreelancingJob;
+use App\Models\FreelancingJobCompetitor;
+use App\Models\Individual;
+use App\Models\RegJob;
+use App\Models\RegJobCompetitor;
+use Illuminate\Http\Request;
 
 class DefJobsController extends Controller
 {
@@ -84,17 +83,78 @@ class DefJobsController extends Controller
             ], 401);
         }
 
-        // Get all jobs without pagination
-        $freelancingJobs = FreelancingJob::all();
-        $fullTimeJobs = RegJob::where('type', 'FullTime')->get();
-        $partTimeJobs = RegJob::where('type', 'PartTime')->get();
-
-        // Response
+        // Filter
+        $filter = new JobFilter();
+        $queryItems = $filter->transform($request);
+        if (!empty($queryItems)) {
+            // Check Job Type
+            $type = $queryItems[0][2];
+            if ($type == "Freelancing") {
+                $freelancingJobs = FreelancingJob::paginate(10);
+                return response()->json([
+                    "jobs" => new FreelancingJobCollection($freelancingJobs->items()),
+                    'pagination_data' => [
+                        'from' => $freelancingJobs->firstItem(),
+                        'to' => $freelancingJobs->lastItem(),
+                        'total' => $freelancingJobs->total(),
+                        'first_page' => 1,
+                        'current_page' => $freelancingJobs->currentPage(),
+                        'last_page' => $freelancingJobs->lastPage(),
+                        'pageNumbers' => $this->generateNumberArray(1, $freelancingJobs->lastPage()),
+                        'first_page_url' => $freelancingJobs->url(1),
+                        'current_page_url' => $freelancingJobs->url($freelancingJobs->currentPage()),
+                        'last_page_url' => $freelancingJobs->url($freelancingJobs->lastPage()),
+                        'next_page' => $freelancingJobs->nextPageUrl(),
+                        'prev_page' => $freelancingJobs->previousPageUrl(),
+                        'path' => $freelancingJobs->path(),
+                    ],
+                ]);
+            } else if ($type == "PartTime") {
+                $partTimeJobs = RegJob::where('type', 'PartTime')->paginate(10);
+                return response()->json([
+                    "jobs" => new RegJobCollection($partTimeJobs->items()),
+                    'pagination_data' => [
+                        'from' => $partTimeJobs->firstItem(),
+                        'to' => $partTimeJobs->lastItem(),
+                        'total' => $partTimeJobs->total(),
+                        'first_page' => 1,
+                        'current_page' => $partTimeJobs->currentPage(),
+                        'last_page' => $partTimeJobs->lastPage(),
+                        'pageNumbers' => $this->generateNumberArray(1, $partTimeJobs->lastPage()),
+                        'has_more_pages' => $partTimeJobs->hasMorePages(),
+                        'first_page_url' => $partTimeJobs->url(1),
+                        'current_page_url' => $partTimeJobs->url($partTimeJobs->currentPage()),
+                        'last_page_url' => $partTimeJobs->url($partTimeJobs->lastPage()),
+                        'next_page' => $partTimeJobs->nextPageUrl(),
+                        'prev_page' => $partTimeJobs->previousPageUrl(),
+                        'path' => $partTimeJobs->path(),
+                    ],
+                ]);
+            } else if ($type == "FullTime") {
+                $fullTimeJobs = RegJob::where('type', 'FullTime')->paginate(10);
+                return response()->json([
+                    "jobs" => new RegJobCollection($fullTimeJobs->items()),
+                    'pagination_data' => [
+                        'from' => $fullTimeJobs->firstItem(),
+                        'to' => $fullTimeJobs->lastItem(),
+                        'total' => $fullTimeJobs->total(),
+                        'first_page' => 1,
+                        'current_page' => $fullTimeJobs->currentPage(),
+                        'last_page' => $fullTimeJobs->lastPage(),
+                        'pageNumbers' => $this->generateNumberArray(1, $fullTimeJobs->lastPage()),
+                        'first_page_url' => $fullTimeJobs->url(1),
+                        'current_page_url' => $fullTimeJobs->url($fullTimeJobs->currentPage()),
+                        'last_page_url' => $fullTimeJobs->url($fullTimeJobs->lastPage()),
+                        'next_page' => $fullTimeJobs->nextPageUrl(),
+                        'prev_page' => $fullTimeJobs->previousPageUrl(),
+                        'path' => $fullTimeJobs->path(),
+                    ],
+                ]);
+            }
+        }
         return response()->json([
-            "Freelancing" => new FreelancingJobCollection($freelancingJobs),
-            "FullTime" => new RegJobCollection($fullTimeJobs),
-            "PartTime" => new RegJobCollection($partTimeJobs),
-        ], 200);
+            "message" => "No type selected",
+        ], 400);
     }
 
     public function ShowSpecificJob(Request $request, $id)
@@ -246,7 +306,7 @@ class DefJobsController extends Controller
             // Custom Response
             return response()->json([
                 'jobs' => $jobType == 'RegularJob' ? new RegJobCollection($jobs->items())
-                    : new FreelancingJobCollection($jobs->items()),
+                : new FreelancingJobCollection($jobs->items()),
                 'pagination_data' => [
                     'from' => $jobs->firstItem(),
                     'to' => $jobs->lastItem(),
@@ -314,8 +374,8 @@ class DefJobsController extends Controller
                                 ->wherehas('competitors', function ($query) use ($individual) {
                                     $query->where('individual_id', $individual->id);
                                 })->wherehas('defJob.skills', function ($query) use ($skills) {
-                                    $query->whereIn('name', $skills);
-                                })->orderByDesc('created_at')->paginate(10);
+                                $query->whereIn('name', $skills);
+                            })->orderByDesc('created_at')->paginate(10);
                         } else {
                             // Get jobs
                             $jobs = RegJob::where('accepted_individual', $individual->id)
@@ -345,8 +405,8 @@ class DefJobsController extends Controller
                                 ->wherehas('competitors', function ($query) use ($individual) {
                                     $query->where('individual_id', $individual->id);
                                 })->wherehas('defJob.skills', function ($query) use ($skills) {
-                                    $query->whereIn('name', $skills);
-                                })->orderByDesc('created_at')->paginate(10);
+                                $query->whereIn('name', $skills);
+                            })->orderByDesc('created_at')->paginate(10);
                         } else {
                             // Get jobs
                             $jobs = RegJob::where('accepted_individual', $individual->id)
@@ -377,8 +437,8 @@ class DefJobsController extends Controller
                                 ->wherehas('competitors', function ($query) use ($user) {
                                     $query->where('user_id', $user->id);
                                 })->wherehas('defJob.skills', function ($query) use ($skills) {
-                                    $query->whereIn('name', $skills);
-                                })->orderByDesc('created_at')->paginate(10);
+                                $query->whereIn('name', $skills);
+                            })->orderByDesc('created_at')->paginate(10);
                         } else {
                             // Get jobs
                             $jobs = FreelancingJob::where('accepted_user', $user->id)
@@ -600,5 +660,10 @@ class DefJobsController extends Controller
                 "is_flagged" => true,
             ], 200);
         }
+    }
+    public function generateNumberArray($start, $end)
+    {
+        $numbers = range($start, $end);
+        return $numbers;
     }
 }
