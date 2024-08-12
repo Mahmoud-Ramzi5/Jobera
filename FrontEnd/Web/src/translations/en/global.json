@@ -228,7 +228,8 @@
                 "wallet_body1": "Available balance:",
                 "wallet_body2": "Total balance:",
                 "button1": "Transactions",
-                "button2": "Redeem Code"
+                "button2": "Redeem Code",
+                "admin_button": "Generate redeem code"
             },
             "skills": {
                 "title": "Skills",

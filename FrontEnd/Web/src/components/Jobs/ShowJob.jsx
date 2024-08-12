@@ -287,9 +287,11 @@ const ShowJob = () => {
             <div className={styles.right_side_container}>
               <div className={styles.titleholder}>
                 <div className={styles.title}>
-                  <button onClick={handleFavorite} className={`${styles.favorite_button} ${isFavorite ? 'active' : ''}`}>
-                    {isFavorite ? <BsBookmarkFill size={27} /> : <BsBookmark size={27} />}
-                  </button>
+                  {profile.user_id !== 1 &&
+                    <button onClick={handleFavorite} className={`${styles.favorite_button} ${isFavorite ? 'active' : ''}`}>
+                      {isFavorite ? <BsBookmarkFill size={27} /> : <BsBookmark size={27} />}
+                    </button>
+                  }
                   {job.title}
                 </div>
               </div>

@@ -164,9 +164,10 @@ const NavBar = () => {
                 </li>
               </ul>
             </li>
-            <li>
-              <a href="/jobs/post">{t('components.nav_bar.post_job')}</a>
-            </li>
+            {profile && profile.user_id !== 1 &&
+              <li>
+                <a href="/jobs/post">{t('components.nav_bar.post_job')}</a>
+              </li>}
           </div>
           <div className={styles.nav_links_right}>
             <label
@@ -177,29 +178,31 @@ const NavBar = () => {
             </label>
             {loggedIn ? (
               <>
-                <li>
-                  <a href="/manage" title={t('components.nav_bar.li_manage')}>
-                    <BsKanbanFill /> <span className={styles.mobile_item2}>{t('components.nav_bar.li_manage')}</span>
-                  </a>
-                </li>
-                <li>
-                  <span title={t('components.nav_bar.li_chats')} className={styles.span_list}
-                    onClick={() => setShowChatsScreen(!showChatsScreen)}>
-                    <BsEnvelopeAtFill /> <span className={styles.mobile_item2}>{t('components.nav_bar.li_chats')}</span>
-                  </span>
-                  {showChatsScreen && <ChatNav setShowChatsScreen={setShowChatsScreen} />}
-                </li>
-                <li>
-                  <span title={t('components.nav_bar.li_notifications')} className={styles.span_list}
-                    onClick={() => {
-                      setShowNotificationsScreen(!showNotificationsScreen)
-                    }}>
-                    <BsBellFill />{count !== 0 && <small>{count}</small>}{' '}
-                    <span className={styles.mobile_item2}>{t('components.nav_bar.li_notifications')}</span>
-                  </span>
-                  {showNotificationsScreen && <NotificationsNav notifications={notifications}
-                    setShowScreen={setShowNotificationsScreen} setCount={setCount} />}
-                </li>
+                {profile && profile.user_id !== 1 && <>
+                  <li>
+                    <a href="/manage" title={t('components.nav_bar.li_manage')}>
+                      <BsKanbanFill /> <span className={styles.mobile_item2}>{t('components.nav_bar.li_manage')}</span>
+                    </a>
+                  </li>
+                  <li>
+                    <span title={t('components.nav_bar.li_chats')} className={styles.span_list}
+                      onClick={() => setShowChatsScreen(!showChatsScreen)}>
+                      <BsEnvelopeAtFill /> <span className={styles.mobile_item2}>{t('components.nav_bar.li_chats')}</span>
+                    </span>
+                    {showChatsScreen && <ChatNav setShowChatsScreen={setShowChatsScreen} />}
+                  </li>
+                  <li>
+                    <span title={t('components.nav_bar.li_notifications')} className={styles.span_list}
+                      onClick={() => {
+                        setShowNotificationsScreen(!showNotificationsScreen)
+                      }}>
+                      <BsBellFill />{count !== 0 && <small>{count}</small>}{' '}
+                      <span className={styles.mobile_item2}>{t('components.nav_bar.li_notifications')}</span>
+                    </span>
+                    {showNotificationsScreen && <NotificationsNav notifications={notifications}
+                      setShowScreen={setShowNotificationsScreen} setCount={setCount} />}
+                  </li>
+                </>}
                 <span>
                   <li>
                     <div className={styles.desktop_item}>
@@ -217,11 +220,11 @@ const NavBar = () => {
                     <ul className={styles.drop_menu}>
                       <li>
                         <a href={
-                          profile?profile.type === "individual" ?
+                          profile ? profile.type === "individual" ?
                             `/profile/${profile.user_id}/${profile.full_name}` :
                             profile.type === "company" ?
                               `/profile/${profile.user_id}/${profile.name}` :
-                              '/admin':'#'}>{t('components.nav_bar.li_profile')}</a>
+                              '/admin' : '#'}>{t('components.nav_bar.li_profile')}</a>
                       </li>
                       <li>
                         <a href="/logout">{t('components.nav_bar.li_logout')}</a>
@@ -300,7 +303,7 @@ const NavUser = ({ ProfileData }) => {
           ) : ProfileData.type === "company" ? (
             ProfileData.name
           ) : (
-            <></>
+            <>Admin</>
           )}
         </div>
         <div>${ProfileData.wallet.available_balance}</div>

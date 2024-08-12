@@ -228,7 +228,8 @@
                 "wallet_body1": "الرصيد المتاح",
                 "wallet_body2": "الرصيد الكلي",
                 "button1": "التحويلات",
-                "button2": "استرد"
+                "button2": "استرد",
+                "admin_button": "توليد رمز استرداد"
             },
             "skills": {
                 "title": "المهارات",
@@ -433,6 +434,73 @@
             "title": "يرجى تقييم مُنجز العمل",
             "button_rate": "تقييم",
             "button_cancel": "إلغاء"
+        },
+        "admin": {
+            "jobs_table": {
+                "h1": "الوظائف",
+                "search": "...ابحث",
+                "actions": "الإجراءات",
+                "not_accepted": "غير مقبول",
+                "no_jobs": "لا يوجد وظائف",
+                "column_structure": {
+                    "title": "عنوان العمل",
+                    "company": "الشركة",
+                    "client": "العميل",
+                    "post_date": "تاريخ الإصدار",
+                    "deadline": "موعد التسليم",
+                    "salary": "الراتب",
+                    "avg_salary": "متوسط العروض للراتب",
+                    "accepted_user": "المستخدم المقبول"
+                }
+            },
+            "skills_table": {
+                "h1": "المهارات",
+                "search": "...ابحث",
+                "create": "إضافة",
+                "no_skills": "لا توجد مهارات",
+                "table": {
+                    "th1": "الاسم",
+                    "th2": "النوع",
+                    "th3": "العدد",
+                    "th4": "الإجراءات"
+                }
+            },
+            "users_table": {
+                "h1": "المستخدمين",
+                "search": "...الاسم",
+                "individual": "فرد",
+                "company": "شركة",
+                "actions": "الإجراءات",
+                "no_users": "لا يوجد مستخدمين",
+                "column_structure": {
+                    "name": "الاسم",
+                    "full_name": "الاسم الكامل",
+                    "phone_number": "رقم الهاتف",
+                    "country": "البلد",
+                    "state": "المدينة",
+                    "field": "المجال",
+                    "founding_date": "تاريخ الإنشاء",
+                    "birth_date": "تاريخ الولادة",
+                    "gender": "جنس",
+                    "rating": "التقييم",
+                    "is_verified": "موثق"
+                }
+            },
+            "wallet_table": {
+                "h1": "عمليات التحويل",
+                "search": "...ابحث",
+                "all": "جميع التحويلات",
+                "admin_s": "تحويلات  الأدمن",
+                "actions": "الإجراءات",
+                "no_transactions": "لا يوجد تحويلات",
+                "column_structure": {
+                    "sender_name": "اسم المرسل",
+                    "receiver_name": "اسم المستقبل",
+                    "job_title": "عنوان العمل",
+                    "amount": "القيمة",
+                    "date": "تاريخ التحويل"
+                }
+            }
         }
     }
 }

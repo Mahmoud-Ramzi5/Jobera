@@ -15,7 +15,7 @@ const Wallet = ({ ProfileData }) => {
   const { profile } = useContext(ProfileContext);
   const Navigate = useNavigate();
 
-console.log(ProfileData);
+  console.log(ProfileData);
   return (
     <Card className={styles.wallet_card}>
       <div className={styles.wallet_inside}>
@@ -32,7 +32,7 @@ console.log(ProfileData);
               {' $'}{ProfileData.wallet.total_balance}
             </h3>
           </div>
-          {profile.user_id === ProfileData.user_id && <>
+          {profile.user_id === ProfileData.user_id && profile.user_id !== 1 && <>
             <div className={styles.wallet_buttons}>
               <button type="submit" className={styles.transactions}
                 onClick={() => Navigate('/transactions')}
@@ -47,6 +47,14 @@ console.log(ProfileData);
               </button>
             </div>
           </>}
+          {profile.user_id === 1 &&
+            <button type="submit" className={styles.generate_redeem_code}
+              onClick={() => Navigate('/redeemcode')}
+            >
+              <span>{t('components.profile_cards.wallet.admin_button')}</span>
+              <i className={styles.button__icon}><BsChevronRight /></i>
+            </button>
+          }
         </div>
       </div>
     </Card>
