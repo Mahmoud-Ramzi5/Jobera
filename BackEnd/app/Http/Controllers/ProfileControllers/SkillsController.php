@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers\ProfileControllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Individual;
-use App\Models\Skill;
 use App\Enums\SkillTypes;
 use App\Filters\SkillFilter;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSkillsRequest;
 use App\Http\Requests\UpdateSkillRequest;
-use App\Http\Resources\SkillResource;
 use App\Http\Resources\SkillCollection;
+use App\Http\Resources\SkillResource;
+use App\Models\Individual;
+use App\Models\Skill;
+use App\Models\User;
+use App\Policies\SkillPolicy;
+use Illuminate\Http\Request;
 
 class SkillsController extends Controller
 {
@@ -46,7 +48,7 @@ class SkillsController extends Controller
 
         // Response
         return response()->json([
-            "types" => $response
+            "types" => $response,
         ], 200);
     }
 
@@ -58,7 +60,7 @@ class SkillsController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'errors' => ['user' => 'Invalid user']
+                'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
 
@@ -68,13 +70,13 @@ class SkillsController extends Controller
         // Check individual
         if ($individual == null) {
             return response()->json([
-                'errors' => ['user' => 'Invalid user']
+                'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
 
         // Response
         return response()->json([
-            'skills' => new SkillCollection($individual->skills)
+            'skills' => new SkillCollection($individual->skills),
         ]);
     }
 
@@ -82,7 +84,7 @@ class SkillsController extends Controller
     {
         // Validate request
         $validated = $request->validate([
-            'skills' => 'required|array'
+            'skills' => 'required|array',
         ]);
 
         // Get user
@@ -91,7 +93,7 @@ class SkillsController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'errors' => ['user' => 'Invalid user']
+                'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
 
@@ -101,7 +103,7 @@ class SkillsController extends Controller
         // Check individual
         if ($individual == null) {
             return response()->json([
-                'errors' => ['user' => 'Invalid user']
+                'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
 
@@ -111,7 +113,7 @@ class SkillsController extends Controller
         // Response
         return response()->json([
             "message" => "Skills added successfully",
-            "skills" => new SkillCollection($individual->skills)
+            "skills" => new SkillCollection($individual->skills),
         ], 200);
     }
 
@@ -119,7 +121,7 @@ class SkillsController extends Controller
     {
         // Validate request
         $validated = $request->validate([
-            'skills' => 'required|array'
+            'skills' => 'required|array',
         ]);
 
         // Get user
@@ -128,7 +130,7 @@ class SkillsController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'errors' => ['user' => 'Invalid user']
+                'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
 
@@ -138,7 +140,7 @@ class SkillsController extends Controller
         // Check individual
         if ($individual == null) {
             return response()->json([
-                'user' => 'Invalid user'
+                'user' => 'Invalid user',
             ], 401);
         }
 
@@ -163,7 +165,7 @@ class SkillsController extends Controller
         // Response
         return response()->json([
             "message" => "Skills updated successfully",
-            "skills" => new SkillCollection($individual->skills)
+            "skills" => new SkillCollection($individual->skills),
         ], 200);
     }
 
@@ -176,39 +178,30 @@ class SkillsController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'errors' => ['user' => 'Invalid user']
+                'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
+        // Check policy
+        $policy = new SkillPolicy();
 
-        // Get individual
-        $individual = Individual::where('user_id', $user->id)->first();
-
-        // Check individual
-        if ($individual == null) {
-            return response()->json([
-                'errors' => ['user' => 'Invalid user']
-            ], 401);
-        }
-
-        if ($individual->type == 'admin') {
-            // Validate request
-            $validated = $request->validated();
-            $skill = Skill::create($validated);
-
+        if (!$policy->AddSkill(User::find($user->id))) {
             // Response
             return response()->json([
-                "message" => "Skill added successfully",
-                "skill" => new SkillResource($skill)
-            ], 200);
+                'errors' => ['user' => 'Unauthorized'],
+            ], 401);
         }
+        // Validate request
+        $validated = $request->validated();
+        $skill = Skill::create($validated);
 
         // Response
         return response()->json([
-            'errors' => ['user' => 'Invalid user']
-        ], 401);
+            "message" => "Skill added successfully",
+            "skill" => new SkillResource($skill),
+        ], 200);
     }
 
-    public function EditSkill(UpdateSkillRequest $request, Skill $skill)
+    public function EditSkill(StoreSkillsRequest $request,Skill $skill)
     {
         // Get user
         $user = auth()->user();
@@ -216,35 +209,52 @@ class SkillsController extends Controller
         // Check user
         if ($user == null) {
             return response()->json([
-                'errors' => ['user' => 'Invalid user']
+                'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
+        // Check policy
+        $policy = new SkillPolicy();
 
-        // Get individual
-        $individual = Individual::where('user_id', $user->id)->first();
-
-        // Check individual
-        if ($individual == null) {
-            return response()->json([
-                'errors' => ['user' => 'Invalid user']
-            ], 401);
-        }
-
-        if ($individual->type == 'admin') {
-            // Validate request
-            $validated = $request->validated();
-            $skill->update($validated);
-
+        if (!$policy->AddSkill(User::find($user->id))) {
             // Response
             return response()->json([
-                "message" => "Skill updated successfully",
-                "skill" => new SkillResource($skill)
-            ], 200);
+                'errors' => ['user' => 'Unauthorized'],
+            ], 401);
         }
+        // Validate request
+        $validated = $request->validated();
+        $skill->name=$validated['name'];
+        $skill->type=$validated['type'];
+        $skill->save();
 
         // Response
         return response()->json([
-            'errors' => ['user' => 'Invalid user']
-        ], 401);
+            "message" => "Skill updated successfully",
+            "skill" => new SkillResource($skill),
+        ], 200);
+    }
+    public function DeleteSkill(Request $request,Skill $skill){
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user'],
+            ], 401);
+        }
+        // Check policy
+        $policy = new SkillPolicy();
+
+        if (!$policy->AddSkill(User::find($user->id))) {
+            // Response
+            return response()->json([
+                'errors' => ['user' => 'Unauthorized'],
+            ], 401);
+        }
+        $skill->delete();
+        return response()->json([
+            "message" => "Skill deleted successfully"
+        ], 204);
     }
 }

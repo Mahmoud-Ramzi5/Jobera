@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import styles from './SkillForm.module.css';
 import { FetchSkillTypes, EditSkillAPI, AddNewSkillApI } from '../../apis/SkillsApis';
+import { useContext } from 'react';
+import { LoginContext } from '../../utils/Contexts';
 
 const SkillForm = ({ handleSave, skillToEdit = null }) => {
+  const { accessToken } = useContext(LoginContext);
   const [name, setName] = useState('');
   const [type, setType] = useState('');
   const [editMode, setEditMode] = useState(false);
@@ -31,10 +34,15 @@ const SkillForm = ({ handleSave, skillToEdit = null }) => {
     e.preventDefault();
     if (editMode) {
       // Call API to edit skill
-      EditSkillAPI(skillToEdit.id, { name, type })
+      EditSkillAPI(accessToken, name,type.toUpperCase() ,skillToEdit.id)
         .then((response) => {
           // Handle response
-          handleSave(response.data.updatedSkill);
+          if (response.status === 200) {
+            handleSave(response.data.newSkill);
+            }else{
+              console.log(type)
+              console.log(response);
+            }
         })
         .catch((error) => {
           // Handle error
@@ -42,10 +50,14 @@ const SkillForm = ({ handleSave, skillToEdit = null }) => {
         });
     } else {
       // Call API to create skill
-      AddNewSkillApI({ name, type })
+      AddNewSkillApI(accessToken, name, type.toUpperCase())
         .then((response) => {
           // Handle response
+          if (response.status === 200) {
           handleSave(response.data.newSkill);
+          }else{
+            console.log(response);
+          }
         })
         .catch((error) => {
           // Handle error

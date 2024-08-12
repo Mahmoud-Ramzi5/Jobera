@@ -49,7 +49,7 @@ class FreelancingJobPolicy
 
     public function DeleteFreelancingJob(User $user, FreelancingJob $freelancingJob)
     {
-        if ($user->id == $freelancingJob->user_id) {
+        if ($user->id == $freelancingJob->user_id || $user->id==1) {
             return true;
         }
         return false;

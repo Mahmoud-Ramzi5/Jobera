@@ -57,7 +57,7 @@ export const SearchSkills = async (name) => {
     }
 };
 
-export const AddNewSkillApI = async (name, type) => {
+export const AddNewSkillApI = async (token,name, type) => {
     try {
         const response = await axios.post(`http://127.0.0.1:8000/api/skills`, {
             "name": name, "type": type
@@ -65,6 +65,7 @@ export const AddNewSkillApI = async (name, type) => {
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
                 'Accept': "application/json",
+                'Authorization': `Bearer ${token}`
             }
         });
         return response;
@@ -74,7 +75,7 @@ export const AddNewSkillApI = async (name, type) => {
     }
 };
 
-export const EditSkillAPI = async (name, type, skillId) => {
+export const EditSkillAPI = async (token,name, type, skillId) => {
     try {
         const response = await axios.post(`http://127.0.0.1:8000/api/skills/${skillId}`, {
             "name": name, "type": type
@@ -82,6 +83,22 @@ export const EditSkillAPI = async (name, type, skillId) => {
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
                 'Accept': "application/json",
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        return response;
+
+    } catch (error) {
+        return error.response;
+    }
+};
+export const DeleteSkillAPI = async (token,skillId) => {
+    try {
+        const response = await axios.delete(`http://127.0.0.1:8000/api/skills/${skillId}`,{
+            headers: {
+                'Content-Type': 'application/json; charset=UTF-8',
+                'Accept': "application/json",
+                'Authorization': `Bearer ${token}`
             }
         });
         return response;

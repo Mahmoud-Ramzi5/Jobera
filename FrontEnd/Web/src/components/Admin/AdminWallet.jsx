@@ -2,14 +2,16 @@ import { useEffect, useState, useContext, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { BsChatFill, BsTrash } from "react-icons/bs";
 import { LoginContext } from "../../utils/Contexts.jsx";
-import { GetAllTransactions, GetTransactions } from "../../apis/TransactionsApis.jsx";
+import {
+  GetAllTransactions,
+  GetTransactions,
+} from "../../apis/TransactionsApis.jsx";
 import Clock from "../../utils/Clock.jsx";
 import styles from "../../styles/AdminPage.module.css";
 
-
 const AdminWalet = () => {
   // Translations
-  const { t } = useTranslation('global');
+  const { t } = useTranslation("global");
   // Context
   const { accessToken } = useContext(LoginContext);
   // Define states
@@ -25,25 +27,29 @@ const AdminWalet = () => {
       initialized.current = true;
       setIsLoading(true);
 
-      GetAllTransactions(accessToken).then((response) => {
-        if (response.status === 200) {
-          setAllTransactions(response.data.transactions);
-        } else {
-          console.log(response.statusText);
-        }
-      }).then(() => {
-        setIsLoading(false);
-      });
+      GetAllTransactions(accessToken)
+        .then((response) => {
+          if (response.status === 200) {
+            setAllTransactions(response.data.transactions);
+          } else {
+            console.log(response.statusText);
+          }
+        })
+        .then(() => {
+          setIsLoading(false);
+        });
 
-      GetTransactions(accessToken).then((response) => {
-        if (response.status === 200) {
-          setAdminTransactions(response.data.transactions);
-        } else {
-          console.log(response.statusText);
-        }
-      }).then(() => {
-        setIsLoading(false);
-      });
+      GetTransactions(accessToken)
+        .then((response) => {
+          if (response.status === 200) {
+            setAdminTransactions(response.data.transactions);
+          } else {
+            console.log(response.statusText);
+          }
+        })
+        .then(() => {
+          setIsLoading(false);
+        });
     }
   }, []);
 
@@ -54,27 +60,66 @@ const AdminWalet = () => {
   const handleDelete = (user_id) => {
     // TODO
     console.log(user_id);
-  }
+  };
 
   const columnStructure = {
     Admin: [
-      { key: "sender.name", label: t('components.admin.wallet_table.column_structure.sender_name') },
-      { key: "job.title", label: t('components.admin.wallet_table.column_structure.job_title') },
-      { key: "amount", label: t('components.admin.wallet_table.column_structure.amount') },
-      { key: "date", label: t('components.admin.wallet_table.column_structure.date') },
+      {
+        key: "sender.name",
+        label: t("components.admin.wallet_table.column_structure.sender_name"),
+      },
+      {
+        key: "job.title",
+        label: t("components.admin.wallet_table.column_structure.job_title"),
+      },
+      {
+        key: "amount",
+        label: t("components.admin.wallet_table.column_structure.amount"),
+      },
+      {
+        key: "date",
+        label: t("components.admin.wallet_table.column_structure.date"),
+      },
     ],
     All: [
-      { key: "sender.name", label: t('components.admin.wallet_table.column_structure.sender_name') },
-      { key: "receiver.name", label: t('components.admin.wallet_table.column_structure.receiver_name') },
-      { key: "job.title", label: t('components.admin.wallet_table.column_structure.job_title') },
-      { key: "amount", label: t('components.admin.wallet_table.column_structure.amount') },
-      { key: "date", label: t('components.admin.wallet_table.column_structure.date') },
-    ]
+      {
+        key: "sender.name",
+        label: t("components.admin.wallet_table.column_structure.sender_name"),
+      },
+      {
+        key: "receiver.name",
+        label: t(
+          "components.admin.wallet_table.column_structure.receiver_name"
+        ),
+      },
+      {
+        key: "job.title",
+        label: t("components.admin.wallet_table.column_structure.job_title"),
+      },
+      {
+        key: "amount",
+        label: t("components.admin.wallet_table.column_structure.amount"),
+      },
+      {
+        key: "date",
+        label: t("components.admin.wallet_table.column_structure.date"),
+      },
+    ],
   };
 
   const currentColumns = columnStructure[transactionType];
-  const filteredTransactions = transactionType == "All" ? allTransactions : adminTransactions;
-
+  const filteredTransactions =
+    transactionType == "All"
+      ? allTransactions.filter((transaction) =>
+          transaction.job.title
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())
+        )
+      : adminTransactions.filter((transaction) =>
+          transaction.job.title
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase())
+        );
 
   if (isLoading) {
     return <Clock />;
@@ -83,11 +128,11 @@ const AdminWalet = () => {
     <div className={styles.screen}>
       <div className={styles.content}>
         <div>
-          <h1>{t('components.admin.wallet_table.h1')}</h1>
+          <h1>{t("components.admin.wallet_table.h1")}</h1>
           <div className={styles.search_bar}>
             <input
               type="text"
-              placeholder={t('components.admin.wallet_table.search')}
+              placeholder={t("components.admin.wallet_table.search")}
               value={searchQuery}
               onChange={handleSearch}
               className={styles.search_input}
@@ -103,7 +148,7 @@ const AdminWalet = () => {
               onChange={() => setTransactionType("All")}
             />
             <label htmlFor="All">
-              {t('components.admin.wallet_table.all')}
+              {t("components.admin.wallet_table.all")}
             </label>
             <input
               type="radio"
@@ -114,7 +159,7 @@ const AdminWalet = () => {
               onChange={() => setTransactionType("Admin")}
             />
             <label htmlFor="Admin">
-              {t('components.admin.wallet_table.admin_s')}
+              {t("components.admin.wallet_table.admin_s")}
             </label>
           </div>
         </div>
@@ -124,28 +169,50 @@ const AdminWalet = () => {
               {currentColumns.map((column) => (
                 <th key={column.key}>{column.label}</th>
               ))}
-              <th>{t('components.admin.wallet_table.actions')}</th>
+              <th>{t("components.admin.wallet_table.actions")}</th>
             </tr>
           </thead>
-          <tbody>{filteredTransactions.length > 0 ? (
-            filteredTransactions.map((transaction) => <tr key={transaction.id}>
-              {currentColumns.map((column) => (
-                <td key={column.key}> {transaction[column.key]} </td>
-              ))}
-              <td>
-                <button onClick={handleDelete} className={styles.edit_button} >
-                  <BsChatFill />
-                </button>
-                <button onClick={handleDelete} className={styles.delete_button} >
-                  <BsTrash />
-                </button>
-              </td>
-            </tr>)
-          ) : (
-            <tr>
-              <td colSpan={currentColumns.length + 1}>{t('components.admin.wallet_table.no_transactions')}</td>
-            </tr>
-          )}
+          <tbody>
+            {filteredTransactions.length > 0 ? (
+              filteredTransactions.map((transaction) => (
+                <tr key={transaction.id}>
+                  {currentColumns.map((column) => (
+                    <td key={column.key}>
+                      {" "}
+                      {column.key === "date"
+                        ? new Date(transaction.date).toISOString().split("T")[0]
+                        : column.key === "job.title"
+                        ? transaction.job.title
+                        : column.key === "sender.name"
+                        ? transaction.sender.name
+                        : column.key === "receiver.name"
+                        ? transaction.receiver.name
+                        : transaction[column.key]}{" "}
+                    </td>
+                  ))}
+                  <td>
+                    <button
+                      onClick={handleDelete}
+                      className={styles.edit_button}
+                    >
+                      <BsChatFill />
+                    </button>
+                    <button
+                      onClick={handleDelete}
+                      className={styles.delete_button}
+                    >
+                      <BsTrash />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={currentColumns.length + 1}>
+                  {t("components.admin.wallet_table.no_transactions")}
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
       </div>
