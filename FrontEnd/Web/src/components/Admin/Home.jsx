@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useTranslation } from "react-i18next";
 import {
     BsPeopleFill,
 } from 'react-icons/bs';
@@ -11,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const { accessToken } = useContext(LoginContext);
+    const { t } = useTranslation('global');
     const [stats, setStats] = useState([]);
     const [profileData, setProfileData] = useState([]);
     const navigate = useNavigate();
@@ -41,14 +43,16 @@ const Home = () => {
     return (
         <main className={styles.main_container}>
             <div className={styles.main_title}>
-                <h3>Home</h3>
+                <h3>
+                {t('components.admin.Home.home')}
+                </h3>
             </div>
 
             <div className={styles.main_cards}>
                 {stats.map((stat, index) => (
                     <div className={styles.card}>
                         <div className={styles.card_inner}>
-                            <h3>{stat.name}</h3>
+                            <h3>{t(`components.admin.Home.${stat.name}`)}</h3>
                             <BsPeopleFill className={styles.card_icon} />
                         </div>
                         <h1>{stat.data}</h1>

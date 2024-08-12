@@ -438,7 +438,7 @@
         "admin": {
             "jobs_table": {
                 "h1": "الوظائف",
-                "search": "...ابحث",
+                "search": "ابحث...",
                 "actions": "الإجراءات",
                 "not_accepted": "غير مقبول",
                 "no_jobs": "لا يوجد وظائف",
@@ -455,7 +455,7 @@
             },
             "skills_table": {
                 "h1": "المهارات",
-                "search": "...ابحث",
+                "search": "ابحث...",
                 "create": "إضافة",
                 "no_skills": "لا توجد مهارات",
                 "table": {
@@ -467,7 +467,7 @@
             },
             "users_table": {
                 "h1": "المستخدمين",
-                "search": "...الاسم",
+                "search": "الاسم...",
                 "individual": "فرد",
                 "company": "شركة",
                 "actions": "الإجراءات",
@@ -481,14 +481,14 @@
                     "field": "المجال",
                     "founding_date": "تاريخ الإنشاء",
                     "birth_date": "تاريخ الولادة",
-                    "gender": "جنس",
+                    "gender": "الجنس",
                     "rating": "التقييم",
                     "is_verified": "موثق"
                 }
             },
             "wallet_table": {
                 "h1": "عمليات التحويل",
-                "search": "...ابحث",
+                "search": "ابحث...",
                 "all": "جميع التحويلات",
                 "admin_s": "تحويلات  الأدمن",
                 "actions": "الإجراءات",
@@ -500,6 +500,27 @@
                     "amount": "القيمة",
                     "date": "تاريخ التحويل"
                 }
+            },
+            "Home": {
+                "home": "الصفحة الرئيسية",
+                "All Done Jobs": "جميع الوظائف المنتهية",
+                "Exhibiting Companies": "الشركات المسجلة ",
+                "Registered Individuals": "الأفراد المسجلين",
+                "Total Running FullTime Job": "جميع أعمال الدوام الكامل الجارية",
+                "Total Running PartTime Job": "جميع أعمال الدوام الجزئي الجارية",
+                "Total Running Freelancing Job": "جميع الأعمال الحرة الجارية",
+                "Done Freelancing Jobs": "الأعمال الحرة المنتهية",
+                "Done FullTime Jobs": "أعمال الدوام الكامل المنتهية",
+                "Done PartTime Jobs": "أعمال الدوام الجزئي المنتهية"
+            },
+            "sidebar": {
+                "dashboard": "الإحصائيات",
+                "jobs": "الوظائف",
+                "skills": "المهارات",
+                "users": "المستخدمين",
+                "transactions": "عمليات التحويل",
+                "reports": "التقارير",
+                "settings": "الإعدادات"
             }
         }
     }

@@ -500,6 +500,27 @@
                     "amount": "Amount",
                     "date": "Date"
                 }
+            },
+            "Home": {
+                "home": "Home",
+                "All Done Jobs": "All Done Jobs",
+                "Exhibiting Companies": "Exhibiting Companies",
+                "Registered Individuals": "Registered Individuals",
+                "Total Running FullTime Job": "Total Running FullTime Job",
+                "Total Running PartTime Job": "Total Running PartTime Job",
+                "Total Running Freelancing Job": "Total Running Freelancing Job",
+                "Done Freelancing Jobs": "Done Freelancing Jobs",
+                "Done FullTime Jobs": "Done FullTime Jobs",
+                "Done PartTime Jobs": "Done PartTime Jobs"
+            },
+            "sidebar": {
+                "dashboard": "Dashboard",
+                "jobs": "Jobs",
+                "skills": "Skills",
+                "users": "Users",
+                "transactions": "Transactions",
+                "reports": "Reports",
+                "settings": "Settings"
             }
         }
     }
