@@ -442,6 +442,9 @@
                 "actions": "Actions",
                 "not_accepted": "Not Accepted",
                 "no_jobs": "No jobs found",
+                "FullTime":"FullTime",
+                "PartTime":"PartTime",
+                "Freelancing":"Freelancing",
                 "column_structure": {
                     "title": "Title",
                     "company": "Company",

@@ -30,7 +30,6 @@ const Header = ({ OpenSidebar }) => {
     navigate('/logout');
   };
 
-  console.log(showNotificationScreen)
   return (
     <header className={styles.header}>
       <div className={styles.menu_icon}>

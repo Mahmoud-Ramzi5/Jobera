@@ -186,7 +186,7 @@ const AdminJobs = () => {
                       checked={jobType === type}
                       onChange={() => setJobType(type)}
                     />
-                    <label htmlFor={type}>{type}</label>
+                    <label htmlFor={type}>{t(`components.admin.jobs_table.${type}`)}</label>
                   </div>
                 ))}
               </div>
