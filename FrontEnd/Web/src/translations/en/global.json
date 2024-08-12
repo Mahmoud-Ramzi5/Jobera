@@ -261,12 +261,16 @@
         },
         "redeem_code": {
             "message1": "Charged your wallet successfully",
+            "message1_generate": "Generated the code successfully",
             "messsge2": "Something went wrong, please try again later",
             "title": "Redeem",
             "h3": "Enter redeem code to charge your wallet",
             "input": "Redeem code",
             "button": "Submit",
-            "anchor": "Return to profile"
+            "anchor": "Return to profile",
+            "title_generate":"Generate redeem code",
+            "h3_generate":"Enter the amount for generating redeem code",
+            "generate":"Amount of generated code"
         },
         "education": {
             "heading1": "Edit Education",

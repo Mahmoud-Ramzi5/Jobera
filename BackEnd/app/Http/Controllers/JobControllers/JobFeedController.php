@@ -198,13 +198,13 @@ class JobFeedController extends Controller
         $stats = [
             ["data" => $doneJobs, "name" => "All Done Jobs"],
             ["data" => $companyRegistered, "name" => "Exhibiting Companies"],
-            ["data" => $individualRegistered, "name" => "Registered Individuals"],
             ["data" => $runningJobsFullTime, "name" => "Total Running FullTime Job"],
             ["data" => $runningJobsPartTime, "name" => "Total Running PartTime Job"],
             ["data" => $runningJobsFreelancing, "name" => "Total Running Freelancing Job"],
-            ["data" => $doneFreelancingJobs, "name" => "Done Freelancing Jobs"],
+            ["data" => $individualRegistered, "name" => "Registered Individuals"],
             ["data" => $doneFullTimeJobs, "name" => "Done FullTime Jobs"],
             ["data" => $donePartTimeJobs, "name" => "Done PartTime Jobs"],
+            ["data" => $doneFreelancingJobs, "name" => "Done Freelancing Jobs"],
         ];
         // Response
         return response()->json([

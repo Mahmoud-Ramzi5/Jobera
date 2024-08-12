@@ -19,7 +19,7 @@ class AdminController extends Controller
     public function GenerateCode(Request $request)
     {
         $validated = $request->validate([
-            'value' => 'required|numeric'
+            'value' => 'required|numeric|min:0'
         ]);
 
         // Get user
@@ -27,7 +27,7 @@ class AdminController extends Controller
 
         // Check user
         $adminUser = User::find(1);
-        if ($user !== $adminUser) {
+        if ($user == $adminUser) {
             return response()->json([
                 'errors' => ['user' => 'Invalid user']
             ], 401);
@@ -38,7 +38,7 @@ class AdminController extends Controller
                 $redeemCode = RedeemCode::create([
                     'code' => $code,
                     'value' => $validated['value'],
-                    'user_id' => null
+                    'wallet_id' => null
                 ]);
                 return response()->json([
                     'message' => 'created succcessfully'
