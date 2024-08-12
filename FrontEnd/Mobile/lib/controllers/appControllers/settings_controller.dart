@@ -50,6 +50,7 @@ class SettingsController extends GetxController {
     const cameraPermission = Permission.camera;
     const photoPermission = Permission.photos;
     const storagePermission = Permission.manageExternalStorage;
+    const notificationsPermission = Permission.notification;
     if (await cameraPermission.isDenied) {
       await cameraPermission.request();
     }
@@ -59,12 +60,15 @@ class SettingsController extends GetxController {
     if (await storagePermission.isDenied) {
       await storagePermission.request();
     }
+    if (await notificationsPermission.isDenied) {
+      await notificationsPermission.request();
+    }
   }
 
   Future<dynamic> getCountries() async {
     try {
       var response = await dio.get(
-        'http://192.168.1.108:8000/api/countries',
+        'http://192.168.1.2:8000/api/countries',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -88,7 +92,7 @@ class SettingsController extends GetxController {
   Future<dynamic> getStates(String countryName) async {
     try {
       var response = await dio.post(
-        'http://192.168.1.108:8000/api/states',
+        'http://192.168.1.2:8000/api/states',
         data: {"country_name": countryName},
         options: Options(
           headers: {
@@ -113,7 +117,7 @@ class SettingsController extends GetxController {
   Future<dynamic> getSkillTypes() async {
     try {
       var response = await dio.get(
-        'http://192.168.1.108:8000/api/skills/types',
+        'http://192.168.1.2:8000/api/skills/types',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -135,7 +139,7 @@ class SettingsController extends GetxController {
   Future<dynamic> getSkills(String type) async {
     try {
       var response = await dio.get(
-        'http://192.168.1.108:8000/api/skills?type[eq]=$type',
+        'http://192.168.1.2:8000/api/skills?type[eq]=$type',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -157,7 +161,7 @@ class SettingsController extends GetxController {
   Future<dynamic> getAllSkills() async {
     try {
       var response = await dio.get(
-        'http://192.168.1.108:8000/api/skills',
+        'http://192.168.1.2:8000/api/skills',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -182,7 +186,7 @@ class SettingsController extends GetxController {
   Future<dynamic> searchSkills(String name) async {
     try {
       var response = await dio.get(
-        'http://192.168.1.108:8000/api/skills?name[like]=$name',
+        'http://192.168.1.2:8000/api/skills?name[like]=$name',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -204,7 +208,7 @@ class SettingsController extends GetxController {
   Future<dynamic> downloadFile(String fileName) async {
     try {
       final response = await dio.get(
-        'http://192.168.1.108:8000/api/file/$fileName',
+        'http://192.168.1.2:8000/api/file/$fileName',
         options: Options(
           responseType: ResponseType.bytes, // important
           headers: {

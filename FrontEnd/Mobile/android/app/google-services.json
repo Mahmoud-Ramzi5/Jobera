@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "25730413432",
+    "project_id": "jobera-66508",
+    "storage_bucket": "jobera-66508.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25730413432:android:f76098c7988d3d9bb24e8d",
+        "android_client_info": {
+          "package_name": "com.example.jobera"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsPOalKWkXyCYk8uMREUgcE2AGDpNNJCk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

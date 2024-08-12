@@ -9,6 +9,7 @@ class ChatsComponent extends StatelessWidget {
   final String name;
   final String? lastMessage;
   final DateTime? lastMessageDate;
+  final int unreadMessagesCount;
 
   const ChatsComponent({
     super.key,
@@ -16,6 +17,7 @@ class ChatsComponent extends StatelessWidget {
     required this.name,
     this.lastMessage,
     this.lastMessageDate,
+    required this.unreadMessagesCount,
   });
 
   @override
@@ -40,19 +42,49 @@ class ChatsComponent extends StatelessWidget {
                       ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(10),
+            Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SmallHeadlineText(text: name),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: SmallHeadlineText(text: name),
+                      ),
+                      if (unreadMessagesCount > 0)
+                        Container(
+                          decoration: const ShapeDecoration(
+                            shape: CircleBorder(
+                              side: BorderSide(color: Colors.red),
+                            ),
+                          ),
+                          child: Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: Text(
+                                unreadMessagesCount > 10
+                                    ? '+10'
+                                    : '$unreadMessagesCount',
+                                style: TextStyle(
+                                  color: Colors.lightBlue.shade900,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
                   BodyText(
-                    text: lastMessage == null ? '' : lastMessage.toString(),
+                    text: lastMessage ?? '',
+                    textOverflow: TextOverflow.ellipsis,
                   ),
                   Text(
                     lastMessageDate == null
                         ? ''
-                        : ' ${lastMessageDate?.day}/${lastMessageDate?.month}/${lastMessageDate?.year} ${lastMessageDate?.hour}:${lastMessageDate?.minute}',
+                        : '${lastMessageDate!.day}/${lastMessageDate!.month}/${lastMessageDate!.year} ${lastMessageDate!.hour}:${lastMessageDate!.minute}',
                     style: const TextStyle(
                       color: Colors.grey,
                       fontSize: 12,
@@ -63,7 +95,7 @@ class ChatsComponent extends StatelessWidget {
             ),
           ],
         ),
-        const Divider()
+        const Divider(),
       ],
     );
   }

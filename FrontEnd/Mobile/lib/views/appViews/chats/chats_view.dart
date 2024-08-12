@@ -39,6 +39,8 @@ class ChatsView extends StatelessWidget {
                               lastMessage: controller.chats[index].lastMessage,
                               lastMessageDate:
                                   controller.chats[index].lastMessageDate,
+                              unreadMessagesCount:
+                                  controller.chats[index].unreadMessages,
                             ),
                           );
                         },

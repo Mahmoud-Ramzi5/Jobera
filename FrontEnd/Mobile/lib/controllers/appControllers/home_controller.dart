@@ -7,6 +7,7 @@ import 'package:jobera/main.dart';
 import 'package:jobera/models/company.dart';
 import 'package:jobera/models/user.dart';
 
+//TODO: fix id
 class HomeController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   late Dio dio;
@@ -42,7 +43,7 @@ class HomeController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.108:8000/api/profile',
+        'http://192.168.1.2:8000/api/profile',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -86,7 +87,7 @@ class HomeController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.1.108:8000/api/logout',
+        'http://192.168.1.2:8000/api/logout',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

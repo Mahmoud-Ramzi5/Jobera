@@ -20,6 +20,7 @@ class Chat {
           for (var message in json['messages']) Message.fromJson(message),
         ].reversed.toList(),
         reciverId = json['other_user']['user_id'];
+
   Chat.empty()
       : id = 0,
         name = '',

@@ -153,12 +153,7 @@ class HomeView extends StatelessWidget {
               JobFeedView(),
               RegularJobsView(),
               FreelancingJobsView(),
-              const Scaffold(
-                body: Center(
-                  child: Text('needs work'),
-                ),
-              )
-              // ChatsView()
+              ChatsView()
             ],
           ),
         ),

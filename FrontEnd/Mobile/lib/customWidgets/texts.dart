@@ -16,14 +16,16 @@ class TitleText extends StatelessWidget {
 
 class BodyText extends StatelessWidget {
   final String text;
+  final TextOverflow? textOverflow;
 
-  const BodyText({super.key, required this.text});
+  const BodyText({super.key, required this.text, this.textOverflow});
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
       style: Theme.of(context).textTheme.bodyLarge,
+      overflow: textOverflow,
     );
   }
 }
