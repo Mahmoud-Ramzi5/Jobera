@@ -442,6 +442,9 @@
                 "actions": "الإجراءات",
                 "not_accepted": "غير مقبول",
                 "no_jobs": "لا يوجد وظائف",
+                "FullTime":"دوام كامل",
+                "PartTime":"دوام جزئي",
+                "Freelancing":"عمل حر",
                 "column_structure": {
                     "title": "عنوان العمل",
                     "company": "الشركة",
