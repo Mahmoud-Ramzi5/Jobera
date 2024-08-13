@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Carousel from 'react-bootstrap/Carousel';
-import { LoginContext } from '../utils/Contexts.jsx';
+import { LoginContext,ProfileContext } from '../utils/Contexts.jsx';
 import Slide1 from '../assets/Slide1.png';
 import Slide2 from '../assets/Slide3.png';
 import Slide3 from '../assets/Slide2.png';
@@ -16,6 +16,7 @@ const Index = () => {
   const { t } = useTranslation('global');
   // Context
   const { loggedIn } = useContext(LoginContext);
+  const { profile } = useContext(ProfileContext);
   // Define states
   const navigate = useNavigate();
   const [index, setIndex] = useState(0);
@@ -35,7 +36,10 @@ const Index = () => {
   };
 
   const handlePostJob = (event) => {
-    if (loggedIn) {
+    if(profile.user_id == 1){
+      navigate('/');
+    }
+    else if (loggedIn ) {
       event.preventDefault();
       navigate('/jobs/post');
     }
