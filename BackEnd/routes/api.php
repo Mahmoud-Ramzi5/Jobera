@@ -1,25 +1,26 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AuthControllers\AuthController;
-use App\Http\Controllers\AuthControllers\ForgetPasswordController;
-use App\Http\Controllers\AuthControllers\SocialAuthController;
-use App\Http\Controllers\ChatController;
-use App\Http\Controllers\JobControllers\DefJobsController;
-use App\Http\Controllers\JobControllers\FreelancingJobsController;
-use App\Http\Controllers\JobControllers\JobFeedController;
-use App\Http\Controllers\JobControllers\RegJobsController;
-use App\Http\Controllers\NotificationsController;
-use App\Http\Controllers\ProfileControllers\EducationController;
-use App\Http\Controllers\ProfileControllers\PortfolioController;
-use App\Http\Controllers\ProfileControllers\ProfileController;
-use App\Http\Controllers\ProfileControllers\SkillsController;
-use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\TransactionsController;
-use App\Models\Country;
 use App\Models\State;
+use App\Models\Country;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\TransactionsController;
+use App\Http\Controllers\NotificationsController;
+use App\Http\Controllers\AuthControllers\AuthController;
+use App\Http\Controllers\AuthControllers\SocialAuthController;
+use App\Http\Controllers\AuthControllers\ForgetPasswordController;
+use App\Http\Controllers\JobControllers\JobFeedController;
+use App\Http\Controllers\JobControllers\DefJobsController;
+use App\Http\Controllers\JobControllers\RegJobsController;
+use App\Http\Controllers\JobControllers\FreelancingJobsController;
+use App\Http\Controllers\ProfileControllers\SkillsController;
+use App\Http\Controllers\ProfileControllers\ProfileController;
+use App\Http\Controllers\ProfileControllers\EducationController;
+use App\Http\Controllers\ProfileControllers\PortfolioController;
+
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'Register');
@@ -202,9 +203,9 @@ Route::controller(NotificationsController::class)->group(function () {
 Route::controller(AdminController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('/users', 'Users');
+        Route::get('/reports', 'ReportsData');
         Route::post('/generate', 'GenerateCode');
         Route::get('/transactions/all', 'GetAllTransactions');
-        Route::get('/reports', 'ReportsData');
     });
 });
 
@@ -225,19 +226,71 @@ Route::get('/image/{user_id}/{folder}/{image}', function (Request $request, $use
 });
 
 // Pusher
-// Route::middleware('auth:api')->get('/pusher/beams-auth', function (Request $request) {
-//     $beamsClient = new \Pusher\PushNotifications\PushNotifications(array(
-//         "instanceId" => "488b218d-2a72-4d5b-8940-346df9234336",
-//         "secretKey" => "4C9B94F31677EFBD2238FD2FE9D1D810C4DBB3215DF995C7ED106B7373CE3D03",
-//     ));
+Route::middleware('auth:api')->get('/pusher/beams-auth', function (Request $request) {
+    $beamsClient = new \Pusher\PushNotifications\PushNotifications(array(
+        "instanceId" => "8a1adda3-cbf6-4ac7-b9b5-d8d8669217ac",
+        "secretKey" => "A37D5D99D8EAB5034F5F56CAD99F043BB38118760368264F102EEA547F57E05C",
+    ));
 
-//     $userID = auth()->user()->id; // If you use a different auth system, do your checks here
-//     $userIDInQueryParam = $request->input('user_id');
+    $userID = auth()->user()->id; // If you use a different auth system, do your checks here
+    $userIDInQueryParam = $request->input('user_id');
 
-//     if ('user-' . $userID != $userIDInQueryParam) {
-//         return response('Inconsistent request', 401);
-//     } else {
-//         $beamsToken = $beamsClient->generateToken($userID);
-//         return response()->json($beamsToken);
-//     }
-// });
+    if ('user-' . $userID != $userIDInQueryParam) {
+        return response('Inconsistent request', 401);
+    } else {
+        $beamsToken = $beamsClient->generateToken($userID);
+        return response()->json($beamsToken);
+    }
+});
+
+Route::middleware('auth:api')->get('/GG', function (Request $request) {
+    $beamsClient = new \Pusher\PushNotifications\PushNotifications(array(
+        "instanceId" => "8a1adda3-cbf6-4ac7-b9b5-d8d8669217ac",
+        "secretKey" => "A37D5D99D8EAB5034F5F56CAD99F043BB38118760368264F102EEA547F57E05C",
+    ));
+
+    //include 'src/PushNotifications.php';
+    $publishResponse = $beamsClient->publishToUsers(
+        ['user-37'],
+        [
+            "web" => array(
+                "notification" => array(
+                    "title" => "Hello",
+                    "body" => "Hello, World!",
+                    "deep_link" => "https://www.pusher.com",
+                )
+            ),
+        ]
+    );
+    $publishResponse = $beamsClient->publishToInterests(
+        ["TEST"],
+        [
+            "web" => [
+                "notification" => [
+                    "title" => "Hello",
+                    "body" => "Hello, World!",
+                    "deep_link" => "https://www.pusher.com",
+                ]
+            ],
+            "apns" => [
+                "aps" => [
+                    "alert" => "Hello!",
+                ],
+            ],
+            "fcm" => [
+                "notification" => [
+                    "title" => "Hello!",
+                    "body" => "Hello, world!",
+                ],
+                "data" => [
+                    "name" => "adam",
+                    "type" => "user",
+                ],
+            ],
+        ]
+    );
+    echo ("Published with Publish ID: " . $publishResponse->publishId . "\n");
+    return response()->json([
+        'GG' => 'Haha'
+    ], 200);
+});

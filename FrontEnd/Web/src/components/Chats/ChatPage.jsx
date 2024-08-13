@@ -11,6 +11,7 @@ import styles from './chats.module.css';
 const ChatPage = () => {
   // Context
   const { accessToken } = useContext(LoginContext);
+  const { profile } = useContext(ProfileContext);
   // Define states
   const initialized = useRef(false);
   const subscribed = useRef(false);
@@ -52,7 +53,6 @@ const ChatPage = () => {
     }
   }, []);
 
-
   useEffect(() => {
     if (!subscribed.current && chats.length > 0) {
       subscribed.current = true;
@@ -78,7 +78,10 @@ const ChatPage = () => {
 
         channel.bind('NewMessage', data => {
           setChats(chats.map((chat2) => (chat2.id === data.message.chat_id ?
-            { ...chat2, last_message: data.message }
+            {
+              ...chat2, unread_messages: data.message.Receiver.user_id == profile.user_id ?
+                chat2.unread_messages++ : chat2.unread_messages, last_message: data.message
+            }
             : chat2)
           ));
 
@@ -190,7 +193,7 @@ const ChatWindow = ({ chat, messages, setMessages }) => {
       </div>
       {isLoading ? <Clock /> : <>
         <div id='Chat_Area' className={styles.chat_messages}>
-          {messages.map((message) => (
+          {chat && messages.map((message) => (
             <div key={message.id} className={` ${styles.message} 
                 ${message.sender.user_id === profile.user_id ? styles.sender : styles.receiver}
               `}>
