@@ -121,30 +121,48 @@ function App() {
   }, [loggedIn]);
 
 
-  // useEffect(() => {
-  //   const beamsTokenProvider = new PusherPushNotifications.TokenProvider({
-  //     url: "http://127.0.0.1:8000/api/pusher/beams-auth",
-  //     queryParams: {},
-  //     headers: {
-  //       'Accept': 'application/json',
-  //       'Access-Control-Allow-Origin': '*',
-  //       'Authorization': `Bearer ${accessToken}`,
-  //     },
-  //   });
+  useEffect(() => {
+    if (profile) {
+      const beamsTokenProvider = new PusherPushNotifications.TokenProvider({
+        url: "http://127.0.0.1:8000/api/pusher/beams-auth",
+        queryParams: {},
+        headers: {
+          'Accept': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
 
-  //   const beamsClient = new PusherPushNotifications.Client({
-  //     instanceId: "488b218d-2a72-4d5b-8940-346df9234336",
-  //   });
+      const beamsClient = new PusherPushNotifications.Client({
+        instanceId: "8a1adda3-cbf6-4ac7-b9b5-d8d8669217ac",
+      });
 
-  //   beamsClient
-  //     .start()
-  //     .then(() => beamsClient.setUserId(`user-${profile.user_id}`, beamsTokenProvider))
-  //     // .then((beamsClient) => beamsClient.getDeviceId())
-  //     // .then((deviceId) => console.log("Device ID:", deviceId))
-  //     // .then(() => beamsClient.getDeviceInterests())
-  //     // .then((interests) => console.log("Current interests:", interests))
-  //     .catch(console.error);
-  // }, [profile]);
+      beamsClient
+        .start()
+        .then((beamsClient) => beamsClient.setUserId(`user-${profile.user_id}`, beamsTokenProvider))
+        .then(() => beamsClient.getDeviceId())
+        .then((deviceId) => console.log("Successfully registered with Beams. Device ID:", deviceId))
+        .then(() => beamsClient.addDeviceInterest("TEST"))
+        .then(() => beamsClient.addDeviceInterest("debug-test"))
+        .then(() => beamsClient.getDeviceInterests())
+        .then((interests) => console.log("Current interests:", interests))
+        .then(() => beamsClient.getUserId())
+        .then((userId) => console.log("User ID:", userId))
+        .catch(console.error);
+
+      // beamsClient
+      //   .getUserId()
+      //   .then((userId) => {
+      //     console.log("User ID:", userId)
+      //     // Check if the Beams user matches the user that is currently logged in
+      //     if (userId !== `user-${profile.user_id}`) {
+      //       // Unregister for notifications
+      //       return beamsClient.stop();
+      //     }
+      //   })
+      //   .catch(console.error);
+    }
+  }, [profile]);
 
   useEffect(() => {
     localStorage.setItem('Theme', theme);
