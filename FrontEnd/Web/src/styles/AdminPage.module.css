@@ -249,7 +249,7 @@ body {
 }
 
 .card:nth-child(4) {
-  background-color: cyan;
+  background-color: #69B2F2;
 }
 
 .card:nth-child(5) {
@@ -265,7 +265,7 @@ body {
 }
 
 .card:nth-child(8) {
-  background-color: cyan;
+  background-color: #69B2F2;
 }
 
 .card_inner {

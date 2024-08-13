@@ -5,15 +5,18 @@
 .tableContainer {
     width: 100%;
     border-collapse: collapse;
+    margin-block-start: 20px;
 }
 
 .tableCell {
-    padding: 20px;
+    padding: 10px;
     vertical-align: top;
+    width: 100%;
 }
 
 .chartContainer {
     margin-bottom: 20px;
+    width: 100%;
 }
 
 .chartTitle {

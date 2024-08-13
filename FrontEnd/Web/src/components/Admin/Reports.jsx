@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
     BarChart,
     Bar,
@@ -9,13 +9,38 @@ import {
     Legend,
     PieChart,
     Pie,
+    Cell,
 } from "recharts";
 import styles from "./Reports.module.css";
-import { useState } from "react";
+import { LoginContext } from "../../utils/Contexts";
+import { FetchReportsData } from "../../apis/AdminApis";
 
 const Reports = () => {
     const [selectedMonth, setSelectedMonth] = useState("February 2024");
-    const [selectedYear, setSelectedYear] = useState("2024");
+    const [isLoading, setIsLoading] = useState(true);
+
+    const { accessToken } = useContext(LoginContext);
+    const [jobLocations, setJobLocations] = useState([]);
+    const [mostSkillTypes, setMostSkillTypes] = useState([]);
+    const [topRatedUsers, setTopRatedUsers] = useState([]);
+    const [transactionsByMonth, setTransactionsByMonth] = useState([]);
+    useEffect(() => {
+        FetchReportsData(accessToken)
+            .then((response) => {
+                if (response.status === 200) {
+                    setJobLocations(response.data.MostCountries);
+                    setMostSkillTypes(response.data.MostSkillTypes);
+                    setTopRatedUsers(response.data.TopRatedUsers);
+                    setTransactionsByMonth(response.data.TransactionsByMonth)
+                } else {
+                    console.log(response);
+                }
+            })
+            .then(() => {
+                setIsLoading(false);
+            });
+    }, [accessToken]);
+    console.log(mostSkillTypes);
 
     // Dummy data for demonstration
     const annualData = {
@@ -39,128 +64,130 @@ const Reports = () => {
             { name: "Item C", total: 1200 },
         ],
         monthly_data: [
-            { client: { name: "Client A" }, monthly_amounts: { "February 2024": { amount: 300 } } },
-            { client: { name: "Client B" }, monthly_amounts: { "February 2024": { amount: 500 } } },
-            { client: { name: "Client C" }, monthly_amounts: { "February 2024": { amount: 700 } } },
+            {
+                client: { name: "Client A" },
+                monthly_amounts: { "February 2024": { amount: 300 } },
+            },
+            {
+                client: { name: "Client B" },
+                monthly_amounts: { "February 2024": { amount: 500 } },
+            },
+            {
+                client: { name: "Client C" },
+                monthly_amounts: { "February 2024": { amount: 700 } },
+            },
         ],
         monthly_totals: [
             { month: "February 2024", amount: 1500 },
             { month: "January 2024", amount: 1200 },
         ],
     };
+    const COLORS = [
+        "#0088FE",
+        "#00C49F",
+        "#FFBB28",
+        "#FF8042",
+        "#AF19FF",
+        "#FF6666",
+    ];
+    const COLORS2 = [
+        "#69B2F2",
+        "#09806A",
+        "#322C8A",
+        "#FF8042",
+        "#7A21AB",
+        "#CA6928",
+    ];
 
     return (
         <div className={styles.reportsPage}>
-        <table className={styles.tableContainer}>
-          <tbody>
-            <tr>
-              <td className={styles.tableCell}>
-                <div>
-                  <h2>Jobs Location</h2>
-                  <div className={styles.chartContainer}>
-                    <h3>Annual</h3>
-                    <select
-                      value={selectedYear}
-                      onChange={(e) => setSelectedYear(e.target.value)}
-                    >
-                      <option value="">Select Year</option>
-                      {Array.from({ length: 25 }, (_, index) => {
-                        const year = 2000 + index;
-                        return (
-                          <option key={year} value={year}>
-                            {year}
-                          </option>
-                        );
-                      })}
-                    </select>
-                    <BarChart width={400} height={300} data={annualData.items}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="name" />
-                      <YAxis />
-                      <Tooltip />
-                      <Legend />
-                      <Bar dataKey="total" fill="#8884d8" />
-                    </BarChart>
-                  </div>
-                  <div>
-                    <h3>Monthly</h3>
-                    { (
-                      <div>
-                        {/* Bar chart */}
-                        <BarChart
-                          width={400}
-                          height={300}
-                          data={monthlyData.items}
-                        >
-                          <CartesianGrid strokeDasharray="3 3" />
-                          <XAxis dataKey="name" />
-                          <YAxis />
-                          <Tooltip />
-                          <Legend />
-                          <Bar dataKey="total" fill="#8884d8" />
-                        </BarChart>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </td>
-              <td className={styles.tableCell}>
-                <div>
-                  <h2>Most Paying Clients</h2>
-                  <div>
-                    <h3>Annual</h3>
-                    <PieChart width={400} height={300}>
-                      <Pie
-                        dataKey="total_amount"
-                        data={annualData.clients}
-                        fill="#8884d8"
-                        label
-                      />
-                      <Tooltip />
-                      <Legend />
-                    </PieChart>
-                  </div>
-                  <div>
-                    <h3>Monthly</h3>
-                    {/* Select month dropdown */}
-                    <select
-                      value={selectedMonth}
-                      onChange={(e) => setSelectedMonth(e.target.value)}
-                    >
-                      <option value="">Select Month</option>
-                      {monthlyData.monthly_data &&
-                        Object.values(
-                          monthlyData.monthly_data[0].monthly_amounts
-                        ).map((item) => (
-                          <option key={item.month} value={item.month}>
-                            {item.month}
-                          </option>
-                        ))}
-                    </select>
-                    {selectedMonth !== "" && monthlyData.monthly_data && (
-                      <BarChart
-                        width={400}
-                        height={300}
-                        data={monthlyData.monthly_data}
-                      >
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="client.name" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend />
-                        <Bar
-                          dataKey={`monthly_amounts.${selectedMonth}.amount`}
-                          fill="#8884d8"
-                        />
-                      </BarChart>
-                    )}
-                  </div>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+            <table className={styles.tableContainer}>
+                <tbody>
+                    <tr>
+                        <td className={styles.tableCell}>
+                            <div>
+                                <h2>Jobs Location</h2>
+                                <div className={styles.chartContainer}>
+                                    <BarChart width={700} height={300} data={jobLocations}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="name" />
+                                        <YAxis />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Bar dataKey="count">
+                                            {jobLocations.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                            ))}
+                                        </Bar>
+                                    </BarChart>
+                                </div>
+                                <div>
+                                <h2>Top Rated Users</h2>
+                                <div className={styles.chartContainer}>
+                                    <BarChart width={800} height={300} data={topRatedUsers}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="name" />
+                                        <YAxis />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Bar dataKey="rating">
+                                            {jobLocations.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={COLORS2[index % COLORS.length]} />
+                                            ))}
+                                        </Bar>
+                                    </BarChart>
+                                </div>
+                            </div>
+                            </div>
+                        </td>
+                        <td className={styles.tableCell}>
+                            <div>
+                                <h2>Most Skill Types</h2>
+                                <div>
+                                    <PieChart width={400} height={300}>
+                                        <Pie
+                                            dataKey="count"
+                                            data={mostSkillTypes}
+                                            nameKey="name"
+                                            cx="50%"
+                                            cy="50%"
+                                            outerRadius={80}
+                                            label
+                                        >
+                                            {mostSkillTypes.map((entry, index) => (
+                                                <Cell
+                                                    key={`cell-${index}`}
+                                                    fill={COLORS[index % COLORS.length]}
+                                                />
+                                            ))}
+                                        </Pie>
+                                        <Tooltip />
+                                        <Legend />
+                                    </PieChart>
+                                </div>
+                                <div>
+                                <h2>Transactions</h2>
+                                <div className={styles.chartContainer}>
+                                    <BarChart width={400} height={300} data={transactionsByMonth}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="month" />
+                                        <YAxis />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Bar dataKey="amount">
+                                            {transactionsByMonth.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                            ))}
+                                        </Bar>
+                                    </BarChart>
+                                </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     );
 };
 

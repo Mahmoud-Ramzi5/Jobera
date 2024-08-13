@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\JobControllers\JobFeedController;
-use App\Models\User;
-use App\Models\DefJob;
-use App\Models\Company;
-use App\Models\Individual;
-use App\Models\RedeemCode;
-use App\Models\Transaction;
-use Illuminate\Http\Request;
-use App\Policies\AdminPolicy;
 use App\Http\Resources\CompanyCollection;
 use App\Http\Resources\IndividualCollection;
 use App\Http\Resources\TransactionCollection;
+use App\Models\Company;
+use App\Models\DefJob;
+use App\Models\Individual;
+use App\Models\RedeemCode;
+use App\Models\Transaction;
+use App\Models\User;
+use App\Policies\AdminPolicy;
+use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
@@ -53,24 +52,24 @@ class AdminController extends Controller
     }
     public function Users()
     {
-         // Get user
-         $user = auth()->user();
+        // Get user
+        $user = auth()->user();
 
-         // Check user
-         if ($user == null) {
-             return response()->json([
-                 'errors' => ['user' => 'Invalid user'],
-             ], 401);
-         }
-         // Check policy
-         $policy = new AdminPolicy();
- 
-         if (!$policy->Policy(User::find($user->id))) {
-             // Response
-             return response()->json([
-                 'errors' => ['user' => 'Unauthorized'],
-             ], 401);
-         }
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user'],
+            ], 401);
+        }
+        // Check policy
+        $policy = new AdminPolicy();
+
+        if (!$policy->Policy(User::find($user->id))) {
+            // Response
+            return response()->json([
+                'errors' => ['user' => 'Unauthorized'],
+            ], 401);
+        }
         $individuals = Individual::all();
         $companies = Company::all();
         return response()->json([
@@ -80,24 +79,24 @@ class AdminController extends Controller
     }
     public function GetAllTransactions()
     {
-         // Get user
-         $user = auth()->user();
+        // Get user
+        $user = auth()->user();
 
-         // Check user
-         if ($user == null) {
-             return response()->json([
-                 'errors' => ['user' => 'Invalid user'],
-             ], 401);
-         }
-         // Check policy
-         $policy = new AdminPolicy();
- 
-         if (!$policy->Policy(User::find($user->id))) {
-             // Response
-             return response()->json([
-                 'errors' => ['user' => 'Unauthorized'],
-             ], 401);
-         }
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user'],
+            ], 401);
+        }
+        // Check policy
+        $policy = new AdminPolicy();
+
+        if (!$policy->Policy(User::find($user->id))) {
+            // Response
+            return response()->json([
+                'errors' => ['user' => 'Unauthorized'],
+            ], 401);
+        }
         $transactions = Transaction::all();
         return response()->json([
             'transactions' => new TransactionCollection($transactions),
@@ -105,38 +104,39 @@ class AdminController extends Controller
     }
     public function ReportsData()
     {
-         // Get user
-         $user = auth()->user();
+        // Get user
+        $user = auth()->user();
 
-         // Check user
-         if ($user == null) {
-             return response()->json([
-                 'errors' => ['user' => 'Invalid user'],
-             ], 401);
-         }
-         // Check policy
-         $policy = new AdminPolicy();
- 
-         if (!$policy->Policy(User::find($user->id))) {
-             // Response
-             return response()->json([
-                 'errors' => ['user' => 'Unauthorized'],
-             ], 401);
-         }
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user'],
+            ], 401);
+        }
 
-        $jobs = DefJob::with('state')->with('bookmarkedBy')->get();
+        // Check policy
+        $policy = new AdminPolicy();
+
+        if (!$policy->Policy(User::find($user->id))) {
+            // Response
+            return response()->json([
+                'errors' => ['user' => 'Unauthorized'],
+            ], 401);
+        }
+
+        $jobs = DefJob::with('state')->with('bookmarkedBy')->with('skills')->get();
         $countryCounts = [];
-        $bookmarkedJobs=[];
+        $skillTypes = [];
 
         foreach ($jobs as $job) {
-            foreach ($job->bookmarkedBy as $user) {
-                if (array_key_exists($job->id, $bookmarkedJobs)) {
-                    $bookmarkedJobs[$job->title]++;
+            foreach ($job->skills as $skill) {
+                if (array_key_exists($skill->type, $skillTypes)) {
+                    $skillTypes[$skill->type]++;
                 } else {
-                    $bookmarkedJobs[$job->title] = 1;
+                    $skillTypes[$skill->type] = 1;
                 }
             }
-            if($job->state==null){
+            if ($job->state == null) {
                 if (array_key_exists("Remotly", $countryCounts)) {
                     $countryCounts["Remotly"]++;
                 } else {
@@ -153,35 +153,69 @@ class AdminController extends Controller
             }
         }
         arsort($countryCounts);
+        arsort($skillTypes);
         $users = User::with('reviewedBy')->get();
         $userReviews = [];
 
         foreach ($users as $user) {
-            $company=Company::where('user_id',$user->id)->first();
-            $individual=Individual::where('user_id',$user->id)->first();
-            if($company!=null){
-                $userReviews[$user->id]['user_name'] = $company->name;
-            }elseif($individual!=null){
-                $userReviews[$user->id]['user_name'] = $individual->full_name;
-            }
-            else{
+            $company = Company::where('user_id', $user->id)->first();
+            $individual = Individual::where('user_id', $user->id)->first();
+            if ($company != null) {
+                $userReviews[$user->id]['name'] = $company->name;
+            } elseif ($individual != null) {
+                $userReviews[$user->id]['name'] = $individual->full_name;
+            } else {
                 continue;
             }
-            
+
             $userReviews[$user->id]['rating'] = $user->reviewedBy->pluck('review')->sum() ?? 0;
         }
         usort($userReviews, function ($a, $b) {
             return $b['rating'] - $a['rating'];
         });
+        $lastYearDate = now()->subYear();
+        $transactions = Transaction::where('date', '>=', $lastYearDate)->get();
 
+        $monthlyAmounts = [];
 
-        $jobFeedController = new JobFeedController();
+        foreach ($transactions as $transaction) {
+            $monthYear = $transaction->date->format('Y-m'); // Get the year and month in 'YYYY-MM' format
+
+            if (array_key_exists($monthYear, $monthlyAmounts)) {
+                $monthlyAmounts[$monthYear] += $transaction->amount;
+            } else {
+                $monthlyAmounts[$monthYear] = $transaction->amount;
+            }
+        }
+        ksort($monthlyAmounts);
+
+        $formattedMonthlyAmounts = [];
+        foreach ($monthlyAmounts as $month => $amount) {
+            $formattedMonthlyAmounts[] = ['month' => $month, 'amount' => $amount];
+        }
+
+        $formattedSkillTypes = [];
+        foreach ($skillTypes as $key => $value) {
+            $formattedSkillTypes[] = [
+                "name" => $key,
+                "count" => $value,
+            ];
+        }
+
+        $formattedCountryCounts = [];
+        foreach ($countryCounts as $key => $value) {
+            $formattedCountryCounts[] = [
+                "name" => $key,
+                "count" => $value,
+            ];
+        }
+        $topCompanies = array_slice($formattedCountryCounts, 0, 6);
+        $topUsers = array_slice($userReviews, 0, 6);
         return response()->json([
-            "Most Countries"=>$countryCounts,
-            "Most Skills"=>$jobFeedController->MostNeededSkills(true),
-            "Most Bookmarked"=>$bookmarkedJobs,
-            "Top Rated Users"=>$userReviews
-        ]);
-
+                "MostCountries" => $topCompanies,
+                "MostSkillTypes" => $formattedSkillTypes,
+                "TransactionsByMonth" => $formattedMonthlyAmounts,
+                "TopRatedUsers" => $topUsers,
+            ]);
     }
 }
