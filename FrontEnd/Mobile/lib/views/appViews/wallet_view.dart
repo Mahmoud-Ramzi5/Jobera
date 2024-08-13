@@ -84,70 +84,73 @@ class WalletView extends StatelessWidget {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: InfoContainer(
-                          name: 'Transactions:',
-                          widget: ListView.builder(
-                            itemCount: controller.transactions.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return Card(
-                                margin: const EdgeInsets.all(10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const BodyText(text: 'From: '),
-                                        LabelText(
-                                          text: controller
-                                              .transactions[index].senderName,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const BodyText(text: 'To: '),
-                                        LabelText(
-                                          text: controller
-                                              .transactions[index].receiverName,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const BodyText(text: 'Job Title: '),
-                                        LabelText(
-                                          text: controller
-                                              .transactions[index].jobTitle,
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const BodyText(text: 'Amount: '),
-                                        LabelText(
-                                          text:
-                                              '${controller.transactions[index].amount}\$',
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const BodyText(text: 'Date: '),
-                                        LabelText(
+                      ExpansionTile(
+                        title: const BodyText(text: 'Transactions'),
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(10),
+                            child: ListView.builder(
+                              itemCount: controller.transactions.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Card(
+                                  margin: const EdgeInsets.all(10),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          const BodyText(text: 'From: '),
+                                          LabelText(
+                                            text: controller
+                                                .transactions[index].senderName,
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          const BodyText(text: 'To: '),
+                                          LabelText(
+                                            text: controller.transactions[index]
+                                                .receiverName,
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          const BodyText(text: 'Job Title: '),
+                                          LabelText(
+                                            text: controller
+                                                .transactions[index].jobTitle,
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          const BodyText(text: 'Amount: '),
+                                          LabelText(
                                             text:
-                                                '${controller.transactions[index].date.day}/${controller.transactions[index].date.month}/${controller.transactions[index].date.year} ${controller.transactions[index].date.hour}:${controller.transactions[index].date.minute}'),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ),
+                                                '${controller.transactions[index].amount}\$',
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          const BodyText(text: 'Date: '),
+                                          LabelText(
+                                              text:
+                                                  '${controller.transactions[index].date.day}/${controller.transactions[index].date.month}/${controller.transactions[index].date.year} ${controller.transactions[index].date.hour}:${controller.transactions[index].date.minute}'),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          )
+                        ],
                       )
                     ],
                   ),

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -9,7 +10,7 @@ import 'package:jobera/models/chat.dart';
 import 'package:jobera/models/chats.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:crypto/crypto.dart';
-import 'dart:convert'; // for the utf8.encode method
+import 'dart:convert';
 
 class ChatsController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
@@ -23,8 +24,7 @@ class ChatsController extends GetxController {
   bool loading = true;
   int chatId = 0;
   Chat chat = Chat.empty();
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  bool inChat = false;
 
   @override
   Future<void> onInit() async {
@@ -53,12 +53,14 @@ class ChatsController extends GetxController {
   }
 
   Future<void> goToChat(int id) async {
+    inChat = true;
     chatId = id;
     await fetchChat(id);
     Get.toNamed('/chat');
   }
 
   goBack(int id) {
+    inChat = false;
     markAsRead(id);
     refreshIndicatorKey.currentState!.show();
     update();
@@ -79,23 +81,21 @@ class ChatsController extends GetxController {
         onDecryptionFailure: onDecryptionFailure,
         onMemberAdded: onMemberAdded,
         onMemberRemoved: onMemberRemoved,
-        //authEndpoint: "https://my-website.com/broadcasting/auth",
         onAuthorizer: onAuthorizer,
       );
       await pusher.subscribe(channelName: 'private-user.$id');
       await pusher.connect();
     } catch (e) {
-      print("error in initialization: $e");
+      log("error in initialization: $e");
     }
   }
 
   getSignature(String value) {
     var key = utf8.encode('0b3db4b631c6307250a5');
     var bytes = utf8.encode(value);
-
     var hmacSha256 = Hmac(sha256, key); // HMAC-SHA256
     var digest = hmacSha256.convert(bytes);
-    print("HMAC signature in string is: $digest");
+    log("HMAC signature in string is: $digest");
     return digest;
   }
 
@@ -106,49 +106,65 @@ class ChatsController extends GetxController {
   }
 
   void onError(String message, int? code, dynamic e) {
-    print("onError: $message code: $code exception: $e");
+    log("onError: $message code: $code exception: $e");
   }
 
   void onConnectionStateChange(dynamic currentState, dynamic previousState) {
-    print("Connection: $currentState");
+    log("Connection: $currentState");
   }
 
   void onMemberRemoved(String channelName, PusherMember member) {
-    print("onMemberRemoved: $channelName member: $member");
+    log("onMemberRemoved: $channelName member: $member");
   }
 
   void onMemberAdded(String channelName, PusherMember member) {
-    print("onMemberAdded: $channelName member: $member");
+    log("onMemberAdded: $channelName member: $member");
   }
 
   void onSubscriptionSucceeded(String channelName, dynamic data) {
-    print("onSubscriptionSucceeded: $channelName data: $data");
+    log("onSubscriptionSucceeded: $channelName data: $data");
   }
 
   void onSubscriptionError(String message, dynamic e) {
-    print("onSubscriptionError: $message Exception: $e");
+    log("onSubscriptionError: $message Exception: $e");
   }
 
   Future<void> onEvent(PusherEvent event) async {
     if (event.eventName == 'NewMessage') {
-      print('GGk');
-      refreshIndicatorKey.currentState!.show();
-      refreshIndicatorKey2.currentState!.show();
+      fetchChats();
+      if (inChat) {
+        fetchChat(chatId);
+      }
     }
     if (event.eventName == 'NewNotification') {
-      // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
-      const AndroidInitializationSettings initializationSettingsAndroid =
-          AndroidInitializationSettings('app_icon');
-      const InitializationSettings initializationSettings =
-          InitializationSettings(android: initializationSettingsAndroid);
-      // await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      //     onDidReceiveNotificationResponse: onDidReceiveNotificationResponse);
+      var eventData = jsonDecode(event.data);
+      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+          FlutterLocalNotificationsPlugin();
+      await flutterLocalNotificationsPlugin.initialize(
+        const InitializationSettings(
+          android: AndroidInitializationSettings(
+            '@mipmap/launcher_icon',
+          ),
+        ),
+      );
+      await flutterLocalNotificationsPlugin.show(
+        0,
+        eventData['notification']['data']['sender_name'],
+        eventData['notification']['data']['message'],
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            eventData['notification']['id'],
+            event.channelName,
+            icon: '@mipmap/launcher_icon',
+          ),
+        ),
+      );
     }
-    print("onEvent: $event");
+    log("onEvent: $event");
   }
 
   void onDecryptionFailure(String event, String reason) {
-    print("onDecryptionFailure: $event reason: $reason");
+    log("onDecryptionFailure: $event reason: $reason");
   }
 
   Future<void> initChannels(int id) async {
@@ -161,7 +177,7 @@ class ChatsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.2:8000/api/chats',
+        'http://192.168.39.51:8000/api/chats',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -188,7 +204,7 @@ class ChatsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.2:8000/api/chats/$id',
+        'http://192.168.39.51:8000/api/chats/$id',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -213,7 +229,7 @@ class ChatsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.1.2:8000/api/chats/sendMessage',
+        'http://192.168.39.51:8000/api/chats/sendMessage',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -242,7 +258,7 @@ class ChatsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.1.2:8000/api/chat/messages',
+        'http://192.168.39.51:8000/api/chat/messages',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

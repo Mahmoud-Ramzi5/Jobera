@@ -7,19 +7,18 @@ import 'package:jobera/main.dart';
 import 'package:jobera/models/company.dart';
 import 'package:jobera/models/user.dart';
 
-//TODO: fix id
 class HomeController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
+  late SettingsController settingsController;
   late Dio dio;
+  int id = 37;
+  String name = '';
+  String email = '';
+  String? photo;
+  String step = '';
+  int notificationsCount = 0;
   User? user;
   Company? company;
-  late String name;
-  late String email;
-  late int id;
-  late String? photo;
-  late String step;
-  late SettingsController settingsController;
-  late int notificationsCount;
   bool isOtherUserProfile = false;
   int otherUserId = 0;
   String otherUserName = '';
@@ -28,14 +27,10 @@ class HomeController extends GetxController {
   @override
   Future<void> onInit() async {
     refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
-    dio = Dio();
-    name = '';
-    email = '';
-    id = 0;
-    photo = '';
     settingsController = Get.find<SettingsController>();
-    notificationsCount = 0;
+    dio = Dio();
     await fetchUser();
+    update();
     super.onInit();
   }
 
@@ -43,7 +38,7 @@ class HomeController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.2:8000/api/profile',
+        'http://192.168.39.51:8000/api/profile',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -55,18 +50,18 @@ class HomeController extends GetxController {
       if (response.statusCode == 200) {
         if (response.data['user']['type'] == 'company') {
           company = Company.fromJson(response.data['user']);
+          id = company!.id;
           name = company!.name;
           email = company!.email;
-          id = company!.id;
           photo = company!.photo;
           step = '';
           isCompany = true;
           notificationsCount = company!.notificationsCount;
         } else if (response.data['user']['type'] == 'individual') {
           user = User.fromJson(response.data['user']);
+          id = user!.id;
           name = user!.name;
           email = user!.email;
-          id = user!.id;
           photo = user!.photo;
           step = user!.step;
           isCompany = false;
@@ -87,7 +82,7 @@ class HomeController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.1.2:8000/api/logout',
+        'http://192.168.39.51:8000/api/logout',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',

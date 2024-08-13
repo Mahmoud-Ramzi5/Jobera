@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
@@ -16,11 +18,11 @@ class AuthController extends GetxController {
 
   Future<MiddlewareCases> checkToken() async {
     String? token = sharedPreferences?.getString('access_token');
-    print(token);
+    log('Token:$token');
     if (token != null) {
       try {
         var response = await dio.get(
-          'http://192.168.1.2:8000/api/isExpired',
+          'http://192.168.39.51:8000/api/isExpired',
           options: Options(
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',

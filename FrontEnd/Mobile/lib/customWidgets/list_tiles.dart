@@ -23,7 +23,7 @@ class MenuListTile extends StatelessWidget {
           BodyText(
             text: title,
           ),
-          if (count != null)
+          if (count != null && count! > 0)
             Padding(
               padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
               child: Text(

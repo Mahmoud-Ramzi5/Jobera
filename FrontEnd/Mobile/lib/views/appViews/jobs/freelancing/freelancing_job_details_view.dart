@@ -87,9 +87,7 @@ class FreelancingJobDetailsView extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               if ((controller.freelancingJob.poster.userId ==
-                                          controller.homeController.id ||
-                                      controller.freelancingJob.poster.userId ==
-                                          controller.homeController.id) &&
+                                      controller.homeController.id) &&
                                   controller.freelancingJob.acceptedUser !=
                                       null &&
                                   !controller.freelancingJob.isDone)

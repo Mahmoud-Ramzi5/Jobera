@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/customWidgets/enums.dart';
@@ -12,12 +13,19 @@ late MiddlewareCases middlewareCase;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await PusherBeams.instance.start('488b218d-2a72-4d5b-8940-346df9234336');
-  await PusherBeams.instance.setDeviceInterests(['hello']);
+  await PusherBeams.instance.start('8a1adda3-cbf6-4ac7-b9b5-d8d8669217ac');
+  await PusherBeams.instance.setDeviceInterests(['TEST']);
+  await PusherBeams.instance.setDeviceInterests(['debug-test']);
+  await initialMessage();
   sharedPreferences = await SharedPreferences.getInstance();
   final AuthController authController = Get.put(AuthController());
   middlewareCase = await authController.checkToken();
   runApp(const MainApp());
+}
+
+Future<void> initialMessage() async {
+  final initMessage = await PusherBeams.instance.getInitialMessage();
+  log('_initialMessage: ${initMessage.toString()}');
 }
 
 class MainApp extends StatelessWidget {

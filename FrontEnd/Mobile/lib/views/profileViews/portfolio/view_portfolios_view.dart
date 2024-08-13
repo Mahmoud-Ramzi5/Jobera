@@ -143,7 +143,8 @@ class ViewPortfoliosView extends StatelessWidget {
                                       ],
                                     ),
                                     ExpansionTile(
-                                      title: const BodyText(text: 'Info'),
+                                      title:
+                                          const BodyText(text: 'Information'),
                                       children: [
                                         Column(
                                           children: [
