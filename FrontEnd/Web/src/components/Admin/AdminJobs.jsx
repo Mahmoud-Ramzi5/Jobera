@@ -75,6 +75,11 @@ const AdminJobs = () => {
       });
     }
   };
+  
+  const handleTypeChange=(type)=>{
+    setCurrentPage(1);
+    setJobType(type);
+  };
 
   const columnStructure = {
     FullTime: [
@@ -184,7 +189,7 @@ const AdminJobs = () => {
                       name="jobType"
                       value={type}
                       checked={jobType === type}
-                      onChange={() => setJobType(type)}
+                      onChange={() =>handleTypeChange(type) }
                     />
                     <label htmlFor={type}>{t(`components.admin.jobs_table.${type}`)}</label>
                   </div>

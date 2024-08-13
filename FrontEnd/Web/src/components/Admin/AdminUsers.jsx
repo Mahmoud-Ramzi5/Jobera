@@ -28,7 +28,7 @@ const AdminUsers = () => {
         if (response.status === 200) {
           setUserData(response.data);
         } else {
-          console.log(response.statusText);
+          console.log(response);
         }
       }).then(() => {
         setIsLoading(false);

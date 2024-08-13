@@ -12,6 +12,7 @@ use App\Http\Resources\SkillResource;
 use App\Models\Individual;
 use App\Models\Skill;
 use App\Models\User;
+use App\Policies\AdminPolicy;
 use App\Policies\SkillPolicy;
 use Illuminate\Http\Request;
 
@@ -182,9 +183,9 @@ class SkillsController extends Controller
             ], 401);
         }
         // Check policy
-        $policy = new SkillPolicy();
+        $policy = new AdminPolicy();
 
-        if (!$policy->AddSkill(User::find($user->id))) {
+        if (!$policy->Policy(User::find($user->id))) {
             // Response
             return response()->json([
                 'errors' => ['user' => 'Unauthorized'],
@@ -213,9 +214,9 @@ class SkillsController extends Controller
             ], 401);
         }
         // Check policy
-        $policy = new SkillPolicy();
+        $policy = new AdminPolicy();
 
-        if (!$policy->AddSkill(User::find($user->id))) {
+        if (!$policy->Policy(User::find($user->id))) {
             // Response
             return response()->json([
                 'errors' => ['user' => 'Unauthorized'],
@@ -244,9 +245,9 @@ class SkillsController extends Controller
             ], 401);
         }
         // Check policy
-        $policy = new SkillPolicy();
+        $policy = new AdminPolicy();
 
-        if (!$policy->AddSkill(User::find($user->id))) {
+        if (!$policy->Policy(User::find($user->id))) {
             // Response
             return response()->json([
                 'errors' => ['user' => 'Unauthorized'],

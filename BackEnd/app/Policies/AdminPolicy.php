@@ -4,7 +4,7 @@ namespace App\Policies;
 
 use App\Models\User;
 
-class SkillPolicy
+class AdminPolicy
 {
     /**
      * Create a new policy instance.
@@ -13,7 +13,7 @@ class SkillPolicy
     {
         //
     }
-    public function AddSkill(User $user)
+    public function Policy(User $user)
     {
         if($user->id==1)
             return true;

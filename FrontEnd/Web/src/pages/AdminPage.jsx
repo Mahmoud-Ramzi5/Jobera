@@ -10,6 +10,7 @@ import AdminWalet from '../components/Admin/AdminWallet';
 import { useContext } from 'react';
 import { ProfileContext } from '../utils/Contexts';
 import { useParams } from 'react-router-dom';
+import Reports from '../components/Admin/Reports';
 const Admin = () => {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
   const [activeComponent, setActiveComponent] = useState('Home');
@@ -36,7 +37,7 @@ const Admin = () => {
       case 'Wallet':
         return <AdminWalet/>;
       case 'Reports':
-        return <></>;
+        return <Reports/>;
       case 'Settings':
         return <></>;
       default:

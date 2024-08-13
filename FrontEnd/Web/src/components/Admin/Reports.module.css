@@ -1,0 +1,61 @@
+.reportsPage {
+    display: flex;
+}
+
+.tableContainer {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tableCell {
+    padding: 20px;
+    vertical-align: top;
+}
+
+.chartContainer {
+    margin-bottom: 20px;
+}
+
+.chartTitle {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.totalProfitContainer {
+    margin-top: 20px;
+}
+
+.totalProfitTitle {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.totalProfitAmount {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Styles for the table headers */
+.tableHeader {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Additional styles for the select dropdowns */
+select {
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+/* Additional styles for the bar charts */
+.recharts-cartesian-axis-tick-value {
+    font-size: 12px;
+}
+
+/* Additional styles for the legends */
+.recharts-legend-item-text {
+    font-size: 12px;
+}

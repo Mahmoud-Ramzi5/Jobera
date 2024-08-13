@@ -62,7 +62,7 @@ class JobFeedController extends Controller
         return $topJobs;
     }
 
-    public function MostNeededSkills()
+    public function MostNeededSkills($reports)
     {
         // Get skills
         $skills = [];
@@ -98,6 +98,9 @@ class JobFeedController extends Controller
             ]);
         }
 
+        if($reports){
+            return $mostNeededSkills;
+        }
         // Get the top 5 skills
         $topSkills = array_slice($mostNeededSkills, 0, 5);
 
@@ -146,7 +149,7 @@ class JobFeedController extends Controller
             "MostPayedRegJobs" => $this->MostPayedRegJobs(),
             "MostPostingCompanies" => $this->MostPostingCompanies(),
             "MostPayedFreelancingJobs" => $this->MostPayedFreelancingJobs(),
-            "MostNeededSkills" => $this->MostNeededSkills(),
+            "MostNeededSkills" => $this->MostNeededSkills(false),
         ]);
     }
 

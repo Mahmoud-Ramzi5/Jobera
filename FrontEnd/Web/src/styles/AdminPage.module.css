@@ -278,13 +278,6 @@ body {
   font-size: 25px;
 }
 
-.charts {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  height: 300px;
-}
-
 /* End Main  */
 /*Tables */
 /* General Layout */

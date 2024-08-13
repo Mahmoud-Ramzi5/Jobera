@@ -1,27 +1,25 @@
 <?php
 
-use App\Models\State;
-use App\Models\Country;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\ChatController;
-use App\Http\Controllers\ReviewController;
-use App\Http\Controllers\TransactionsController;
-use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\AuthControllers\AuthController;
-use App\Http\Controllers\AuthControllers\SocialAuthController;
 use App\Http\Controllers\AuthControllers\ForgetPasswordController;
-use App\Http\Controllers\ProfileControllers\ProfileController;
-use App\Http\Controllers\ProfileControllers\SkillsController;
-use App\Http\Controllers\ProfileControllers\EducationController;
-use App\Http\Controllers\ProfileControllers\PortfolioController;
+use App\Http\Controllers\AuthControllers\SocialAuthController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\JobControllers\DefJobsController;
-use App\Http\Controllers\JobControllers\RegJobsController;
 use App\Http\Controllers\JobControllers\FreelancingJobsController;
 use App\Http\Controllers\JobControllers\JobFeedController;
-
-
+use App\Http\Controllers\JobControllers\RegJobsController;
+use App\Http\Controllers\NotificationsController;
+use App\Http\Controllers\ProfileControllers\EducationController;
+use App\Http\Controllers\ProfileControllers\PortfolioController;
+use App\Http\Controllers\ProfileControllers\ProfileController;
+use App\Http\Controllers\ProfileControllers\SkillsController;
+use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\TransactionsController;
+use App\Models\Country;
+use App\Models\State;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 Route::controller(AuthController::class)->group(function () {
     Route::post('/register', 'Register');
@@ -33,7 +31,7 @@ Route::controller(AuthController::class)->group(function () {
 
         Route::get('/auth/email', function () {
             return response()->json([
-                "email" => auth()->user()->email
+                "email" => auth()->user()->email,
             ], 200);
         });
 
@@ -51,7 +49,7 @@ Route::controller(AuthController::class)->group(function () {
 
     Route::post('/states', function (Request $request) {
         $validated = $request->validate([
-            'country_name' => 'required'
+            'country_name' => 'required',
         ]);
         $country = Country::where('country_name', $validated['country_name'])->first();
 
@@ -96,7 +94,7 @@ Route::controller(SkillsController::class)->group(function () {
         Route::post('/skills', 'AddSkill');
         Route::post('/skills/{skill}', 'EditSkill');
         Route::delete('/skills/{skill}', 'DeleteSkill');
-    });  
+    });
 });
 
 Route::controller(EducationController::class)->group(function () {
@@ -200,14 +198,15 @@ Route::controller(NotificationsController::class)->group(function () {
     });
 });
 
-
 // Routes for admin can only be accessed through postman
 Route::controller(AdminController::class)->group(function () {
-    Route::get('/users', 'Users');
-    Route::post('/generate', 'GenerateCode');
-    Route::get('/transactions/all', 'GetAllTransactions');
+    Route::middleware('auth:api')->group(function () {
+        Route::get('/users', 'Users');
+        Route::post('/generate', 'GenerateCode');
+        Route::get('/transactions/all', 'GetAllTransactions');
+        Route::get('/reports', 'ReportsData');
+    });
 });
-
 
 Route::get('/file/{user_id}/{folder}/{file}', function (Request $request, $user_id, $folder, $file) {
     $path = storage_path('app/' . $user_id . '/' . $folder . '/' . $file);
@@ -224,8 +223,6 @@ Route::get('/image/{user_id}/{folder}/{image}', function (Request $request, $use
     }
     return response()->file($path);
 });
-
-
 
 // Pusher
 // Route::middleware('auth:api')->get('/pusher/beams-auth', function (Request $request) {
