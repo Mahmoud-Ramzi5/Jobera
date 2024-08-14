@@ -36,11 +36,14 @@ const Index = () => {
   };
 
   const handlePostJob = (event) => {
-    if (profile.user_id == 1) {
-      navigate('/');
-    } else if (loggedIn) {
-      event.preventDefault();
-      navigate('/jobs/post');
+    if (loggedIn) {
+      if (profile.user_id == 1) {
+        navigate('/');
+      }
+      else {
+        event.preventDefault();
+        navigate('/jobs/post');
+      }
     } else {
       navigate('/login');
     }
