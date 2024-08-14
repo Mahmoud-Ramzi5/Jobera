@@ -47,6 +47,7 @@ const AdminJobs = () => {
     }
   }, [currentPage, jobType]);
 
+  console.log(jobsData)
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
   };

@@ -18,7 +18,7 @@ class RegJobResource extends JsonResource
         $defJob = $this->defJob;
 
         // Get flagged jobs
-        $bookmarkedJobs = $user->bookmarkedJobs()->pluck('defJob_id')->toArray();
+        $bookmarkedJobs = $user->bookmarkedJobs->pluck('defJob_id')->toArray();
 
         return [
             "defJob_id" => $defJob->id,
