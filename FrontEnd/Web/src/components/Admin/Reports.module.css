@@ -15,24 +15,24 @@
 }
 
 .chartContainer {
-    margin-bottom: 20px;
+    margin-block-end: 20px;
     width: 100%;
 }
 
 .chartTitle {
     font-size: 18px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-block-end: 10px;
 }
 
 .totalProfitContainer {
-    margin-top: 20px;
+    margin-block-start: 20px;
 }
 
 .totalProfitTitle {
     font-size: 18px;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-block-end: 10px;
 }
 
 .totalProfitAmount {
@@ -43,13 +43,13 @@
 /* Styles for the table headers */
 .tableHeader {
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-block-end: 10px;
 }
 
 /* Additional styles for the select dropdowns */
 select {
     padding: 8px;
-    margin-bottom: 10px;
+    margin-block-end: 10px;
     border-radius: 4px;
 }
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import { useTranslation } from "react-i18next";
 import {
     BarChart,
     Bar,
@@ -16,10 +17,11 @@ import { LoginContext } from "../../utils/Contexts";
 import { FetchReportsData } from "../../apis/AdminApis";
 
 const Reports = () => {
-    const [selectedMonth, setSelectedMonth] = useState("February 2024");
+    const { accessToken } = useContext(LoginContext);
+    // Translations
+    const { t } = useTranslation('global');
     const [isLoading, setIsLoading] = useState(true);
 
-    const { accessToken } = useContext(LoginContext);
     const [jobLocations, setJobLocations] = useState([]);
     const [mostSkillTypes, setMostSkillTypes] = useState([]);
     const [topRatedUsers, setTopRatedUsers] = useState([]);
@@ -106,7 +108,7 @@ const Reports = () => {
                     <tr>
                         <td className={styles.tableCell}>
                             <div>
-                                <h2>Jobs Location</h2>
+                                <h2>{t('components.admin.reports.location')}</h2>
                                 <div className={styles.chartContainer}>
                                     <BarChart width={700} height={300} data={jobLocations}>
                                         <CartesianGrid strokeDasharray="3 3" />
@@ -122,27 +124,27 @@ const Reports = () => {
                                     </BarChart>
                                 </div>
                                 <div>
-                                <h2>Top Rated Users</h2>
-                                <div className={styles.chartContainer}>
-                                    <BarChart width={800} height={300} data={topRatedUsers}>
-                                        <CartesianGrid strokeDasharray="3 3" />
-                                        <XAxis dataKey="name" />
-                                        <YAxis />
-                                        <Tooltip />
-                                        <Legend />
-                                        <Bar dataKey="rating">
-                                            {jobLocations.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={COLORS2[index % COLORS.length]} />
-                                            ))}
-                                        </Bar>
-                                    </BarChart>
+                                    <h2>{t('components.admin.reports.users')}</h2>
+                                    <div className={styles.chartContainer}>
+                                        <BarChart width={800} height={300} data={topRatedUsers}>
+                                            <CartesianGrid strokeDasharray="3 3" />
+                                            <XAxis dataKey="name" />
+                                            <YAxis />
+                                            <Tooltip />
+                                            <Legend />
+                                            <Bar dataKey="rating">
+                                                {jobLocations.map((entry, index) => (
+                                                    <Cell key={`cell-${index}`} fill={COLORS2[index % COLORS.length]} />
+                                                ))}
+                                            </Bar>
+                                        </BarChart>
+                                    </div>
                                 </div>
-                            </div>
                             </div>
                         </td>
                         <td className={styles.tableCell}>
                             <div>
-                                <h2>Most Skill Types</h2>
+                                <h2>{t('components.admin.reports.types')}</h2>
                                 <div>
                                     <PieChart width={400} height={300}>
                                         <Pie
@@ -166,21 +168,21 @@ const Reports = () => {
                                     </PieChart>
                                 </div>
                                 <div>
-                                <h2>Transactions</h2>
-                                <div className={styles.chartContainer}>
-                                    <BarChart width={400} height={300} data={transactionsByMonth}>
-                                        <CartesianGrid strokeDasharray="3 3" />
-                                        <XAxis dataKey="month" />
-                                        <YAxis />
-                                        <Tooltip />
-                                        <Legend />
-                                        <Bar dataKey="amount">
-                                            {transactionsByMonth.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                            ))}
-                                        </Bar>
-                                    </BarChart>
-                                </div>
+                                    <h2>{t('components.admin.reports.transactions')}</h2>
+                                    <div className={styles.chartContainer}>
+                                        <BarChart width={400} height={300} data={transactionsByMonth}>
+                                            <CartesianGrid strokeDasharray="3 3" />
+                                            <XAxis dataKey="month" />
+                                            <YAxis />
+                                            <Tooltip />
+                                            <Legend />
+                                            <Bar dataKey="amount">
+                                                {transactionsByMonth.map((entry, index) => (
+                                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                                ))}
+                                            </Bar>
+                                        </BarChart>
+                                    </div>
                                 </div>
                             </div>
                         </td>

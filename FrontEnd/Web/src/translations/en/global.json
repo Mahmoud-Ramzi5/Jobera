@@ -528,6 +528,12 @@
                 "transactions": "Transactions",
                 "reports": "Reports",
                 "settings": "Settings"
+            },
+            "reports":{
+                "location": "Locations with most jobs",
+                "users": "Most rated users",
+                "types": "Most Skill Types",
+                "transactions": "Transactions per month"
             }
         }
     }
