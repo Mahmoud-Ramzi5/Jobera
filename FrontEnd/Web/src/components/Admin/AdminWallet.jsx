@@ -8,6 +8,9 @@ import {
 } from "../../apis/TransactionsApis.jsx";
 import Clock from "../../utils/Clock.jsx";
 import styles from "../../styles/AdminPage.module.css";
+import { CreateChat } from "../../apis/ChatApis.jsx";
+import { useNavigate } from "react-router-dom";
+import { DeleteTransactionAPI } from "../../apis/AdminApis.jsx";
 
 const AdminWalet = () => {
   // Translations
@@ -21,6 +24,7 @@ const AdminWalet = () => {
   const [allTransactions, setAllTransactions] = useState([]);
   const [adminTransactions, setAdminTransactions] = useState([]);
   const [transactionType, setTransactionType] = useState("All");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!initialized.current) {
@@ -57,10 +61,25 @@ const AdminWalet = () => {
     setSearchQuery(event.target.value);
   };
 
-  const handleDelete = (user_id) => {
-    // TODO
-    console.log(user_id);
+  const handleDelete = (transaction_id) => {
+    DeleteTransactionAPI(accessToken,transaction_id).then((response)=>{
+      if(response.status==204){
+        window.location.reload();
+      }else{
+        console.log(response);
+      }
+    })
   };
+
+  const handleChat=(user_id)=>{
+    CreateChat(accessToken,user_id).then((response)=>{
+      if(response.status==201){
+        navigate("/chats")
+      }else{
+        console.log(response);
+      }
+    })
+  }
 
   const columnStructure = {
     Admin: [
@@ -111,15 +130,15 @@ const AdminWalet = () => {
   const filteredTransactions =
     transactionType == "All"
       ? allTransactions.filter((transaction) =>
-          transaction.job.title
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-        )
+        transaction.job.title
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
+      )
       : adminTransactions.filter((transaction) =>
-          transaction.job.title
-            .toLowerCase()
-            .includes(searchQuery.toLowerCase())
-        );
+        transaction.job.title
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
+      );
 
   if (isLoading) {
     return <Clock />;
@@ -182,25 +201,19 @@ const AdminWalet = () => {
                       {column.key === "date"
                         ? new Date(transaction.date).toISOString().split("T")[0]
                         : column.key === "job.title"
-                        ? transaction.job.title
-                        : column.key === "sender.name"
-                        ? transaction.sender.name
-                        : column.key === "receiver.name"
-                        ? transaction.receiver.name
-                        : transaction[column.key]}{" "}
+                          ? transaction.job.title
+                          : column.key === "sender.name"
+                            ? transaction.sender.name
+                            : column.key === "receiver.name"
+                              ? transaction.receiver.name
+                              : transaction[column.key]}{" "}
                     </td>
                   ))}
                   <td>
-                    <button
-                      onClick={handleDelete}
-                      className={styles.edit_button}
-                    >
+                    <button onClick={() => handleChat(transaction.sender.id)} className={styles.edit_button} >
                       <BsChatFill />
                     </button>
-                    <button
-                      onClick={handleDelete}
-                      className={styles.delete_button}
-                    >
+                    <button onClick={() => handleDelete(transaction.id)} className={styles.delete_button} >
                       <BsTrash />
                     </button>
                   </td>

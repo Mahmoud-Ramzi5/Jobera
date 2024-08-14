@@ -2,10 +2,11 @@ import { useEffect, useState, useContext, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { BsChatFill, BsTrash } from "react-icons/bs";
 import { LoginContext } from "../../utils/Contexts";
-import { FetchAllUsers } from "../../apis/AdminApis.jsx";
+import { DeleteUserAPI, FetchAllUsers } from "../../apis/AdminApis.jsx";
 import Clock from "../../utils/Clock.jsx";
 import styles from "../../styles/AdminPage.module.css";
-
+import { useNavigate } from "react-router-dom";
+import { CreateChat } from "../../apis/ChatApis.jsx";
 
 const AdminUsers = () => {
   // Translations
@@ -18,6 +19,7 @@ const AdminUsers = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [userData, setUserData] = useState(null);
   const [userType, setUserType] = useState("individual");
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!initialized.current) {
@@ -40,10 +42,25 @@ const AdminUsers = () => {
     setSearchQuery(event.target.value);
   };
 
-  const handleDelete = (user_id) => {
-    // TODO
-    console.log(user_id);
+  const handleChat=(user_id)=>{
+    CreateChat(accessToken,user_id).then((response)=>{
+      if(response.status==201){
+        navigate("/chats")
+      }else{
+        console.log(response.status);
+      }
+    })
   }
+
+  const handleDelete = (user_id) => {
+    DeleteUserAPI(accessToken,user_id).then((response)=>{
+      if(response.status==204){
+        window.location.reload();
+      }else{
+        console.log(response);
+      }
+    })
+  };
 
   const columnStructure = {
     company: [
@@ -143,10 +160,10 @@ const AdminUsers = () => {
                 </td>
               ))}
               <td>
-                <button onClick={handleDelete} className={styles.edit_button} >
+                <button onClick={() =>handleChat(user.user_id)} className={styles.edit_button} >
                   <BsChatFill />
                 </button>
-                <button onClick={handleDelete} className={styles.delete_button} >
+                <button onClick={()=>handleDelete(user.user_id)} className={styles.delete_button} >
                   <BsTrash />
                 </button>
               </td>

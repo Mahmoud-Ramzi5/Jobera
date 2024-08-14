@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Company;
+use App\Models\User;
 use App\Models\Wallet;
-use App\Models\Transaction;
+use App\Models\Company;
 use App\Models\RedeemCode;
+use App\Models\Transaction;
 use App\Models\FreelancingJob;
+use App\Policies\AdminPolicy;
 use Illuminate\Http\Request;
 use App\Http\Resources\TransactionCollection;
 
@@ -41,6 +43,35 @@ class TransactionsController extends Controller
         return response()->json([
             'transactions' => new TransactionCollection($transactions),
         ], 200);
+    }
+
+    public function GetAllTransactions()
+    {
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user'],
+            ], 401);
+        }
+
+        // Check policy
+        $policy = new AdminPolicy();
+
+        if (!$policy->Policy(User::find($user->id))) {
+            // Response
+            return response()->json([
+                'errors' => ['user' => 'Unauthorized'],
+            ], 401);
+        }
+
+        // Response
+        $transactions = Transaction::all();
+        return response()->json([
+            'transactions' => new TransactionCollection($transactions),
+        ]);
     }
 
     public function RegJobTransaction($sender_id, $defJob_id, $amount)

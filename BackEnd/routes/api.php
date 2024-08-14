@@ -163,6 +163,8 @@ Route::controller(TransactionsController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('/transactions', 'GetUserTransactions');
         Route::post('/transactions/done', 'AddUserTransaction');
+        Route::get('/transactions/all', 'GetAllTransactions');
+        Route::delete('/transactions/{transaction_id}', 'DeleteTransaction');
         Route::post('/redeemcode', 'RedeemCode');
     });
 });
@@ -205,7 +207,7 @@ Route::controller(AdminController::class)->group(function () {
         Route::get('/users', 'Users');
         Route::get('/reports', 'ReportsData');
         Route::post('/generate', 'GenerateCode');
-        Route::get('/transactions/all', 'GetAllTransactions');
+        Route::delete('/users/{user_id}', 'DeleteUser');
     });
 });
 

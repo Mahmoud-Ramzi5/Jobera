@@ -88,35 +88,6 @@ class AdminController extends Controller
         ]);
     }
 
-    public function GetAllTransactions()
-    {
-        // Get user
-        $user = auth()->user();
-
-        // Check user
-        if ($user == null) {
-            return response()->json([
-                'errors' => ['user' => 'Invalid user'],
-            ], 401);
-        }
-
-        // Check policy
-        $policy = new AdminPolicy();
-
-        if (!$policy->Policy(User::find($user->id))) {
-            // Response
-            return response()->json([
-                'errors' => ['user' => 'Unauthorized'],
-            ], 401);
-        }
-
-        // Response
-        $transactions = Transaction::all();
-        return response()->json([
-            'transactions' => new TransactionCollection($transactions),
-        ]);
-    }
-
     public function ReportsData()
     {
         // Get user
@@ -183,7 +154,7 @@ class AdminController extends Controller
                 continue;
             }
 
-            $userReviews[$user->id]['rating'] = $user->reviewedBy->pluck('review')->sum() ?? 0;
+            $userReviews[$user->id]['rating'] = $user->reviewedBy->pluck('review')->avg() ?? 0;
         }
         usort($userReviews, function ($a, $b) {
             return $b['rating'] - $a['rating'];
@@ -232,5 +203,60 @@ class AdminController extends Controller
             "TransactionsByMonth" => $formattedMonthlyAmounts,
             "TopRatedUsers" => $topUsers,
         ]);
+    }
+    public function DeleteUser(Request $request, $user_id)
+    {
+        // Get user
+        $admin = auth()->user();
+
+        // Check user
+        if ($admin == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user'],
+            ], 401);
+        }
+
+        // Check policy
+        $policy = new AdminPolicy();
+
+        if (!$policy->Policy(User::find($admin->id))) {
+            // Response
+            return response()->json([
+                'errors' => ['user' => 'Unauthorized'],
+            ], 401);
+        }
+        $user = User::where('id', $user_id)->first();
+        $user->delete();
+        return response()->json([
+            "message" => "The user is deleted"
+        ], 204);
+    }
+
+    public function DeleteTransaction(Request $request, $transaction_id)
+    {
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user'],
+            ], 401);
+        }
+
+        // Check policy
+        $policy = new AdminPolicy();
+
+        if (!$policy->Policy(User::find($user->id))) {
+            // Response
+            return response()->json([
+                'errors' => ['user' => 'Unauthorized'],
+            ], 401);
+        }
+        $transaction = Transaction::where('id', $transaction_id)->first();
+        $transaction->delete();
+        return response()->json([
+            "message" => "The Transaction record is deleted"
+        ], 204);
     }
 }
