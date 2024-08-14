@@ -23,6 +23,7 @@ class FreelancingJobSeeder extends Seeder
         FreelancingJob::factory()
             ->count(5)
             ->withCompetitors()
+            ->withRating()
             ->create()
             ->each(function ($freelancingJob) {
                 $competitor = FreelancingJobCompetitor::where('job_id', $freelancingJob->id)

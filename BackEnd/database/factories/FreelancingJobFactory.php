@@ -2,9 +2,11 @@
 
 namespace Database\Factories;
 
+use App\Models\Review;
 use App\Models\User;
-use App\Models\Wallet;
 use App\Models\DefJob;
+use App\Models\Wallet;
+use App\Models\Transaction;
 use App\Models\FreelancingJob;
 use App\Models\FreelancingJobCompetitor;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -29,13 +31,10 @@ class FreelancingJobFactory extends Factory
 
         // Generate user id except first id
         $user_id1 = User::inRandomOrder()->first()->id;
-        while ($user_id1 == 1) {
-            $user_id1 = User::inRandomOrder()->first()->id;
-        }
 
         // Generate user id except first id
         $user_id2 = User::inRandomOrder()->first()->id;
-        while ($user_id2 == 1) {
+        while ($user_id2 == $user_id1) {
             $user_id2 = User::inRandomOrder()->first()->id;
         }
 
@@ -53,8 +52,14 @@ class FreelancingJobFactory extends Factory
     {
         return $this->afterCreating(function (FreelancingJob $freelancingJob) {
             // Add two random competitors
+            $job_owner = $freelancingJob->user;
+            $user_id = User::inRandomOrder()->first()->id;
+            while ($user_id == $job_owner->id) {
+                $user_id = User::inRandomOrder()->first()->id;
+            }
             FreelancingJobCompetitor::factory()->count(2)->create([
                 'job_id' => $freelancingJob->id,
+                'user_id' => $user_id
             ]);
 
             // Add one competitor with the same ID as the accepted user
@@ -76,6 +81,28 @@ class FreelancingJobFactory extends Factory
             $admin->total_balance += $adminShare;
             $admin->available_balance += $adminShare;
             $admin->save();
+
+            $transactionParams = [
+                'sender_id' => $wallet->id,
+                'receiver_id' => 1,
+                'defJob_id' => $freelancingJob->defJob_id,
+                'amount' => $adminShare,
+                'date' => now()
+            ];
+            Transaction::create($transactionParams);
+        });
+    }
+    public function withRating()
+    {
+        return $this->afterCreating(function (FreelancingJob $freelancingJob) {
+            $reviewer_id = $freelancingJob->user_id;
+            $reviewed_id = $freelancingJob->accepted_user;
+            $review = $this->faker->numberBetween(1, 5);
+            Review::create([
+                'reviewer_id'=>$reviewer_id,
+                'reviewed_id'=>$reviewed_id,
+                'review'=>$review
+            ]);
         });
     }
 }

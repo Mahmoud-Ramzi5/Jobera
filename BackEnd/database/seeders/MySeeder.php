@@ -7,6 +7,7 @@ use App\Models\RegJob;
 use App\Models\FreelancingJob;
 use App\Models\RegJobCompetitor;
 use App\Models\FreelancingJobCompetitor;
+use App\Models\Transaction;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -98,6 +99,11 @@ class MySeeder extends Seeder
                 $wallet->available_balance += $regJob->salary * 0.10;
                 $wallet->save();
 
+                $transactions = $regJob->defJob->transactions;
+                foreach ($transactions as $transaction) {
+                    $transaction->delete();
+                }
+
                 $regJob->company_id = 11;
                 $regJob->accepted_individual = null;
                 $regJob->save();
@@ -106,6 +112,15 @@ class MySeeder extends Seeder
                 $wallet->total_balance -= $regJob->salary * 0.10;
                 $wallet->available_balance -= $regJob->salary * 0.10;
                 $wallet->save();
+
+                $transactionParams = [
+                    'sender_id' => $wallet->id,
+                    'receiver_id' => 1,
+                    'defJob_id' => $regJob->defJob_id,
+                    'amount' => $regJob->salary * 0.10,
+                    'date' => now()
+                ];
+                Transaction::create($transactionParams);
 
                 $me = RegJobCompetitor::where('job_id', $regJob->id)->where('individual_id', 26)->first();
                 if ($me == null) {
@@ -129,6 +144,11 @@ class MySeeder extends Seeder
                 $wallet->available_balance += $regJob->salary * 0.10;
                 $wallet->save();
 
+                $transactions = $regJob->defJob->transactions;
+                foreach ($transactions as $transaction) {
+                    $transaction->delete();
+                }
+
                 $regJob->company_id = 11;
                 $regJob->accepted_individual = 26;
                 $regJob->save();
@@ -138,6 +158,15 @@ class MySeeder extends Seeder
                 $wallet->available_balance -= $regJob->salary * 0.10;
                 $wallet->save();
 
+                $transactionParams = [
+                    'sender_id' => $wallet->id,
+                    'receiver_id' => 1,
+                    'defJob_id' => $regJob->defJob_id,
+                    'amount' => $regJob->salary * 0.10,
+                    'date' => now()
+                ];
+                Transaction::create($transactionParams);
+            
                 $me = RegJobCompetitor::where('job_id', $regJob->id)->where('individual_id', 26)->first();
                 if ($me == null) {
                     DB::table('reg_job_competitors')->insert(array(

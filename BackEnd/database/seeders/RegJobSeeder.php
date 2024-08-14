@@ -21,6 +21,7 @@ class RegJobSeeder extends Seeder
         RegJob::factory()
             ->count(10)
             ->withCompetitors()
+            ->withRating()
             ->create()
             ->each(function ($regJob) {
                 $regJob->defJob->is_done = true;

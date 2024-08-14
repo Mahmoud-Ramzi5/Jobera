@@ -36,7 +36,7 @@ const AdminWalet = () => {
           if (response.status === 200) {
             setAllTransactions(response.data.transactions);
           } else {
-            console.log(response.statusText);
+            console.log(response);
           }
         })
         .then(() => {

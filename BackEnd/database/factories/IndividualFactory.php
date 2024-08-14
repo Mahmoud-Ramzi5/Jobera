@@ -17,10 +17,11 @@ class IndividualFactory extends Factory
      */
     public function definition(): array
     {
+        $birthDate = $this->faker->dateTimeBetween('-75 years', '-15 years')->format('Y-m-d');
         return [
-            'full_name' => $this->faker->name,
-            'birth_date' => $this->faker->date('Y-m-d'),
-            'gender' => $this->faker->randomElement(['MALE', 'FEMALE']),
+            'full_name' => $this->faker->firstNameMale(),
+            'birth_date' => $birthDate,
+            'gender' => 'MALE',
             'type' => 'individual',
             'user_id' => User::factory()
         ];

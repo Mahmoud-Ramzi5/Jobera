@@ -16,7 +16,7 @@ return new class extends Migration
             $table->dateTime('deadline');
             $table->decimal('min_salary', 19, 4);
             $table->decimal('max_salary', 19, 4);
-            $table->foreignId('user_id')->nullable();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('defJob_id')->constrained('def_jobs')->cascadeOnDelete();
             $table->foreignId('accepted_user')->nullable()->constrained('users');
             $table->timestamps();

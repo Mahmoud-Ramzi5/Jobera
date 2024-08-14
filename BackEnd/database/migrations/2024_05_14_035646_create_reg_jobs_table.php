@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->decimal('salary', 19, 4);
             $table->enum('type', RegJobTypes::names());
-            $table->foreignId('company_id')->constrained('companies');
+            $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete();
             $table->foreignId('defJob_id')->constrained('def_jobs')->cascadeOnDelete();
             $table->foreignId('accepted_individual')->nullable()->constrained('individuals');
             $table->timestamps();

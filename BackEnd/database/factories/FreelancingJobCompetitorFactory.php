@@ -22,7 +22,7 @@ class FreelancingJobCompetitorFactory extends Factory
 
         // Generate user id except first id
         $user_id = User::inRandomOrder()->first()->id;
-        while ($user_id == 1) {
+        while ($user_id == $freelancingJob->user->id) {
             $user_id = User::inRandomOrder()->first()->id;
         }
 
