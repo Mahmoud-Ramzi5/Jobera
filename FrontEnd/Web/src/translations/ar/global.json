@@ -268,9 +268,9 @@
             "input": "رمز الاسترداد",
             "button": "إرسال",
             "anchor": "العودة إالى الملف الشخصي",
-            "title_generate":"اصنع رمز استرداد",
-            "h3_generate":"ادخل القيمة المرادة لصنع رمز الاسترداد",
-            "generate":"قيمة رمز الاسترداد"
+            "title_generate": "اصنع رمز استرداد",
+            "h3_generate": "ادخل القيمة المرادة لصنع رمز الاسترداد",
+            "generate": "قيمة رمز الاسترداد"
         },
         "education": {
             "heading1": "تعديل التعليم",
@@ -446,9 +446,9 @@
                 "actions": "الإجراءات",
                 "not_accepted": "غير مقبول",
                 "no_jobs": "لا يوجد وظائف",
-                "FullTime":"دوام كامل",
-                "PartTime":"دوام جزئي",
-                "Freelancing":"عمل حر",
+                "FullTime": "دوام كامل",
+                "PartTime": "دوام جزئي",
+                "Freelancing": "عمل حر",
                 "column_structure": {
                     "title": "عنوان العمل",
                     "company": "الشركة",

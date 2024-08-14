@@ -268,9 +268,9 @@
             "input": "Redeem code",
             "button": "Submit",
             "anchor": "Return to profile",
-            "title_generate":"Generate redeem code",
-            "h3_generate":"Enter the amount for generating redeem code",
-            "generate":"Amount of generated code"
+            "title_generate": "Generate redeem code",
+            "h3_generate": "Enter the amount for generating redeem code",
+            "generate": "Amount of generated code"
         },
         "education": {
             "heading1": "Edit Education",
@@ -446,9 +446,9 @@
                 "actions": "Actions",
                 "not_accepted": "Not Accepted",
                 "no_jobs": "No jobs found",
-                "FullTime":"FullTime",
-                "PartTime":"PartTime",
-                "Freelancing":"Freelancing",
+                "FullTime": "FullTime",
+                "PartTime": "PartTime",
+                "Freelancing": "Freelancing",
                 "column_structure": {
                     "title": "Title",
                     "company": "Company",

@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
+use App\Models\User;
 use App\Models\Company;
 use App\Models\Individual;
 use App\Models\RegJob;
 use App\Models\RegJobCompetitor;
-use App\Models\User;
 
 class RegJobPolicy
 {
@@ -63,7 +63,7 @@ class RegJobPolicy
         if ($company == null && $user->id != 1) {
             return false;
         }
-        if ( $user->id == 1 ||$company->id == $regJob->company_id ) {
+        if ($user->id == 1 || $company->id == $regJob->company_id) {
             return true;
         }
         return false;
@@ -80,7 +80,6 @@ class RegJobPolicy
             if (in_array($regJobCompetitor->id, $competitors)) {
                 return true;
             }
-
         }
         return false;
     }

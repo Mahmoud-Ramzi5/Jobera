@@ -13,10 +13,12 @@ class AdminPolicy
     {
         //
     }
+
     public function Policy(User $user)
     {
-        if($user->id==1)
+        if ($user->id == 1) {
             return true;
+        }
         return false;
     }
 }

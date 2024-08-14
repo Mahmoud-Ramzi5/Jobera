@@ -2,19 +2,17 @@
 
 namespace App\Http\Controllers\ProfileControllers;
 
+use App\Http\Controllers\Controller;
+use App\Models\Individual;
+use App\Models\User;
+use App\Models\Skill;
 use App\Enums\SkillTypes;
 use App\Filters\SkillFilter;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreSkillsRequest;
-use App\Http\Requests\UpdateSkillRequest;
-use App\Http\Resources\SkillCollection;
-use App\Http\Resources\SkillResource;
-use App\Models\Individual;
-use App\Models\Skill;
-use App\Models\User;
 use App\Policies\AdminPolicy;
-use App\Policies\SkillPolicy;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreSkillsRequest;
+use App\Http\Resources\SkillResource;
+use App\Http\Resources\SkillCollection;
 
 class SkillsController extends Controller
 {
@@ -173,6 +171,9 @@ class SkillsController extends Controller
     /* Admin Only */
     public function AddSkill(StoreSkillsRequest $request)
     {
+        // Validate request
+        $validated = $request->validated();
+
         // Get user
         $user = auth()->user();
 
@@ -182,6 +183,7 @@ class SkillsController extends Controller
                 'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
+
         // Check policy
         $policy = new AdminPolicy();
 
@@ -191,8 +193,8 @@ class SkillsController extends Controller
                 'errors' => ['user' => 'Unauthorized'],
             ], 401);
         }
-        // Validate request
-        $validated = $request->validated();
+
+        // Create skill
         $skill = Skill::create($validated);
 
         // Response
@@ -202,7 +204,44 @@ class SkillsController extends Controller
         ], 200);
     }
 
-    public function EditSkill(StoreSkillsRequest $request,Skill $skill)
+    public function EditSkill(StoreSkillsRequest $request, Skill $skill)
+    {
+        // Validate request
+        $validated = $request->validated();
+
+        // Get user
+        $user = auth()->user();
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user'],
+            ], 401);
+        }
+
+        // Check policy
+        $policy = new AdminPolicy();
+
+        if (!$policy->Policy(User::find($user->id))) {
+            // Response
+            return response()->json([
+                'errors' => ['user' => 'Unauthorized'],
+            ], 401);
+        }
+
+        // Update skill
+        $skill->name = $validated['name'];
+        $skill->type = $validated['type'];
+        $skill->save();
+
+        // Response
+        return response()->json([
+            "message" => "Skill updated successfully",
+            "skill" => new SkillResource($skill),
+        ], 200);
+    }
+
+    public function DeleteSkill(Request $request, Skill $skill)
     {
         // Get user
         $user = auth()->user();
@@ -213,6 +252,7 @@ class SkillsController extends Controller
                 'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
+
         // Check policy
         $policy = new AdminPolicy();
 
@@ -222,38 +262,11 @@ class SkillsController extends Controller
                 'errors' => ['user' => 'Unauthorized'],
             ], 401);
         }
-        // Validate request
-        $validated = $request->validated();
-        $skill->name=$validated['name'];
-        $skill->type=$validated['type'];
-        $skill->save();
+
+        // Delete skill
+        $skill->delete();
 
         // Response
-        return response()->json([
-            "message" => "Skill updated successfully",
-            "skill" => new SkillResource($skill),
-        ], 200);
-    }
-    public function DeleteSkill(Request $request,Skill $skill){
-        // Get user
-        $user = auth()->user();
-
-        // Check user
-        if ($user == null) {
-            return response()->json([
-                'errors' => ['user' => 'Invalid user'],
-            ], 401);
-        }
-        // Check policy
-        $policy = new AdminPolicy();
-
-        if (!$policy->Policy(User::find($user->id))) {
-            // Response
-            return response()->json([
-                'errors' => ['user' => 'Unauthorized'],
-            ], 401);
-        }
-        $skill->delete();
         return response()->json([
             "message" => "Skill deleted successfully"
         ], 204);

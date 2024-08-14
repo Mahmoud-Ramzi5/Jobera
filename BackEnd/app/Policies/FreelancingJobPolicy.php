@@ -2,9 +2,9 @@
 
 namespace App\Policies;
 
+use App\Models\User;
 use App\Models\FreelancingJob;
 use App\Models\FreelancingJobCompetitor;
-use App\Models\User;
 
 class FreelancingJobPolicy
 {
@@ -49,7 +49,7 @@ class FreelancingJobPolicy
 
     public function DeleteFreelancingJob(User $user, FreelancingJob $freelancingJob)
     {
-        if ($user->id == $freelancingJob->user_id || $user->id==1) {
+        if ($user->id == $freelancingJob->user_id || $user->id == 1) {
             return true;
         }
         return false;

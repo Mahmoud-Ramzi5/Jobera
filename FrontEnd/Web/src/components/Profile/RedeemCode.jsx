@@ -53,93 +53,94 @@ const RedeemCode = () => {
     });
   }
 
+
   return (
     <div className={styles.container}>
       <div className={styles.screen}>
         <div className={styles.screen__content}>
           {profile.user_id === 1 ? <>
-          {generateMessage ? generateMessage ==='success' ? <div className={styles.message}>
+            {generateMessage ? generateMessage === 'success' ? <div className={styles.message}>
               <i className={styles.check}><BsCheckLg size={60} /></i>
               <br />
               <span>{t('components.redeem_code.message1_generate')}</span>
             </div>
-            :
-            <div className={styles.message}>
-              <i className={styles.xmark}><BsX size={60} /></i>
-              <br />
-              <span>{t('components.redeem_code.messsge2')}</span>
-            </div>: 
+              :
+              <div className={styles.message}>
+                <i className={styles.xmark}><BsX size={60} /></i>
+                <br />
+                <span>{t('components.redeem_code.messsge2')}</span>
+              </div> :
+              <>
+                <img src={Logo} className={styles.logo} alt="logo" />
+                <div className={styles.title}>
+                  {t('components.redeem_code.title_generate')}
+                </div>
+                <div className={styles.redeem_code}>
+                  <form className={styles.submit_code} onSubmit={handleGenerate}>
+                    <h3>{t('components.redeem_code.h3_generate')}</h3>
+                    <NormalInput
+                      type="number"
+                      placeholder={t('components.redeem_code.generate')}
+                      icon={<BsCreditCard />}
+                      value={amount}
+                      setChange={setAmount}
+                    />
+                    <button type="submit" className={styles.form__submit}>
+                      <span>{t('components.redeem_code.button')}</span>
+                      <i className={styles.button__icon}><BsChevronRight /></i>
+                    </button>
+                  </form>
+                </div>
+              </>
+            }
+          </> :
             <>
-            <img src={Logo} className={styles.logo} alt="logo" />
-            <div className={styles.title}>
-              {t('components.redeem_code.title_generate')}
-            </div>
-            <div className={styles.redeem_code}>
-              <form className={styles.submit_code} onSubmit={handleGenerate}>
-                <h3>{t('components.redeem_code.h3_generate')}</h3>
-                <NormalInput
-                  type="number"
-                  placeholder={t('components.redeem_code.generate')}
-                  icon={<BsCreditCard />}
-                  value={amount}
-                  setChange={setAmount}
-                />
-                <button type="submit" className={styles.form__submit}>
-                  <span>{t('components.redeem_code.button')}</span>
-                  <i className={styles.button__icon}><BsChevronRight /></i>
-                </button>
-              </form>
-            </div>
-          </>
-          }
-          </>:
-          <>
-          {message ? message === 'success' ?
-            <div className={styles.message}>
-              <i className={styles.check}><BsCheckLg size={60} /></i>
-              <br />
-              <span>{t('components.redeem_code.message1')}</span>
-            </div>
-            :
-            <div className={styles.message}>
-              <i className={styles.xmark}><BsX size={60} /></i>
-              <br />
-              <span>{t('components.redeem_code.message2')}</span>
-            </div>
-            : <>
-              <img src={Logo} className={styles.logo} alt="logo" />
-              <div className={styles.title}>
-                {t('components.redeem_code.title')}
-              </div>
-              <div className={styles.redeem_code}>
-                <form className={styles.submit_code} onSubmit={handleSubmitCode}>
-                  <h3>{t('components.redeem_code.h3')}</h3>
-                  <NormalInput
-                    type="text"
-                    placeholder={t('components.redeem_code.input')}
-                    icon={<BsCreditCard />}
-                    value={redeemCode}
-                    setChange={setRedeemCode}
-                  />
-                  <button type="submit" className={styles.form__submit}>
-                    <span>{t('components.redeem_code.button')}</span>
-                    <i className={styles.button__icon}><BsChevronRight /></i>
-                  </button>
-                </form>
+              {message ? message === 'success' ?
+                <div className={styles.message}>
+                  <i className={styles.check}><BsCheckLg size={60} /></i>
+                  <br />
+                  <span>{t('components.redeem_code.message1')}</span>
+                </div>
+                :
+                <div className={styles.message}>
+                  <i className={styles.xmark}><BsX size={60} /></i>
+                  <br />
+                  <span>{t('components.redeem_code.message2')}</span>
+                </div>
+                : <>
+                  <img src={Logo} className={styles.logo} alt="logo" />
+                  <div className={styles.title}>
+                    {t('components.redeem_code.title')}
+                  </div>
+                  <div className={styles.redeem_code}>
+                    <form className={styles.submit_code} onSubmit={handleSubmitCode}>
+                      <h3>{t('components.redeem_code.h3')}</h3>
+                      <NormalInput
+                        type="text"
+                        placeholder={t('components.redeem_code.input')}
+                        icon={<BsCreditCard />}
+                        value={redeemCode}
+                        setChange={setRedeemCode}
+                      />
+                      <button type="submit" className={styles.form__submit}>
+                        <span>{t('components.redeem_code.button')}</span>
+                        <i className={styles.button__icon}><BsChevronRight /></i>
+                      </button>
+                    </form>
+                  </div>
+                </>
+              }
+              <div className={styles.no_reason}>
+                {profile.type === 'individual' ?
+                  <a href={`/profile/${profile.user_id}/${profile.full_name}`} className={styles.anchor}>
+                    {t('components.redeem_code.anchor')}
+                  </a>
+                  :
+                  <a href={`/profile/${profile.user_id}/${profile.name}`} className={styles.anchor}>
+                    {t('components.redeem_code.anchor')}
+                  </a>}
               </div>
             </>
-          }
-          <div className={styles.no_reason}>
-            {profile.type === 'individual' ?
-              <a href={`/profile/${profile.user_id}/${profile.full_name}`} className={styles.anchor}>
-                {t('components.redeem_code.anchor')}
-              </a>
-              :
-              <a href={`/profile/${profile.user_id}/${profile.name}`} className={styles.anchor}>
-                {t('components.redeem_code.anchor')}
-              </a>}
-          </div>
-          </>
           }
         </div>
         <div className={styles.screen__background}>

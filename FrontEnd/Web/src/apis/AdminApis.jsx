@@ -1,7 +1,6 @@
 import axios from 'axios';
-export const FetchAllUsers = async (
-    token
-) => {
+
+export const FetchAllUsers = async (token) => {
     try {
         const response = await axios.get('http://127.0.0.1:8000/api/users', {
             headers: {
@@ -15,9 +14,8 @@ export const FetchAllUsers = async (
         return error.response;
     }
 };
-export const FetchReportsData = async (
-    token
-) => {
+
+export const FetchReportsData = async (token) => {
     try {
         const response = await axios.get('http://127.0.0.1:8000/api/reports', {
             headers: {
@@ -31,22 +29,20 @@ export const FetchReportsData = async (
         return error.response;
     }
 };
-export const GenerateRedeemCode = async (
-    token,
-    amount
-) => {
+
+export const GenerateRedeemCode = async (token, amount) => {
     try {
-        const response = await axios.post('http://127.0.0.1:8000/api/generate', 
+        const response = await axios.post('http://127.0.0.1:8000/api/generate',
             {
-                "value":amount
+                "value": amount
             },
             {
-            headers: {
-                'Content-Type': 'application/json; charset=UTF-8',
-                'Accept': "application/json",
-                'Authorization': `Bearer ${token}`
-            }
-        });
+                headers: {
+                    'Content-Type': 'application/json; charset=UTF-8',
+                    'Accept': "application/json",
+                    'Authorization': `Bearer ${token}`
+                }
+            });
         return response;
     } catch (error) {
         return error.response;

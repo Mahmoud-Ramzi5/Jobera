@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers\JobControllers;
 
-use App\Filters\JobFilter;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\FreelancingJobCollection;
-use App\Http\Resources\FreelancingJobCompetitorResource;
-use App\Http\Resources\FreelancingJobResource;
-use App\Http\Resources\RegJobCollection;
-use App\Http\Resources\RegJobCompetitorResource;
-use App\Http\Resources\RegJobResource;
-use App\Models\BookmarkedJob;
+use App\Models\Individual;
 use App\Models\Company;
 use App\Models\DefJob;
-use App\Models\FreelancingJob;
-use App\Models\FreelancingJobCompetitor;
-use App\Models\Individual;
 use App\Models\RegJob;
+use App\Models\FreelancingJob;
 use App\Models\RegJobCompetitor;
+use App\Models\FreelancingJobCompetitor;
+use App\Models\BookmarkedJob;
+use App\Filters\JobFilter;
 use Illuminate\Http\Request;
+use App\Http\Resources\RegJobResource;
+use App\Http\Resources\RegJobCollection;
+use App\Http\Resources\RegJobCompetitorResource;
+use App\Http\Resources\FreelancingJobResource;
+use App\Http\Resources\FreelancingJobCollection;
+use App\Http\Resources\FreelancingJobCompetitorResource;
 
 class DefJobsController extends Controller
 {
@@ -306,7 +306,7 @@ class DefJobsController extends Controller
             // Custom Response
             return response()->json([
                 'jobs' => $jobType == 'RegularJob' ? new RegJobCollection($jobs->items())
-                : new FreelancingJobCollection($jobs->items()),
+                    : new FreelancingJobCollection($jobs->items()),
                 'pagination_data' => [
                     'from' => $jobs->firstItem(),
                     'to' => $jobs->lastItem(),
@@ -374,8 +374,8 @@ class DefJobsController extends Controller
                                 ->wherehas('competitors', function ($query) use ($individual) {
                                     $query->where('individual_id', $individual->id);
                                 })->wherehas('defJob.skills', function ($query) use ($skills) {
-                                $query->whereIn('name', $skills);
-                            })->orderByDesc('created_at')->paginate(10);
+                                    $query->whereIn('name', $skills);
+                                })->orderByDesc('created_at')->paginate(10);
                         } else {
                             // Get jobs
                             $jobs = RegJob::where('accepted_individual', $individual->id)
@@ -405,8 +405,8 @@ class DefJobsController extends Controller
                                 ->wherehas('competitors', function ($query) use ($individual) {
                                     $query->where('individual_id', $individual->id);
                                 })->wherehas('defJob.skills', function ($query) use ($skills) {
-                                $query->whereIn('name', $skills);
-                            })->orderByDesc('created_at')->paginate(10);
+                                    $query->whereIn('name', $skills);
+                                })->orderByDesc('created_at')->paginate(10);
                         } else {
                             // Get jobs
                             $jobs = RegJob::where('accepted_individual', $individual->id)
@@ -437,8 +437,8 @@ class DefJobsController extends Controller
                                 ->wherehas('competitors', function ($query) use ($user) {
                                     $query->where('user_id', $user->id);
                                 })->wherehas('defJob.skills', function ($query) use ($skills) {
-                                $query->whereIn('name', $skills);
-                            })->orderByDesc('created_at')->paginate(10);
+                                    $query->whereIn('name', $skills);
+                                })->orderByDesc('created_at')->paginate(10);
                         } else {
                             // Get jobs
                             $jobs = FreelancingJob::where('accepted_user', $user->id)

@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Individual;
+use App\Models\Company;
+use App\Models\DefJob;
+use App\Models\RedeemCode;
+use App\Models\Transaction;
+use App\Policies\AdminPolicy;
+use Illuminate\Http\Request;
 use App\Http\Resources\CompanyCollection;
 use App\Http\Resources\IndividualCollection;
 use App\Http\Resources\TransactionCollection;
-use App\Models\Company;
-use App\Models\DefJob;
-use App\Models\Individual;
-use App\Models\RedeemCode;
-use App\Models\Transaction;
-use App\Models\User;
-use App\Policies\AdminPolicy;
-use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
     public function GenerateCode(Request $request)
     {
+        // Validate request
         $validated = $request->validate([
             'value' => 'required|numeric|min:0',
         ]);
@@ -25,9 +26,11 @@ class AdminController extends Controller
         // Get user
         $user = auth()->user();
 
+        // Check policy
         $policy = new AdminPolicy();
 
         if (!$policy->Policy(User::find($user->id))) {
+            // Response
             return response()->json([
                 'errors' => ['user' => 'Invalid user'],
             ], 401);
@@ -40,16 +43,20 @@ class AdminController extends Controller
                     'value' => $validated['value'],
                     'wallet_id' => null,
                 ]);
+
+                // Response
                 return response()->json([
                     'message' => 'created succcessfully',
                 ], 201);
             } else {
+                // Response
                 return response()->json([
                     'message' => 'an error accured please try again',
                 ]);
             }
         }
     }
+
     public function Users()
     {
         // Get user
@@ -61,6 +68,7 @@ class AdminController extends Controller
                 'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
+
         // Check policy
         $policy = new AdminPolicy();
 
@@ -70,6 +78,8 @@ class AdminController extends Controller
                 'errors' => ['user' => 'Unauthorized'],
             ], 401);
         }
+
+        // Response
         $individuals = Individual::all();
         $companies = Company::all();
         return response()->json([
@@ -77,6 +87,7 @@ class AdminController extends Controller
             "company" => new CompanyCollection($companies),
         ]);
     }
+
     public function GetAllTransactions()
     {
         // Get user
@@ -88,6 +99,7 @@ class AdminController extends Controller
                 'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
+
         // Check policy
         $policy = new AdminPolicy();
 
@@ -97,11 +109,14 @@ class AdminController extends Controller
                 'errors' => ['user' => 'Unauthorized'],
             ], 401);
         }
+
+        // Response
         $transactions = Transaction::all();
         return response()->json([
             'transactions' => new TransactionCollection($transactions),
         ]);
     }
+
     public function ReportsData()
     {
         // Get user
@@ -212,10 +227,10 @@ class AdminController extends Controller
         $topCompanies = array_slice($formattedCountryCounts, 0, 6);
         $topUsers = array_slice($userReviews, 0, 6);
         return response()->json([
-                "MostCountries" => $topCompanies,
-                "MostSkillTypes" => $formattedSkillTypes,
-                "TransactionsByMonth" => $formattedMonthlyAmounts,
-                "TopRatedUsers" => $topUsers,
-            ]);
+            "MostCountries" => $topCompanies,
+            "MostSkillTypes" => $formattedSkillTypes,
+            "TransactionsByMonth" => $formattedMonthlyAmounts,
+            "TopRatedUsers" => $topUsers,
+        ]);
     }
 }

@@ -98,9 +98,11 @@ class JobFeedController extends Controller
             ]);
         }
 
-        if($reports){
+        // Check reports
+        if ($reports) {
             return $mostNeededSkills;
         }
+
         // Get the top 5 skills
         $topSkills = array_slice($mostNeededSkills, 0, 5);
 
@@ -198,6 +200,7 @@ class JobFeedController extends Controller
                 $runningJobsFreelancing++;
             }
         }
+
         $stats = [
             ["data" => $doneJobs, "name" => "All Done Jobs"],
             ["data" => $companyRegistered, "name" => "Exhibiting Companies"],
@@ -209,6 +212,7 @@ class JobFeedController extends Controller
             ["data" => $donePartTimeJobs, "name" => "Done PartTime Jobs"],
             ["data" => $doneFreelancingJobs, "name" => "Done Freelancing Jobs"],
         ];
+
         // Response
         return response()->json([
             "stats" => $stats,

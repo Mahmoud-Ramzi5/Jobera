@@ -1,33 +1,33 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import Home from '../components/Admin/Home';
 import Header from '../components/Admin/Header';
 import Sidebar from '../components/Admin/Sidebar';
-import Home from '../components/Admin/Home';
-import styles from '../styles/AdminPage.module.css';
 import AdminJobs from '../components/Admin/AdminJobs';
-import AdminSkills from '../components/Admin/AdminSkills';
 import AdminUsers from '../components/Admin/AdminUsers';
+import AdminSkills from '../components/Admin/AdminSkills';
 import AdminWalet from '../components/Admin/AdminWallet';
-import { useContext } from 'react';
-import { ProfileContext } from '../utils/Contexts';
-import { useParams } from 'react-router-dom';
 import Reports from '../components/Admin/Reports';
+import styles from '../styles/AdminPage.module.css';
+
 const Admin = () => {
   const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
   const [activeComponent, setActiveComponent] = useState('Home');
-  const { profile } = useContext(ProfileContext);
   const { currentState } = useParams();
+
+  useEffect(() => {
+    if (currentState != null)
+      setActiveComponent(currentState);
+  }, []);
 
   const OpenSidebar = () => {
     setOpenSidebarToggle(!openSidebarToggle);
   };
-  useEffect(() => {
-    if(currentState!=null)
-      activeComponent=currentState;
-   }, []);
+
   const renderComponent = () => {
     switch (activeComponent) {
       case 'Dashboard':
-        return <Home/>;
+        return <Home />;
       case 'Jobs':
         return <AdminJobs />;
       case 'Skills':
@@ -35,9 +35,9 @@ const Admin = () => {
       case 'Users':
         return <AdminUsers />;
       case 'Wallet':
-        return <AdminWalet/>;
+        return <AdminWalet />;
       case 'Reports':
-        return <Reports/>;
+        return <Reports />;
       case 'Settings':
         return <></>;
       default:
@@ -46,13 +46,17 @@ const Admin = () => {
   };
 
   return (
-      <div className={styles.grid_container}>
-        <Header OpenSidebar={OpenSidebar} />
-        <Sidebar openSidebarToggle={openSidebarToggle} OpenSidebar={OpenSidebar} setActiveComponent={setActiveComponent} />
-        <div className={styles.main_container}>
+    <div className={styles.grid_container}>
+      <Header OpenSidebar={OpenSidebar} />
+      <Sidebar
+        openSidebarToggle={openSidebarToggle}
+        OpenSidebar={OpenSidebar}
+        setActiveComponent={setActiveComponent}
+      />
+      <div className={styles.main_container}>
         {renderComponent()}
       </div>
-      </div>
+    </div>
   );
 };
 

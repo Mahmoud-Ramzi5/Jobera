@@ -12,14 +12,14 @@ use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\AuthControllers\AuthController;
 use App\Http\Controllers\AuthControllers\SocialAuthController;
 use App\Http\Controllers\AuthControllers\ForgetPasswordController;
+use App\Http\Controllers\ProfileControllers\ProfileController;
+use App\Http\Controllers\ProfileControllers\SkillsController;
+use App\Http\Controllers\ProfileControllers\EducationController;
+use App\Http\Controllers\ProfileControllers\PortfolioController;
 use App\Http\Controllers\JobControllers\JobFeedController;
 use App\Http\Controllers\JobControllers\DefJobsController;
 use App\Http\Controllers\JobControllers\RegJobsController;
 use App\Http\Controllers\JobControllers\FreelancingJobsController;
-use App\Http\Controllers\ProfileControllers\SkillsController;
-use App\Http\Controllers\ProfileControllers\ProfileController;
-use App\Http\Controllers\ProfileControllers\EducationController;
-use App\Http\Controllers\ProfileControllers\PortfolioController;
 
 
 Route::controller(AuthController::class)->group(function () {
