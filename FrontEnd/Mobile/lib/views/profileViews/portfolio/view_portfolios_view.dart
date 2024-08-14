@@ -46,17 +46,10 @@ class ViewPortfoliosView extends StatelessWidget {
               _editController.homeController.otherUserName,
             );
           } else {
-            if (_editController.homeController.isCompany) {
-              await _editController.fetchPortfolios(
-                _editController.companyProfileController!.company.id,
-                _editController.companyProfileController!.company.name,
-              );
-            } else {
-              await _editController.fetchPortfolios(
-                _editController.userProfileController!.user.id,
-                _editController.userProfileController!.user.name,
-              );
-            }
+            await _editController.fetchPortfolios(
+              _editController.homeController.id,
+              _editController.homeController.name,
+            );
           }
         },
         child: GetBuilder<ViewPortfolioController>(
@@ -140,119 +133,118 @@ class ViewPortfoliosView extends StatelessWidget {
                                           ),
                                       ],
                                     ),
-                                    ExpansionTile(
-                                      title: BodyText(text: '28'.tr),
-                                      children: [
-                                        Column(
-                                          children: [
-                                            Row(
-                                              children: [
-                                                BodyText(text: '57'.tr),
-                                                LabelText(
-                                                  text: _editController
-                                                      .portfolios[index1].title,
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                BodyText(text: '56'.tr),
-                                                LabelText(
-                                                  text: controller
-                                                      .portfolios[index1].link,
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              children: [
-                                                BodyText(text: '26'.tr),
-                                                Flexible(
-                                                  flex: 1,
-                                                  child: LabelText(
+                                    Padding(
+                                      padding: const EdgeInsets.fromLTRB(
+                                          0, 10, 0, 0),
+                                      child: ExpansionTile(
+                                        title: BodyText(text: '28'.tr),
+                                        children: [
+                                          Column(
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  BodyText(text: '${'57'.tr}:'),
+                                                  LabelText(
+                                                    text: _editController
+                                                        .portfolios[index1]
+                                                        .title,
+                                                  ),
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  BodyText(text: '${'56'.tr}:'),
+                                                  LabelText(
                                                     text: controller
                                                         .portfolios[index1]
-                                                        .description,
+                                                        .link,
                                                   ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ],
+                                                ],
+                                              ),
+                                              Row(
+                                                children: [
+                                                  BodyText(text: '${'26'.tr}:'),
+                                                  Flexible(
+                                                    flex: 1,
+                                                    child: LabelText(
+                                                      text: controller
+                                                          .portfolios[index1]
+                                                          .description,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                     ExpansionTile(
                                       title: BodyText(text: '58'.tr),
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.all(10),
-                                          child: InfoContainer(
-                                            widget: Padding(
-                                              padding: const EdgeInsets.all(5),
-                                              child: ListView.builder(
-                                                itemCount: controller
-                                                    .portfolios[index1]
-                                                    .skills
-                                                    .length,
-                                                shrinkWrap: true,
-                                                itemBuilder: (context, index) {
-                                                  final firstIndex = index * 2;
-                                                  final secondIndex =
-                                                      firstIndex + 1;
-                                                  return Row(
-                                                    children: [
-                                                      if (firstIndex <
-                                                          controller
-                                                              .portfolios[
-                                                                  index1]
-                                                              .skills
-                                                              .length)
-                                                        Expanded(
-                                                          flex: 1,
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(5),
-                                                            child: Chip(
-                                                              label: BodyText(
-                                                                text: controller
-                                                                    .portfolios[
-                                                                        index1]
-                                                                    .skills[
-                                                                        firstIndex]
-                                                                    .name,
-                                                              ),
-                                                            ),
+                                          child: ListView.builder(
+                                            itemCount: controller
+                                                .portfolios[index1]
+                                                .skills
+                                                .length,
+                                            shrinkWrap: true,
+                                            itemBuilder: (context, index) {
+                                              final firstIndex = index * 2;
+                                              final secondIndex =
+                                                  firstIndex + 1;
+                                              return Row(
+                                                children: [
+                                                  if (firstIndex <
+                                                      controller
+                                                          .portfolios[index1]
+                                                          .skills
+                                                          .length)
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(5),
+                                                        child: Chip(
+                                                          label: BodyText(
+                                                            text: controller
+                                                                .portfolios[
+                                                                    index1]
+                                                                .skills[
+                                                                    firstIndex]
+                                                                .name,
                                                           ),
                                                         ),
-                                                      if (secondIndex <
-                                                          controller
-                                                              .portfolios[
-                                                                  index1]
-                                                              .skills
-                                                              .length)
-                                                        Expanded(
-                                                          flex: 1,
-                                                          child: Padding(
-                                                            padding:
-                                                                const EdgeInsets
-                                                                    .all(5),
-                                                            child: Chip(
-                                                              label: BodyText(
-                                                                text: controller
-                                                                    .portfolios[
-                                                                        index1]
-                                                                    .skills[
-                                                                        secondIndex]
-                                                                    .name,
-                                                              ),
-                                                            ),
+                                                      ),
+                                                    ),
+                                                  if (secondIndex <
+                                                      controller
+                                                          .portfolios[index1]
+                                                          .skills
+                                                          .length)
+                                                    Expanded(
+                                                      flex: 1,
+                                                      child: Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(5),
+                                                        child: Chip(
+                                                          label: BodyText(
+                                                            text: controller
+                                                                .portfolios[
+                                                                    index1]
+                                                                .skills[
+                                                                    secondIndex]
+                                                                .name,
                                                           ),
                                                         ),
-                                                    ],
-                                                  );
-                                                },
-                                              ),
-                                            ),
+                                                      ),
+                                                    ),
+                                                ],
+                                              );
+                                            },
                                           ),
                                         ),
                                       ],

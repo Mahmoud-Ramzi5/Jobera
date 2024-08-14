@@ -106,6 +106,11 @@ class UserRegisterView extends StatelessWidget {
                                 icon: Icons.phone,
                                 validator: (p0) =>
                                     Validation().validateNumber(p0),
+                                textDirection: controller
+                                            .settingsController.selectedLang ==
+                                        'en'
+                                    ? TextDirection.rtl
+                                    : TextDirection.ltr,
                               ),
                             ),
                           ],
@@ -114,7 +119,7 @@ class UserRegisterView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          BodyText(text: '10'.tr),
+                          BodyText(text: ' ${'10'.tr} '),
                           Padding(
                             padding: const EdgeInsets.all(10),
                             child: DateContainer(

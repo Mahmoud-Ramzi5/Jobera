@@ -78,6 +78,11 @@ class UserEditInfoView extends StatelessWidget {
                                 icon: Icons.phone,
                                 validator: (p0) =>
                                     Validation().validateNumber(p0),
+                                textDirection: controller
+                                            .settingsController.selectedLang ==
+                                        'en'
+                                    ? TextDirection.rtl
+                                    : TextDirection.ltr,
                               ),
                             ),
                           ],

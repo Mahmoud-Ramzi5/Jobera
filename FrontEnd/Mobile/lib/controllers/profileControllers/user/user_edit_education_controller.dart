@@ -110,7 +110,7 @@ class UserEditEducationController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.39.51:8000/api/education',
+        'http://192.168.1.106:8000/api/education',
         options: Options(
           headers: {
             'Content-Type':
@@ -156,7 +156,7 @@ class UserEditEducationController extends GetxController {
     );
     try {
       var response = await dio.post(
-        'http://192.168.39.51:8000/api/education',
+        'http://192.168.1.106:8000/api/education',
         data: data,
         options: Options(
           headers: {

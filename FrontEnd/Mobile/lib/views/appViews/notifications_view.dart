@@ -39,7 +39,7 @@ class NotificationsView extends StatelessWidget {
                             ),
                             child: Row(
                               children: [
-                                BodyText(text: '82'.tr),
+                                BodyText(text: '${'82'.tr} '),
                                 Icon(
                                   Icons.remove_red_eye,
                                   color: Colors.lightBlue.shade900,
@@ -53,7 +53,7 @@ class NotificationsView extends StatelessWidget {
                             ),
                             child: Row(
                               children: [
-                                BodyText(text: '83'.tr),
+                                BodyText(text: '${'83'.tr} '),
                                 const Icon(
                                   Icons.delete,
                                   color: Colors.red,
@@ -91,7 +91,7 @@ class NotificationsView extends StatelessWidget {
                                     children: [
                                       Row(
                                         children: [
-                                          BodyText(text: '76'.tr),
+                                          BodyText(text: '${'76'.tr}: '),
                                           LabelText(
                                             text: controller
                                                 .notifications[index]
@@ -101,7 +101,7 @@ class NotificationsView extends StatelessWidget {
                                       ),
                                       Row(
                                         children: [
-                                          BodyText(text: '84'.tr),
+                                          BodyText(text: '${'84'.tr}: '),
                                           LabelText(
                                             text: controller
                                                 .notifications[index].message,
@@ -110,7 +110,7 @@ class NotificationsView extends StatelessWidget {
                                       ),
                                       Row(
                                         children: [
-                                          BodyText(text: '80'.tr),
+                                          BodyText(text: '${'80'.tr}: '),
                                           LabelText(
                                             text:
                                                 '${controller.notifications[index].createdAt.day}/${controller.notifications[index].createdAt.month}/${controller.notifications[index].createdAt.year} ${controller.notifications[index].createdAt.hour}:${controller.notifications[index].createdAt.minute}',

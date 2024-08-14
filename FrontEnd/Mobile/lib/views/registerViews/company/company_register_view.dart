@@ -116,6 +116,11 @@ class CompanyRegisterView extends StatelessWidget {
                                 icon: Icons.phone,
                                 validator: (p0) =>
                                     Validation().validateNumber(p0),
+                                textDirection: controller
+                                            .settingsController.selectedLang ==
+                                        'en'
+                                    ? TextDirection.rtl
+                                    : TextDirection.ltr,
                               ),
                             ),
                           ],
@@ -124,7 +129,7 @@ class CompanyRegisterView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          BodyText(text: '17'.tr),
+                          BodyText(text: '${'17'.tr} '),
                           Expanded(
                             flex: 1,
                             child: DateContainer(

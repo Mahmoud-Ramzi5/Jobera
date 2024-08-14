@@ -31,7 +31,7 @@ class UserBasicInfoComponent extends StatelessWidget {
       children: [
         Row(
           children: [
-            BodyText(text: '169'.tr),
+            BodyText(text: '${'169'.tr}: '),
             Flexible(
               child: LabelText(
                 text: gender,
@@ -42,7 +42,7 @@ class UserBasicInfoComponent extends StatelessWidget {
         if (!isOtherUserProfile)
           Row(
             children: [
-              BodyText(text: '6'.tr),
+              BodyText(text: '${'6'.tr}: '),
               Flexible(
                 child: LabelText(text: email),
               ),
@@ -51,19 +51,19 @@ class UserBasicInfoComponent extends StatelessWidget {
         if (!isOtherUserProfile)
           Row(
             children: [
-              BodyText(text: '9'.tr),
+              BodyText(text: '${'9'.tr}: '),
               Flexible(child: LabelText(text: phoneNumber)),
             ],
           ),
         Row(
           children: [
-            BodyText(text: '110'.tr),
+            BodyText(text: '${'110'.tr}: '),
             Flexible(child: LabelText(text: '$state - $country')),
           ],
         ),
         Row(
           children: [
-            BodyText(text: '170'.tr),
+            BodyText(text: '${'170'.tr}: '),
             Flexible(
               child: LabelText(text: '${date.day}/${date.month}/${date.year}'),
             ),
@@ -101,7 +101,7 @@ class CompanyBasicInfoComponent extends StatelessWidget {
       children: [
         Row(
           children: [
-            BodyText(text: '40'.tr),
+            BodyText(text: '${'40'.tr}: '),
             Flexible(
               child: LabelText(
                 text: field,
@@ -112,7 +112,7 @@ class CompanyBasicInfoComponent extends StatelessWidget {
         if (!isOtherUserProfile)
           Row(
             children: [
-              BodyText(text: '6'.tr),
+              BodyText(text: '${'6'.tr}: '),
               Flexible(
                 child: LabelText(text: email),
               ),
@@ -121,19 +121,24 @@ class CompanyBasicInfoComponent extends StatelessWidget {
         if (!isOtherUserProfile)
           Row(
             children: [
-              BodyText(text: '9'.tr),
-              Flexible(child: LabelText(text: phoneNumber)),
+              BodyText(text: '${'9'.tr}: '),
+              Flexible(
+                child: LabelText(
+                  text: phoneNumber,
+                  textDirection: TextDirection.ltr,
+                ),
+              ),
             ],
           ),
         Row(
           children: [
-            BodyText(text: '110'.tr),
+            BodyText(text: '${'110'.tr}: '),
             Flexible(child: LabelText(text: '$state - $country')),
           ],
         ),
         Row(
           children: [
-            BodyText(text: '171'.tr),
+            BodyText(text: '${'171'.tr}: '),
             Flexible(
               child: LabelText(text: '${date.day}/${date.month}/${date.year}'),
             ),
@@ -171,7 +176,7 @@ class EducationComponent extends StatelessWidget {
       children: [
         Row(
           children: [
-            BodyText(text: '39'.tr),
+            BodyText(text: '${'39'.tr}: '),
             Flexible(
               child: LabelText(
                 text: level.replaceAllMapped('_', (match) => ' ').toLowerCase(),
@@ -181,7 +186,7 @@ class EducationComponent extends StatelessWidget {
         ),
         Row(
           children: [
-            BodyText(text: '40'.tr),
+            BodyText(text: '${'40'.tr}: '),
             Flexible(
               child: LabelText(text: field),
             )
@@ -189,7 +194,7 @@ class EducationComponent extends StatelessWidget {
         ),
         Row(
           children: [
-            BodyText(text: '41'.tr),
+            BodyText(text: '${'41'.tr}: '),
             Flexible(
               child: LabelText(text: school),
             )
@@ -197,7 +202,7 @@ class EducationComponent extends StatelessWidget {
         ),
         Row(
           children: [
-            BodyText(text: '42'.tr),
+            BodyText(text: '${'42'.tr}: '),
             Flexible(
               child: LabelText(
                 text: '${startDate.day}/${startDate.month}/${startDate.year}',
@@ -207,7 +212,7 @@ class EducationComponent extends StatelessWidget {
         ),
         Row(
           children: [
-            BodyText(text: '43'.tr),
+            BodyText(text: '${'43'.tr}: '),
             Flexible(
               child: LabelText(
                 text: '${endDate.day}/${endDate.month}/${endDate.year}',
@@ -217,7 +222,7 @@ class EducationComponent extends StatelessWidget {
         ),
         Row(
           children: [
-            BodyText(text: '172'.tr),
+            BodyText(text: '${'172'.tr}: '),
             Flexible(
               child: LabelText(
                 text: certificate != null

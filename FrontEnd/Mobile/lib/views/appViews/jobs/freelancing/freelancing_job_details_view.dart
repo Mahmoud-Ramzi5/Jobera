@@ -25,30 +25,6 @@ class FreelancingJobDetailsView extends StatelessWidget {
           onPressed: () => _freelancingJobDetailsController.goBack(),
           icon: const Icon(Icons.arrow_back),
         ),
-        actions: [
-          if ((_freelancingJobDetailsController.freelancingJob.poster.userId ==
-                      _freelancingJobDetailsController
-                          .homeController.company?.id ||
-                  _freelancingJobDetailsController
-                          .freelancingJob.poster.userId ==
-                      _freelancingJobDetailsController
-                          .homeController.user?.id) &&
-              _freelancingJobDetailsController.freelancingJob.acceptedUser ==
-                  null)
-            IconButton(
-              onPressed: () => Dialogs().confirmDialog(
-                '46'.tr,
-                '119'.tr,
-                () => _freelancingJobDetailsController.deleteJob(
-                  _freelancingJobDetailsController.freelancingJob.defJobId,
-                ),
-              ),
-              icon: const Icon(
-                Icons.delete,
-                color: Colors.red,
-              ),
-            )
-        ],
       ),
       body: RefreshIndicator(
         key: _freelancingJobDetailsController.refreshIndicatorKey,
@@ -109,6 +85,28 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                   },
                                   child: BodyText(text: '126'.tr),
                                 ),
+                              if ((controller.freelancingJob.poster.userId ==
+                                          controller
+                                              .homeController.company?.id ||
+                                      controller.freelancingJob.poster.userId ==
+                                          controller.homeController.user?.id) &&
+                                  controller.freelancingJob.acceptedUser ==
+                                      null)
+                                IconButton(
+                                  onPressed: () => Dialogs().confirmDialog(
+                                    '46'.tr,
+                                    '119'.tr,
+                                    () => _freelancingJobDetailsController
+                                        .deleteJob(
+                                      _freelancingJobDetailsController
+                                          .freelancingJob.defJobId,
+                                    ),
+                                  ),
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                )
                             ],
                           ),
                         ),
@@ -301,7 +299,7 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                         ),
                                         Row(
                                           children: [
-                                            BodyText(text: '24'.tr),
+                                            BodyText(text: '${'24'.tr}: '),
                                             RatingBar.builder(
                                               initialRating: controller
                                                       .freelancingJob
@@ -325,7 +323,7 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                         ),
                                         Row(
                                           children: [
-                                            BodyText(text: '6'.tr),
+                                            BodyText(text: '${'6'.tr}: '),
                                             Flexible(
                                               child: TextButton(
                                                 onPressed: () =>
@@ -358,7 +356,7 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                         ),
                                         Row(
                                           children: [
-                                            BodyText(text: '26'.tr),
+                                            BodyText(text: '${'26'.tr}: '),
                                             Flexible(
                                               child: LabelText(
                                                 text: controller
@@ -371,7 +369,7 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                         ),
                                         Row(
                                           children: [
-                                            BodyText(text: '89'.tr),
+                                            BodyText(text: '${'89'.tr}: '),
                                             Flexible(
                                               child: LabelText(
                                                 text:
@@ -422,9 +420,10 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                                 null &&
                                             !controller.isEditOffer)
                                           OutlinedButton(
-                                              onPressed: () =>
-                                                  controller.editOffer(index),
-                                              child: BodyText(text: '128'.tr)),
+                                            onPressed: () =>
+                                                controller.editOffer(index),
+                                            child: BodyText(text: '184'.tr),
+                                          ),
                                         if (controller
                                                     .freelancingJob
                                                     .competitors[index]

@@ -23,24 +23,6 @@ class RegularJobDetailsView extends StatelessWidget {
           onPressed: () => _regularJobDetailsController.goBack(),
           icon: const Icon(Icons.arrow_back),
         ),
-        actions: [
-          if (_regularJobDetailsController.regularJob.poster.userId ==
-                  _regularJobDetailsController.homeController.company?.id &&
-              !_regularJobDetailsController.regularJob.isDone)
-            IconButton(
-              onPressed: () => Dialogs().confirmDialog(
-                '46'.tr,
-                '119'.tr,
-                () => _regularJobDetailsController.deleteJob(
-                  _regularJobDetailsController.regularJob.defJobId,
-                ),
-              ),
-              icon: const Icon(
-                Icons.delete,
-                color: Colors.red,
-              ),
-            )
-        ],
       ),
       body: RefreshIndicator(
         key: _regularJobDetailsController.refreshIndicatorKey,
@@ -69,6 +51,30 @@ class RegularJobDetailsView extends StatelessWidget {
                                   color: Colors.lightBlue.shade900,
                                   size: 100,
                                 ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              if (controller.regularJob.poster.userId ==
+                                      controller.homeController.company?.id &&
+                                  !controller.regularJob.isDone)
+                                IconButton(
+                                  onPressed: () => Dialogs().confirmDialog(
+                                    '46'.tr,
+                                    '119'.tr,
+                                    () => controller.deleteJob(
+                                      controller.regularJob.defJobId,
+                                    ),
+                                  ),
+                                  icon: const Icon(
+                                    Icons.delete,
+                                    color: Colors.red,
+                                  ),
+                                )
+                            ],
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10),
@@ -277,7 +283,7 @@ class RegularJobDetailsView extends StatelessWidget {
                                         ),
                                         Row(
                                           children: [
-                                            BodyText(text: '24'.tr),
+                                            BodyText(text: '${'24'.tr}: '),
                                             RatingBar.builder(
                                               initialRating: controller
                                                       .regularJob
@@ -301,7 +307,7 @@ class RegularJobDetailsView extends StatelessWidget {
                                         ),
                                         Row(
                                           children: [
-                                            BodyText(text: '5'.tr),
+                                            BodyText(text: '${'5'.tr}: '),
                                             Flexible(
                                               child: TextButton(
                                                 onPressed: () =>
@@ -336,7 +342,7 @@ class RegularJobDetailsView extends StatelessWidget {
                                         ),
                                         Row(
                                           children: [
-                                            BodyText(text: '26'.tr),
+                                            BodyText(text: '${'26'.tr}: '),
                                             Flexible(
                                               child: LabelText(
                                                 text: controller

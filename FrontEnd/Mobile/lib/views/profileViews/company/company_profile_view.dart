@@ -83,7 +83,7 @@ class CompanyProfileView extends StatelessWidget {
                           ),
                           BodyText(
                             text:
-                                '(${controller.company.reviewsCount} ${'25'}.tr)',
+                                '(${controller.company.reviewsCount} ${'25'.tr})',
                           ),
                         ],
                       ),

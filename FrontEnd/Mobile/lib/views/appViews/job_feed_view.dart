@@ -67,7 +67,7 @@ class JobFeedView extends StatelessWidget {
                                               Row(
                                                 children: [
                                                   SmallHeadlineText(
-                                                    text: '89'.tr,
+                                                    text: '${'89'.tr}: ',
                                                   ),
                                                   MediumHeadlineText(
                                                     text:
@@ -131,7 +131,7 @@ class JobFeedView extends StatelessWidget {
                                               Row(
                                                 children: [
                                                   SmallHeadlineText(
-                                                    text: '87'.tr,
+                                                    text: '${'87'.tr}: ',
                                                   ),
                                                   MediumHeadlineText(
                                                     text:

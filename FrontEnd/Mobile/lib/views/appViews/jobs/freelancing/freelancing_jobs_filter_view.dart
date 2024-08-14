@@ -66,7 +66,7 @@ class FreelancingJobsFilterView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          BodyText(text: '76'.tr),
+                          BodyText(text: '${'76'.tr}: '),
                           Padding(
                             padding: const EdgeInsets.all(10),
                             child: DateContainer(
@@ -87,7 +87,7 @@ class FreelancingJobsFilterView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          BodyText(text: '77'.tr),
+                          BodyText(text: '${'77'.tr}: '),
                           Padding(
                             padding: const EdgeInsets.all(10),
                             child: DateContainer(

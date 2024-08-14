@@ -291,7 +291,7 @@ class AddPortfolioView extends StatelessWidget {
                                           flex: 1,
                                           child: BodyText(
                                             text:
-                                                '${'45'.tr}:${index + 1}:${controller.files!.files[index].name}',
+                                                '${'45'.tr} ${index + 1}:${controller.files!.files[index].name}',
                                           ),
                                         ),
                                         IconButton(

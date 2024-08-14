@@ -32,14 +32,16 @@ class BodyText extends StatelessWidget {
 
 class LabelText extends StatelessWidget {
   final String text;
+  final TextDirection? textDirection;
 
-  const LabelText({super.key, required this.text});
+  const LabelText({super.key, required this.text, this.textDirection});
 
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
       style: Theme.of(context).textTheme.labelLarge,
+      textDirection: textDirection,
     );
   }
 }

@@ -210,7 +210,7 @@ class PostJobController extends GetxController {
 
       try {
         var response = await dio.post(
-          'http://192.168.39.51:8000/api/regJob/add',
+          'http://192.168.1.106:8000/api/regJob/add',
           data: data,
           options: Options(
             headers: {
@@ -276,7 +276,7 @@ class PostJobController extends GetxController {
 
       try {
         var response = await dio.post(
-          'http://192.168.39.51:8000/api/FreelancingJob/add',
+          'http://192.168.1.106:8000/api/FreelancingJob/add',
           data: data,
           options: Options(
             headers: {

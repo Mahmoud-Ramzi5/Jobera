@@ -12,6 +12,7 @@ class CustomTextField extends StatelessWidget {
   final String? initialValue;
   final String? hintText;
   final void Function(String)? onChanged;
+  final TextDirection? textDirection;
 
   const CustomTextField({
     super.key,
@@ -26,6 +27,7 @@ class CustomTextField extends StatelessWidget {
     this.initialValue,
     this.hintText,
     this.onChanged,
+    this.textDirection,
   });
 
   @override
@@ -80,6 +82,7 @@ class CustomTextField extends StatelessWidget {
       validator: validator,
       maxLength: maxLength,
       onChanged: onChanged,
+      textDirection: textDirection,
     );
   }
 }

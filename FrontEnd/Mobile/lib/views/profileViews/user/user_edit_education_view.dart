@@ -147,7 +147,7 @@ class UserEditEducationView extends StatelessWidget {
                                 child: BodyText(
                                   text: _editController.certficateName == null
                                       ? '44'.tr
-                                      : '${'45'.tr}": ${_editController.certficateName}',
+                                      : '${'45'.tr}: ${_editController.certficateName}',
                                 ),
                               ),
                               if (_editController.certficateName != null)

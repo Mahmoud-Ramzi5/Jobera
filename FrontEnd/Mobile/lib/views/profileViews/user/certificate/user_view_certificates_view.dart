@@ -48,8 +48,8 @@ class UserEditCertificatesView extends StatelessWidget {
             );
           } else {
             await _editController.fetchCertificates(
-              _editController.userProfileController.user.id,
-              _editController.userProfileController.user.name,
+              _editController.homeController.user!.id,
+              _editController.homeController.user!.name,
             );
           }
         },
@@ -88,10 +88,12 @@ class UserEditCertificatesView extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.all(10),
                                       child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
                                             children: [
-                                              BodyText(text: '5'.tr),
+                                              BodyText(text: '${'5'.tr}:'),
                                               LabelText(
                                                 text: controller
                                                     .certificates[index].name,
@@ -100,7 +102,7 @@ class UserEditCertificatesView extends StatelessWidget {
                                           ),
                                           Row(
                                             children: [
-                                              BodyText(text: '48'.tr),
+                                              BodyText(text: '${'48'.tr}:'),
                                               LabelText(
                                                 text: controller
                                                     .certificates[index]
@@ -110,7 +112,7 @@ class UserEditCertificatesView extends StatelessWidget {
                                           ),
                                           Row(
                                             children: [
-                                              BodyText(text: '80'.tr),
+                                              BodyText(text: '${'80'.tr}:'),
                                               LabelText(
                                                   text:
                                                       '${controller.certificates[index].date.day}/${controller.certificates[index].date.month}/${controller.certificates[index].date.year}'),

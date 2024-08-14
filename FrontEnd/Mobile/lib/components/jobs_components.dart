@@ -61,28 +61,31 @@ class RegularJobComponent extends StatelessWidget {
         ),
         Row(
           children: [
-            BodyText(text: '105'.tr),
+            BodyText(text: '${'105'.tr}: '),
             Flexible(child: LabelText(text: jobTitle)),
           ],
         ),
         Row(
-          children: [BodyText(text: '102'.tr), LabelText(text: jobType)],
+          children: [
+            BodyText(text: '${'102'.tr}: '),
+            LabelText(text: jobType),
+          ],
         ),
         Row(
           children: [
-            BodyText(text: '115'.tr),
+            BodyText(text: '${'115'.tr}: '),
             Flexible(child: LabelText(text: publishedBy))
           ],
         ),
         Row(
           children: [
-            BodyText(text: '182'.tr),
+            BodyText(text: '${'182'.tr}: '),
             LabelText(text: '${date.day}/${date.month}/${date.year}')
           ],
         ),
         Row(
           children: [
-            BodyText(text: '87'.tr),
+            BodyText(text: '${'87'.tr}: '),
             LabelText(text: '$salary\$'),
           ],
         ),
@@ -124,7 +127,7 @@ class RegularJobDetailsComponent extends StatelessWidget {
         children: [
           Row(
             children: [
-              BodyText(text: '105'.tr),
+              BodyText(text: '${'105'.tr}: '),
               Flexible(
                 child: LabelText(text: jobTitle),
               ),
@@ -132,22 +135,22 @@ class RegularJobDetailsComponent extends StatelessWidget {
           ),
           Row(
             children: [
-              BodyText(text: '102'.tr),
+              BodyText(text: '${'102'.tr}: '),
               LabelText(text: jobType),
             ],
           ),
           Row(
             children: [
-              BodyText(text: '26'.tr),
+              BodyText(text: '${'26'.tr}: '),
               Flexible(child: LabelText(text: description)),
             ],
           ),
           Row(
             children: [
-              BodyText(text: '110'.tr),
+              BodyText(text: '${'110'.tr}: '),
               if (state != null)
                 Flexible(
-                  child: LabelText(text: '$country-$state'),
+                  child: LabelText(text: '$country - $state'),
                 )
               else
                 LabelText(text: '109'.tr),
@@ -155,7 +158,7 @@ class RegularJobDetailsComponent extends StatelessWidget {
           ),
           Row(
             children: [
-              BodyText(text: '115'.tr),
+              BodyText(text: '${'115'.tr}: '),
               Flexible(
                 child: TextButton(
                   onPressed: onPressed,
@@ -173,7 +176,7 @@ class RegularJobDetailsComponent extends StatelessWidget {
           ),
           Row(
             children: [
-              BodyText(text: '182'.tr),
+              BodyText(text: '${'182'.tr}: '),
               LabelText(
                 text:
                     '${publishDate.day}/${publishDate.month}/${publishDate.year}',
@@ -182,7 +185,7 @@ class RegularJobDetailsComponent extends StatelessWidget {
           ),
           Row(
             children: [
-              BodyText(text: '87'.tr),
+              BodyText(text: '${'87'.tr}: '),
               LabelText(text: '$salary\$'),
             ],
           ),
@@ -253,25 +256,25 @@ class FreelancingJobComponent extends StatelessWidget {
         ),
         Row(
           children: [
-            BodyText(text: '105'.tr),
+            BodyText(text: '${'105'.tr}: '),
             Flexible(child: LabelText(text: jobTitle))
           ],
         ),
         Row(
           children: [
-            BodyText(text: '102'.tr),
+            BodyText(text: '${'102'.tr}: '),
             LabelText(text: jobType),
           ],
         ),
         Row(
           children: [
-            BodyText(text: '115'.tr),
+            BodyText(text: '${'115'.tr}: '),
             Flexible(child: LabelText(text: publishedBy)),
           ],
         ),
         Row(
           children: [
-            BodyText(text: '182'.tr),
+            BodyText(text: '${'182'.tr}: '),
             LabelText(
                 text:
                     '${publishDate.day}/${publishDate.month}/${publishDate.year}'),
@@ -279,15 +282,15 @@ class FreelancingJobComponent extends StatelessWidget {
         ),
         Row(
           children: [
-            BodyText(text: '176'.tr),
+            BodyText(text: '${'176'.tr}: '),
             LabelText(
                 text: '${deadline.day}/${deadline.month}/${deadline.year}'),
           ],
         ),
         Row(
           children: [
-            BodyText(text: '173'.tr),
-            LabelText(text: '$minOffer\$-$maxOffer\$'),
+            BodyText(text: '${'173'.tr}: '),
+            LabelText(text: '$minOffer\$ - $maxOffer\$'),
           ],
         ),
       ],
@@ -334,7 +337,7 @@ class FreelancingJobDetailsComponent extends StatelessWidget {
         children: [
           Row(
             children: [
-              BodyText(text: '105'.tr),
+              BodyText(text: ' ${'105'.tr}: '),
               Flexible(
                 child: LabelText(text: jobTitle),
               ),
@@ -342,13 +345,13 @@ class FreelancingJobDetailsComponent extends StatelessWidget {
           ),
           Row(
             children: [
-              BodyText(text: '102'.tr),
+              BodyText(text: '${'102'.tr}: '),
               LabelText(text: jobType),
             ],
           ),
           Row(
             children: [
-              BodyText(text: '26'.tr),
+              BodyText(text: '${'26'.tr}: '),
               Flexible(
                 child: LabelText(text: description),
               ),
@@ -356,10 +359,10 @@ class FreelancingJobDetailsComponent extends StatelessWidget {
           ),
           Row(
             children: [
-              BodyText(text: '110'.tr),
+              BodyText(text: '${'110'.tr}:'),
               if (state != null)
                 Flexible(
-                  child: LabelText(text: '$country-$state'),
+                  child: LabelText(text: '$country - $state'),
                 )
               else
                 LabelText(text: '109'.tr)
@@ -367,7 +370,7 @@ class FreelancingJobDetailsComponent extends StatelessWidget {
           ),
           Row(
             children: [
-              BodyText(text: '176'.tr),
+              BodyText(text: '${'176'.tr}: '),
               LabelText(
                 text: '${deadline.day}/${deadline.month}/${deadline.year}',
               ),
@@ -375,7 +378,7 @@ class FreelancingJobDetailsComponent extends StatelessWidget {
           ),
           Row(
             children: [
-              BodyText(text: '115'.tr),
+              BodyText(text: '${'115'.tr}: '),
               Flexible(
                 child: TextButton(
                   onPressed: onPressed,
@@ -393,7 +396,7 @@ class FreelancingJobDetailsComponent extends StatelessWidget {
           ),
           Row(
             children: [
-              BodyText(text: '182'.tr),
+              BodyText(text: '${'182'.tr}: '),
               LabelText(
                 text:
                     '${publishDate.day}/${publishDate.month}/${publishDate.year}',
@@ -402,15 +405,15 @@ class FreelancingJobDetailsComponent extends StatelessWidget {
           ),
           Row(
             children: [
-              BodyText(text: '173'.tr),
+              BodyText(text: '${'173'.tr}: '),
               LabelText(
-                text: '$minOffer\$-$maxOffer\$',
+                text: '$minOffer\$ - $maxOffer\$',
               ),
             ],
           ),
           Row(
             children: [
-              BodyText(text: '174'.tr),
+              BodyText(text: '${'174'.tr}: '),
               LabelText(text: '$avgOffer\$'),
             ],
           ),
