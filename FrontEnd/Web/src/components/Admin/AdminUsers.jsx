@@ -150,13 +150,14 @@ const AdminUsers = () => {
               {currentColumns.map((column) => (
                 <td key={column.key}>
                   {column.key == "rating" ? user[column.key] == null ? 0 : user[column.key] :
-                    column.key == "is_verified" ? column.key == true ? "True" : "False" :
+                    column.key == "is_verified" ? column.key == true ? "False" : "True" :
                       column.key == "full_name" || column.key == "name"?
                         <a className={styles.anchor} href={`/profile/${user.user_id}/${user[column.key]}`}>
                           {user[column.key]}
                         </a>:
                       user[column.key]
                   }
+                  {console.log(user)}
                 </td>
               ))}
               <td>
