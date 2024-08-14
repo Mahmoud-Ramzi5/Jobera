@@ -20,7 +20,7 @@ class FreelancingJobDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Job Details'),
+        title: TitleText(text: '118'.tr),
         leading: IconButton(
           onPressed: () => _freelancingJobDetailsController.goBack(),
           icon: const Icon(Icons.arrow_back),
@@ -37,8 +37,8 @@ class FreelancingJobDetailsView extends StatelessWidget {
                   null)
             IconButton(
               onPressed: () => Dialogs().confirmDialog(
-                'Notice:',
-                'Are you sure you want to delete post?',
+                '46'.tr,
+                '119'.tr,
                 () => _freelancingJobDetailsController.deleteJob(
                   _freelancingJobDetailsController.freelancingJob.defJobId,
                 ),
@@ -107,7 +107,7 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                           .freelancingJob.acceptedUser!.usedId,
                                     );
                                   },
-                                  child: const BodyText(text: 'End Job'),
+                                  child: BodyText(text: '126'.tr),
                                 ),
                             ],
                           ),
@@ -136,7 +136,7 @@ class FreelancingJobDetailsView extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(10),
                           child: InfoContainer(
-                            name: 'Required Skills',
+                            name: '120'.tr,
                             widget: ListView.builder(
                               itemCount: controller
                                   .freelancingJob.requiredSkills.length,
@@ -196,12 +196,12 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                     controller.freelancingJob.poster.userId !=
                                         controller.homeController.id &&
                                     !controller.applied
-                                ? 'Be a competitor'
+                                ? '121'.tr
                                 : null,
                             icon: Icons.add,
                             onPressed: () =>
                                 Get.toNamed('/applyFreelancingJob'),
-                            name: 'Competitors',
+                            name: '122'.tr,
                             widget: ListView.builder(
                               itemCount:
                                   controller.freelancingJob.competitors.length,
@@ -301,7 +301,7 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                         ),
                                         Row(
                                           children: [
-                                            const BodyText(text: 'Rating:'),
+                                            BodyText(text: '24'.tr),
                                             RatingBar.builder(
                                               initialRating: controller
                                                       .freelancingJob
@@ -325,7 +325,7 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                         ),
                                         Row(
                                           children: [
-                                            const BodyText(text: 'Name:'),
+                                            BodyText(text: '6'.tr),
                                             Flexible(
                                               child: TextButton(
                                                 onPressed: () =>
@@ -358,9 +358,7 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                         ),
                                         Row(
                                           children: [
-                                            const BodyText(
-                                              text: 'Description:',
-                                            ),
+                                            BodyText(text: '26'.tr),
                                             Flexible(
                                               child: LabelText(
                                                 text: controller
@@ -373,9 +371,7 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                         ),
                                         Row(
                                           children: [
-                                            const BodyText(
-                                              text: 'Offer:',
-                                            ),
+                                            BodyText(text: '89'.tr),
                                             Flexible(
                                               child: LabelText(
                                                 text:
@@ -404,7 +400,7 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                                     TextInputType.number,
                                                 obsecureText: false,
                                                 icon: Icons.monetization_on,
-                                                labelText: 'Offer',
+                                                labelText: '89'.tr,
                                                 validator: (p0) =>
                                                     Validation().validateOffer(
                                                   p0,
@@ -426,12 +422,9 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                                 null &&
                                             !controller.isEditOffer)
                                           OutlinedButton(
-                                            onPressed: () =>
-                                                controller.editOffer(index),
-                                            child: const BodyText(
-                                              text: 'Change Offer',
-                                            ),
-                                          ),
+                                              onPressed: () =>
+                                                  controller.editOffer(index),
+                                              child: BodyText(text: '128'.tr)),
                                         if (controller
                                                     .freelancingJob
                                                     .competitors[index]
@@ -448,9 +441,7 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                               OutlinedButton(
                                                 onPressed: () => controller
                                                     .cancelEditOffer(),
-                                                child: const BodyText(
-                                                  text: 'Cancel',
-                                                ),
+                                                child: BodyText(text: '138'.tr),
                                               ),
                                               OutlinedButton(
                                                 onPressed: () {
@@ -467,9 +458,7 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                                     );
                                                   }
                                                 },
-                                                child: const BodyText(
-                                                  text: 'Send',
-                                                ),
+                                                child: BodyText(text: '23'.tr),
                                               ),
                                             ],
                                           )

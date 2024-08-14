@@ -31,11 +31,11 @@ class UserEditEducationController extends GetxController {
     dio = Dio();
     formField = GlobalKey<FormState>();
     levels = {
-      'Bachelor': 'BACHELOR',
-      'Master': 'MASTER',
-      'PHD': 'PHD',
-      'High School Diploma': 'HIGH_SCHOOL_DIPLOMA',
-      'High Institute': 'HIGH_INSTITUTE',
+      '177'.tr: 'BACHELOR',
+      '178'.tr: 'MASTER',
+      '179'.tr: 'PHD',
+      '180'.tr: 'HIGH_SCHOOL_DIPLOMA',
+      '181'.tr: 'HIGH_INSTITUTE',
     };
     education = Education.empty();
     if (!settingsController.isInRegister) {
@@ -101,7 +101,7 @@ class UserEditEducationController extends GetxController {
 
   void removeFile() {
     file = null;
-    certficateName = 'No file';
+    certficateName = '156'.tr;
     update();
     Get.back();
   }
@@ -125,7 +125,7 @@ class UserEditEducationController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response!.data['errors'].toString(),
       );
     }
@@ -177,7 +177,7 @@ class UserEditEducationController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response!.data['errors'].toString(),
       );
     }

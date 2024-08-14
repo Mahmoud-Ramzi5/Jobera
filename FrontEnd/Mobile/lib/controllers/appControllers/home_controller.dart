@@ -11,7 +11,7 @@ class HomeController extends GetxController {
   late GlobalKey<RefreshIndicatorState> refreshIndicatorKey;
   late SettingsController settingsController;
   late Dio dio;
-  int id = 37;
+  int id = 0;
   String name = '';
   String email = '';
   String? photo;
@@ -30,7 +30,6 @@ class HomeController extends GetxController {
     settingsController = Get.find<SettingsController>();
     dio = Dio();
     await fetchUser();
-    update();
     super.onInit();
   }
 
@@ -48,6 +47,7 @@ class HomeController extends GetxController {
         ),
       );
       if (response.statusCode == 200) {
+        print(response.data.toString());
         if (response.data['user']['type'] == 'company') {
           company = Company.fromJson(response.data['user']);
           id = company!.id;
@@ -55,8 +55,8 @@ class HomeController extends GetxController {
           email = company!.email;
           photo = company!.photo;
           step = '';
-          isCompany = true;
           notificationsCount = company!.notificationsCount;
+          isCompany = true;
         } else if (response.data['user']['type'] == 'individual') {
           user = User.fromJson(response.data['user']);
           id = user!.id;
@@ -64,14 +64,15 @@ class HomeController extends GetxController {
           email = user!.email;
           photo = user!.photo;
           step = user!.step;
-          isCompany = false;
           notificationsCount = user!.notificationsCount;
+          isCompany = false;
           continueRegister();
         }
+        update();
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response!.data['errors'].toString(),
       );
     }
@@ -96,7 +97,7 @@ class HomeController extends GetxController {
         Get.back();
         sharedPreferences?.remove('access_token');
         Dialogs().showSuccessDialog(
-          'Logout Successfull',
+          '164'.tr,
           '',
         );
         Future.delayed(
@@ -108,7 +109,7 @@ class HomeController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Logout Failed',
+        '165'.tr,
         e.response!.data['errors'].toString(),
       );
     }

@@ -26,7 +26,7 @@ class HomeView extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () => Get.toNamed('/postJob'),
-              child: const LabelText(text: 'Post Job'),
+              child: LabelText(text: '94'.tr),
             ),
           ],
         ),
@@ -76,7 +76,7 @@ class HomeView extends StatelessWidget {
                 height: 1,
               ),
               MenuListTile(
-                title: "Profile",
+                title: '95'.tr,
                 icon: Icons.person,
                 onTap: () {
                   if (_homeController.isCompany) {
@@ -87,25 +87,25 @@ class HomeView extends StatelessWidget {
                 },
               ),
               MenuListTile(
-                title: "Wallet",
+                title: '71'.tr,
                 icon: Icons.wallet,
                 onTap: () => Get.toNamed('/wallet'),
               ),
               GetBuilder<HomeController>(
                 builder: (controller) => MenuListTile(
-                  title: "Notifications",
+                  title: '81'.tr,
                   count: controller.notificationsCount,
                   icon: Icons.notifications_none_rounded,
                   onTap: () => Get.toNamed('/notifications'),
                 ),
               ),
               MenuListTile(
-                title: "Settings",
+                title: '68'.tr,
                 icon: Icons.settings,
                 onTap: () => Get.toNamed('/settings'),
               ),
               MenuListTile(
-                title: "Logout",
+                title: '96'.tr,
                 icon: Icons.logout,
                 onTap: () => Dialogs().showLogoutDialog(
                   () => _homeController.logout(),
@@ -114,33 +114,33 @@ class HomeView extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: const Padding(
-          padding: EdgeInsets.all(2),
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(2),
           child: TabBar(
             tabs: <Widget>[
               Tab(
-                icon: Icon(
+                icon: const Icon(
                   Icons.newspaper,
                 ),
-                text: "Job Feed",
+                text: '97'.tr,
               ),
               Tab(
-                icon: Icon(
+                icon: const Icon(
                   Icons.work,
                 ),
-                text: "Regular",
+                text: '98'.tr,
               ),
               Tab(
-                icon: Icon(
+                icon: const Icon(
                   Icons.laptop,
                 ),
-                text: "Freelance",
+                text: '99'.tr,
               ),
               Tab(
-                icon: Icon(
+                icon: const Icon(
                   Icons.chat,
                 ),
-                text: "Chats",
+                text: '100'.tr,
               ),
             ],
           ),

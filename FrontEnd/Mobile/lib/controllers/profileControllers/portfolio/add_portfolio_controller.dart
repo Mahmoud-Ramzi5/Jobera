@@ -56,7 +56,7 @@ class AddPortfolioController extends GetxController {
       skills.remove(skill);
       update();
     } else {
-      Dialogs().showErrorDialog('Error', 'Max 5 skills per portfolio');
+      Dialogs().showErrorDialog('153'.tr, '166'.tr);
     }
   }
 
@@ -169,14 +169,14 @@ class AddPortfolioController extends GetxController {
         }
       } on DioException catch (e) {
         Dialogs().showErrorDialog(
-          'Error',
+          '153'.tr,
           e.response!.data['errors'].toString(),
         );
       }
     } else {
       Dialogs().showErrorDialog(
-        'Error',
-        'Must select at least 1 skill',
+        '153'.tr,
+        '158'.tr,
       );
     }
   }

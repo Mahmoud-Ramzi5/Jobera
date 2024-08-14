@@ -23,9 +23,7 @@ class ChatsView extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   )
                 : controller.chats.isEmpty
-                    ? const Center(
-                        child: MediumHeadlineText(text: 'No Chats'),
-                      )
+                    ? Center(child: MediumHeadlineText(text: '130'.tr))
                     : ListView.builder(
                         itemCount: controller.chats.length,
                         shrinkWrap: true,

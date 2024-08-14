@@ -72,7 +72,7 @@ class LoginController extends GetxController {
           response.data["access_token"].toString(),
         );
         Dialogs().showSuccessDialog(
-          'Login Successfull',
+          '160'.tr,
           '',
         );
         Future.delayed(
@@ -84,7 +84,7 @@ class LoginController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Login Failed',
+        '161'.tr,
         e.response.toString(),
       );
     }
@@ -117,7 +117,7 @@ class LoginController extends GetxController {
               response.data["access_token"].toString(),
             );
             Dialogs().showSuccessDialog(
-              'Login Successfull',
+              '160'.tr,
               '',
             );
             Future.delayed(
@@ -129,14 +129,14 @@ class LoginController extends GetxController {
           }
         } on DioException catch (e) {
           Dialogs().showErrorDialog(
-            'Login with google failed',
+            '162'.tr,
             e.toString(),
           );
         }
       }
     } catch (e) {
       Dialogs().showErrorDialog(
-        'Login with google failed',
+        '162'.tr,
         e.toString(),
       );
     }

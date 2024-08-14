@@ -32,7 +32,7 @@ class LoginView extends StatelessWidget {
                     obsecureText: false,
                     textInputType: TextInputType.emailAddress,
                     icon: Icons.email,
-                    labelText: 'Email',
+                    labelText: '6'.tr,
                     validator: (p0) => Validation().validateEmail(p0),
                   ),
                   Padding(
@@ -43,7 +43,7 @@ class LoginView extends StatelessWidget {
                         obsecureText: _loginController.passwordToggle,
                         textInputType: TextInputType.visiblePassword,
                         icon: Icons.key,
-                        labelText: 'Password',
+                        labelText: '7'.tr,
                         inkWell: controller.passwordInkwell(),
                         validator: (p0) =>
                             Validation().validateRequiredField(p0),
@@ -55,7 +55,7 @@ class LoginView extends StatelessWidget {
                     children: [
                       TextButton(
                         onPressed: () => Get.toNamed('/forgotPassword'),
-                        child: const LabelText(text: "Forgot Password?"),
+                        child: LabelText(text: "18".tr),
                       ),
                     ],
                   ),
@@ -70,7 +70,7 @@ class LoginView extends StatelessWidget {
                             padding: const EdgeInsets.all(10),
                             child: Row(
                               children: [
-                                const LabelText(text: "Remember Me?"),
+                                LabelText(text: '19'.tr),
                                 GetBuilder<LoginController>(
                                   builder: (controller) => Checkbox(
                                     activeColor: Colors.orange.shade800,
@@ -98,7 +98,7 @@ class LoginView extends StatelessWidget {
                               mainAxisSize: MainAxisSize.min,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const BodyText(text: "Login"),
+                                BodyText(text: '20'.tr),
                                 Icon(
                                   Icons.login,
                                   color: Colors.lightBlue.shade900,
@@ -129,10 +129,10 @@ class LoginView extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const LabelText(text: "New Around Here?"),
+                      LabelText(text: '21'.tr),
                       TextButton(
                         onPressed: () => Get.toNamed('/register'),
-                        child: const BodyText(text: "Register"),
+                        child: BodyText(text: '4'.tr),
                       ),
                     ],
                   ),

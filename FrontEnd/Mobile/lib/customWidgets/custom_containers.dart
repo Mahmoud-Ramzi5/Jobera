@@ -244,7 +244,6 @@ class SendMessageContainer extends StatelessWidget {
     return Container(
       width: Get.width,
       padding: const EdgeInsets.all(10),
-      color: Colors.grey[200],
       child: child,
     );
   }

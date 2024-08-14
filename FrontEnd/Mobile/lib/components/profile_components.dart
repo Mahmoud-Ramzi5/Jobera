@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_image.dart';
 import 'package:jobera/customWidgets/texts.dart';
@@ -30,7 +31,7 @@ class UserBasicInfoComponent extends StatelessWidget {
       children: [
         Row(
           children: [
-            const BodyText(text: 'Gender: '),
+            BodyText(text: '169'.tr),
             Flexible(
               child: LabelText(
                 text: gender,
@@ -41,7 +42,7 @@ class UserBasicInfoComponent extends StatelessWidget {
         if (!isOtherUserProfile)
           Row(
             children: [
-              const BodyText(text: 'Email: '),
+              BodyText(text: '6'.tr),
               Flexible(
                 child: LabelText(text: email),
               ),
@@ -50,19 +51,19 @@ class UserBasicInfoComponent extends StatelessWidget {
         if (!isOtherUserProfile)
           Row(
             children: [
-              const BodyText(text: 'Phone Number: '),
+              BodyText(text: '9'.tr),
               Flexible(child: LabelText(text: phoneNumber)),
             ],
           ),
         Row(
           children: [
-            const BodyText(text: 'Location: '),
+            BodyText(text: '110'.tr),
             Flexible(child: LabelText(text: '$state - $country')),
           ],
         ),
         Row(
           children: [
-            const BodyText(text: 'BirthDate: '),
+            BodyText(text: '170'.tr),
             Flexible(
               child: LabelText(text: '${date.day}/${date.month}/${date.year}'),
             ),
@@ -100,7 +101,7 @@ class CompanyBasicInfoComponent extends StatelessWidget {
       children: [
         Row(
           children: [
-            const BodyText(text: 'Field: '),
+            BodyText(text: '40'.tr),
             Flexible(
               child: LabelText(
                 text: field,
@@ -111,7 +112,7 @@ class CompanyBasicInfoComponent extends StatelessWidget {
         if (!isOtherUserProfile)
           Row(
             children: [
-              const BodyText(text: 'Email: '),
+              BodyText(text: '6'.tr),
               Flexible(
                 child: LabelText(text: email),
               ),
@@ -120,19 +121,19 @@ class CompanyBasicInfoComponent extends StatelessWidget {
         if (!isOtherUserProfile)
           Row(
             children: [
-              const BodyText(text: 'Phone Number: '),
+              BodyText(text: '9'.tr),
               Flexible(child: LabelText(text: phoneNumber)),
             ],
           ),
         Row(
           children: [
-            const BodyText(text: 'Location: '),
+            BodyText(text: '110'.tr),
             Flexible(child: LabelText(text: '$state - $country')),
           ],
         ),
         Row(
           children: [
-            const BodyText(text: 'Founding Date: '),
+            BodyText(text: '171'.tr),
             Flexible(
               child: LabelText(text: '${date.day}/${date.month}/${date.year}'),
             ),
@@ -170,7 +171,7 @@ class EducationComponent extends StatelessWidget {
       children: [
         Row(
           children: [
-            const BodyText(text: 'Level: '),
+            BodyText(text: '39'.tr),
             Flexible(
               child: LabelText(
                 text: level.replaceAllMapped('_', (match) => ' ').toLowerCase(),
@@ -180,7 +181,7 @@ class EducationComponent extends StatelessWidget {
         ),
         Row(
           children: [
-            const BodyText(text: 'Field: '),
+            BodyText(text: '40'.tr),
             Flexible(
               child: LabelText(text: field),
             )
@@ -188,7 +189,7 @@ class EducationComponent extends StatelessWidget {
         ),
         Row(
           children: [
-            const BodyText(text: 'School: '),
+            BodyText(text: '41'.tr),
             Flexible(
               child: LabelText(text: school),
             )
@@ -196,7 +197,7 @@ class EducationComponent extends StatelessWidget {
         ),
         Row(
           children: [
-            const BodyText(text: 'Start Date: '),
+            BodyText(text: '42'.tr),
             Flexible(
               child: LabelText(
                 text: '${startDate.day}/${startDate.month}/${startDate.year}',
@@ -206,7 +207,7 @@ class EducationComponent extends StatelessWidget {
         ),
         Row(
           children: [
-            const BodyText(text: 'End Date: '),
+            BodyText(text: '43'.tr),
             Flexible(
               child: LabelText(
                 text: '${endDate.day}/${endDate.month}/${endDate.year}',
@@ -216,12 +217,12 @@ class EducationComponent extends StatelessWidget {
         ),
         Row(
           children: [
-            const BodyText(text: 'Certificate: '),
+            BodyText(text: '172'.tr),
             Flexible(
               child: LabelText(
                 text: certificate != null
                     ? certificate!.split('/').last
-                    : 'No File',
+                    : '156'.tr,
               ),
             ),
             IconButton(

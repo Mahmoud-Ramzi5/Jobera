@@ -91,8 +91,8 @@ class FreelancingJobsView extends StatelessWidget {
                                 height: Get.height,
                                 child: BodyText(
                                   text: controller.freelancingJobs.isEmpty
-                                      ? 'No jobs to show'
-                                      : 'No more jobs',
+                                      ? '111'.tr
+                                      : '112'.tr,
                                 ),
                               ),
                             )

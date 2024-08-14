@@ -19,7 +19,7 @@ class PostJobView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Post Job'),
+        title: TitleText(text: '94'.tr),
         actions: [
           TextButton(
             onPressed: () {
@@ -53,9 +53,7 @@ class PostJobView extends StatelessWidget {
                 }
               }
             },
-            child: const LabelText(
-              text: 'Post',
-            ),
+            child: LabelText(text: '101'.tr),
           )
         ],
       ),
@@ -88,7 +86,7 @@ class PostJobView extends StatelessWidget {
                                         Icons.add_a_photo,
                                         color: Colors.lightBlue.shade900,
                                       ),
-                                      const BodyText(text: 'Add a photo')
+                                      BodyText(text: '62'.tr)
                                     ],
                                   ),
                                 )
@@ -117,7 +115,7 @@ class PostJobView extends StatelessWidget {
                                 );
                               }).toList(),
                               onChanged: (p0) => controller.changeJobType(p0),
-                              text: 'Job Type',
+                              text: '102'.tr,
                             ),
                           ),
                         ),
@@ -130,14 +128,14 @@ class PostJobView extends StatelessWidget {
                               groupValue: controller.selectedWorkTime,
                               onChanged: (value) =>
                                   controller.changeWorkTime(value!),
-                              child: const BodyText(text: "Full time"),
+                              child: BodyText(text: '103'.tr),
                             ),
                             RadioMenuButton(
                               value: 'PartTime',
                               groupValue: controller.selectedWorkTime,
                               onChanged: (value) =>
                                   controller.changeWorkTime(value!),
-                              child: const BodyText(text: "Part time"),
+                              child: BodyText(text: '104'.tr),
                             ),
                           ],
                         ),
@@ -148,7 +146,7 @@ class PostJobView extends StatelessWidget {
                           textInputType: TextInputType.text,
                           obsecureText: false,
                           icon: Icons.abc,
-                          labelText: 'Job Title',
+                          labelText: '105'.tr,
                           validator: (p0) =>
                               Validation().validateRequiredField(p0),
                         ),
@@ -160,7 +158,7 @@ class PostJobView extends StatelessWidget {
                           textInputType: TextInputType.text,
                           obsecureText: false,
                           icon: Icons.abc,
-                          labelText: 'Description',
+                          labelText: '26'.tr,
                           validator: (p0) =>
                               Validation().validateRequiredField(p0),
                         ),
@@ -187,7 +185,7 @@ class PostJobView extends StatelessWidget {
                                 textInputType: TextInputType.number,
                                 obsecureText: false,
                                 icon: Icons.monetization_on,
-                                labelText: 'Min Offer',
+                                labelText: '106'.tr,
                                 validator: (p0) =>
                                     Validation().validateNumber(p0),
                               ),
@@ -199,7 +197,7 @@ class PostJobView extends StatelessWidget {
                                 textInputType: TextInputType.number,
                                 obsecureText: false,
                                 icon: Icons.monetization_on,
-                                labelText: 'Max Offer',
+                                labelText: '107'.tr,
                                 validator: (p0) =>
                                     Validation().validateNumber(p0),
                               ),
@@ -210,7 +208,7 @@ class PostJobView extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const BodyText(text: 'Select Deadline:'),
+                            BodyText(text: '108'.tr),
                             Padding(
                               padding: const EdgeInsets.all(10),
                               child: DateContainer(
@@ -233,14 +231,14 @@ class PostJobView extends StatelessWidget {
                             groupValue: controller.selectedLocation,
                             onChanged: (value) =>
                                 controller.changeLocation(value!),
-                            child: const BodyText(text: "Remotely"),
+                            child: BodyText(text: '109'.tr),
                           ),
                           RadioMenuButton(
                             value: 'Location',
                             groupValue: controller.selectedLocation,
                             onChanged: (value) =>
                                 controller.changeLocation(value!),
-                            child: const BodyText(text: "Location"),
+                            child: BodyText(text: '110'.tr),
                           ),
                         ],
                       ),
@@ -260,26 +258,27 @@ class PostJobView extends StatelessWidget {
                                   .toList(),
                               onChanged: (p0) async =>
                                   await controller.selectCountry(p0),
-                              text: 'Select Counrty',
+                              text: '13'.tr,
                             ),
                             CustomDropDownButton(
-                                value: controller.selectedState,
-                                items: controller.states
-                                    .map<DropdownMenuItem<States>>(
-                                      (state) => DropdownMenuItem<States>(
-                                        value: state,
-                                        child: BodyText(text: state.stateName),
-                                      ),
-                                    )
-                                    .toList(),
-                                onChanged: (p0) => controller.selectState(p0!),
-                                text: 'Select State'),
+                              value: controller.selectedState,
+                              items: controller.states
+                                  .map<DropdownMenuItem<States>>(
+                                    (state) => DropdownMenuItem<States>(
+                                      value: state,
+                                      child: BodyText(text: state.stateName),
+                                    ),
+                                  )
+                                  .toList(),
+                              onChanged: (p0) => controller.selectState(p0!),
+                              text: '14'.tr,
+                            ),
                           ],
                         ),
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: InfoContainer(
-                          name: 'Used Skills Max=5',
+                          name: '63'.tr,
                           widget: ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount:
@@ -339,14 +338,14 @@ class PostJobView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: InfoContainer(
-                          name: 'Skills',
+                          name: '30'.tr,
                           widget: ExpansionTile(
-                            title: const BodyText(text: 'Expand'),
+                            title: BodyText(text: '64'.tr),
                             children: [
                               Padding(
                                 padding: const EdgeInsets.all(10),
                                 child: SearchBar(
-                                  hintText: 'Search',
+                                  hintText: '36'.tr,
                                   leading: Icon(
                                     Icons.search,
                                     color: Colors.lightBlue.shade900,

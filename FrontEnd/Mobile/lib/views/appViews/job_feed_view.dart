@@ -27,10 +27,10 @@ class JobFeedView extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Padding(
-                              padding: EdgeInsets.all(10),
+                            Padding(
+                              padding: const EdgeInsets.all(10),
                               child: MediumHeadlineText(
-                                text: 'Most Payed Freelancing Jobs:',
+                                text: '86'.tr,
                               ),
                             ),
                             ListView.builder(
@@ -66,8 +66,9 @@ class JobFeedView extends StatelessWidget {
                                               ),
                                               Row(
                                                 children: [
-                                                  const SmallHeadlineText(
-                                                      text: 'Salary: '),
+                                                  SmallHeadlineText(
+                                                    text: '89'.tr,
+                                                  ),
                                                   MediumHeadlineText(
                                                     text:
                                                         '${controller.mostPayedFreeLancingJobs[index].salary}\$',
@@ -94,10 +95,10 @@ class JobFeedView extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Padding(
-                              padding: EdgeInsets.all(10),
+                            Padding(
+                              padding: const EdgeInsets.all(10),
                               child: MediumHeadlineText(
-                                text: 'Most Payed Regular Jobs:',
+                                text: '88'.tr,
                               ),
                             ),
                             ListView.builder(
@@ -129,8 +130,8 @@ class JobFeedView extends StatelessWidget {
                                               ),
                                               Row(
                                                 children: [
-                                                  const SmallHeadlineText(
-                                                    text: 'Offer: ',
+                                                  SmallHeadlineText(
+                                                    text: '87'.tr,
                                                   ),
                                                   MediumHeadlineText(
                                                     text:
@@ -158,10 +159,10 @@ class JobFeedView extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Padding(
-                              padding: EdgeInsets.all(10),
+                            Padding(
+                              padding: const EdgeInsets.all(10),
                               child: MediumHeadlineText(
-                                text: 'Most Posting Companies:',
+                                text: '90'.tr,
                               ),
                             ),
                             ListView.builder(
@@ -204,8 +205,8 @@ class JobFeedView extends StatelessWidget {
                                                     text:
                                                         '${controller.mostPostingComapnies[index].count}',
                                                   ),
-                                                  const SmallHeadlineText(
-                                                    text: 'Posts',
+                                                  SmallHeadlineText(
+                                                    text: '91'.tr,
                                                   ),
                                                 ],
                                               )
@@ -229,10 +230,10 @@ class JobFeedView extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Padding(
-                              padding: EdgeInsets.all(10),
+                            Padding(
+                              padding: const EdgeInsets.all(10),
                               child: MediumHeadlineText(
-                                text: 'Most Needed Skills:',
+                                text: '92'.tr,
                               ),
                             ),
                             ListView.builder(
@@ -266,8 +267,8 @@ class JobFeedView extends StatelessWidget {
                                                   text:
                                                       '${controller.mostNeededSkills[index].count}',
                                                 ),
-                                                const SmallHeadlineText(
-                                                  text: 'Times',
+                                                SmallHeadlineText(
+                                                  text: '93'.tr,
                                                 ),
                                               ],
                                             )

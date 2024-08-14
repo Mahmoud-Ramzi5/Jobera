@@ -52,7 +52,7 @@ class NotificationsController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response.toString(),
       );
     }
@@ -79,7 +79,7 @@ class NotificationsController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response.toString(),
       );
     }
@@ -106,7 +106,7 @@ class NotificationsController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response.toString(),
       );
     }

@@ -19,7 +19,7 @@ class CompanyEditInfoView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Edit Info'),
+        title: TitleText(text: '38'.tr),
         actions: [
           TextButton(
             onPressed: () {
@@ -32,7 +32,7 @@ class CompanyEditInfoView extends StatelessWidget {
                 );
               }
             },
-            child: const LabelText(text: 'Submit'),
+            child: LabelText(text: '23'.tr),
           )
         ],
       ),
@@ -51,7 +51,7 @@ class CompanyEditInfoView extends StatelessWidget {
                         controller: controller.editNameController,
                         textInputType: TextInputType.name,
                         obsecureText: false,
-                        labelText: 'Name',
+                        labelText: '5'.tr,
                         icon: Icons.abc,
                         validator: (p0) =>
                             Validation().validateRequiredField(p0),
@@ -63,7 +63,7 @@ class CompanyEditInfoView extends StatelessWidget {
                         controller: controller.editFieldController,
                         textInputType: TextInputType.name,
                         obsecureText: false,
-                        labelText: 'Field of Work',
+                        labelText: '16'.tr,
                         icon: Icons.work,
                         validator: (p0) =>
                             Validation().validateRequiredField(p0),
@@ -84,7 +84,7 @@ class CompanyEditInfoView extends StatelessWidget {
                               controller: controller.editPhoneNumberController,
                               textInputType: TextInputType.phone,
                               obsecureText: false,
-                              labelText: 'Phone Number',
+                              labelText: '9'.tr,
                               icon: Icons.phone,
                               validator: (p0) =>
                                   Validation().validateNumber(p0),
@@ -108,7 +108,7 @@ class CompanyEditInfoView extends StatelessWidget {
                               .toList(),
                           onChanged: (p0) async =>
                               await controller.selectCountry(p0),
-                          text: 'Select Country',
+                          text: '13'.tr,
                         ),
                         CustomDropDownButton(
                           value: controller.selectedState,
@@ -121,7 +121,7 @@ class CompanyEditInfoView extends StatelessWidget {
                               )
                               .toList(),
                           onChanged: (p0) => controller.selectState(p0!),
-                          text: 'Select City',
+                          text: '14'.tr,
                         ),
                       ],
                     ),

@@ -111,7 +111,7 @@ class UserEditCertificatesController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response.toString(),
       );
     }
@@ -148,7 +148,7 @@ class UserEditCertificatesController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response.toString(),
       );
     }
@@ -195,7 +195,7 @@ class UserEditCertificatesController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response.toString(),
       );
     }

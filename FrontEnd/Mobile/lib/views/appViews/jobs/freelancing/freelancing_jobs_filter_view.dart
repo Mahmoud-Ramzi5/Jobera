@@ -14,11 +14,11 @@ class FreelancingJobsFilterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Fitler by'),
+        title: TitleText(text: '113'.tr),
         actions: [
           TextButton(
             onPressed: () => _freelancingJobsController.resetFilter(),
-            child: const LabelText(text: 'Reset Filter'),
+            child: LabelText(text: '114'.tr),
           )
         ],
       ),
@@ -30,7 +30,7 @@ class FreelancingJobsFilterView extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: SearchBar(
                   controller: controller.nameController,
-                  hintText: 'Published By',
+                  hintText: '115'.tr,
                   leading: Icon(
                     Icons.search,
                     color: Colors.lightBlue.shade900,
@@ -44,7 +44,7 @@ class FreelancingJobsFilterView extends StatelessWidget {
                   textInputType: TextInputType.number,
                   obsecureText: false,
                   icon: Icons.monetization_on,
-                  labelText: 'Min Offer',
+                  labelText: '106'.tr,
                 ),
               ),
               Padding(
@@ -54,19 +54,19 @@ class FreelancingJobsFilterView extends StatelessWidget {
                   textInputType: TextInputType.number,
                   obsecureText: false,
                   icon: Icons.monetization_on,
-                  labelText: 'Max Offer',
+                  labelText: '107'.tr,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: InfoContainer(
-                  name: 'Deadline',
+                  name: '176'.tr,
                   widget: Column(
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const BodyText(text: 'From:'),
+                          BodyText(text: '76'.tr),
                           Padding(
                             padding: const EdgeInsets.all(10),
                             child: DateContainer(
@@ -77,7 +77,7 @@ class FreelancingJobsFilterView extends StatelessWidget {
                                 child: BodyText(
                                   text: controller.dateFrom != null
                                       ? "${controller.dateFrom}".split(' ')[0]
-                                      : 'Pick Date',
+                                      : '125'.tr,
                                 ),
                               ),
                             ),
@@ -87,7 +87,7 @@ class FreelancingJobsFilterView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const BodyText(text: 'To:'),
+                          BodyText(text: '77'.tr),
                           Padding(
                             padding: const EdgeInsets.all(10),
                             child: DateContainer(
@@ -98,7 +98,7 @@ class FreelancingJobsFilterView extends StatelessWidget {
                                 child: BodyText(
                                   text: controller.dateTo != null
                                       ? "${controller.dateTo}".split(' ')[0]
-                                      : 'Pick Date',
+                                      : '125'.tr,
                                 ),
                               ),
                             ),
@@ -112,11 +112,11 @@ class FreelancingJobsFilterView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: InfoContainer(
-                  name: 'Skills',
+                  name: '30'.tr,
                   widget: Padding(
                     padding: const EdgeInsets.all(10),
                     child: ExpansionTile(
-                      title: const BodyText(text: 'Expand'),
+                      title: BodyText(text: '64'.tr),
                       children: [
                         ListView.builder(
                           itemCount: controller.skills.length,
@@ -158,7 +158,7 @@ class FreelancingJobsFilterView extends StatelessWidget {
                     controller.skillNames,
                   );
                 },
-                child: const BodyText(text: 'Submit Filter'),
+                child: BodyText(text: '23'.tr),
               )
             ],
           ),

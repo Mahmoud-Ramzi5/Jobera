@@ -46,7 +46,7 @@ class WalletController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response!.data['errors'].toString(),
       );
     }
@@ -74,7 +74,7 @@ class WalletController extends GetxController {
         codeController.clear();
         Get.back();
         Dialogs().showSuccessDialog(
-          'Success',
+          '155'.tr,
           '',
         );
         Future.delayed(
@@ -87,7 +87,7 @@ class WalletController extends GetxController {
       }
     } on DioException catch (e) {
       await Dialogs().showErrorDialog(
-        'Failed to reedem code',
+        '163'.tr,
         e.response!.data['errors'].toString(),
       );
       Future.delayed(
@@ -121,7 +121,7 @@ class WalletController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response!.data['errors'].toString(),
       );
     }

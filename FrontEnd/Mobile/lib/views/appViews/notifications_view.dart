@@ -13,7 +13,7 @@ class NotificationsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Notifications'),
+        title: TitleText(text: '81'.tr),
         leading: IconButton(
           onPressed: () => _notificationsController.goBack(),
           icon: const Icon(Icons.arrow_back),
@@ -39,7 +39,7 @@ class NotificationsView extends StatelessWidget {
                             ),
                             child: Row(
                               children: [
-                                const BodyText(text: 'Mark all as read '),
+                                BodyText(text: '82'.tr),
                                 Icon(
                                   Icons.remove_red_eye,
                                   color: Colors.lightBlue.shade900,
@@ -51,10 +51,10 @@ class NotificationsView extends StatelessWidget {
                             onPressed: () => controller.deleteNotification(
                               'all',
                             ),
-                            child: const Row(
+                            child: Row(
                               children: [
-                                BodyText(text: 'Delete all '),
-                                Icon(
+                                BodyText(text: '83'.tr),
+                                const Icon(
                                   Icons.delete,
                                   color: Colors.red,
                                 ),
@@ -91,7 +91,7 @@ class NotificationsView extends StatelessWidget {
                                     children: [
                                       Row(
                                         children: [
-                                          const BodyText(text: 'From: '),
+                                          BodyText(text: '76'.tr),
                                           LabelText(
                                             text: controller
                                                 .notifications[index]
@@ -101,7 +101,7 @@ class NotificationsView extends StatelessWidget {
                                       ),
                                       Row(
                                         children: [
-                                          const BodyText(text: 'Message: '),
+                                          BodyText(text: '84'.tr),
                                           LabelText(
                                             text: controller
                                                 .notifications[index].message,
@@ -110,7 +110,7 @@ class NotificationsView extends StatelessWidget {
                                       ),
                                       Row(
                                         children: [
-                                          const BodyText(text: 'Date: '),
+                                          BodyText(text: '80'.tr),
                                           LabelText(
                                             text:
                                                 '${controller.notifications[index].createdAt.day}/${controller.notifications[index].createdAt.month}/${controller.notifications[index].createdAt.year} ${controller.notifications[index].createdAt.hour}:${controller.notifications[index].createdAt.minute}',
@@ -135,7 +135,7 @@ class NotificationsView extends StatelessWidget {
                                           ),
                                         )
                                       else
-                                        const BodyText(text: 'Read'),
+                                        BodyText(text: '85'.tr),
                                       IconButton(
                                         onPressed: () =>
                                             controller.deleteNotification(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/custom_image.dart';
 import 'package:jobera/customWidgets/custom_text_field.dart';
@@ -162,7 +163,7 @@ class SendMessageComponenet extends StatelessWidget {
               controller: messageController,
               textInputType: TextInputType.text,
               obsecureText: false,
-              hintText: 'Type a message...',
+              hintText: '167'.tr,
               icon: Icons.chat_bubble,
             ),
           ),
@@ -170,7 +171,7 @@ class SendMessageComponenet extends StatelessWidget {
             padding: const EdgeInsets.all(10),
             child: ElevatedButton(
               onPressed: onPressed,
-              child: const Text('Send'),
+              child: Text('168'.tr),
             ),
           ),
         ],

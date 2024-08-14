@@ -18,7 +18,7 @@ class UserEditEducationView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Education'),
+        title: TitleText(text: '29'.tr),
         actions: [
           TextButton(
             onPressed: () async {
@@ -34,8 +34,8 @@ class UserEditEducationView extends StatelessWidget {
               }
             },
             child: _editController.settingsController.isInRegister
-                ? const LabelText(text: 'Next')
-                : const LabelText(text: 'Submit'),
+                ? LabelText(text: '34'.tr)
+                : LabelText(text: '23'.tr),
           )
         ],
       ),
@@ -68,7 +68,7 @@ class UserEditEducationView extends StatelessWidget {
                             }).toList(),
                             onChanged: (p0) =>
                                 controller.selectLevel(p0.toString()),
-                            text: 'Level',
+                            text: '39'.tr,
                           ),
                         ),
                       ),
@@ -78,7 +78,7 @@ class UserEditEducationView extends StatelessWidget {
                           controller: controller.editFieldController,
                           textInputType: TextInputType.name,
                           obsecureText: false,
-                          labelText: 'Field',
+                          labelText: '40'.tr,
                           icon: Icons.school,
                           validator: (p0) =>
                               Validation().validateRequiredField(p0),
@@ -90,7 +90,7 @@ class UserEditEducationView extends StatelessWidget {
                           controller: controller.editSchoolController,
                           textInputType: TextInputType.name,
                           obsecureText: false,
-                          labelText: 'School',
+                          labelText: '41'.tr,
                           icon: Icons.account_balance,
                           validator: (p0) =>
                               Validation().validateRequiredField(p0),
@@ -99,7 +99,7 @@ class UserEditEducationView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const BodyText(text: 'Start Date:'),
+                          BodyText(text: '42'.tr),
                           Padding(
                             padding: const EdgeInsets.all(10),
                             child: DateContainer(
@@ -119,7 +119,7 @@ class UserEditEducationView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const BodyText(text: 'End Date:'),
+                          BodyText(text: '43'.tr),
                           Padding(
                             padding: const EdgeInsets.all(10),
                             child: DateContainer(
@@ -146,16 +146,16 @@ class UserEditEducationView extends StatelessWidget {
                                 flex: 1,
                                 child: BodyText(
                                   text: _editController.certficateName == null
-                                      ? 'Add file'
-                                      : 'File: ${_editController.certficateName}',
+                                      ? '44'.tr
+                                      : '${'45'.tr}": ${_editController.certficateName}',
                                 ),
                               ),
                               if (_editController.certficateName != null)
                                 IconButton(
                                   onPressed: () {
                                     Dialogs().confirmDialog(
-                                      'Notice:',
-                                      'Are you sure you want to delete File?',
+                                      '46'.tr,
+                                      '47'.tr,
                                       () {
                                         _editController.removeFile();
                                       },

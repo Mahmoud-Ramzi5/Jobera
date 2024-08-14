@@ -86,8 +86,8 @@ class RegularJobsView extends StatelessWidget {
                                 child: Center(
                                   child: BodyText(
                                     text: controller.regularJobs.isEmpty
-                                        ? 'No jobs to show'
-                                        : 'No more jobs',
+                                        ? '111'.tr
+                                        : '112'.tr,
                                   ),
                                 ),
                               ),

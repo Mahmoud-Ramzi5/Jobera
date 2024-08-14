@@ -13,7 +13,7 @@ class ForgotPasswordView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const TitleText(text: "Forgot Password")),
+      appBar: AppBar(title: TitleText(text: '18'.tr)),
       body: Form(
         key: _forgotPasswordController.formField,
         child: SingleChildScrollView(
@@ -22,15 +22,14 @@ class ForgotPasswordView extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const BodyText(
-                    text: "Enter your email to recieve a rest password email."),
+                BodyText(text: '22'.tr),
                 Padding(
                   padding: const EdgeInsets.all(10),
                   child: CustomTextField(
                     controller: _forgotPasswordController.emailController,
                     textInputType: TextInputType.emailAddress,
                     obsecureText: false,
-                    labelText: 'Email',
+                    labelText: '6'.tr,
                     icon: Icons.email,
                     validator: (p0) => Validation().validateEmail(p0),
                   ),
@@ -45,7 +44,7 @@ class ForgotPasswordView extends StatelessWidget {
                       );
                     }
                   },
-                  child: const BodyText(text: "Submit"),
+                  child: BodyText(text: '23'.tr),
                 ),
               ],
             ),

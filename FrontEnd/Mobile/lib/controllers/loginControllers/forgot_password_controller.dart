@@ -39,7 +39,7 @@ class ForgotPasswordController extends GetxController {
 
       if (response.statusCode == 200) {
         Dialogs().showSuccessDialog(
-          'Success',
+          '155'.tr,
           response.data["message"].toString(),
         );
         Future.delayed(
@@ -51,7 +51,7 @@ class ForgotPasswordController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Failed',
+        '159'.tr,
         e.response!.data['errors'].toString(),
       );
     }
