@@ -35,7 +35,7 @@ class UserRegisterView extends StatelessWidget {
                         controller: controller.fullNameController,
                         textInputType: TextInputType.name,
                         obsecureText: false,
-                        labelText: 'Full Name',
+                        labelText: '5'.tr,
                         icon: Icons.abc,
                         validator: (p0) =>
                             Validation().validateRequiredField(p0),
@@ -46,7 +46,7 @@ class UserRegisterView extends StatelessWidget {
                           controller: controller.emailController,
                           textInputType: TextInputType.emailAddress,
                           obsecureText: false,
-                          labelText: 'Email',
+                          labelText: '6'.tr,
                           icon: Icons.email,
                           validator: (p0) => Validation().validateEmail(p0),
                         ),
@@ -59,7 +59,7 @@ class UserRegisterView extends StatelessWidget {
                               controller: controller.passwordController,
                               textInputType: TextInputType.visiblePassword,
                               obsecureText: controller.passwordToggle,
-                              labelText: 'Password',
+                              labelText: '7'.tr,
                               icon: Icons.key,
                               inkWell: controller.passwordInkwell(),
                               validator: (p0) =>
@@ -72,7 +72,7 @@ class UserRegisterView extends StatelessWidget {
                               controller: controller.confirmPasswordController,
                               textInputType: TextInputType.visiblePassword,
                               obsecureText: controller.passwordToggle,
-                              labelText: 'Confirm Password',
+                              labelText: '8'.tr,
                               icon: Icons.key,
                               inkWell: controller.passwordInkwell(),
                               validator: (p0) =>
@@ -102,7 +102,7 @@ class UserRegisterView extends StatelessWidget {
                                     .phoneNumberController,
                                 textInputType: TextInputType.phone,
                                 obsecureText: false,
-                                labelText: 'Phone Number',
+                                labelText: '9'.tr,
                                 icon: Icons.phone,
                                 validator: (p0) =>
                                     Validation().validateNumber(p0),
@@ -114,7 +114,7 @@ class UserRegisterView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const BodyText(text: 'Select Birth Date:'),
+                          BodyText(text: '10'.tr),
                           Padding(
                             padding: const EdgeInsets.all(10),
                             child: DateContainer(
@@ -146,7 +146,7 @@ class UserRegisterView extends StatelessWidget {
                                     Icons.man,
                                     color: Colors.orange.shade800,
                                   ),
-                                  child: const BodyText(text: "Male"),
+                                  child: BodyText(text: '11'.tr),
                                 ),
                                 RadioMenuButton(
                                   value: 'FEMALE',
@@ -157,7 +157,7 @@ class UserRegisterView extends StatelessWidget {
                                     Icons.woman,
                                     color: Colors.orange.shade800,
                                   ),
-                                  child: const BodyText(text: "Female"),
+                                  child: BodyText(text: '12'.tr),
                                 ),
                               ],
                             ),
@@ -179,7 +179,7 @@ class UserRegisterView extends StatelessWidget {
                                 .toList(),
                             onChanged: (p0) async =>
                                 await controller.selectCountry(p0),
-                            text: 'Select Country',
+                            text: '13'.tr,
                           ),
                           CustomDropDownButton(
                             value: controller.selectedState,
@@ -192,7 +192,7 @@ class UserRegisterView extends StatelessWidget {
                                 )
                                 .toList(),
                             onChanged: (p0) => controller.selectState(p0!),
-                            text: 'Select City',
+                            text: '14'.tr,
                           ),
                         ],
                       ),
@@ -217,7 +217,7 @@ class UserRegisterView extends StatelessWidget {
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              const BodyText(text: "Register"),
+                              BodyText(text: '4'.tr),
                               Icon(
                                 Icons.app_registration_rounded,
                                 color: Colors.lightBlue.shade900,

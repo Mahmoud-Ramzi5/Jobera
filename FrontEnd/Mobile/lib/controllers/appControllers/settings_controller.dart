@@ -19,6 +19,9 @@ class SettingsController extends GetxController {
   late ImagePicker picker;
   late bool isDarkMode;
   late ThemeData theme;
+  late Locale locale;
+  late String selectedLang;
+  late Map<String, String> langs;
   bool isInRegister = false;
 
   @override
@@ -28,7 +31,30 @@ class SettingsController extends GetxController {
     isDarkMode =
         sharedPreferences?.getBool('isDarkMode') == true ? true : false;
     theme = isDarkMode ? Themes.darkTheme : Themes.lightTheme;
+    if (sharedPreferences?.getString("lang") != null) {
+      if (sharedPreferences?.getString("lang") == "en") {
+        locale = const Locale("en");
+        selectedLang = 'en';
+      } else {
+        locale = const Locale("ar");
+        selectedLang = 'ar';
+      }
+    } else {
+      locale = const Locale('en');
+      selectedLang = 'en';
+    }
+    langs = {
+      'English': 'en',
+      'العربية': 'ar',
+    };
     super.onInit();
+  }
+
+  Future<void> changeLang(String lang) async {
+    Locale locale = Locale(lang);
+    selectedLang = lang;
+    sharedPreferences?.setString("lang", lang);
+    await Get.updateLocale(locale);
   }
 
   void changeTheme(bool currentValue) {
@@ -83,8 +109,8 @@ class SettingsController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
-        e.response!.data['errors'].toString(),
+        '153'.tr,
+        e.response.toString(),
       );
     }
   }
@@ -108,8 +134,8 @@ class SettingsController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
-        e.response!.data['errors'].toString(),
+        '153'.tr,
+        e.response.toString(),
       );
     }
   }
@@ -130,7 +156,7 @@ class SettingsController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response!.data['errors'].toString(),
       );
     }
@@ -152,7 +178,7 @@ class SettingsController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response!.data['errors'].toString(),
       );
     }
@@ -177,7 +203,7 @@ class SettingsController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response!.data['errors'].toString(),
       );
     }
@@ -199,7 +225,7 @@ class SettingsController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response!.data['erros'].toString(),
       );
     }
@@ -224,7 +250,7 @@ class SettingsController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response!.data.toString(),
       );
     }

@@ -168,7 +168,7 @@ class ChatsController extends GetxController {
   }
 
   Future<void> initChannels(int id) async {
-    final myChannel = await pusher.subscribe(
+    await pusher.subscribe(
       channelName: 'private-chat.$id',
     );
   }
@@ -194,7 +194,7 @@ class ChatsController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response.toString(),
       );
     }
@@ -219,7 +219,7 @@ class ChatsController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response.toString(),
       );
     }
@@ -248,7 +248,7 @@ class ChatsController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response.toString(),
       );
     }
@@ -273,7 +273,7 @@ class ChatsController extends GetxController {
       if (response.statusCode == 200) {}
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response.toString(),
       );
     }

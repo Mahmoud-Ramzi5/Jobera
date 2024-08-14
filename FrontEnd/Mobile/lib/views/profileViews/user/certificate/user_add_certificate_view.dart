@@ -15,7 +15,7 @@ class UserAddCertificateView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Add Certificate'),
+        title: TitleText(text: '53'.tr),
         actions: [
           TextButton(
             onPressed: () {
@@ -28,7 +28,7 @@ class UserAddCertificateView extends StatelessWidget {
                 );
               }
             },
-            child: const LabelText(text: "Submit"),
+            child: LabelText(text: '23'.tr),
           ),
         ],
       ),
@@ -43,7 +43,7 @@ class UserAddCertificateView extends StatelessWidget {
                   controller: _addController.nameController,
                   textInputType: TextInputType.name,
                   obsecureText: false,
-                  labelText: 'Name',
+                  labelText: '5'.tr,
                   icon: Icons.abc,
                   validator: (p0) => Validation().validateRequiredField(p0),
                 ),
@@ -54,7 +54,7 @@ class UserAddCertificateView extends StatelessWidget {
                   controller: _addController.organizationController,
                   textInputType: TextInputType.name,
                   obsecureText: false,
-                  labelText: 'Organization',
+                  labelText: '48'.tr,
                   icon: Icons.school,
                   validator: (p0) => Validation().validateRequiredField(p0),
                 ),
@@ -62,7 +62,7 @@ class UserAddCertificateView extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const BodyText(text: 'Select release Date:'),
+                  BodyText(text: '51'.tr),
                   Padding(
                     padding: const EdgeInsets.all(10),
                     child: DateContainer(
@@ -86,8 +86,8 @@ class UserAddCertificateView extends StatelessWidget {
                   builder: (controller) => InfoContainer(
                     widget: BodyText(
                       text: controller.fileName == null
-                          ? 'File:'
-                          : 'File: ${controller.fileName}',
+                          ? '${'45'.tr}:'
+                          : '${'45'.tr}:${controller.fileName}',
                     ),
                   ),
                 ),
@@ -95,7 +95,7 @@ class UserAddCertificateView extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: OutlinedButton(
-                  child: const BodyText(text: 'Choose file'),
+                  child: BodyText(text: '54'.tr),
                   onPressed: () async => _addController.addFile(),
                 ),
               ),

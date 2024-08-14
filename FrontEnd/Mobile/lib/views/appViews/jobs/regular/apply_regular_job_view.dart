@@ -14,7 +14,7 @@ class ApplyRegularJobView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Apply'),
+        title: TitleText(text: '123'.tr),
       ),
       body: Form(
         key: _regularJobDetailsController.formField,
@@ -26,7 +26,7 @@ class ApplyRegularJobView extends StatelessWidget {
                 controller: _regularJobDetailsController.commentController,
                 textInputType: TextInputType.text,
                 obsecureText: false,
-                labelText: 'Comment',
+                labelText: '124'.tr,
                 icon: Icons.abc,
                 validator: (p0) => Validation().validateRequiredField(p0),
               ),
@@ -42,7 +42,7 @@ class ApplyRegularJobView extends StatelessWidget {
                   );
                 }
               },
-              child: const LabelText(text: 'send'),
+              child: LabelText(text: '23'.tr),
             ),
           ],
         ),

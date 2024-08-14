@@ -104,7 +104,7 @@ class UserEditInfoController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response!.data['errors'].toString(),
       );
     }

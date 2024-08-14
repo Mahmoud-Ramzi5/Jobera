@@ -7,7 +7,7 @@ import 'package:jobera/customWidgets/validation.dart';
 class Dialogs {
   Future<void> loadingDialog() async {
     Get.defaultDialog(
-      title: 'Loading....',
+      title: '131'.tr,
       content: const CircularProgressIndicator(),
     );
   }
@@ -65,25 +65,25 @@ class Dialogs {
 
   Future<void> showLogoutDialog(void Function()? onTap) async {
     Get.defaultDialog(
-      title: "Logout",
+      title: '96'.tr,
       titleStyle: TextStyle(
         color: Colors.orange.shade800,
         fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
-      content: const BodyText(text: "Are you sure you want to logout?"),
+      content: BodyText(text: '132'.tr),
       confirm: GestureDetector(
         onTap: onTap,
-        child: const Padding(
-          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-          child: BodyText(text: 'Yes'),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: BodyText(text: '133'.tr),
         ),
       ),
       cancel: GestureDetector(
         onTap: () => Get.back(),
-        child: const Padding(
-          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-          child: BodyText(text: "No"),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: BodyText(text: '134'.tr),
         ),
       ),
     );
@@ -91,22 +91,22 @@ class Dialogs {
 
   Future<void> showSesionExpiredDialog() async {
     Get.defaultDialog(
-      title: 'Session expired',
+      title: '135'.tr,
       titleStyle: const TextStyle(
         color: Colors.red,
         fontSize: 20,
         fontWeight: FontWeight.bold,
       ),
-      content: const Column(
+      content: Column(
         children: [
-          Icon(
+          const Icon(
             Icons.timer_off,
             color: Colors.red,
             size: 40,
           ),
           Padding(
-            padding: EdgeInsets.all(5),
-            child: BodyText(text: 'Please Login again'),
+            padding: const EdgeInsets.all(5),
+            child: BodyText(text: '136'.tr),
           ),
         ],
       ),
@@ -120,7 +120,7 @@ class Dialogs {
   ) async {
     bio != null ? controller.text = bio : null;
     Get.defaultDialog(
-      title: "Add bio",
+      title: '137'.tr,
       titleStyle: TextStyle(
         color: Colors.orange.shade800,
         fontSize: 20,
@@ -130,16 +130,16 @@ class Dialogs {
         controller: controller,
         textInputType: TextInputType.text,
         obsecureText: false,
-        labelText: 'Bio',
+        labelText: '26'.tr,
         icon: Icons.description,
       ),
       cancel: OutlinedButton(
         onPressed: () => Get.back(),
-        child: const LabelText(text: 'Cancel'),
+        child: LabelText(text: '128'.tr),
       ),
       confirm: OutlinedButton(
         onPressed: onPressed,
-        child: const LabelText(text: 'Submit'),
+        child: LabelText(text: '23'.tr),
       ),
     );
   }
@@ -150,20 +150,20 @@ class Dialogs {
     void Function()? onPressed3,
   ) async {
     Get.defaultDialog(
-      title: 'Photo:',
+      title: '139'.tr,
       content: Column(
         children: [
           TextButton(
             onPressed: onPressed1,
-            child: const LabelText(text: 'Take Photo'),
+            child: LabelText(text: '140'.tr),
           ),
           TextButton(
             onPressed: onPressed2,
-            child: const LabelText(text: 'Upload Photo'),
+            child: LabelText(text: '141'.tr),
           ),
           TextButton(
             onPressed: onPressed3,
-            child: const LabelText(text: 'Remove Photo'),
+            child: LabelText(text: '142'.tr),
           ),
         ],
       ),
@@ -185,11 +185,11 @@ class Dialogs {
       content: BodyText(text: text),
       cancel: OutlinedButton(
         onPressed: () => Get.back(),
-        child: const LabelText(text: 'No'),
+        child: LabelText(text: '134'.tr),
       ),
       confirm: OutlinedButton(
         onPressed: onPressed,
-        child: const LabelText(text: 'Yes'),
+        child: LabelText(text: '133'.tr),
       ),
     );
   }
@@ -199,7 +199,7 @@ class Dialogs {
     void Function()? onPressed,
   ) async {
     Get.defaultDialog(
-      title: 'Redeem Code',
+      title: '74'.tr,
       titleStyle: TextStyle(
         color: Colors.orange.shade800,
         fontSize: 20,
@@ -209,13 +209,13 @@ class Dialogs {
         controller: controller,
         textInputType: TextInputType.text,
         obsecureText: false,
-        labelText: 'Code',
+        labelText: '143'.tr,
         icon: Icons.numbers,
         validator: (p0) => Validation().validateRequiredField(p0),
       ),
       confirm: OutlinedButton(
         onPressed: onPressed,
-        child: const LabelText(text: 'Redeem'),
+        child: LabelText(text: '144'.tr),
       ),
     );
   }

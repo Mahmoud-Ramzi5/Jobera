@@ -73,7 +73,7 @@ class CompanyProfileController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response!.data['errors'].toString(),
       );
     }
@@ -98,7 +98,7 @@ class CompanyProfileController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response!.data['errors'].toString(),
       );
     }
@@ -129,7 +129,7 @@ class CompanyProfileController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response!.data['errors'].toString(),
       );
     }
@@ -158,7 +158,7 @@ class CompanyProfileController extends GetxController {
         if (response.statusCode == 200) {
           refreshIndicatorKey.currentState!.show();
           Dialogs().showSuccessDialog(
-            'Photo added successfully',
+            '154'.tr,
             '',
           );
           Future.delayed(
@@ -171,7 +171,7 @@ class CompanyProfileController extends GetxController {
         }
       } on DioException catch (e) {
         Dialogs().showErrorDialog(
-          'Error',
+          '153'.tr,
           e.response!.data['errors'].toString(),
         );
         Future.delayed(
@@ -202,7 +202,7 @@ class CompanyProfileController extends GetxController {
       if (response.statusCode == 200) {
         refreshIndicatorKey.currentState!.show();
         Dialogs().showSuccessDialog(
-          'Success',
+          '155'.tr,
           response.data['message'].toString(),
         );
         Future.delayed(
@@ -215,7 +215,7 @@ class CompanyProfileController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Error',
+        '153'.tr,
         e.response!.data['errors'].toString(),
       );
       Future.delayed(

@@ -66,7 +66,7 @@ class CompanyProfileView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const SmallHeadlineText(text: 'Rating:'),
+                          SmallHeadlineText(text: '24'.tr),
                           RatingBar.builder(
                             initialRating: controller.company.rating ?? 0.0,
                             allowHalfRating: true,
@@ -83,18 +83,18 @@ class CompanyProfileView extends StatelessWidget {
                           ),
                           BodyText(
                             text:
-                                '(${controller.company.reviewsCount} Reviews)',
+                                '(${controller.company.reviewsCount} ${'25'}.tr)',
                           ),
                         ],
                       ),
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: InfoContainer(
-                          name: 'Bio',
+                          name: '26'.tr,
                           buttonText:
                               controller.homeController.isOtherUserProfile
                                   ? null
-                                  : 'Edit',
+                                  : '27'.tr,
                           icon: Icons.edit,
                           widget: BodyText(
                             text: controller.company.description != null
@@ -114,11 +114,11 @@ class CompanyProfileView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: InfoContainer(
-                          name: 'Basic Info:',
+                          name: '28'.tr,
                           buttonText:
                               controller.homeController.isOtherUserProfile
                                   ? null
-                                  : 'Edit',
+                                  : '27'.tr,
                           icon: Icons.edit,
                           widget: CompanyBasicInfoComponent(
                             isOtherUserProfile:
@@ -138,8 +138,8 @@ class CompanyProfileView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: InfoContainer(
-                          name: 'Portfolios:',
-                          buttonText: 'View',
+                          name: '33'.tr,
+                          buttonText: '32'.tr,
                           widget: GridView.builder(
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(

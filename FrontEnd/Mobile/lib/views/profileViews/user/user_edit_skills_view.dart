@@ -14,15 +14,15 @@ class UserEditSkillsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Skills'),
+        title: TitleText(text: '30'.tr),
         actions: [
           TextButton(
             onPressed: () => _editController.settingsController.isInRegister
                 ? _editController.addSkills()
                 : _editController.editSkills(),
             child: _editController.settingsController.isInRegister
-                ? const LabelText(text: 'Next')
-                : const LabelText(text: 'Submit'),
+                ? LabelText(text: '34'.tr)
+                : LabelText(text: '23'.tr),
           ),
         ],
       ),
@@ -43,7 +43,7 @@ class UserEditSkillsView extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(10),
                           child: InfoContainer(
-                            name: 'My Skills',
+                            name: '35'.tr,
                             widget: ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: controller.myskills.length,
@@ -101,7 +101,7 @@ class UserEditSkillsView extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(10),
                           child: SearchBar(
-                            hintText: 'Search',
+                            hintText: '36'.tr,
                             leading: Icon(
                               Icons.search,
                               color: Colors.lightBlue.shade900,
@@ -113,7 +113,7 @@ class UserEditSkillsView extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(10),
                           child: InfoContainer(
-                            name: 'Skill Types',
+                            name: '37'.tr,
                             widget: ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: controller.skillTypes.length,
@@ -170,7 +170,7 @@ class UserEditSkillsView extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(10),
                           child: InfoContainer(
-                            name: 'Skills',
+                            name: '30'.tr,
                             widget: ListView.builder(
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: controller.skills.length,

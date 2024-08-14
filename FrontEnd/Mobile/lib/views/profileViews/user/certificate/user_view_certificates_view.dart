@@ -17,7 +17,7 @@ class UserEditCertificatesView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Certificates'),
+        title: TitleText(text: '31'.tr),
         actions: [
           if (!_editController.homeController.isOtherUserProfile)
             IconButton(
@@ -31,9 +31,7 @@ class UserEditCertificatesView extends StatelessWidget {
         leading: _editController.settingsController.isInRegister
             ? IconButton(
                 onPressed: () => Get.offAllNamed('/viewPortfolios'),
-                icon: const LabelText(
-                  text: 'Next',
-                ),
+                icon: LabelText(text: '34'.tr),
               )
             : IconButton(
                 onPressed: () => _editController.goBack(),
@@ -93,7 +91,7 @@ class UserEditCertificatesView extends StatelessWidget {
                                         children: [
                                           Row(
                                             children: [
-                                              const BodyText(text: 'Name: '),
+                                              BodyText(text: '5'.tr),
                                               LabelText(
                                                 text: controller
                                                     .certificates[index].name,
@@ -102,8 +100,7 @@ class UserEditCertificatesView extends StatelessWidget {
                                           ),
                                           Row(
                                             children: [
-                                              const BodyText(
-                                                  text: 'Organization: '),
+                                              BodyText(text: '48'.tr),
                                               LabelText(
                                                 text: controller
                                                     .certificates[index]
@@ -113,7 +110,7 @@ class UserEditCertificatesView extends StatelessWidget {
                                           ),
                                           Row(
                                             children: [
-                                              const BodyText(text: 'Date: '),
+                                              BodyText(text: '80'.tr),
                                               LabelText(
                                                   text:
                                                       '${controller.certificates[index].date.day}/${controller.certificates[index].date.month}/${controller.certificates[index].date.year}'),
@@ -141,8 +138,8 @@ class UserEditCertificatesView extends StatelessWidget {
                                           IconButton(
                                             onPressed: () =>
                                                 Dialogs().confirmDialog(
-                                              'Notice:',
-                                              'Are you sure you want to delete Certificate?',
+                                              '46'.tr,
+                                              '50'.tr,
                                               () {
                                                 controller.deleteCertificate(
                                                   controller
@@ -181,7 +178,7 @@ class UserEditCertificatesView extends StatelessWidget {
                                                   controller.editNameController,
                                               textInputType: TextInputType.name,
                                               obsecureText: false,
-                                              labelText: 'Name',
+                                              labelText: '5'.tr,
                                               icon: Icons.abc,
                                               validator: (p0) => Validation()
                                                   .validateRequiredField(p0),
@@ -194,7 +191,7 @@ class UserEditCertificatesView extends StatelessWidget {
                                                   .editOrganizationController,
                                               textInputType: TextInputType.name,
                                               obsecureText: false,
-                                              labelText: 'Organization',
+                                              labelText: '48'.tr,
                                               icon: Icons.school,
                                               validator: (p0) => Validation()
                                                   .validateRequiredField(p0),
@@ -204,8 +201,7 @@ class UserEditCertificatesView extends StatelessWidget {
                                             mainAxisAlignment:
                                                 MainAxisAlignment.center,
                                             children: [
-                                              const BodyText(
-                                                  text: 'Select release Date:'),
+                                              BodyText(text: '51'.tr),
                                               Padding(
                                                 padding:
                                                     const EdgeInsets.all(10),
@@ -239,8 +235,8 @@ class UserEditCertificatesView extends StatelessWidget {
                                                   text: controller
                                                               .editFileName ==
                                                           null
-                                                      ? 'File:${controller.certificates[index].file}'
-                                                      : 'File: ${controller.editFileName}',
+                                                      ? '${'File'.tr}:${controller.certificates[index].file}'
+                                                      : '${'File'.tr}:${controller.editFileName}',
                                                 ),
                                               ),
                                             ),
@@ -251,8 +247,8 @@ class UserEditCertificatesView extends StatelessWidget {
                                                 padding:
                                                     const EdgeInsets.all(10),
                                                 child: OutlinedButton(
-                                                  child: const BodyText(
-                                                      text: 'Choose new file'),
+                                                  child:
+                                                      BodyText(text: '52'.tr),
                                                   onPressed: () async =>
                                                       controller.addFile(),
                                                 ),
@@ -261,8 +257,8 @@ class UserEditCertificatesView extends StatelessWidget {
                                                 padding:
                                                     const EdgeInsets.all(10),
                                                 child: ElevatedButton(
-                                                  child: const BodyText(
-                                                      text: 'Submit'),
+                                                  child:
+                                                      BodyText(text: '23'.tr),
                                                   onPressed: () {
                                                     if (controller.formField
                                                             .currentState

@@ -1,3 +1,5 @@
+import 'package:get/get.dart';
+
 class MostPayedRegJobs {
   final int id;
   final String title;
@@ -77,5 +79,5 @@ class Stat {
 
   Stat.fromJson(Map<String, dynamic> json)
       : stat = json['data'] as int,
-        name = json['name'] as String;
+        name = json['name']['1'.tr] as String;
 }

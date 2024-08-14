@@ -18,7 +18,7 @@ class RegularJobDetailsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Job Details'),
+        title: TitleText(text: '118'.tr),
         leading: IconButton(
           onPressed: () => _regularJobDetailsController.goBack(),
           icon: const Icon(Icons.arrow_back),
@@ -29,8 +29,8 @@ class RegularJobDetailsView extends StatelessWidget {
               !_regularJobDetailsController.regularJob.isDone)
             IconButton(
               onPressed: () => Dialogs().confirmDialog(
-                'Notice:',
-                'Are you sure you want to delete post?',
+                '46'.tr,
+                '119'.tr,
                 () => _regularJobDetailsController.deleteJob(
                   _regularJobDetailsController.regularJob.defJobId,
                 ),
@@ -91,7 +91,7 @@ class RegularJobDetailsView extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.all(10),
                           child: InfoContainer(
-                            name: 'Required Skills',
+                            name: '120'.tr,
                             widget: ListView.builder(
                               itemCount:
                                   controller.regularJob.requiredSkills.length,
@@ -150,11 +150,11 @@ class RegularJobDetailsView extends StatelessWidget {
                                         !controller.applied &&
                                         controller.regularJob.poster.userId !=
                                             controller.homeController.id
-                                    ? 'Be a competitor'
+                                    ? '121'.tr
                                     : null,
                             icon: Icons.add,
                             onPressed: () => Get.toNamed('/applyRegularJob'),
-                            name: 'Competitors',
+                            name: '122'.tr,
                             widget: ListView.builder(
                               itemCount:
                                   controller.regularJob.competitors.length,
@@ -277,7 +277,7 @@ class RegularJobDetailsView extends StatelessWidget {
                                         ),
                                         Row(
                                           children: [
-                                            const BodyText(text: 'Rating:'),
+                                            BodyText(text: '24'.tr),
                                             RatingBar.builder(
                                               initialRating: controller
                                                       .regularJob
@@ -301,7 +301,7 @@ class RegularJobDetailsView extends StatelessWidget {
                                         ),
                                         Row(
                                           children: [
-                                            const BodyText(text: 'Name:'),
+                                            BodyText(text: '5'.tr),
                                             Flexible(
                                               child: TextButton(
                                                 onPressed: () =>
@@ -336,8 +336,7 @@ class RegularJobDetailsView extends StatelessWidget {
                                         ),
                                         Row(
                                           children: [
-                                            const BodyText(
-                                                text: 'Description:'),
+                                            BodyText(text: '26'.tr),
                                             Flexible(
                                               child: LabelText(
                                                 text: controller

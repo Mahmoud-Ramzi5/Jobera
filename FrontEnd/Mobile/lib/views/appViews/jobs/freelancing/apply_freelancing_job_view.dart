@@ -16,7 +16,7 @@ class ApplyFreelancingJobView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Make Offer'),
+        title: TitleText(text: '123'.tr),
       ),
       body: Form(
         key: _freelancingJobDetailsController.formField,
@@ -28,7 +28,7 @@ class ApplyFreelancingJobView extends StatelessWidget {
                 controller: _freelancingJobDetailsController.commentController,
                 textInputType: TextInputType.text,
                 obsecureText: false,
-                labelText: 'Comment',
+                labelText: '124'.tr,
                 icon: Icons.abc,
                 validator: (p0) => Validation().validateRequiredField(p0),
               ),
@@ -39,7 +39,7 @@ class ApplyFreelancingJobView extends StatelessWidget {
                 controller: _freelancingJobDetailsController.offerController,
                 textInputType: TextInputType.number,
                 obsecureText: false,
-                labelText: 'Offer',
+                labelText: '89'.tr,
                 icon: Icons.monetization_on,
                 validator: (p0) => Validation().validateOffer(
                   p0,
@@ -54,7 +54,7 @@ class ApplyFreelancingJobView extends StatelessWidget {
               builder: (controller) => Padding(
                 padding: const EdgeInsets.all(10),
                 child: InfoContainer(
-                  name: 'Your Share:',
+                  name: '129'.tr,
                   widget: LabelText(
                     text: '${controller.share}\$',
                   ),
@@ -73,7 +73,7 @@ class ApplyFreelancingJobView extends StatelessWidget {
                   );
                 }
               },
-              child: const LabelText(text: 'send'),
+              child: LabelText(text: '23'.tr),
             ),
           ],
         ),

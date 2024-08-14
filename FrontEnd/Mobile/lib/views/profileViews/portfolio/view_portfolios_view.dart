@@ -16,7 +16,7 @@ class ViewPortfoliosView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Portfolios'),
+        title: TitleText(text: '33'.tr),
         actions: [
           if (!_editController.homeController.isOtherUserProfile)
             IconButton(
@@ -30,9 +30,7 @@ class ViewPortfoliosView extends StatelessWidget {
         leading: _editController.settingsController.isInRegister
             ? IconButton(
                 onPressed: () => _editController.finishRegister(),
-                icon: const LabelText(
-                  text: 'Next',
-                ),
+                icon: LabelText(text: '34'.tr),
               )
             : IconButton(
                 onPressed: () => _editController.goBack(),
@@ -125,8 +123,8 @@ class ViewPortfoliosView extends StatelessWidget {
                                           IconButton(
                                             onPressed: () =>
                                                 Dialogs().confirmDialog(
-                                              'Notice:',
-                                              'Are you sure you want to delete Portfolio?',
+                                              '46'.tr,
+                                              '55'.tr,
                                               () {
                                                 controller.deletePortfolio(
                                                   controller
@@ -143,14 +141,13 @@ class ViewPortfoliosView extends StatelessWidget {
                                       ],
                                     ),
                                     ExpansionTile(
-                                      title:
-                                          const BodyText(text: 'Information'),
+                                      title: BodyText(text: '28'.tr),
                                       children: [
                                         Column(
                                           children: [
                                             Row(
                                               children: [
-                                                const BodyText(text: 'Title: '),
+                                                BodyText(text: '57'.tr),
                                                 LabelText(
                                                   text: _editController
                                                       .portfolios[index1].title,
@@ -159,7 +156,7 @@ class ViewPortfoliosView extends StatelessWidget {
                                             ),
                                             Row(
                                               children: [
-                                                const BodyText(text: 'Link: '),
+                                                BodyText(text: '56'.tr),
                                                 LabelText(
                                                   text: controller
                                                       .portfolios[index1].link,
@@ -168,8 +165,7 @@ class ViewPortfoliosView extends StatelessWidget {
                                             ),
                                             Row(
                                               children: [
-                                                const BodyText(
-                                                    text: 'Description: '),
+                                                BodyText(text: '26'.tr),
                                                 Flexible(
                                                   flex: 1,
                                                   child: LabelText(
@@ -185,8 +181,7 @@ class ViewPortfoliosView extends StatelessWidget {
                                       ],
                                     ),
                                     ExpansionTile(
-                                      title:
-                                          const BodyText(text: 'Used Skills'),
+                                      title: BodyText(text: '58'.tr),
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.all(10),
@@ -263,7 +258,7 @@ class ViewPortfoliosView extends StatelessWidget {
                                       ],
                                     ),
                                     ExpansionTile(
-                                      title: const BodyText(text: 'Files'),
+                                      title: BodyText(text: '59'.tr),
                                       children: [
                                         Padding(
                                           padding: const EdgeInsets.all(10),
@@ -274,8 +269,8 @@ class ViewPortfoliosView extends StatelessWidget {
                                                       .portfolios[index1]
                                                       .files
                                                       .isEmpty
-                                                  ? const BodyText(
-                                                      text: 'No files',
+                                                  ? BodyText(
+                                                      text: '60'.tr,
                                                     )
                                                   : ListView.builder(
                                                       itemCount: controller
@@ -293,7 +288,7 @@ class ViewPortfoliosView extends StatelessWidget {
                                                               flex: 1,
                                                               child: BodyText(
                                                                 text:
-                                                                    'File ${index + 1}:${controller.portfolios[index1].files[index].name}',
+                                                                    '${'45'.tr} ${index + 1}:${controller.portfolios[index1].files[index].name}',
                                                               ),
                                                             ),
                                                             IconButton(

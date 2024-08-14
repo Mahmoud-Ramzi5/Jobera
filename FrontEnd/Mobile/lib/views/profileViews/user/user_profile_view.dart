@@ -66,7 +66,7 @@ class UserProfileView extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const SmallHeadlineText(text: 'Rating:'),
+                          SmallHeadlineText(text: '24'.tr),
                           RatingBar.builder(
                             initialRating: controller.user.rating ?? 0.0,
                             allowHalfRating: false,
@@ -82,18 +82,19 @@ class UserProfileView extends StatelessWidget {
                             onRatingUpdate: (value) {},
                           ),
                           BodyText(
-                            text: '(${controller.user.reviewsCount} Reviews)',
-                          ),
+                            text:
+                                '(${controller.user.reviewsCount} ${'25'.tr})',
+                          )
                         ],
                       ),
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: InfoContainer(
-                          name: 'Bio',
+                          name: '26'.tr,
                           buttonText:
                               controller.homeController.isOtherUserProfile
                                   ? null
-                                  : 'Edit',
+                                  : '27'.tr,
                           icon: Icons.edit,
                           widget: BodyText(
                             text: controller.user.description != null
@@ -115,11 +116,11 @@ class UserProfileView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: InfoContainer(
-                          name: 'Basic Info',
+                          name: '28'.tr,
                           buttonText:
                               controller.homeController.isOtherUserProfile
                                   ? null
-                                  : 'Edit',
+                                  : '27'.tr,
                           icon: Icons.edit,
                           widget: UserBasicInfoComponent(
                             isOtherUserProfile:
@@ -141,11 +142,11 @@ class UserProfileView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: InfoContainer(
-                          name: 'Education',
+                          name: '29'.tr,
                           buttonText:
                               controller.homeController.isOtherUserProfile
                                   ? null
-                                  : 'Edit',
+                                  : '27'.tr,
                           icon: Icons.edit,
                           widget: EducationComponent(
                             level: controller.user.education!.level,
@@ -176,11 +177,11 @@ class UserProfileView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: InfoContainer(
-                          name: 'Skills',
+                          name: '30'.tr,
                           buttonText:
                               controller.homeController.isOtherUserProfile
                                   ? null
-                                  : 'Edit',
+                                  : '27'.tr,
                           icon: Icons.edit,
                           widget: ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
@@ -231,8 +232,8 @@ class UserProfileView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: InfoContainer(
-                          name: 'Certificates',
-                          buttonText: 'View',
+                          name: '31'.tr,
+                          buttonText: '32'.tr,
                           widget: ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: controller.user.certificates.length,
@@ -267,8 +268,8 @@ class UserProfileView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: InfoContainer(
-                          name: 'Portfolios',
-                          buttonText: 'View',
+                          name: '33'.tr,
+                          buttonText: '32'.tr,
                           widget: GridView.builder(
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(

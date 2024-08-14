@@ -14,11 +14,11 @@ class RegularJobsFilterView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Fitler by'),
+        title: TitleText(text: '113'.tr),
         actions: [
           TextButton(
             onPressed: () => _regularJobsController.resetFilter(),
-            child: const LabelText(text: 'Reset Filter'),
+            child: LabelText(text: '114'.tr),
           )
         ],
       ),
@@ -30,7 +30,7 @@ class RegularJobsFilterView extends StatelessWidget {
                 padding: const EdgeInsets.all(10),
                 child: SearchBar(
                   controller: controller.nameController,
-                  hintText: 'Published By',
+                  hintText: '115'.tr,
                   leading: Icon(
                     Icons.search,
                     color: Colors.lightBlue.shade900,
@@ -44,7 +44,7 @@ class RegularJobsFilterView extends StatelessWidget {
                   textInputType: TextInputType.number,
                   obsecureText: false,
                   icon: Icons.monetization_on,
-                  labelText: 'Min Salary',
+                  labelText: '116'.tr,
                 ),
               ),
               Padding(
@@ -54,17 +54,17 @@ class RegularJobsFilterView extends StatelessWidget {
                   textInputType: TextInputType.number,
                   obsecureText: false,
                   icon: Icons.monetization_on,
-                  labelText: 'Max Salary',
+                  labelText: '117'.tr,
                 ),
               ),
               Padding(
                 padding: const EdgeInsets.all(10),
                 child: InfoContainer(
-                  name: 'Skills',
+                  name: '30'.tr,
                   widget: Padding(
                     padding: const EdgeInsets.all(10),
                     child: ExpansionTile(
-                      title: const BodyText(text: 'Expand'),
+                      title: BodyText(text: '64'.tr),
                       children: [
                         ListView.builder(
                           itemCount: controller.skills.length,
@@ -104,7 +104,7 @@ class RegularJobsFilterView extends StatelessWidget {
                     controller.skillNames,
                   );
                 },
-                child: const BodyText(text: 'Submit Filter'),
+                child: BodyText(text: '23'.tr),
               )
             ],
           ),

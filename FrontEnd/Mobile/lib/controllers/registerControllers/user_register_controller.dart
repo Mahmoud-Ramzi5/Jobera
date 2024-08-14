@@ -142,7 +142,7 @@ class UserRegisterController extends GetxController {
           "access_token",
           response.data["access_token"].toString(),
         );
-        Dialogs().showSuccessDialog('Register Successful', '');
+        Dialogs().showSuccessDialog('151'.tr, '');
         settingsController.isInRegister = true;
         Future.delayed(
           const Duration(seconds: 1),
@@ -153,7 +153,7 @@ class UserRegisterController extends GetxController {
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
-        'Register Failed',
+        '152'.tr,
         e.response!.data['errors'].toString(),
       );
     }

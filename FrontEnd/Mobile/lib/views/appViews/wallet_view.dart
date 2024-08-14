@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:jobera/customWidgets/custom_containers.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
 import 'package:jobera/customWidgets/texts.dart';
 import 'package:jobera/controllers/appControllers/wallet_controller.dart';
@@ -13,7 +12,7 @@ class WalletView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Wallet'),
+        title: TitleText(text: '71'.tr),
       ),
       body: RefreshIndicator(
         key: _walletController.refreshIndicatorKey,
@@ -43,16 +42,12 @@ class WalletView extends StatelessWidget {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const SmallHeadlineText(
-                                      text: 'Available Balance:',
-                                    ),
+                                    SmallHeadlineText(text: '72'.tr),
                                     MediumHeadlineText(
                                       text:
                                           '${controller.wallet.availableBalance} \$',
                                     ),
-                                    const SmallHeadlineText(
-                                      text: 'Total Balance:',
-                                    ),
+                                    SmallHeadlineText(text: '73'.tr),
                                     MediumHeadlineText(
                                       text:
                                           '${controller.wallet.totalBalance} \$',
@@ -75,7 +70,7 @@ class WalletView extends StatelessWidget {
                                           color: Colors.orange.shade800,
                                         ),
                                       ),
-                                      const BodyText(text: 'Redeem Code')
+                                      BodyText(text: '74'.tr)
                                     ],
                                   ),
                                 )
@@ -85,7 +80,7 @@ class WalletView extends StatelessWidget {
                         ),
                       ),
                       ExpansionTile(
-                        title: const BodyText(text: 'Transactions'),
+                        title: BodyText(text: '75'.tr),
                         children: [
                           Padding(
                             padding: const EdgeInsets.all(10),
@@ -102,7 +97,7 @@ class WalletView extends StatelessWidget {
                                     children: [
                                       Row(
                                         children: [
-                                          const BodyText(text: 'From: '),
+                                          BodyText(text: '76'.tr),
                                           LabelText(
                                             text: controller
                                                 .transactions[index].senderName,
@@ -111,7 +106,7 @@ class WalletView extends StatelessWidget {
                                       ),
                                       Row(
                                         children: [
-                                          const BodyText(text: 'To: '),
+                                          BodyText(text: '77'.tr),
                                           LabelText(
                                             text: controller.transactions[index]
                                                 .receiverName,
@@ -120,7 +115,7 @@ class WalletView extends StatelessWidget {
                                       ),
                                       Row(
                                         children: [
-                                          const BodyText(text: 'Job Title: '),
+                                          BodyText(text: '78'.tr),
                                           LabelText(
                                             text: controller
                                                 .transactions[index].jobTitle,
@@ -129,7 +124,7 @@ class WalletView extends StatelessWidget {
                                       ),
                                       Row(
                                         children: [
-                                          const BodyText(text: 'Amount: '),
+                                          BodyText(text: '79'.tr),
                                           LabelText(
                                             text:
                                                 '${controller.transactions[index].amount}\$',
@@ -138,7 +133,7 @@ class WalletView extends StatelessWidget {
                                       ),
                                       Row(
                                         children: [
-                                          const BodyText(text: 'Date: '),
+                                          BodyText(text: '80'.tr),
                                           LabelText(
                                               text:
                                                   '${controller.transactions[index].date.day}/${controller.transactions[index].date.month}/${controller.transactions[index].date.year} ${controller.transactions[index].date.hour}:${controller.transactions[index].date.minute}'),

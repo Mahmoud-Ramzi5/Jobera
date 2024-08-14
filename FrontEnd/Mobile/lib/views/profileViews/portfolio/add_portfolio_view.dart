@@ -17,7 +17,7 @@ class AddPortfolioView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const TitleText(text: 'Add Portfolio'),
+        title: TitleText(text: '67'.tr),
         actions: [
           TextButton(
             onPressed: () {
@@ -32,7 +32,7 @@ class AddPortfolioView extends StatelessWidget {
                 );
               }
             },
-            child: const LabelText(text: "Submit"),
+            child: LabelText(text: '23'.tr),
           ),
         ],
       ),
@@ -65,7 +65,7 @@ class AddPortfolioView extends StatelessWidget {
                                         Icons.add_a_photo,
                                         color: Colors.lightBlue.shade900,
                                       ),
-                                      const BodyText(text: 'Add a photo')
+                                      BodyText(text: '62'.tr)
                                     ],
                                   ),
                                 )
@@ -85,7 +85,7 @@ class AddPortfolioView extends StatelessWidget {
                           controller: _addController.titleController,
                           textInputType: TextInputType.name,
                           obsecureText: false,
-                          labelText: 'Title',
+                          labelText: '57'.tr,
                           icon: Icons.abc,
                           validator: (p0) =>
                               Validation().validateRequiredField(p0),
@@ -97,7 +97,7 @@ class AddPortfolioView extends StatelessWidget {
                           controller: _addController.descriptionController,
                           textInputType: TextInputType.name,
                           obsecureText: false,
-                          labelText: 'Description',
+                          labelText: '26'.tr,
                           icon: Icons.description,
                           validator: (p0) =>
                               Validation().validateRequiredField(p0),
@@ -109,7 +109,7 @@ class AddPortfolioView extends StatelessWidget {
                           controller: _addController.linkController,
                           textInputType: TextInputType.name,
                           obsecureText: false,
-                          labelText: 'Link',
+                          labelText: '56'.tr,
                           icon: Icons.link,
                           validator: (p0) =>
                               Validation().validateRequiredField(p0),
@@ -121,7 +121,7 @@ class AddPortfolioView extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(10),
                               child: InfoContainer(
-                                name: 'Used Skills Max=5',
+                                name: '63'.tr,
                                 widget: ListView.builder(
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount:
@@ -188,14 +188,14 @@ class AddPortfolioView extends StatelessWidget {
                             Padding(
                               padding: const EdgeInsets.all(10),
                               child: InfoContainer(
-                                name: 'Skills',
+                                name: '30'.tr,
                                 widget: ExpansionTile(
-                                  title: const BodyText(text: 'Expand'),
+                                  title: BodyText(text: '64'.tr),
                                   children: [
                                     Padding(
                                       padding: const EdgeInsets.all(10),
                                       child: SearchBar(
-                                        hintText: 'Search',
+                                        hintText: '36'.tr,
                                         leading: Icon(
                                           Icons.search,
                                           color: Colors.lightBlue.shade900,
@@ -277,8 +277,7 @@ class AddPortfolioView extends StatelessWidget {
                             widget: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                const BodyText(
-                                    text: 'Select files Max=5 files'),
+                                BodyText(text: '65'.tr),
                                 ListView.builder(
                                   itemCount: controller.files == null
                                       ? 0
@@ -292,7 +291,7 @@ class AddPortfolioView extends StatelessWidget {
                                           flex: 1,
                                           child: BodyText(
                                             text:
-                                                'File ${index + 1}:${controller.files!.files[index].name}',
+                                                '${'45'.tr}:${index + 1}:${controller.files!.files[index].name}',
                                           ),
                                         ),
                                         IconButton(
@@ -316,7 +315,7 @@ class AddPortfolioView extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(10),
                         child: OutlinedButton(
-                          child: const BodyText(text: 'Choose files'),
+                          child: BodyText(text: '66'.tr),
                           onPressed: () async => _addController.addFiles(),
                         ),
                       ),
