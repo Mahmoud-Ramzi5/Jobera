@@ -16,7 +16,7 @@ export const FetchJobs = async (token, page, filter) => {
   }
 };
 
-export const FetchJobsNoPagination = async (token, page, type) => {
+export const FetchJobsAdmin = async (token, page, type) => {
   try {
     const response = await axios.get(`http://127.0.0.1:8000/api/jobs/all?page=${page}&type[eq]=${type}`, {
       headers: {

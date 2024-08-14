@@ -6,18 +6,12 @@ import styles from "./stats.module.css";
 
 const Stats = () => {
   // Translations
-  const { t } = useTranslation("global");
+  const { t, i18n } = useTranslation("global");
   // Context
   const { accessToken } = useContext(LoginContext);
   // Define states
   const initialized = useRef(false);
-  const [done_jobs, setDone_jobs] = useState(0);
-  const [exhibiting_companies, setExhibiting_companies] = useState(0);
-  const [registered_individual, setRegistered_individual] = useState(0);
-  const [runnning_fullTimeJob, setRunnning_fullTimeJob] = useState(0);
-  const [runnning_partTimeJob, setRunnning_partTimeJob] = useState(0);
-  const [runnning_freelancingJob, setRunnning_freelancingJob] = useState(0);
-  const [stats_data, setStatsData] = useState([]);
+  const [statsData, setStatsData] = useState([]);
 
   useEffect(() => {
     if (!initialized.current) {
@@ -35,7 +29,7 @@ const Stats = () => {
 
   return (
     <div className={styles.stats_container}>
-      {stats_data.map((stat, index) => (
+      {statsData.map((stat, index) => (
         <div key={index} className={styles.card}>
           <div className={styles.content}>
             <img
@@ -45,7 +39,9 @@ const Stats = () => {
             />
             <div>
               <span className={styles.number}>{stat.data}</span>
-              <span className={styles.label}>{stat.name}</span>
+              <span className={styles.label}>
+                {stat.name[i18n.language]}
+              </span>
             </div>
           </div>
         </div>

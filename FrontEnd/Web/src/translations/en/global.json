@@ -189,14 +189,6 @@
                 "title4": "Most Posting Companies",
                 "salary": "Salary:",
                 "count": "Count:"
-            },
-            "stats": {
-                "label1": "Done Jobs",
-                "label2": "Exhibiting Companies",
-                "label3": "Registered Individuals",
-                "label4": "Running FullTime Jobs",
-                "label5": "Running PartTime Jobs",
-                "label6": "Runnning Freelancing Jobs"
             }
         }
     },
@@ -508,18 +500,7 @@
                     "date": "Date"
                 }
             },
-            "Home": {
-                "home": "Home",
-                "All Done Jobs": "All Done Jobs",
-                "Exhibiting Companies": "Exhibiting Companies",
-                "Registered Individuals": "Registered Individuals",
-                "Total Running FullTime Job": "Total Running FullTime Job",
-                "Total Running PartTime Job": "Total Running PartTime Job",
-                "Total Running Freelancing Job": "Total Running Freelancing Job",
-                "Done Freelancing Jobs": "Done Freelancing Jobs",
-                "Done FullTime Jobs": "Done FullTime Jobs",
-                "Done PartTime Jobs": "Done PartTime Jobs"
-            },
+            "home": "Home",
             "sidebar": {
                 "dashboard": "Dashboard",
                 "jobs": "Jobs",
@@ -529,7 +510,7 @@
                 "reports": "Reports",
                 "settings": "Settings"
             },
-            "reports":{
+            "reports": {
                 "location": "Locations with most jobs",
                 "users": "Most rated users",
                 "types": "Most Skill Types",

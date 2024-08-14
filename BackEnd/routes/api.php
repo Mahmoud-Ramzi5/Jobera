@@ -123,7 +123,7 @@ Route::controller(PortfolioController::class)->group(function () {
 Route::controller(DefJobsController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('/jobs', 'ShowAllJobs');
-        Route::get('/jobs/all', 'ShowJobsWithoutPagination');
+        Route::get('/jobs/all', 'ShowJobsAdmin');
         Route::get('/jobs/{id}', 'ShowSpecificJob');
 
         Route::get('/manage/posted', 'PostedJobs');
@@ -162,8 +162,8 @@ Route::controller(FreelancingJobsController::class)->group(function () {
 Route::controller(TransactionsController::class)->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::get('/transactions', 'GetUserTransactions');
-        Route::post('/transactions/done', 'AddUserTransaction');
         Route::get('/transactions/all', 'GetAllTransactions');
+        Route::post('/transactions/done', 'AddUserTransaction');
         Route::delete('/transactions/{transaction_id}', 'DeleteTransaction');
         Route::post('/redeemcode', 'RedeemCode');
     });
