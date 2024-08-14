@@ -343,6 +343,7 @@ h1 {
   border-radius: 4px;
   margin-inline-start: 10px;
   background-color: var(--color-background);
+  color: var(--color--foreground);
 }
 
 .anchor {

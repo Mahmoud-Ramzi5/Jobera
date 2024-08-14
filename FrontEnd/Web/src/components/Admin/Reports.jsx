@@ -109,41 +109,19 @@ const Reports = () => {
                                 <h2>{t('components.admin.reports.types')}</h2>
                                 <div>
                                     <PieChart width={400} height={300} style={{ direction: 'ltr' }}>
-                                        {i18n.language === 'ar' ?
-                                            <Pie
-                                                dataKey="count"
-                                                data={mostSkillTypes}
-                                                nameKey="name"
-                                                cx="50%"
-                                                cy="50%"
-                                                outerRadius={80}
-                                                label
-                                                reversed={true}
-                                            >
-                                                {mostSkillTypes.map((entry, index) => (
-                                                    <Cell
-                                                        key={`cell-${index}`}
-                                                        fill={COLORS1[index % COLORS1.length]}
-                                                    />
-                                                ))}
-                                            </Pie>
-                                            :
-                                            <Pie
-                                                dataKey="count"
-                                                data={mostSkillTypes}
-                                                nameKey="name"
-                                                cx="50%"
-                                                cy="50%"
-                                                outerRadius={80}
-                                                label
-                                            >
-                                                {mostSkillTypes.map((entry, index) => (
-                                                    <Cell
-                                                        key={`cell-${index}`}
-                                                        fill={COLORS1[index % COLORS1.length]}
-                                                    />
-                                                ))}
-                                            </Pie>}
+                                        <Pie
+                                            dataKey="count"
+                                            data={mostSkillTypes}
+                                            nameKey="name"
+                                            cx="50%"
+                                            cy="50%"
+                                            outerRadius={80}
+                                            label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
+                                        >
+                                            {mostSkillTypes.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={COLORS1[index % COLORS1.length]} />
+                                            ))}
+                                        </Pie>
                                         <Tooltip />
                                         <Legend />
                                     </PieChart>
@@ -151,13 +129,14 @@ const Reports = () => {
                                 <div>
                                     <h2>{t('components.admin.reports.transactions')}</h2>
                                     <div className={styles.chartContainer}>
+                                        {console.log(transactionsByMonth)}
                                         <BarChart width={400} height={300} data={transactionsByMonth} style={{ direction: 'ltr' }}>
                                             <CartesianGrid strokeDasharray="3 3" />
                                             {i18n.language === 'ar' ? <>
                                                 <XAxis dataKey="month" reversed={true} />
                                                 <YAxis orientation="right" scale="linear" />
                                             </> : <>
-                                                <XAxis dataKey="name" />
+                                                <XAxis dataKey="month" />
                                                 <YAxis />
                                             </>}
                                             <Tooltip />
