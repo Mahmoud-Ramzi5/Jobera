@@ -42,8 +42,8 @@ const IndividualForm = () => {
   const [message, SetMessage] = useState('');
   const [gender, setGender] = useState('');
   const genders = [
-    { value: 'MALE', label: t('pages.Register.individual_form.gender.Male'), icon: <PersonStanding /> },
-    { value: 'FEMALE', label: t('pages.Register.individual_form.gender.Female'), icon: <PersonStandingDress /> },
+    { value: 'MALE', label: t('pages.Register.individual_form.gender.Male'), icon: <BsPersonStanding /> },
+    { value: 'FEMALE', label: t('pages.Register.individual_form.gender.Female'), icon: <BsPersonStandingDress /> },
   ];
 
   useEffect(() => {

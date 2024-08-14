@@ -217,13 +217,6 @@ class JobFeedController extends Controller
                 ]
             ],
             [
-                "data" => $companyRegistered,
-                "name" => [
-                    "en" => "Exhibiting Companies",
-                    "ar" => "الشركات المسجلة "
-                ]
-            ],
-            [
                 "data" => $runningJobsFullTime,
                 "name" => [
                     "en" => "Total Running FullTime Job",
@@ -242,6 +235,13 @@ class JobFeedController extends Controller
                 "name" => [
                     "en" => "Total Running Freelancing Job",
                     "ar" => "جميع أعمال الدوام الجزئي الجارية"
+                ]
+            ],
+            [
+                "data" => $companyRegistered,
+                "name" => [
+                    "en" => "Exhibiting Companies",
+                    "ar" => "الشركات المسجلة "
                 ]
             ],
             [
