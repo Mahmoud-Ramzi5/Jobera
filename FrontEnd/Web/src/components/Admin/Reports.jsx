@@ -1,90 +1,42 @@
-import React, { useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import {
-    BarChart,
-    Bar,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    Legend,
-    PieChart,
-    Pie,
-    Cell,
+    BarChart, Bar, XAxis, YAxis, CartesianGrid,
+    Tooltip, Legend, PieChart, Pie, Cell,
 } from "recharts";
-import styles from "./Reports.module.css";
 import { LoginContext } from "../../utils/Contexts";
 import { FetchReportsData } from "../../apis/AdminApis";
+import styles from "./Reports.module.css";
+
 
 const Reports = () => {
-    const { accessToken } = useContext(LoginContext);
     // Translations
-    const { t } = useTranslation('global');
+    const { t, i18n } = useTranslation('global');
+    // Context
+    const { accessToken } = useContext(LoginContext);
+    // Define states
     const [isLoading, setIsLoading] = useState(true);
-
     const [jobLocations, setJobLocations] = useState([]);
     const [mostSkillTypes, setMostSkillTypes] = useState([]);
     const [topRatedUsers, setTopRatedUsers] = useState([]);
     const [transactionsByMonth, setTransactionsByMonth] = useState([]);
+
     useEffect(() => {
-        FetchReportsData(accessToken)
-            .then((response) => {
-                if (response.status === 200) {
-                    setJobLocations(response.data.MostCountries);
-                    setMostSkillTypes(response.data.MostSkillTypes);
-                    setTopRatedUsers(response.data.TopRatedUsers);
-                    setTransactionsByMonth(response.data.TransactionsByMonth)
-                } else {
-                    console.log(response);
-                }
-            })
-            .then(() => {
-                setIsLoading(false);
-            });
-    }, [accessToken]);
-    console.log(mostSkillTypes);
+        FetchReportsData(accessToken).then((response) => {
+            if (response.status === 200) {
+                setJobLocations(response.data.MostCountries);
+                setMostSkillTypes(response.data.MostSkillTypes);
+                setTopRatedUsers(response.data.TopRatedUsers);
+                setTransactionsByMonth(response.data.TransactionsByMonth)
+            } else {
+                console.log(response);
+            }
+        }).then(() => {
+            setIsLoading(false);
+        });
+    }, []);
 
-    // Dummy data for demonstration
-    const annualData = {
-        skills: [
-            { name: "Item A", total: 2000 },
-            { name: "Item B", total: 3500 },
-            { name: "Item C", total: 5000 },
-        ],
-        clients: [
-            { name: "Client A", total_amount: 400 },
-            { name: "Client B", total_amount: 700 },
-            { name: "Client C", total_amount: 1000 },
-        ],
-        annual_total_amount: 15000,
-    };
-
-    const monthlyData = {
-        items: [
-            { name: "Item A", total: 500 },
-            { name: "Item B", total: 800 },
-            { name: "Item C", total: 1200 },
-        ],
-        monthly_data: [
-            {
-                client: { name: "Client A" },
-                monthly_amounts: { "February 2024": { amount: 300 } },
-            },
-            {
-                client: { name: "Client B" },
-                monthly_amounts: { "February 2024": { amount: 500 } },
-            },
-            {
-                client: { name: "Client C" },
-                monthly_amounts: { "February 2024": { amount: 700 } },
-            },
-        ],
-        monthly_totals: [
-            { month: "February 2024", amount: 1500 },
-            { month: "January 2024", amount: 1200 },
-        ],
-    };
-    const COLORS = [
+    const COLORS1 = [
         "#0088FE",
         "#00C49F",
         "#FFBB28",
@@ -110,15 +62,20 @@ const Reports = () => {
                             <div>
                                 <h2>{t('components.admin.reports.location')}</h2>
                                 <div className={styles.chartContainer}>
-                                    <BarChart width={700} height={300} data={jobLocations}>
+                                    <BarChart width={700} height={300} data={jobLocations} style={{ direction: 'ltr' }}>
                                         <CartesianGrid strokeDasharray="3 3" />
-                                        <XAxis dataKey="name" />
-                                        <YAxis />
+                                        {i18n.language === 'ar' ? <>
+                                            <XAxis dataKey="name" reversed={true} />
+                                            <YAxis orientation="right" scale="linear" />
+                                        </> : <>
+                                            <XAxis dataKey="name" />
+                                            <YAxis />
+                                        </>}
                                         <Tooltip />
                                         <Legend />
                                         <Bar dataKey="count">
                                             {jobLocations.map((entry, index) => (
-                                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                                <Cell key={`cell-${index}`} fill={COLORS1[index % COLORS1.length]} />
                                             ))}
                                         </Bar>
                                     </BarChart>
@@ -126,15 +83,20 @@ const Reports = () => {
                                 <div>
                                     <h2>{t('components.admin.reports.users')}</h2>
                                     <div className={styles.chartContainer}>
-                                        <BarChart width={800} height={300} data={topRatedUsers}>
+                                        <BarChart width={800} height={300} data={topRatedUsers} style={{ direction: 'ltr' }}>
                                             <CartesianGrid strokeDasharray="3 3" />
-                                            <XAxis dataKey="name" />
-                                            <YAxis />
+                                            {i18n.language === 'ar' ? <>
+                                                <XAxis dataKey="name" reversed={true} />
+                                                <YAxis orientation="right" scale="linear" />
+                                            </> : <>
+                                                <XAxis dataKey="name" />
+                                                <YAxis />
+                                            </>}
                                             <Tooltip />
                                             <Legend />
                                             <Bar dataKey="rating">
                                                 {jobLocations.map((entry, index) => (
-                                                    <Cell key={`cell-${index}`} fill={COLORS2[index % COLORS.length]} />
+                                                    <Cell key={`cell-${index}`} fill={COLORS2[index % COLORS1.length]} />
                                                 ))}
                                             </Bar>
                                         </BarChart>
@@ -146,23 +108,42 @@ const Reports = () => {
                             <div>
                                 <h2>{t('components.admin.reports.types')}</h2>
                                 <div>
-                                    <PieChart width={400} height={300}>
-                                        <Pie
-                                            dataKey="count"
-                                            data={mostSkillTypes}
-                                            nameKey="name"
-                                            cx="50%"
-                                            cy="50%"
-                                            outerRadius={80}
-                                            label
-                                        >
-                                            {mostSkillTypes.map((entry, index) => (
-                                                <Cell
-                                                    key={`cell-${index}`}
-                                                    fill={COLORS[index % COLORS.length]}
-                                                />
-                                            ))}
-                                        </Pie>
+                                    <PieChart width={400} height={300} style={{ direction: 'ltr' }}>
+                                        {i18n.language === 'ar' ?
+                                            <Pie
+                                                dataKey="count"
+                                                data={mostSkillTypes}
+                                                nameKey="name"
+                                                cx="50%"
+                                                cy="50%"
+                                                outerRadius={80}
+                                                label
+                                                reversed={true}
+                                            >
+                                                {mostSkillTypes.map((entry, index) => (
+                                                    <Cell
+                                                        key={`cell-${index}`}
+                                                        fill={COLORS1[index % COLORS1.length]}
+                                                    />
+                                                ))}
+                                            </Pie>
+                                            :
+                                            <Pie
+                                                dataKey="count"
+                                                data={mostSkillTypes}
+                                                nameKey="name"
+                                                cx="50%"
+                                                cy="50%"
+                                                outerRadius={80}
+                                                label
+                                            >
+                                                {mostSkillTypes.map((entry, index) => (
+                                                    <Cell
+                                                        key={`cell-${index}`}
+                                                        fill={COLORS1[index % COLORS1.length]}
+                                                    />
+                                                ))}
+                                            </Pie>}
                                         <Tooltip />
                                         <Legend />
                                     </PieChart>
@@ -170,15 +151,20 @@ const Reports = () => {
                                 <div>
                                     <h2>{t('components.admin.reports.transactions')}</h2>
                                     <div className={styles.chartContainer}>
-                                        <BarChart width={400} height={300} data={transactionsByMonth}>
+                                        <BarChart width={400} height={300} data={transactionsByMonth} style={{ direction: 'ltr' }}>
                                             <CartesianGrid strokeDasharray="3 3" />
-                                            <XAxis dataKey="month" />
-                                            <YAxis />
+                                            {i18n.language === 'ar' ? <>
+                                                <XAxis dataKey="month" reversed={true} />
+                                                <YAxis orientation="right" scale="linear" />
+                                            </> : <>
+                                                <XAxis dataKey="name" />
+                                                <YAxis />
+                                            </>}
                                             <Tooltip />
                                             <Legend />
                                             <Bar dataKey="amount">
                                                 {transactionsByMonth.map((entry, index) => (
-                                                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                                    <Cell key={`cell-${index}`} fill={COLORS1[index % COLORS1.length]} />
                                                 ))}
                                             </Bar>
                                         </BarChart>

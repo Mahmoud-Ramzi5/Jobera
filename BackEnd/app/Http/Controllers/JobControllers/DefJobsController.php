@@ -71,7 +71,7 @@ class DefJobsController extends Controller
         ], 200);
     }
 
-    public function ShowJobsWithoutPagination(Request $request)
+    public function ShowJobsAdmin(Request $request)
     {
         // Get user
         $user = auth()->user();

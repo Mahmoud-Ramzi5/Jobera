@@ -3,13 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { BsEyeFill, BsTrash } from "react-icons/bs";
 import { LoginContext } from "../../utils/Contexts";
-import {
-  DeleteFreelancingJobAPI,
-  DeleteRegJobAPI,
-  FetchJobsNoPagination,
-} from "../../apis/JobsApis.jsx";
+import { FetchJobsAdmin, DeleteFreelancingJobAPI, DeleteRegJobAPI } from "../../apis/JobsApis.jsx";
 import Clock from "../../utils/Clock.jsx";
 import styles from "../../styles/AdminPage.module.css";
+
 
 const AdminJobs = () => {
   // Translations
@@ -29,28 +26,26 @@ const AdminJobs = () => {
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
-    }else{
+    } else {
       setIsLoading(true);
 
-      FetchJobsNoPagination(accessToken,currentPage,jobType)
-        .then((response) => {
-          if (response.status === 200) {
-            setData(response.data.pagination_data);
-            setJobsData([]);
-            response.data.jobs.map((job) => {
-              if (!jobsData.some(item => job.defJob_id === item.defJob_id)) {
-                  setJobsData(response.data.jobs);
-              }
-            });
-          } else {
-            console.log(response);
-          }
-        })
-        .then(() => {
-          setIsLoading(false);
-        });
+      FetchJobsAdmin(accessToken, currentPage, jobType).then((response) => {
+        if (response.status === 200) {
+          setData(response.data.pagination_data);
+          setJobsData([]);
+          response.data.jobs.map((job) => {
+            if (!jobsData.some(item => job.defJob_id === item.defJob_id)) {
+              setJobsData(response.data.jobs);
+            }
+          });
+        } else {
+          console.log(response);
+        }
+      }).then(() => {
+        setIsLoading(false);
+      });
     }
-  }, [currentPage,jobType]);
+  }, [currentPage, jobType]);
 
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
@@ -75,99 +70,49 @@ const AdminJobs = () => {
       });
     }
   };
-  
-  const handleTypeChange=(type)=>{
+
+  const handleTypeChange = (type) => {
     setCurrentPage(1);
     setJobType(type);
   };
 
   const columnStructure = {
     FullTime: [
-      {
-        key: "title",
-        label: t("components.admin.jobs_table.column_structure.title"),
-      },
-      {
-        key: "job_user.name",
-        label: t("components.admin.jobs_table.column_structure.company"),
-      },
-      {
-        key: "publish_date",
-        label: t("components.admin.jobs_table.column_structure.post_date"),
-      },
-      {
-        key: "salary",
-        label: t("components.admin.jobs_table.column_structure.salary"),
-      },
-      {
-        key: "accepted_user",
-        label: t("components.admin.jobs_table.column_structure.accepted_user"),
-      },
+      { key: "title", label: t("components.admin.jobs_table.column_structure.title") },
+      { key: "job_user.name", label: t("components.admin.jobs_table.column_structure.company") },
+      { key: "publish_date", label: t("components.admin.jobs_table.column_structure.post_date") },
+      { key: "salary", label: t("components.admin.jobs_table.column_structure.salary") },
+      { key: "accepted_user", label: t("components.admin.jobs_table.column_structure.accepted_user") },
     ],
     PartTime: [
-      {
-        key: "title",
-        label: t("components.admin.jobs_table.column_structure.title"),
-      },
-      {
-        key: "job_user.name",
-        label: t("components.admin.jobs_table.column_structure.company"),
-      },
-      {
-        key: "publish_date",
-        label: t("components.admin.jobs_table.column_structure.post_date"),
-      },
-      {
-        key: "salary",
-        label: t("components.admin.jobs_table.column_structure.salary"),
-      },
-      {
-        key: "accepted_user",
-        label: t("components.admin.jobs_table.column_structure.accepted_user"),
-      },
+      { key: "title", label: t("components.admin.jobs_table.column_structure.title") },
+      { key: "job_user.name", label: t("components.admin.jobs_table.column_structure.company") },
+      { key: "publish_date", label: t("components.admin.jobs_table.column_structure.post_date") },
+      { key: "salary", label: t("components.admin.jobs_table.column_structure.salary") },
+      { key: "accepted_user", label: t("components.admin.jobs_table.column_structure.accepted_user") },
     ],
     Freelancing: [
-      {
-        key: "title",
-        label: t("components.admin.jobs_table.column_structure.title"),
-      },
-      {
-        key: "job_user.name",
-        label: t("components.admin.jobs_table.column_structure.client"),
-      },
-      {
-        key: "deadline",
-        label: t("components.admin.jobs_table.column_structure.deadline"),
-      },
-      {
-        key: "avg_salary",
-        label: t("components.admin.jobs_table.column_structure.avg_salary"),
-      },
-      {
-        key: "accepted_user",
-        label: t("components.admin.jobs_table.column_structure.accepted_user"),
-      },
+      { key: "title", label: t("components.admin.jobs_table.column_structure.title") },
+      { key: "job_user.name", label: t("components.admin.jobs_table.column_structure.client") },
+      { key: "deadline", label: t("components.admin.jobs_table.column_structure.deadline") },
+      { key: "avg_salary", label: t("components.admin.jobs_table.column_structure.avg_salary") },
+      { key: "accepted_user", label: t("components.admin.jobs_table.column_structure.accepted_user") },
     ],
   };
 
   const currentColumns = columnStructure[jobType];
 
-  const filteredJobs =
-    jobsData 
-      ? jobsData.filter((job) =>
-          job.title.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      : [];
+  const filteredJobs = jobsData ? jobsData.filter((job) =>
+    job.title.toLowerCase().includes(searchQuery.toLowerCase())
+  ) : [];
 
   if (isLoading) {
-    return <Clock />;
+    return <Clock />
   }
   return (
     <div className={styles.screen}>
       <div className={styles.content}>
-        {jobsData === null ? (
-          <Clock />
-        ) : (
+        {jobsData === null ? <Clock /> :
           <div>
             <div>
               <h1>{t("components.admin.jobs_table.h1")}</h1>
@@ -189,7 +134,7 @@ const AdminJobs = () => {
                       name="jobType"
                       value={type}
                       checked={jobType === type}
-                      onChange={() =>handleTypeChange(type) }
+                      onChange={() => handleTypeChange(type)}
                     />
                     <label htmlFor={type}>{t(`components.admin.jobs_table.${type}`)}</label>
                   </div>
@@ -199,9 +144,7 @@ const AdminJobs = () => {
             <table className={styles.certificates_table}>
               <thead>
                 <tr>
-                  {currentColumns.map((column) => (
-                    <th key={column.key}>{column.label}</th>
-                  ))}
+                  {currentColumns.map((column) => (<th key={column.key}>{column.label}</th>))}
                   <th>{t("components.admin.jobs_table.actions")}</th>
                 </tr>
               </thead>
@@ -212,16 +155,14 @@ const AdminJobs = () => {
                       {currentColumns.map((column) => (
                         <td key={column.key}>
                           {column.key === "publish_date"
-                            ? new Date(job.publish_date)
-                                .toISOString()
-                                .split("T")[0]
+                            ? new Date(job.publish_date).toISOString().split("T")[0]
                             : column.key === "job_user.name"
-                            ? job.job_user.name
-                            : column.key === "accepted_user"
-                            ? job.accepted_user
-                              ? job.accepted_user.name
-                              : t("components.admin.jobs_table.not_accepted")
-                            : job[column.key]}
+                              ? job.job_user.name
+                              : column.key === "accepted_user"
+                                ? job.accepted_user
+                                  ? job.accepted_user.name
+                                  : t("components.admin.jobs_table.not_accepted")
+                                : job[column.key]}
                         </td>
                       ))}
                       <td>
@@ -232,7 +173,7 @@ const AdminJobs = () => {
                           <BsEyeFill />
                         </button>
                         <button
-                          onClick={()=>handleDelete(job.defJob_id)}
+                          onClick={() => handleDelete(job.defJob_id)}
                           className={styles.delete_button}
                         >
                           <BsTrash />
@@ -255,16 +196,14 @@ const AdminJobs = () => {
                 <button
                   key={page}
                   onClick={() => setCurrentPage(page)}
-                  className={
-                    currentPage === page ? styles.activePage : styles.page
-                  }
+                  className={currentPage === page ? styles.activePage : styles.page}
                 >
                   {page}
                 </button>
               ))}
             </div>
           </div>
-        )}
+        }
       </div>
     </div>
   );

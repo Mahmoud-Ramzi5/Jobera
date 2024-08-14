@@ -1,21 +1,20 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Card } from 'react-bootstrap';
 import { BsChevronRight } from 'react-icons/bs';
 import { ProfileContext } from '../../utils/Contexts';
 import wallet from '../../assets/wallet.png';
 import styles from './wallet.module.css';
-import { useNavigate } from 'react-router-dom';
 
 
 const Wallet = ({ ProfileData }) => {
   // Translations
   const { t } = useTranslation('global');
-  // Define states
+  // Context
   const { profile } = useContext(ProfileContext);
   const Navigate = useNavigate();
 
-  console.log(ProfileData);
   return (
     <Card className={styles.wallet_card}>
       <div className={styles.wallet_inside}>

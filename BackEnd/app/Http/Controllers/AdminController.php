@@ -231,32 +231,4 @@ class AdminController extends Controller
             "message" => "The user is deleted"
         ], 204);
     }
-
-    public function DeleteTransaction(Request $request, $transaction_id)
-    {
-        // Get user
-        $user = auth()->user();
-
-        // Check user
-        if ($user == null) {
-            return response()->json([
-                'errors' => ['user' => 'Invalid user'],
-            ], 401);
-        }
-
-        // Check policy
-        $policy = new AdminPolicy();
-
-        if (!$policy->Policy(User::find($user->id))) {
-            // Response
-            return response()->json([
-                'errors' => ['user' => 'Unauthorized'],
-            ], 401);
-        }
-        $transaction = Transaction::where('id', $transaction_id)->first();
-        $transaction->delete();
-        return response()->json([
-            "message" => "The Transaction record is deleted"
-        ], 204);
-    }
 }

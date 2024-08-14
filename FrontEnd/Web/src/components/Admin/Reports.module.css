@@ -17,12 +17,13 @@
 .chartContainer {
     margin-block-end: 20px;
     width: 100%;
+    z-index: 0;
 }
 
 .chartTitle {
     font-size: 18px;
     font-weight: bold;
-    margin-block-end: 10px;
+    margin-block-start: 30px;
 }
 
 .totalProfitContainer {
@@ -61,4 +62,20 @@ select {
 /* Additional styles for the legends */
 .recharts-legend-item-text {
     font-size: 12px;
+}
+
+@media screen and (max-width: 1440px) {
+    .tableCell {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .chartContainer {
+        margin-block-end: 30px;
+        margin-block-start: 30px;
+        width: 100%;
+        z-index: 0;
+    }
 }

@@ -1,37 +1,43 @@
-import React from "react";
+import { useEffect, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import {
-  BsCart3,
-  BsGrid1X2Fill,
-  BsFillArchiveFill,
-  BsFillGrid3X3GapFill,
-  BsPeopleFill,
-  BsListCheck,
-  BsMenuButtonWideFill,
-  BsFillGearFill,
-  BsBriefcase,
-  BsBriefcaseFill,
-  BsWalletFill,
+  BsGrid1X2Fill, BsFillGrid3X3GapFill, BsPeopleFill, BsX,
+  BsMenuButtonWideFill, BsBriefcaseFill, BsWalletFill,
 } from "react-icons/bs";
-import styles from '../../styles/AdminPage.module.css';
-import Logo from '../../assets/JoberaLogo.png';
-import ReactSwitch from "react-switch";
-import { useContext } from 'react';
 import { ThemeContext } from "../../utils/Contexts";
-import { Link } from "react-router-dom";
+import ReactSwitch from "react-switch";
+import Logo from '../../assets/JoberaLogo.png';
+import styles from '../../styles/AdminPage.module.css';
+
 
 const Sidebar = ({ openSidebarToggle, OpenSidebar, setActiveComponent }) => {
+  // Translations
+  const { t, i18n } = useTranslation('global');
+  // Context
   const { theme, toggleTheme } = useContext(ThemeContext);
-    // Translations
-    const { t } = useTranslation('global');
+
   const handleItemClick = (component) => {
     setActiveComponent(component);
   };
+
+  useEffect(() => {
+    localStorage.setItem('Lang', i18n.language);
+    document.documentElement.lang = i18n.language;
+    document.documentElement.dir = i18n.dir(i18n.language);
+  }, [i18n.language]);
+
+  const changeLanguage = (event) => {
+    if (event.target.value === 'en' || event.target.value === 'ar') {
+      i18n.changeLanguage(event.target.value);
+    }
+  };
+
+
   return (
-    <div className={styles.sidebar}>
+    <div className={openSidebarToggle ? styles.sidebar : styles.sidebar_no}>
       <aside
         id="sidebar"
-        className={openSidebarToggle ? styles.sidebar_responsive : ""}
+        className={styles.sidebar_responsive}
       >
         <div className={styles.sidebar_title}>
           <div className={styles.sidebar_brand}>
@@ -39,10 +45,9 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar, setActiveComponent }) => {
               <img src={Logo} alt="logo" />
               <a href="/">Jobera</a>
             </div>
-
           </div>
           <span className={styles.close_icon} onClick={OpenSidebar}>
-            X
+            <BsX size={31} />
           </span>
         </div>
 
@@ -65,8 +70,16 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar, setActiveComponent }) => {
           <li className={styles.sidebar_list_item} onClick={() => handleItemClick('Reports')}>
             <BsMenuButtonWideFill className={styles.icon} /> {t('components.admin.sidebar.reports')}
           </li>
-          <li className={styles.sidebar_list_item} onClick={() => handleItemClick('Settings')}>
-            <BsFillGearFill className={styles.icon} /> {t('components.admin.sidebar.settings')}
+          <li className={styles.sidebar_list_item}>
+            <select onChange={changeLanguage} value={i18n.language}
+              style={{ width: '95%', borderRadius: '15px' }}>
+              <option key='en' value='en'>
+                {t('components.footer.en')}
+              </option>
+              <option key='ar' value='ar'>
+                {t('components.footer.ar')}
+              </option>
+            </select>
           </li>
           <li className={styles.theme_switch}>
             <ReactSwitch

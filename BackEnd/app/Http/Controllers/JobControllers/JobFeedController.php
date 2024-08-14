@@ -152,7 +152,7 @@ class JobFeedController extends Controller
             "MostPostingCompanies" => $this->MostPostingCompanies(),
             "MostPayedFreelancingJobs" => $this->MostPayedFreelancingJobs(),
             "MostNeededSkills" => $this->MostNeededSkills(false),
-        ]);
+        ], 200);
     }
 
     public function Stats()
@@ -202,20 +202,74 @@ class JobFeedController extends Controller
         }
 
         $stats = [
-            ["data" => $doneJobs, "name" => "All Done Jobs"],
-            ["data" => $companyRegistered, "name" => "Exhibiting Companies"],
-            ["data" => $runningJobsFullTime, "name" => "Total Running FullTime Job"],
-            ["data" => $runningJobsPartTime, "name" => "Total Running PartTime Job"],
-            ["data" => $runningJobsFreelancing, "name" => "Total Running Freelancing Job"],
-            ["data" => $individualRegistered, "name" => "Registered Individuals"],
-            ["data" => $doneFullTimeJobs, "name" => "Done FullTime Jobs"],
-            ["data" => $donePartTimeJobs, "name" => "Done PartTime Jobs"],
-            ["data" => $doneFreelancingJobs, "name" => "Done Freelancing Jobs"],
+            [
+                "data" => $doneJobs,
+                "name" => [
+                    "en" => "All Done Jobs",
+                    "ar" => "جميع الوظائف المنتهية"
+                ]
+            ],
+            [
+                "data" => $individualRegistered,
+                "name" => [
+                    "en" => "Registered Individuals",
+                    "ar" => "الأفراد المسجلين"
+                ]
+            ],
+            [
+                "data" => $companyRegistered,
+                "name" => [
+                    "en" => "Exhibiting Companies",
+                    "ar" => "الشركات المسجلة "
+                ]
+            ],
+            [
+                "data" => $runningJobsFullTime,
+                "name" => [
+                    "en" => "Total Running FullTime Job",
+                    "ar" => "جميع أعمال الدوام الكامل الجارية"
+                ]
+            ],
+            [
+                "data" => $runningJobsPartTime,
+                "name" => [
+                    "en" => "Total Running PartTime Job",
+                    "ar" => "جميع أعمال الدوام الكامل الجارية"
+                ]
+            ],
+            [
+                "data" => $runningJobsFreelancing,
+                "name" => [
+                    "en" => "Total Running Freelancing Job",
+                    "ar" => "جميع أعمال الدوام الجزئي الجارية"
+                ]
+            ],
+            [
+                "data" => $doneFullTimeJobs,
+                "name" => [
+                    "en" => "Done FullTime Jobs",
+                    "ar" => "أعمال الدوام الكامل المنتهية"
+                ]
+            ],
+            [
+                "data" => $donePartTimeJobs,
+                "name" => [
+                    "en" => "Done PartTime Jobs",
+                    "ar" => "أعمال الدوام الكامل المنتهية"
+                ]
+            ],
+            [
+                "data" => $doneFreelancingJobs,
+                "name" => [
+                    "en" => "Done Freelancing Jobs",
+                    "ar" => "أعمال الدوام الجزئي المنتهية"
+                ]
+            ],
         ];
 
         // Response
         return response()->json([
             "stats" => $stats,
-        ]);
+        ], 200);
     }
 }
