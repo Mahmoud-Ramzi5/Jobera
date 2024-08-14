@@ -32,9 +32,10 @@ body {
 .header {
   grid-area: header;
   height: 60px;
+  width: 100%;
   display: flex;
-  position: sticky;
-  top: 0px;
+  position: fixed;
+  z-index: 1;
   align-items: center;
   justify-content: space-between;
   padding: 0 30px;
@@ -121,9 +122,26 @@ body {
 }
 
 /* Sidebar */
+.sidebar_no {
+  grid-area: sidebar;
+  height: 100%;
+  z-index: 2;
+  background-color: var(--color-better_orange);
+  overflow-y: auto;
+  transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  position: fixed;
+  /* Ensure the sidebar stays fixed */
+  inset-block-start: 0;
+  inset-block-end: 0;
+  width: 250px;
+  /* Set a fixed width for the sidebar */
+}
+
 .sidebar {
   grid-area: sidebar;
   height: 100%;
+  z-index: 2;
   background-color: var(--color-better_orange);
   overflow-y: auto;
   transition: all 0.5s;
@@ -572,7 +590,7 @@ h1 {
     grid-template-columns: 1fr;
   }
 
-  .sidebar {
+  .sidebar_no {
     display: none;
   }
 

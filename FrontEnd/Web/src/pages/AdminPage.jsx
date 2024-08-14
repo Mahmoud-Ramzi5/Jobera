@@ -10,11 +10,13 @@ import AdminWalet from '../components/Admin/AdminWallet';
 import Reports from '../components/Admin/Reports';
 import styles from '../styles/AdminPage.module.css';
 
+
 const Admin = () => {
-  const [openSidebarToggle, setOpenSidebarToggle] = useState(false);
+  const [openSidebarToggle, setOpenSidebarToggle] = useState(true);
   const [activeComponent, setActiveComponent] = useState('Home');
   const { currentState } = useParams();
 
+  console.log(openSidebarToggle);
   useEffect(() => {
     if (currentState != null)
       setActiveComponent(currentState);
@@ -38,12 +40,11 @@ const Admin = () => {
         return <AdminWalet />;
       case 'Reports':
         return <Reports />;
-      case 'Settings':
-        return <></>;
       default:
         return <Home />;
     }
   };
+
 
   return (
     <div className={styles.grid_container}>
