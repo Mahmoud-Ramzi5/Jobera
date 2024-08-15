@@ -12,7 +12,7 @@ const JobSlider = ({ filter, manageType, profileType, handleJobType }) => {
     <div className={styles.slider}>
       {(manageType === 'Posts' && profileType === 'company')
         || (manageType === 'Offers' && profileType === 'individual')
-        && <>
+        ? <>
           <input
             type="radio"
             id="FullTime"
@@ -29,7 +29,7 @@ const JobSlider = ({ filter, manageType, profileType, handleJobType }) => {
             onChange={() => handleJobType("PartTime")}
           />
           <label htmlFor="PartTime">{t('pages.jobs.job_slider.part_time')}</label>
-        </>
+        </> : <></>
       }
       <input
         type="radio"
