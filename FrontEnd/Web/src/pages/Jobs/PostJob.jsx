@@ -1,14 +1,10 @@
 import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card } from 'react-bootstrap';
 import { ProfileContext } from '../../utils/Contexts';
-import { BsSuitcaseLg, BsClockHistory } from 'react-icons/bs';
-import { FaLaptopCode } from 'react-icons/fa'
+import { BsBriefcaseFill, BsClockHistory } from 'react-icons/bs';
+import { FaLaptopCode } from 'react-icons/fa';
 import PostRegJob from '../../components/Jobs/PostRegJob';
 import PostFreelancing from '../../components/Jobs/PostFreelancing';
-import FullTimeJob from '../../assets/fullTimeJob.png'
-import PartTimeJob from '../../assets/partTimeJob.png'
-import FreelancingJob from '../../assets/freelancingJob.png'
 import styles from './post_job.module.css'
 
 
@@ -48,7 +44,7 @@ const PostJob = () => {
           <div className={styles.all_cards}>
             {profile.type === "company" && <>
               <div className={styles.card_limit}>
-                <BsSuitcaseLg className={styles.job_icon} onClick={handleFullTimeJob} />
+                <BsBriefcaseFill className={styles.job_icon} onClick={handleFullTimeJob} />
                 <h5 className={styles.title}>{t('pages.post_job.title_fulltime')}</h5>
               </div>
               <div className={styles.card_limit}>
