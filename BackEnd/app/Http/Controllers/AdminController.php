@@ -12,7 +12,6 @@ use App\Policies\AdminPolicy;
 use Illuminate\Http\Request;
 use App\Http\Resources\CompanyCollection;
 use App\Http\Resources\IndividualCollection;
-use App\Http\Resources\TransactionCollection;
 
 class AdminController extends Controller
 {
@@ -51,7 +50,7 @@ class AdminController extends Controller
             } else {
                 // Response
                 return response()->json([
-                    'errors' => ['error'=>'Email verification failed'],
+                    'errors' => ['error' => 'Email verification failed'],
                 ], 400);
             }
         }
@@ -110,7 +109,7 @@ class AdminController extends Controller
             ], 401);
         }
 
-        $jobs = DefJob::with('state')->with('bookmarkedBy')->with('skills')->get();
+        $jobs = DefJob::with('state')->with('skills')->with('bookmarkedBy')->get();
         $countryCounts = [];
         $skillTypes = [];
 
@@ -204,6 +203,7 @@ class AdminController extends Controller
             "TopRatedUsers" => $topUsers,
         ]);
     }
+
     public function DeleteUser(Request $request, $user_id)
     {
         // Get user

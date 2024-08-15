@@ -12,10 +12,10 @@ body {
 }
 
 .close_icon {
-  color: red;
-  margin-inline-end: 30px;
-  margin-block-start: 10px;
+  position: absolute;
   cursor: pointer;
+  color: red;
+  padding-block-start: 100px;
 }
 
 .grid_container {

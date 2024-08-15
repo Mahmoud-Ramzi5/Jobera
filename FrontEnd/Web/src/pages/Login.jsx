@@ -77,8 +77,8 @@ const Login = () => {
             Cookies.set('access_token', token, { secure: true, expires: 365 });
           }
           else {
-            // 1 Hour
-            Cookies.set('access_token', token, { secure: true, expires: 1 / 24 });
+            // 1 Day
+            Cookies.set('access_token', token, { secure: true, expires: 1 });
           }
 
           // Check Admin
