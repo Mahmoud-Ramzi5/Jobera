@@ -46,9 +46,9 @@ const Sidebar = ({ openSidebarToggle, OpenSidebar, setActiveComponent }) => {
               <a href="/">Jobera</a>
             </div>
           </div>
-          <i className={styles.close_icon} onClick={OpenSidebar}>
+          <span className={styles.close_icon} onClick={OpenSidebar}>
             <BsX size={43} />
-          </i>
+          </span>
         </div>
 
         <ul className={styles.sidebar_list}>
