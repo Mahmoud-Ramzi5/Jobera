@@ -30,13 +30,14 @@ class FreelancingJobFactory extends Factory
         $deadline = $this->faker->dateTimeBetween('now', '+6 months')->format('Y-m-d');
 
         // Generate user id except first id
-        $user_id1 = User::inRandomOrder()->first()->id;
+        do {
+            $user_id1 = User::inRandomOrder()->first()->id;
+        } while ($user_id1 == 1);
 
-        // Generate user id except first id
-        $user_id2 = User::inRandomOrder()->first()->id;
-        while ($user_id2 == $user_id1) {
+        // Generate user id except job's user id or admin id
+        do {
             $user_id2 = User::inRandomOrder()->first()->id;
-        }
+        } while ($user_id2 == $user_id1 || $user_id2 == 1);
 
         return [
             'deadline' => $deadline,
@@ -53,10 +54,10 @@ class FreelancingJobFactory extends Factory
         return $this->afterCreating(function (FreelancingJob $freelancingJob) {
             // Add two random competitors
             $job_owner = $freelancingJob->user;
-            $user_id = User::inRandomOrder()->first()->id;
-            while ($user_id == $job_owner->id) {
+            do {
                 $user_id = User::inRandomOrder()->first()->id;
-            }
+            } while ($user_id == $job_owner->id || $user_id == 1);
+
             FreelancingJobCompetitor::factory()->count(2)->create([
                 'job_id' => $freelancingJob->id,
                 'user_id' => $user_id

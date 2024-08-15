@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CompaniesSeeder::class);
         $this->call(RegJobSeeder::class);
         $this->call(FreelancingJobSeeder::class);
+        $this->call(ChatSeeder::class);
         $this->call(MySeeder::class);
     }
 }

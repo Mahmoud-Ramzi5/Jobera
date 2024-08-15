@@ -153,7 +153,7 @@ class DefJobsController extends Controller
             }
         }
         return response()->json([
-            "errors" => ["type"=>"No type selected"],
+            "errors" => ["type" => "No type selected"],
         ], 400);
     }
 
@@ -350,7 +350,6 @@ class DefJobsController extends Controller
 
         // Check Individual
         $individual = Individual::where('user_id', $user->id)->first();
-        
 
         // Initialize jobs
         $jobs = [];

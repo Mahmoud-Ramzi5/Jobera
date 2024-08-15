@@ -21,8 +21,10 @@ class MessageFactory extends Factory
     {
         return [
             'message' => $this->faker->sentence,
-            'user_id' => null, // This will be set in the ChatSeeder
+            'sender_id' => null, // This will be set in the ChatSeeder
+            'receiver_id' => null, // This will be set in the ChatSeeder
             'chat_id' => null, // This will be set in the ChatSeeder
+            'read_at' => null
         ];
     }
 }
