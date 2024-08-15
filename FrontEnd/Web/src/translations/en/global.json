@@ -206,6 +206,12 @@
                 "card_text": "Please click the following button then follow the instructions to complete your registration.",
                 "button": "Set yourself up"
             },
+            "verify": {
+                "title": "Verification",
+                "card_title": "Resend Verification Email:",
+                "card_text": "Please click the following button then open your email to verify your account.",
+                "button": "Resend Verification Email "
+            },
             "user_info": {
                 "picture_text": "Change Photo",
                 "location": "Location:",

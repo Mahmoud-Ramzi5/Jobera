@@ -52,7 +52,7 @@ class FreelancingJobResource extends JsonResource
         }
 
         // Get flagged jobs
-        $bookmarkedJobs = $user->bookmarkedJobs->pluck('defJob_id')->toArray();
+        $bookmarkedJobs = $user->bookmarkedJobs()->pluck('defJob_id')->toArray();
 
         // Get average salary
         if ($this->competitors()->exists()) {
