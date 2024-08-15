@@ -1,10 +1,10 @@
 import { useState, useEffect, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ThemeContext, LoginContext } from '../../utils/Contexts';
-import { FetchUserChats } from "../../apis/ChatApis";
-import { FetchImage } from '../../apis/FileApi';
-import ChatCard from './ChatCard';
+import { ThemeContext, LoginContext } from '../../utils/Contexts.jsx';
+import { FetchUserChats } from '../../apis/ChatApis.jsx';
+import { FetchImage } from '../../apis/FileApi.jsx';
+import ChatCard from './ChatCard.jsx';
 import styles from './chats.module.css';
 
 
@@ -53,11 +53,11 @@ const ChatNav = ({ setShowChatsScreen }) => {
       <div className={styles.chats_head}>
         <h4>{t('components.nav_bar.h4_chats')}</h4>
         <button
-          type="button"
+          type='button'
           className={
-            theme === "theme-light"
-              ? "btn btn-outline-dark"
-              : "btn btn-outline-light"
+            theme === 'theme-light'
+              ? 'btn btn-outline-dark'
+              : 'btn btn-outline-light'
           }
           onClick={() => {
             navigate("/chats");
@@ -73,7 +73,7 @@ const ChatNav = ({ setShowChatsScreen }) => {
           : chats.slice(0, 3).map((chat) => (
             <ChatCard key={chat.id} chat={chat}
               onClick={() => {
-                navigate("/chats");
+                navigate(`/chats/${chat.id}`);
                 setShowChatsScreen(false);
               }} />
           ))}

@@ -1,10 +1,11 @@
 import { useState, useEffect, useContext, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Pusher from 'pusher-js';
-import { LoginContext, ProfileContext } from '../../utils/Contexts';
-import { FetchUserChats, FetchChat, SendMessage } from '../../apis/ChatApis';
-import ChatList from './ChatList';
-import Clock from '../../utils/Clock';
+import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
+import { FetchUserChats, FetchChat, SendMessage } from '../../apis/ChatApis.jsx';
+import ChatList from './ChatList.jsx';
+import Clock from '../../utils/Clock.jsx';
 import styles from './chats.module.css';
 
 
@@ -12,6 +13,8 @@ const ChatPage = () => {
   // Context
   const { accessToken } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
+  // Params
+  const { chat_id } = useParams();
   // Define states
   const initialized = useRef(false);
   const subscribed = useRef(false);
@@ -40,6 +43,11 @@ const ChatPage = () => {
               }
               else {
                 setChats((prevState) => ([...prevState, chat]));
+              }
+
+              // Simple Check
+              if (chat_id !== undefined && chat_id == chat.id) {
+                setSelectedChat(chat);
               }
             }
           });
@@ -122,6 +130,9 @@ const ChatWindow = ({ chat, messages, setMessages }) => {
   useEffect(() => {
     if (chat) {
       setIsLoading(true);
+
+      // Change URL when chat select
+      window.history.replaceState(null, '', `/chats/${chat.id}`);
 
       FetchChat(accessToken, chat.id).then((response) => {
         if (response.status === 200) {

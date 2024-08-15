@@ -123,32 +123,32 @@ function App() {
 
   useEffect(() => {
     if (profile) {
-      const beamsTokenProvider = new PusherPushNotifications.TokenProvider({
-        url: "http://127.0.0.1:8000/api/pusher/beams-auth",
-        queryParams: {},
-        headers: {
-          'Accept': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Authorization': `Bearer ${accessToken}`,
-        },
-      });
+      // const beamsTokenProvider = new PusherPushNotifications.TokenProvider({
+      //   url: "http://127.0.0.1:8000/api/pusher/beams-auth",
+      //   queryParams: {},
+      //   headers: {
+      //     'Accept': 'application/json',
+      //     'Access-Control-Allow-Origin': '*',
+      //     'Authorization': `Bearer ${accessToken}`,
+      //   },
+      // });
 
-      const beamsClient = new PusherPushNotifications.Client({
-        instanceId: "8a1adda3-cbf6-4ac7-b9b5-d8d8669217ac",
-      });
+      // const beamsClient = new PusherPushNotifications.Client({
+      //   instanceId: "8a1adda3-cbf6-4ac7-b9b5-d8d8669217ac",
+      // });
 
-      beamsClient
-        .start()
-        .then((beamsClient) => beamsClient.setUserId(`user-${profile.user_id}`, beamsTokenProvider))
-        .then(() => beamsClient.getDeviceId())
-        .then((deviceId) => console.log("Successfully registered with Beams. Device ID:", deviceId))
-        .then(() => beamsClient.addDeviceInterest("TEST"))
-        .then(() => beamsClient.addDeviceInterest("debug-test"))
-        .then(() => beamsClient.getDeviceInterests())
-        .then((interests) => console.log("Current interests:", interests))
-        .then(() => beamsClient.getUserId())
-        .then((userId) => console.log("User ID:", userId))
-        .catch(console.error);
+      // beamsClient
+      //   .start()
+      //   .then((beamsClient) => beamsClient.setUserId(`user-${profile.user_id}`, beamsTokenProvider))
+      //   .then(() => beamsClient.getDeviceId())
+      //   .then((deviceId) => console.log("Successfully registered with Beams. Device ID:", deviceId))
+      //   .then(() => beamsClient.addDeviceInterest("TEST"))
+      //   .then(() => beamsClient.addDeviceInterest("debug-test"))
+      //   .then(() => beamsClient.getDeviceInterests())
+      //   .then((interests) => console.log("Current interests:", interests))
+      //   .then(() => beamsClient.getUserId())
+      //   .then((userId) => console.log("User ID:", userId))
+      //   .catch(console.error);
 
       // beamsClient
       //   .getUserId()
@@ -201,7 +201,7 @@ function App() {
                   <Route path='/jobs/post' element={<PostJob />} />
                   <Route path='/job/:id' element={<ShowJob />} />
                   <Route path='/manage' element={<Manage />} />
-                  <Route path='/chats' element={<ChatPage />} />
+                  <Route path='/chats/:chat_id?' element={<ChatPage />} />
                   <Route path="/notifications" element={<NotificationsPage />} />
                   <Route path="/transactions" element={<Transactions />} />
                   <Route path='/redeemcode' element={<RedeemCode />} />
