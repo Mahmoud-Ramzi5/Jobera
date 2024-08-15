@@ -5,13 +5,13 @@ import { FetchUserProfile } from '../apis/ProfileApis/ProfileApis.jsx';
 import UserInfo from '../components/Profile/UserInfo';
 import Wallet from '../components/Profile/Wallet.jsx';
 import SetUpCard from '../components/Profile/SetUpCard.jsx';
+import VerifyCard from '../components/Profile/VerifyCard.jsx';
 import EducationCard from '../components/Profile/EducationCard.jsx';
 import CertificationsCard from '../components/Profile/CertificationsCard.jsx';
 import SkillsCard from '../components/Profile/SkillsCard.jsx';
 import PortfolioCard from '../components/Profile/PortfolioCard.jsx';
 import Clock from '../utils/Clock.jsx';
 import styles from '../styles/profile.module.css';
-import VerifyCard from '../components/Profile/VerifyCard.jsx';
 
 
 const Profile = () => {
@@ -59,11 +59,10 @@ const Profile = () => {
         <div className={styles.rightSideContainer}>
           {profileData.is_registered ? (<></>) : (
             <div className={styles.rightSide}><SetUpCard ProfileData={profileData} /></div>
-          )}{
-            profileData.is_verified?(<></>) : (
-              <div className={styles.rightSide}><VerifyCard ProfileData={profileData} /></div>
-            )
-          }
+          )}
+          {profileData.is_verified ? (<></>) : (
+            <div className={styles.rightSide}><VerifyCard ProfileData={profileData} /></div>
+          )}
           <div className={styles.rightSide}><EducationCard ProfileData={profileData} /></div>
           <div className={styles.rightSide}><CertificationsCard ProfileData={profileData} /></div>
           <div className={styles.rightSide}><SkillsCard ProfileData={profileData} /></div>
@@ -79,6 +78,9 @@ const Profile = () => {
           {profileData.user_id === profile.user_id &&
             <div className={styles.leftSide}><Wallet ProfileData={profileData} /></div>}
           <div className={styles.leftSide}><PortfolioCard ProfileData={profileData} /></div>
+          {profileData.is_verified ? (<></>) : (
+            <div className={styles.rightSide}><VerifyCard ProfileData={profileData} /></div>
+          )}
         </div>
       </div>
     );

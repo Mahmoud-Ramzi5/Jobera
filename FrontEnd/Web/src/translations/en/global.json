@@ -199,7 +199,8 @@
                 "card_title": "Continue your registration:",
                 "card_text": "Please click the following button then follow the instructions to complete your registration.",
                 "button": "Set yourself up"
-            },"verify": {
+            },
+            "verify": {
                 "title": "Verification",
                 "card_title": "Resend Verification Email:",
                 "card_text": "Please click the following button then open your email to verify your account.",
