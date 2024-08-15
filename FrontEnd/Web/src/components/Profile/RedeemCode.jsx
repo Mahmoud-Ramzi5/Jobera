@@ -20,6 +20,7 @@ const RedeemCode = () => {
   const [amount, setAmount] = useState('')
   const [message, setMessage] = useState('');
   const [generateMessage, setGenerateMessage] = useState('');
+  const [generatedCode, setGeneratedCode] = useState('');
 
   const handleSubmitCode = (event) => {
     event.preventDefault();
@@ -46,6 +47,7 @@ const RedeemCode = () => {
       if (response.status === 201) {
         console.log(response);
         setGenerateMessage('success');
+        setGeneratedCode(response.data.message);
       } else {
         console.log(response);
         setGenerateMessage('failed');
@@ -62,7 +64,9 @@ const RedeemCode = () => {
             {generateMessage ? generateMessage === 'success' ? <div className={styles.message}>
               <i className={styles.check}><BsCheckLg size={60} /></i>
               <br />
-              <span>{t('components.redeem_code.message1_generate')}</span>
+              <span>{t('components.redeem_code.message1_generate')}<br />{generatedCode}</span>
+              <br />
+              <a href= {`/admin`} className={styles.anchor}>{t('components.redeem_code.anchor')}</a>
             </div>
               :
               <div className={styles.message}>

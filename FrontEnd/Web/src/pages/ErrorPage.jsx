@@ -34,9 +34,15 @@ const ErrorPage = () => {
                 {t('pages.error_page.anchor')}
               </a>
               :
-              <a href={`/profile/${profile.user_id}/${profile.name}`} className={styles.anchor}>
-                {t('pages.error_page.anchor')}
-              </a>}
+              profile.type === 'company' ?
+                <a href={`/profile/${profile.user_id}/${profile.name}`} className={styles.anchor}>
+                  {t('pages.error_page.anchor')}
+                </a>
+                :
+                <a href={`/admin`} className={styles.anchor}>
+                  {t('pages.error_page.anchor')}
+                </a>
+            }
           </div>
         </div>
 

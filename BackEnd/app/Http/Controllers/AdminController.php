@@ -46,7 +46,7 @@ class AdminController extends Controller
 
                 // Response
                 return response()->json([
-                    'message' => 'created succcessfully',
+                    'message' => $redeemCode->code,
                 ], 201);
             } else {
                 // Response

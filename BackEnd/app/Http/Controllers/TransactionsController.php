@@ -354,7 +354,8 @@ class TransactionsController extends Controller
             $userWallet->total_balance += $redeemCode->value;
             $userWallet->available_balance += $redeemCode->value;
             $userWallet->save();
-            $redeemCode->update(['wallet_id' => $userWallet->id]);
+            $redeemCode->wallet_id = $userWallet->id;
+            $redeemCode->save();
             return response()->json([
                 'message' => 'redeem code has been used successfully'
             ], 200);
