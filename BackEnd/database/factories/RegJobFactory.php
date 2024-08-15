@@ -68,16 +68,18 @@ class RegJobFactory extends Factory
             ]);
         });
     }
+
     public function withRating()
     {
         return $this->afterCreating(function (RegJob $regJob) {
             $reviewer_id = $regJob->company->user_id;
             $reviewed_id = $regJob->acceptedIndividual->user_id;
             $review = $this->faker->numberBetween(1, 5);
+
             Review::create([
-                'reviewer_id'=>$reviewer_id,
-                'reviewed_id'=>$reviewed_id,
-                'review'=>$review
+                'reviewer_id' => $reviewer_id,
+                'reviewed_id' => $reviewed_id,
+                'review' => $review
             ]);
         });
     }

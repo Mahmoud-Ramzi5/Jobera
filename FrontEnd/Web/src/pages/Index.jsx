@@ -39,8 +39,7 @@ const Index = () => {
     if (loggedIn) {
       if (profile.user_id == 1) {
         navigate('/');
-      }
-      else {
+      } else {
         event.preventDefault();
         navigate('/jobs/post');
       }

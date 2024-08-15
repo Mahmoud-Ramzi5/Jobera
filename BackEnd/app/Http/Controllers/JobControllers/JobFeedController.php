@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\JobControllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Individual;
 use App\Models\Company;
 use App\Models\DefJob;
-use App\Models\FreelancingJob;
-use App\Models\Individual;
 use App\Models\RegJob;
+use App\Models\FreelancingJob;
 use App\Models\Skill;
 
 class JobFeedController extends Controller
@@ -201,8 +201,10 @@ class JobFeedController extends Controller
             }
         }
 
+        // Response data
         $stats = [
             [
+                'id' => 1,
                 "data" => $doneJobs,
                 "name" => [
                     "en" => "All Done Jobs",
@@ -210,6 +212,7 @@ class JobFeedController extends Controller
                 ]
             ],
             [
+                'id' => 2,
                 "data" => $individualRegistered,
                 "name" => [
                     "en" => "Registered Individuals",
@@ -217,6 +220,7 @@ class JobFeedController extends Controller
                 ]
             ],
             [
+                'id' => 3,
                 "data" => $runningJobsFullTime,
                 "name" => [
                     "en" => "Total Running FullTime Job",
@@ -224,6 +228,7 @@ class JobFeedController extends Controller
                 ]
             ],
             [
+                'id' => 4,
                 "data" => $runningJobsPartTime,
                 "name" => [
                     "en" => "Total Running PartTime Job",
@@ -231,6 +236,7 @@ class JobFeedController extends Controller
                 ]
             ],
             [
+                'id' => 5,
                 "data" => $runningJobsFreelancing,
                 "name" => [
                     "en" => "Total Running Freelancing Job",
@@ -238,6 +244,7 @@ class JobFeedController extends Controller
                 ]
             ],
             [
+                'id' => 6,
                 "data" => $companyRegistered,
                 "name" => [
                     "en" => "Exhibiting Companies",
@@ -245,6 +252,7 @@ class JobFeedController extends Controller
                 ]
             ],
             [
+                'id' => 7,
                 "data" => $doneFullTimeJobs,
                 "name" => [
                     "en" => "Done FullTime Jobs",
@@ -252,6 +260,7 @@ class JobFeedController extends Controller
                 ]
             ],
             [
+                'id' => 8,
                 "data" => $donePartTimeJobs,
                 "name" => [
                     "en" => "Done PartTime Jobs",
@@ -259,6 +268,7 @@ class JobFeedController extends Controller
                 ]
             ],
             [
+                'id' => 9,
                 "data" => $doneFreelancingJobs,
                 "name" => [
                     "en" => "Done Freelancing Jobs",

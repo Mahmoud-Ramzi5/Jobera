@@ -26,6 +26,7 @@
 .card .content {
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .card .content .number {
@@ -35,7 +36,12 @@
   line-height: 1;
 }
 
-.card .content .label {
+.card .content .icon {
+  display: block;
+  font-size: 16px;
+}
+
+.card .label {
   font-size: 16px;
   color: #888888;
 }

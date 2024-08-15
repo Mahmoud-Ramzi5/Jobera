@@ -2,11 +2,11 @@
 
 namespace Database\Factories;
 
-use App\Models\Review;
 use App\Models\User;
 use App\Models\DefJob;
 use App\Models\Wallet;
 use App\Models\Transaction;
+use App\Models\Review;
 use App\Models\FreelancingJob;
 use App\Models\FreelancingJobCompetitor;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -92,16 +92,18 @@ class FreelancingJobFactory extends Factory
             Transaction::create($transactionParams);
         });
     }
+
     public function withRating()
     {
         return $this->afterCreating(function (FreelancingJob $freelancingJob) {
             $reviewer_id = $freelancingJob->user_id;
             $reviewed_id = $freelancingJob->accepted_user;
             $review = $this->faker->numberBetween(1, 5);
+
             Review::create([
-                'reviewer_id'=>$reviewer_id,
-                'reviewed_id'=>$reviewed_id,
-                'review'=>$review
+                'reviewer_id' => $reviewer_id,
+                'reviewed_id' => $reviewed_id,
+                'review' => $review
             ]);
         });
     }

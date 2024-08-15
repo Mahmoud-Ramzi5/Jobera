@@ -1,5 +1,9 @@
 import { useEffect, useState, useContext, useRef } from "react";
 import { useTranslation } from "react-i18next";
+import {
+  BsPeopleFill, BsBuildingsFill, BsBriefcaseFill,
+  BsLaptopFill, BsClockHistory, BsCheck
+} from 'react-icons/bs';
 import { LoginContext } from "../../utils/Contexts.jsx";
 import { StatsAPI } from "../../apis/JobFeedApis.jsx";
 import styles from "./stats.module.css";
@@ -12,6 +16,18 @@ const Stats = () => {
   // Define states
   const initialized = useRef(false);
   const [statsData, setStatsData] = useState([]);
+
+  const icons = {
+    1: <BsCheck />,
+    2: <BsPeopleFill />,
+    3: <BsBriefcaseFill />,
+    4: <BsClockHistory />,
+    5: <BsLaptopFill />,
+    6: <BsBuildingsFill />,
+    7: <BsBriefcaseFill />,
+    8: <BsClockHistory />,
+    9: <BsLaptopFill />,
+  };
 
   useEffect(() => {
     if (!initialized.current) {
@@ -32,18 +48,12 @@ const Stats = () => {
       {statsData.map((stat, index) => (
         <div key={index} className={styles.card}>
           <div className={styles.content}>
-            <img
-              className="block"
-              src="saturn-assets/images/stats/chat-icon-1.svg"
-              alt=""
-            />
-            <div>
-              <span className={styles.number}>{stat.data}</span>
-              <span className={styles.label}>
-                {stat.name[i18n.language]}
-              </span>
-            </div>
+            <span className={styles.number}>{stat.data}</span>
+            <i className={styles.icon}>{icons[stat.id]}</i>
           </div>
+          <span className={styles.label}>
+            {stat.name[i18n.language]}
+          </span>
         </div>
       ))}
     </div>

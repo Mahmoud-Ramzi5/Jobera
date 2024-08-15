@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Wallet;
 use App\Models\RegJob;
 use App\Models\FreelancingJob;
 use App\Models\RegJobCompetitor;
 use App\Models\FreelancingJobCompetitor;
+use App\Models\Wallet;
 use App\Models\Transaction;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -166,7 +166,7 @@ class MySeeder extends Seeder
                     'date' => now()
                 ];
                 Transaction::create($transactionParams);
-            
+
                 $me = RegJobCompetitor::where('job_id', $regJob->id)->where('individual_id', 26)->first();
                 if ($me == null) {
                     DB::table('reg_job_competitors')->insert(array(
