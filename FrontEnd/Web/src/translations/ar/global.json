@@ -59,6 +59,8 @@
             "email_input": "ايميل",
             "password_input": "كلمة المرور",
             "remember_me": "تذكرني",
+            "error": "الأيميل أو كلمة السر خاطئة",
+            "email_error": "يجب على الإيميل أن يكون صحيحاً",
             "forgot_password": "نسيت كلمة المرور؟",
             "button": "تسجيل الدخول الآن",
             "login_register_div": "لا تملك حساب؟",
@@ -82,11 +84,13 @@
                 "gender": {
                     "Male": "ذكر",
                     "Female": "انثى"
-                }
+                },
+                "error_message": "الإيميل أو رقم الهاتف مسجلين سابقاً"
             },
             "company_form": {
                 "name_input": "اسم الشركة",
-                "field_input": "مجال العمل"
+                "field_input": "مجال العمل",
+                "error_message": "الإيميل أو رقم الهاتف مسجلين سابقاً"
             },
             "button": "أنشىء الحساب الآن",
             "register_login_div": "بالفعل لديك حساب؟",
@@ -178,6 +182,8 @@
                 "search_input": "البحث عن مهارة",
                 "not_found": "لم يتم العثور على المهارة",
                 "left": "المهارات المتبقية:",
+                "unveriefied_error":"لا يمكن القيام بالعملية حتى تأكيد الإيميل الخاص بك",
+                "balance_error":"لا يوجد رصيد كافي لإنشاء العمل",
                 "button": "إرسال"
             }
         },
@@ -211,6 +217,8 @@
                 "save_description_button": "حفظ الوصف",
                 "cancel_button": "إلغاء",
                 "edit_menu": {
+                    "success":"تم تحديث بيانات المستخدم بنجاح",
+                    "fail":"حدث خطأ أثناء تحديث البيانات",
                     "save_button": "حفظ",
                     "close_button": "إغلاق"
                 }
