@@ -101,7 +101,7 @@ class UserEditEducationController extends GetxController {
 
   void removeFile() {
     file = null;
-    certficateName = '156'.tr;
+    certficateName = null;
     update();
     Get.back();
   }
@@ -110,7 +110,7 @@ class UserEditEducationController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.106:8000/api/education',
+        'http://192.168.39.51:8000/api/education',
         options: Options(
           headers: {
             'Content-Type':
@@ -142,10 +142,12 @@ class UserEditEducationController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     final data = FormData.fromMap(
       {
-        "certificate_file": file != null
-            ? await MultipartFile.fromFile(
-                file.files[0].path.toString(),
-              )
+        "certificate_file": certficateName != null
+            ? file != null
+                ? await MultipartFile.fromFile(
+                    file.files[0].path.toString(),
+                  )
+                : certficateName
             : null,
         'level': level,
         'field': field,
@@ -156,7 +158,7 @@ class UserEditEducationController extends GetxController {
     );
     try {
       var response = await dio.post(
-        'http://192.168.1.106:8000/api/education',
+        'http://192.168.39.51:8000/api/education',
         data: data,
         options: Options(
           headers: {
@@ -167,6 +169,7 @@ class UserEditEducationController extends GetxController {
           },
         ),
       );
+      print(response.data.toString());
       if (response.statusCode == 200 || response.statusCode == 201) {
         if (settingsController.isInRegister) {
           Get.offAllNamed('/userViewCertificates');

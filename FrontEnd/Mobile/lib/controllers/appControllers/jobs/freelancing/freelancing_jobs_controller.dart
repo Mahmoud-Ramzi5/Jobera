@@ -102,7 +102,8 @@ class FreelancingJobsController extends GetxController {
 
   Future<void> refreshView() async {
     freelancingJobs.clear();
-    fetchFreelancingJobs(1);
+    Future.delayed(const Duration(milliseconds: 100));
+    await fetchFreelancingJobs(1);
   }
 
   Future<void> resetFilter() async {
@@ -126,7 +127,7 @@ class FreelancingJobsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.106:8000/api/FreelancingJobs?page=$page',
+        'http://192.168.39.51:8000/api/FreelancingJobs?page=$page',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -163,7 +164,7 @@ class FreelancingJobsController extends GetxController {
     List<String> skillnames,
   ) async {
     isFiltered = true;
-    String url = 'http://192.168.1.106:8000/api/FreelancingJobs?page=$page';
+    String url = 'http://192.168.39.51:8000/api/FreelancingJobs?page=$page';
     if (name.isNotEmpty) {
       url = '$url&user_name[like]=$name';
     }

@@ -300,7 +300,7 @@ class EditPortfolioView extends StatelessWidget {
                                           flex: 1,
                                           child: BodyText(
                                             text:
-                                                '${'45'.tr}:${index + 1}: ${controller.files[index].name} ',
+                                                '${'45'.tr} ${index + 1}: ${controller.files[index].name} ',
                                           ),
                                         ),
                                         IconButton(

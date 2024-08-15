@@ -14,7 +14,7 @@ class RegularJobsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return RefreshIndicator(
       key: _regularJobController.refreshIndicatorKey,
-      onRefresh: () async => _regularJobController.refreshView(),
+      onRefresh: () async => await _regularJobController.refreshView(),
       child: GetBuilder<RegularJobsController>(
         builder: (controller) => Scaffold(
           body: controller.loading

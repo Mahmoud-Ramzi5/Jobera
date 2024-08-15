@@ -31,7 +31,7 @@ class WalletController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.106:8000/api/profile/wallet',
+        'http://192.168.39.51:8000/api/profile/wallet',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -57,7 +57,7 @@ class WalletController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.1.106:8000/api/redeemcode',
+        'http://192.168.39.51:8000/api/redeemcode',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -104,7 +104,7 @@ class WalletController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.106:8000/api/transactions',
+        'http://192.168.39.51:8000/api/transactions',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
