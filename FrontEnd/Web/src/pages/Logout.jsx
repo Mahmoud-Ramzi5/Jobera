@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { LoginContext, ProfileContext } from '../utils/Contexts.jsx';
 import { LogoutAPI } from '../apis/AuthApis.jsx';
+import Clock from '../utils/Clock.jsx';
 
 
 const Logout = () => {
@@ -35,10 +36,7 @@ const Logout = () => {
     }
   }, []);
 
-  return (
-    // TODO
-    <h1>Loading...</h1>
-  );
+  return <Clock />
 };
 
 export default Logout;

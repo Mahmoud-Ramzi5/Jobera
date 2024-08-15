@@ -1,12 +1,13 @@
 import { useEffect, useState, useContext, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { BsChatFill, BsTrash } from "react-icons/bs";
 import { LoginContext } from "../../utils/Contexts";
 import { DeleteUserAPI, FetchAllUsers } from "../../apis/AdminApis.jsx";
+import { CreateChat } from "../../apis/ChatApis.jsx";
 import Clock from "../../utils/Clock.jsx";
 import styles from "../../styles/AdminPage.module.css";
-import { useNavigate } from "react-router-dom";
-import { CreateChat } from "../../apis/ChatApis.jsx";
+
 
 const AdminUsers = () => {
   // Translations
@@ -15,11 +16,11 @@ const AdminUsers = () => {
   const { accessToken } = useContext(LoginContext);
   // Define states
   const initialized = useRef(false);
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [userData, setUserData] = useState(null);
   const [userType, setUserType] = useState("individual");
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!initialized.current) {
@@ -30,7 +31,7 @@ const AdminUsers = () => {
         if (response.status === 200) {
           setUserData(response.data);
         } else {
-          console.log(response);
+          console.log(response.statusText);
         }
       }).then(() => {
         setIsLoading(false);
@@ -42,21 +43,21 @@ const AdminUsers = () => {
     setSearchQuery(event.target.value);
   };
 
-  const handleChat=(user_id)=>{
-    CreateChat(accessToken,user_id).then((response)=>{
-      if(response.status==201){
-        navigate("/chats")
-      }else{
-        console.log(response.status);
+  const handleChat = (user_id) => {
+    CreateChat(accessToken, user_id).then((response) => {
+      if (response.status === 201) {
+        navigate(`/chats/${response.data.chat.id}`);
+      } else {
+        console.log(response.statusText);
       }
     })
   }
 
   const handleDelete = (user_id) => {
-    DeleteUserAPI(accessToken,user_id).then((response)=>{
-      if(response.status==204){
-        window.location.reload();
-      }else{
+    DeleteUserAPI(accessToken, user_id).then((response) => {
+      if (response.status == 204) {
+        window.location.reload(); // Refresh the page after deletion
+      } else {
         console.log(response);
       }
     })
@@ -139,9 +140,7 @@ const AdminUsers = () => {
         <table className={styles.certificates_table}>
           <thead>
             <tr>
-              {currentColumns.map((column) => (
-                <th key={column.key}>{column.label}</th>
-              ))}
+              {currentColumns.map((column) => (<th key={column.key}>{column.label}</th>))}
               <th>{t('components.admin.users_table.actions')}</th>
             </tr>
           </thead>
@@ -151,20 +150,20 @@ const AdminUsers = () => {
                 <td key={column.key}>
                   {column.key == "rating" ? user[column.key] == null ? 0 : user[column.key] :
                     column.key == "is_verified" ? column.key == true ? "False" : "True" :
-                      column.key == "full_name" || column.key == "name"?
+                      column.key == "full_name" || column.key == "name" ?
                         <a className={styles.anchor} href={`/profile/${user.user_id}/${user[column.key]}`}>
                           {user[column.key]}
-                        </a>:
-                      user[column.key]
+                        </a> :
+                        user[column.key]
                   }
                   {console.log(user)}
                 </td>
               ))}
               <td>
-                <button onClick={() =>handleChat(user.user_id)} className={styles.edit_button} >
+                <button onClick={() => handleChat(user.user_id)} className={styles.edit_button} >
                   <BsChatFill />
                 </button>
-                <button onClick={()=>handleDelete(user.user_id)} className={styles.delete_button} >
+                <button onClick={() => handleDelete(user.user_id)} className={styles.delete_button} >
                   <BsTrash />
                 </button>
               </td>

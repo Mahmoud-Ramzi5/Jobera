@@ -16,7 +16,6 @@ const Admin = () => {
   const [activeComponent, setActiveComponent] = useState('Home');
   const { currentState } = useParams();
 
-  console.log(openSidebarToggle);
   useEffect(() => {
     if (currentState != null)
       setActiveComponent(currentState);

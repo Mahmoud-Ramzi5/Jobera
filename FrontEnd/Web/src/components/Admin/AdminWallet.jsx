@@ -1,16 +1,14 @@
 import { useEffect, useState, useContext, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { BsChatFill, BsTrash } from "react-icons/bs";
 import { LoginContext } from "../../utils/Contexts.jsx";
-import {
-  GetAllTransactions,
-  GetTransactions,
-} from "../../apis/TransactionsApis.jsx";
+import { DeleteTransactionAPI } from "../../apis/AdminApis.jsx";
+import { GetAllTransactions, GetTransactions } from "../../apis/TransactionsApis.jsx";
+import { CreateChat } from "../../apis/ChatApis.jsx";
 import Clock from "../../utils/Clock.jsx";
 import styles from "../../styles/AdminPage.module.css";
-import { CreateChat } from "../../apis/ChatApis.jsx";
-import { useNavigate } from "react-router-dom";
-import { DeleteTransactionAPI } from "../../apis/AdminApis.jsx";
+
 
 const AdminWalet = () => {
   // Translations
@@ -19,41 +17,37 @@ const AdminWalet = () => {
   const { accessToken } = useContext(LoginContext);
   // Define states
   const initialized = useRef(false);
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [allTransactions, setAllTransactions] = useState([]);
   const [adminTransactions, setAdminTransactions] = useState([]);
   const [transactionType, setTransactionType] = useState("All");
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
       setIsLoading(true);
 
-      GetAllTransactions(accessToken)
-        .then((response) => {
-          if (response.status === 200) {
-            setAllTransactions(response.data.transactions);
-          } else {
-            console.log(response);
-          }
-        })
-        .then(() => {
-          setIsLoading(false);
-        });
+      GetAllTransactions(accessToken).then((response) => {
+        if (response.status === 200) {
+          setAllTransactions(response.data.transactions);
+        } else {
+          console.log(response.statusText);
+        }
+      }).then(() => {
+        setIsLoading(false);
+      });
 
-      GetTransactions(accessToken)
-        .then((response) => {
-          if (response.status === 200) {
-            setAdminTransactions(response.data.transactions);
-          } else {
-            console.log(response.statusText);
-          }
-        })
-        .then(() => {
-          setIsLoading(false);
-        });
+      GetTransactions(accessToken).then((response) => {
+        if (response.status === 200) {
+          setAdminTransactions(response.data.transactions);
+        } else {
+          console.log(response.statusText);
+        }
+      }).then(() => {
+        setIsLoading(false);
+      });
     }
   }, []);
 
@@ -62,83 +56,50 @@ const AdminWalet = () => {
   };
 
   const handleDelete = (transaction_id) => {
-    DeleteTransactionAPI(accessToken,transaction_id).then((response)=>{
-      if(response.status==204){
+    DeleteTransactionAPI(accessToken, transaction_id).then((response) => {
+      if (response.status == 204) {
         window.location.reload();
-      }else{
+      } else {
         console.log(response);
       }
     })
   };
 
-  const handleChat=(user_id)=>{
-    CreateChat(accessToken,user_id).then((response)=>{
-      if(response.status==201){
-        navigate("/chats")
-      }else{
-        console.log(response);
+  const handleChat = (user_id) => {
+    CreateChat(accessToken, user_id).then((response) => {
+      if (response.status == 201) {
+        navigate(`/chats/${response.data.chat.id}`);
+      } else {
+        console.log(response.statusText);
       }
     })
   }
 
   const columnStructure = {
     Admin: [
-      {
-        key: "sender.name",
-        label: t("components.admin.wallet_table.column_structure.sender_name"),
-      },
-      {
-        key: "job.title",
-        label: t("components.admin.wallet_table.column_structure.job_title"),
-      },
-      {
-        key: "amount",
-        label: t("components.admin.wallet_table.column_structure.amount"),
-      },
-      {
-        key: "date",
-        label: t("components.admin.wallet_table.column_structure.date"),
-      },
+      { key: "sender.name", label: t("components.admin.wallet_table.column_structure.sender_name") },
+      { key: "job.title", label: t("components.admin.wallet_table.column_structure.job_title") },
+      { key: "amount", label: t("components.admin.wallet_table.column_structure.amount") },
+      { key: "date", label: t("components.admin.wallet_table.column_structure.date") },
     ],
     All: [
-      {
-        key: "sender.name",
-        label: t("components.admin.wallet_table.column_structure.sender_name"),
-      },
-      {
-        key: "receiver.name",
-        label: t(
-          "components.admin.wallet_table.column_structure.receiver_name"
-        ),
-      },
-      {
-        key: "job.title",
-        label: t("components.admin.wallet_table.column_structure.job_title"),
-      },
-      {
-        key: "amount",
-        label: t("components.admin.wallet_table.column_structure.amount"),
-      },
-      {
-        key: "date",
-        label: t("components.admin.wallet_table.column_structure.date"),
-      },
+      { key: "sender.name", label: t("components.admin.wallet_table.column_structure.sender_name") },
+      { key: "receiver.name", label: t("components.admin.wallet_table.column_structure.receiver_name") },
+      { key: "job.title", label: t("components.admin.wallet_table.column_structure.job_title") },
+      { key: "amount", label: t("components.admin.wallet_table.column_structure.amount") },
+      { key: "date", label: t("components.admin.wallet_table.column_structure.date"), },
     ],
   };
 
   const currentColumns = columnStructure[transactionType];
-  const filteredTransactions =
-    transactionType == "All"
-      ? allTransactions.filter((transaction) =>
-        transaction.job.title
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase())
-      )
-      : adminTransactions.filter((transaction) =>
-        transaction.job.title
-          .toLowerCase()
-          .includes(searchQuery.toLowerCase())
-      );
+
+  const filteredTransactions = transactionType == "All"
+    ? allTransactions.filter((transaction) =>
+      transaction.job.title.toLowerCase().includes(searchQuery.toLowerCase())
+    ) : adminTransactions.filter((transaction) =>
+      transaction.job.title.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
 
   if (isLoading) {
     return <Clock />;
@@ -185,9 +146,7 @@ const AdminWalet = () => {
         <table className={styles.certificates_table}>
           <thead>
             <tr>
-              {currentColumns.map((column) => (
-                <th key={column.key}>{column.label}</th>
-              ))}
+              {currentColumns.map((column) => (<th key={column.key}>{column.label}</th>))}
               <th>{t("components.admin.wallet_table.actions")}</th>
             </tr>
           </thead>
@@ -196,8 +155,7 @@ const AdminWalet = () => {
               filteredTransactions.map((transaction) => (
                 <tr key={transaction.id}>
                   {currentColumns.map((column) => (
-                    <td key={column.key}>
-                      {" "}
+                    <td key={column.key}>{" "}
                       {column.key === "date"
                         ? new Date(transaction.date).toISOString().split("T")[0]
                         : column.key === "job.title"

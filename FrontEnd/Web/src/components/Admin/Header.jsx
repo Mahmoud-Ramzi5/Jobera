@@ -14,40 +14,35 @@ const Header = ({ OpenSidebar }) => {
   const [showChatsScreen, setShowChatsScreen] = useState(false);
   const [showNotificationScreen, setShowNotificationScreen] = useState(false);
 
-  const handleClickChat = (event) => {
-    event.preventDefault();
+  const handleClickChat = () => {
     setShowChatsScreen(!showChatsScreen);
     setShowNotificationScreen(false);
   }
 
-  const handleClickNotifications = (event) => {
-    event.preventDefault();
+  const handleClickNotifications = () => {
     setShowNotificationScreen(!showNotificationScreen);
     setShowChatsScreen(false);
   }
 
-  const handleLogout = () => {
-    navigate('/logout');
-  };
 
   return (
     <header className={styles.header}>
       <div className={styles.menu_icon}>
-        <BsJustify className={styles.icon} onClick={OpenSidebar} />
+        <BsJustify size={27} className={styles.icon} onClick={OpenSidebar} />
       </div>
       <div className={styles.header_right}>
-        <div className={styles.span_list}>
-          <FaDoorOpen className={styles.icon} onClick={handleLogout} />
+        <div title="Logout" className={styles.span_list} onClick={() => navigate('/logout')}>
+          <FaDoorOpen className={styles.icon} />
         </div>
         <span title="Chats" className={styles.span_list} onClick={handleClickChat}>
-          <BsEnvelopeAtFill className={styles.icon} /> <span className={styles.mobile_item2}></span>
+          <BsEnvelopeAtFill className={styles.icon} />
         </span>
         <span title="notifications" className={styles.span_list} onClick={handleClickNotifications}>
           <BsFillBellFill className={styles.icon} />
         </span>
       </div>
       {showChatsScreen && <span className={styles.chat_admin}><ChatNav setShowChatsScreen={handleClickChat} /></span>}
-      {showNotificationScreen && <span className={styles.chat_admin}>Hello for test</span>}
+      {showNotificationScreen && <span className={styles.chat_admin}></span>}
     </header>
   );
 };

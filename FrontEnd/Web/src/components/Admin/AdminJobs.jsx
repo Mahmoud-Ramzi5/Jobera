@@ -2,7 +2,7 @@ import { useEffect, useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { BsEyeFill, BsTrash } from "react-icons/bs";
-import { LoginContext } from "../../utils/Contexts";
+import { LoginContext } from "../../utils/Contexts.jsx";
 import { FetchJobsAdmin, DeleteFreelancingJobAPI, DeleteRegJobAPI } from "../../apis/JobsApis.jsx";
 import Clock from "../../utils/Clock.jsx";
 import styles from "../../styles/AdminPage.module.css";
@@ -104,6 +104,7 @@ const AdminJobs = () => {
   const filteredJobs = jobsData ? jobsData.filter((job) =>
     job.title.toLowerCase().includes(searchQuery.toLowerCase())
   ) : [];
+
 
   if (isLoading) {
     return <Clock />
