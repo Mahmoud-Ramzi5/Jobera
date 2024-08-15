@@ -286,10 +286,9 @@ class RegularJobDetailsView extends StatelessWidget {
                                             BodyText(text: '${'24'.tr}: '),
                                             RatingBar.builder(
                                               initialRating: controller
-                                                      .regularJob
-                                                      .competitors[index]
-                                                      .rating ??
-                                                  0.0.toDouble(),
+                                                  .regularJob
+                                                  .competitors[index]
+                                                  .rating,
                                               allowHalfRating: true,
                                               itemCount: 5,
                                               itemBuilder: (context, index) {

@@ -74,6 +74,18 @@ class RegularJobsController extends GetxController {
     await fetchRegularJobs(1);
   }
 
+  Future<void> submitFilter() async {
+    regularJobs.clear();
+    Future.delayed(const Duration(milliseconds: 100));
+    await filterJobs(
+      1,
+      nameController.text,
+      minSalaryController.text,
+      maxSalaryController.text,
+      skillNames,
+    );
+  }
+
   Future<void> resetFilter() async {
     isFiltered = false;
     regularJobs.clear();
@@ -93,7 +105,7 @@ class RegularJobsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.39.51:8000/api/regJobs?page=$page',
+        'http://192.168.1.106:8000/api/regJobs?page=$page',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -115,7 +127,7 @@ class RegularJobsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
@@ -128,7 +140,7 @@ class RegularJobsController extends GetxController {
     List<String> skillNames,
   ) async {
     isFiltered = true;
-    String url = 'http://192.168.39.51:8000/api/regJobs?page=$page';
+    String url = 'http://192.168.1.106:8000/api/regJobs?page=$page';
     if (name.isNotEmpty) {
       url = '$url&company_name[like]=$name';
     }
@@ -166,17 +178,17 @@ class RegularJobsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
 
-  void scrollListener() {
+  Future<void> scrollListener() async {
     if (scrollController.position.pixels ==
             scrollController.position.maxScrollExtent &&
         paginationData.hasMorePages) {
       if (isFiltered) {
-        filterJobs(
+        await filterJobs(
           paginationData.currentPage + 1,
           nameController.text,
           minSalaryController.text,
@@ -184,8 +196,33 @@ class RegularJobsController extends GetxController {
           skillNames,
         );
       } else {
-        fetchRegularJobs(paginationData.currentPage + 1);
+        await fetchRegularJobs(paginationData.currentPage + 1);
       }
+    }
+  }
+
+  Future<dynamic> bookmarkJob(int jobId) async {
+    String? token = sharedPreferences?.getString('access_token');
+    try {
+      var response = await dio.post(
+        'http://192.168.1.106:8000/api/jobs/$jobId/bookmark',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        refreshIndicatorKey.currentState!.show();
+        update();
+      }
+    } on DioException catch (e) {
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response!.data['errors'].toString(),
+      );
     }
   }
 }

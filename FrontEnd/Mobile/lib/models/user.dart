@@ -22,7 +22,7 @@ class User {
   final List<Portfolio> portfolios;
   final String step;
   final Wallet wallet;
-  final double? rating;
+  final double rating;
   final int reviewsCount;
   final int notificationsCount;
 
@@ -44,7 +44,7 @@ class User {
     required this.certificates,
     required this.step,
     required this.wallet,
-    this.rating,
+    required this.rating,
     required this.reviewsCount,
     required this.notificationsCount,
   });
@@ -77,7 +77,7 @@ class User {
         ],
         step = json['register_step'],
         wallet = Wallet.fromJson(json['wallet']),
-        rating = json['rating'] != null ? double.parse(json['rating']) : null,
+        rating = double.parse(json['rating']),
         reviewsCount = json['reviews'] as int,
         notificationsCount = json['notifications_count'] as int;
 
@@ -99,7 +99,7 @@ class User {
         portfolios = [],
         step = '',
         wallet = Wallet.empty(),
-        rating = null,
+        rating = 0.0,
         reviewsCount = 0,
         notificationsCount = 0;
 }

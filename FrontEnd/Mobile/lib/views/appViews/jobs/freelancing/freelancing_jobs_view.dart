@@ -76,6 +76,12 @@ class FreelancingJobsView extends StatelessWidget {
                                       .freelancingJobs[index].minOffer,
                                   maxOffer: controller
                                       .freelancingJobs[index].maxOffer,
+                                  isFlagged: controller
+                                      .freelancingJobs[index].isFlagged,
+                                  onPressed: () async =>
+                                      await controller.bookmarkJob(
+                                    controller.freelancingJobs[index].defJobId,
+                                  ),
                                 ),
                               ),
                             ),

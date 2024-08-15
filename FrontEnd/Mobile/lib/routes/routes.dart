@@ -13,6 +13,7 @@ import 'package:jobera/views/appViews/jobs/regular/regular_job_details_view.dart
 import 'package:jobera/views/appViews/jobs/regular/regular_jobs_filter_view.dart';
 import 'package:jobera/views/appViews/jobs/regular/regular_jobs_view.dart';
 import 'package:jobera/views/appViews/job_feed_view.dart';
+import 'package:jobera/views/appViews/jobs/manage/manage_view.dart';
 import 'package:jobera/views/appViews/notifications_view.dart';
 import 'package:jobera/views/appViews/wallet_view.dart';
 import 'package:jobera/views/loginViews/forgot_password_view.dart';
@@ -157,5 +158,9 @@ List<GetPage<dynamic>>? getPages = [
   GetPage(
     name: '/notifications',
     page: () => NotificationsView(),
+  ),
+  GetPage(
+    name: '/manage',
+    page: () => const ManageView(),
   ),
 ];

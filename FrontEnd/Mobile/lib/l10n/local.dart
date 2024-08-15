@@ -188,6 +188,11 @@ class Local implements Translations {
           '182': 'تاريخ النشر',
           '183': 'اللغة',
           '184': 'تعديل العرض',
+          '185': 'الإدارة',
+          '186': 'المنشورات',
+          '187': 'العروض',
+          '188': 'المحفوظات',
+          '189': 'الحالة'
         },
         'en': {
           "1": "en",
@@ -374,6 +379,11 @@ class Local implements Translations {
           '182': 'Publish date',
           '183': 'Language',
           '184': 'Edit offer',
+          '185': 'Manage',
+          '186': 'Posts',
+          '187': 'Offers',
+          '188': 'Bookmarks',
+          '189': 'Status'
         }
       };
 }

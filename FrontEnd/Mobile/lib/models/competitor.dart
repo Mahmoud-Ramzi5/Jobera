@@ -3,7 +3,7 @@ class Competitor {
   final int userId;
   final String name;
   final String? type;
-  final double? rating;
+  final double rating;
   final String? photo;
   final String description;
   final String jobType;
@@ -16,7 +16,7 @@ class Competitor {
     required this.description,
     required this.jobType,
     this.type,
-    this.rating,
+    required this.rating,
     this.photo,
     this.offer,
   });
@@ -31,9 +31,7 @@ class Competitor {
         photo = json['user']['avatar_photo'] != null
             ? json['user']['avatar_photo'] as String
             : null,
-        rating = json['user']['rating'] != null
-            ? double.parse(json['user']['rating'])
-            : null,
+        rating = double.parse(json['user']['rating']),
         description = json['description'] as String,
         offer = json['offer'] != null ? double.parse(json['offer']) : null,
         jobType = json['job_type'] as String;

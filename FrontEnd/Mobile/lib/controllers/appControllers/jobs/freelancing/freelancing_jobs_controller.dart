@@ -106,6 +106,20 @@ class FreelancingJobsController extends GetxController {
     await fetchFreelancingJobs(1);
   }
 
+  Future<void> submitFilter() async {
+    freelancingJobs.clear();
+    Future.delayed(const Duration(milliseconds: 100));
+    await filterJobs(
+      1,
+      nameController.text,
+      minOfferController.text,
+      maxOfferController.text,
+      dateFrom,
+      dateTo,
+      skillNames,
+    );
+  }
+
   Future<void> resetFilter() async {
     isFiltered = false;
     freelancingJobs.clear();
@@ -127,7 +141,7 @@ class FreelancingJobsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.39.51:8000/api/FreelancingJobs?page=$page',
+        'http://192.168.1.106:8000/api/FreelancingJobs?page=$page',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -149,7 +163,7 @@ class FreelancingJobsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
@@ -164,7 +178,7 @@ class FreelancingJobsController extends GetxController {
     List<String> skillnames,
   ) async {
     isFiltered = true;
-    String url = 'http://192.168.39.51:8000/api/FreelancingJobs?page=$page';
+    String url = 'http://192.168.1.106:8000/api/FreelancingJobs?page=$page';
     if (name.isNotEmpty) {
       url = '$url&user_name[like]=$name';
     }
@@ -208,17 +222,17 @@ class FreelancingJobsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
 
-  void scrollListener() {
+  Future<void> scrollListener() async {
     if (scrollController.position.pixels ==
             scrollController.position.maxScrollExtent &&
         paginationData.hasMorePages) {
       if (isFiltered) {
-        filterJobs(
+        await filterJobs(
           paginationData.currentPage + 1,
           nameController.text,
           minOfferController.text,
@@ -228,8 +242,33 @@ class FreelancingJobsController extends GetxController {
           skillNames,
         );
       } else {
-        fetchFreelancingJobs(paginationData.currentPage + 1);
+        await fetchFreelancingJobs(paginationData.currentPage + 1);
       }
+    }
+  }
+
+  Future<dynamic> bookmarkJob(int jobId) async {
+    String? token = sharedPreferences?.getString('access_token');
+    try {
+      var response = await dio.post(
+        'http://192.168.1.106:8000/api/jobs/$jobId/bookmark',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        refreshIndicatorKey.currentState!.show();
+        update();
+      }
+    } on DioException catch (e) {
+      Dialogs().showErrorDialog(
+        'Error',
+        e.response!.data['errors'].toString(),
+      );
     }
   }
 }

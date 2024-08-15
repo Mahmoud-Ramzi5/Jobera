@@ -68,7 +68,7 @@ class UserProfileView extends StatelessWidget {
                         children: [
                           SmallHeadlineText(text: '${'24'.tr}: '),
                           RatingBar.builder(
-                            initialRating: controller.user.rating ?? 0.0,
+                            initialRating: controller.user.rating,
                             allowHalfRating: false,
                             itemCount: 5,
                             itemBuilder: (context, index) {

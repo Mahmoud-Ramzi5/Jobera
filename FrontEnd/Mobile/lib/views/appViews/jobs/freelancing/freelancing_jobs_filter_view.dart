@@ -146,18 +146,7 @@ class FreelancingJobsFilterView extends StatelessWidget {
                 ),
               ),
               OutlinedButton(
-                onPressed: () {
-                  controller.freelancingJobs.clear();
-                  controller.filterJobs(
-                    1,
-                    controller.nameController.text,
-                    controller.minOfferController.text,
-                    controller.maxOfferController.text,
-                    controller.dateFrom,
-                    controller.dateTo,
-                    controller.skillNames,
-                  );
-                },
+                onPressed: () async => await controller.submitFilter(),
                 child: BodyText(text: '23'.tr),
               )
             ],

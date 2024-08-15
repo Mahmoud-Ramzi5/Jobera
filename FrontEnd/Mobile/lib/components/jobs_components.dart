@@ -11,6 +11,7 @@ class RegularJobComponent extends StatelessWidget {
   final String publishedBy;
   final DateTime date;
   final double salary;
+  final bool isFlagged;
   final void Function()? onPressed;
 
   const RegularJobComponent({
@@ -21,6 +22,7 @@ class RegularJobComponent extends StatelessWidget {
     required this.publishedBy,
     required this.date,
     required this.salary,
+    required this.isFlagged,
     this.onPressed,
   });
 
@@ -51,11 +53,17 @@ class RegularJobComponent extends StatelessWidget {
             ),
             IconButton(
               onPressed: onPressed,
-              icon: Icon(
-                Icons.bookmark_border,
-                color: Colors.lightBlue.shade900,
-                size: 40,
-              ),
+              icon: isFlagged
+                  ? Icon(
+                      Icons.bookmark,
+                      color: Colors.lightBlue.shade900,
+                      size: 40,
+                    )
+                  : Icon(
+                      Icons.bookmark_border,
+                      color: Colors.lightBlue.shade900,
+                      size: 40,
+                    ),
             ),
           ],
         ),
@@ -204,6 +212,7 @@ class FreelancingJobComponent extends StatelessWidget {
   final DateTime deadline;
   final double minOffer;
   final double maxOffer;
+  final bool isFlagged;
   final void Function()? onPressed;
 
   const FreelancingJobComponent({
@@ -216,6 +225,7 @@ class FreelancingJobComponent extends StatelessWidget {
     required this.deadline,
     required this.minOffer,
     required this.maxOffer,
+    required this.isFlagged,
     this.onPressed,
   });
 
@@ -246,11 +256,17 @@ class FreelancingJobComponent extends StatelessWidget {
             ),
             IconButton(
               onPressed: onPressed,
-              icon: Icon(
-                Icons.bookmark_border,
-                color: Colors.lightBlue.shade900,
-                size: 40,
-              ),
+              icon: isFlagged
+                  ? Icon(
+                      Icons.bookmark,
+                      color: Colors.lightBlue.shade900,
+                      size: 40,
+                    )
+                  : Icon(
+                      Icons.bookmark_border,
+                      color: Colors.lightBlue.shade900,
+                      size: 40,
+                    ),
             ),
           ],
         ),
@@ -419,6 +435,158 @@ class FreelancingJobDetailsComponent extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class RegularOfferComponent extends StatelessWidget {
+  final String? photo;
+  final String jobTitle;
+  final String jobType;
+  final String comment;
+  final String status;
+
+  const RegularOfferComponent({
+    super.key,
+    required this.photo,
+    required this.jobTitle,
+    required this.jobType,
+    required this.comment,
+    required this.status,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: ProfilePhotoContainer(
+                child: photo != null
+                    ? CustomImage(
+                        path: photo.toString(),
+                        height: 100,
+                        width: 100,
+                      )
+                    : Icon(
+                        Icons.work,
+                        color: Colors.lightBlue.shade900,
+                        size: 100,
+                      ),
+              ),
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            BodyText(text: '${'105'.tr}: '),
+            Flexible(child: LabelText(text: jobTitle)),
+          ],
+        ),
+        Row(
+          children: [
+            BodyText(text: '${'102'.tr}: '),
+            LabelText(text: jobType),
+          ],
+        ),
+        Row(
+          children: [
+            BodyText(text: '${'124'.tr}: '),
+            Flexible(child: LabelText(text: comment))
+          ],
+        ),
+        Row(
+          children: [
+            BodyText(text: '${'189'.tr}: '),
+            Flexible(child: LabelText(text: status))
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class FreelancingOfferComponent extends StatelessWidget {
+  final String? photo;
+  final String jobTitle;
+  final String jobType;
+  final String comment;
+  final String status;
+  final double? offer;
+
+  const FreelancingOfferComponent({
+    super.key,
+    required this.photo,
+    required this.jobTitle,
+    required this.jobType,
+    required this.comment,
+    required this.status,
+    this.offer,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(10),
+              child: ProfilePhotoContainer(
+                child: photo != null
+                    ? CustomImage(
+                        path: photo.toString(),
+                        height: 100,
+                        width: 100,
+                      )
+                    : Icon(
+                        Icons.laptop,
+                        color: Colors.lightBlue.shade900,
+                        size: 100,
+                      ),
+              ),
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            BodyText(text: '${'105'.tr}: '),
+            Flexible(child: LabelText(text: jobTitle)),
+          ],
+        ),
+        Row(
+          children: [
+            BodyText(text: '${'102'.tr}: '),
+            LabelText(text: jobType),
+          ],
+        ),
+        Row(
+          children: [
+            BodyText(text: '${'124'.tr}: '),
+            Flexible(child: LabelText(text: comment))
+          ],
+        ),
+        Row(
+          children: [
+            BodyText(text: '${'189'.tr}: '),
+            Flexible(child: LabelText(text: status))
+          ],
+        ),
+        Row(
+          children: [
+            BodyText(text: '${'89'.tr}: '),
+            Flexible(child: LabelText(text: '$offer\$'))
+          ],
+        ),
+      ],
     );
   }
 }

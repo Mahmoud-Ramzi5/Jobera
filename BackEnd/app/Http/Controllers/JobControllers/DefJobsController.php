@@ -350,11 +350,7 @@ class DefJobsController extends Controller
 
         // Check Individual
         $individual = Individual::where('user_id', $user->id)->first();
-        if ($individual == null) {
-            return response()->json([
-                'errors' => ['user' => 'Invalid user']
-            ], 401);
-        }
+        
 
         // Initialize jobs
         $jobs = [];

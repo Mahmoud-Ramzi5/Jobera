@@ -15,7 +15,7 @@ class Company {
   final String? photo;
   final List<Portfolio> portfolios;
   final Wallet wallet;
-  final double? rating;
+  final double rating;
   final int reviewsCount;
   final int notificationsCount;
 
@@ -33,7 +33,7 @@ class Company {
     this.photo,
     required this.portfolios,
     required this.wallet,
-    this.rating,
+    required this.rating,
     required this.reviewsCount,
     required this.notificationsCount,
   });
@@ -55,7 +55,7 @@ class Company {
             (Portfolio.fromJson(portfolio)),
         ],
         wallet = Wallet.fromJson(json['wallet']),
-        rating = json['rating'] != null ? double.parse(json['rating']) : null,
+        rating = double.parse(json['rating']),
         reviewsCount = json['reviews'] as int,
         notificationsCount = json['notifications_count'] as int;
 
@@ -73,7 +73,7 @@ class Company {
         photo = null,
         portfolios = [],
         wallet = Wallet.empty(),
-        rating = null,
+        rating = 0.0,
         reviewsCount = 0,
         notificationsCount = 0;
 }

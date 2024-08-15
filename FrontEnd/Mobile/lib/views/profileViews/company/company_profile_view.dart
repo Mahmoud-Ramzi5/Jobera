@@ -68,7 +68,7 @@ class CompanyProfileView extends StatelessWidget {
                         children: [
                           SmallHeadlineText(text: '24'.tr),
                           RatingBar.builder(
-                            initialRating: controller.company.rating ?? 0.0,
+                            initialRating: controller.company.rating,
                             allowHalfRating: true,
                             itemCount: 5,
                             itemBuilder: (context, index) {

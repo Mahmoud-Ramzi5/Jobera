@@ -123,7 +123,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.39.51:8000/api/FreelancingJobs/$jobId',
+        'http://192.168.1.106:8000/api/FreelancingJobs/$jobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -139,7 +139,7 @@ class FreelancingJobDetailsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
@@ -152,7 +152,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.39.51:8000/api/FreelancingJob/apply',
+        'http://192.168.1.106:8000/api/FreelancingJob/apply',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -177,7 +177,7 @@ class FreelancingJobDetailsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
@@ -186,7 +186,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.delete(
-        'http://192.168.39.51:8000/api/FreelancingJobs/$jobId',
+        'http://192.168.1.106:8000/api/FreelancingJobs/$jobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -202,7 +202,7 @@ class FreelancingJobDetailsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
@@ -215,7 +215,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.39.51:8000/api/FreelancingJob/accept/$defJobId',
+        'http://192.168.1.106:8000/api/FreelancingJob/accept/$defJobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -237,7 +237,7 @@ class FreelancingJobDetailsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
@@ -251,7 +251,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.39.51:8000/api/FreelancingJob/done/$defJobId',
+        'http://192.168.1.106:8000/api/FreelancingJob/done/$defJobId',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -273,7 +273,7 @@ class FreelancingJobDetailsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
@@ -285,7 +285,7 @@ class FreelancingJobDetailsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.39.51:8000/api/FreelancingJobs/offer',
+        'http://192.168.1.106:8000/api/FreelancingJobs/offer',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -307,7 +307,7 @@ class FreelancingJobDetailsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
@@ -346,7 +346,7 @@ class FreelancingJobDetailsController extends GetxController {
           try {
             String? token = sharedPreferences?.getString('access_token');
             var response = await dio.post(
-              'http://192.168.39.51:8000/api/review',
+              'http://192.168.1.106:8000/api/review',
               options: Options(
                 headers: {
                   'Content-Type': 'application/json; charset=UTF-8',
@@ -371,7 +371,7 @@ class FreelancingJobDetailsController extends GetxController {
           } on DioException catch (e) {
             Dialogs().showErrorDialog(
               'Error',
-              e.response.toString(),
+              e.response!.data['errors'].toString(),
             );
           }
         },

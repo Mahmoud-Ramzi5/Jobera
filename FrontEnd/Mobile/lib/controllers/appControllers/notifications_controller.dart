@@ -34,7 +34,7 @@ class NotificationsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.39.51:8000/api/notifications',
+        'http://192.168.1.106:8000/api/notifications',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -53,7 +53,7 @@ class NotificationsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         '153'.tr,
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
@@ -62,7 +62,7 @@ class NotificationsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.delete(
-        'http://192.168.39.51:8000/api/notification/$id',
+        'http://192.168.1.106:8000/api/notification/$id',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -80,7 +80,7 @@ class NotificationsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         '153'.tr,
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
@@ -89,7 +89,7 @@ class NotificationsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.39.51:8000/api/notifications',
+        'http://192.168.1.106:8000/api/notifications',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -107,7 +107,7 @@ class NotificationsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         '153'.tr,
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }

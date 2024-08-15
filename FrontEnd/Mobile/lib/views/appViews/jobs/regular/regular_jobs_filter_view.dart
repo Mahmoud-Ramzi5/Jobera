@@ -94,16 +94,7 @@ class RegularJobsFilterView extends StatelessWidget {
                 ),
               ),
               OutlinedButton(
-                onPressed: () {
-                  controller.regularJobs.clear();
-                  controller.filterJobs(
-                    1,
-                    controller.nameController.text,
-                    controller.minSalaryController.text,
-                    controller.maxSalaryController.text,
-                    controller.skillNames,
-                  );
-                },
+                onPressed: () async => await controller.submitFilter(),
                 child: BodyText(text: '23'.tr),
               )
             ],

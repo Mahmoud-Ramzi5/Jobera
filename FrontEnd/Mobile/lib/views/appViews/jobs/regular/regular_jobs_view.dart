@@ -69,7 +69,12 @@ class RegularJobsView extends StatelessWidget {
                                   date:
                                       controller.regularJobs[index].publishDate,
                                   salary: controller.regularJobs[index].salary,
-                                  onPressed: () {},
+                                  isFlagged:
+                                      controller.regularJobs[index].isFlagged,
+                                  onPressed: () async =>
+                                      await controller.bookmarkJob(
+                                    controller.regularJobs[index].defJobId,
+                                  ),
                                 ),
                               ),
                             ),

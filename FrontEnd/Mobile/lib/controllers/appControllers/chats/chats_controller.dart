@@ -177,7 +177,7 @@ class ChatsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.39.51:8000/api/chats',
+        'http://192.168.1.106:8000/api/chats',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -195,7 +195,7 @@ class ChatsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         '153'.tr,
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
@@ -204,7 +204,7 @@ class ChatsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.39.51:8000/api/chats/$id',
+        'http://192.168.1.106:8000/api/chats/$id',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -220,7 +220,7 @@ class ChatsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         '153'.tr,
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
@@ -229,7 +229,7 @@ class ChatsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.39.51:8000/api/chats/sendMessage',
+        'http://192.168.1.106:8000/api/chats/sendMessage',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -249,7 +249,7 @@ class ChatsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         '153'.tr,
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }
@@ -258,7 +258,7 @@ class ChatsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.39.51:8000/api/chat/messages',
+        'http://192.168.1.106:8000/api/chat/messages',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -274,7 +274,7 @@ class ChatsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         '153'.tr,
-        e.response.toString(),
+        e.response!.data['errors'].toString(),
       );
     }
   }

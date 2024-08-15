@@ -302,10 +302,9 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                             BodyText(text: '${'24'.tr}: '),
                                             RatingBar.builder(
                                               initialRating: controller
-                                                      .freelancingJob
-                                                      .competitors[index]
-                                                      .rating ??
-                                                  0.0,
+                                                  .freelancingJob
+                                                  .competitors[index]
+                                                  .rating,
                                               allowHalfRating: true,
                                               itemCount: 5,
                                               itemBuilder: (context, index) {

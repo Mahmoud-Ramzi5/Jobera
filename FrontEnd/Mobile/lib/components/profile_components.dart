@@ -260,28 +260,27 @@ class PortfolioComponent extends StatelessWidget {
       padding: const EdgeInsets.all(10),
       child: ListContainer(
         color: Colors.lightBlue.shade900,
-        child: Column(
-          children: [
-            photo == null
-                ? Icon(
-                    Icons.photo,
-                    color: Colors.orange.shade800,
-                    size: 100,
-                  )
-                : CustomImage(
-                    path: photo.toString(),
-                    height: 100,
-                  ),
-            ListContainer(
-              color: Colors.orange.shade800,
-              width: 100,
-              child: Center(
-                child: BodyText(
-                  text: title,
+        child: Center(
+          child: photo == null
+              ? Icon(
+                  Icons.photo,
+                  color: Colors.orange.shade800,
+                  size: 100,
+                )
+              : CustomImage(
+                  path: photo.toString(),
+                  height: 100,
                 ),
-              ),
-            )
-          ],
+          //   ListContainer(
+          //     color: Colors.orange.shade800,
+          //     width: 100,
+          //     child: Center(
+          //       child: BodyText(
+          //         text: title,
+          //       ),
+          //     ),
+          //   )
+          // ],
         ),
       ),
     );
