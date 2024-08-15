@@ -91,11 +91,18 @@ const Login = () => {
           }
         }
         else {
-          console.log(response.statusText);
-          setMessage('please make sure that the email and password are correct')
-          setTimeout(() => {
-            navigate('/login');
-          }, 3000);
+          console.log(response.data.errors);
+          if (response.data.errors.data) {
+            setMessage(t('pages.Login.error'));
+            setTimeout(() => {
+              setMessage('');
+            }, 5000);
+          } else if (response.data.errors.email) {
+            setMessage(t('pages.Login.email_error'));
+            setTimeout(() => {
+              setMessage('');
+            }, 5000);
+          }
         }
       }).then(() => {
         // Reset the form fields
@@ -111,74 +118,62 @@ const Login = () => {
       <div className={styles.screen}>
         <div className={styles.screen__content}>
           <img src={Logo} className={styles.logo} alt="logo" />
-          {message ? message === 'login successfully' ?
-            <div className={styles.message}>
-              <i className={styles.check}><BsCheckLg size={60} /></i>
-              <br />
-              <span>Login successfully</span>
-            </div> :
-            <div className={styles.message}>
-              <i className={styles.xmark}><BsX size={60} /></i>
-              <br />
-              <span>Make sure that the email and password are correct</span>
+          <div className={styles.title}>{t('pages.Login.title')}</div>
+          <form className={styles.login} onSubmit={handleSubmit}>
+            <NormalInput
+              type='text'
+              placeholder={t('pages.Login.email_input')}
+              icon={<BsPersonFill />}
+              value={email}
+              setChange={setEmail}
+            />
+            <PasswordInput
+              placeholder={t('pages.Login.password_input')}
+              value={password}
+              setChange={setPassword}
+            />
+            <div>
+              <div className={styles.checkBox}>
+                <input
+                  id="rememberMe"
+                  type="checkbox"
+                  onChange={(event) => setRememberMe(event.target.checked)}
+                />
+                <label htmlFor="rememberMe">{t('pages.Login.remember_me')}</label>
+              </div>
+              <p className={styles.error_message}>{message}</p>
+              <a href='/ForgetPassword' className={styles.forgot__password}>
+                {t('pages.Login.forgot_password')}
+              </a>
             </div>
-            : <>
-              <div className={styles.title}>{t('pages.Login.title')}</div>
-              <form className={styles.login} onSubmit={handleSubmit}>
-                <NormalInput
-                  type='text'
-                  placeholder={t('pages.Login.email_input')}
-                  icon={<BsPersonFill />}
-                  value={email}
-                  setChange={setEmail}
-                />
-                <PasswordInput
-                  placeholder={t('pages.Login.password_input')}
-                  value={password}
-                  setChange={setPassword}
-                />
-                <div>
-                  <div className={styles.checkBox}>
-                    <input
-                      id="rememberMe"
-                      type="checkbox"
-                      onChange={(event) => setRememberMe(event.target.checked)}
-                    />
-                    <label htmlFor="rememberMe">{t('pages.Login.remember_me')}</label>
-                  </div>
-                  <a href='/ForgetPassword' className={styles.forgot__password}>
-                    {t('pages.Login.forgot_password')}
-                  </a>
-                </div>
 
-                <button type="submit" className={styles.login__submit}>
-                  <span>{t('pages.Login.button')}</span>
-                  <i className={styles.button__icon}><BsChevronRight /></i>
-                </button>
-              </form>
+            <button type="submit" className={styles.login__submit}>
+              <span>{t('pages.Login.button')}</span>
+              <i className={styles.button__icon}><BsChevronRight /></i>
+            </button>
+          </form>
 
-              <div className={styles.login__register}>
-                {t('pages.Login.login_register_div')} <a href='/register'>{t('pages.Login.login_register_a')}</a>
-              </div>
+          <div className={styles.login__register}>
+            {t('pages.Login.login_register_div')} <a href='/register'>{t('pages.Login.login_register_a')}</a>
+          </div>
 
-              <div className={styles.social__login}>
-                <h5>{t('pages.Login.social')}</h5>
-                <div className={styles.social__icons}>
-                  <a href={GoogleUrl} className={styles.social__login__icon}>
-                    <i className={styles.google__icon}>
-                      <BsGoogle className={styles.google_icon_white} />
-                      <FcGoogle className={styles.google_icon_colored} />
-                    </i>
-                  </a>
-                  <a href={FacebookUrl} className={styles.social__login__icon}>
-                    <BsFacebook className={styles.facebook__icon} />
-                  </a>
-                  <a href={LinkedinUrl} className={styles.social__login__icon}>
-                    <BsLinkedin className={styles.linkedin__icon} />
-                  </a>
-                </div>
-              </div>
-            </>}
+          <div className={styles.social__login}>
+            <h5>{t('pages.Login.social')}</h5>
+            <div className={styles.social__icons}>
+              <a href={GoogleUrl} className={styles.social__login__icon}>
+                <i className={styles.google__icon}>
+                  <BsGoogle className={styles.google_icon_white} />
+                  <FcGoogle className={styles.google_icon_colored} />
+                </i>
+              </a>
+              <a href={FacebookUrl} className={styles.social__login__icon}>
+                <BsFacebook className={styles.facebook__icon} />
+              </a>
+              <a href={LinkedinUrl} className={styles.social__login__icon}>
+                <BsLinkedin className={styles.linkedin__icon} />
+              </a>
+            </div>
+          </div>
         </div>
 
         <div className={styles.screen__background}>

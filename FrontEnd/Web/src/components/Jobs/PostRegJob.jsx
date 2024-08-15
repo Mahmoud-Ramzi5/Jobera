@@ -49,6 +49,7 @@ const PostRegJob = ({ type }) => {
   const [jobSkills, setJobSkills] = useState([]);
   const [searchSkill, setSearchSkill] = useState("");
   const [skillCount, setSkillCount] = useState(5);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     if (!initialized.current) {
@@ -124,11 +125,19 @@ const PostRegJob = ({ type }) => {
           navigate('/jobs/all');
           window.location.reload();
         } else {
+          setMessage(t('pages.post_job.form.unveriefied_error'))
           console.log(response);
+          setTimeout(() => {
+            setMessage('');
+          }, 5000);
         }
       });
     } else {
+      setMessage(t('pages.post_job.form.balance_error'));
       console.log('not enough balance');
+      setTimeout(() => {
+        setMessage('');
+      }, 5000);
     }
   }
 
@@ -213,7 +222,7 @@ const PostRegJob = ({ type }) => {
               value={salary}
               setChange={handleCalculateSalary}
             />
-            <p>Website Tax: ${adminShare}</p>
+            <p>{t('pages.post_job.form.reg.admin_share')}{adminShare}</p>
           </div>
           <div className={styles.column}>
             <div className={Inputstyles.field}>
@@ -331,6 +340,7 @@ const PostRegJob = ({ type }) => {
             </div>
           </div>
         </div>
+        <p className={styles.error}>{message}</p>
         <div className={styles.submit_div}>
           <button className={styles.submit_button}>
             {t('pages.post_job.form.button')}

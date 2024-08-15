@@ -51,6 +51,7 @@ const ShowJob = () => {
 
   const [comment, setComment] = useState('');
   const [offer, setOffer] = useState('');
+  const [message, setMessage] = useState('')
 
 
   useEffect(() => {
@@ -82,7 +83,7 @@ const ShowJob = () => {
           navigate('/notfound');
         }
         else {
-          console.log(response.statusText);
+          console.log(response);
         }
 
         if (response.data.job.accepted_user) {
@@ -118,7 +119,7 @@ const ShowJob = () => {
     } else if (amount > 15000) {
       setAdminShare(amount * 0.10);
     } else {
-      console.log('bad amount of money detected')
+      console.log('bad amount of money detected');
       setAdminShare(0);
     }
   }
@@ -137,6 +138,10 @@ const ShowJob = () => {
         window.location.reload(); // Refresh the page after deletion
       } else {
         console.log(response);
+        setMessage(t('components.show_job.unverified'));
+        setTimeout(() => {
+          setMessage('');
+        }, 5000);
       }
     })
   }
@@ -147,7 +152,7 @@ const ShowJob = () => {
       if (response.status == 200) {
         console.log('Competitor Accepted')
         setAccepted(true);
-        window.location.reload(); // Refresh the page after deletion
+        window.location.reload();
       } else {
         console.log(response);
       }
@@ -156,15 +161,22 @@ const ShowJob = () => {
 
   const handleNewFreelancer = (event) => {
     event.preventDefault();
-    ApplyToFreelancingJobAPI(accessToken, job.defJob_id, comment, offer).then((response) => {
-      if (response.status == 200) {
-        console.log('Added a competitor successfully')
-        setParticipate(false);
-        window.location.reload(); // Refresh the page after deletion
-      } else {
-        console.log(response);
-      }
-    });
+    if (offer > 0) {
+      ApplyToFreelancingJobAPI(accessToken, job.defJob_id, comment, offer).then((response) => {
+        if (response.status == 200) {
+          console.log('Added a competitor successfully')
+          setParticipate(false);
+          window.location.reload(); // Refresh the page after deletion
+        } else {
+          console.log(response);
+        }
+      });
+    } else {
+      setMessage(t('components.show_job.money'));
+      setTimeout(() => {
+        setMessage('');
+      }, 5000);
+    }
   }
 
   const handleAcceptFreelancingCompetitor = (event, id, salary) => {
@@ -177,6 +189,7 @@ const ShowJob = () => {
       }
       else {
         console.log(response);
+        setMessage(t('components.show_job.refresh'));
       }
     });
   }
@@ -367,6 +380,7 @@ const ShowJob = () => {
                   )
               }
             </div>
+            <p className={styles.error}>{message}</p>
             {participate && <>
               <div className={Inputstyles.field}>
                 <i className={Inputstyles.icon}><BsPencilSquare /></i>

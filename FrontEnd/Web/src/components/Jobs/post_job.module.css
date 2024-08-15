@@ -55,6 +55,11 @@
     margin-inline-start: -7px;
 }
 
+.error {
+    font-size: 20px;
+    color: red;
+}
+
 .submit_div {
     width: 100%;
     padding-block-start: 25px;

@@ -108,7 +108,10 @@ const IndividualForm = () => {
         }
         else {
           console.log(response);
-          SetMessage('F')
+          SetMessage('F');
+          setTimeout(() => {
+            SetMessage('');
+          }, 3000);
         }
       }).then((individual) => {
         setIsLoading(false);
@@ -138,7 +141,7 @@ const IndividualForm = () => {
         <div className={styles.message}>
           <i className={styles.xmark}><BsX size={60} /></i>
           <br />
-          <span>An error happened or the email is already taken</span>
+          <span>{t('pages.Register.individual_form.error_message')}</span>
         </div> :
         <form className={styles.register} onSubmit={handleSubmit}>
           <div className={styles.register__row}>

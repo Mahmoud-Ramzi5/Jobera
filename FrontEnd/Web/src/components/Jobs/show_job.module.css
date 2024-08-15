@@ -322,3 +322,8 @@
     color: var(--color-foreground);
     background-color: transparent;
 }
+
+.error {
+    color: red;
+    font-size: 20px;
+}

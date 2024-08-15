@@ -51,6 +51,7 @@ const PostFreelancing = () => {
   const [jobSkills, setJobSkills] = useState([]);
   const [searchSkill, setSearchSkill] = useState("");
   const [skillCount, setSkillCount] = useState(5);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     if (!initialized.current) {
@@ -113,6 +114,10 @@ const PostFreelancing = () => {
         navigate('/jobs/Freelancing');
       } else {
         console.log(response);
+        setMessage(t('pages.post_job.form.unveriefied_error'));
+        setTimeout(() => {
+          setMessage('');
+        }, 5000);
       }
     });
   }
@@ -343,6 +348,7 @@ const PostFreelancing = () => {
                 </div>
               </div>
             </div>
+            <p className={styles.error}>{message}</p>
             <div className={styles.submit_div}>
               <button className={styles.submit_button}>
                 {t('pages.post_job.form.button')}

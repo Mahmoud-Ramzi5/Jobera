@@ -18,6 +18,7 @@ const JobCompetitorCard = ({ CompetitorData, AcceptedCompetitor, CurrentUser, Jo
   const [changing, setChanging] = useState(false);
   const [newOffer, setNewOffer] = useState('');
   const [adminShare, setAdminShare] = useState(0);
+  const [message, setMessage] = useState('');
 
   useEffect(() => {
     if (CompetitorData.user) {
@@ -80,21 +81,28 @@ const JobCompetitorCard = ({ CompetitorData, AcceptedCompetitor, CurrentUser, Jo
   };
 
   const handleNewOffer = () => {
-    ChangeOffer(
-      accessToken,
-      JobId,
-      newOffer
-    ).then((response) => {
-      if (response.status == 200) {
-        console.log('changed offer');
-      } else {
-        console.log(response);
-      }
-      setNewOffer('');
-      setAdminShare('');
-      setChanging(false);
-      window.location.reload();
-    });
+    if (newOffer > 0) {
+      ChangeOffer(
+        accessToken,
+        JobId,
+        newOffer
+      ).then((response) => {
+        if (response.status == 200) {
+          console.log('changed offer');
+        } else {
+          console.log(response);
+        }
+        setNewOffer('');
+        setAdminShare('');
+        setChanging(false);
+        window.location.reload();
+      });
+    } else {
+      setMessage(t('components.show_job.money'));
+      setTimeout(() => {
+        setMessage('');
+      }, 5000);
+    }
   }
 
   return (
@@ -135,6 +143,7 @@ const JobCompetitorCard = ({ CompetitorData, AcceptedCompetitor, CurrentUser, Jo
                   <button className={styles.change_offer} onClick={() => { setChanging(true) }}>Change offer</button>}
                 {changing ? <>
                   <div className={styles.money_holder}>
+                    <p className={styles.error}>{message}</p>
                     <NormalInput
                       type='number'
                       placeholder={t('components.show_job.desired_salary')}

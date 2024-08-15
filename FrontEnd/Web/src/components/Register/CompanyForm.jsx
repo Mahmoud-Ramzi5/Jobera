@@ -102,7 +102,10 @@ const CompanyForm = () => {
         }
         else {
           console.log(response.statusText);
-          SetMessage('F')
+          SetMessage('F');
+          setTimeout(() => {
+            SetMessage('');
+          }, 3000);
         }
       }).then((company) => {
         setIsLoading(false);
@@ -131,7 +134,7 @@ const CompanyForm = () => {
         <div className={styles.message}>
           <i className={styles.xmark}><BsX size={60} /></i>
           <br />
-          <span>An error happened or the email is already taken</span>
+          <span>{t('pages.Register.company_form.error_message')}</span>
         </div> :
         <form className={styles.register} onSubmit={handleSubmit}>
           <div className={styles.register__row}>

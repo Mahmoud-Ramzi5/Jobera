@@ -169,7 +169,8 @@
                 "title": "Title",
                 "description": "Description",
                 "reg": {
-                    "salary": "Salary"
+                    "salary": "Salary",
+                    "admin_share": "Website Tax $"
                 },
                 "freelancing": {
                     "min_salary": "Min Salary",
@@ -182,8 +183,8 @@
                 "search_input": "Search skill",
                 "not_found": "Skill was not found",
                 "left": "Skills left:",
-                "unveriefied_error":"can't procced until verify your email",
-                "balance_error":"not enough balance to create the job",
+                "unveriefied_error": "can't procced until verify your email",
+                "balance_error": "not enough balance to create the job",
                 "button": "Submit"
             }
         },
@@ -223,8 +224,8 @@
                 "save_description_button": "Save Description",
                 "cancel_button": "Cancel",
                 "edit_menu": {
-                    "success":"User data updated successfully",
-                    "fail":"Error in user info update",
+                    "success": "User data updated successfully",
+                    "fail": "Error in user info update",
                     "save_button": "Save",
                     "close_button": "Close"
                 }
@@ -268,7 +269,7 @@
         "redeem_code": {
             "message1": "Charged your wallet successfully",
             "message1_generate": "Generated the code successfully",
-            "messsge2": "Something went wrong, please try again later",
+            "message2": "Something went wrong, please recheck your redeem code then try again",
             "title": "Redeem",
             "h3": "Enter redeem code to charge your wallet",
             "input": "Redeem code",
@@ -359,6 +360,9 @@
             "delete_job_button": "Delete job",
             "h5": "Competitors",
             "competitor_button": "+ Be a competitor",
+            "unverified": "can't compete on a job until verify your email",
+            "money": "please choose amount greater than 0",
+            "refresh": "please refresh your page competitor changed his offer",
             "comment_input": "Add your comment",
             "desired_salary": "Desired offer",
             "tax": "Your share after website taxes:",

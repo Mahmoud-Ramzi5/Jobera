@@ -171,6 +171,11 @@ html[dir='rtl'] .logo {
     padding-inline-start: 15px;
 }
 
+.error_message {
+    font-size: 13px;
+    color: red;
+}
+
 .forgot__password {
     font-size: 13px;
     margin-inline-start: 15px;

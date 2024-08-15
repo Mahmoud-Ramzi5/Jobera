@@ -84,11 +84,11 @@ const EditMenu = ({ data, onClose }) => {
       ).then((response) => {
         if (response.status === 200) {
           setProfile(response.data.user);
-          setSuccessMessage(response.data.message);
+          setSuccessMessage(t('components.profile_cards.user_info.edit_menu.success'));
         }
         else {
           console.log(response.statusText);
-          setFailMessage("Error in user info update");
+          setFailMessage(t('components.profile_cards.user_info.edit_menu.fail'));
         }
       });
     } else if (data.type === "company") {
@@ -100,15 +100,15 @@ const EditMenu = ({ data, onClose }) => {
       ).then((response) => {
         if (response.status === 200) {
           setProfile(response.data.user);
-          setSuccessMessage(response.data.message);
+          setSuccessMessage(t('components.profile_cards.user_info.edit_menu.success'));
         }
         else {
           console.log(response.statusText);
-          setFailMessage("Error in user info update");
+          setFailMessage(t('components.profile_cards.user_info.edit_menu.fail'));
         }
       });
     } else {
-      setFailMessage("Error in user info update");
+      setFailMessage(t('components.profile_cards.user_info.edit_menu.fail'));
     }
   }
 
