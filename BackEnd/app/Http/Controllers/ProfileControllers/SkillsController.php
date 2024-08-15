@@ -139,7 +139,7 @@ class SkillsController extends Controller
         // Check individual
         if ($individual == null) {
             return response()->json([
-                'user' => 'Invalid user',
+                'errors' => ['user' => 'Invalid user'],
             ], 401);
         }
 

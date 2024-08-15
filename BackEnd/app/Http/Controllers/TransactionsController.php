@@ -33,8 +33,8 @@ class TransactionsController extends Controller
         // Check user's wallet
         if ($wallet == null) {
             return response()->json([
-                'message' => 'Error'
-            ], 401);
+                'errors' => ['error'=>'Error has occured']
+            ], 400);
         }
 
         // Get user's sentTransactions
@@ -132,7 +132,7 @@ class TransactionsController extends Controller
             $transaction = Transaction::create($transactionParams);
         } else {
             return response()->json([
-                'message' => 'Insufficient balance'
+                'errors' => ['balance'=>'Insufficient balance']
             ], 400);
         }
 
@@ -176,8 +176,8 @@ class TransactionsController extends Controller
         // Check wallets
         if ($senderWallet == null || $receiverWallet == null) {
             return response()->json([
-                'message' => 'Error'
-            ], 401);
+                'errors' => ['error'=>'sender or receiver is null']
+            ], 400);
         }
 
         // Calculate admin share
@@ -190,8 +190,8 @@ class TransactionsController extends Controller
             $adminShare = $fullAmount * 0.10;
         } else {
             return response()->json([
-                'message' => 'Error'
-            ], 401);
+                'errors' => ['error'=>'Error has occured']
+            ], 400);
         }
 
         // Do the transaction
@@ -216,8 +216,8 @@ class TransactionsController extends Controller
             $transaction = Transaction::create($transactionParams);
         } else {
             return response()->json([
-                'message' => 'Insufficient balance'
-            ], 400);
+                'errors' => 'Insufficient balance'
+            ], 401);
         }
 
         return response()->json([
@@ -259,8 +259,8 @@ class TransactionsController extends Controller
         // Check wallets
         if ($senderWallet == null || $receiverWallet == null) {
             return response()->json([
-                'message' => 'Error'
-            ], 401);
+                'errors' => ['error'=>'sender or receiver is null']
+            ], 400);
         }
 
         // Calculate admin share
@@ -273,8 +273,8 @@ class TransactionsController extends Controller
             $adminShare = $fullAmount * 0.10;
         } else {
             return response()->json([
-                'message' => 'Error'
-            ], 401);
+                'errors' => ['error'=>'Error has occured']
+            ], 400);
         }
 
         // Do the transaction
@@ -296,8 +296,8 @@ class TransactionsController extends Controller
             $transaction = Transaction::create($transactionParams);
         } else {
             return response()->json([
-                'message' => 'something went wrong'
-            ], 400);
+                'errors' => ['error'=>'Error has occured']
+            ], 500);
         }
 
         return response()->json([
@@ -361,7 +361,7 @@ class TransactionsController extends Controller
             ], 200);
         } else {
             return response()->json([
-                'errors' => ['redeemcode' => 'code not found']
+                'errors' => ['redeemcode' => 'redeem code not found']
             ], 404);
         }
     }

@@ -294,7 +294,7 @@ class AuthController extends Controller
 
         // Response
         return response()->json([
-            'message' => 'Email verification failed',
+            'errors' => ['email' => 'Email verification failed'],
         ], 500);
     }
 

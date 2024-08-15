@@ -111,7 +111,7 @@ class ChatController extends Controller
         }
         if ($user->id == $validated['receiver_id']) {
             return response()->json([
-                "message" => "can not send message to yourself"
+                'errors' => ['error'=>"can't send messages to yourself"]
             ], 400);
         }
 

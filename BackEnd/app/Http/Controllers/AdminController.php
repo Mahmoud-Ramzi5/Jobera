@@ -51,8 +51,8 @@ class AdminController extends Controller
             } else {
                 // Response
                 return response()->json([
-                    'message' => 'an error accured please try again',
-                ]);
+                    'errors' => ['error'=>'Email verification failed'],
+                ], 400);
             }
         }
     }
