@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\JobControllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\Individual;
 use App\Models\Company;
 use App\Models\DefJob;
@@ -622,7 +623,7 @@ class DefJobsController extends Controller
     public function BookmarkJob(Request $request, $id)
     {
         // Get user
-        $user = auth()->user();
+        $user = User::find(auth()->user()->id);
 
         // Check user
         if ($user == null) {

@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Card } from 'react-bootstrap';
 import { ThemeContext, ProfileContext, LoginContext } from '../../utils/Contexts';
-import { VerifyEmailAPI } from '../../apis/AuthApis';
+import { RequestEmailAPI } from '../../apis/AuthApis';
 import styles from './cards.module.css';
 
 
@@ -17,7 +17,7 @@ const VerifyCard = ({ ProfileData }) => {
   const [message, setMessage] = useState("");
 
   const handleVerify = () => {
-    VerifyEmailAPI(accessToken).then((response) => {
+    RequestEmailAPI(accessToken).then((response) => {
       if (response.status === 200) {
         setMessage("Verification Email Has been sent");
       } else {

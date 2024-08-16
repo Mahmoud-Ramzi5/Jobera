@@ -85,7 +85,7 @@ class AuthController extends Controller
 
         // Create Token
         $token = $user->createToken("api_token")->accessToken;
-        $this->SendEmailVerification($request);
+        $this->SendVerificationEmail($request);
 
         // Response
         return response()->json([
@@ -159,7 +159,7 @@ class AuthController extends Controller
 
         // Create Token
         $token = $user->createToken("api_token")->accessToken;
-        $this->SendEmailVerification($request);
+        $this->SendVerificationEmail($request);
 
         // Response
         return response()->json([
@@ -244,15 +244,17 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function SendEmailVerification(Request $request)
+    public function SendVerificationEmail(Request $request)
     {
-        // Validate request
-        $request->validate([
-            'email' => 'required|email',
-        ]);
-
         // Get user
-        $user = User::where("email", $request->email)->first();
+        $user = User::find(auth()->user()->id);
+
+        // Check user
+        if ($user == null) {
+            return response()->json([
+                'errors' => ['user' => 'Invalid user'],
+            ], 404);
+        }
 
         // Create Token
         $token = $user->createToken('auth-token')->accessToken;
@@ -269,7 +271,7 @@ class AuthController extends Controller
     public function VerifyEmail(Request $request)
     {
         // Get user
-        $user = auth()->user();
+        $user = User::find(auth()->user()->id);
 
         // Check user
         if ($user == null) {

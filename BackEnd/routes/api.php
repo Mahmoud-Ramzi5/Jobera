@@ -36,6 +36,7 @@ Route::controller(AuthController::class)->group(function () {
             ], 200);
         });
 
+        Route::post('/auth/verify', 'SendVerificationEmail');
         Route::get('/verifyEmail', 'VerifyEmail');
         Route::get('/isVerified', 'IsVerified');
         Route::get('/isExpired', 'IsExpired');
