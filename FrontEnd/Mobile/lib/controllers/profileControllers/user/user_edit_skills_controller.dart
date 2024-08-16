@@ -62,7 +62,7 @@ class UserEditSkillsController extends GetxController {
 
     try {
       var response = await dio.get(
-        'http://192.168.1.106:8000/api/user/skills',
+        'http://192.168.0.106:8000/api/user/skills',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -80,7 +80,7 @@ class UserEditSkillsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         '153'.tr,
-        e.response!.data['errors'].toString(),
+        e.response.toString(),
       );
     }
   }
@@ -96,7 +96,7 @@ class UserEditSkillsController extends GetxController {
       }
       try {
         var response = await dio.post(
-          'http://192.168.1.106:8000/api/user/skills/edit',
+          'http://192.168.0.106:8000/api/user/skills/edit',
           data: {
             'skills': skillIds,
           },
@@ -115,7 +115,7 @@ class UserEditSkillsController extends GetxController {
       } on DioException catch (e) {
         Dialogs().showErrorDialog(
           '153'.tr,
-          e.response!.data['errors'].toString(),
+          e.response.toString(),
         );
       }
     }
@@ -132,7 +132,7 @@ class UserEditSkillsController extends GetxController {
       }
       try {
         var response = await dio.post(
-          'http://192.168.1.106:8000/api/user/skills/add',
+          'http://192.168.0.106:8000/api/user/skills/add',
           data: {
             'skills': skillIds,
           },
@@ -150,7 +150,7 @@ class UserEditSkillsController extends GetxController {
       } on DioException catch (e) {
         Dialogs().showErrorDialog(
           '153'.tr,
-          e.response!.data['errors'].toString(),
+          e.response.toString(),
         );
       }
     }

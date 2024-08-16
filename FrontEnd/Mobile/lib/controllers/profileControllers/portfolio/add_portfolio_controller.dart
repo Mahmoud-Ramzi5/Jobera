@@ -156,7 +156,7 @@ class AddPortfolioController extends GetxController {
       }
       try {
         var response = await dio.post(
-          'http://192.168.1.106:8000/api/portfolio/add',
+          'http://192.168.0.106:8000/api/portfolio/add',
           data: data,
           options: Options(
             headers: {
@@ -173,7 +173,7 @@ class AddPortfolioController extends GetxController {
       } on DioException catch (e) {
         Dialogs().showErrorDialog(
           '153'.tr,
-          e.response!.data['errors'].toString(),
+          e.response.toString(),
         );
       }
     } else {

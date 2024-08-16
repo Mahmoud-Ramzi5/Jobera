@@ -88,7 +88,7 @@ class CompanyEditInfoController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.1.106:8000/api/profile/edit',
+        'http://192.168.0.106:8000/api/profile/edit',
         data: {
           "name": name,
           "field": field,
@@ -110,7 +110,7 @@ class CompanyEditInfoController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         '153'.tr,
-        e.response!.data['errors'].toString(),
+        e.response.toString(),
       );
     }
   }

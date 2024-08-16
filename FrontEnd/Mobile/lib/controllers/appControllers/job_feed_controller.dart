@@ -53,7 +53,7 @@ class JobFeedController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.106:8000/api/jobFeed/tops',
+        'http://192.168.0.106:8000/api/jobFeed/tops',
         options: Options(
           headers: {
             'Content-Type':
@@ -85,7 +85,7 @@ class JobFeedController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         '153'.tr,
-        e.response!.data['errors'].toString(),
+        e.response.toString(),
       );
     }
   }
@@ -94,7 +94,7 @@ class JobFeedController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.106:8000/api/jobFeed/stats',
+        'http://192.168.0.106:8000/api/jobFeed/stats',
         options: Options(
           headers: {
             'Content-Type':
@@ -112,7 +112,7 @@ class JobFeedController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         '153'.tr,
-        e.response!.data['errors'].toString(),
+        e.response.toString(),
       );
     }
   }

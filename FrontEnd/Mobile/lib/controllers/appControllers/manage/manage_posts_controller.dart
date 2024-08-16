@@ -7,7 +7,6 @@ import 'package:jobera/controllers/appControllers/jobs/regular/regular_jobs_cont
 import 'package:jobera/customWidgets/dialogs.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/freelancing_job.dart';
-import 'package:jobera/models/offer.dart';
 import 'package:jobera/models/pagination_data.dart';
 import 'package:jobera/models/regular_job.dart';
 
@@ -20,7 +19,6 @@ class ManagePostsController extends GetxController {
   List<FreelancingJob> freelancingPosts = [];
   List<RegularJob> regularPosts = [];
   List<String> skillNames = [];
-  List<Offer> offers = [];
   bool loading = true;
   String postType = 'Freelancing';
 
@@ -90,7 +88,7 @@ class ManagePostsController extends GetxController {
     DateTime? dateTo,
     List<String> skillNames,
   ) async {
-    String url = 'http://192.168.1.106:8000/api/manage/posted?page=$page';
+    String url = 'http://192.168.0.106:8000/api/manage/posted?page=$page';
     if (type != null) {
       url = '$url&type[eq]=$type';
     }
@@ -155,7 +153,7 @@ class ManagePostsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.data['errors'].toString(),
+        e.response.toString(),
       );
     }
   }
@@ -164,7 +162,7 @@ class ManagePostsController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.1.106:8000/api/jobs/$jobId/bookmark',
+        'http://192.168.0.106:8000/api/jobs/$jobId/bookmark',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -180,7 +178,7 @@ class ManagePostsController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.data['errors'].toString(),
+        e.response.toString(),
       );
     }
   }

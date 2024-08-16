@@ -210,7 +210,7 @@ class PostJobController extends GetxController {
 
       try {
         var response = await dio.post(
-          'http://192.168.1.106:8000/api/regJob/add',
+          'http://192.168.0.106:8000/api/regJob/add',
           data: data,
           options: Options(
             headers: {
@@ -228,7 +228,7 @@ class PostJobController extends GetxController {
       } on DioException catch (e) {
         Dialogs().showErrorDialog(
           'Error',
-          e.response!.data['errors'].toString(),
+          e.response.toString(),
         );
       }
     }
@@ -276,7 +276,7 @@ class PostJobController extends GetxController {
 
       try {
         var response = await dio.post(
-          'http://192.168.1.106:8000/api/FreelancingJob/add',
+          'http://192.168.0.106:8000/api/FreelancingJob/add',
           data: data,
           options: Options(
             headers: {
@@ -294,7 +294,7 @@ class PostJobController extends GetxController {
       } on DioException catch (e) {
         Dialogs().showErrorDialog(
           'Error',
-          e.response!.data['errors'].toString(),
+          e.response.toString(),
         );
       }
     }

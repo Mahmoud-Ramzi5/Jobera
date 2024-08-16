@@ -22,7 +22,7 @@ class AuthController extends GetxController {
     if (token != null) {
       try {
         var response = await dio.get(
-          'http://192.168.1.106:8000/api/isExpired',
+          'http://192.168.0.106:8000/api/isExpired',
           options: Options(
             headers: {
               'Content-Type': 'application/json; charset=UTF-8',

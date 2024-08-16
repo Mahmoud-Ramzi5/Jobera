@@ -37,7 +37,7 @@ class HomeController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.106:8000/api/profile',
+        'http://192.168.0.106:8000/api/profile',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -72,7 +72,7 @@ class HomeController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         '153'.tr,
-        e.response!.data['errors'].toString(),
+        e.response.toString(),
       );
     }
   }
@@ -82,7 +82,7 @@ class HomeController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.post(
-        'http://192.168.1.106:8000/api/logout',
+        'http://192.168.0.106:8000/api/logout',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -109,7 +109,7 @@ class HomeController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         '165'.tr,
-        e.response!.data['errors'].toString(),
+        e.response.toString(),
       );
     }
   }
