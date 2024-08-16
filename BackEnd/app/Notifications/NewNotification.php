@@ -62,8 +62,8 @@ class NewNotification extends Notification
         return [
             'chat_id' => $this->message->chat_id,
             'sender_id' => $this->message->sender_id,
-            'sender_name' => ($company == null ?
-                $individual->full_name : $company->name),
+            'sender_name' => ($individual != null ?
+                $individual->full_name : ($company != null ? $company->name : 'Jobera')),
             'message' => $this->message->message
         ];
     }
