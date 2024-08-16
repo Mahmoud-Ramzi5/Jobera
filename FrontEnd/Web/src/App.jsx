@@ -183,6 +183,7 @@ function App() {
               </Route>
               <Route element={<Layout />}>
                 <Route path="/" element={<Index />} />
+                <Route path="/emailVerify" element={<EmailVerification />} />
                 <Route element={<PrivateRoutes />}>
                   <Route path="/dashboard" element={<JobFeed />} />
                   <Route path="/complete-register" element={<Register2 />} />
@@ -217,7 +218,6 @@ function App() {
                 <Route path="/auth/:provider/call-back" element={<CallBack />} />
                 <Route path="/reset-password" element={<ResetPassword />} />
                 <Route path="/ForgetPassword" element={<ForgotPassword />} />
-                <Route path="/emailVerify" element={<EmailVerification />} />
               </Route>
             </Routes>
           </BrowserRouter>
