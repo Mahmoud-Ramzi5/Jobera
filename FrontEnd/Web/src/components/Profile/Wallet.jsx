@@ -15,6 +15,7 @@ const Wallet = ({ ProfileData }) => {
   const { profile } = useContext(ProfileContext);
   const Navigate = useNavigate();
 
+
   return (
     <Card className={styles.wallet_card}>
       <div className={styles.wallet_inside}>
@@ -27,9 +28,11 @@ const Wallet = ({ ProfileData }) => {
             <h3>{t('components.profile_cards.wallet.wallet_body1')}
               {' $'}{ProfileData.wallet.available_balance}
             </h3>
-            <h3>{t('components.profile_cards.wallet.wallet_body2')}
-              {' $'}{ProfileData.wallet.total_balance}
-            </h3>
+            {profile.user_id !== 1 &&
+              <h3>{t('components.profile_cards.wallet.wallet_body2')}
+                {' $'}{ProfileData.wallet.total_balance}
+              </h3>
+            }
           </div>
           {profile.user_id === ProfileData.user_id && profile.user_id !== 1 && <>
             <div className={styles.wallet_buttons}>
