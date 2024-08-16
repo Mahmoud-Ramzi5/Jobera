@@ -256,6 +256,13 @@ class AuthController extends Controller
             ], 404);
         }
 
+        // Check verification
+        if ($user->email_verified_at || $user->hasVerifiedEmail()) {
+            return response()->json([
+                'message' => 'Email already verified',
+            ], 400);
+        }
+
         // Create Token
         $token = $user->createToken('auth-token')->accessToken;
 
