@@ -79,6 +79,9 @@ class FreelancingJobsController extends GetxController {
       lastDate: DateTime(2100),
       currentDate: DateTime.now(),
       initialEntryMode: DatePickerEntryMode.calendarOnly,
+      textDirection: settingsController.selectedLang == 'en'
+          ? TextDirection.ltr
+          : TextDirection.rtl,
     );
     if (picked != null && picked != dateFrom) {
       dateFrom = picked;
@@ -93,6 +96,9 @@ class FreelancingJobsController extends GetxController {
       lastDate: DateTime(2100),
       currentDate: DateTime.now(),
       initialEntryMode: DatePickerEntryMode.calendarOnly,
+      textDirection: settingsController.selectedLang == 'en'
+          ? TextDirection.ltr
+          : TextDirection.rtl,
     );
     if (picked != null && picked != dateTo) {
       dateTo = picked;

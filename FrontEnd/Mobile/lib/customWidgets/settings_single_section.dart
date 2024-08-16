@@ -22,6 +22,7 @@ class SingleSection extends StatelessWidget {
             child: SmallHeadlineText(text: title!),
           ),
         Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: children,
         ),
       ],

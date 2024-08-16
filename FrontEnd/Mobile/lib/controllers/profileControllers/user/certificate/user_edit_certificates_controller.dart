@@ -119,11 +119,15 @@ class UserEditCertificatesController extends GetxController {
 
   Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
-        context: context,
-        firstDate: DateTime(1900),
-        lastDate: DateTime(2100),
-        currentDate: DateTime.now(),
-        initialEntryMode: DatePickerEntryMode.calendarOnly);
+      context: context,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
+      currentDate: DateTime.now(),
+      initialEntryMode: DatePickerEntryMode.calendarOnly,
+      textDirection: settingsController.selectedLang == 'en'
+          ? TextDirection.ltr
+          : TextDirection.rtl,
+    );
     if (picked != null && picked != editDate) {
       editDate = picked;
       update();

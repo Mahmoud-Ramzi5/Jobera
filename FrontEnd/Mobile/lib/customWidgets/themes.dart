@@ -71,9 +71,9 @@ class Themes {
       shape: const MaterialStatePropertyAll(
         StadiumBorder(),
       ),
-      hintStyle: MaterialStatePropertyAll(
-        TextStyle(color: Colors.lightBlue.shade900),
-      ),
+      hintStyle: MaterialStatePropertyAll(TextStyle(
+        color: Colors.lightBlue.shade900,
+      )),
       textStyle: MaterialStatePropertyAll(
         TextStyle(color: Colors.lightBlue.shade900),
       ),

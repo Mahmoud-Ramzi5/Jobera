@@ -72,11 +72,15 @@ class UserEditEducationController extends GetxController {
 
   Future<void> selectDate(BuildContext context, DateTime date) async {
     final DateTime? picked = await showDatePicker(
-        context: context,
-        firstDate: DateTime(1900),
-        lastDate: DateTime(2100),
-        initialDate: date,
-        initialEntryMode: DatePickerEntryMode.calendarOnly);
+      context: context,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
+      initialDate: date,
+      initialEntryMode: DatePickerEntryMode.calendarOnly,
+      textDirection: settingsController.selectedLang == 'en'
+          ? TextDirection.ltr
+          : TextDirection.rtl,
+    );
     if (picked != null) {
       if (date == startDate) {
         startDate = picked;

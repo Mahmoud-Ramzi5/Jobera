@@ -53,6 +53,15 @@ class SettingsView extends StatelessWidget {
                     ),
                   ],
                 ),
+                SingleSection(
+                  title: '190'.tr,
+                  children: [
+                    OutlinedButton(
+                      onPressed: () async => await controller.verifyEmail(),
+                      child: BodyText(text: '191'.tr),
+                    )
+                  ],
+                ),
               ],
             ),
           ),

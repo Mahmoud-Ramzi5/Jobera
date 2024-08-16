@@ -90,11 +90,17 @@ class CompanyRegisterController extends GetxController {
 
   Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
-        context: context,
-        firstDate: DateTime(1900),
-        lastDate: DateTime(2100),
-        currentDate: DateTime.now(),
-        initialEntryMode: DatePickerEntryMode.calendarOnly);
+      context: context,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100),
+      currentDate: DateTime.now(),
+      initialEntryMode: DatePickerEntryMode.calendarOnly,
+      cancelText: '128'.tr,
+      confirmText: '193'.tr,
+      textDirection: settingsController.selectedLang == 'en'
+          ? TextDirection.ltr
+          : TextDirection.rtl,
+    );
     if (picked != null && picked != selectedDate) {
       selectedDate = picked;
       update();
@@ -113,25 +119,29 @@ class CompanyRegisterController extends GetxController {
   ) async {
     Dialogs().loadingDialog();
     try {
-      var response =
-          await dio.post('http://192.168.0.106:8000/api/company/register',
-              data: {
-                "name": name,
-                "field": workField,
-                "email": email,
-                "password": password,
-                "confirm_password": confirmPassword,
-                "state_id": state,
-                "phone_number": phoneNumber,
-                "founding_date": date.toString().split(' ')[0],
-                "type": "company",
-              },
-              options: Options(
-                headers: {
-                  'Content-Type': 'application/json; charset=UTF-8',
-                  'Accept': 'application/json',
-                },
-              ));
+      var response = await dio.post(
+        'http://192.168.0.106:8000/api/company/register',
+        data: {
+          "name": name,
+          "field": workField,
+          "email": email,
+          "password": password,
+          "confirm_password": confirmPassword,
+          "state_id": state,
+          "phone_number": phoneNumber,
+          "founding_date": date.toString().split(' ')[0],
+          "type": "company",
+        },
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+          },
+        ),
+      );
+
+      // print(response.data.toString());
+      // print(response.statusCode);
       if (response.statusCode == 201) {
         Get.back();
         sharedPreferences?.setString(
@@ -150,7 +160,7 @@ class CompanyRegisterController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         '152'.tr,
-        e.response.toString(),
+        e.response!.data.toString(),
       );
     }
   }

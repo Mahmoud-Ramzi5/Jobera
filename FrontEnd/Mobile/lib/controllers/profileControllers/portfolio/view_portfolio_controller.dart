@@ -24,9 +24,9 @@ class ViewPortfolioController extends GetxController {
   Future<void> onInit() async {
     refreshIndicatorKey = GlobalKey<RefreshIndicatorState>();
     settingsController = Get.find<SettingsController>();
-    homeController = Get.find<HomeController>();
     dio = Dio();
     if (!settingsController.isInRegister) {
+      homeController = Get.find<HomeController>();
       if (homeController.isOtherUserProfile) {
         await fetchPortfolios(
           homeController.otherUserId,
@@ -49,6 +49,8 @@ class ViewPortfolioController extends GetxController {
           );
         }
       }
+    } else {
+      homeController = Get.put(HomeController());
     }
     loading = false;
     update();

@@ -339,4 +339,29 @@ class SettingsController extends GetxController {
     }
     return null;
   }
+
+  Future<dynamic> verifyEmail() async {
+    String? token = sharedPreferences?.getString('access_token');
+    try {
+      var response = await dio.get(
+        'http://192.168.0.106:8000/api/auth/verify',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        Dialogs().showSuccessDialog('155'.tr, '192'.tr);
+      }
+    } on DioException catch (e) {
+      Dialogs().showErrorDialog(
+        '153'.tr,
+        e.response.toString(),
+      );
+    }
+  }
 }

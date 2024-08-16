@@ -192,7 +192,11 @@ class Local implements Translations {
           '186': 'المنشورات',
           '187': 'العروض',
           '188': 'المحفوظات',
-          '189': 'الحالة'
+          '189': 'الحالة',
+          '190': 'التوثيق',
+          '191': 'إعادة إرسال ايميل التوثيق',
+          '192': 'تم ارسال الإيميل بنجاح',
+          '193': 'أوك',
         },
         'en': {
           "1": "en",
@@ -383,7 +387,11 @@ class Local implements Translations {
           '186': 'Posts',
           '187': 'Offers',
           '188': 'Bookmarks',
-          '189': 'Status'
+          '189': 'Status',
+          '190': 'Verification',
+          '191': 'Resend verification email',
+          '192': 'Email sent successfully',
+          '193': 'Ok',
         }
       };
 }
