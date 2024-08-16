@@ -404,7 +404,7 @@ class FreelancingJobsController extends Controller
             ]);
         }
 
-        $something = app(TransactionsController::class)->FreelancingJobTransaction($user->id, $freelancingJob->id, $validated['offer']);
+        $something = app(TransactionsController::class)->FreelancingJobTransaction($user->id, $freelancingJob->defJob_id, $validated['offer']);
 
         // Response
         return response()->json([
@@ -453,7 +453,7 @@ class FreelancingJobsController extends Controller
         $freelancingJob->defJob->is_done = true;
         $freelancingJob->defJob->save();
 
-        $something = app(TransactionsController::class)->AddUserTransaction($validated['sender_id'], $validated['receiver_id'], $freelancingJob->id, $validated['amount']);
+        $something = app(TransactionsController::class)->AddUserTransaction($validated['sender_id'], $validated['receiver_id'], $freelancingJob->defJob_id, $validated['amount']);
 
         // Response
         return response()->json([
