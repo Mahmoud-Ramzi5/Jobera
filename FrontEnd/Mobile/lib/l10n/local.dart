@@ -197,6 +197,8 @@ class Local implements Translations {
           '191': 'إعادة إرسال ايميل التوثيق',
           '192': 'تم ارسال الإيميل بنجاح',
           '193': 'أوك',
+          '194': 'الضريبة',
+          '195': 'لا يوجد رصيد كافي'
         },
         'en': {
           "1": "en",
@@ -392,6 +394,8 @@ class Local implements Translations {
           '191': 'Resend verification email',
           '192': 'Email sent successfully',
           '193': 'Ok',
+          '194': 'Tax',
+          '195': 'Not enough balance',
         }
       };
 }

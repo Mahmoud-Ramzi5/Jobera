@@ -228,32 +228,46 @@ class FreelancingJobDetailsController extends GetxController {
     int defJobId,
     double? offer,
   ) async {
-    String? token = sharedPreferences?.getString('access_token');
-    try {
-      var response = await dio.post(
-        'http://192.168.0.106:8000/api/FreelancingJob/accept/$defJobId',
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-            'Authorization': 'Bearer $token',
-          },
-        ),
-        data: {
-          "freelancing_job_competitor_id": competitorId,
-          "offer": offer,
-        },
-      );
-
-      if (response.statusCode == 200) {
-        refreshIndicatorKey.currentState!.show();
-        update();
-      }
-    } on DioException catch (e) {
+    if (homeController.isCompany &&
+        homeController.company!.wallet.availableBalance < offer!) {
       Dialogs().showErrorDialog(
-        'Error',
-        e.response.toString(),
+        '159'.tr,
+        '195'.tr,
       );
+    } else if (!homeController.isCompany &&
+        homeController.user!.wallet.availableBalance < offer!) {
+      Dialogs().showErrorDialog(
+        '159'.tr,
+        '195'.tr,
+      );
+    } else {
+      String? token = sharedPreferences?.getString('access_token');
+      try {
+        var response = await dio.post(
+          'http://192.168.0.106:8000/api/FreelancingJob/accept/$defJobId',
+          options: Options(
+            headers: {
+              'Content-Type': 'application/json; charset=UTF-8',
+              'Accept': 'application/json',
+              'Authorization': 'Bearer $token',
+            },
+          ),
+          data: {
+            "freelancing_job_competitor_id": competitorId,
+            "offer": offer,
+          },
+        );
+
+        if (response.statusCode == 200) {
+          refreshIndicatorKey.currentState!.show();
+          update();
+        }
+      } on DioException catch (e) {
+        Dialogs().showErrorDialog(
+          'Error',
+          e.response.toString(),
+        );
+      }
     }
   }
 
