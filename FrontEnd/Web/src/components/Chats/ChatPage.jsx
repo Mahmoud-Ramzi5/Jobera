@@ -87,7 +87,7 @@ const ChatPage = () => {
         channel.bind('NewMessage', data => {
           setChats(chats.map((chat2) => (chat2.id === data.message.chat_id ?
             {
-              ...chat2, unread_messages: data.message.Receiver.user_id != profile.user_id ?
+              ...chat2, unread_messages: data.message.Receiver.user_id == profile.user_id ?
                 chat2.unread_messages++ : chat2.unread_messages, last_message: data.message
             }
             : chat2)
