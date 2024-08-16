@@ -100,7 +100,7 @@ class RegJobsController extends Controller
             $adminShare = $validated['salary'] * 0.10;
         } else {
             return response()->json([
-                'errors' => ['error'=>'An error has occured']
+                'errors' => ['error' => 'An error has occured']
             ], 400);
         }
 

@@ -33,7 +33,7 @@ class TransactionsController extends Controller
         // Check user's wallet
         if ($wallet == null) {
             return response()->json([
-                'errors' => ['error'=>'Error has occured']
+                'errors' => ['error' => 'Error has occured']
             ], 400);
         }
 
@@ -132,7 +132,7 @@ class TransactionsController extends Controller
             $transaction = Transaction::create($transactionParams);
         } else {
             return response()->json([
-                'errors' => ['balance'=>'Insufficient balance']
+                'errors' => ['balance' => 'Insufficient balance']
             ], 400);
         }
 
@@ -176,7 +176,7 @@ class TransactionsController extends Controller
         // Check wallets
         if ($senderWallet == null || $receiverWallet == null) {
             return response()->json([
-                'errors' => ['error'=>'sender or receiver is null']
+                'errors' => ['error' => 'sender or receiver is null']
             ], 400);
         }
 
@@ -190,7 +190,7 @@ class TransactionsController extends Controller
             $adminShare = $fullAmount * 0.10;
         } else {
             return response()->json([
-                'errors' => ['error'=>'Error has occured']
+                'errors' => ['error' => 'Error has occured']
             ], 400);
         }
 
@@ -245,7 +245,7 @@ class TransactionsController extends Controller
         }
 
         // Check if job is freelancing
-        $freelancing = FreelancingJob::where('id', $job_id)->first();
+        $freelancing = FreelancingJob::where('defJob_id', $job_id)->first();
         if ($freelancing == null) {
             return response()->json([
                 'errors' => ['job' => 'Invalid job']
@@ -259,7 +259,7 @@ class TransactionsController extends Controller
         // Check wallets
         if ($senderWallet == null || $receiverWallet == null) {
             return response()->json([
-                'errors' => ['error'=>'sender or receiver is null']
+                'errors' => ['error' => 'sender or receiver is null']
             ], 400);
         }
 
@@ -273,7 +273,7 @@ class TransactionsController extends Controller
             $adminShare = $fullAmount * 0.10;
         } else {
             return response()->json([
-                'errors' => ['error'=>'Error has occured']
+                'errors' => ['error' => 'Error has occured']
             ], 400);
         }
 
@@ -296,7 +296,7 @@ class TransactionsController extends Controller
             $transaction = Transaction::create($transactionParams);
         } else {
             return response()->json([
-                'errors' => ['error'=>'Error has occured']
+                'errors' => ['error' => 'Error has occured']
             ], 500);
         }
 

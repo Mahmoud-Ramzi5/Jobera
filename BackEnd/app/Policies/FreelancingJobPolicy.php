@@ -68,7 +68,7 @@ class FreelancingJobPolicy
 
     public function FinishedJob(User $user, FreelancingJob $freelancingJob)
     {
-        if ($user->id == $freelancingJob->acceptedUser->id) {
+        if ($user->id == $freelancingJob->accepted_user) {
             return true;
         }
         return false;
