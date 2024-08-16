@@ -156,7 +156,6 @@ const AdminUsers = () => {
                         </a> :
                         user[column.key]
                   }
-                  {console.log(user)}
                 </td>
               ))}
               <td>
