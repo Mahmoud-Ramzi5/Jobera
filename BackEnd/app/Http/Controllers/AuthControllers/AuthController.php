@@ -85,7 +85,9 @@ class AuthController extends Controller
 
         // Create Token
         $token = $user->createToken("api_token")->accessToken;
-        $this->SendVerificationEmail($request);
+
+        // Send Token
+        $user->notify(new EmailVerification($token));
 
         // Response
         return response()->json([
@@ -159,7 +161,9 @@ class AuthController extends Controller
 
         // Create Token
         $token = $user->createToken("api_token")->accessToken;
-        $this->SendVerificationEmail($request);
+
+        // Send Token
+        $user->notify(new EmailVerification($token));
 
         // Response
         return response()->json([
