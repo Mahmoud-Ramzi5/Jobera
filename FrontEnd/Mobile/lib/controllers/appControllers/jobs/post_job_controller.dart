@@ -32,6 +32,7 @@ class PostJobController extends GetxController {
   late DateTime selectedDate;
   late String selectedLocation;
   late Country? selectedCountry;
+  late double tax;
   late List<Country> countries = [];
   States? selectedState;
   List<States> states = [];
@@ -63,6 +64,7 @@ class PostJobController extends GetxController {
     selectedDate = DateTime.now();
     selectedLocation = 'Remotely';
     selectedCountry = null;
+    tax = 0.0;
     countries = await settingsController.getCountries();
     skills = await settingsController.getAllSkills();
     loading = false;
@@ -75,6 +77,23 @@ class PostJobController extends GetxController {
     jobTitleController.dispose();
     descriptionController.dispose();
     super.onClose();
+  }
+
+  void calculateShare() {
+    if (salaryController.text.isNotEmpty) {
+      if (double.parse(salaryController.text) > 0 &&
+          double.parse(salaryController.text) < 2000) {
+        tax = 0.15 * double.parse(salaryController.text);
+      } else if (double.parse(salaryController.text) > 2000 &&
+          double.parse(salaryController.text) < 15000) {
+        tax = 0.12 * double.parse(salaryController.text);
+      } else if (double.parse(salaryController.text) > 15000) {
+        tax = 0.10 * double.parse(salaryController.text);
+      }
+    } else {
+      tax = 0.0;
+    }
+    update();
   }
 
   Future<void> addPhoto() async {
@@ -185,57 +204,65 @@ class PostJobController extends GetxController {
     List<Skill> skills,
     XFile? image,
   ) async {
-    String? token = sharedPreferences?.getString('access_token');
-    if (skills.isNotEmpty) {
-      final data = FormData.fromMap(
-        {
-          "title": title,
-          "description": description,
-          'state_id': stateId,
-          "salary": double.parse(salary),
-          "type": type,
-        },
+    if (homeController.company!.wallet.availableBalance <
+        double.parse(salaryController.text)) {
+      Dialogs().showErrorDialog(
+        '159'.tr,
+        '195'.tr,
       );
-      if (image != null) {
-        data.files.add(
-          MapEntry(
-            'photo',
-            await MultipartFile.fromFile(image.path),
-          ),
+    } else {
+      String? token = sharedPreferences?.getString('access_token');
+      if (skills.isNotEmpty) {
+        final data = FormData.fromMap(
+          {
+            "title": title,
+            "description": description,
+            'state_id': stateId,
+            "salary": double.parse(salary),
+            "type": type,
+          },
         );
-      }
-
-      for (int i = 0; i < skills.length; i++) {
-        data.fields.add(
-          MapEntry(
-            'skills[$i]',
-            skills[i].id.toString(),
-          ),
-        );
-      }
-
-      try {
-        var response = await dio.post(
-          'http://192.168.0.106:8000/api/regJob/add',
-          data: data,
-          options: Options(
-            headers: {
-              'Content-Type':
-                  'multipart/form-data; application/json; charset=UTF-8',
-              'Accept': "application/json",
-              'Authorization': 'Bearer $token',
-            },
-          ),
-        );
-        if (response.statusCode == 201) {
-          regularJobsController.refreshIndicatorKey.currentState!.show();
-          Get.back();
+        if (image != null) {
+          data.files.add(
+            MapEntry(
+              'photo',
+              await MultipartFile.fromFile(image.path),
+            ),
+          );
         }
-      } on DioException catch (e) {
-        Dialogs().showErrorDialog(
-          'Error',
-          e.response.toString(),
-        );
+
+        for (int i = 0; i < skills.length; i++) {
+          data.fields.add(
+            MapEntry(
+              'skills[$i]',
+              skills[i].id.toString(),
+            ),
+          );
+        }
+
+        try {
+          var response = await dio.post(
+            'http://192.168.0.106:8000/api/regJob/add',
+            data: data,
+            options: Options(
+              headers: {
+                'Content-Type':
+                    'multipart/form-data; application/json; charset=UTF-8',
+                'Accept': "application/json",
+                'Authorization': 'Bearer $token',
+              },
+            ),
+          );
+          if (response.statusCode == 201) {
+            regularJobsController.fetchRegularJobs(1);
+            Get.back();
+          }
+        } on DioException catch (e) {
+          Dialogs().showErrorDialog(
+            'Error',
+            e.response.toString(),
+          );
+        }
       }
     }
   }
@@ -294,7 +321,7 @@ class PostJobController extends GetxController {
           ),
         );
         if (response.statusCode == 201) {
-          freelancingJobsController.refreshIndicatorKey.currentState!.show();
+          freelancingJobsController.fetchFreelancingJobs(1);
           Get.back();
         }
       } on DioException catch (e) {

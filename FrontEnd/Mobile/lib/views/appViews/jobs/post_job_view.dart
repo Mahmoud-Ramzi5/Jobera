@@ -164,16 +164,31 @@ class PostJobView extends StatelessWidget {
                         ),
                       ),
                       if (controller.selectedJobType == 'regular')
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: CustomTextField(
-                            controller: controller.salaryController,
-                            textInputType: TextInputType.number,
-                            obsecureText: false,
-                            icon: Icons.monetization_on,
-                            labelText: 'Salary',
-                            validator: (p0) => Validation().validateNumber(p0),
-                          ),
+                        Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: CustomTextField(
+                                controller: controller.salaryController,
+                                textInputType: TextInputType.number,
+                                obsecureText: false,
+                                icon: Icons.monetization_on,
+                                labelText: 'Salary',
+                                validator: (p0) =>
+                                    Validation().validateNumber(p0),
+                                onChanged: (p0) => controller.calculateShare(),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: InfoContainer(
+                                name: '194'.tr,
+                                widget: LabelText(
+                                  text: '${controller.tax}\$',
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       if (controller.selectedJobType == 'freelancing')
                         Column(
