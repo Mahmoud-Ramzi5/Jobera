@@ -55,7 +55,6 @@ class ManageBookmarksController extends GetxController {
             bookmarks.add(RegularJob.fromJson(job));
           }
         }
-
         paginationData =
             PaginationData.fromJson(response.data['pagination_data']);
         update();
