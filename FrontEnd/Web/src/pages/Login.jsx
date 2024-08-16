@@ -11,6 +11,7 @@ import { LoginContext, ProfileContext } from '../utils/Contexts.jsx';
 import { FetchProviders, LoginAPI } from '../apis/AuthApis.jsx';
 import NormalInput from '../components/NormalInput.jsx';
 import PasswordInput from '../components/PasswordInput.jsx';
+import Clock from '../utils/Clock.jsx';
 import Logo from '../assets/JoberaLogo.png';
 import styles from '../styles/login.module.css';
 
@@ -24,6 +25,7 @@ const Login = () => {
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [GoogleUrl, setGoogleUrl] = useState('');
   const [FacebookUrl, setFacebookUrl] = useState('');
   const [LinkedinUrl, setLinkedinUrl] = useState('');
@@ -57,6 +59,7 @@ const Login = () => {
     -> For example, this can be useful when:
       Clicking on a "Submit" button, prevent it from submitting a form*/
     event.preventDefault();
+    setIsLoading(true);
 
     // Perform Login logic (Call api)
     LoginAPI(
@@ -106,13 +109,16 @@ const Login = () => {
         }
       }).then(() => {
         // Reset the form fields
+        setIsLoading(false);
         setEmail('');
         setPassword('');
         setRememberMe(false);
       });
   };
 
-
+  if (isLoading) {
+    return <Clock />
+  }
   return (
     <div className={styles.container}>
       <div className={styles.screen}>
