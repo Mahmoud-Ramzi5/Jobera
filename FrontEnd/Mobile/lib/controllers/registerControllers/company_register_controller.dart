@@ -114,7 +114,7 @@ class CompanyRegisterController extends GetxController {
     Dialogs().loadingDialog();
     try {
       var response =
-          await dio.post('http://192.168.1.106:8000/api/company/register',
+          await dio.post('http://192.168.0.106:8000/api/company/register',
               data: {
                 "name": name,
                 "field": workField,
@@ -150,7 +150,7 @@ class CompanyRegisterController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         '152'.tr,
-        e.response!.data['errors'].toString(),
+        e.response.toString(),
       );
     }
   }

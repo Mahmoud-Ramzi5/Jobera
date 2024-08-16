@@ -87,7 +87,7 @@ class ManageOffersController extends GetxController {
     DateTime? dateTo,
     List<String> skillNames,
   ) async {
-    String url = 'http://192.168.1.106:8000/api/manage/applied?page=$page';
+    String url = 'http://192.168.0.106:8000/api/manage/applied?page=$page';
     if (type != null) {
       url = '$url&type[eq]=$type';
     }
@@ -123,7 +123,6 @@ class ManageOffersController extends GetxController {
           },
         ),
       );
-      print(response.data.toString());
       if (response.statusCode == 200) {
         if (homeController.isCompany) {
           for (var job in response.data['jobs']) {
@@ -154,7 +153,7 @@ class ManageOffersController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         'Error',
-        e.response!.data['errors'].toString(),
+        e.response.toString(),
       );
     }
   }

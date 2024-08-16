@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/customWidgets/texts.dart';
+import 'package:jobera/views/appViews/jobs/manage/manage_bookmarks_view.dart';
 import 'package:jobera/views/appViews/jobs/manage/manage_offers_view.dart';
 import 'package:jobera/views/appViews/jobs/manage/manage_posts_view.dart';
 
@@ -34,7 +35,7 @@ class ManageView extends StatelessWidget {
           children: [
             ManagePostsView(),
             ManageOffersView(),
-            Scaffold(),
+            ManageBookmarksView(),
           ],
         ),
       ),

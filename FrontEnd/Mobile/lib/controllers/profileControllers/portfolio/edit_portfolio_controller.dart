@@ -59,7 +59,7 @@ class EditPortfolioController extends GetxController {
     String? token = sharedPreferences?.getString('access_token');
     try {
       var response = await dio.get(
-        'http://192.168.1.106:8000/api/portfolio/$id',
+        'http://192.168.0.106:8000/api/portfolio/$id',
         options: Options(
           headers: {
             'Content-Type': 'application/json; charset=UTF-8',
@@ -74,7 +74,7 @@ class EditPortfolioController extends GetxController {
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
         '153'.tr,
-        e.response!.data['errors'].toString(),
+        e.response.toString(),
       );
     }
   }
@@ -219,7 +219,7 @@ class EditPortfolioController extends GetxController {
       }
       try {
         var response = await dio.post(
-          'http://192.168.1.106:8000/api/portfolio/edit/$id',
+          'http://192.168.0.106:8000/api/portfolio/edit/$id',
           data: data,
           options: Options(
             headers: {
@@ -236,7 +236,7 @@ class EditPortfolioController extends GetxController {
       } on DioException catch (e) {
         Dialogs().showErrorDialog(
           'Error',
-          e.response!.data['errors'].toString(),
+          e.response.toString(),
         );
       }
     } else {
