@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:jobera/controllers/appControllers/home_controller.dart';
 import 'package:jobera/customWidgets/texts.dart';
 import 'package:jobera/views/appViews/jobs/manage/manage_bookmarks_view.dart';
 import 'package:jobera/views/appViews/jobs/manage/manage_offers_view.dart';
@@ -16,6 +17,13 @@ class ManageView extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: TitleText(text: '185'.tr),
+          leading: IconButton(
+            onPressed: () {
+              HomeController homeController = Get.find<HomeController>();
+              homeController.goBackFromManage();
+            },
+            icon: const Icon(Icons.arrow_back),
+          ),
         ),
         bottomNavigationBar: TabBar(
           dividerColor: Colors.lightBlue.shade900,

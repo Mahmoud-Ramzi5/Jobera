@@ -28,12 +28,7 @@ class ManageOffersController extends GetxController {
     dio = Dio();
     scrollController = ScrollController()..addListener(scrollListener);
     paginationData = PaginationData.empty();
-    if (homeController.isCompany) {
-      await getOffers(
-          1, 'Freelancing', null, null, '', '', null, null, skillNames);
-    } else {
-      await getOffers(1, offerType, null, null, '', '', null, null, skillNames);
-    }
+    await getOffers(1, offerType, null, null, '', '', null, null, skillNames);
     loading = false;
     update();
     super.onInit();
@@ -47,14 +42,9 @@ class ManageOffersController extends GetxController {
   }
 
   Future<void> refreshView() async {
-    if (homeController.isCompany) {
-      freelancingOffer.clear();
-      freelancingOffer.clear();
-      await getOffers(
-          1, 'Freelancing', null, null, '', '', null, null, skillNames);
-    } else {
-      await getOffers(1, offerType, null, null, '', '', null, null, skillNames);
-    }
+    freelancingOffer.clear();
+    freelancingOffer.clear();
+    await getOffers(1, offerType, null, null, '', '', null, null, skillNames);
   }
 
   Future<void> getRegularPosts() async {
@@ -145,7 +135,6 @@ class ManageOffersController extends GetxController {
             }
           }
         }
-
         paginationData =
             PaginationData.fromJson(response.data['pagination_data']);
         update();

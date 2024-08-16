@@ -23,6 +23,9 @@ class HomeController extends GetxController {
   int otherUserId = 0;
   String otherUserName = '';
   bool isCompany = false;
+  bool inManage = false;
+  bool inPosts = false;
+  bool inBookmarks = false;
 
   @override
   Future<void> onInit() async {
@@ -31,6 +34,11 @@ class HomeController extends GetxController {
     dio = Dio();
     await fetchUser();
     super.onInit();
+  }
+
+  void goBackFromManage() {
+    inManage = false;
+    Get.back();
   }
 
   Future<void> fetchUser() async {

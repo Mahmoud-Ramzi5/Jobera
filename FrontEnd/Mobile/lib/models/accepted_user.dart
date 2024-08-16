@@ -1,12 +1,12 @@
 class AcceptedUser {
-  final int usedId;
+  final int userId;
   final String name;
   final String? type;
   final String? photo;
   final double? offer;
 
   AcceptedUser({
-    required this.usedId,
+    required this.userId,
     required this.name,
     this.type,
     this.photo,
@@ -14,7 +14,7 @@ class AcceptedUser {
   });
 
   AcceptedUser.fromJson(Map<String, dynamic> json)
-      : usedId = json['user_id'] as int,
+      : userId = json['user_id'] as int,
         name = json['name'] as String,
         type = json['type'] != null ? json['type'] as String : null,
         photo = json['avatar_photo'] != null

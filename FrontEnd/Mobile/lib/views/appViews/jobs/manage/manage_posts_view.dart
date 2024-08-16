@@ -32,13 +32,13 @@ class ManagePostsView extends StatelessWidget {
                           children: [
                             OutlinedButton(
                               onPressed: () async =>
-                                  controller.getRegularPosts(),
+                                  controller.getFreelancingPosts(),
                               child: BodyText(text: '99'.tr),
                             ),
                             if (controller.homeController.isCompany)
                               OutlinedButton(
                                 onPressed: () async =>
-                                    controller.getFreelancingPosts(),
+                                    controller.getRegularPosts(),
                                 child: BodyText(text: '98'.tr),
                               ),
                           ],

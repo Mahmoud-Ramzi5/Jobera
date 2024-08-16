@@ -265,7 +265,7 @@ class RegularJobDetailsView extends StatelessWidget {
                                                       controller
                                                               .regularJob
                                                               .acceptedUser!
-                                                              .usedId ==
+                                                              .userId ==
                                                           controller
                                                               .regularJob
                                                               .competitors[

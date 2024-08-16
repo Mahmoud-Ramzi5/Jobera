@@ -35,7 +35,7 @@ class ChatsController extends GetxController {
     dio = Dio();
     messageController = TextEditingController();
     scrollController = ScrollController();
-    Future.delayed(const Duration(milliseconds: 100));
+    Future.delayed(const Duration(milliseconds: 500));
     await fetchChats();
     await initPusher(homeController.id);
     for (var chat in chats) {
@@ -138,7 +138,11 @@ class ChatsController extends GetxController {
       }
     }
     if (event.eventName == 'NewNotification') {
+      fetchChats();
       var eventData = jsonDecode(event.data);
+      await pusher.subscribe(
+          channelName: 'private-user.${eventData['chat_id']}');
+      await pusher.connect();
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
           FlutterLocalNotificationsPlugin();
       await flutterLocalNotificationsPlugin.initialize(

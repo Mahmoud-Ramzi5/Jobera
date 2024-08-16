@@ -92,7 +92,6 @@ class WalletView extends StatelessWidget {
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) {
                                   return Card(
-                                    margin: const EdgeInsets.all(5),
                                     child: Column(
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,

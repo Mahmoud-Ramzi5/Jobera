@@ -102,7 +102,10 @@ class HomeView extends StatelessWidget {
               MenuListTile(
                 title: '185'.tr,
                 icon: Icons.view_kanban,
-                onTap: () => Get.toNamed('/manage'),
+                onTap: () {
+                  _homeController.inManage = true;
+                  Get.toNamed('/manage');
+                },
               ),
               MenuListTile(
                 title: '68'.tr,

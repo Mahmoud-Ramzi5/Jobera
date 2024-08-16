@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:jobera/controllers/appControllers/home_controller.dart';
 import 'package:jobera/controllers/appControllers/jobs/regular/regular_jobs_controller.dart';
+import 'package:jobera/controllers/appControllers/manage/manage_bookmarks_controller.dart';
+import 'package:jobera/controllers/appControllers/manage/manage_posts_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
 import 'package:jobera/main.dart';
 import 'package:jobera/models/regular_job.dart';
@@ -71,6 +73,21 @@ class RegularJobDetailsController extends GetxController {
     homeController.isOtherUserProfile = false;
     homeController.otherUserId = 0;
     homeController.otherUserName = '';
+    if (!homeController.inManage) {
+      regularJobsController.fetchRegularJobs(1);
+    } else {
+      if (homeController.inPosts) {
+        homeController.inPosts = false;
+        ManagePostsController managePostsController =
+            Get.find<ManagePostsController>();
+        managePostsController.refreshIndicatorKey.currentState!.show();
+      } else if (homeController.inBookmarks) {
+        homeController.inBookmarks = false;
+        ManageBookmarksController manageBookmarksController =
+            Get.find<ManageBookmarksController>();
+        manageBookmarksController.refreshIndicatorKey.currentState!.show();
+      }
+    }
     Get.back();
   }
 
@@ -119,7 +136,6 @@ class RegularJobDetailsController extends GetxController {
 
       if (response.statusCode == 200) {
         refreshIndicatorKey.currentState!.show();
-        regularJobsController.refreshIndicatorKey.currentState!.show();
         applied = true;
         Get.back();
         update();
@@ -147,7 +163,7 @@ class RegularJobDetailsController extends GetxController {
       );
       if (response.statusCode == 204) {
         Get.back();
-        regularJobsController.refreshIndicatorKey.currentState!.show();
+        goBack();
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
@@ -176,7 +192,6 @@ class RegularJobDetailsController extends GetxController {
 
       if (response.statusCode == 200) {
         refreshIndicatorKey.currentState!.show();
-        regularJobsController.refreshIndicatorKey.currentState!.show();
         update();
       }
     } on DioException catch (e) {
@@ -205,7 +220,6 @@ class RegularJobDetailsController extends GetxController {
       );
 
       if (response.statusCode == 200) {
-        regularJobsController.refreshIndicatorKey.currentState!.show();
         refreshIndicatorKey.currentState!.show();
         update();
       }

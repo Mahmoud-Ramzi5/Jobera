@@ -29,18 +29,14 @@ class ManagePostsController extends GetxController {
     dio = Dio();
     scrollController = ScrollController()..addListener(scrollListener);
     paginationData = PaginationData.empty();
-    if (homeController.isCompany) {
-      await getPosts(1, postType, null, null, '', '', null, null, skillNames);
-    } else {
-      await getPosts(
-          1, 'Freelancing', null, null, '', '', null, null, skillNames);
-    }
+    await getPosts(1, postType, null, null, '', '', null, null, skillNames);
     loading = false;
     update();
     super.onInit();
   }
 
   void viewFreelancingJob(int defJobId) {
+    homeController.inPosts = true;
     FreelancingJobsController freelancingJobsController =
         Get.find<FreelancingJobsController>();
     freelancingJobsController.jobDetailsId = defJobId;
@@ -48,14 +44,9 @@ class ManagePostsController extends GetxController {
   }
 
   Future<void> refreshView() async {
-    if (homeController.isCompany) {
-      freelancingPosts.clear();
-      regularPosts.clear();
-      await getPosts(1, postType, null, null, '', '', null, null, skillNames);
-    } else {
-      await getPosts(
-          1, 'Freelancing', null, null, '', '', null, null, skillNames);
-    }
+    freelancingPosts.clear();
+    regularPosts.clear();
+    await getPosts(1, postType, null, null, '', '', null, null, skillNames);
   }
 
   Future<void> getRegularPosts() async {
@@ -65,6 +56,7 @@ class ManagePostsController extends GetxController {
   }
 
   Future<void> getFreelancingPosts() async {
+    homeController.inPosts = true;
     postType = 'Freelancing';
     freelancingPosts.clear();
     await getPosts(1, postType, null, null, '', '', null, null, skillNames);

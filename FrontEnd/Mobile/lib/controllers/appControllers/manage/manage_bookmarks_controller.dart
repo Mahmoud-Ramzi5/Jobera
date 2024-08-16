@@ -76,6 +76,7 @@ class ManageBookmarksController extends GetxController {
   }
 
   void viewFreelancingJob(int defJobId) {
+    homeController.inBookmarks = true;
     FreelancingJobsController freelancingJobsController =
         Get.find<FreelancingJobsController>();
     freelancingJobsController.jobDetailsId = defJobId;
@@ -83,6 +84,7 @@ class ManageBookmarksController extends GetxController {
   }
 
   void viewRegularJob(int defJobId) {
+    homeController.inBookmarks = true;
     RegularJobsController regularJobsController =
         Get.find<RegularJobsController>();
     regularJobsController.jobDetailsId = defJobId;

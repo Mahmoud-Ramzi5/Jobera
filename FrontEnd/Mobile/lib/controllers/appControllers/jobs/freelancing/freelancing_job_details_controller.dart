@@ -4,6 +4,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:jobera/controllers/appControllers/home_controller.dart';
 import 'package:jobera/controllers/appControllers/jobs/freelancing/freelancing_jobs_controller.dart';
+import 'package:jobera/controllers/appControllers/manage/manage_bookmarks_controller.dart';
+import 'package:jobera/controllers/appControllers/manage/manage_posts_controller.dart';
 import 'package:jobera/customWidgets/dialogs.dart';
 import 'package:jobera/customWidgets/texts.dart';
 import 'package:jobera/main.dart';
@@ -84,6 +86,21 @@ class FreelancingJobDetailsController extends GetxController {
     homeController.isOtherUserProfile = false;
     homeController.otherUserId = 0;
     homeController.otherUserName = '';
+    if (!homeController.inManage) {
+      freelancingJobsController.fetchFreelancingJobs(1);
+    } else {
+      if (homeController.inPosts) {
+        homeController.inPosts = false;
+        ManagePostsController managePostsController =
+            Get.find<ManagePostsController>();
+        managePostsController.refreshIndicatorKey.currentState!.show();
+      } else if (homeController.inBookmarks) {
+        homeController.inBookmarks = false;
+        ManageBookmarksController manageBookmarksController =
+            Get.find<ManageBookmarksController>();
+        manageBookmarksController.refreshIndicatorKey.currentState!.show();
+      }
+    }
     Get.back();
   }
 
@@ -169,7 +186,6 @@ class FreelancingJobDetailsController extends GetxController {
 
       if (response.statusCode == 200) {
         refreshIndicatorKey.currentState!.show();
-        freelancingJobsController.refreshIndicatorKey.currentState!.show();
         applied = true;
         Get.back();
         update();
@@ -197,7 +213,7 @@ class FreelancingJobDetailsController extends GetxController {
       );
       if (response.statusCode == 204) {
         Get.back();
-        freelancingJobsController.refreshIndicatorKey.currentState!.show();
+        goBack();
       }
     } on DioException catch (e) {
       Dialogs().showErrorDialog(
@@ -231,7 +247,6 @@ class FreelancingJobDetailsController extends GetxController {
 
       if (response.statusCode == 200) {
         refreshIndicatorKey.currentState!.show();
-        freelancingJobsController.refreshIndicatorKey.currentState!.show();
         update();
       }
     } on DioException catch (e) {
@@ -267,7 +282,6 @@ class FreelancingJobDetailsController extends GetxController {
       );
       if (response.statusCode == 200) {
         refreshIndicatorKey.currentState!.show();
-        freelancingJobsController.refreshIndicatorKey.currentState!.show();
         update();
       }
     } on DioException catch (e) {
@@ -301,7 +315,6 @@ class FreelancingJobDetailsController extends GetxController {
       if (response.statusCode == 200) {
         isEditOffer = false;
         refreshIndicatorKey.currentState!.show();
-        freelancingJobsController.refreshIndicatorKey.currentState!.show();
         update();
       }
     } on DioException catch (e) {
@@ -363,8 +376,6 @@ class FreelancingJobDetailsController extends GetxController {
 
             if (response.statusCode == 200) {
               refreshIndicatorKey.currentState!.show();
-              freelancingJobsController.refreshIndicatorKey.currentState!
-                  .show();
               Get.back();
               update();
             }

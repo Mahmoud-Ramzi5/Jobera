@@ -73,14 +73,14 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                       controller.freelancingJob.defJobId,
                                       controller.freelancingJob.poster.userId,
                                       controller
-                                          .freelancingJob.acceptedUser!.usedId,
+                                          .freelancingJob.acceptedUser!.userId,
                                       controller
                                           .freelancingJob.acceptedUser!.offer,
                                     );
                                     await controller.rateUser(
                                       controller.freelancingJob.poster.userId,
                                       controller
-                                          .freelancingJob.acceptedUser!.usedId,
+                                          .freelancingJob.acceptedUser!.userId,
                                     );
                                   },
                                   child: BodyText(text: '126'.tr),
@@ -252,7 +252,7 @@ class FreelancingJobDetailsView extends StatelessWidget {
                                                   controller
                                                           .freelancingJob
                                                           .acceptedUser!
-                                                          .usedId ==
+                                                          .userId ==
                                                       controller
                                                           .freelancingJob
                                                           .competitors[index]
