@@ -1,4 +1,5 @@
 import { useContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Card, Button } from 'react-bootstrap';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
@@ -15,6 +16,8 @@ import styles from './userinfo.module.css';
 const UserInfo = ({ ProfileData }) => {
   // Translations
   const { t } = useTranslation('global');
+  // Navigation
+  const Navigate = useNavigate();
   // Context
   const { accessToken } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
@@ -54,6 +57,12 @@ const UserInfo = ({ ProfileData }) => {
     const data = editor.getData();
     setDescription(data);
   };
+
+  const handleCloseAndRefresh = (event) => {
+    event.preventDefault();
+    setIsEditingProfile(false);
+    window.location.reload();
+  }
 
   const StripHtmlTags = (html) => {
     const tempElement = document.createElement("div");
@@ -184,7 +193,8 @@ const UserInfo = ({ ProfileData }) => {
               {isEditingProfile ? (
                 <EditMenu
                   data={ProfileData}
-                  onClose={() => setIsEditingProfile(false)}
+                  onClose={handleCloseAndRefresh
+                  }
                 />
               ) : (
                 <Button variant="primary" onClick={() => setIsEditingProfile(true)}>
