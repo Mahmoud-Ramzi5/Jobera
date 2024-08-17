@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { BsMortarboardFill, BsChevronDown } from 'react-icons/bs';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { LoginContext } from '../../utils/Contexts.jsx';
+import { LoginContext, ProfileContext } from '../../utils/Contexts.jsx';
 import { GetEducation, EditEducation } from '../../apis/ProfileApis/EducationApis.jsx';
 import Clock from '../../utils/Clock.jsx';
 import styles from './education.module.css';
@@ -15,6 +15,7 @@ const EducationForm = ({ step }) => {
   const { t } = useTranslation('global');
   // Context
   const { accessToken } = useContext(LoginContext);
+  const { profile } = useContext(ProfileContext);
   // Define states
   const initialized = useRef(false);
   const navigate = useNavigate();
@@ -42,8 +43,8 @@ const EducationForm = ({ step }) => {
         if (location.state.edit) {
           GetEducation(accessToken).then((response) => {
             if (response.status === 200) {
-              response.data.education.start_date = new Date(response.data.education.start_date);
-              response.data.education.end_date = new Date(response.data.education.end_date);
+              response.data.education.start_date = new Date(response.data.education.start_date).toISOString().split('T')[0];
+              response.data.education.end_date = new Date(response.data.education.end_date).toISOString().split('T')[0];
               setEducationData(response.data.education);
             }
             else {
@@ -87,12 +88,12 @@ const EducationForm = ({ step }) => {
       educationData.certificate_file
     ).then((response) => {
       if (response.status === 200) {
-        console.log(response.data);
-        navigate('/profile');
-      }
-      if (response.status === 201) {
-        console.log(response.data);
-
+        if (profile.type === 'individual') {
+          navigate(`/profile/${profile.user_id}/${profile.full_name}`);
+        } else {
+          console.log(response.data);
+        }
+      } else if (response.status === 201) {
         // Reset the form fields
         setEducationData({
           level: "",
@@ -104,9 +105,8 @@ const EducationForm = ({ step }) => {
         });
 
         step('CERTIFICATES');
-      }
-      else {
-        console.log(response);
+      } else {
+        console.log(response)
       }
     });
   }
