@@ -1,5 +1,4 @@
 import { useContext, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Card, Button } from 'react-bootstrap';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
@@ -16,8 +15,6 @@ import styles from './userinfo.module.css';
 const UserInfo = ({ ProfileData }) => {
   // Translations
   const { t } = useTranslation('global');
-  // Navigation
-  const Navigate = useNavigate();
   // Context
   const { accessToken } = useContext(LoginContext);
   const { profile } = useContext(ProfileContext);
