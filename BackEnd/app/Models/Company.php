@@ -13,6 +13,21 @@ class Company extends User
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
+     * The "boot" method of the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+        self::deleting(function (Company $company) { // before delete() method call this
+            $company->regJobs()->each(function ($job) {
+                $job->defJob->delete(); // <-- direct deletion
+            });
+        });
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>

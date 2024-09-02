@@ -17,6 +17,21 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
+     * The "boot" method of the model.
+     *
+     * @return void
+     */
+    public static function boot()
+    {
+        parent::boot();
+        self::deleting(function (User $user) { // before delete() method call this
+            $user->freelancingJobs()->each(function ($job) {
+                $job->defJob->delete(); // <-- direct deletion
+            });
+        });
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -93,6 +108,11 @@ class User extends Authenticatable implements MustVerifyEmail
     public function receivedMessages(): HasMany
     {
         return $this->hasMany(Message::class, 'receiver_id', 'id');
+    }
+
+    public function freelancingJobs(): HasMany
+    {
+        return $this->hasMany(FreelancingJob::class);
     }
 
     public function as_FreelancingCompetitor(): HasMany
