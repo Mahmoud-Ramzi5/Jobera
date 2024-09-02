@@ -19,25 +19,34 @@ const AdminUsers = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState([]);
+  const [data, setData] = useState([]);
   const [userType, setUserType] = useState("individual");
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     if (!initialized.current) {
       initialized.current = true;
+    } else {
       setIsLoading(true);
 
-      FetchAllUsers(accessToken).then((response) => {
+      FetchAllUsers(accessToken, currentPage, userType).then((response) => {
         if (response.status === 200) {
-          setUserData(response.data);
+          setData(response.data.pagination_data);
+          setUserData([]);
+          response.data.users.map((user) => {
+            if (!userData.some(item => user.user_id === item.user_id)) {
+              setUserData(response.data.users);
+            }
+          });
         } else {
-          console.log(response.statusText);
+          console.log(response);
         }
       }).then(() => {
         setIsLoading(false);
       });
     }
-  }, []);
+  }, [currentPage, userType]);
 
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
@@ -88,8 +97,8 @@ const AdminUsers = () => {
 
   const currentColumns = columnStructure[userType];
 
-  const filteredUsers = userData && userData[userType]
-    ? userData[userType].filter(user => user.type == 'individual' ?
+  const filteredUsers = userData
+    ? userData.filter(user => user.type == 'individual' ?
       user.full_name.toLowerCase().includes(searchQuery.toLowerCase()) :
       user.name.toLowerCase().includes(searchQuery.toLowerCase())
     ) : [];
@@ -174,6 +183,18 @@ const AdminUsers = () => {
           )}
           </tbody>
         </table>
+        {/* Pagination */}
+        <div className={styles.pagination}>
+          {data.pageNumbers.map((page) => (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={currentPage === page ? styles.activePage : styles.page}
+            >
+              {page}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );

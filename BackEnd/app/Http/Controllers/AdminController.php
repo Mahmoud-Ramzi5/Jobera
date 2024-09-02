@@ -83,7 +83,7 @@ class AdminController extends Controller
         if (!isset($type)) {
             // Response
             return response()->json([
-                'errors' => ['type' => 'Unknown type'],
+                'errors' => ['type' => 'UnSet type'],
             ], 400);
         } else {
             if ($type == "individual") {
@@ -106,7 +106,7 @@ class AdminController extends Controller
                         'path' => $individuals->path(),
                     ],
                 ]);
-            } else if ($type == "FullTime") {
+            } else if ($type == "company") {
                 $companies = Company::paginate(10);
                 return response()->json([
                     "users" => new CompanyCollection($companies->items()),
