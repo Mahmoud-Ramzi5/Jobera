@@ -151,6 +151,10 @@ class DefJobsController extends Controller
                         'path' => $fullTimeJobs->path(),
                     ],
                 ]);
+            } else {
+                return response()->json([
+                    "errors" => ["type" => "No type selected"],
+                ], 400);
             }
         }
         return response()->json([
@@ -662,6 +666,7 @@ class DefJobsController extends Controller
             ], 200);
         }
     }
+
     public function generateNumberArray($start, $end)
     {
         $numbers = range($start, $end);

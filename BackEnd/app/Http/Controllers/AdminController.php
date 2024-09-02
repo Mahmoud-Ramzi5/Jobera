@@ -56,7 +56,7 @@ class AdminController extends Controller
         }
     }
 
-    public function Users()
+    public function Users(Request $request)
     {
         // Get user
         $user = auth()->user();
@@ -78,13 +78,61 @@ class AdminController extends Controller
             ], 401);
         }
 
-        // Response
-        $individuals = Individual::all();
-        $companies = Company::all();
-        return response()->json([
-            "individual" => new IndividualCollection($individuals),
-            "company" => new CompanyCollection($companies),
-        ]);
+        // Filter Type
+        $type = $request->query('type');
+        if (!isset($type)) {
+            // Response
+            return response()->json([
+                'errors' => ['type' => 'Unknown type'],
+            ], 400);
+        } else {
+            if ($type == "individual") {
+                $individuals = Individual::paginate(10);
+                return response()->json([
+                    "users" => new IndividualCollection($individuals->items()),
+                    'pagination_data' => [
+                        'from' => $individuals->firstItem(),
+                        'to' => $individuals->lastItem(),
+                        'total' => $individuals->total(),
+                        'first_page' => 1,
+                        'current_page' => $individuals->currentPage(),
+                        'last_page' => $individuals->lastPage(),
+                        'pageNumbers' => $this->generateNumberArray(1, $individuals->lastPage()),
+                        'first_page_url' => $individuals->url(1),
+                        'current_page_url' => $individuals->url($individuals->currentPage()),
+                        'last_page_url' => $individuals->url($individuals->lastPage()),
+                        'next_page' => $individuals->nextPageUrl(),
+                        'prev_page' => $individuals->previousPageUrl(),
+                        'path' => $individuals->path(),
+                    ],
+                ]);
+            } else if ($type == "FullTime") {
+                $companies = Company::paginate(10);
+                return response()->json([
+                    "users" => new CompanyCollection($companies->items()),
+                    'pagination_data' => [
+                        'from' => $companies->firstItem(),
+                        'to' => $companies->lastItem(),
+                        'total' => $companies->total(),
+                        'first_page' => 1,
+                        'current_page' => $companies->currentPage(),
+                        'last_page' => $companies->lastPage(),
+                        'pageNumbers' => $this->generateNumberArray(1, $companies->lastPage()),
+                        'first_page_url' => $companies->url(1),
+                        'current_page_url' => $companies->url($companies->currentPage()),
+                        'last_page_url' => $companies->url($companies->lastPage()),
+                        'next_page' => $companies->nextPageUrl(),
+                        'prev_page' => $companies->previousPageUrl(),
+                        'path' => $companies->path(),
+                    ],
+                ]);
+            } else {
+                // Response
+                return response()->json([
+                    'errors' => ['type' => 'Unknown type'],
+                ], 400);
+            }
+        }
     }
 
     public function ReportsData()
@@ -230,5 +278,11 @@ class AdminController extends Controller
         return response()->json([
             "message" => "The user is deleted"
         ], 204);
+    }
+
+    public function generateNumberArray($start, $end)
+    {
+        $numbers = range($start, $end);
+        return $numbers;
     }
 }
