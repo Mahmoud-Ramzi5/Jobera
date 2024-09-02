@@ -59,7 +59,7 @@ const AdminUsers = () => {
       } else {
         console.log(response.statusText);
       }
-    })
+    });
   }
 
   const handleDelete = (user_id) => {
@@ -69,7 +69,7 @@ const AdminUsers = () => {
       } else {
         console.log(response);
       }
-    })
+    });
   };
 
   const columnStructure = {
@@ -128,7 +128,10 @@ const AdminUsers = () => {
               name="userType"
               value="individual"
               checked={userType === "individual"}
-              onChange={() => setUserType("individual")}
+              onChange={() => {
+                setUserType("individual");
+                setCurrentPage(1);
+              }}
             />
             <label htmlFor="individual">
               {t('components.admin.users_table.individual')}
@@ -139,7 +142,10 @@ const AdminUsers = () => {
               name="userType"
               value="company"
               checked={userType === "company"}
-              onChange={() => setUserType("company")}
+              onChange={() => {
+                setUserType("company");
+                setCurrentPage(1);
+              }}
             />
             <label htmlFor="company">
               {t('components.admin.users_table.company')}
