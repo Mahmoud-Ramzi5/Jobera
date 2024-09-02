@@ -55,6 +55,12 @@ const UserInfo = ({ ProfileData }) => {
     setDescription(data);
   };
 
+  const handleCloseAndRefresh = (event) => {
+    event.preventDefault();
+    setIsEditingProfile(false);
+    window.location.reload();
+  }
+
   const StripHtmlTags = (html) => {
     const tempElement = document.createElement("div");
     tempElement.innerHTML = html;
@@ -184,7 +190,8 @@ const UserInfo = ({ ProfileData }) => {
               {isEditingProfile ? (
                 <EditMenu
                   data={ProfileData}
-                  onClose={() => setIsEditingProfile(false)}
+                  onClose={handleCloseAndRefresh
+                  }
                 />
               ) : (
                 <Button variant="primary" onClick={() => setIsEditingProfile(true)}>
