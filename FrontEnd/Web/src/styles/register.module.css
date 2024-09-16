@@ -279,8 +279,8 @@ html[dir='rtl'] .date_picker input {
     padding-inline-start: 23px;
 }
 
-.xmark{
-    color:red;
+.xmark {
+    color: red;
 }
 
 .message {
@@ -291,4 +291,60 @@ html[dir='rtl'] .date_picker input {
     padding-block-start: 200px;
     margin-inline-start: 150px;
     text-decoration: inherit;
+}
+
+@media screen and (max-width: 727.5px) {
+    .screen {
+        height: 1000px;
+        width: 96vw;
+    }
+
+    .register {
+        width: 96vw;
+        padding-block-start: 96px;
+    }
+
+    .register__row {
+        flex-direction: column;
+    }
+
+    .screen__shape,
+    .screen__background__shape1,
+    .screen__background__shape2,
+    .screen__background__shape3,
+    .screen__background__shape4 {
+        display: none;
+    }
+
+    html[dir='ltr'] .title {
+        translate: 130% 13px;
+    }
+
+    html[dir='rtl'] .title {
+        translate: -130% 13px;
+    }
+
+    .logo {
+        height: 50px;
+    }
+
+    html[dir='ltr'] .logo {
+        translate: -246% 11px;
+    }
+
+    html[dir='rtl'] .logo {
+        translate: 246% 11px;
+    }
+
+    html[dir='ltr'] .btn {
+        translate: 50% 64px;
+    }
+
+    html[dir='rtl'] .btn {
+        translate: -50% 64px;
+    }
+
+    .register__submit {
+        margin-inline-start: 15px;
+    }
 }
